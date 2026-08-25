@@ -1,3 +1,3 @@
-# Apex domain -> www
-http://eternalcnc.com/* https://www.eternalcnc.com/:splat 301!
-https://eternalcnc.com/* https://www.eternalcnc.com/:splat 301!
+# Cloudflare Pages _redirects — relative paths only.
+# Apex (eternalcnc.com) -> www (www.eternalcnc.com) redirect is configured
+# in Cloudflare "Custom domains" settings, not here (absolute URLs not allowed).
