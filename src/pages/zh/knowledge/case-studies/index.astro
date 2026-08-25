@@ -1,0 +1,138 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '知识库', href: '/zh/knowledge' },
+  { label: '案例研究' },
+];
+
+const capabilities = [
+  {
+    title: '五轴叶轮加工',
+    items: ['材料：铝合金 7075-T6', '精度：叶片轮廓 ±0.01mm', '表面：Ra 1.6μm 精加工面'],
+    tolerance: '从 STEP 文件到成品全程 5 天',
+    materials: '五轴联动一次装夹，保证叶片型面一致性',
+  },
+  {
+    title: '不锈钢医疗外壳',
+    items: ['材料：316L 不锈钢', '精度：关键尺寸 ±0.01mm', '表面：钝化处理，耐体液腐蚀'],
+    tolerance: '全流程洁净管控',
+    materials: '公差 ±0.01mm 的 DFM 优化过程，减少 2 道工序',
+  },
+  {
+    title: '机器人关节零件',
+    items: ['材料：铝合金 6061-T6 + 40Cr', '精度：同心度 ≤0.005mm', '表面：硬质阳极氧化'],
+    tolerance: '热处理后精加工保证尺寸稳定',
+    materials: '材料选型与热处理方案对比，寿命提升 40%',
+  },
+  {
+    title: '铝合金散热片',
+    items: ['材料：铝合金 6063', '精度：翅片厚度 ±0.05mm', '表面：阳极氧化黑色'],
+    tolerance: '薄壁翅片变形量 ≤0.1mm',
+    materials: '薄壁加工变形控制实战，优化切削参数与装夹方案',
+  },
+];
+
+const standards = [
+  { label: '项目背景', desc: '每个案例均记录客户需求、图纸难点及初始 DFM 评审意见。' },
+  { label: '工艺方案', desc: '详述工艺路线选择、刀具方案、装夹策略及关键参数。' },
+  { label: '检测验证', desc: '提供 CMM 检测报告（集团共享计量中心）、粗糙度数据及首件确认记录。' },
+  { label: '经验总结', desc: '提炼可复用的设计优化建议，供后续项目参考。' },
+];
+---
+
+<PageLayout
+  title="CNC加工案例研究 | 五轴叶轮·医疗外壳·机器人关节 | Eternal CNC"
+  description="Eternal CNC 真实加工项目复盘——五轴叶轮、不锈钢医疗外壳、机器人关节零件、铝合金散热片，从图纸到成品的全流程解析。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">知识库</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        案例研究
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        真实加工项目复盘，从图纸到成品的全流程解析
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          查看加工服务 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">项目案例</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">精选加工案例</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        每个案例涵盖材料选型、工艺路线、检测验证及经验总结。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">交付周期</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">技术亮点</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">质量管控</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">案例复盘方法论</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        每个项目结案后形成标准化复盘文档，持续沉淀加工经验。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">有类似零件需要加工？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        上传图纸，我们的工程师 24 小时内提供报价及 DFM 可制造性反馈。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          免费DFM图纸评审 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

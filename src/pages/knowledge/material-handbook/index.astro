@@ -1,0 +1,182 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Knowledge Base', href: '/knowledge' },
+  { label: 'Material Selection Guide' },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: 'Material Selection Guide for CNC Machining',
+  description: 'Which alloy to pick and why — cutting speed, tool life, surface finish and relative cost for 7 common CNC materials, with shop-floor advice.',
+  author: { '@type': 'Organization', name: 'Eternal CNC Precision Machining' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Eternal CNC Precision Machining',
+    logo: { '@type': 'ImageObject', url: 'https://www.eternalcnc.com/images/og-default.webp' },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': Astro.url.href },
+  inLanguage: 'en',
+};
+---
+
+<PageLayout
+  title="Material Selection Guide | CNC Alloy Cost & Machinability | Eternal CNC"
+  description="Which CNC material to pick and why: cutting speed, tool life, surface finish and relative cost for aluminum, stainless, brass, titanium and PEEK — with shop-floor advice."
+  breadcrumbs={breadcrumbs}
+  schema={articleSchema}
+>
+  <style>
+    .mat-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 14px; }
+    .mat-table th, .mat-table td { border: 1px solid var(--border-color); padding: 10px 12px; text-align: left; vertical-align: top; }
+    .mat-table th { background: var(--page-bg); color: var(--brand-dark); font-weight: 600; }
+    .mat-table tr:nth-child(even) { background: #FAFAFA; }
+    .mat-box { background: #FFF8F8; border: 1px solid #F0D0D0; border-left: 4px solid var(--brand-red); padding: 14px 16px; border-radius: 0 6px 6px 0; }
+    .mat-box strong { color: var(--brand-red); }
+    .mat-tip { background: var(--page-bg); border: 1px solid var(--border-color); border-left: 4px solid var(--brand-red); padding: 14px 18px; border-radius: 0 6px 6px 0; }
+  </style>
+
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Knowledge Base</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Material Selection Guide
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Writing "aluminum" instead of "6061-T6" on a drawing can change the quote several times over.
+        Material decides three things: can it be machined, how long it takes, and what it costs.
+        This is our shop-floor notes — which materials cut easy, which cost more and why, and what to pick for what job.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/downloads/EternalCNC-Material-Selection-Guide-EN.html" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Download Print-Ready Guide ↓
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7-material table -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">At a glance</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Seven Common Materials</h2>
+      <p class="mb-6 max-w-3xl" style="color: var(--text-muted);">
+        "Relative cost" is benchmarked at 1× for aluminum 6061-T6 and already folds in tool wear, cycle time and scrap rate.
+        These are long-run shop experience ranges, not absolute values.
+      </p>
+      <table class="mat-table">
+        <thead>
+          <tr><th>Material</th><th>Cutting speed (ref.)</th><th>Tool life</th><th>Surface finish</th><th>Relative cost</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Aluminum 6061-T6</strong></td><td>Fast (300–500 m/min)</td><td>Long</td><td>Good (Ra 0.8 easy)</td><td>1×</td></tr>
+          <tr><td><strong>Aluminum 7075-T6</strong></td><td>Quite fast (250–400 m/min)</td><td>Medium</td><td>Good</td><td>1.2×</td></tr>
+          <tr><td><strong>Brass C360</strong></td><td>Very fast (400–600 m/min)</td><td>Very long</td><td>Excellent</td><td>1.1×</td></tr>
+          <tr><td><strong>Stainless 304</strong></td><td>Slow (80–150 m/min)</td><td>Short (work-hardens)</td><td>Poor (multi-pass)</td><td>3–4×</td></tr>
+          <tr><td><strong>Stainless 316L</strong></td><td>Very slow (60–120 m/min)</td><td>Very short</td><td>Poor</td><td>4–5×</td></tr>
+          <tr><td><strong>Titanium Ti-6Al-4V</strong></td><td>Very slow (30–60 m/min)</td><td>Very short (burns/chips)</td><td>Medium</td><td>5–8×</td></tr>
+          <tr><td><strong>PEEK (eng. plastic)</strong></td><td>Medium (200–300 m/min)</td><td>Medium</td><td>Good</td><td>1.5×</td></tr>
+        </tbody>
+      </table>
+      <p class="mat-tip" style="color: var(--text-body);">
+        Carbon steel (e.g. 45#, Q235) is also common — cheaper than stainless but it rusts. Avoid for outdoor or humid use unless you add a coating.
+      </p>
+    </div>
+  </section>
+
+  <!-- per-material notes -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Material by material</p>
+      <h2 class="text-3xl font-bold mb-8" style="color: var(--brand-dark);">Straight Talk</h2>
+      <div class="space-y-5">
+        <div class="mat-box" style="color: var(--text-body);">
+          <strong>Aluminum 6061-T6 — the value king, pick it by default.</strong>
+          For most structural parts, enclosures and brackets, 6061-T6 is enough. Cuts fast, easy on tools, nice surface — Ra 0.8 comes easy. If the function allows, this is our first recommendation.
+        </div>
+        <div class="mat-box" style="color: var(--text-body);">
+          <strong>Aluminum 7075-T6 — high strength, but tougher to chew than 6061.</strong>
+          7075 is far stronger than 6061, used in aerospace and load-bearing parts. But it's gummier, builds up edge, and wears tools faster — the 1.2× is just material delta; real cost is a bit higher once you count machining. Not unusable, just "expensive for a reason."
+        </div>
+        <div class="mat-box" style="color: var(--text-body);">
+          <strong>Brass C360 — the free-machining champion.</strong>
+          Cuts blazing fast, tools last forever, surface comes out bright. Great for precision small parts, fittings, decorative pieces. Only slightly above aluminum in cost, but the look is much better.
+        </div>
+        <div class="mat-box" style="color: var(--text-body);">
+          <strong>Stainless 304 / 316L — corrosion resistant, but "slow" is the killer.</strong>
+          The real enemy is <strong>work hardening</strong>: a dull tool hardens it, and it gets harder the more you cut. You must run sharp fresh tools at high enough speed. So short tool life and long cycle time are normal. Two notes: ① lead time runs 30–50% longer than aluminum; ② loosen the tolerance one notch, and Ra 1.6 is the sane ceiling — don't insist on Ra 0.8. 316L resists chlorides better (coastal, chemical) but is slower and pricier.
+        </div>
+        <div class="mat-box" style="color: var(--text-body);">
+          <strong>Titanium Ti-6Al-4V — only if you must.</strong>
+          Titanium's machining cost eats the margin: very slow, tools chip easily, and it burns. Reserved for biocompatible / high-temp parts. If 316L or 7075 can do the job functionally, switch — the savings are not small.
+        </div>
+        <div class="mat-box" style="color: var(--text-body);">
+          <strong>PEEK — for high-temp / insulating jobs only.</strong>
+          PEEK handles heat, insulates, self-lubricates — the go-to for semiconductor and medical. Around 1.5× in cost, not slow to cut, but watch workholding (it lets go and deflects). For non-high-temp needs, plain nylon or ABS is far cheaper.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- scenario table -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Quick lookup</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">What to Pick for What</h2>
+      <table class="mat-table">
+        <thead><tr><th>Your need</th><th>First pick</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td>General structure, enclosure, bracket</td><td>6061-T6</td><td>Best value</td></tr>
+          <tr><td>Load-bearing, aerospace / high strength</td><td>7075-T6</td><td>Accept slightly higher cost</td></tr>
+          <tr><td>Precision small parts, brass fittings, decorative</td><td>Brass C360</td><td>Bright finish, easy cut</td></tr>
+          <tr><td>Food / medical / coastal / chemical corrosion</td><td>304 / 316L</td><td>+30–50% lead time, looser tol.</td></tr>
+          <tr><td>Biocompatible / high temp</td><td>Titanium</td><td>Only if functionally required</td></tr>
+          <tr><td>High-temp insulation / semiconductor</td><td>PEEK</td><td>Use nylon/ABS if not needed</td></tr>
+          <tr><td>Indoor dry structure, want to save</td><td>Carbon steel + coating</td><td>Rusts; rely on plating</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- old-hand tips -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Old-hand reminders</p>
+      <h2 class="text-3xl font-bold mb-6" style="color: var(--brand-dark);">Save Half Your Rework</h2>
+      <ul class="space-y-3" style="color: var(--text-body);">
+        <li><strong>Write the full grade, not the family.</strong> "Aluminum" ≠ "6061-T6"; "stainless" ≠ "304". Just write the grade — <code>6061-T6</code>, <code>304 SS</code>, <code>7075</code> — and we're done in one step.</li>
+        <li><strong>No verbal "material guarantee."</strong> Every order ships with a material cert (MTC, heat-number traceable) — a real factory's floor, and what you should ask for when auditing a supplier.</li>
+        <li><strong>Avoid recycled aluminum for critical parts.</strong> Cheap recycled bar carries more impurities and internal stress — easy to warp, strength unstable. Use prime billet for key parts.</li>
+        <li><strong>Want to resist rust and save money? Use a coating.</strong> Carbon steel powder-coated / zinc-plated, or anodized aluminum, is often cheaper than going straight stainless and reaches similar corrosion resistance.</li>
+        <li><strong>No material on the drawing? Tick "as per drawing" or type the grade.</strong> In our RFQ form, material defaults to "as per drawing" — we follow what your drawing says; to switch or specify, just type one line.</li>
+      </ul>
+      <p class="mat-tip mt-6" style="color: var(--text-body);">
+        One line to remember: <strong>if the function allows, pick 6061-T6; for corrosion resistance pick 304; for strength pick 7075; save titanium and PEEK for when they're truly needed.</strong>
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Need Material Advice?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Upload your drawings — our engineers recommend the best material for your application and quote within 24 hours.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/knowledge" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          View All Resources →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

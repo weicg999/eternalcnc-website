@@ -1,0 +1,139 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '加工服务', href: '/zh/services' },
+  { label: '精密磨削' },
+];
+
+const capabilities = [
+  {
+    title: '平面磨削',
+    items: ['精密平面', '模具镶件', '量块', '垫板'],
+    tolerance: '±0.01mm',
+    materials: '模具钢、工具钢、硬质合金',
+  },
+  {
+    title: '外圆磨削',
+    items: ['精密轴类', '芯轴', '导柱', '辊筒'],
+    tolerance: '±0.01mm',
+    materials: '轴承钢 GCr15、模具钢、不锈钢',
+  },
+  {
+    title: '内圆磨削',
+    items: ['精密孔', '衬套内孔', '液压缸体', '模具型腔'],
+    tolerance: '±0.01mm',
+    materials: '淬火钢、硬质合金、陶瓷',
+  },
+  {
+    title: '无心磨削',
+    items: ['精密销轴', '小直径轴', '批量圆柱件', '针阀芯'],
+    tolerance: '±0.01mm',
+    materials: '各类钢材、黄铜、铝合金',
+  },
+];
+
+const standards = [
+  { label: '平面度控制', desc: '平面度 ≤0.002mm/100mm，满足精密装配及密封面需求。' },
+  { label: '圆柱度控制', desc: '圆度 ≤0.001mm，圆柱度 ≤0.002mm，达到光学级精度。' },
+  { label: '表面粗糙度', desc: '镜面磨削 Ra ≤0.1μm，常规磨削 Ra 0.2-0.8μm，满足各类需求。' },
+  { label: '尺寸报告', desc: '可提供每批次全尺寸检验报告（FAI）及 CMM 数据（由集团共享计量中心按需出具）。严格执行 ISO 2768-m 公差标准及 AQL 2.5 抽检规范，确保关键尺寸精准可追溯。' },
+];
+---
+
+<PageLayout
+  title="精密磨削加工 | 平面磨·外圆磨·内圆磨 | Eternal CNC"
+  description="专业精密磨削服务，支持平面磨削、外圆磨削、内圆磨削、无心磨削，亚微米级精度加工。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">加工服务</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        精密磨削
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        平面磨、外圆磨、内圆磨、无心磨，亚微米级精度加工。
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/industries" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          查看行业应用 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">加工能力</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">按磨削方式分类</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        我们提供四大类加工服务，关键尺寸由厂内 2.5D 影像测量仪与精密量具复核，必要时可送集团共享计量中心进行三坐标检测。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">精密公差</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">需精加工与检测工序保障，具体以图纸评审为准</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">常用材料</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">质量管控</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">磨削加工质量标准</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        每批订单均按严格的质量管控流程执行，确保产品符合图纸要求。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">有高精度磨削需求？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        上传图纸，我们的工程师 24 小时内提供报价及 DFM 可制造性反馈。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          免费DFM图纸评审 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

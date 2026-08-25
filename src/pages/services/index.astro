@@ -1,0 +1,162 @@
+﻿---
+import PageLayout from '../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Services' },
+];
+
+const services = [
+  {
+    title: 'CNC Milling',
+    items: ['Complex surface machining', 'High-precision milling', 'Multi-axis interpolation', 'Mold & die parts'],
+    tolerance: '±0.005mm',
+    materials: 'Aluminum, Stainless Steel, Engineering Plastics',
+  },
+  {
+    title: 'CNC Turning',
+    items: ['Shaft parts', 'Sleeve parts', 'Disc parts', 'High concentricity'],
+    tolerance: '±0.01mm',
+    materials: 'Steel, Aluminum, Brass',
+  },
+  {
+    title: 'Surface Treatment',
+    items: ['Anodizing', 'Nickel / Chrome plating', 'Dacromet coating', 'Sandblasting'],
+    tolerance: 'Per standard',
+    materials: 'Aluminum, Steel, Copper Alloys',
+  },
+  {
+    title: 'Precision Grinding',
+    items: ['High surface finish', 'Tight tolerances', 'Mirror finishing', 'Surface grinding'],
+    tolerance: '±0.01mm',
+    materials: 'Hardened Steel, Carbide',
+  },
+  {
+    title: 'Wire EDM',
+    items: ['Extra-hard materials', 'Complex profiles', 'Slow-wire finishing', 'Micro cutting'],
+    tolerance: '±0.01mm',
+    materials: 'Carbide, Hardened Steel',
+  },
+  {
+    title: 'DFM Analysis',
+    items: ['Drawing review', 'Cost reduction advice', 'Risk assessment', 'Process optimization'],
+    tolerance: '-',
+    materials: 'All Materials',
+  },
+  {
+    title: 'Material Selection',
+    items: ['Metal comparison', 'Engineering plastics', 'Grade recommendation', 'Performance matching'],
+    tolerance: '-',
+    materials: 'Full Range',
+  },
+  {
+    title: 'Quality Inspection',
+    items: ['CMM measurement', 'Full inspection', 'Reports shipped with parts', 'SPC control'],
+    tolerance: 'Per drawing',
+    materials: '-',
+  },
+];
+
+const promises = [
+  { label: '24h Quote Response', desc: 'Receive a quote with DFM feedback within 24 hours of drawing submission.' },
+  { label: 'First Article Approval', desc: 'First article inspection before mass production to minimize risk.' },
+  { label: 'Full Traceability', desc: 'Material certificates and inspection reports provided with every batch.' },
+  { label: 'Rush Order Support', desc: '3-5 day delivery for urgent orders to meet tight project deadlines.' },
+];
+---
+
+<PageLayout
+  title="Precision CNC Machining Services | Milling · Turning · Grinding · Surface Treatment | Eternal CNC"
+  description="One-stop precision CNC machining services: milling, turning, precision grinding, wire EDM, surface treatment. From DFM analysis to quality inspection."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Services</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Precision Manufacturing Starts with Your Drawing
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        CNC Milling · CNC Turning · Surface Treatment · Precision Grinding · Wire EDM
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Quote
+        </a>
+        <a href="/capabilities/equipment" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          View Equipment List →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Grid -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Our Services</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Eight Core Machining Services</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        From raw material to finished part, we provide full-process precision machining for complex components.
+      </p>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {services.map((svc) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{svc.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {svc.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Precision Tolerance</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{svc.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Requires precision finishing &amp; inspection. Subject to drawing review.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Materials</p>
+              <p class="text-sm" style="color: var(--text-body);">{svc.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Promises -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Our Commitment</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Service Standards</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Customer-centric, efficient, transparent, and fully traceable machining services.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {promises.map((p) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{p.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{p.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Need Parts Machined?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Get a quote with DFM feedback within 24 hours.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Free Quote
+        </a>
+        <a href="/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Free DFM Review →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

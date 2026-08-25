@@ -1,0 +1,141 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '知识库', href: '/zh/knowledge' },
+  { label: '常见问题' },
+];
+
+const faqs = [
+  {
+    q: '最低起订量（MOQ）是多少？',
+    a: '我们支持打样（1 件起）和批量生产。没有严格的最低起订量要求 — 小批量起步，后续根据项目需求逐步扩大，我们都很乐意配合。'
+  },
+  {
+    q: '报价接受哪些文件格式？',
+    a: '我们接受 STEP、IGES、STL、PDF（2D 图纸）以及 SolidWorks、Creo、CATIA 的原生格式。最快的报价方式是提供 3D 模型（首选 STEP）加上标注关键公差的 2D PDF 图纸。'
+  },
+  {
+    q: '多久能收到报价？',
+    a: '大多数报价在 24 小时内交付。涉及多个零件或紧密公差的复杂项目可能需要 48 小时进行详细的工程评审。'
+  },
+  {
+    q: '标准交期是多长？',
+    a: '标准交期为 7–15 个工作日，具体取决于复杂度和数量。可接受加急订单 — 如有紧急需求请联系我们。'
+  },
+  {
+    q: '出货时是否附带检测报告？',
+    a: '是的。每批出货可附带合格证书（COC）、尺寸检测报告和材料证书。如需额外文件（RoHS、REACH），可另行申请。'
+  },
+  {
+    q: '能加工哪些材料？',
+    a: '我们可加工 30+ 种材料，包括铝合金（6061、7075）、不锈钢（303、304、316L）、钢（1018、4140）、钛合金、铜/黄铜以及工程塑料（Delrin、尼龙、PEEK、PTFE）。'
+  },
+  {
+    q: '能保持什么公差？',
+    a: '标准公差为 ±0.05mm（ISO 2768-m）。可按要求保持 ±0.01mm 或更紧公差。配合磨削加工可达到 Ra 0.2μm 的表面粗糙度。'
+  },
+  {
+    q: '是否提供表面处理服务？',
+    a: '是的。我们支持阳极氧化、喷砂、电镀、粉末喷涂、钝化、热处理等。所有表面处理均在内部协调完成，确保质量控制。'
+  },
+  {
+    q: '是否通过了 ISO 认证？',
+    a: '我们严格执行质量管理标准，相关认证体系正在完善中。'
+  },
+  {
+    q: '可以参观工厂吗？',
+    a: '当然可以。我们欢迎工厂参观 — 请提前联系我们，以便安排车间和检测实验室的参观。'
+  },
+];
+
+const standards = [
+  { label: '快速响应', desc: '工作日 24 小时内回复所有技术咨询，复杂问题 48 小时内给出详细方案。' },
+  { label: '透明报价', desc: '报价单包含材料费、加工费、表面处理费及运费明细，无隐藏费用。' },
+  { label: '全程追溯', desc: '从原材料到成品出货，每道工序均有记录，支持扫码查询。' },
+  { label: '售后保障', desc: '质量问题免费返工或补发，运费由我方承担。' },
+];
+---
+
+<PageLayout
+  title="常见问题 | CNC加工MOQ·报价·交期·材料·公差 | Eternal CNC"
+  description="关于 Eternal CNC 加工服务的常见问题：起订量、报价格式、交期、检测报告、材料、公差、表面处理、工厂参观等。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">知识库</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        常见问题
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        关于与 Eternal CNC 合作的一切常见疑问。
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          查看加工服务 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ List -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">常见问题</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">合作常见疑问</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        涵盖起订量、报价、交期、材料、公差及质量检测等核心问题。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {faqs.map((faq) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{faq.q}</h3>
+            <p class="text-sm leading-relaxed" style="color: var(--text-body);">{faq.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">质量管控</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">服务保障承诺</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        从咨询到交付，全流程透明可控。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">还有其他问题？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        我们的团队随时为您解答。欢迎随时联系。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          免费DFM图纸评审 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

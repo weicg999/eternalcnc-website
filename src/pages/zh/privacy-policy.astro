@@ -1,0 +1,161 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '首页', href: '/zh' },
+  { label: '隐私政策' },
+];
+---
+
+<PageLayout
+  title="隐私政策 | 鑫永恒 · Eternal CNC"
+  description="鑫永恒（深圳）精密实业有限公司（Eternal CNC）如何收集、使用与保护您的个人信息，包括询盘表单提交与 Google Analytics 4（GA4）追踪，依据欧盟 GDPR 与中国《个人信息保护法》（PIPL）。"
+  breadcrumbs={breadcrumbs}
+>
+  <section style="background-color: var(--card-white); padding: 56px 0 80px;">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">法律</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-4" style="color: var(--brand-dark);">隐私政策</h1>
+      <p class="text-sm mb-10" style="color: var(--text-muted);">最后更新：2026 年 8 月 23 日</p>
+
+      <article class="space-y-10">
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">1. 控制者信息</h2>
+          <p class="leading-relaxed" style="color: var(--text-body);">
+            本网站由 <strong>鑫永恒（深圳）精密实业有限公司（Eternal CNC）</strong>运营（以下简称"我们"）。如对本政策或您的个人信息有任何疑问，请联系
+            <a href="mailto:sales@eternalcnc.com" class="transition-all duration-300 hover:text-[#8B0000]">sales@eternalcnc.com</a>。
+          </p>
+          <p class="leading-relaxed mt-3" style="color: var(--text-body);">
+            注册地址：中国广东省深圳市宝安区松岗街道沙浦社区广进路33号综合楼101<br />
+            统一社会信用代码：91440300MADJHK052
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">2. 我们收集的信息</h2>
+          <p class="leading-relaxed mb-3" style="color: var(--text-body);"><strong>您直接提供的信息</strong> — 当您通过联系表单提交询价时，我们会收集：</p>
+          <ul class="list-disc pl-6 space-y-1 leading-relaxed" style="color: var(--text-body);">
+            <li>姓名与公司名称</li>
+            <li>电子邮箱与电话号码</li>
+            <li>您上传的图纸 / 规格文件</li>
+            <li>您填写的留言或项目说明</li>
+          </ul>
+          <p class="leading-relaxed mt-3" style="color: var(--text-body);">
+            图纸与规格文件通过加密连接（HTTPS）传输，并存储于我们的安全服务器 / Cloudflare R2 存储中。文件仅限授权人员为报价目的访问。
+          </p>
+          <p class="leading-relaxed mt-3 mb-3" style="color: var(--text-body);"><strong>自动收集的信息</strong> — 当您浏览网站时，我们及分析服务商将收集：</p>
+          <ul class="list-disc pl-6 space-y-1 leading-relaxed" style="color: var(--text-body);">
+            <li>IP 地址、浏览器与设备类型、操作系统</li>
+            <li>浏览页面、停留时长、来源链接与大致位置</li>
+            <li>Cookie 标识（见第 4 条）</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">3. 使用目的与法律依据</h2>
+          <ul class="list-disc pl-6 space-y-2 leading-relaxed" style="color: var(--text-body);">
+            <li><strong>回复您的询价</strong> — 为订立或履行合同所必需（GDPR 第 6(1)(b) 条）。</li>
+            <li><strong>保障网站安全、防止滥用</strong> — 我们的合法权益（GDPR 第 6(1)(f) 条）。</li>
+            <li><strong>了解使用情况、改进内容</strong> — 基于您对非必要分析 Cookie 的同意（GDPR 第 6(1)(a) 条）。</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">4. Cookie 与分析（Google Analytics 4）</h2>
+          <p class="leading-relaxed mb-3" style="color: var(--text-body);">
+            我们使用 <strong>Google Analytics 4（GA4）</strong>衡量匿名、聚合的网站流量。GA4 会设置 <code>_ga</code>、<code>_ga_*</code> 等 Cookie（典型有效期约 24 个月）。
+            在您通过 Cookie 横幅给予同意之前，我们<strong>不会</strong>加载 GA4；您可随时撤回或更改您的选择。
+          </p>
+          <p class="leading-relaxed" style="color: var(--text-body);">
+            网站运行所必需的必要 Cookie 无需同意；其余 Cookie 仅在您明确选择加入后才会设置。
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">5. 第三方服务商</h2>
+          <ul class="list-disc pl-6 space-y-1 leading-relaxed" style="color: var(--text-body);">
+            <li><strong>Google LLC</strong> — 提供 Google Analytics 4（数据存储于美国 / 全球区域）。</li>
+            <li><strong>Cloudflare, Inc.</strong> — 提供托管、CDN 与安全服务（全球边缘网络）。</li>
+            <li>我们的邮件 / CRM 服务商 — 用于接收与管理询价。</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">6. 跨境数据传输</h2>
+          <p class="leading-relaxed" style="color: var(--text-body);">
+            由于我们使用 Google 与 Cloudflare，您的数据可能会被传输至收集地所在国之外。对于自欧洲经济区（EEA）传出的数据，我们依据
+            <strong>标准合同条款（SCCs）</strong>及 Google 的认证保障措施；对于受中国《个人信息保护法》约束的数据，跨境传输遵循中国法律规定的机制。
+            我们对传输中及静态数据均采取适当的技术与组织措施加以保护。
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">7. 数据留存</h2>
+          <ul class="list-disc pl-6 space-y-1 leading-relaxed" style="color: var(--text-body);">
+            <li>询价数据：自最后一次联系起保留最长 <strong>3 年</strong>，其后删除或匿名化。</li>
+            <li>Google Analytics 数据：按 GA4 默认设置留存（通常 14 个月），其后自动删除。</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">8. 您的权利</h2>
+          <p class="leading-relaxed mb-3" style="color: var(--text-body);">在法律允许范围内，您有权：</p>
+          <ul class="list-disc pl-6 space-y-1 leading-relaxed" style="color: var(--text-body);">
+            <li>查询、更正或删除您的个人信息</li>
+            <li>限制或拒绝处理</li>
+            <li>数据可携</li>
+            <li>随时撤回同意（不影响撤回前已进行的合法处理）</li>
+          </ul>
+          <p class="leading-relaxed mt-3" style="color: var(--text-body);">
+            我们将在 30 天内回应您的请求。请求应包含足以验证您身份的信息。
+          </p>
+          <p class="leading-relaxed mt-3" style="color: var(--text-body);">
+            如需行使上述权利，请发邮件至 <a href="mailto:sales@eternalcnc.com" class="transition-all duration-300 hover:text-[#8B0000]">sales@eternalcnc.com</a>。
+            EU 用户也可向当地数据保护监管机构投诉；中国用户可联系相应的网信部门。
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">9. 未成年人隐私</h2>
+          <p class="leading-relaxed" style="color: var(--text-body);">
+            本网站不面向 16 岁以下儿童，我们亦不会在知情的情况下收集其个人信息。
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">10. 政策变更</h2>
+          <p class="leading-relaxed" style="color: var(--text-body);">
+            我们可能不时更新本政策，重大变更将以上方"最后更新"日期为准。
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">11. 联系方式</h2>
+          <p class="leading-relaxed" style="color: var(--text-body);">
+            鑫永恒（深圳）精密实业有限公司 · Eternal CNC<br />
+            注册地址：中国广东省深圳市宝安区松岗街道沙浦社区广进路33号综合楼101<br />
+            统一社会信用代码：91440300MADJHK052<br />
+            邮箱：<a href="mailto:sales@eternalcnc.com" class="transition-all duration-300 hover:text-[#8B0000]">sales@eternalcnc.com</a>
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">12. 第三方链接</h2>
+          <p class="leading-relaxed" style="color: var(--text-body);">
+            本网站可能包含指向第三方网站的链接（如 Google Maps、微信、WhatsApp、邮件客户端等）。我们不对它们的隐私实践负责。
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">13. 管理 Cookie 偏好</h2>
+          <p class="leading-relaxed mb-4" style="color: var(--text-body);">
+            您可以随时更改或撤回 Cookie 同意。点击下方按钮可重新打开 Cookie 设置。
+          </p>
+          <button type="button" onclick="if(window.openCookieSettings)window.openCookieSettings();" class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-[#8B0000] rounded-lg transition-all duration-200 hover:bg-[#6B0000] hover:text-white">
+            管理 Cookie 偏好
+          </button>
+        </section>
+      </article>
+    </div>
+  </section>
+</PageLayout>

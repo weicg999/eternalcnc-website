@@ -1,0 +1,142 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Services', href: '/services' },
+  { label: 'Quality Inspection' },
+];
+
+const capabilities = [
+  {
+    title: 'CMM Measurement',
+    items: ['3D coordinate scanning', 'Complex geometry verification', 'Form & position tolerance', 'Reverse engineering data'],
+    tolerance: '±0.001mm',
+    materials: 'All metals & engineering plastics',
+  },
+  {
+    title: 'Surface & Roughness',
+    items: ['Contact profilometry', 'Ra/Rz/Rt parameters', 'Step height measurement', 'Waviness analysis'],
+    tolerance: 'Ra 0.025μm resolution',
+    materials: 'All machined surfaces',
+  },
+  {
+    title: 'Optical & Vision',
+    items: ['2D profile projection', 'Micro-feature measurement', 'Thread gauge inspection', 'PCB pad & trace verification'],
+    tolerance: '±0.003mm',
+    materials: 'All materials, including transparent & reflective',
+  },
+  {
+    title: 'Material Analysis',
+    items: ['Hardness testing (HRC/HB/HV)', 'XRF composition analysis', 'Metallographic examination', 'Coating thickness measurement'],
+    tolerance: 'Per ASTM/ISO standards',
+    materials: 'All metals & alloys',
+  },
+];
+
+const standards = [
+  { label: 'Calibration', desc: 'All instruments are calibrated regularly and traceable to national standards. Calibration certificates available on request.' },
+  { label: 'Inspection & FAI Reports', desc: 'FAI reports with full dimensional data, SPC, and GD&T analysis are available on request. Standard orders include critical dimension reports and material certificates.' },
+  { label: 'AQL Sampling', desc: 'Standard inspection per ISO 2859-1 (AQL 2.5). 100% inspection available for critical dimensions.' },
+  { label: 'Traceability', desc: 'Full batch and single-part traceability supported. Every part or batch can be traced to its batch, machine, operator, and inspection data.' },
+];
+---
+
+<PageLayout
+  title="Quality Inspection Services | CMM & NDT | Eternal CNC"
+  description="CMM measurement (via our group's shared metrology center), surface profilometry, optical inspection, and material analysis. Full-process quality assurance."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Services</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Quality Inspection
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        CMM measurement (via our group's shared metrology center), non-destructive testing, and material analysis — full-process quality assurance.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Quote
+        </a>
+        <a href="/services/dfm-analysis" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Free DFM Review →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Capabilities</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">By Inspection Method</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        We offer four inspection categories to ensure every part meets your specifications.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Precision Tolerance</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Requires precision finishing &amp; inspection. Subject to drawing review.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Common Materials</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Quality Control</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Quality Standards</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Our inspection lab operates under strict calibration and traceability protocols.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+      <p class="mt-8 text-xs leading-relaxed" style="color: #9CA3AF;">
+        <strong style="color: var(--text-muted);">Note on Extended Processes:</strong> Certain specialized processes (e.g. wire EDM, grinding, surface treatment) are completed by our vetted partner network / group-affiliated facilities, not on standard in-house equipment. All parts are re-inspected in-house via 2.5D optical measuring system and precision gauges prior to shipment. Full CMM verification (ISO 2768-m) available on request via our group's shared metrology center.
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Need Inspection Services?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Upload your drawings. Our engineers will provide a quote and DFM feedback within 24 hours.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Free Quote
+        </a>
+        <a href="/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Free DFM Review →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

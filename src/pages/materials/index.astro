@@ -1,0 +1,325 @@
+﻿---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Materials', href: '#' },
+];
+
+interface Grade {
+  grade: string;
+  density: string;
+  tensile: string;
+  hardness: string;
+  features: string;
+  applications: string;
+  tags?: string[];
+  image?: string;
+}
+
+interface MetalCategory {
+  name: string;
+  id: string;
+  icon: string;
+  grades: Grade[];
+}
+
+const metalCategories: MetalCategory[] = [
+  {
+    name: 'Aluminum Alloys',
+    id: 'aluminum',
+    icon: '🔵',
+    grades: [
+      { grade: '6061-T6', density: '2.70 g/cm³', tensile: '310 MPa', hardness: '95 HB', features: 'Excellent machinability, good strength-to-weight', applications: 'Aerospace fixtures, heat sinks, housings', tags: ['lightweight', 'general'] },
+      { grade: '7075-T6', density: '2.81 g/cm³', tensile: '572 MPa', hardness: '150 HB', features: 'Highest strength aluminum alloy, aerospace grade', applications: 'Aerospace structural, mold tooling', tags: ['high-strength', 'lightweight'] },
+      { grade: '2024-T3', density: '2.78 g/cm³', tensile: '476 MPa', hardness: '120 HB', features: 'High fatigue resistance, good damage tolerance', applications: 'Aircraft structures, wing components', tags: ['high-strength'] },
+      { grade: '5052-H32', density: '2.68 g/cm³', tensile: '228 MPa', hardness: '60 HB', features: 'Excellent corrosion resistance, marine grade', applications: 'Marine components, chemical processing', tags: ['corrosion-resistant', 'lightweight'] },
+    ]
+  },
+  {
+    name: 'Stainless Steel',
+    id: 'stainless-steel',
+    icon: '⚪',
+    grades: [
+      { grade: '303', density: '7.90 g/cm³', tensile: '620 MPa', hardness: '228 HB', features: 'Free-machining, excellent machinability', applications: 'Shafts, gears, fasteners', tags: ['general'] },
+      { grade: '304', density: '7.93 g/cm³', tensile: '515 MPa', hardness: '201 HB', features: 'General purpose, excellent corrosion resistance', applications: 'Food processing, chemical, architectural', tags: ['corrosion-resistant'] },
+      { grade: '316L', density: '7.99 g/cm³', tensile: '485 MPa', hardness: '217 HB', features: 'Medical grade, superior chloride resistance', applications: 'Medical implants, marine, pharmaceutical', tags: ['corrosion-resistant', 'high-temp'] },
+      { grade: '17-4 PH', density: '7.78 g/cm³', tensile: '930 MPa', hardness: '44 HRC', features: 'Precipitation hardened, high strength', applications: 'Aerospace, chemical processing', tags: ['high-strength', 'high-temp'] },
+    ]
+  },
+  {
+    name: 'Copper & Brass',
+    id: 'copper',
+    icon: '🟡',
+    grades: [
+      { grade: 'C360 Brass', density: '8.49 g/cm³', tensile: '400 MPa', hardness: '90 HRB', features: 'Excellent machinability, decorative finish', applications: 'Fittings, valves, decorative hardware', tags: ['general'] },
+      { grade: 'C110 Copper', density: '8.94 g/cm³', tensile: '220 MPa', hardness: '70 HRB', features: 'Highest electrical conductivity', applications: 'Electrical contacts, bus bars, heat exchangers', tags: ['general'] },
+      { grade: 'C172 Beryllium Copper', density: '8.25 g/cm³', tensile: '1,100 MPa', hardness: '40 HRC', features: 'Spring properties, non-sparking', applications: 'Springs, connectors, non-sparking tools', tags: ['high-strength'] },
+    ]
+  },
+  {
+    name: 'Titanium Alloys',
+    id: 'titanium',
+    icon: '🔘',
+    grades: [
+      { grade: 'Grade 2 (CP)', density: '4.51 g/cm³', tensile: '345 MPa', hardness: '20 HRC', features: 'Pure titanium, excellent corrosion resistance', applications: 'Chemical processing, medical, marine', tags: ['corrosion-resistant', 'lightweight'] },
+      { grade: 'Grade 5 (Ti-6Al-4V)', density: '4.43 g/cm³', tensile: '950 MPa', hardness: '36 HRC', features: 'Most widely used Ti alloy, aerospace grade', applications: 'Aerospace, medical implants, motorsport', tags: ['high-strength', 'high-temp', 'lightweight'] },
+      { grade: 'Grade 9', density: '4.51 g/cm³', tensile: '725 MPa', hardness: '30 HRC', features: 'Excellent weldability, intermediate strength', applications: 'Aircraft hydraulic, bicycle frames', tags: ['high-strength'] },
+    ]
+  },
+  {
+    name: 'Carbon Steel',
+    id: 'carbon-steel',
+    icon: '⚫',
+    grades: [
+      { grade: '1018', density: '7.87 g/cm³', tensile: '440 MPa', hardness: '126 HB', features: 'Good machinability, low cost', applications: 'Shafts, spindles, fixtures', tags: ['general'] },
+      { grade: '1045', density: '7.87 g/cm³', tensile: '570 MPa', hardness: '170 HB', features: 'Medium carbon, heat treatable', applications: 'Gears, axles, crankshafts', tags: ['high-strength'] },
+      { grade: '4140', density: '7.85 g/cm³', tensile: '655 MPa', hardness: '197 HB', features: 'Alloy steel, excellent toughness', applications: 'Mold bases, tooling, high-stress parts', tags: ['high-strength'] },
+      { grade: '4340', density: '7.85 g/cm³', tensile: '980 MPa', hardness: '30 HRC', features: 'Ultra-high strength, nickel-chromium alloy', applications: 'Landing gear, drive shafts', tags: ['high-strength', 'high-temp'] },
+    ]
+  },
+];
+
+const plasticGrades: Grade[] = [
+  { grade: 'Delrin (POM)', density: '1.41 g/cm³', tensile: '70 MPa', hardness: '120 HRM', features: 'Low friction, excellent dimensional stability', applications: 'Gears, bearings, bushings', tags: ['lightweight'], image: '/images/materials/materials-delrin-render-01.webp' },
+  { grade: 'Nylon (PA6)', density: '1.14 g/cm³', tensile: '85 MPa', hardness: '118 HRM', features: 'Wear resistant, impact tough', applications: 'Wear pads, rollers, structural parts', tags: ['lightweight'], image: '/images/materials/materials-nylon-render-01.webp' },
+  { grade: 'PEEK', density: '1.32 g/cm³', tensile: '100 MPa', hardness: '25 HRM', features: 'High temperature (250°C), chemical resistant', applications: 'Medical implants, semiconductor, aerospace', tags: ['high-temp', 'corrosion-resistant', 'lightweight'], image: '/images/materials/materials-peek-render-01.webp' },
+  { grade: 'PTFE (Teflon)', density: '2.15 g/cm³', tensile: '21 MPa', hardness: 'Shore D 55', features: 'Lowest friction coefficient, chemically inert', applications: 'Seals, gaskets, insulators', tags: ['corrosion-resistant'], image: '/images/materials/materials-ptfe-render-01.webp' },
+  { grade: 'UHMW-PE', density: '0.93 g/cm³', tensile: '48 MPa', hardness: 'Shore D 67', features: 'Extreme impact resistance, food safe', applications: 'Food processing, conveyor, medical', tags: ['lightweight', 'corrosion-resistant'], image: '/images/materials/materials-uhmw-pe-render-01.webp' },
+  { grade: 'PC (Polycarbonate)', density: '1.20 g/cm³', tensile: '70 MPa', hardness: '120 HRM', features: 'High impact strength, optical clarity', applications: 'Transparent housings, lenses, guards', tags: ['lightweight'], image: '/images/materials/materials-pc-render-01.webp' },
+];
+
+const useFilters = [
+  { label: 'High Strength', key: 'high-strength' },
+  { label: 'Lightweight', key: 'lightweight' },
+  { label: 'Corrosion Resistant', key: 'corrosion-resistant' },
+  { label: 'High Temperature', key: 'high-temp' },
+];
+---
+
+<BaseLayout
+  title="Materials Guide – Eternal CNC"
+  description="Comprehensive guide to CNC machining materials. Aluminum, stainless steel, titanium, copper, carbon steel, and engineering plastics."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section class="py-16" style="background-color: var(--bg-dark);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-5">Materials Guide</h1>
+      <p class="text-lg max-w-3xl" style="color: var(--text-helper);">We machine over 30 types of metals and engineering plastics. Select a material category below to explore properties, grades, and typical applications.</p>
+      <div class="flex flex-wrap gap-3 mt-8">
+        <a href="#metals" class="px-5 py-2.5 bg-white/10 rounded-full text-white text-sm font-medium border border-white/20 hover:bg-white/20 transition-colors">🔩 Metals</a>
+        <a href="#plastics" class="px-5 py-2.5 bg-white/10 rounded-full text-white text-sm font-medium border border-white/20 hover:bg-white/20 transition-colors">🧪 Engineering Plastics</a>
+        <a href="#comparison" class="px-5 py-2.5 bg-white/10 rounded-full text-white text-sm font-medium border border-white/20 hover:bg-white/20 transition-colors">📊 Comparison</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Use Case Filters -->
+  <section class="py-10 border-b border-gray-100" style="background-color: var(--page-bg);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-base font-medium text-brand-text mb-4">Browse by Use Case</h2>
+      <div class="flex flex-wrap gap-2" id="use-filters">
+        <button data-filter="all" class="filter-btn active px-4 py-2 rounded-lg text-sm font-medium border transition-colors bg-brand-dark text-white border-brand-dark">
+          All Materials
+        </button>
+        {useFilters.map((f) => (
+          <button data-filter={f.key} class="filter-btn px-4 py-2 rounded-lg text-sm font-medium border transition-colors bg-white text-brand-secondary border-gray-200 hover:border-brand-text hover:text-brand-text">
+            {f.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Metals Section -->
+  <section id="metals" class="py-20" style="background-color: var(--page-bg);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-16">
+        <h2 class="text-3xl md:text-4xl text-brand-text mb-4">Metal Materials</h2>
+        <p class="text-brand-secondary max-w-2xl text-lg">From lightweight aluminum to aerospace-grade titanium — select the right metal for your application.</p>
+      </div>
+
+      {metalCategories.map((cat) => (
+        <div class="mb-16 last:mb-0" data-category={cat.id}>
+          <!-- Category Header -->
+          <div class="flex items-center gap-3 mb-8">
+            <span class="text-xl">{cat.icon}</span>
+            <h3 class="text-2xl font-bold text-brand-text">{cat.name}</h3>
+            <img src={`/images/materials/materials-${cat.id}-render-01.webp`} alt={`${cat.name} machined part – 3D render`} class="ml-auto h-20 w-32 object-cover rounded-lg border border-gray-100 hidden sm:block" loading="lazy" />
+          </div>
+
+          <!-- Grade Cards -->
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+            {cat.grades.map((g) => (
+              <div class="grade-card group rounded-xl border border-gray-100 p-6 hover:border-brand-silver hover:shadow-md transition-all duration-300" style="background-color: var(--card-white);" data-tags={g.tags?.join(',')}>
+                <h4 class="text-lg font-bold text-brand-text mb-3">{g.grade}</h4>
+                <div class="space-y-2 text-sm">
+                  <div class="flex justify-between"><span class="text-brand-silver">Density</span><span class="font-medium text-brand-text">{g.density}</span></div>
+                  <div class="flex justify-between"><span class="text-brand-silver">Tensile</span><span class="font-medium text-brand-text">{g.tensile}</span></div>
+                  <div class="flex justify-between"><span class="text-brand-silver">Hardness</span><span class="font-medium text-brand-text">{g.hardness}</span></div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-gray-50">
+                  <p class="text-xs text-brand-secondary leading-relaxed mb-1"><span class="font-semibold text-brand-text">Key:</span> {g.features}</p>
+                  <p class="text-xs text-brand-silver"><span class="font-medium">Uses:</span> {g.applications}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Plastics Section -->
+  <section id="plastics" class="py-20" style="background-color: var(--page-bg);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <h2 class="text-3xl md:text-4xl text-brand-text mb-4">Engineering Plastics</h2>
+        <p class="text-brand-secondary max-w-2xl text-lg">High-performance plastics for insulation, low-friction, chemical resistance, and lightweight applications.</p>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+        {plasticGrades.map((g) => (
+          <div class="grade-card group rounded-xl border border-gray-100 p-6 hover:border-brand-silver hover:shadow-md transition-all duration-300" style="background-color: var(--card-white);" data-tags={g.tags?.join(',')}>
+            {g.image && (
+              <img src={g.image} alt={`${g.grade} machined part – 3D render`} class="w-full h-32 object-cover rounded-lg mb-4 border border-gray-100" loading="lazy" />
+            )}
+            <h4 class="text-lg font-bold text-brand-text mb-3">{g.grade}</h4>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between"><span class="text-brand-silver">Density</span><span class="font-medium text-brand-text">{g.density}</span></div>
+              <div class="flex justify-between"><span class="text-brand-silver">Tensile</span><span class="font-medium text-brand-text">{g.tensile}</span></div>
+              <div class="flex justify-between"><span class="text-brand-silver">Hardness</span><span class="font-medium text-brand-text">{g.hardness}</span></div>
+            </div>
+            <div class="mt-4 pt-4 border-t border-gray-50">
+              <p class="text-xs text-brand-secondary leading-relaxed mb-1"><span class="font-semibold text-brand-text">Key:</span> {g.features}</p>
+              <p class="text-xs text-brand-silver"><span class="font-medium">Uses:</span> {g.applications}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Full Comparison Table -->
+  <section id="comparison" class="py-20" style="background-color: var(--page-bg);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12 text-center">
+        <h2 class="text-3xl md:text-4xl text-brand-text mb-4">Material Comparison</h2>
+        <p class="text-brand-secondary max-w-2xl mx-auto text-lg">Key properties at a glance.</p>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b-2 border-gray-100">
+              <th class="text-left py-4 px-4 font-medium text-brand-text">Material</th>
+              <th class="text-left py-4 px-4 font-medium text-brand-text">Density</th>
+              <th class="text-left py-4 px-4 font-medium text-brand-text">Tensile</th>
+              <th class="text-left py-4 px-4 font-medium text-brand-text">Hardness</th>
+              <th class="text-left py-4 px-4 font-medium text-brand-text">Key Feature</th>
+              <th class="text-left py-4 px-4 font-medium text-brand-text">Typical Use</th>
+            </tr>
+          </thead>
+          <tbody>
+            {metalCategories.map((cat) => cat.grades.map((g) => (
+              <tr class="border-b border-gray-50 hover:bg-brand-bgAlt transition-colors">
+                <td class="py-3 px-4"><span class="font-semibold text-brand-text">{g.grade}</span><span class="text-xs text-brand-silver ml-2">({cat.name})</span></td>
+                <td class="py-3 px-4 text-brand-secondary">{g.density}</td>
+                <td class="py-3 px-4 text-brand-secondary">{g.tensile}</td>
+                <td class="py-3 px-4 text-brand-secondary">{g.hardness}</td>
+                <td class="py-3 px-4 text-brand-secondary">{g.features}</td>
+                <td class="py-3 px-4 text-brand-secondary">{g.applications}</td>
+              </tr>
+            )))}
+            {plasticGrades.map((g) => (
+              <tr class="border-b border-gray-50 hover:bg-brand-bgAlt transition-colors">
+                <td class="py-3 px-4"><span class="font-semibold text-brand-text">{g.grade}</span><span class="text-xs text-brand-silver ml-2">(Plastic)</span></td>
+                <td class="py-3 px-4 text-brand-secondary">{g.density}</td>
+                <td class="py-3 px-4 text-brand-secondary">{g.tensile}</td>
+                <td class="py-3 px-4 text-brand-secondary">{g.hardness}</td>
+                <td class="py-3 px-4 text-brand-secondary">{g.features}</td>
+                <td class="py-3 px-4 text-brand-secondary">{g.applications}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-16" style="background-color: var(--bg-dark);">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-2xl font-bold text-white mb-4">Not Sure Which Material to Choose?</h2>
+      <p class="mb-8" style="color: var(--text-helper);">Our engineers can recommend the best material for your application.</p>
+      <a href="/contact/get-a-quote" class="inline-flex items-center px-8 py-3.5 bg-white text-brand-dark font-medium rounded-lg hover:bg-gray-100 transition-colors">
+        Get Material Recommendation →
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Materials filtering functionality
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const gradeCards = document.querySelectorAll('.grade-card');
+  const categorySections = document.querySelectorAll('[data-category]');
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.getAttribute('data-filter');
+      
+      // Update button styles
+      filterButtons.forEach(b => {
+        b.classList.remove('bg-brand-dark', 'text-white', 'border-brand-dark');
+        b.classList.add('bg-white', 'text-brand-secondary', 'border-gray-200');
+      });
+      btn.classList.remove('bg-white', 'text-brand-secondary', 'border-gray-200');
+      btn.classList.add('bg-brand-dark', 'text-white', 'border-brand-dark');
+
+      if (filter === 'all') {
+        // Show all
+        gradeCards.forEach(card => {
+          card.style.display = '';
+          card.closest('[data-category]')!.style.display = '';
+        });
+        // Show plastic cards too
+        document.querySelectorAll('#plastics .grade-card').forEach(card => {
+          card.style.display = '';
+        });
+        document.getElementById('plastics')!.closest('section')!.style.display = '';
+        return;
+      }
+
+      // Filter logic
+      gradeCards.forEach(card => {
+        const tags = (card.getAttribute('data-tags') || '').split(',');
+        if (tags.includes(filter)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Hide categories that have no visible cards
+      categorySections.forEach(section => {
+        const visibleCards = section.querySelectorAll('.grade-card:not([style*="display: none"])');
+        if (visibleCards.length === 0) {
+          section.style.display = 'none';
+        } else {
+          section.style.display = '';
+        }
+      });
+
+      // Check plastics section
+      const plasticsSection = document.getElementById('plastics');
+      if (plasticsSection) {
+        const section = plasticsSection.closest('section')!;
+        const visiblePlastics = section.querySelectorAll('.grade-card:not([style*="display: none"])');
+        if (visiblePlastics.length === 0) {
+          section.style.display = 'none';
+        } else {
+          section.style.display = '';
+        }
+      }
+    });
+  });
+</script>

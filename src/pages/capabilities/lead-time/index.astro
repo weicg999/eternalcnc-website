@@ -1,0 +1,139 @@
+﻿---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Capabilities', href: '/capabilities' },
+  { label: 'Lead Time' },
+];
+
+const capabilities = [
+  {
+    title: 'Prototype Rush (3–5 Days)',
+    items: ['Single-part urgent orders', 'Simplified fixture setup', 'Priority machine allocation', 'Express shipping available'],
+    tolerance: '±0.01mm',
+    materials: 'Aluminum 6061, Steel 1045, POM',
+  },
+  {
+    title: 'Standard Samples (7 Days)',
+    items: ['Multi-part sample kits', 'Full process routing', 'First-article inspection', 'Dimensional report included'],
+    tolerance: '±0.005mm',
+    materials: 'Aluminum 7075, Stainless 303/316, Brass C360',
+  },
+  {
+    title: 'Small Batch (10–15 Days)',
+    items: ['10–50 pcs production run', 'Dedicated quality plan', 'Batch material traceability', 'SPC sampling inspection'],
+    tolerance: '±0.005mm',
+    materials: 'All standard metals & engineering plastics',
+  },
+  {
+    title: 'Mass Production (15–30 Days)',
+    items: ['50+ pcs stable output', 'Full SPC process control', 'Dedicated production line', 'PPAP documentation available'],
+    tolerance: '±0.01mm',
+    materials: 'Aluminum, Stainless Steel, Titanium, Custom alloys',
+  },
+];
+
+const standards = [
+  { label: '24-Hour Quoting', desc: 'Upload drawings anytime. Our engineers review DFM and return a detailed quote within 24 hours.' },
+  { label: 'Progress Tracking', desc: 'Real-time order status updates at each production stage — from machining to QC to shipping.' },
+  { label: 'Rush Order Capability', desc: 'Emergency orders can be fast-tracked through dedicated machine time and overnight shipping.' },
+  { label: 'Logistics Options', desc: 'Express (3–5 days), standard (7–15 days), and economy shipping. Global delivery via DHL, FedEx, and freight.' },
+];
+---
+
+<PageLayout
+  title="Lead Time – Prototypes in 3–7 Days | Mass Production 15–30 Days | Eternal CNC"
+  description="Prototype rush orders in 3–5 days, standard samples in 7 days, small batches 10–15 days, mass production 15–30 days. Rush orders negotiable."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Capabilities</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Lead Time
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Prototypes in 3–7 days · Mass production 15–30 days · Rush orders negotiable.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          View Services →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Delivery Schedule</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Lead Time by Order Scale</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        From rapid prototypes to mass production, we offer flexible scheduling to meet your timeline.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Precision Tolerance</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Requires precision finishing &amp; inspection. Subject to drawing review.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Available Materials</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Service Standards</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">How We Deliver On Time</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Our streamlined workflow ensures fast turnaround without compromising quality.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Need parts fast?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Upload your drawing and receive a quote within 24 hours with DFM feedback.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Free Quote
+        </a>
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Free DFM Review →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

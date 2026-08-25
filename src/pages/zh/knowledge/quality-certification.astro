@@ -1,0 +1,87 @@
+﻿---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '知识库', href: '/zh/knowledge' },
+  { label: '质量认证' },
+];
+---
+
+<PageLayout
+  title="质量认证 – 鑫永恒"
+  description="鑫永恒 质量认证：ISO 9001:2015 认证状态（办理中）、材料证书与合规文件。"
+  breadcrumbs={breadcrumbs}
+>
+  <section style="background-color: var(--bg-dark); background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-5">质量认证</h1>
+      <p class="text-lg max-w-3xl" style="color: var(--text-helper);">我们对质量标准的承诺与合规文件。</p>
+    </div>
+  </section>
+
+  <section class="py-16" style="background-color: var(--page-bg);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl">
+        <!-- ISO 9001 -->
+        <div class="rounded-xl p-8 border border-gray-100 mb-8" style="background-color: var(--page-bg);">
+          <div class="flex items-start">
+            <div class="text-4xl mr-5">🏆</div>
+            <div>
+              <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">ISO 9001:2015</h2>
+              <div class="inline-flex items-center px-3 py-1 bg-amber-100 text-amber-700 text-sm font-semibold rounded mb-4">
+                ⏳ 认证办理中
+              </div>
+              <p style="color: var(--text-body);">
+                我们的 ISO 9001:2015 质量管理体系认证目前正在办理中。我们正积极推进全面认证工作，生产和检验流程已按照 ISO 9001 原则运行，包括文件控制、过程验证、纠正措施和持续改进。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 材料证书 -->
+        <div class="rounded-xl p-8 border border-gray-100 mb-8" style="background-color: var(--page-bg);">
+          <div class="flex items-start">
+            <div class="text-4xl mr-5">📋</div>
+            <div>
+              <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">材料证书</h2>
+              <p style="color: var(--text-body);" class="mb-4">
+                所有材料均来自认证供应商。每批订单我们提供以下文件：
+              </p>
+              <ul class="space-y-2" style="color: var(--text-body);">
+                <li class="flex items-center"><svg class="w-4 h-4 mr-2" style="color: var(--text-helper);" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>材料检测报告（MTR），含化学成分</li>
+                <li class="flex items-center"><svg class="w-4 h-4 mr-2" style="color: var(--text-helper);" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>热处理材料的硬度检测证书</li>
+                <li class="flex items-center"><svg class="w-4 h-4 mr-2" style="color: var(--text-helper);" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>原材料供应商出厂合格证</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 合规证书 -->
+        <div class="rounded-xl p-8 border border-gray-100" style="background-color: var(--page-bg);">
+          <div class="flex items-start">
+            <div class="text-4xl mr-5">✅</div>
+            <div>
+              <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">合规证书</h2>
+              <p style="color: var(--text-body);" class="mb-4">
+                我们支持国际市场的法规合规要求：
+              </p>
+              <ul class="space-y-2" style="color: var(--text-body);">
+                <li class="flex items-center"><svg class="w-4 h-4 mr-2" style="color: var(--text-helper);" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>RoHS 合规证书</li>
+                <li class="flex items-center"><svg class="w-4 h-4 mr-2" style="color: var(--text-helper);" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>REACH 合规证书</li>
+                <li class="flex items-center"><svg class="w-4 h-4 mr-2" style="color: var(--text-helper);" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>每批出货附带合格证书（COC）</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16" style="background-color: var(--bg-dark);">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-2xl font-bold text-white mb-4">需要认证文件？</h2>
+      <p class="mb-8" style="color: var(--text-helper);">联系我们，沟通您的具体合规需求。</p>
+      <a href="/zh/contact/get-a-quote" class="btn-primary">联系我们 →</a>
+    </div>
+  </section>
+</PageLayout>

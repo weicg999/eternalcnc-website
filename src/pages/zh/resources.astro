@@ -1,0 +1,115 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '资源中心' },
+];
+
+const downloads = [
+  {
+    title: '保密协议 NDA（中英文）',
+    desc: '用于共享图纸与技术规格的标准双方保密协议。提供中英文版本。',
+    file: '/downloads/EternalCNC-Mutual-NDA-ENCN.docx',
+    name: 'EternalCNC-Mutual-NDA-ENCN.docx',
+  },
+  {
+    title: '公司简介（中文）',
+    desc: '鑫永恒企业介绍、加工能力与客户认证概览。',
+    file: '/downloads/EternalCNC-Company-Profile-CN.docx',
+    name: 'EternalCNC-Company-Profile-CN.docx',
+  },
+  {
+    title: '公司简介（英文）',
+    desc: '英文企业介绍——设备清单、加工能力与质量体系。',
+    file: '/downloads/EternalCNC-Company-Profile-EN.html',
+    name: 'EternalCNC-Company-Profile-EN.html',
+  },
+  {
+    title: '能力总览（中文）',
+    desc: '设备分级（S/A/B）、加工范围、材料清单与质检流程。',
+    file: '/downloads/EternalCNC-Capabilities-Overview-CN.html',
+    name: 'EternalCNC-Capabilities-Overview-CN.html',
+  },
+  {
+    title: '询价提交清单（中文）',
+    desc: '发送图纸时应附带的信息——24 小时内获取详细报价。',
+    file: '/downloads/EternalCNC-RFQ-Checklist-CN.html',
+    name: 'EternalCNC-RFQ-Checklist-CN.html',
+  },
+];
+---
+
+<PageLayout
+  title="资源中心 – 保密协议与公司资料 | 鑫永恒"
+  description="下载双方保密协议模板与公司简介。鑫永恒提供已核实的加工能力、铭牌确认的设备与 ISO 体系对齐的质量流程，让海外客户放心合作。"
+  breadcrumbs={breadcrumbs}
+>
+  <section style="background-color: var(--card-white); padding: 72px 0 48px;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">信任与资源</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">资源中心</h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        保密是合作的基础。共享图纸前请下载双方保密协议，并查阅公司简介了解我们的能力与质量体系。
+      </p>
+    </div>
+  </section>
+
+  <section style="background-color: var(--page-bg); padding: 48px 0 64px;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-6">
+        {downloads.map((d) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl bg-white" style="border-color: var(--border-color);">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style="background-color: rgba(139,0,0,0.08);">
+                <svg class="w-6 h-6" style="color: var(--brand-red);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 10v6m0 0l-3-3m3 3l3-3M4 17V5a2 2 0 012-2h8l6 6v8a2 2 0 01-2 2H6a2 2 0 01-2-2z" />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-lg font-bold mb-1" style="color: var(--brand-dark);">{d.title}</h3>
+                <p class="text-sm mb-4" style="color: var(--text-body);">{d.desc}</p>
+                <a href={d.file} download title={d.name}
+                  class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold bg-[#8B0000] text-white rounded-lg transition-all duration-300 hover:bg-[#6B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+                  下载
+                  <span class="text-xs opacity-80">{d.name}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section style="background-color: var(--card-white); padding: 48px 0 80px;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">海外客户为何信任我们</h2>
+      <div class="grid md:grid-cols-3 gap-6 mt-8">
+        <div class="p-6 border rounded-xl" style="border-color: var(--border-color); background-color: var(--page-bg);">
+          <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">铭牌核实设备</h3>
+          <p class="text-sm" style="color: var(--text-body);">每台设备型号均对照铭牌确认，杜绝型号错配与参数混淆。</p>
+        </div>
+        <div class="p-6 border rounded-xl" style="border-color: var(--border-color); background-color: var(--page-bg);">
+          <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">ISO 体系对齐</h3>
+          <p class="text-sm" style="color: var(--text-body);">流程遵循 ISO 9001 体系要求，认证进行中；设备每季度校准。</p>
+        </div>
+        <div class="p-6 border rounded-xl" style="border-color: var(--border-color); background-color: var(--page-bg);">
+          <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">保密优先</h3>
+          <p class="text-sm" style="color: var(--text-body);">提供双方保密协议；客户图纸未经授权绝不复用或外泄。</p>
+        </div>
+        <div class="p-6 border rounded-xl" style="border-color: var(--border-color); background-color: var(--page-bg);">
+          <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">家族企业，响应迅速</h3>
+          <p class="text-sm" style="color: var(--text-body);">作为家族经营企业，决策直达老板——没有层级、没有工单排队。多数询盘 24 小时内得到真实回复，沟通往返大幅减少。</p>
+        </div>
+        <div class="p-6 border rounded-xl" style="border-color: var(--border-color); background-color: var(--page-bg);">
+          <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">工厂直供，价格透明</h3>
+          <p class="text-sm" style="color: var(--text-body);">您对接的是制造工厂，而非贸易公司。没有中间商加价，报价直接来自车间，明细透明。</p>
+        </div>
+        <div class="p-6 border rounded-xl" style="border-color: var(--border-color); background-color: var(--page-bg);">
+          <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">小批量 / 原型友好，无起订量</h3>
+          <p class="text-sm" style="color: var(--text-body);">从单件原型到批量生产——不设最低起订量。先用 1–10 件验证适配与功能，再放量生产。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</PageLayout>

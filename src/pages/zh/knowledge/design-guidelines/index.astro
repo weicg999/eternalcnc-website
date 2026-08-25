@@ -1,0 +1,138 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '知识库', href: '/zh/knowledge' },
+  { label: '设计指南' },
+];
+
+const capabilities = [
+  {
+    title: '壁厚设计',
+    items: ['铝合金最小壁厚 ≥ 0.8mm', '不锈钢最小壁厚 ≥ 1.0mm', '工程塑料最小壁厚 ≥ 1.2mm', '高径比建议控制在 4:1 以内'],
+    tolerance: '推荐壁厚 1.5-3mm（最优）',
+    materials: '过薄壁易变形，过厚壁增加材料成本',
+  },
+  {
+    title: '内 R 角与清角',
+    items: ['内 R 角 ≥ 刀具半径 × 1.2', '底部 R 角建议大于侧面 R 角', '清角需额外工序且成本上升', '优先设计大 R 角减少加工难度'],
+    tolerance: '推荐内 R ≥ R0.5mm',
+    materials: '太小的内 R 需要微型刀具，效率低',
+  },
+  {
+    title: '孔设计规范',
+    items: ['标准钻头深径比 ≤ 5:1', '深孔加工需枪钻（≤10:1）', '优先选用标准孔径 φ1/2/3/4/5/6mm', '孔间距 ≥ 孔径 × 1.5'],
+    tolerance: '盲孔底部留 0.5mm 余量',
+    materials: '非标孔径需定制刀具，交期延长',
+  },
+  {
+    title: '螺纹设计',
+    items: ['公制螺纹底孔对照表', '螺纹深度 ≤ 孔径 × 2.5（盲孔）', '通孔螺纹优先于盲孔螺纹', '避免薄壁件上攻丝'],
+    tolerance: '推荐 6H/6g 精度等级',
+    materials: '过深螺纹易断丝锥，废品率上升',
+  },
+];
+
+const standards = [
+  { label: '对称设计原则', desc: '零件尽量对称，减少翻面装夹和定位误差。' },
+  { label: '基准统一', desc: '设计基准与加工基准一致，减少尺寸链换算误差。' },
+  { label: '避免尖角', desc: '内部尖角应力集中且无法加工，必须有 R 角过渡。' },
+  { label: '简化形状', desc: '能用简单形状实现的功能，不用复杂曲面。' },
+];
+---
+
+<PageLayout
+  title="CNC加工设计指南 | 壁厚·内R角·孔设计·螺纹规范 | Eternal CNC"
+  description="Eternal CNC 加工设计指南——壁厚设计、内R角规范、孔设计标准、螺纹设计要点，帮助工程师设计出更易加工、成本更低的 CNC 零件。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">知识库</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        CNC 加工设计最佳实践指南
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        壁厚、内角、孔、螺纹等核心设计要素的工程建议
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          联系工程师 →
+        </a>
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          免费报价
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">设计要素</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">四大核心设计要素</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        掌握这四个核心设计要素，让零件更易加工、成本更低、质量更稳。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">推荐值</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">设计提醒</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">设计原则</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">优秀设计的四条原则</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        遵循这些设计原则，从源头降低加工难度和成本。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">设计阶段需要工程支持？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        我们的工程师团队可为您的设计提供可制造性评估和优化建议。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          联系工程师 →
+        </a>
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          免费报价
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

@@ -1,0 +1,176 @@
+﻿---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AboutHero from '../../components/AboutHero.astro';
+---
+
+<BaseLayout title="About Us – Eternal CNC" description="Precision CNC machining factory with 23 years in manufacturing and 15 years in CNC precision machining. ISO 9001 certification in progress. Serving robotics, medical, and automation industries worldwide.">
+  
+  <!-- Hero: Beige full-width + Left text + Right video + 3 stats + 2 CTAs (Plan A) -->
+  <AboutHero
+    label="About Us"
+    titleHtml="More Than a Machine Shop.<br/>Your Engineering Partner."
+    subtitle="23 years in manufacturing · 15 years in CNC precision machining · Drawing review → Process planning → Sample validation → Mass production, full on-site support."
+    heroVideoSrc="/videos/eternal-cnc-5axis-machining-in-action-01.mp4"
+    stats={[
+      { num: '23', unit: 'yrs', label: 'In manufacturing' },
+      { num: '30', unit: '+', label: 'CNC machines' },
+      { num: '24', unit: 'h', label: 'Quote turnaround' },
+    ]}
+    ctaPrimaryText="View Capabilities"
+    ctaPrimaryHref="/capabilities/equipment"
+    ctaSecondaryText="Get a Quote"
+    ctaSecondaryHref="/contact/get-a-quote"
+  />
+
+  <!-- Who We Are -->
+  <section class="section-padding" style="background-color: var(--card-white);">
+    <div class="container-custom max-w-3xl">
+      <span class="red-line"></span>
+      <h2 class="text-3xl font-bold mb-8" style="color: var(--brand-dark);">Who We Are</h2>
+      <div class="space-y-6 text-lg leading-relaxed" style="color: var(--text-body);">
+        <p><strong style="color: var(--brand-dark);">Xin Yongheng (Shenzhen) Precision Industry Co., Ltd.</strong> is a dedicated precision CNC machining factory — not a trading company. With 23 years in the manufacturing industry and 15 years dedicated to CNC precision machining, we manufacture high-precision components for the automation, robotics, medical device, and industrial equipment sectors.</p>
+        <p>Our engineers bring practical know-how from thousands of completed projects. They can spot and resolve potential manufacturing issues directly from your drawings, before a single chip is cut.</p>
+        <p>We don't spend on advertising. Our workshop capability and word-of-mouth referrals from satisfied clients are our greatest assets.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Founder's Quote -->
+  <section class="py-20" style="background-color: var(--page-bg);">
+    <div class="container-custom">
+      <div class="max-w-3xl mx-auto text-center">
+        <div class="w-16 h-16 rounded-full mx-auto mb-6 flex items-center justify-center" style="background-color: var(--brand-dark);">
+          <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/></svg>
+        </div>
+        <p class="text-2xl md:text-3xl italic leading-relaxed mb-6" style="color: var(--brand-dark);">
+          "We are not just engineers; we are manufacturing veterans with over 20 years of deep process expertise. Every drawing is backed by decades of practical know-how."
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Team: image left, text right (alternating layout) -->
+  <section class="section-padding" style="background-color: var(--card-white);">
+    <div class="container-custom">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <!-- Image on left -->
+        <div class="order-2 lg:order-1 rounded-industrial overflow-hidden">
+          <img src="/images/company/cnc-workshop-interior-machining-centers-01.webp" alt="Veteran CNC machinists operating precision equipment" class="w-full h-64 md:h-72 lg:h-80 object-cover" loading="lazy" width="800" height="320" />
+        </div>
+        <!-- Text on right -->
+        <div class="order-1 lg:order-2">
+          <span class="red-line"></span>
+          <h2 class="text-3xl font-bold mb-8" style="color: var(--brand-dark);">Our Team</h2>
+          <p class="text-lg mb-6" style="color: var(--text-muted);">More than employees — we are craftsmen.</p>
+          <div class="space-y-6 text-lg leading-relaxed" style="color: var(--text-body);">
+            <p>Our core team is composed of veteran machinists with 15+ years of hands-on experience at the CNC controls.</p>
+            <p>They have witnessed the industry evolve from 3-axis to 5-axis machining, yet they steadfastly preserve the craftsmanship and intuitive "feel" that no automation can replicate.</p>
+            <p>To us, the true assets are not the expensive machines — they are the precision parts shaped by skilled hands and seasoned judgment.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section class="section-padding" style="background-color: var(--page-bg);">
+    <div class="container-custom">
+      <div class="text-center mb-14">
+        <span class="red-line mx-auto"></span>
+        <h2 class="text-3xl font-bold" style="color: var(--brand-dark);">Our Journey</h2>
+      </div>
+      <div class="max-w-3xl mx-auto">
+        <div class="relative">
+          <div class="absolute left-6 top-0 bottom-0 w-px" style="background-color: var(--border-color);"></div>
+          
+          <div class="relative pl-16 pb-12">
+            <div class="absolute left-4 top-1 w-5 h-5 rounded-full border-4 border-white" style="background-color: var(--brand-red);"></div>
+            <div class="text-sm font-medium mb-1" style="color: var(--brand-red);">2003</div>
+            <h3 class="text-xl font-bold mb-2" style="color: var(--brand-dark);">Entering the Industry</h3>
+            <p style="color: var(--text-body);">Started from prototype and model making, building a solid foundation in precision manufacturing. Advanced to CNC programming engineering by 2005.</p>
+          </div>
+
+          <div class="relative pl-16 pb-12">
+            <div class="absolute left-4 top-1 w-5 h-5 rounded-full border-4 border-white" style="background-color: var(--brand-red);"></div>
+            <div class="text-sm font-medium mb-1" style="color: var(--brand-red);">2015</div>
+            <h3 class="text-xl font-bold mb-2" style="color: var(--brand-dark);">Going Independent</h3>
+            <p style="color: var(--text-body);">Launched an independent CNC machining business as a sole proprietor, serving clients in automation, robotics, and industrial equipment sectors.</p>
+          </div>
+
+          <div class="relative pl-16 pb-12">
+            <div class="absolute left-4 top-1 w-5 h-5 rounded-full border-4 border-white" style="background-color: var(--brand-red);"></div>
+            <div class="text-sm font-medium mb-1" style="color: var(--brand-red);">2024</div>
+            <h3 class="text-xl font-bold mb-2" style="color: var(--brand-dark);">Company Established</h3>
+            <p style="color: var(--text-body);">Xin Yongheng (Shenzhen) Precision Industry Co., Ltd. formally incorporated. Operated 30 CNC machines with full 3-axis, 4-axis, and 5-axis capabilities.</p>
+          </div>
+
+          <div class="relative pl-16">
+            <div class="absolute left-4 top-1 w-5 h-5 rounded-full border-4 border-white" style="background-color: var(--brand-red);"></div>
+            <div class="text-sm font-medium mb-1" style="color: var(--brand-red);">2026</div>
+            <h3 class="text-xl font-bold mb-2" style="color: var(--brand-dark);">Global Expansion</h3>
+            <p style="color: var(--text-body);">International trade department established. ISO 9001:2015 certification in progress. Serving global clients in robotics, medical devices, and factory automation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Factory Gallery -->
+  <section class="section-padding" style="background-color: var(--card-white);">
+    <div class="container-custom">
+      <div class="text-center mb-14">
+        <span class="red-line mx-auto"></span>
+        <h2 class="text-3xl font-bold" style="color: var(--brand-dark);">Inside Our Workshop</h2>
+        <p class="mt-4 text-lg" style="color: var(--text-muted);">30 CNC machines. 5-axis capability. Real production floor.</p>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/company/cnc-factory-production-floor-machine-rows-02.webp" alt="CNC machine lineup on production floor" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/parts/cnc-workshop-create-century-v650r-vmc-lineup-01.webp" alt="Create Century V650R vertical machining center in workshop" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/parts/cnc-workshop-sunrise-dmu-400-five-axis-side-01.webp" alt="SUNRISE DMU400 five-axis CNC machining center" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/parts/cnc-workshop-sunrise-vmc-lineup-floor-01.webp" alt="SUNRISE vertical machining centers lineup on factory floor" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/quality/cnc-quality-micrometer-inspection-02.webp" alt="Precision micrometer inspection" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-workshop-taikan-vertical-machining-center-lineup-01.webp" alt="Taikan T-V856S vertical machining center" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-vertical-machining-center-taikan-tv856s-workshop-01.webp" alt="Taikan T-V856S vertical machining center in Eternal CNC workshop" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-workshop-greato-vertical-machining-center-lineup-01.webp" alt="Taikan T-V series drill-mill machining center" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ISO -->
+  <section class="py-16" style="background-color: var(--card-white);">
+    <div class="container-custom">
+      <div class="rounded-industrial p-8 md:p-10 text-center" style="background-color: var(--brand-dark);">
+        <h2 class="text-xl font-medium text-white mb-3">ISO 9001:2015 — Certification In Progress</h2>
+        <p class="text-gray-400 max-w-xl mx-auto text-sm">Our ISO 9001:2015 Quality Management System certification is currently underway. We are committed to meeting international quality standards across all production and inspection processes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20" style="background-color: var(--page-bg);">
+    <div class="container-custom text-center">
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Ready to work with us?</h2>
+      <p class="text-lg mb-8" style="color: var(--text-body);">Send your drawing. We'll get back to you within 24 hours.</p>
+      <a href="/contact/get-a-quote" class="btn-primary text-base px-10 py-4 inline-flex items-center gap-2 group" style="color:#fff">
+        Get a Quote
+        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+    </div>
+  </section>
+</BaseLayout>

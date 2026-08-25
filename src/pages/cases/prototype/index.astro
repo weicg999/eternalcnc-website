@@ -1,0 +1,173 @@
+﻿---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Cases', href: '/cases' },
+  { label: 'Rapid Prototyping' },
+];
+
+const capabilities = [
+  {
+    title: 'First-Piece Sample',
+    items: ['Drawing to part in 3 days', '5-axis machining from billet', 'Full dimensional inspection', 'Aluminum 6061 prototype bracket'],
+    tolerance: '±0.01mm',
+    materials: 'Aluminum 6061',
+  },
+  {
+    title: 'Functional Test Part',
+    items: ['End-use material matching', 'Surface finish per production spec', 'Functional fit verified', 'Stainless 316L valve prototype'],
+    tolerance: '±0.005mm',
+    materials: 'Stainless 316L',
+  },
+  {
+    title: 'Assembly Fixture',
+    items: ['Multi-part fixture in 5 days', 'Locating pin accuracy ±0.005mm', 'Hard anodized wear surface', 'POM base plate with metal inserts'],
+    tolerance: '±0.005mm',
+    materials: 'POM + Aluminum',
+  },
+  {
+    title: 'Jig Component',
+    items: ['Welding jig from CAD in 7 days', 'Clamp force tested 500 cycles', 'Replaceable wear parts design', 'Steel 1045 hardened components'],
+    tolerance: '±0.025mm',
+    materials: 'Steel 1045',
+  },
+];
+
+const standards = [
+  { label: 'First Article Inspection', desc: "100% dimensional inspection for every prototype; CMM report from our group's shared metrology center available on request." },
+  { label: 'In-Process QC', desc: 'Mid-machining verification for critical features. Adjustments made before final pass.' },
+  { label: 'Final QC', desc: 'Visual inspection, deburring, surface finish check, and packaging verification before dispatch.' },
+  { label: 'Shipment QA', desc: 'Protective packaging, label verification, and shipping document accuracy checked before every dispatch.' },
+];
+---
+
+<PageLayout
+  title="Rapid Prototyping Cases | 1-50 pcs · 3-7 Days · DFM Feedback | Eternal CNC"
+  description="Real rapid prototyping case studies — first-piece samples, functional test parts, assembly fixtures, jig components. 3-7 days delivery."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Cases</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Rapid Prototyping Cases
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        1-50 pcs, 3-7 days first-piece delivery.
+        Speed without compromise — prototypes that match production quality.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/cases" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          View All Cases →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Case Studies</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Featured Prototyping Cases</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Selected projects demonstrating our rapid prototyping speed and quality.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Tolerance Achieved</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Material</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Product Renders -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Product Gallery</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Featured Product Renders</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">Representative product renders — material, process, and surface detail.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/prototype/cnc-prototype-aluminum-part-render-01.webp" alt="Rapid prototype aluminum part" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Rapid Aluminum Prototype</p>
+            <p class="text-xs" style="color: var(--text-muted);">Aluminum 6061 · 3-day turnaround · ±0.02mm</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/prototype/cnc-prototype-peek-part-render-01.webp" alt="PEEK engineering plastic prototype" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">PEEK Plastic Prototype</p>
+            <p class="text-xs" style="color: var(--text-muted);">PEEK · non-metal precision · 260°C resistant</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/prototype/cnc-prototype-fixture-aluminum-render-01.webp" alt="Aluminum small-batch fixture" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Small-Batch Fixture</p>
+            <p class="text-xs" style="color: var(--text-muted);">Aluminum 6061 · H7 locating pins · prototype-ready</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Quality Control</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Prototyping Quality Standards</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Fast turnaround doesn't mean cutting corners on quality.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  
+
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Need a prototype fast?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Upload your drawing and get a quote within 24 hours. First parts in 3-7 days.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/cases" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          View All Cases →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

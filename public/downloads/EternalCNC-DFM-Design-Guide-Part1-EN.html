@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DFM Cost-Saving Guide (Part 1)｜Eternal CNC</title>
+  <meta name="description" content="DFM cost-saving guide part 1: how wall thickness, tolerances, holes and fillets affect CNC machining cost, with practical design rules.">
+  <style>
+    :root { --brand: #8B0000; --brand-dark: #1A1A1A; --text: #333333; --muted: #666666; --bg: #FFFFFF; --light: #F7F7F7; --border: #E5E5E5; }
+    * { box-sizing: border-box; }
+    body { font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text); background: var(--bg); line-height: 1.7; margin: 0; padding: 0; }
+    .page { max-width: 210mm; margin: 0 auto; padding: 18mm 22mm; }
+    header { border-bottom: 3px solid var(--brand); padding-bottom: 14px; margin-bottom: 26px; }
+    h1 { font-size: 25px; color: var(--brand-dark); margin: 0 0 6px; line-height: 1.3; }
+    .subtitle { font-size: 14px; color: var(--muted); margin: 0; }
+    .badge { display: inline-block; background: var(--brand); color: #fff; font-size: 12px; padding: 3px 10px; border-radius: 4px; margin-bottom: 10px; }
+    h2 { font-size: 18px; color: var(--brand); margin-top: 30px; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+    h3 { font-size: 15px; color: var(--brand-dark); margin: 18px 0 6px; }
+    p { margin: 10px 0; font-size: 14px; }
+    .lead { font-size: 15px; background: var(--light); padding: 14px 18px; border-left: 4px solid var(--brand); margin: 18px 0; }
+    table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
+    th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+    th { background: var(--light); color: var(--brand-dark); font-weight: 600; }
+    tr:nth-child(even) { background: #FAFAFA; }
+    .dfm-box { background: #FFF8F8; border: 1px solid #F0D0D0; border-left: 4px solid var(--brand); padding: 14px 16px; margin: 16px 0; border-radius: 0 6px 6px 0; }
+    .dfm-box strong { color: var(--brand); }
+    .note { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+    @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } .page { padding: 0; } h2 { page-break-after: avoid; } .dfm-box, table { page-break-inside: avoid; } }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="badge">Eternal CNC · Precision Machining</div>
+      <h1>CNC DFM Cost-Saving Guide (Part 1)</h1>
+      <p class="subtitle">Five geometric design principles — real shop-floor experience on bringing the quote down</p>
+    </header>
+
+    <div class="lead">
+      This guide isn't copied from a textbook. It's what we've learned from quoting, planning and reworking jobs over the years.
+      Many designs are fine on paper, but once evaluated on a CNC floor the price triples or quadruples. The problem is rarely machine accuracy —
+      it's the "small numbers" in the drawing the designer didn't notice.<br><br>
+      Part 1 covers the five most valuable DFM decisions: wall thickness, hole depth ratio, shape, inside corner radius and tolerances.
+      They share one thing: <strong>once the part is in production, it's too late to change them cheaply.</strong>
+    </div>
+
+    <h2>1. Wall Thickness — thinner isn't fancier</h2>
+    <h3>Core idea</h3>
+    <p>Designers love pushing wall thickness to the limit, thinking it makes the part lighter and more refined. But CNC cuts with a tool pressed against the material —
+      too-thin walls chatter, vibrate and deform, ending up with out-of-tolerance dimensions or a fish-scale surface. The cost of thin walls isn't material — it's <strong>process cost and scrap rate</strong>.</p>
+    <table>
+      <tr><th>Material</th><th>Comfortable wall (small feature)</th><th>Large flat / thin wall</th><th>Risk</th></tr>
+      <tr><td>Aluminum 6061/7075</td><td>≥ 1.0 mm</td><td>≥ 2.0 mm (large area)</td><td>Chatter marks, warp</td></tr>
+      <tr><td>Carbon / alloy steel</td><td>≥ 1.5 mm</td><td>≥ 2.5 mm</td><td>Vibration, scatter</td></tr>
+      <tr><td>Stainless 304/316</td><td>≥ 2.0 mm</td><td>≥ 3.0 mm</td><td>Work-harden + warp</td></tr>
+      <tr><td>Titanium</td><td>≥ 2.0 mm</td><td>≥ 3.5 mm</td><td>Spring-back, chatter</td></tr>
+    </table>
+    <h3>Common wall-thickness traps</h3>
+    <ul>
+      <li><strong>Tall, thin side walls of a deep pocket:</strong> the deeper the pocket, the more the wall swings while cutting. Rule of thumb: wall ≥ 1/20 of pocket depth. A 50 mm deep pocket wants a wall ≥ 2.5 mm.</li>
+      <li><strong>Isolated bosses and thin posts:</strong> a 3 mm post sticking 20 mm up whips like a fishing rod — it either breaks or bends. Add ribs, or make it separate and assemble.</li>
+      <li><strong>Abrupt wall thickness changes:</strong> 5 mm next to 1 mm means uneven heat and stress, the thin side warps. Use fillets / gradual transitions.</li>
+      <li><strong>Thin large plates:</strong> see point 6 — a sub-3 mm aluminum plate warps after milling; not the machine's fault.</li>
+    </ul>
+    <div class="dfm-box"><strong>DFM tip:</strong> keep aluminum walls ≥ 1 mm, steel ≥ 1.5 mm, stainless ≥ 2 mm. For non-load-bearing enclosures/covers, use ribs or bosses instead of thickening the whole part — saves material and stays stable.</div>
+
+    <h2>2. Hole Depth Ratio — you can't drill as deep as you want</h2>
+    <h3>Core idea</h3>
+    <p>A standard twist drill has a comfort zone. The deeper and narrower the hole, the harder to clear chips, the more the drill wanders and the harder to cool.
+      A long drill doesn't mean deep holes — the <strong>length-to-diameter ratio</strong> (depth ÷ diameter) decides whether you use a normal drill or a deep-hole machine.</p>
+    <table>
+      <tr><th>Ratio L/D</th><th>Process</th><th>Cost impact</th></tr>
+      <tr><td>≤ 3×D</td><td>Standard drill, one pass</td><td>Baseline</td></tr>
+      <tr><td>3×D – 5×D</td><td>Standard drill, retract to clear chips</td><td>+20 – 30%</td></tr>
+      <tr><td>5×D – 10×D</td><td>Deep-hole / gun drill, guide bushing or peck</td><td>+50 – 100%</td></tr>
+      <tr><td>＞ 10×D</td><td>Deep-hole machine (BTA / gun drill)</td><td>+200% or redesign</td></tr>
+    </table>
+    <h3>Real traps</h3>
+    <ul>
+      <li><strong>Small deep holes:</strong> φ1 mm drilling 10 mm deep, L/D=10, breaks and wanders easily. Avoid if you can.</li>
+      <li><strong>Chip packing in blind holes:</strong> drilling to the bottom of a blind hole leaves chips nowhere to go; the drill heats and either smears or breaks. Through-holes clear chips far better.</li>
+      <li><strong>Stepped holes beat deep holes:</strong> if you need a threaded section + a clearance section, draw a stepped hole — much cheaper than drilling deep then tapping.</li>
+    </ul>
+    <div class="dfm-box"><strong>DFM tip:</strong> keep holes within 5×D; above 10×D, confirm the process with the shop first. Through-holes beat blind holes; stepped holes beat deep blind holes.</div>
+
+    <h2>3. Shape — square is always cheaper than fancy</h2>
+    <h3>Core idea</h3>
+    <p>CNC loves <strong>flat faces, right angles, flat-bottom pockets, uniform radii</strong>. A 3-axis machine finishes most features in one setup.
+      The moment you add spheres, free-form surfaces, undercuts or angled walls, you need ball-nose tools, 5-axis, a right-angle head or EDM — and time climbs exponentially.</p>
+    <table>
+      <tr><th>Geometry</th><th>Recommendation</th><th>Typical process</th><th>Cost factor</th></tr>
+      <tr><td>Block / regular outline</td><td>★★★★★</td><td>3-axis rough + finish</td><td>1×</td></tr>
+      <tr><td>Vertical walls + flat-bottom pocket</td><td>★★★★★</td><td>Flat end mill</td><td>1×</td></tr>
+      <tr><td>Spherical / curved surface</td><td>★★★☆☆</td><td>Ball-nose 3-axis or 5-axis</td><td>1.5 – 3×</td></tr>
+      <tr><td>Undercut / side recess</td><td>★★☆☆☆</td><td>Right-angle head / 5-axis / wire / EDM</td><td>3 – 10×</td></tr>
+      <tr><td>Deep narrow slot / odd slot</td><td>★★☆☆☆</td><td>Small tool / multi-axis / EDM</td><td>2 – 5×</td></tr>
+    </table>
+    <h3>Shape traps designers hit</h3>
+    <ul>
+      <li><strong>Square over round:</strong> same function, a square pocket is cheaper than a round one — a flat end mill runs to the bottom in one pass; a round or spherical pocket needs a ball-nose tool crawling slowly with a finish pass.</li>
+      <li><strong>Undercuts are a cost bomb:</strong> a wall recessed inward can't be reached by a 3-axis tool — you need a right-angle head, 5-axis or wire cut. Avoid undercuts and the quote drops a tier.</li>
+      <li><strong>Unify radii and hole sizes:</strong> a drawing with R0.5, R1, R2, R3 forces a dozen tool changes. Standardize to R2 / R3 and cut 30% of tool-change time.</li>
+      <li><strong>Slopes and draft angles:</strong> within 5° can be done with a big face mill; beyond 15° or varying curvature needs a ball-nose or 5-axis.</li>
+    </ul>
+    <div class="dfm-box"><strong>DFM tip:</strong> prefer regular geometry when function allows; flat faces + right angles for outline; flat-bottom + uniform radii for pockets; absolutely avoid undercuts. In short: let the 3-axis machine finish the job in one setup.</div>
+
+    <h2>4. Inside Corner Radius — the hidden threshold for tool choice</h2>
+    <h3>Core idea</h3>
+    <p>A designer draws a square pocket and wants the corners cleaned to R0.5. The problem: there is no φ1 end mill that reliably cuts steel — too thin, it snaps on contact.
+      The inside corner radius must be ≥ the tool radius. To get an R0.5 corner you need a φ1 tool; a φ1 tool in steel means very high breakage risk, only extreme-low speed and shallow depth, and exploded cycle time.</p>
+    <table>
+      <tr><th>Inside radius</th><th>Tool needed</th><th>Process</th><th>Cost impact</th></tr>
+      <tr><td>R3+</td><td>φ6 flat mill</td><td>Normal 3-axis</td><td>Baseline</td></tr>
+      <tr><td>R1 – R2</td><td>φ2 – φ4 flat mill</td><td>Normal mill, slightly lower feed</td><td>+10 – 20%</td></tr>
+      <tr><td>R0.5 – R1</td><td>φ1 – φ2 flat mill</td><td>Very low speed / shallow depth, breaks easily</td><td>+50 – 100%</td></tr>
+      <tr><td>＜ R0.5</td><td>φ0.5 – φ1 tool or EDM</td><td>Almost unmillable</td><td>+200% or redesign</td></tr>
+    </table>
+    <p>Rule of thumb: inside radius ≥ 1 mm (φ2 tool) is the economic zone; ≥ 2 mm (φ4 tool) is most comfortable; &lt; 0.5 mm basically needs EDM or we decline.</p>
+    <div class="dfm-box"><strong>DFM tip:</strong> use R2, not R0.5. If the look demands a small radius, the DFM way is — rough the big pocket at R2, then EDM the local small R, which is cheaper than milling the whole thing with a tiny tool.</div>
+
+    <h2>5. The "Economic Zone" of Tolerances — one notch tighter, double the cost</h2>
+    <h3>Core idea</h3>
+    <p>Many designers stamp every dimension at ±0.01 mm or ±0.005 mm, thinking "tighter is better". In reality CNC has an economic accuracy zone.
+      The tighter the tolerance, the denser the measurement, the fussier the fixturing, the stricter the environment — cost multiplies.</p>
+    <table>
+      <tr><th>Tolerance</th><th>3-axis normal capability</th><th>What it needs extra</th><th>Cost factor</th></tr>
+      <tr><td>±0.1 mm</td><td>One pass</td><td>Nothing</td><td>1×</td></tr>
+      <tr><td>±0.05 mm</td><td>Normal finish mill</td><td>Nothing</td><td>1×</td></tr>
+      <tr><td>±0.02 mm</td><td>Finish mill + measure</td><td>Measure every 5 pcs</td><td>1.2×</td></tr>
+      <tr><td>±0.01 mm</td><td>Finish mill + first + in-process check</td><td>CMM or micrometer per piece</td><td>1.5 – 2×</td></tr>
+      <tr><td>±0.005 mm</td><td>Thermostat / fine grind / multi-pass</td><td>Possible re-clamp / wire cut</td><td>3 – 5×</td></tr>
+      <tr><td>±0.002 mm</td><td>Grinder / jig grinder / 5-axis finish</td><td>Custom per-piece process</td><td>10×+</td></tr>
+    </table>
+    <h3>Real traps</h3>
+    <ul>
+      <li><strong>Only tighten fit surfaces:</strong> bearing seats, locating-pin holes, sealing faces must be tight; outer contours and non-critical steps can relax to ±0.05 or ±0.1 and save plenty.</li>
+      <li><strong>GD&T is pricier than size tolerance:</strong> 0.02 mm flatness is far harder than ±0.01 mm size, because you measure a whole face, not a point.</li>
+      <li><strong>Don't over-specify untouched dims:</strong> many default every dimension to ±0.01; a plain cosmetic face at ±0.1 is perfectly fine.</li>
+      <li><strong>Material affects accuracy:</strong> the same ±0.01 is easy in aluminum, shaky in stainless, harder in titanium.</li>
+    </ul>
+    <div class="dfm-box"><strong>DFM tip:</strong> tighten fit surfaces, relax the rest; write GD&T with care; leave ±0.1 for untouched dims. Remember: one notch tighter, double the cost — and the harder the material, the steeper the curve.</div>
+
+    <div class="lead" style="margin-top: 32px;">
+      <strong>In closing:</strong> these five principles — wall thickness, hole depth, shape, inside radius, tolerances — decide 80% of a CNC quote.
+      All can be solved at the drawing stage, no waiting for shop-floor rework. Part 2 will cover thin-plate warping, thread depth and material selection — three more easy traps.
+    </div>
+
+    <footer>
+      <strong>Eternal CNC Precision Machining</strong><br>
+      Email: sales@eternalcnc.com · Web: www.eternalcnc.com<br>
+      Based on real shop-floor experience. Please credit the source if redistributed.
+    </footer>
+  </div>
+</body>
+</html>

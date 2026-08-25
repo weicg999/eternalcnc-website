@@ -1,0 +1,35 @@
+---
+/**
+ * Breadcrumb navigation component
+ * Links use muted color, current page is bold
+ */
+interface Props {
+  items: { label: string; href?: string }[];
+}
+
+const { items } = Astro.props;
+const currentPath = Astro.url.pathname;
+const isZh = currentPath.startsWith('/zh');
+const homeLabel = isZh ? '首页' : 'Home';
+const homeHref = isZh ? '/zh/' : '/';
+---
+
+<nav aria-label="Breadcrumb">
+  <ol class="flex items-center space-x-2 text-sm" style="color: var(--text-muted);">
+    <li>
+      <a href={homeHref} class="transition-colors hover:text-brand-red" style="color: var(--text-muted);">{homeLabel}</a>
+    </li>
+    {items.map((item, index) => (
+      <li class="flex items-center">
+        <svg class="w-4 h-4 mx-2" style="color: var(--border-color);" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+        {item.href ? (
+          <a href={item.href} class="transition-colors hover:text-brand-red" style="color: var(--text-muted);">{item.label}</a>
+        ) : (
+          <span class="font-bold" style="color: var(--brand-dark);">{item.label}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>

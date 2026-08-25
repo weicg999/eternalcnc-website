@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>鑫永恒 — 询价提交清单</title>
+  <meta name="description" content="询价提交清单：图纸格式、公差、材料、数量、表面处理与交期要求，助您快速获得精准 CNC 加工报价。">
+<style>
+  :root { --brand-red:#8B0000; --brand-dark:#1A1A1A; --brand-silver:#6B7280; --line:#E5E7EB; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: "Microsoft YaHei", "Helvetica Neue", Arial, "Segoe UI", sans-serif; color:var(--brand-dark); line-height:1.6; }
+  .page { max-width: 800px; margin: 0 auto; padding: 24px 28px; }
+  header.cover { border-bottom: 3px solid var(--brand-red); padding-bottom: 16px; margin-bottom: 20px; }
+  .brand { font-size: 24px; font-weight: 800; color: var(--brand-red); }
+  .brand small { display:block; font-size:12px; font-weight:500; color:var(--brand-silver); letter-spacing:2px; text-transform:uppercase; margin-top:2px; }
+  h2 { font-size: 16px; color: var(--brand-red); border-left: 4px solid var(--brand-red); padding-left: 10px; margin: 24px 0 10px; }
+  p, li { font-size: 13px; color:#222; }
+  .check { list-style:none; padding:0; margin:10px 0; }
+  .check li { padding:9px 12px; border:1px solid var(--line); border-radius:8px; margin-bottom:8px; display:flex; gap:10px; align-items:flex-start; }
+  .box { width:18px; height:18px; border:2px solid var(--brand-red); border-radius:4px; flex:0 0 auto; margin-top:2px; }
+  .check li b { color:var(--brand-dark); }
+  .req { color:var(--brand-red); font-size:11px; font-weight:700; }
+  .opt { color:var(--brand-silver); font-size:11px; font-weight:700; }
+  .tip { font-size:12px; color:var(--brand-silver); background:#FAFAFA; border-left:3px solid var(--brand-red); padding:8px 12px; border-radius:0 6px 6px 0; margin-top:10px; }
+  footer { margin-top: 26px; border-top:1px solid var(--line); padding-top:12px; font-size:11px; color:var(--brand-silver); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+  @media print { @page { size: A4; margin: 16mm; } .page { padding:0; max-width:none; } li { page-break-inside: avoid; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="cover">
+    <div class="brand">鑫永恒 Eternal CNC<small>询价提交清单 RFQ Submission Checklist</small></div>
+  </header>
+
+  <p>发送图纸时请附上以下内容。资料齐全，我们可在 <b>24 小时</b> 内返回详细报价。您也可在线提交 <b>/contact/get-a-quote</b> —— 向导以 3 步收集同样的信息。</p>
+
+  <h2>必须提供（必填）</h2>
+  <ul class="check">
+    <li><span class="box"></span><div><b>图纸文件</b> <span class="req">必填</span><br/>STEP / IGES / DWG / PDF / SAT。优先 3D 模型；2D PDF 需标注尺寸。</div></li>
+    <li><span class="box"></span><div><b>数量</b> <span class="req">必填</span><br/>每单目标数量，或区间（如 50 / 200 / 1,000+）。请说明一次性还是持续生产。</div></li>
+    <li><span class="box"></span><div><b>联系邮箱</b> <span class="req">必填</span><br/>用于发送报价与 DFM 反馈。</div></li>
+    <li><span class="box"></span><div><b>材料</b> <span class="req">必填（或"按图纸"）</span><br/>若图纸已标注材料请填"按图纸"，否则注明牌号（如 6061-T6、304 不锈钢、7075）。</div></li>
+  </ul>
+
+  <h2>建议提供（可加快报价）</h2>
+  <ul class="check">
+    <li><span class="box"></span><div><b>关键公差</b> <span class="opt">选填</span><br/>标出必须严控的特征（配合面、孔、基准）。默认按 ISO 2768-f。</div></li>
+    <li><span class="box"></span><div><b>表面处理</b> <span class="opt">选填</span><br/>阳极氧化、钝化、电镀、喷粉、Ra 要求等。</div></li>
+    <li><span class="box"></span><div><b>所需交期</b> <span class="opt">选填</span><br/>期望发货日期，或"尽快"。支持加急（3–5 天）。</div></li>
+    <li><span class="box"></span><div><b>应用 / 行业</b> <span class="opt">选填</span><br/>航空、医疗、机器人、汽车……有助于我们选对工艺与证书。</div></li>
+    <li><span class="box"></span><div><b>特殊要求</b> <span class="opt">选填</span><br/>证书（EN 10204 3.1）、全检、包装、标识、RoHS 等。</div></li>
+  </ul>
+
+  <div class="tip">提示：上述"建议提供"项填得越全，报价与交期越准确。如有空缺，工程师会在 DFM 评审中给出建议——不必因此卡住您的询价。</div>
+
+  <footer>
+    <span>鑫永恒精密加工 · sales@eternalcnc.com</span>
+    <span>www.eternalcnc.com/contact/get-a-quote</span>
+  </footer>
+</div>
+</body>
+</html>

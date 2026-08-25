@@ -1,0 +1,138 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '知识库', href: '/zh/knowledge' },
+  { label: '质量认证' },
+];
+
+const capabilities = [
+  {
+    title: '质量管理体系',
+    items: ['来料检验（IQC）- 过程检验（IPQC）- 终检（FQC）- 出货检验（OQC）', '全员质量责任制', '不合格品追溯流程', '持续改进 PDCA 循环'],
+    tolerance: '全流程可追溯',
+    materials: '每件产品有据可查',
+  },
+  {
+    title: '检测设备与能力',
+    items: ['桥式三坐标（集团共享计量中心，精度 2.5μm）', '二次元影像测量仪', '粗糙度测试仪', '硬度计与显微组织分析'],
+    tolerance: '检测设备定期校准溯源',
+    materials: '关键尺寸 100% 全检',
+  },
+  {
+    title: 'ISO 9001 认证进展',
+    items: ['质量手册与程序文件已编制完成', '内审员培训已完成', '试运行与内部审核进行中', '计划 2026 年内完成认证'],
+    tolerance: '认证体系正在完善中',
+    materials: 'ISO 9001 认证中（2026）',
+  },
+  {
+    title: '过程质量控制',
+    items: ['首件检验（FAI）确认后批量生产', '关键工序 SPC 统计过程控制', '每批次首末件保留', '异常响应 24 小时内给出 8D 报告'],
+    tolerance: '关键尺寸 CPK ≥ 1.33',
+    materials: '预防为主，持续改进',
+  },
+];
+
+const standards = [
+  { label: '以客户为中心', desc: '质量目标围绕客户需求和满意度设定。' },
+  { label: '过程方法', desc: '将活动和资源作为过程管理，更高效地达成预期结果。' },
+  { label: '持续改进', desc: '质量改进是永恒目标，通过数据驱动决策。' },
+  { label: '全员参与', desc: '质量不是质检一个部门的事，而是全员的责任。' },
+];
+---
+
+<PageLayout
+  title="质量体系与认证 | ISO 9001·全流程质检·追溯能力 | Eternal CNC"
+  description="Eternal CNC 质量管理体系——全流程质检管控、精密检测设备、ISO 9001 认证筹备、过程质量控制，确保每件 CNC 加工产品的品质稳定可靠。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">知识库</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        质量体系与认证说明
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        ISO 9001 质量管理体系筹备与质量管控流程
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          联系我们
+        </a>
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          索取资料
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">质量体系</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">四大质量管控模块</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        从体系建设到过程控制，全方位保障产品质量稳定可靠。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">核心能力</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">质量承诺</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">质量原则</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">质量管理七大原则</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        以 ISO 9001 质量管理原则为指导，持续提升产品和服务质量。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">想了解更多质量管控细节？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        欢迎联系我们获取完整的质量控制文件和检测报告样本。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          联系我们
+        </a>
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          索取资料
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

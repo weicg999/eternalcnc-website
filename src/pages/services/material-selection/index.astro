@@ -1,0 +1,159 @@
+﻿---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Services', href: '/services' },
+  { label: 'Material Selection' },
+];
+
+const capabilities = [
+  {
+    title: 'Aluminum Alloys',
+    items: [
+      { grade: '6061-T6', desc: 'general purpose' },
+      { grade: '7075-T6', desc: 'high strength' },
+      { grade: '2011-T3', desc: 'free-machining (screw machine stock)' },
+      { grade: '5052', desc: 'corrosion resistant' },
+    ],
+    tolerance: 'Varies by alloy',
+    materials: 'Lightweight, excellent machinability, good strength-to-weight ratio',
+  },
+  {
+    title: 'Steel & Stainless',
+    items: [
+      { grade: '1045', desc: 'medium carbon' },
+      { grade: '4140', desc: 'chromium-moly' },
+      { grade: '303/304', desc: 'austenitic SS' },
+      { grade: '17-4 PH', desc: 'precipitation hardened' },
+    ],
+    tolerance: 'Varies by grade',
+    materials: 'High strength, wear resistance, corrosion protection',
+  },
+  {
+    title: 'Copper & Brass',
+    items: [
+      { grade: 'C360', desc: 'free-cutting brass' },
+      { grade: 'C110', desc: 'electrolytic copper' },
+      { grade: 'silicon bronze', desc: '' },
+      { grade: 'phosphor bronze', desc: '' },
+    ],
+    tolerance: 'Excellent machinability',
+    materials: 'Electrical conductivity, thermal management, decorative finish',
+  },
+  {
+    title: 'Engineering Plastics',
+    items: [
+      { grade: 'POM (Delrin)', desc: 'stiff & smooth' },
+      { grade: 'Nylon (PA6/PA66)', desc: 'tough' },
+      { grade: 'PEEK', desc: 'high-temp' },
+      { grade: 'PTFE', desc: 'chemical inert' },
+    ],
+    tolerance: 'Lower thermal conductivity',
+    materials: 'Electrical insulation, lightweight, chemical resistance',
+  },
+];
+
+const standards = [
+  { label: 'Application Matching', desc: 'We match material properties to your functional requirements — strength, weight, temperature, and environment.' },
+  { label: 'Cost Comparison', desc: 'Side-by-side cost analysis across material options, including machining time impact and post-processing needs.' },
+  { label: 'Certification Support', desc: 'Material certificates (EN 10204 3.1) provided with every order. RoHS and REACH compliance available.' },
+  { label: 'Prototype & FAI (First Article Inspection)', desc: 'We offer low-volume trial runs and prototype machining. A comprehensive FAI report with full dimensional data is provided before mass production to ensure the part meets all specifications.' },
+];
+---
+
+<PageLayout
+  title="Material Selection Guide | Metals & Plastics | Eternal CNC"
+  description="Comprehensive material selection for CNC machining — metals, plastics, and specialty alloys. Find the optimal material for your application."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Services</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Material Selection
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Covering metals, plastics, and specialty materials — we help you choose the optimal material for your application.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Quote
+        </a>
+        <a href="/materials" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          View Material Database →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Capabilities</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Service Categories</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        We cover four major material families with full selection guidance for each.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  <span translate="no">{item.grade}</span>{item.desc && ` — ${item.desc}`}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Precision Tolerance</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Requires precision finishing &amp; inspection. Subject to drawing review.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Common Materials</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Why Us</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Service Standards</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Our material selection service ensures you make informed decisions backed by data and experience.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Need Help Choosing Materials?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Upload your drawings. Our engineers will provide a quote and DFM feedback within 24 hours.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Free Quote
+        </a>
+        <a href="/materials" class="inline-block px-8 py-3.5 text-sm font-semibold border border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Browse Materials →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

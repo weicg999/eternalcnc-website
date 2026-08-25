@@ -1,0 +1,139 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '加工服务', href: '/zh/services' },
+  { label: '数控车削' },
+];
+
+const capabilities = [
+  {
+    title: '精密车削',
+    items: ['轴类零件', '衬套', '销轴', '法兰'],
+    tolerance: '±0.01mm',
+    materials: '钢 1045/4140、不锈钢 303/304、铝合金',
+  },
+  {
+    title: '车铣复合',
+    items: ['偏心轴', '异形回转体', '带槽轴类', '交叉孔零件'],
+    tolerance: '±0.005mm',
+    materials: '钢 4140、不锈钢 316、钛合金',
+  },
+  {
+    title: '自动车床',
+    items: ['小轴', '铆钉', '接头', '精密销'],
+    tolerance: '±0.005mm',
+    materials: '黄铜 C360、铝合金、POM',
+  },
+  {
+    title: '螺纹加工',
+    items: ['外螺纹', '内螺纹', '梯形螺纹', '非标螺纹'],
+    tolerance: '±0.01mm',
+    materials: '各类金属及工程塑料',
+  },
+];
+
+const standards = [
+  { label: '尺寸检测', desc: '严格执行 ISO 2768-m 公差标准及 AQL 2.5 抽检规范。常规尺寸采用高精度量具全检；关键尺寸及首件（FAI）由厂内 2.5D 影像测量仪与精密量具复核，必要时可送集团共享计量中心进行三坐标（CMM）验证；螺纹特征使用通止规严格把控。' },
+  { label: '表面处理', desc: '标准表面粗糙度 Ra 0.8-3.2μm，可根据要求提供镜面抛光、阳极氧化、钝化等表面处理。' },
+  { label: '材料可追溯性', desc: '每笔订单均提供完整的材料证书和批次跟踪信息，确保材料来源可追溯。' },
+  { label: '流程文档', desc: '生产运行的检验报告、SPC 数据和 PPAP 均可根据要求提供。' },
+];
+---
+
+<PageLayout
+  title="数控车削加工 | 精密车削·车铣复合 | Eternal CNC"
+  description="专业数控车削服务，支持精密车削、车铣复合、自动车床加工，高精度回转体零件一站式交付。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">加工服务</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        数控车削
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        单轴/车铣复合/自动车床，高精度回转体零件加工。
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/industries" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          查看行业应用 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">加工能力</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">按加工方式分类</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        我们提供四大类加工服务，关键尺寸由厂内 2.5D 影像测量仪与精密量具复核，必要时可送集团共享计量中心进行三坐标检测。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">精密公差</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">需精加工与检测工序保障，具体以图纸评审为准</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">常用材料</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">质量管控</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">车削加工质量标准</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        每批订单均按严格的质量管控流程执行，确保产品符合图纸要求。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">有回转体零件需要加工？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        上传图纸，我们的工程师 24 小时内提供报价及 DFM 可制造性反馈。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          免费DFM图纸评审 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

@@ -1,0 +1,139 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '加工服务', href: '/zh/services' },
+  { label: '材料选型' },
+];
+
+const capabilities = [
+  {
+    title: '金属材料',
+    items: ['铝合金系列', '钢材系列', '不锈钢系列', '铜合金系列'],
+    tolerance: '按规格',
+    materials: '6061/7075铝、1045/4140钢、304/316不锈钢、C360黄铜',
+  },
+  {
+    title: '工程塑料',
+    items: ['POM（赛钢）', '尼龙 PA', '聚碳酸酯 PC', 'PEEK'],
+    tolerance: '±0.05mm',
+    materials: 'POM-Delrin、PA6/PA66、PC-Makrolon、PEEK-Victrex',
+  },
+  {
+    title: '特种材料',
+    items: ['钛合金', '高温合金', '硬质合金', '碳纤维复合材'],
+    tolerance: '按材料特性',
+    materials: 'TC4钛合金、Inconel 718、YG硬质合金、CFRP',
+  },
+  {
+    title: '选材指导',
+    items: ['强度对比', '耐温性能', '成本评估', '加工适应性'],
+    tolerance: '按应用场景',
+    materials: '按需求推荐最优方案',
+  },
+];
+
+const standards = [
+  { label: '正品保障', desc: '所有材料均来自正规渠道，附带材质证明，确保材料品质。' },
+  { label: '库存充足', desc: '常用材料常备库存，非常用材料 3-5 天到货，保障项目进度。' },
+  { label: '专业推荐', desc: '根据应用场景、性能需求及预算推荐最合适的材料及牌号。' },
+  { label: '全程追溯', desc: '材料批次号全程记录，确保可追溯性，满足行业合规要求。' },
+];
+---
+
+<PageLayout
+  title="材料选型服务 | 金属·塑料·特种材料 | Eternal CNC"
+  description="专业材料选型指导，覆盖铝合金、钢材、不锈钢、工程塑料、特种合金等，帮您选择最优材料方案。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">加工服务</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        材料选型
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        覆盖金属、塑料及特种材料，帮您选择最优材料方案。
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/industries" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          查看行业应用 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">服务分类</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">材料选型服务</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        我们提供全方位的技术支持与加工服务，确保每个环节都达到最高标准。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">精密公差</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">需精加工与检测工序保障，具体以图纸评审为准</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">常用材料</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">质量管控</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">材料选型服务标准</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        每项服务均按严格标准执行，确保客户获得最佳体验。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">不确定用什么材料？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        上传图纸或描述应用场景，我们的工程师为您推荐最合适的材料方案。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          免费DFM图纸评审 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

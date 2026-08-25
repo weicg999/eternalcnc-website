@@ -1,0 +1,164 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Privacy Policy' },
+];
+---
+
+<PageLayout
+  title="Privacy Policy | Eternal CNC"
+  description="How Eternal CNC (Xinyongheng Precision Industrial) collects, uses and protects your personal data — including quote-form submissions and Google Analytics 4 tracking — under the EU GDPR and China's PIPL."
+  breadcrumbs={breadcrumbs}
+>
+  <section style="background-color: var(--card-white); padding: 56px 0 80px;">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Legal</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-4" style="color: var(--brand-dark);">Privacy Policy</h1>
+      <p class="text-sm mb-10" style="color: var(--text-muted);">Last updated: 23 August 2026</p>
+
+      <article class="space-y-10">
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">1. Data Controller</h2>
+          <p class="leading-relaxed" style="color: var(--text-body);">
+            This website is operated by <strong>Eternal CNC / Xinyongheng (Shenzhen) Precision Industrial Co., Ltd.</strong>
+            (hereafter "we", "us", "Eternal CNC"). For any questions about this policy or your personal data, contact us at
+            <a href="mailto:sales@eternalcnc.com" class="transition-all duration-300 hover:text-[#8B0000]">sales@eternalcnc.com</a>.
+          </p>
+          <p class="leading-relaxed mt-3" style="color: var(--text-body);">
+            Registered office: Room 101, Comprehensive Building, No. 33 Guangjin Road, Shapu Community, Songgang Subdistrict, Bao'an District, Shenzhen, Guangdong, China.<br />
+            Business registration number (Unified Social Credit Code): 91440300MADJHK052.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">2. Information We Collect</h2>
+          <p class="leading-relaxed mb-3" style="color: var(--text-body);"><strong>Information you provide directly</strong> — when you submit a quote request through our contact form, we collect:</p>
+          <ul class="list-disc pl-6 space-y-1 leading-relaxed" style="color: var(--text-body);">
+            <li>Name and company name</li>
+            <li>Email address and phone number</li>
+            <li>Drawing / specification file attachments you upload</li>
+            <li>Any message or project details you include</li>
+          </ul>
+          <p class="leading-relaxed mt-3" style="color: var(--text-body);">
+            Drawing and specification files are transmitted over an encrypted connection (HTTPS) and stored on our secure server / Cloudflare R2 storage. Files are accessible only to authorised personnel for quotation purposes.
+          </p>
+          <p class="leading-relaxed mt-3 mb-3" style="color: var(--text-body);"><strong>Information collected automatically</strong> — when you browse the site, we and our analytics provider collect:</p>
+          <ul class="list-disc pl-6 space-y-1 leading-relaxed" style="color: var(--text-body);">
+            <li>IP address, browser and device type, operating system</li>
+            <li>Pages viewed, time spent, referring URL and approximate location</li>
+            <li>Cookie identifiers (see Section 4)</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">3. How and Why We Use It (Legal Basis)</h2>
+          <ul class="list-disc pl-6 space-y-2 leading-relaxed" style="color: var(--text-body);">
+            <li><strong>To respond to your quote request</strong> — performance of pre-contractual steps / contract (GDPR Art. 6(1)(b)).</li>
+            <li><strong>To secure the site and prevent abuse</strong> — our legitimate interest (GDPR Art. 6(1)(f)).</li>
+            <li><strong>To understand site usage and improve content</strong> — your consent for non-essential analytics cookies (GDPR Art. 6(1)(a)).</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">4. Cookies and Analytics (Google Analytics 4)</h2>
+          <p class="leading-relaxed mb-3" style="color: var(--text-body);">
+            We use <strong>Google Analytics 4 (GA4)</strong> to measure anonymous, aggregated site traffic. GA4 sets cookies such as
+            <code>_ga</code> and <code>_ga_*</code> (typical lifetime ~24 months). We do <strong>not</strong> load GA4 until you have given
+            consent through our cookie banner; you can withdraw or change your choice at any time.
+          </p>
+          <p class="leading-relaxed" style="color: var(--text-body);">
+            Essential cookies required for the site to function are exempt from consent. All other cookies are set only after explicit opt-in.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">5. Third-Party Service Providers</h2>
+          <ul class="list-disc pl-6 space-y-1 leading-relaxed" style="color: var(--text-body);">
+            <li><strong>Google LLC</strong> — provides Google Analytics 4 (data processed in the United States / global regions).</li>
+            <li><strong>Cloudflare, Inc.</strong> — provides hosting, CDN and security (global edge network).</li>
+            <li>Our email / CRM provider — used to receive and manage quote inquiries.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">6. International Data Transfers</h2>
+          <p class="leading-relaxed" style="color: var(--text-body);">
+            Because we use Google and Cloudflare, your data may be transferred outside the country where it was collected. For transfers from the
+            European Economic Area (EEA) we rely on <strong>Standard Contractual Clauses (SCCs)</strong> and Google's certified safeguards.
+            For data governed by China's PIPL, cross-border transfers follow the mechanisms required under Chinese law. We apply appropriate
+            technical and organisational measures to protect data in transit and at rest.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">7. Data Retention</h2>
+          <ul class="list-disc pl-6 space-y-1 leading-relaxed" style="color: var(--text-body);">
+            <li>Quote-inquiry data: retained up to <strong>3 years</strong> after last contact, then deleted or anonymised.</li>
+            <li>Google Analytics data: retained per GA4 default settings (typically 14 months), then deleted automatically.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">8. Your Rights</h2>
+          <p class="leading-relaxed mb-3" style="color: var(--text-body);">Subject to applicable law, you have the right to:</p>
+          <ul class="list-disc pl-6 space-y-1 leading-relaxed" style="color: var(--text-body);">
+            <li>Access, rectify or erase your personal data</li>
+            <li>Restrict or object to processing</li>
+            <li>Data portability</li>
+            <li>Withdraw consent at any time (without affecting prior lawful processing)</li>
+          </ul>
+          <p class="leading-relaxed mt-3" style="color: var(--text-body);">
+            We will respond to your request within 30 days. Requests should include sufficient information to verify your identity.
+          </p>
+          <p class="leading-relaxed mt-3" style="color: var(--text-body);">
+            To exercise any right, email <a href="mailto:sales@eternalcnc.com" class="transition-all duration-300 hover:text-[#8B0000]">sales@eternalcnc.com</a>.
+            EU users may also lodge a complaint with their local Data Protection Authority; users in China may contact the competent cyberspace administration.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">9. Children's Privacy</h2>
+          <p class="leading-relaxed" style="color: var(--text-body);">
+            This website is not directed to children under 16, and we do not knowingly collect personal data from them.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">10. Changes to This Policy</h2>
+          <p class="leading-relaxed" style="color: var(--text-body);">
+            We may update this policy from time to time. Material changes will be reflected by the "Last updated" date above.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">11. Contact</h2>
+          <p class="leading-relaxed" style="color: var(--text-body);">
+            Eternal CNC / Xinyongheng (Shenzhen) Precision Industrial Co., Ltd.<br />
+            Room 101, Comprehensive Building, No. 33 Guangjin Road, Shapu Community, Songgang Subdistrict, Bao'an District, Shenzhen, Guangdong, China<br />
+            Unified Social Credit Code: 91440300MADJHK052<br />
+            Email: <a href="mailto:sales@eternalcnc.com" class="transition-all duration-300 hover:text-[#8B0000]">sales@eternalcnc.com</a>
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">12. Third-Party Links</h2>
+          <p class="leading-relaxed" style="color: var(--text-body);">
+            This website may contain links to third-party websites (such as Google Maps, WhatsApp, and email clients). We are not responsible for their privacy practices.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">13. Managing Your Cookie Preferences</h2>
+          <p class="leading-relaxed mb-4" style="color: var(--text-body);">
+            You can change or withdraw your cookie consent at any time. Click the button below to reopen the cookie settings.
+          </p>
+          <button type="button" onclick="if(window.openCookieSettings)window.openCookieSettings();" class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-[#8B0000] rounded-lg transition-all duration-200 hover:bg-[#6B0000] hover:text-white">
+            Manage Cookie Preferences
+          </button>
+        </section>
+      </article>
+    </div>
+  </section>
+</PageLayout>

@@ -1,0 +1,156 @@
+﻿---
+import PageLayout from '../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Industries' },
+];
+
+const industries = [
+  {
+    title: 'Automotive',
+    items: ['Engine parts', 'Chassis structural components', 'Drivetrain precision machining', 'OEM & Tier-1 suppliers'],
+    tolerance: '±0.01mm',
+    materials: 'Aluminum, Steel 4140, Cast Iron',
+  },
+  {
+    title: 'Robotics',
+    items: ['Joint components', 'Reducer housings', 'High-precision motion control parts', 'Automation integration'],
+    tolerance: '±0.005mm',
+    materials: 'Aluminum, Steel, Engineering Plastics',
+  },
+  {
+    title: 'Medical Devices',
+    items: ['Enclosures', 'Brackets', 'Diagnostic equipment parts', 'Strict quality control'],
+    tolerance: '±0.01mm',
+    materials: 'Stainless Steel 316L, Titanium Alloy',
+  },
+  {
+    title: 'Electronics & Communications',
+    items: ['Miniaturized structures', 'Heat sinks', 'Connector housings', 'High-frequency signal parts'],
+    tolerance: '±0.005mm',
+    materials: 'Aluminum, Brass, POM',
+  },
+  {
+    title: 'Aerospace',
+    items: ['Extreme operating conditions', 'Traceable materials', 'Zero-defect standards', 'Airworth certified parts'],
+    tolerance: '±0.005mm',
+    materials: 'Titanium Alloy, Superalloys, Aluminum',
+  },
+  {
+    title: 'Energy Equipment',
+    items: ['High load capacity', 'Corrosion resistant', 'Long service life', 'Valve & pump bodies'],
+    tolerance: '±0.01mm',
+    materials: 'Stainless Steel, Alloy Steel',
+  },
+  {
+    title: 'Automation Equipment',
+    items: ['Conveyor systems', 'Pick-and-place robots', 'CNC fixtures', 'Custom assembly'],
+    tolerance: '±0.01mm',
+    materials: 'Aluminum, Steel, Engineering Plastics',
+  },
+];
+
+const certifications = [
+  { label: 'Material Traceability', desc: 'EN 10204 3.1 material certificates provided for every batch — fully traceable.' },
+  { label: 'ISO 9001 In Progress', desc: 'Quality management system certification in progress (2026). Full-process standardized control.' },
+  { label: 'SPC Process Control', desc: 'Statistical process control ensures batch-to-batch consistency.' },
+  { label: 'Inspection Reports on Request', desc: 'First-article and key-dimension inspection reports available on request — quality data transparent and verifiable.' },
+];
+---
+
+<PageLayout
+  title="Industries Served | Automotive · Robotics · Medical · Aerospace · Electronics | Eternal CNC"
+  description="Precision CNC machining solutions for automotive, robotics, medical devices, aerospace, electronics, energy equipment, and automation industries."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Industries</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Precision Manufacturing Across Industries
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Precision CNC machining solutions for diverse industries
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Quote
+        </a>
+        <a href="/cases/automotive" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          View Cases →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Industries Grid -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Sectors</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Seven Core Industries</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        15 years of precision machining experience, serving clients across industries worldwide.
+      </p>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {industries.map((ind) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{ind.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {ind.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Precision Tolerance</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{ind.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Requires precision finishing &amp; inspection. Subject to drawing review.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Materials</p>
+              <p class="text-sm" style="color: var(--text-body);">{ind.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Certifications -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Quality Assurance</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Industry Standards & Certifications</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Strict adherence to industry quality standards, ensuring every delivery meets requirements.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {certifications.map((cert) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{cert.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{cert.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Find Solutions for Your Industry</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Upload your drawing for an industry-specific professional quote.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Free Quote
+        </a>
+        <a href="/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Free DFM Review →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

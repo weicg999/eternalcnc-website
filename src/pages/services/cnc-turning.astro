@@ -1,0 +1,139 @@
+﻿---
+import PageLayout from '../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Services', href: '/services' },
+  { label: 'CNC Turning' },
+];
+
+const capabilities = [
+  {
+    title: 'Single-Spindle Turning',
+    items: ['Shafts & bushings', 'Pins & plungers', 'Spacers & standoffs', 'Threaded inserts'],
+    tolerance: '±0.01mm',
+    materials: 'Steel 1045/4140, Brass C360, Aluminum 2011-T3 (free-machining)',
+  },
+  {
+    title: 'Mill-Turn Compound',
+    items: ['Cross-drilled shafts', 'Off-center flats', 'Helical features', 'Multi-operation parts'],
+    tolerance: '±0.005mm',
+    materials: 'Stainless 303/304, Titanium TC4, Inconel 718',
+  },
+  {
+    title: 'Automatic Lathe (Swiss)',
+    items: ['Micro shafts Ø0.5-3mm', 'Precision pins', 'Medical device components', 'Connector contacts'],
+    tolerance: '±0.005mm',
+    materials: 'Brass C360, Stainless 303, Aluminum 2011-T3 (free-machining)',
+  },
+  {
+    title: 'Multi-Spindle Turning',
+    items: ['High-volume shafts', 'Batch-turned fittings', 'Fastener prototypes', 'Production runs 500+'],
+    tolerance: '±0.01mm',
+    materials: 'Steel 1045, Brass C360, Nylon (PA6/PA66)',
+  },
+];
+
+const standards = [
+  { label: 'Dimensional Inspection', desc: "Strict ISO 2768-m tolerance and AQL 2.5 sampling standards. Routine dimensions are 100% checked with precision gauges; critical dimensions and first articles (FAI) are verified in-house with 2.5D optical inspection and precision gauges, with CMM verification available via our group's shared metrology center on request; threaded features controlled by Go/No-Go gauges." },
+  { label: 'Surface Finish', desc: 'Standard Ra 0.8-3.2μm; mirror polishing, anodizing, passivation and other finishes available on request.' },
+  { label: 'Material Traceability', desc: 'Full material certificates and batch tracking provided for every order.' },
+  { label: 'Process Documentation', desc: 'Inspection reports, SPC data, and PPAP available on request.' },
+];
+---
+
+<PageLayout
+  title="CNC Turning Services | Precision Shafts & Rotary Parts | Eternal CNC"
+  description="Single-spindle, mill-turn compound, and Swiss-type CNC turning. High-precision rotary parts from prototype to mass production."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Services</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        CNC Turning Services
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Single-spindle, mill-turn compound, and automatic lathes — high-precision rotary part machining.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Quote
+        </a>
+        <a href="/services/dfm-analysis" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Free DFM Review →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Capabilities</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">By Turning Process</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        We machine rotary parts across four turning processes. Critical dimensions can be CMM-verified via our group's shared metrology center on request.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Precision Tolerance</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Requires precision finishing &amp; inspection. Subject to drawing review.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Common Materials</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Quality Control</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Quality Standards</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Every order follows our full quality control process.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Need Turned Parts?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Upload your drawings. Our engineers will provide a quote and DFM feedback within 24 hours.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Free Quote
+        </a>
+        <a href="/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Free DFM Review →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

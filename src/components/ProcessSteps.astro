@@ -1,0 +1,55 @@
+---
+const isZh = Astro.url.pathname.startsWith('/zh');
+
+const heading = isZh ? '从图纸到成品，标准化精密制造流程' : 'From Drawing to Product, Standardized Precision Manufacturing';
+
+const steps = isZh ? [
+  { num: '01', title: '上传图纸', desc: '支持 STEP / IGS / DWG 格式，接收客户加工图纸' },
+  { num: '02', title: '获取报价', desc: '工程师 DFM 工艺评审，24h 出具详细方案报价' },
+  { num: '03', title: '工程确认', desc: '最终确认加工工艺、材料及表面处理（含后处理）细节。' },
+  { num: '04', title: '精密加工', desc: '多台 CNC 同步生产，全程管控加工精度' },
+  { num: '05', title: '质检交付', desc: '成品尺寸检测，支持多渠道物流发货' },
+  { num: '06', title: '售后保障', desc: '全程质量追溯，制造问题主动返工/更换' },
+] : [
+  { num: '01', title: 'Upload Drawing', desc: 'Support STEP / IGS / DWG formats' },
+  { num: '02', title: 'Get Quote', desc: 'DFM review, detailed quote within 24h' },
+  { num: '03', title: 'Engineering Confirm', desc: 'Final confirmation of machining process, material, surface finish (including post-processing) details.' },
+  { num: '04', title: 'Precision Machining', desc: 'Multi-CNC synchronized production, full process control' },
+  { num: '05', title: 'QC & Delivery', desc: 'Dimensional inspection, multi-channel logistics' },
+  { num: '06', title: 'After-Sales Support', desc: 'Full-process quality traceability; proactive rework/replacement for manufacturing issues' },
+];
+---
+
+<section class="py-16 md:py-24" style="background-color: var(--page-bg);">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <h2 class="text-2xl md:text-3xl font-bold" style="color: var(--brand-dark); font-family: var(--font-heading);">{heading}</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {steps.map(s => (
+        <div class="step-card flex gap-5 p-5 transition-all duration-300" style="border-radius: 12px;">
+          <span class="step-num flex-shrink-0 transition-all duration-300" style="font-size: 36px; font-weight: 700; color: var(--brand-red); line-height: 1;">{s.num}</span>
+          <div>
+            <h3 class="font-semibold mb-2" style="font-size: 16px; color: var(--brand-dark);">{s.title}</h3>
+            <p style="font-size: 14px; color: var(--text-body); line-height: 1.6;">{s.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .step-card {
+    cursor: default;
+  }
+  .step-card:hover {
+    transform: translateY(-4px);
+    background-color: rgba(139,0,0,0.04);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  }
+  .step-card:hover .step-num {
+    color: #6B0000;
+    transform: scale(1.1);
+  }
+</style>

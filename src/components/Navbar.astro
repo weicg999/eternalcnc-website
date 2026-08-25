@@ -1,0 +1,286 @@
+---
+const currentPath = Astro.url.pathname;
+const isZh = currentPath.startsWith('/zh');
+
+// 枚举真实存在的路由，语言切换只在对应译文存在时才切换，否则回到目标语言首页
+const allModules = import.meta.glob('../pages/**/*.astro', { eager: true });
+const routes = new Set<string>();
+for (const p of Object.keys(allModules)) {
+  let r = p.replace(/^\.\.\/pages\//, '').replace(/\.astro$/, '');
+  r = r.replace(/\/index$/, '');
+  if (r === 'index') r = '';
+  routes.add('/' + r);
+}
+// 命名不对称的双语页（slug 不同），其余仅前缀不同
+const LANG_MAP: Record<string, string> = {
+  '/zh/knowledge/dfm-guides': '/knowledge/dfm-guide',
+  '/zh/knowledge/machining-tolerances': '/knowledge/tolerance',
+  '/zh/knowledge/material-guide': '/knowledge/material-handbook',
+  '/zh/knowledge/quality-certification': '/knowledge/quality',
+  '/knowledge/dfm-guide': '/zh/knowledge/dfm-guides',
+  '/knowledge/tolerance': '/zh/knowledge/machining-tolerances',
+  '/knowledge/material-handbook': '/zh/knowledge/material-guide',
+  '/knowledge/quality': '/zh/knowledge/quality-certification',
+};
+const norm = (p: string) => (p.length > 1 ? p.replace(/\/$/, '') : p);
+const np = norm(currentPath);
+const counterPath = norm(LANG_MAP[np] || (isZh ? (np.replace(/^\/zh/, '') || '/') : '/zh' + (np === '/' ? '' : np)));
+const counterExists = routes.has(counterPath);
+// 对页存在 → 直达译文；不存在 → 目标语言首页（不再 404）
+// 404 页本身没有译文，语言切换一律回目标语言首页
+const enHref = np === '/404' ? '/' : (!isZh ? np : (counterExists ? counterPath : '/'));
+const zhHref = np === '/404' ? '/zh/' : (isZh ? np : (counterExists ? counterPath : '/zh/'));
+---
+
+<header class="sticky top-0 z-50 bg-white transition-shadow duration-200" id="main-navbar">
+  <div class="border-b" style="border-color: var(--border-color);">
+    <div class="container-custom">
+      <div class="flex items-center justify-between h-[72px] lg:h-[80px]">
+        <div class="flex items-center gap-x-5">
+          <a href={isZh ? '/zh/' : '/'} class="shrink-0 group mr-2 transition-all duration-200 hover:opacity-80 hover:scale-105">
+            <img src="/images/logo/home-logo-brand-mark.webp" alt="Eternal CNC" class="w-auto" style="height: 56px;" />
+          </a>
+          <!-- 1. Services -->
+          <div class="relative group hidden lg:flex">
+            <a href={isZh ? '/zh/services' : '/services'} class="nav-primary-item py-2 text-sm font-medium transition-colors whitespace-nowrap flex items-center gap-1" style="color: #1A1A1A;">
+              {isZh ? '加工服务' : 'Services'}
+              <svg class="w-3 h-3 transition-colors" style="color: inherit;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </a>
+            <div class="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div class="bg-white border min-w-[280px]" style="border-color:var(--border-color);border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.08)">
+                <div class="p-3">
+                  <div class="group-label px-3 py-1.5 text-xs font-semibold uppercase tracking-wider" style="color:#9CA3AF;border-bottom:1px solid #E5E7EB">{isZh ? '核心制造' : 'Core Manufacturing'}</div>
+                  {(isZh ? [{l:'CNC 精密加工',h:'/zh/services/cnc-machining'},{l:'数控车削',h:'/zh/services/cnc-turning'},{l:'精密磨削',h:'/zh/services/precision-grinding'},{l:'线切割 (EDM)',h:'/zh/services/wire-edm'}] : [{l:'CNC Machining',h:'/services/cnc-machining'},{l:'CNC Turning',h:'/services/cnc-turning'},{l:'Precision Grinding',h:'/services/precision-grinding'},{l:'Wire EDM',h:'/services/wire-edm'}]).map(i=>(<a href={i.h} class="dropdown-item block px-3 py-2 text-sm" style="color:#1A1A1A">{i.l}</a>))}
+                  <div class="group-label px-3 py-1.5 mt-2 text-xs font-semibold uppercase tracking-wider" style="color:#9CA3AF;border-top:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB">{isZh ? '前期支持' : 'Early Support'}</div>
+                  {(isZh ? [{l:'DFM 分析',h:'/zh/services/dfm-analysis'},{l:'材料选型',h:'/zh/services/material-selection'}] : [{l:'DFM Analysis',h:'/services/dfm-analysis'},{l:'Material Selection',h:'/services/material-selection'}]).map(i=>(<a href={i.h} class="dropdown-item block px-3 py-2 text-sm" style="color:#1A1A1A">{i.l}</a>))}
+                  <div class="group-label px-3 py-1.5 mt-2 text-xs font-semibold uppercase tracking-wider" style="color:#9CA3AF;border-top:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB">{isZh ? '后期处理' : 'Post-Processing'}</div>
+                  {(isZh ? [{l:'表面处理',h:'/zh/services/surface-treatment'},{l:'质量检测',h:'/zh/services/quality-inspection'}] : [{l:'Surface Treatment',h:'/services/surface-treatment'},{l:'Quality Inspection',h:'/services/quality-inspection'}]).map(i=>(<a href={i.h} class="dropdown-item block px-3 py-2 text-sm" style="color:#1A1A1A">{i.l}</a>))}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 2. Capabilities -->
+          <div class="relative group hidden lg:flex">
+            <a href={isZh ? '/zh/capabilities' : '/capabilities'} class="nav-primary-item py-2 text-sm font-medium transition-colors whitespace-nowrap flex items-center gap-1" style="color: #1A1A1A;">
+              {isZh ? '工艺能力' : 'Capabilities'}
+              <svg class="w-3 h-3 transition-colors" style="color: inherit;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </a>
+            <div class="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div class="bg-white border min-w-[240px]" style="border-color:var(--border-color);border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.08)">
+                <div class="p-3">
+                  {(isZh ? [{l:'设备清单',h:'/zh/capabilities/equipment'},{l:'设备矩阵',h:'/zh/equipment-matrix'},{l:'精度标准',h:'/zh/capabilities/tolerance'},{l:'材料范围',h:'/zh/capabilities/materials'},{l:'加工尺寸范围',h:'/zh/capabilities/size-range'},{l:'交期说明',h:'/zh/capabilities/lead-time'}] : [{l:'Equipment List',h:'/capabilities/equipment'},{l:'Equipment Matrix',h:'/equipment-matrix'},{l:'Tolerance Standards',h:'/capabilities/tolerance'},{l:'Material Range',h:'/capabilities/materials'},{l:'Size Range',h:'/capabilities/size-range'},{l:'Lead Time',h:'/capabilities/lead-time'}]).map(i=>(<a href={i.h} class="dropdown-item block px-3 py-2 text-sm" style="color:#1A1A1A">{i.l}</a>))}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 3. Industries -->
+          <div class="relative group hidden lg:flex">
+            <a href={isZh ? '/zh/industries' : '/industries'} class="nav-primary-item py-2 text-sm font-medium transition-colors whitespace-nowrap flex items-center gap-1" style="color: #1A1A1A;">
+              {isZh ? '行业应用' : 'Industries'}
+              <svg class="w-3 h-3 transition-colors" style="color: inherit;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </a>
+            <div class="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div class="bg-white border min-w-[240px]" style="border-color:var(--border-color);border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.08)">
+                <div class="p-3">
+                  {(isZh ? [{l:'汽车制造',h:'/zh/industries/automotive'},{l:'医疗器械',h:'/zh/industries/medical'},{l:'电子通信',h:'/zh/industries/electronics'},{l:'工业机器人',h:'/zh/industries/robotics'},{l:'航空航天',h:'/zh/industries/aerospace'},{l:'能源装备',h:'/zh/industries/energy'},{l:'自动化设备',h:'/zh/industries/automation-equipment'}] : [{l:'Automotive',h:'/industries/automotive'},{l:'Medical Devices',h:'/industries/medical'},{l:'Electronics',h:'/industries/electronics'},{l:'Robotics',h:'/industries/robotics'},{l:'Aerospace',h:'/industries/aerospace'},{l:'Energy Equipment',h:'/industries/energy'},{l:'Automation Equipment',h:'/industries/automation-equipment'}]).map(i=>(<a href={i.h} class="dropdown-item block px-3 py-2 text-sm" style="color:#1A1A1A">{i.l}</a>))}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 4. Cases -->
+          <div class="relative group hidden lg:flex">
+            <a href={isZh ? '/zh/cases' : '/cases'} class="nav-primary-item py-2 text-sm font-medium transition-colors whitespace-nowrap flex items-center gap-1" style="color: #1A1A1A;">
+              {isZh ? '案例展示' : 'Cases'}
+              <svg class="w-3 h-3 transition-colors" style="color: inherit;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </a>
+            <div class="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div class="bg-white border min-w-[280px]" style="border-color:var(--border-color);border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.08)">
+                <div class="p-3">
+                  <div class="group-label px-3 py-1.5 text-xs font-semibold uppercase tracking-wider" style="color:#9CA3AF;border-bottom:1px solid #E5E7EB">{isZh ? '按行业' : 'By Industry'}</div>
+                  {(isZh ? [{l:'汽车零部件案例',h:'/zh/cases/automotive'},{l:'医疗器械案例',h:'/zh/cases/medical'},{l:'电子零件案例',h:'/zh/cases/electronics'},{l:'机器人零件案例',h:'/zh/cases/robotics'}] : [{l:'Automotive Cases',h:'/cases/automotive'},{l:'Medical Cases',h:'/cases/medical'},{l:'Electronics Cases',h:'/cases/electronics'},{l:'Robotics Cases',h:'/cases/robotics'}]).map(i=>(<a href={i.h} class="dropdown-item block px-3 py-2 text-sm" style="color:#1A1A1A">{i.l}</a>))}
+                  <div class="group-label px-3 py-1.5 mt-2 text-xs font-semibold uppercase tracking-wider" style="color:#9CA3AF;border-top:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB">{isZh ? '按工艺' : 'By Process'}</div>
+                  {(isZh ? [{l:'CNC 加工案例',h:'/zh/cases/cnc'},{l:'车削件案例',h:'/zh/cases/turning'},{l:'五轴加工案例',h:'/zh/cases/5-axis'}] : [{l:'CNC Machining Cases',h:'/cases/cnc'},{l:'Turning Cases',h:'/cases/turning'},{l:'5-Axis Cases',h:'/cases/5-axis'}]).map(i=>(<a href={i.h} class="dropdown-item block px-3 py-2 text-sm" style="color:#1A1A1A">{i.l}</a>))}
+                  <div class="group-label px-3 py-1.5 mt-2 text-xs font-semibold uppercase tracking-wider" style="color:#9CA3AF;border-top:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB">{isZh ? '按规模' : 'By Scale'}</div>
+                  {(isZh ? [{l:'小批量打样',h:'/zh/cases/prototype'},{l:'大批量量产',h:'/zh/cases/mass-production'}] : [{l:'Prototype',h:'/cases/prototype'},{l:'Mass Production',h:'/cases/mass-production'}]).map(i=>(<a href={i.h} class="dropdown-item block px-3 py-2 text-sm" style="color:#1A1A1A">{i.l}</a>))}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 5. Knowledge -->
+          <div class="relative group hidden lg:flex">
+            <a href={isZh ? '/zh/knowledge' : '/knowledge'} class="nav-primary-item py-2 text-sm font-medium transition-colors whitespace-nowrap flex items-center gap-1" style="color: #1A1A1A;">
+              {isZh ? '知识库' : 'Knowledge'}
+              <svg class="w-3 h-3 transition-colors" style="color: inherit;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </a>
+            <div class="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div class="bg-white border min-w-[240px]" style="border-color:var(--border-color);border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.08)">
+                <div class="p-3">
+                  {(isZh ? [{l:'DFM 设计指南',h:'/zh/knowledge/dfm-guide'},{l:'案例研究',h:'/zh/knowledge/case-studies'},{l:'白皮书',h:'/zh/knowledge/whitepapers'},{l:'材料手册',h:'/zh/knowledge/material-handbook'},{l:'如何选供应商',h:'/zh/knowledge/choose-cnc-supplier'},{l:'行业与新闻',h:'/zh/knowledge/news'},{l:'FAQ 常见问题',h:'/zh/knowledge/faq'}] : [{l:'DFM Design Guide',h:'/knowledge/dfm-guide'},{l:'Case Studies',h:'/knowledge/case-studies'},{l:'Whitepapers',h:'/knowledge/whitepapers'},{l:'Material Handbook',h:'/knowledge/material-handbook'},{l:'How to Choose a Supplier',h:'/knowledge/choose-cnc-supplier'},{l:'Industry & News',h:'/knowledge/news'},{l:'FAQ',h:'/knowledge/faq'}]).map(i=>(<a href={i.h} class="dropdown-item block px-3 py-2 text-sm" style="color:#1A1A1A">{i.l}</a>))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href={isZh ? '/zh/resources' : '/resources'} class="nav-primary-item py-2 text-sm font-medium transition-colors whitespace-nowrap hidden lg:inline-flex" style="color: #1A1A1A;">{isZh ? '资源' : 'Resources'}</a>
+        <!-- Right: Get a Quote + Language (UNCHANGED) -->
+        <div class="hidden lg:flex items-center gap-3">
+          <a href={isZh ? '/zh/contact/get-a-quote' : '/contact/get-a-quote'} class="inline-flex items-center justify-center font-semibold text-white text-sm px-6 py-2.5 bg-[#8B0000] rounded-lg transition-all duration-200 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+            {isZh ? '获取报价' : 'Get a Quote'}
+          </a>
+          <div class="relative group hidden lg:flex">
+            <button class="px-4 py-2 text-sm font-medium flex items-center gap-2 border rounded-full transition-colors" style="border-color: var(--border-color); color: var(--text-body);">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+              {isZh ? '中文' : 'EN'}
+              <svg class="w-3 h-3" style="color: #8B0000;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="absolute top-full right-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div class="bg-white rounded-industrial shadow-xl border py-1 min-w-[140px]" style="border-color: var(--border-color);">
+                <a href={enHref} class={!isZh ? 'block px-4 py-2.5 text-sm font-semibold hover:bg-page-bg' : 'block px-4 py-2.5 text-sm hover:bg-page-bg'} style={!isZh ? 'color: var(--brand-red);' : 'color: var(--text-body);'}>English</a>
+                <a href={zhHref} class={isZh ? 'block px-4 py-2.5 text-sm font-semibold hover:bg-page-bg' : 'block px-4 py-2.5 text-sm hover:bg-page-bg'} style={isZh ? 'color: var(--brand-red);' : 'color: var(--text-body);'}>中文</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-lg hover:bg-gray-50" aria-label="Toggle menu">
+          <svg class="w-6 h-6" style="color: var(--brand-dark);" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Mobile Slide-out Menu -->
+  <div id="mobile-menu" class="lg:hidden hidden fixed inset-0 z-50">
+    <div id="mobile-menu-overlay" class="absolute inset-0 bg-black/50"></div>
+    <div id="mobile-menu-panel" class="absolute right-0 top-0 h-full w-[300px] bg-white shadow-xl overflow-y-auto">
+      <div class="flex items-center justify-between p-4 border-b" style="border-color: var(--border-color);">
+        <span class="text-sm font-semibold" style="color: var(--brand-dark);">{isZh ? '菜单' : 'Menu'}</span>
+        <button id="mobile-menu-close" class="p-2 rounded-lg hover:bg-gray-50">
+          <svg class="w-5 h-5" style="color: #8B0000;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="py-2 px-2">
+        {(isZh ? [
+          {label:'首页',href:'/zh/'},
+          {label:'加工服务',href:'/zh/services',children:[
+            {g:'核心制造'},{l:'CNC 精密加工',h:'/zh/services/cnc-machining'},{l:'数控车削',h:'/zh/services/cnc-turning'},{l:'精密磨削',h:'/zh/services/precision-grinding'},{l:'线切割 (EDM)',h:'/zh/services/wire-edm'},
+            {g:'前期支持'},{l:'DFM 分析',h:'/zh/services/dfm-analysis'},{l:'材料选型',h:'/zh/services/material-selection'},
+            {g:'后期处理'},{l:'表面处理',h:'/zh/services/surface-treatment'},{l:'质量检测',h:'/zh/services/quality-inspection'}
+          ]},
+          {label:'工艺能力',href:'/zh/capabilities',children:[
+            {l:'设备清单',h:'/zh/capabilities/equipment'},{l:'设备矩阵',h:'/zh/equipment-matrix'},{l:'精度标准',h:'/zh/capabilities/tolerance'},{l:'材料范围',h:'/zh/capabilities/materials'},{l:'加工尺寸范围',h:'/zh/capabilities/size-range'},{l:'交期说明',h:'/zh/capabilities/lead-time'}
+          ]},
+          {label:'行业应用',href:'/zh/industries',children:[
+            {l:'汽车制造',h:'/zh/industries/automotive'},{l:'医疗器械',h:'/zh/industries/medical'},{l:'电子通信',h:'/zh/industries/electronics'},{l:'工业机器人',h:'/zh/industries/robotics'},{l:'航空航天',h:'/zh/industries/aerospace'},{l:'能源装备',h:'/zh/industries/energy'},{l:'自动化设备',h:'/zh/industries/automation-equipment'}
+          ]},
+          {label:'案例展示',href:'/zh/cases',children:[
+            {g:'按行业'},{l:'汽车零部件案例',h:'/zh/cases/automotive'},{l:'医疗器械案例',h:'/zh/cases/medical'},{l:'电子零件案例',h:'/zh/cases/electronics'},{l:'机器人零件案例',h:'/zh/cases/robotics'},
+            {g:'按工艺'},{l:'CNC 加工案例',h:'/zh/cases/cnc'},{l:'车削件案例',h:'/zh/cases/turning'},{l:'五轴加工案例',h:'/zh/cases/5-axis'},
+            {g:'按规模'},{l:'小批量打样',h:'/zh/cases/prototype'},{l:'大批量量产',h:'/zh/cases/mass-production'}
+          ]},
+          {label:'知识库',href:'/zh/knowledge',children:[
+            {l:'DFM 设计指南',h:'/zh/knowledge/dfm-guide'},{l:'案例研究',h:'/zh/knowledge/case-studies'},{l:'白皮书',h:'/zh/knowledge/whitepapers'},{l:'材料手册',h:'/zh/knowledge/material-handbook'},{l:'如何选供应商',h:'/zh/knowledge/choose-cnc-supplier'},{l:'行业与新闻',h:'/zh/knowledge/news'},{l:'FAQ 常见问题',h:'/zh/knowledge/faq'}
+          ]},
+          {label:'资源中心',href:'/zh/resources'}
+        ] : [
+          {label:'Home',href:'/'}
+          ,{label:'Services',href:'/services',children:[
+            {g:'Core Manufacturing'},{l:'CNC Machining',h:'/services/cnc-machining'},{l:'CNC Turning',h:'/services/cnc-turning'},{l:'Precision Grinding',h:'/services/precision-grinding'},{l:'Wire EDM',h:'/services/wire-edm'},
+            {g:'Early Support'},{l:'DFM Analysis',h:'/services/dfm-analysis'},{l:'Material Selection',h:'/services/material-selection'},
+            {g:'Post-Processing'},{l:'Surface Treatment',h:'/services/surface-treatment'},{l:'Quality Inspection',h:'/services/quality-inspection'}
+          ]}
+          ,{label:'Capabilities',href:'/capabilities',children:[
+            {l:'Equipment List',h:'/capabilities/equipment'},{l:'Equipment Matrix',h:'/equipment-matrix'},{l:'Tolerance Standards',h:'/capabilities/tolerance'},{l:'Material Range',h:'/capabilities/materials'},{l:'Size Range',h:'/capabilities/size-range'},{l:'Lead Time',h:'/capabilities/lead-time'}
+          ]}
+          ,{label:'Industries',href:'/industries',children:[
+            {l:'Automotive',h:'/industries/automotive'},{l:'Medical Devices',h:'/industries/medical'},{l:'Electronics',h:'/industries/electronics'},{l:'Robotics',h:'/industries/robotics'},{l:'Aerospace',h:'/industries/aerospace'},{l:'Energy Equipment',h:'/industries/energy'},{l:'Automation Equipment',h:'/industries/automation-equipment'}
+          ]}
+          ,{label:'Cases',href:'/cases',children:[
+            {g:'By Industry'},{l:'Automotive Cases',h:'/cases/automotive'},{l:'Medical Cases',h:'/cases/medical'},{l:'Electronics Cases',h:'/cases/electronics'},{l:'Robotics Cases',h:'/cases/robotics'},
+            {g:'By Process'},{l:'CNC Machining Cases',h:'/cases/cnc'},{l:'Turning Cases',h:'/cases/turning'},{l:'5-Axis Cases',h:'/cases/5-axis'},
+            {g:'By Scale'},{l:'Prototype',h:'/cases/prototype'},{l:'Mass Production',h:'/cases/mass-production'}
+          ]}
+          ,          {label:'Knowledge',href:'/knowledge',children:[
+            {l:'DFM Design Guide',h:'/knowledge/dfm-guide'},{l:'Case Studies',h:'/knowledge/case-studies'},{l:'Whitepapers',h:'/knowledge/whitepapers'},{l:'Material Handbook',h:'/knowledge/material-handbook'},{l:'How to Choose a Supplier',h:'/knowledge/choose-cnc-supplier'},{l:'Industry & News',h:'/knowledge/news'},{l:'FAQ',h:'/knowledge/faq'}
+          ]},
+          {label:'Resources',href:'/resources'}
+        ]).map((link) => (
+          <div class="mobile-nav-item">
+            {link.children ? (
+              <div class="w-full flex items-center">
+                <a href={link.href} class="flex-1 px-4 py-3 text-sm font-medium" style="color:#1A1A1A">{link.label}</a>
+                <button class="mobile-nav-toggle px-3 py-3" aria-label="Toggle submenu">
+                  <svg class="w-4 h-4 mobile-nav-arrow transition-transform" style="color: #1A1A1A;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+              </div>
+            ) : (
+              <a href={link.href} class="block px-4 py-3 text-sm font-medium" style="color:#1A1A1A">{link.label}</a>
+            )}
+            {link.children && (
+              <div class="mobile-nav-children hidden">
+                {link.children.map((c) => (
+                  c.g ? (
+                    <div class="px-6 pt-2 pb-1 text-xs font-semibold uppercase tracking-wider" style="color:#9CA3AF">{c.g}</div>
+                  ) : (
+                    <a href={c.h} class="block px-6 py-2 text-sm" style="color:#6B7280">{c.l}</a>
+                  )
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      <div class="border-t mt-2 p-4" style="border-color: var(--border-color);">
+        <a href={isZh ? '/zh/contact/get-a-quote' : '/contact/get-a-quote'} class="block w-full text-center text-white font-semibold text-sm py-3 bg-[#8B0000] rounded-lg hover:bg-[#6B0000]">{isZh ? '获取报价' : 'Get a Quote'}</a>
+        <div class="flex items-center justify-center gap-4 mt-3 text-sm">
+          <a href={enHref} class={!isZh ? 'font-semibold' : ''} style={!isZh ? 'color:#8B0000' : 'color:#6B7280'}>English</a>
+          <span style="color:var(--border-color)">|</span>
+          <a href={zhHref} class={isZh ? 'font-semibold' : ''} style={isZh ? 'color:#8B0000' : 'color:#6B7280'}>中文</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<style>
+  .nav-primary-item { position: relative; }
+  .nav-primary-item::after {
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 0; height: 2px; background-color: #8B0000; transition: width 0.2s ease;
+  }
+  .nav-primary-item:hover::after { width: 100%; }
+  .nav-primary-item:hover { color: #8B0000 !important; }
+  .dropdown-item:hover { background-color: #F9FAFB !important; color: #8B0000 !important; border-left: 2px solid #8B0000; }
+</style>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const closeBtn = document.getElementById('mobile-menu-close');
+  const overlay = document.getElementById('mobile-menu-overlay');
+  const navbar = document.getElementById('main-navbar');
+
+  function openMenu() { menu?.classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+  function closeMenu() { menu?.classList.add('hidden'); document.body.style.overflow = ''; }
+
+  btn?.addEventListener('click', openMenu);
+  closeBtn?.addEventListener('click', closeMenu);
+  overlay?.addEventListener('click', closeMenu);
+
+  document.querySelectorAll('.mobile-nav-toggle').forEach(toggle => {
+    toggle.addEventListener('click', () => {
+      const children = toggle.closest('.mobile-nav-item').querySelector('.mobile-nav-children');
+      const arrow = toggle.querySelector('.mobile-nav-arrow');
+      if (children) {
+        children.classList.toggle('hidden');
+        arrow?.classList.toggle('rotate-180');
+      }
+    });
+  });
+
+  if (navbar) {
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('shadow-md', window.scrollY > 10);
+    });
+  }
+</script>

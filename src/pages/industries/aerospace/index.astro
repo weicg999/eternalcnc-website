@@ -1,0 +1,169 @@
+﻿---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Industries', href: '/industries' },
+  { label: 'Aerospace' },
+];
+
+const capabilities = [
+  {
+    title: 'Engine Brackets',
+    items: ['Engine mount brackets', 'Turbine blade fixtures', 'Combustor housing parts', 'Thrust bearing seats'],
+    tolerance: '±0.005mm',
+    materials: 'Inconel 718, Titanium Ti-6Al-4V, Stainless 17-4 PH',
+  },
+  {
+    title: 'Landing Gear Parts',
+    items: ['Actuator housings', 'Trunnion brackets', 'Torque link components', 'Bushing adapters'],
+    tolerance: '±0.01mm',
+    materials: 'Steel 4340, 300M, Titanium Ti-6Al-4V',
+  },
+  {
+    title: 'Avionics Housings',
+    items: ['Flight computer enclosures', 'GPS antenna mounts', 'Communication rack brackets', 'Sensor integration plates'],
+    tolerance: '±0.025mm',
+    materials: 'Aluminum 6061/7075, Magnesium AZ31',
+  },
+  {
+    title: 'Fuel Fittings',
+    items: ['Fuel line connectors', 'Tank fittings', 'Valve manifolds', 'Quick-disconnect couplings'],
+    tolerance: '±0.01mm',
+    materials: 'Stainless 316, Titanium, Aluminum 2024',
+  },
+];
+
+const standards = [
+  { label: 'Material Certification', desc: 'EN 10204 3.1 and ASTM material certs for every batch. Special alloys (Inconel, Ti) fully documented.' },
+  { label: 'Batch Traceability', desc: 'Heat lot tracking from raw material through final inspection. Every part traceable to its source.' },
+  { label: 'NDT Reports', desc: 'Non-destructive testing available — dye penetrant, ultrasonic, and X-ray inspection per customer requirements.' },
+  { label: 'Critical-Part Inspection', desc: '100% inspection available for critical flight-safety parts on request. Full dimensional reports provided per agreement.' },
+];
+---
+
+<PageLayout
+  title="Aerospace CNC Machining | Engine Brackets · Landing Gear · Avionics | Eternal CNC"
+  description="Precision CNC machining for aerospace — engine brackets, landing gear parts, avionics housings, fuel fittings. Traceable materials, zero-defect standards."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Industries</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Aerospace Manufacturing
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Extreme conditions · Traceable materials · Zero-defect standards.
+        Precision CNC parts for commercial and defense aerospace programs.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded-md transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          View Services →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Capabilities</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Aerospace Component Categories</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        From engine components to avionics — we machine critical parts for flight systems.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Precision Tolerance</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Requires precision finishing &amp; inspection. Subject to drawing review.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Common Materials</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Quality Control</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Aerospace Quality Standards</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Aerospace parts demand the highest levels of traceability and inspection.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  
+
+<!-- 产品展示 -->
+<section style="background-color: var(--card-white); padding: 80px 0;">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Product Showcase</p>
+    <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Aerospace Components Showcase</h2>
+    <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">High-reliability aerospace parts — satellite structure, servo housings, turbine blades. Product renderings for process demonstration only. Visual representation of machining capabilities. Images are for reference only due to NDA.</p>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/aerospace/cnc-aerospace-satellite-bracket-01.webp" alt="CNC machined aluminum satellite bracket" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">CNC machined aluminum satellite bracket</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/aerospace/cnc-aerospace-servo-actuator-housing-02.webp" alt="Precision servo actuator housing" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Precision servo actuator housing</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/aerospace/cnc-aerospace-turbine-blade-03.webp" alt="Aerospace turbine blade machining" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Aerospace turbine blade machining</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/aerospace/cnc-aerospace-antenna-housing-04.webp" alt="Antenna housing CNC machined" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Antenna housing CNC machined</p></div>
+        </div>
+    </div>
+  </div>
+</section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Need aerospace-grade parts?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Upload your drawing and our engineers will confirm material and process feasibility within 24 hours.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold rounded-lg bg-[#8B0000] text-white transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Free Quote
+        </a>
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold border rounded-lg border border-white/30 text-white transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Free DFM Review →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

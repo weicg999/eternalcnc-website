@@ -1,0 +1,142 @@
+﻿---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '知识库' },
+];
+
+const cards = [
+  { title: 'DFM 分析指南', desc: '面向 CNC 加工的可制造性设计原则与常见错误规避', href: '/zh/knowledge/dfm-guide', icon: 'dfm' },
+  { title: '设计指南', desc: '壁厚、内角、孔、螺纹等 CNC 设计最佳实践', href: '/zh/knowledge/design-guidelines', icon: 'design' },
+  { title: '材料选型指南', desc: '金属与工程塑料的对比与选型建议', href: '/zh/knowledge/material-handbook', icon: 'material' },
+  { title: '加工公差', desc: 'ISO 2768-m 公差标准、GD&T 能力与指定建议', href: '/zh/knowledge/machining-tolerances', icon: 'tolerance' },
+  { title: '表面处理', desc: '阳极氧化、钝化、电镀、喷涂等 7 种工艺详解', href: '/zh/knowledge/surface-finishing', icon: 'surface' },
+  { title: '质量认证', desc: 'ISO 9001 体系筹备与合规文件指导', href: '/zh/knowledge/quality-certification', icon: 'quality' },
+];
+
+const resources = [
+  { title: '技术资源', desc: '单位换算、丝锥钻头对照表、材料密度参考', href: '/zh/knowledge/technical-resources', icon: 'tech' },
+  { title: '常见问题', desc: '起订量、报价、交期、材料、公差等常见疑问', href: '/zh/knowledge/faq', icon: 'faq' },
+  { title: '技术博客', desc: 'CNC 加工技巧、材料选型指南及工艺优化', href: '/zh/knowledge/tech-blog', icon: 'blog' },
+  { title: '咨询工程师', desc: '有具体问题?直接联系我们的工程团队获取专业支持', href: '/zh/contact/get-a-quote', icon: 'engineer' },
+];
+---
+
+<PageLayout
+  title="知识库 | CNC 加工技术资源中心 | Eternal CNC"
+  description="CNC 加工知识库:DFM 指南、设计最佳实践、材料选型、公差标准、表面处理工艺等技术资源。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- 1. Banner (white bg, matching automotive hero) -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Knowledge Base</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        知识库
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        CNC 加工技术资源中心 — 从设计到交付,帮助您做出更好的制造决策。
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          联系工程师 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Core Knowledge Cards (page-bg bg, matching automotive capabilities) -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Technical Resources</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">核心技术资料</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        从 DFM 可制造性分析到表面处理工艺,覆盖 CNC 加工全流程的技术指南。
+      </p>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {cards.map((s) => (
+          <a href={s.href} class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30 group block" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <div class="mb-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:bg-[#E8E8E4] inline-flex items-center justify-center w-12 h-12 rounded-lg" style="color: var(--brand-red);">
+              {s.icon === 'dfm' && (
+                <svg class="transition-transform duration-300 hover:scale-110" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              )}
+              {s.icon === 'design' && (
+                <svg class="transition-transform duration-300 hover:scale-110" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h5"/><path d="M17 12h5"/><path d="M12 2v5"/><path d="M12 17v5"/><circle cx="12" cy="12" r="3"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>
+              )}
+              {s.icon === 'material' && (
+                <svg class="transition-transform duration-300 hover:scale-110" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v7.5L4 18a1 1 0 0 0 .85 1.5h14.3a1 1 0 0 0 .85-1.5L14 10.5V3"/><line x1="7" y1="15" x2="17" y2="15"/></svg>
+              )}
+              {s.icon === 'tolerance' && (
+                <svg class="transition-transform duration-300 hover:scale-110" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+              )}
+              {s.icon === 'surface' && (
+                <svg class="transition-transform duration-300 hover:scale-110" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.2H22l-6 4.8 2.4 7.2L12 16.4l-6.4 4.8 2.4-7.2-6-4.8h7.6z"/></svg>
+              )}
+              {s.icon === 'quality' && (
+                <svg class="transition-transform duration-300 hover:scale-110" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+              )}
+            </div>
+            <h2 class="text-xl font-bold mb-2" style="color: var(--brand-dark);">{s.title}</h2>
+            <p class="text-sm" style="color: var(--text-body);">{s.desc}</p>
+            <span class="inline-block mt-4 text-sm font-semibold" style="color: var(--brand-red);">查看详情 →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Supplementary Resources (white bg, alternating with section 2) -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">More Resources</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">更多技术资源</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        参考资料、常见疑问与专家支持,助您快速推进项目。
+      </p>
+      <div class="grid md:grid-cols-3 gap-6">
+        {resources.map((s) => (
+          <a href={s.href} class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30 group block" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <div class="mb-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:bg-[#E8E8E4] inline-flex items-center justify-center w-12 h-12 rounded-lg" style="color: var(--brand-red);">
+              {s.icon === 'tech' && (
+                <svg class="transition-transform duration-300 hover:scale-110" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+              )}
+              {s.icon === 'faq' && (
+                <svg class="transition-transform duration-300 hover:scale-110" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              )}
+              {s.icon === 'blog' && (
+                <svg class="transition-transform duration-300 hover:scale-110" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              )}
+              {s.icon === 'engineer' && (
+                <svg class="transition-transform duration-300 hover:scale-110" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+              )}
+            </div>
+            <h2 class="text-xl font-bold mb-2" style="color: var(--brand-dark);">{s.title}</h2>
+            <p class="text-sm" style="color: var(--text-body);">{s.desc}</p>
+            <span class="inline-block mt-4 text-sm font-semibold" style="color: var(--brand-red);">查看详情 →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. CTA (dark bg, matching automotive CTA) -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">找不到需要的信息?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        我们的工程团队随时为您解答技术问题。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          联系工程师 →
+        </a>
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          获取报价 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

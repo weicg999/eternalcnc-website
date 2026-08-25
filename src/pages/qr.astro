@@ -1,0 +1,164 @@
+---
+/*
+ * qr.astro — 动态二维码临时落地页 (Temporary landing page for dynamic QR codes)
+ *
+ * 用途：
+ *   印在纸卡/名片/展会物料上的【动态二维码】指向本页（或经短链服务跳转至此）。
+ *   官网正式上线后，有两种零重印切换方式：
+ *     1) 改下方 TARGET_URL 为本司正式官网，重新 build 部署即可；
+ *     2) 或直接在短链后台把指向从 /qr 改为 https://www.eternalcnc.com （推荐，连部署都不用）。
+ *
+ * 注意：本页不承诺任何质量/认证内容，仅为引流与品牌占位，避免虚假宣传风险。
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// ===== 跳转目标配置（唯一需要改动的地方）=====
+// 官网就绪后改为 'https://www.eternalcnc.com' 重新部署，或保持本页不动、只改短链后台。
+const TARGET_URL = 'https://www.eternalcnc.com';
+const REDIRECT_DELAY_MS = 4000; // 4 秒后自动跳转；设为 0 可关闭自动跳转
+// ============================================
+
+const pageTitle = 'Eternal CNC — Site Launching Soon';
+const pageDesc = 'Our new website is on the way. Meanwhile, reach our team directly for quotes and engineering support.';
+---
+
+<BaseLayout title={pageTitle} description={pageDesc}>
+  <section class="qr-landing">
+    <div class="qr-card">
+      <div class="qr-badge">ETERNAL CNC</div>
+      <h1>Our New Site Is On the Way</h1>
+      <p class="qr-sub">
+        Precision CNC machining · 5-axis milling · turning · wire EDM.<br />
+        You'll be redirected to our main site automatically.
+      </p>
+
+      <div class="qr-actions">
+        <a class="qr-btn qr-btn-primary" href={TARGET_URL}>Enter Website Now</a>
+        <a class="qr-btn qr-btn-ghost" href="/contact/get-a-quote">Get a Quote</a>
+      </div>
+
+      <ul class="qr-contact">
+        <li><span>Web</span><a href={TARGET_URL}>www.eternalcnc.com</a></li>
+        <li><span>RFQ</span><a href="/contact/get-a-quote">Send a drawing, get a quote in 24h</a></li>
+      </ul>
+
+      <p class="qr-note">
+        Scanned from our printed materials? This page is a temporary landing spot —
+        the QR code already points here and will keep working after launch.
+      </p>
+    </div>
+  </section>
+
+  <script is:inline define:vars={{ TARGET_URL, REDIRECT_DELAY_MS }}>
+    if (REDIRECT_DELAY_MS > 0) {
+      // 仅作引流占位，不做破坏性跳转；用户可随时点击按钮或浏览器后退。
+      window.setTimeout(function () {
+        window.location.replace(TARGET_URL);
+      }, REDIRECT_DELAY_MS);
+    }
+  </script>
+</BaseLayout>
+
+<style>
+  .qr-landing {
+    min-height: calc(100vh - 160px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 20px;
+    background:
+      radial-gradient(1200px 600px at 50% -10%, rgba(139, 0, 0, 0.06), transparent 60%),
+      var(--page-bg);
+  }
+  .qr-card {
+    width: 100%;
+    max-width: 520px;
+    background: #fff;
+    border: 1px solid rgba(26, 26, 26, 0.08);
+    border-radius: 18px;
+    padding: 40px 36px;
+    text-align: center;
+    box-shadow: 0 18px 50px rgba(26, 26, 26, 0.08);
+  }
+  .qr-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--brand-red);
+    border: 1px solid var(--brand-red);
+    border-radius: 999px;
+    padding: 6px 14px;
+    margin-bottom: 22px;
+  }
+  .qr-card h1 {
+    font-family: var(--font-heading);
+    font-size: 26px;
+    color: var(--brand-dark);
+    margin: 0 0 14px;
+    line-height: 1.25;
+  }
+  .qr-sub {
+    color: var(--text-body);
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0 0 28px;
+  }
+  .qr-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .qr-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    transition: transform 0.12s ease, opacity 0.12s ease;
+  }
+  .qr-btn:hover { transform: translateY(-1px); opacity: 0.94; }
+  .qr-btn-primary { background: var(--brand-red); color: #fff; }
+  .qr-btn-ghost {
+    background: transparent;
+    color: var(--brand-dark);
+    border: 1px solid var(--brand-dark);
+  }
+  .qr-contact {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+    text-align: left;
+    border-top: 1px solid rgba(26, 26, 26, 0.08);
+    padding-top: 20px;
+  }
+  .qr-contact li {
+    display: flex;
+    gap: 14px;
+    padding: 7px 0;
+    font-size: 14px;
+    color: var(--text-body);
+  }
+  .qr-contact span {
+    flex: 0 0 52px;
+    font-weight: 700;
+    color: var(--brand-dark);
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    padding-top: 1px;
+  }
+  .qr-contact a { color: var(--brand-red); text-decoration: none; }
+  .qr-contact a:hover { text-decoration: underline; }
+  .qr-note {
+    font-size: 12.5px;
+    color: var(--brand-silver);
+    line-height: 1.55;
+    margin: 0;
+  }
+</style>

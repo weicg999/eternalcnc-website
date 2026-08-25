@@ -1,0 +1,169 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '行业应用', href: '/zh/industries' },
+  { label: '能源装备' },
+];
+
+const capabilities = [
+  {
+    title: '阀门阀体',
+    items: ['球阀体', '闸阀体', '截止阀瓣', '蝶阀板'],
+    tolerance: '±0.01mm',
+    materials: '不锈钢 304/316、双相钢 2205',
+  },
+  {
+    title: '泵壳',
+    items: ['离心泵壳', '齿轮泵体', '螺杆泵座', '叶轮'],
+    tolerance: '±0.02mm',
+    materials: '铸铁、不锈钢、青铜',
+  },
+  {
+    title: '法兰连接件',
+    items: ['高压法兰', '密封面', '螺栓法兰盘', '过渡法兰'],
+    tolerance: '±0.05mm',
+    materials: '碳钢 A105、不锈钢 316',
+  },
+  {
+    title: '涡轮夹具',
+    items: ['涡轮叶片夹具', '导流环', '密封齿座', '喷嘴组件'],
+    tolerance: '±0.005mm',
+    materials: '钛合金、镍基合金',
+  },
+];
+
+const standards = [
+  { label: '压力测试报告', desc: '阀门及承压零件提供水压/气压测试证明。' },
+  { label: '腐蚀试验记录', desc: '材料耐腐蚀性能按ASTM G31/G36标准检测。' },
+  { label: '材料冲击韧性检测', desc: '关键零件提供夏比冲击试验（Charpy）报告。' },
+  { label: '全程尺寸追溯', desc: '每件产品附完整尺寸检测报告及材质证明。' },
+];
+---
+
+<PageLayout
+  title="能源装备零件精密制造 | 阀门·泵壳·法兰·涡轮夹具 | Eternal CNC"
+  description="为能源装备行业提供精密CNC加工——阀门阀体、泵壳、法兰连接件、涡轮夹具，耐高压耐腐蚀长寿命。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">行业应用</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        能源装备
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        为能源装备行业提供精密CNC加工服务。
+        涵盖阀门阀体、泵壳、法兰连接件及涡轮夹具。
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          查看加工服务 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">加工能力</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">按能源装备系统分类</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        我们为四大能源装备子系统加工零件，关键尺寸可送集团共享计量中心三坐标测量机验证。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">精密公差</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">需精加工与检测工序保障，具体以图纸评审为准</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">常用材料</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 产品展示 -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">产品展示</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">能源零件展示</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        铝外壳和精密组件，用于能源和电力系统。以下为工艺演示用的产品渲染图，用于直观呈现本厂的加工能力；因保密协议（NDA）约束，图片仅供参考。
+      </p>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/energy/cnc-energy-solar-mount-bracket-01.webp" alt="机械连接件" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">机械连接件</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/energy/cnc-energy-wind-gearbox-housing-02.webp" alt="复杂腔体加工" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">复杂腔体加工</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/energy/cnc-energy-battery-enclosure-03.webp" alt="CNC 铝型材外壳" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">CNC 铝型材外壳</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/energy/cnc-energy-pipe-flange-fitting-04.webp" alt="油气管路法兰接头CNC加工" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">复杂零件</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">质量管控</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">能源装备行业质量标准</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        每批订单均按能源装备级质量管控流程执行。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">有能源装备零件需要加工？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        上传图纸，工程师24小时内提供报价及DFM反馈。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          免费DFM图纸评审 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Eternal CNC — Company Profile</title>
+  <meta name="description" content="Eternal CNC company profile: 23 years of precision CNC machining, 30+ machines, global B2B supply for automotive, medical, electronics, robotics, aerospace, energy and automation.">
+<style>
+  :root { --brand-red:#8B0000; --brand-dark:#1A1A1A; --brand-silver:#6B7280; --line:#E5E7EB; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: "Helvetica Neue", Arial, "Segoe UI", "Microsoft YaHei", sans-serif; color:var(--brand-dark); line-height:1.6; }
+  .page { max-width: 800px; margin: 0 auto; padding: 24px 28px; }
+  header.cover { border-bottom: 3px solid var(--brand-red); padding-bottom: 18px; margin-bottom: 22px; }
+  .brand { font-size: 26px; font-weight: 800; color: var(--brand-red); letter-spacing:.5px; }
+  .brand small { display:block; font-size:13px; font-weight:500; color:var(--brand-silver); letter-spacing:2px; text-transform:uppercase; margin-top:2px; }
+  h2 { font-size: 17px; color: var(--brand-red); border-left: 4px solid var(--brand-red); padding-left: 10px; margin: 26px 0 10px; }
+  p, li { font-size: 13.5px; color:#222; }
+  .grid2 { display:grid; grid-template-columns: 1fr 1fr; gap: 8px 28px; }
+  .kv { display:flex; gap:8px; padding:4px 0; border-bottom:1px dotted var(--line); }
+  .kv b { min-width: 130px; color: var(--brand-dark); }
+  table { width:100%; border-collapse: collapse; margin: 10px 0; font-size: 12.5px; }
+  th, td { border: 1px solid var(--line); padding: 7px 9px; text-align:left; vertical-align: top; }
+  th { background: #F7F2F2; color: var(--brand-red); font-weight:700; }
+  tbody tr:nth-child(even) { background:#FAFAFA; }
+  .tag { display:inline-block; background:#F3E9E9; color:var(--brand-red); font-size:11px; padding:2px 8px; border-radius:10px; margin:2px 3px 2px 0; }
+  .note { font-size: 11.5px; color: var(--brand-silver); border:1px dashed var(--line); padding:8px 10px; border-radius:6px; margin-top:14px; }
+  footer { margin-top: 28px; border-top:1px solid var(--line); padding-top:12px; font-size:11.5px; color:var(--brand-silver); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+  @media print { @page { size: A4; margin: 16mm; } .page { padding:0; max-width:none; } h2 { page-break-after: avoid; } table { page-break-inside: auto; } tr { page-break-inside: avoid; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="cover">
+    <div class="brand">Eternal CNC Precision Machining<small>Company Profile · 2026</small></div>
+  </header>
+
+  <h2>1. Company Overview</h2>
+  <div class="grid2">
+    <div class="kv"><b>Legal Name</b><span>Xinyongheng (Shenzhen) Precision Industrial Co., Ltd.</span></div>
+    <div class="kv"><b>Brand</b><span>Eternal CNC</span></div>
+    <div class="kv"><b>Location</b><span>Shenzhen, Guangdong, China</span></div>
+    <div class="kv"><b>Business Scope</b><span>Precision CNC machining &amp; finishing</span></div>
+    <div class="kv"><b>Total Equipment</b><span>24 CNC machines (nameplate-verified)</span></div>
+    <div class="kv"><b>Quality System</b><span>ISO 9001-aligned, in progress</span></div>
+  </div>
+  <p>Eternal CNC is a precision machining specialist serving prototyping and production customers. Every machine model is confirmed against its nameplate — no guesswork, no mismatched specs. Processes follow ISO-aligned quality procedures with quarterly calibration and full dimensional inspection reports on every order.</p>
+
+  <h2>2. Equipment List (24 machines)</h2>
+  <table>
+    <thead><tr><th>Category</th><th>Model</th><th>Specification / Application</th><th>Qty</th></tr></thead>
+    <tbody>
+      <tr><td>5-Axis Machining Center</td><td>DMU 400</td><td>HSK-E40 up to 30,000 rpm; positioning ±0.002 mm; A±120°/C 360° simultaneous</td><td>1</td></tr>
+      <tr><td>Vertical Machining Center</td><td>T-V1270S (heavy)</td><td>Travel 1270×700×700 mm; BT40 8,000–12,000 rpm</td><td>1</td></tr>
+      <tr><td>Vertical Machining Center</td><td>T-V856S</td><td>Travel 800×550×600 mm; BT40 direct-drive 12,000 rpm</td><td>3</td></tr>
+      <tr><td>Drill/Tap Center</td><td>T-700SE</td><td>Travel 700×400×430 mm; BT30 direct-drive 24,000 rpm</td><td>2</td></tr>
+      <tr><td>Drill/Tap Center</td><td>JF-600</td><td>Travel 600×400×330 mm; BT30 direct-drive 24,000 rpm</td><td>3</td></tr>
+      <tr><td>Drill/Tap Center</td><td>T-500S</td><td>Travel 500×400×350 mm; BT30 direct-drive 20,000 rpm</td><td>13</td></tr>
+      <tr><td>Inspection</td><td>2.5D Measuring</td><td>Travel 400×300×200 mm</td><td>1</td></tr>
+    </tbody>
+  </table>
+  <p>Equipment mix is predominantly Taikan (台群) machining centers. Capacity covers 5-axis, 3+2, 4-axis and 3-axis workflows with real-time load monitoring for flexible scheduling.</p>
+
+  <h2>3. Capabilities Summary</h2>
+  <p>
+    <span class="tag">5-Axis Milling</span><span class="tag">CNC Turning</span><span class="tag">Precision Grinding</span>
+    <span class="tag">Wire EDM</span><span class="tag">DFM Analysis</span><span class="tag">Material Selection</span>
+    <span class="tag">Surface Treatment</span><span class="tag">Quality Inspection</span>
+  </p>
+  <div class="grid2">
+    <div class="kv"><b>Milling tolerance</b><span>±0.005 mm</span></div>
+    <div class="kv"><b>Turning tolerance</b><span>±0.01 mm</span></div>
+    <div class="kv"><b>Max travel</b><span>850 × 500 × 400 mm</span></div>
+    <div class="kv"><b>Max swing ⌀</b><span>400 mm (turning 700 mm)</span></div>
+    <div class="kv"><b>Min feature</b><span>0.1 mm · micro drill 0.3 mm</span></div>
+    <div class="kv"><b>Surface finish</b><span>Ra 0.4 µm achievable</span></div>
+  </div>
+
+  <h2>4. Quality &amp; Certifications</h2>
+  <ul>
+    <li>Quarterly machine calibration; spindle runout re-checked before each production run.</li>
+    <li>CMM first-article &amp; sampling inspection per AQL; profilometer roughness verification.</li>
+    <li>Every order ships with a dimensional inspection report.</li>
+    <li>EN 10204 3.1 material certificates available; full raw-stock-to-finished-part traceability.</li>
+    <li>Quality management system aligned with ISO 9001 (certification in progress).</li>
+  </ul>
+
+  <h2>5. Material Range</h2>
+  <p>
+    <span class="tag">Aluminum 6061-T6 / 7075-T6 / 5052-H32 / 2024-T3</span>
+    <span class="tag">Stainless 304 / 316L / 303 / 4340 / 17-4 PH</span>
+    <span class="tag">Copper C110 / Brass C360 / BeCu C172</span>
+    <span class="tag">Titanium</span>
+    <span class="tag">POM / PEEK / Nylon / PTFE / ABS</span>
+  </p>
+
+  <h2>6. Lead Time &amp; Logistics</h2>
+  <div class="grid2">
+    <div class="kv"><b>Prototype rush</b><span>3–5 days</span></div>
+    <div class="kv"><b>Standard samples</b><span>7 days</span></div>
+    <div class="kv"><b>Small batch</b><span>10–15 days</span></div>
+    <div class="kv"><b>Mass production</b><span>15–30 days</span></div>
+    <div class="kv"><b>Quoting</b><span>Detailed quote within 24 hours</span></div>
+    <div class="kv"><b>Shipping</b><span>DHL / FedEx / freight, global</span></div>
+  </div>
+
+  <div class="note">Note for the owner: "Markets served / export countries" and founding year were intentionally left generic — please confirm the exact export regions before sending to customers. Update the company address block if the registered address differs.</div>
+
+  <footer>
+    <span>Eternal CNC Precision Machining · sales@eternalcnc.com</span>
+    <span>www.eternalcnc.com</span>
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,486 @@
+﻿---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '工艺能力', href: '/zh/capabilities' },
+  { label: '设备清单' },
+];
+
+// 设备清单 — 基于铭牌实拍核实
+const equipment = [
+  {
+    detail: '/equipment/sunrise-dmu400-5axis',
+    id: 'sunrise-dmu400',
+    brand: '森氏精密 (Sun King)',
+    model: 'CNC-5AX1S',
+    machineName: 'DMU 400',
+    type: '五轴联动加工中心',
+    typeBadge: '五轴',
+    badgeColor: '#8B0000',
+    qty: 1,
+    image: '/images/equipment/cnc-machine-sunrise-dmu400-5axis-machining-center-01.webp',
+    imageAlt: '鑫永恒工厂内的森氏精密 DMU 400 CNC-5AX1S 五轴加工中心',
+    specs: [
+      { label: '主轴', value: 'HSK-E40，最高 30,000 rpm' },
+      { label: '定位精度', value: '0.002 mm / 全行程' },
+      { label: '快移速度', value: '60,000 mm/min (X/Y/Z)' },
+      { label: '旋转轴', value: 'A轴 ±120°，C轴 360° 无限旋转' },
+      { label: '刀库', value: '40把伺服刀库（换刀约1.5秒）' },
+      { label: '工作台', value: 'φ170mm 或 φ230mm' },
+      { label: '出厂编号', value: 'DMU-400，出厂日期 2026-08-08' },
+    ],
+    applications: '复杂曲面、叶轮、精密模具、异形零件的高效高精度加工',
+  },
+  {
+    detail: '/equipment/taikan-tv1270s',
+    id: 'taikan-tv1270s',
+    brand: '台群 (Taikan)',
+    model: 'T-V1270S',
+    type: '立式加工中心（重型）',
+    typeBadge: '立加',
+    badgeColor: '#1a1a1a',
+    qty: 2,
+    image: '/images/equipment/cnc-machine-taikan-tv1270s-vertical-machining-center-01.webp',
+    imageAlt: '鑫永恒工厂内的台群 T-V1270S 重型立式加工中心',
+    specs: [
+      { label: '行程 (X/Y/Z)', value: '1270 × 700 × 700 mm' },
+      { label: '工作台', value: '1300 × 650 mm' },
+      { label: '主轴', value: 'BT40，8,000–12,000 rpm' },
+      { label: '快移速度', value: '36/36/30 m/min (X/Y/Z)' },
+      { label: '刀库', value: '24把机械手刀库' },
+      { label: '机床重量', value: '约 6,250 kg' },
+    ],
+    applications: '大型模具、重型机械零件、模钢铣削加工',
+  },
+  {
+    detail: '/equipment/taikan-t-v856s',
+    id: 'taikan-tv856s',
+    brand: '台群 (Taikan)',
+    model: 'T-V856S',
+    type: '立式加工中心',
+    typeBadge: '立加',
+    badgeColor: '#1a1a1a',
+    qty: 3,
+    image: '/images/equipment/equipment-taikan-tv856s-hero.webp',
+    imageAlt: '鑫永恒工厂内的台群 T-V856S 立式加工中心',
+    specs: [
+      { label: '行程 (X/Y/Z)', value: '800 × 550 × 600 mm' },
+      { label: '工作台', value: '1000 × 500 mm' },
+      { label: '主轴', value: 'BT40 直联式，12,000 rpm' },
+      { label: '快移速度', value: '48,000 mm/min' },
+      { label: '刀库', value: '24把机械手刀库' },
+    ],
+    applications: '精密模具、自动化零件、通用 CNC 铣削',
+  },
+  {
+    detail: '/equipment/cato-ct80',
+    id: 'cato-ct80',
+    brand: '巨冈机械 (CATO)',
+    model: 'CT-80',
+    type: '立式加工中心',
+    typeBadge: '立加',
+    badgeColor: '#1a1a1a',
+    qty: 1,
+    image: '/images/equipment/cnc-machine-cato-ct80-vertical-machining-center-01.webp',
+    imageAlt: '鑫永恒工厂内的巨冈 CATO CT-80 立式加工中心',
+    specs: [
+      { label: '行程 (X/Y/Z)', value: '约 800 × 500 × 500 mm' },
+      { label: '主轴', value: 'BT40，8,000–12,000 rpm' },
+      { label: '工作台承重', value: '≥ 500 kg' },
+      { label: '刀库', value: '24把圆盘式刀库' },
+      { label: '快移速度', value: '36,000–48,000 mm/min' },
+    ],
+    applications: '模具制造、机械零部件、五金加工',
+  },
+  {
+    detail: '/equipment/jiafu-jf500',
+    id: 'jiafu-jf500',
+    brand: '佳富数控 (JIAFU)',
+    model: 'JF-500',
+    type: '数控加工中心（钻攻）',
+    typeBadge: '钻攻',
+    badgeColor: '#2563eb',
+    qty: 1,
+    image: '/images/equipment/cnc-machine-jiafu-jf500-drill-tap-machining-center-01.webp',
+    imageAlt: '鑫永恒工厂内的佳富 JF-500 钻攻加工中心',
+    specs: [
+      { label: '行程 (X/Y/Z)', value: '500 × 400 × 300 mm' },
+      { label: '主轴', value: 'BT30，最高 20,000 rpm' },
+      { label: '刀库', value: '16或21把伺服刀库' },
+      { label: '快移速度', value: '48,000–60,000 mm/min' },
+      { label: '控制系统', value: '三菱或发那科 (Fanuc)' },
+      { label: '机械编号', value: '870705107' },
+    ],
+    applications: '3C电子配件、铝件铜件的快速钻孔、攻牙及铣削',
+  },
+  {
+    detail: '/equipment/jiafu-jf600',
+    id: 'jiafu-jf600',
+    brand: '佳富数控 (JIAFU)',
+    model: 'JF-600',
+    type: '数控加工中心（钻攻）',
+    typeBadge: '钻攻',
+    badgeColor: '#2563eb',
+    qty: 1,
+    image: '/images/equipment/cnc-machine-jiafu-jf600-drill-tap-machining-center-01.webp',
+    imageAlt: '鑫永恒工厂内的佳富 JF-600 钻攻加工中心',
+    specs: [
+      { label: '行程 (X/Y/Z)', value: '600 × 420 × 330 mm' },
+      { label: '工作台', value: '720 × 400 mm' },
+      { label: '主轴', value: 'BT30 直结式，20,000 rpm' },
+      { label: '刀库', value: '21把伺服刀库' },
+      { label: '快移速度', value: '60,000 mm/min（滚柱线轨）' },
+      { label: '机床重量', value: '约 3,800 kg' },
+      { label: '机械编号', value: '861306101' },
+    ],
+    applications: '中大型精密零件、汽车零部件的高效加工',
+  },
+  {
+    detail: '/equipment/taikan-t700se',
+    id: 'taikan-t700se',
+    brand: '台群 (Taikan)',
+    model: 'T-700SE',
+    type: '钻铣加工中心',
+    typeBadge: '钻铣',
+    badgeColor: '#2563eb',
+    qty: 2,
+    image: '/images/equipment/cnc-machine-taikan-t700se-drill-mill-machining-center-01.webp',
+    imageAlt: '鑫永恒工厂内的台群 T-700SE 钻铣加工中心',
+    specs: [
+      { label: '设备容量', value: '15 kVA' },
+      { label: '满载电流', value: '27 A' },
+      { label: '防护等级', value: 'IP 54' },
+      { label: '出机日期', value: '2025-06-23' },
+    ],
+    applications: '批量零件的高效钻、铣、攻一体化加工',
+  },
+  {
+    detail: '/equipment/taikan-t500s',
+    id: 'taikan-t500s',
+    brand: '台群 (Taikan)',
+    model: 'T-500S',
+    type: '钻铣加工中心',
+    typeBadge: '钻铣',
+    badgeColor: '#2563eb',
+    qty: 1,
+    image: '/images/equipment/cnc-machine-taikan-t500s-drill-mill-machining-center-01.webp',
+    imageAlt: '鑫永恒工厂内的台群 T-500S 钻铣加工中心',
+    specs: [
+      { label: '行程 (X/Y/Z)', value: '500 × 400 × 300 mm' },
+      { label: '主轴', value: 'BT30，20,000 rpm' },
+      { label: '刀库', value: '21把伺服刀库' },
+    ],
+    applications: '铝件批量高速钻孔、铣削与攻牙',
+  },
+  {
+    id: 'hongjinshun-hjs-t5',
+    brand: '鸿金顺 (HONG JIN SHUN)',
+    model: 'HJS-T5',
+    type: '钻孔攻牙加工中心',
+    typeBadge: '钻攻',
+    badgeColor: '#2563eb',
+    qty: 1,
+    image: '/images/equipment/cnc-machine-hongjinshun-hjs-t5-drill-tap-machining-center-01.webp',
+    imageAlt: '鑫永恒工厂内的鸿金顺 HJS-T5 钻孔攻牙加工中心',
+    specs: [
+      { label: '行程 (X/Y)', value: '约 500 × 400 mm' },
+      { label: '主轴', value: 'BT30，20,000 rpm' },
+      { label: '刀库', value: '16或21把伺服刀库' },
+      { label: '快移速度', value: '60,000 mm/min' },
+    ],
+    applications: '五金、电子、汽摩配件的快速钻孔与攻牙',
+  },
+  {
+    detail: '/equipment/qiaohong-qh-t6',
+    id: 'qiaohong-qh-t6',
+    brand: '乔鸿 (QIAO HONG)',
+    model: 'QH-T6',
+    type: '高速钻攻机',
+    typeBadge: '钻攻',
+    badgeColor: '#2563eb',
+    qty: 1,
+    image: '/images/equipment/cnc-machine-qiaohong-qh-t6-high-speed-drill-tap-01.webp',
+    imageAlt: '鑫永恒工厂内的乔鸿 QH-T6 高速钻攻机',
+    specs: [
+      { label: '行程 (X/Y)', value: '600 × 400 mm' },
+      { label: '进给速度', value: '48,000 mm/min' },
+      { label: '额定功率', value: '10 kW' },
+      { label: '额定电压', value: '380V / 50Hz' },
+      { label: '额定电流', value: '50 A' },
+    ],
+    applications: '3C电子、压铸件、五金件的高速钻孔与攻牙',
+  },
+  {
+    detail: '/equipment/xintenghui-xth-t540',
+    id: 'xintenghui-xth-t540',
+    brand: '鑫腾辉数控 (XINTENGHUI CNC)',
+    model: 'XTH-T540',
+    type: '模具雕铣机 / 钻铣攻牙机 / 加工中心 / 高光机',
+    typeBadge: '雕铣',
+    badgeColor: '#059669',
+    qty: 1,
+    image: '/images/equipment/cnc-machine-xintenghui-xth-t540-mold-engraving-machining-center-01.webp',
+    imageAlt: '鑫永恒工厂内的鑫腾辉数控 XTH-T540 模具雕铣加工中心',
+    specs: [
+      { label: '工作台', value: '约 500 × 400 mm' },
+      { label: '主轴', value: '高速电主轴，24,000–36,000 rpm' },
+      { label: '刀柄', value: 'BT30 或 ER 夹头' },
+      { label: '快移速度', value: '≥ 20,000 mm/min' },
+    ],
+    applications: '铝合金高光、玻璃纤维、石墨电极、精密模具雕铣加工',
+  },
+  {
+    detail: '/equipment/wanghui-xh540',
+    id: 'wanghui-xh540',
+    brand: '望辉机械 (WANGHUI)',
+    model: 'XH-540',
+    type: '模具雕铣机 / 加工中心',
+    typeBadge: '雕铣',
+    badgeColor: '#059669',
+    qty: 1,
+    image: '/images/equipment/cnc-machine-wanghui-xh540-mold-engraving-machining-center-01.webp',
+    imageAlt: '鑫永恒工厂内的望辉机械 XH-540 模具雕铣加工中心',
+    specs: [
+      { label: '工作台', value: '约 500 × 400 mm' },
+      { label: '主轴', value: '高速电主轴，约 24,000 rpm' },
+      { label: '驱动系统', value: '伺服电机驱动' },
+    ],
+    applications: '模具雕铣、治具加工、铝件批量攻钻',
+  },
+];
+
+const categories = [
+  { name: '五轴加工中心', count: 1, color: '#8B0000' },
+  { name: '立式加工中心', count: 6, color: '#1a1a1a' },
+  { name: '钻攻/钻铣中心', count: 7, color: '#2563eb' },
+  { name: '模具雕铣机', count: 2, color: '#059669' },
+];
+
+const standards = [
+  { label: '设备校准', desc: '所有设备按季度校准，每次生产前检测主轴跳动，确保加工精度。' },
+  { label: '预防性维护', desc: '严格执行预防性维护计划，定期监测主轴振动值，确保设备稳定运行。' },
+  { label: '产能管理', desc: '实时设备负载监控，灵活排产，支持急单和批量生产。' },
+  { label: '设备档案', desc: '每台设备建立完整档案，加工参数、维护记录、精度报告全程可查。' },
+];
+
+// JSON-LD 结构化数据
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: '鑫永恒CNC设备清单',
+  description: '鑫永恒精密 CNC 设备矩阵完整清单——五轴加工中心、立式加工中心、钻攻中心和模具雕铣机全覆盖，铭牌实拍参数可查。',
+  itemListElement: equipment.map((eq, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    item: {
+      '@type': 'Product',
+      name: `${eq.brand} ${eq.model} ${eq.type}`,
+      category: eq.type,
+      brand: { '@type': 'Brand', name: eq.brand },
+      model: eq.model,
+      additionalProperty: eq.specs.map(s => ({
+        '@type': 'PropertyValue',
+        name: s.label,
+        value: s.value,
+      })),
+    },
+  })),
+};
+---
+
+<PageLayout
+  title="CNC加工设备清单 | 五轴·立加·钻攻·雕铣全工艺覆盖 | Eternal CNC"
+  description={`鑫永恒CNC设备矩阵：五轴加工中心、立式加工中心、钻攻中心、模具雕铣机全覆盖，铭牌实拍参数可查。`}
+  breadcrumbs={breadcrumbs}
+  schema={itemListSchema}
+>
+  {/* Hero */}
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">工艺能力</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        设备清单
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        厂区配备多元化主流 CNC 设备矩阵——涵盖五轴联动、高速钻攻及精密模具雕铣，覆盖精密零件全工艺链。
+        实行严苛的设备校准与维护标准，确保加工精度持续稳定。
+      </p>
+
+      {/* 设备类别 */}
+      <div class="flex flex-wrap gap-x-4 gap-y-2 mt-8">
+        {categories.map((cat, i) => (
+          <span class="text-sm font-medium" style="color: var(--text-body);">
+            {cat.name}{i < categories.length - 1 ? '  |' : ''}
+          </span>
+        ))}
+      </div>
+
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          查看加工服务 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* 设备列表 */}
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">设备一览</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">完整设备清单</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        以下是工厂内全部 CNC 设备——配有真实设备照片、铭牌核实型号及完整技术参数。
+      </p>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {equipment.map((eq) => (
+          <div class={`border rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl`} style={`background-color: var(--card-white); border-color: var(--border-color);`}>
+            {/* 图片 */}
+            <div class="relative h-48 bg-gray-100 overflow-hidden">
+              {eq.image ? (
+                <img
+                  src={eq.image}
+                  alt={eq.imageAlt}
+                  width="400" height="300"
+                  loading="lazy" decoding="async"
+                  class="w-full h-full object-cover"
+                />
+              ) : (
+                <div class="w-full h-full flex items-center justify-center text-gray-400 text-sm">
+                  待补充照片
+                </div>
+              )}
+              {/* 类型标签 */}
+              <span class="absolute top-3 left-3 text-xs font-semibold text-white px-2.5 py-1 rounded" style={`background-color: ${eq.badgeColor};`}>
+                {eq.typeBadge}
+              </span>
+              
+            </div>
+
+            {/* 内容 */}
+            <div class="p-5">
+              <p class="text-xs font-medium mb-1" style="color: var(--text-muted);">{eq.brand}</p>
+              <h3 class="text-lg font-bold mb-1" style="color: var(--brand-dark);">
+                {eq.brand.split(' ')[0]} {eq.model}
+              </h3>
+              <p class="text-sm mb-3" style="color: var(--text-body);">{eq.type}</p>
+              {/* 参数表 */}
+              <table class="w-full text-xs mb-4">
+                <tbody>
+                  {eq.specs.map((spec) => (
+                    <tr class="border-b" style="border-color: var(--border-color);">
+                      <th scope="row" class="py-1.5 pr-3 text-left font-medium whitespace-nowrap" style="color: var(--text-muted);">{spec.label}</th>
+                      <td class="py-1.5 text-right" style="color: var(--brand-dark);">{spec.value}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              {/* 应用领域 */}
+              <p class="text-xs" style="color: var(--text-body);">
+                <span class="font-medium" style="color: var(--text-muted);">应用领域： </span>
+                {eq.applications}
+              </p>
+
+              {eq.detail && (
+                <a href={eq.detail} class="inline-flex items-center gap-1 mt-3 text-xs font-semibold transition-colors" style="color: var(--brand-red);">
+                  查看设备详情（英文）
+                  <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* 质量管理 */}
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">质量管控</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">设备管理与维护标准</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        严格的设备维护制度确保加工精度持续稳定。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* CTA */}
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">有零件需要加工？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        上传图纸，我们的工程师 24 小时内提供报价及 DFM 可制造性反馈。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          免费DFM图纸评审 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* 设备画廊 */}
+  <section class="section-padding" style="background-color: var(--page-bg); padding-bottom: 120px;">
+    <div class="container-custom">
+      <div class="text-center mb-14">
+        <span class="red-line mx-auto"></span>
+        <h2 class="text-3xl font-bold" style="color: var(--brand-dark);">车间设备实拍</h2>
+        <p class="mt-4 text-lg" style="color: var(--text-muted);">CNC设备实景一览。</p>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-5axis-machine-01.webp" alt="五轴CNC加工中心特写" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-workshop-cato-vertical-machining-center-lineup-01.webp" alt="巨冈CATO立式加工中心实物" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-5axis-machine-03.webp" alt="五轴CNC主轴加工中" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-machine-closeup-03.webp" alt="台群T-V1270S立式加工中心控制面板" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-workshop-greato-vertical-machining-center-lineup-01.webp" alt="台群T-V系列钻铣加工中心" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-workshop-machining-center-bay-overview-01.webp" alt="CNC加工中心全封闭外壳" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-workshop-taikan-vertical-machining-center-lineup-01.webp" alt="台群T-V856S立式加工中心开门状态" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-machine-closeup-09.webp" alt="台群T-V1270S立式加工中心正面" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-5axis-sunrise-dmu400-closeup-front-01.webp" alt="森氏精密 SUNRISE DMU 400 五轴加工中心正面近景" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-5axis-hanmer-lu320-front-01.webp" alt="HANMER LU320 五轴加工中心正面实拍" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-vertical-machining-center-taikan-tv856s-workshop-01.webp" alt="台群精机 T-V856S 立式加工中心车间实拍" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-measurement-equipment-2d-optical-comparator-01.webp" alt="2.5次元影像测量仪——精密尺寸检测设备" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+      </div>
+    </div>
+  </section>
+</PageLayout>

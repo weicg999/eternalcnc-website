@@ -1,0 +1,138 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '知识库', href: '/zh/knowledge' },
+  { label: 'DFM 分析指南' },
+];
+
+const capabilities = [
+  {
+    title: '工艺可行性分析',
+    items: ['深腔深径比评估', '倒扣结构可加工性判断', '薄壁零件变形风险分级', '特殊工艺需求识别'],
+    tolerance: '提前识别率 ≥ 95%',
+    materials: '避免投产后才发现工艺盲区',
+  },
+  {
+    title: '成本优化分析',
+    items: ['材料利用率提升方案', '工序合并与简化建议', '公差松紧度经济性评估', '表面处理选择优化'],
+    tolerance: '平均降本空间 15-30%',
+    materials: '平衡性能要求与制造成本',
+  },
+  {
+    title: '公差合理性审查',
+    items: ['配合尺寸公差分级建议', '形位公差适用性核查', '未注公差默认标准推荐', '关键特性识别与标注'],
+    tolerance: '参考 ISO 2768-m / GB/T 1804-m',
+    materials: '过严公差直接推高加工成本',
+  },
+  {
+    title: '装配干涉检查',
+    items: ['装配顺序与可达性验证', '螺纹孔避让空间检查', '密封槽与配合面干涉分析', '热膨胀间隙预留'],
+    tolerance: '装配一次通过率提升 40%',
+    materials: '减少试装返工和设计变更',
+  },
+];
+
+const standards = [
+  { label: '减少装夹次数', desc: '设计时尽量保证一次装夹可完成所有面加工，降低累计误差。' },
+  { label: '刀具可达性', desc: '确保刀具能到达加工面，避免深腔窄槽等刀具干涉结构。' },
+  { label: '标准化要素', desc: '优先选用标准钻头、标准丝锥、标准 R 角，减少定制刀具使用。' },
+  { label: '材料适配性', desc: '选材时考虑加工性，避免在批量零件上使用难加工材料。' },
+];
+---
+
+<PageLayout
+  title="CNC零件DFM可制造性分析 | 工艺可行性·成本优化·公差审查 | Eternal CNC"
+  description="Eternal CNC 专业 DFM 分析服务——工艺可行性评估、成本优化建议、公差合理性审查、装配干涉检查，帮助您降低加工风险、控制生产成本。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">知识库</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        CNC 零件 DFM 可制造性分析指南
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        从设计到量产，系统性识别加工风险与优化机会
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/services/dfm-analysis" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          了解 DFM 服务 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">分析维度</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">DFM 四大分析维度</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        从工艺、成本、公差、装配四个维度系统性评估零件的可制造性。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">关键指标</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">价值收益</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">设计原则</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">DFM 可制造性原则</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        设计时充分考虑加工工艺限制，从源头提升零件质量。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">需要专业 DFM 分析？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        上传图纸，24 小时内收到完整的可制造性分析报告和报价。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          了解 DFM 服务 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

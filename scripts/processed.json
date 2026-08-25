@@ -1,0 +1,174 @@
+{
+  "processed": [
+    {
+      "slot": "product",
+      "subject": "machined-aluminum-mold",
+      "angle": "零件顶侧特写",
+      "source": "微信图片_20260809114353_195_331.jpg",
+      "output": "/images/product/prod-machined-aluminum-mold-01.webp",
+      "output_abs": "F:\\V7\\public\\images\\product\\prod-machined-aluminum-mold-01.webp",
+      "size": [
+        1000,
+        1000
+      ],
+      "quality": 80,
+      "kb": 62.3
+    },
+    {
+      "slot": "equipment-detail",
+      "subject": "jiafu-jf-500",
+      "angle": "铭牌特写",
+      "source": "微信图片_20260808143500_81_331.jpg",
+      "output": "/images/equipment-detail/eqdt-jiafu-jf-500-01.webp",
+      "output_abs": "F:\\V7\\public\\images\\equipment-detail\\eqdt-jiafu-jf-500-01.webp",
+      "size": [
+        800,
+        600
+      ],
+      "quality": 78,
+      "kb": 34.21
+    },
+    {
+      "slot": "equipment-detail",
+      "subject": "jiafu-jf-600",
+      "angle": "铭牌特写",
+      "source": "微信图片_20260808143502_83_331.jpg",
+      "output": "/images/equipment-detail/eqdt-jiafu-jf-600-01.webp",
+      "output_abs": "F:\\V7\\public\\images\\equipment-detail\\eqdt-jiafu-jf-600-01.webp",
+      "size": [
+        800,
+        600
+      ],
+      "quality": 78,
+      "kb": 32.48
+    },
+    {
+      "slot": "equipment-detail",
+      "subject": "cato-ct-80",
+      "angle": "铭牌特写",
+      "source": "微信图片_20260808143505_88_331.jpg",
+      "output": "/images/equipment-detail/eqdt-cato-ct-80-01.webp",
+      "output_abs": "F:\\V7\\public\\images\\equipment-detail\\eqdt-cato-ct-80-01.webp",
+      "size": [
+        800,
+        600
+      ],
+      "quality": 78,
+      "kb": 50.69
+    },
+    {
+      "slot": "equipment-detail",
+      "subject": "wanghui-xh-540",
+      "angle": "铭牌特写",
+      "source": "微信图片_20260808143506_89_331.jpg",
+      "output": "/images/equipment-detail/eqdt-wanghui-xh-540-01.webp",
+      "output_abs": "F:\\V7\\public\\images\\equipment-detail\\eqdt-wanghui-xh-540-01.webp",
+      "size": [
+        800,
+        600
+      ],
+      "quality": 78,
+      "kb": 54.54
+    },
+    {
+      "slot": "equipment-detail",
+      "subject": "hongjinshun-hjs-t5",
+      "angle": "侧面型号标贴",
+      "source": "微信图片_20260808143508_92_331.jpg",
+      "output": "/images/equipment-detail/eqdt-hongjinshun-hjs-t5-01.webp",
+      "output_abs": "F:\\V7\\public\\images\\equipment-detail\\eqdt-hongjinshun-hjs-t5-01.webp",
+      "size": [
+        800,
+        600
+      ],
+      "quality": 78,
+      "kb": 15.28
+    },
+    {
+      "slot": "equipment-detail",
+      "subject": "hongjinshun-hjs-t5",
+      "angle": "机身喷字特写",
+      "source": "微信图片_20260808143509_93_331.jpg",
+      "output": "/images/equipment-detail/eqdt-hongjinshun-hjs-t5-02.webp",
+      "output_abs": "F:\\V7\\public\\images\\equipment-detail\\eqdt-hongjinshun-hjs-t5-02.webp",
+      "size": [
+        800,
+        600
+      ],
+      "quality": 78,
+      "kb": 17.29,
+      "status": "removed",
+      "removed_reason": "用户要求删除黄色HJS-T5机身喷字特写图"
+    },
+    {
+      "slot": "equipment-detail",
+      "subject": "qiaohong-qh-t6",
+      "angle": "铭牌特写",
+      "source": "微信图片_20260808143511_96_331.jpg",
+      "output": "/images/equipment-detail/eqdt-qiaohong-qh-t6-01.webp",
+      "output_abs": "F:\\V7\\public\\images\\equipment-detail\\eqdt-qiaohong-qh-t6-01.webp",
+      "size": [
+        800,
+        600
+      ],
+      "quality": 78,
+      "kb": 48.07
+    },
+    {
+      "slot": "process",
+      "subject": "aluminum-blanks",
+      "angle": "原材料堆垛（窗边）",
+      "source": "微信图片_20260809110816_138_331.jpg",
+      "output": "/images/process/proc-aluminum-blanks-01.webp",
+      "output_abs": "F:\\V7\\public\\images\\process\\proc-aluminum-blanks-01.webp",
+      "size": [
+        1200,
+        800
+      ],
+      "quality": 78,
+      "kb": 50.43
+    },
+    {
+      "slot": "product",
+      "subject": "aluminum-mold-cavity",
+      "angle": "模具型腔特写（无机器背景）",
+      "source": "微信图片_20260809114354_196_331.jpg",
+      "output": "/images/product/prod-aluminum-mold-cavity-01.webp",
+      "output_abs": "F:\\V7\\public\\images\\product\\prod-aluminum-mold-cavity-01.webp",
+      "size": [
+        1000,
+        1000
+      ],
+      "quality": 80,
+      "kb": 47.78
+    },
+    {
+      "slot": "equipment-matrix-thumbnail",
+      "subject": "hexagon-optiv-25d-cmm",
+      "angle": "设备正面（竖图裁剪为4:3横图）",
+      "source": "公司真实图片/微信图片_20260808143353_73_331.png",
+      "output": "/images/equipment/equipment-hexagon-optiv-25d-hero.webp",
+      "output_abs": "F:\\V7\\public\\images\\equipment\\equipment-hexagon-optiv-25d-hero.webp",
+      "size": [
+        320,
+        240
+      ],
+      "quality": 80,
+      "kb": 3.08
+    },
+    {
+      "slot": "company-hero",
+      "subject": "factory-cnc-machine-lineup",
+      "angle": "车间设备排列生产线（Taikan 机床纵列）",
+      "source": "factory-machine-lineup-06.jpg",
+      "output": "/images/company/factory-cnc-machine-lineup.webp",
+      "output_abs": "F:\\V7\\public\\images\\company\\factory-cnc-machine-lineup.webp",
+      "size": [
+        1600,
+        1120
+      ],
+      "quality": 82,
+      "kb": 85.67
+    }
+  ]
+}

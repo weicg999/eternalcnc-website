@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>CNC DFM 省钱设计要点（上篇）｜Eternal CNC</title>
+  <meta name="description" content="CNC DFM 省钱设计要点（上篇）：从壁厚、公差、孔特征到圆角，讲解可制造性设计如何显著降低机加工成本。">
+  <style>
+    :root {
+      --brand: #8B0000;
+      --brand-dark: #1A1A1A;
+      --text: #333333;
+      --muted: #666666;
+      --bg: #FFFFFF;
+      --light: #F7F7F7;
+      --border: #E5E5E5;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+      margin: 0;
+      padding: 0;
+    }
+    .page {
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 18mm 22mm;
+    }
+    header {
+      border-bottom: 3px solid var(--brand);
+      padding-bottom: 14px;
+      margin-bottom: 28px;
+    }
+    h1 { font-size: 26px; color: var(--brand-dark); margin: 0 0 6px; line-height: 1.3; }
+    .subtitle { font-size: 14px; color: var(--muted); margin: 0; }
+    .badge {
+      display: inline-block;
+      background: var(--brand);
+      color: #fff;
+      font-size: 12px;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+    h2 {
+      font-size: 18px;
+      color: var(--brand);
+      margin-top: 34px;
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+    h3 { font-size: 15px; color: var(--brand-dark); margin: 22px 0 8px; }
+    p { margin: 10px 0; font-size: 14px; }
+    .lead {
+      font-size: 15px;
+      background: var(--light);
+      padding: 14px 18px;
+      border-left: 4px solid var(--brand);
+      margin: 20px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 13px;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: var(--light); color: var(--brand-dark); font-weight: 600; }
+    tr:nth-child(even) { background: #FAFAFA; }
+    .dfm-box {
+      background: #FFF8F8;
+      border: 1px solid #F0D0D0;
+      border-left: 4px solid var(--brand);
+      padding: 14px 16px;
+      margin: 16px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .dfm-box strong { color: var(--brand); }
+    .note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .page-break { page-break-before: always; }
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .page { padding: 0; }
+      h2 { page-break-after: avoid; }
+      .dfm-box, table { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="badge">Eternal CNC · 鑫永恒精密加工</div>
+      <h1>CNC DFM 省钱设计要点（上篇）</h1>
+      <p class="subtitle">几何设计五原则 —— 从车间老师傅视角，把报价压下来的真实经验</p>
+    </header>
+
+    <div class="lead">
+      这份指南不是从教科书抄的，是我们长期接单、拆工艺、报价、返工时反复踩出来的经验。很多设计本身没问题，但放到 CNC 车间一评估，价格就翻了三四倍。问题往往不在机床精度，而在图纸里那些设计师没意识到的"小数字"。<br><br>
+      前篇讲五个最值钱的 DFM 决策：壁厚、孔深比、形状、内圆角、公差。它们有一个共同点——<strong>一旦零件进入加工，要改就晚了</strong>。
+    </div>
+
+    <h2>1. 壁厚控制 —— 不是越薄越高级</h2>
+    <h3>核心概念</h3>
+    <p>设计师喜欢把壁厚压到极限，觉得这样零件又轻又精致。但 CNC 加工是<strong>刀具顶着材料切削</strong>，壁太薄会颤、会振刀、会变形，最后不是尺寸超差就是表面像鱼鳞。薄壁零件的代价不是材料，而是<strong>工艺成本和报废率</strong>。</p>
+
+    <table>
+      <tr><th>材料</th><th>小特征舒适壁厚</th><th>大平面/薄壁建议</th><th>风险</th></tr>
+      <tr><td>铝 6061/7075</td><td>≥ 1.0 mm</td><td>≥ 2.0 mm（大面积）</td><td>振刀纹、翘曲</td></tr>
+      <tr><td>碳钢 / 合金钢</td><td>≥ 1.5 mm</td><td>≥ 2.5 mm</td><td>颤动、尺寸散</td></tr>
+      <tr><td>不锈钢 304/316</td><td>≥ 2.0 mm</td><td>≥ 3.0 mm</td><td>加工硬化 + 变形</td></tr>
+      <tr><td>钛合金</td><td>≥ 2.0 mm</td><td>≥ 3.5 mm</td><td>弹性回弹、震颤</td></tr>
+    </table>
+
+    <h3>车间里常见的壁厚坑</h3>
+    <ul>
+      <li><strong>深腔侧壁又高又薄：</strong>腔越深，侧壁切削时摆动越大。经验是：壁厚 ≥ 腔深的 1/20 才比较稳。一个 50 mm 深的腔，侧壁最好 ≥ 2.5 mm。</li>
+      <li><strong>孤立凸台和小立柱：</strong>一根 3 mm 粗的立柱伸出 20 mm 高，加工时晃得像钓鱼竿，最后不是断就是弯。要么加筋，要么分体做再组装。</li>
+      <li><strong>壁厚突变：</strong>一处 5 mm 厚、隔壁 1 mm 薄，切削时散热和应力不均，薄的那边会翘。过渡处尽量渐变或加圆角。</li>
+      <li><strong>薄板大平面：</strong>详见第 6 点，这里先提一句：3 mm 以下的铝板大平面，铣完变形是常态，不是机床的锅。</li>
+    </ul>
+
+    <div class="dfm-box">
+      <strong>DFM 建议：</strong>铝小件壁厚别低于 1 mm，钢件别低于 1.5 mm，不锈钢别低于 2 mm。非承重的外壳、盖板可以用加强筋或凸台代替整体加厚，省料又稳。
+    </div>
+
+    <h2>2. 孔深比 —— 不是想钻多深就能钻多深</h2>
+    <h3>核心概念</h3>
+    <p>标准麻花钻有个舒适工作区间。孔越深、直径越小，排屑越难、钻头越容易歪、越难冷却。钻头不是杆子长就能钻深孔，<strong>长径比</strong>（孔深 ÷ 孔径）直接决定用普通钻还是深孔专机。</p>
+
+    <table>
+      <tr><th>深径比 L/D</th><th>工艺</th><th>成本影响</th></tr>
+      <tr><td>≤ 3×D</td><td>普通钻头，一刀出</td><td>基准价</td></tr>
+      <tr><td>3×D – 5×D</td><td>普通钻头，需退刀排屑</td><td>+20 – 30%</td></tr>
+      <tr><td>5×D – 10×D</td><td>深孔钻 / 枪钻，需导套或啄钻</td><td>+50 – 100%</td></tr>
+      <tr><td>＞ 10×D</td><td>深孔专机（BTA / 枪钻），成本高</td><td>+200% 或建议改设计</td></tr>
+    </table>
+
+    <h3>几个真坑</h3>
+    <ul>
+      <li><strong>小孔深钻：</strong>φ1 mm 钻 10 mm 深，L/D=10，非常容易断钻、孔偏。这种孔能不做就不做。</li>
+      <li><strong>盲孔堆屑：</strong>盲孔钻到底，铁屑没地方走，钻头越钻越热，要么糊刀要么断。通孔排屑就好得多。</li>
+      <li><strong>阶梯孔替代深孔：</strong>如果你要的是一段螺纹 + 一段光孔，画成阶梯孔，比先钻深盲孔再攻丝便宜得多。</li>
+    </ul>
+
+    <div class="dfm-box">
+      <strong>DFM 建议：</strong>常规设计把孔深控制在 5×D 以内；超过 10×D 一定要先和车间确认工艺。通孔比盲孔友好，阶梯孔比深盲孔便宜。
+    </div>
+
+    <h2>3. 形状选择 —— 方形永远比异形便宜</h2>
+    <h3>核心概念</h3>
+    <p>CNC 最爱加工的是<strong>直面、直角、平底腔、统一圆角</strong>。三轴机床一次装夹就能完成大部分特征。一旦开始出现球面、自由曲面、倒扣、斜壁，就要上球刀、五轴、侧铣头或 EDM，工时会指数级上升。</p>
+
+    <table>
+      <tr><th>几何特征</th><th>推荐程度</th><th>通常工艺</th><th>成本倍数</th></tr>
+      <tr><td>长方体 / 规则外形</td><td>★★★★★</td><td>三轴粗精铣</td><td>1×</td></tr>
+      <tr><td>垂直侧壁 + 平底腔</td><td>★★★★★</td><td>平底立铣刀</td><td>1×</td></tr>
+      <tr><td>球面 / 曲面</td><td>★★★☆☆</td><td>球刀三轴或五轴</td><td>1.5 – 3×</td></tr>
+      <tr><td>倒扣 / 侧凹</td><td>★★☆☆☆</td><td>侧铣头 / 五轴 / 线割 / EDM</td><td>3 – 10×</td></tr>
+      <tr><td>深窄槽 / 异形槽</td><td>★★☆☆☆</td><td>小径刀 / 多轴 / 放电</td><td>2 – 5×</td></tr>
+    </table>
+
+    <h3>设计师常踩的形状坑</h3>
+    <ul>
+      <li><strong>能方不圆：</strong>同样功能，方腔比圆腔便宜，因为方腔一把平底刀走到底；圆腔或球形腔要用球刀慢慢爬，表面还要光刀。</li>
+      <li><strong>倒扣是成本炸弹：</strong>零件侧壁往里凹，三轴刀下不去，必须侧铣头、五轴或线割。设计时只要避免倒扣，报价能降一档。</li>
+      <li><strong>统一圆角和孔径：</strong>一张图里 R0.5、R1、R2、R3 全有，车间要换十几把刀。统一成 R2 / R3 两种，能减少 30% 换刀时间。</li>
+      <li><strong>斜面和拔模角：</strong>外表斜 5° 以内可以用大平刀走等高；超过 15° 或变曲率曲面，就要上球刀或五轴。</li>
+    </ul>
+
+    <div class="dfm-box">
+      <strong>DFM 建议：</strong>功能允许时优先用规则几何；外形用直面 + 直角；内腔用平底 + 统一圆角；绝对避免倒扣。一句话：让三轴机床一次把活儿干完。
+    </div>
+
+    <h2>4. 内圆角半径 —— 刀具选择的"隐形门槛"</h2>
+    <h3>核心概念</h3>
+    <p>设计师画一个方形型腔，四角要清根到 R0.5。问题是：没有 φ1 的立铣刀能稳定做钢件——刀太细，一碰就断。型腔内角半径必须 ≥ 刀具半径。要做 R0.5 内角，就得用 φ1 刀；φ1 刀加工钢件 = 断刀风险极高，只能极低速极浅切深，工时爆炸。</p>
+
+    <table>
+      <tr><th>内角半径</th><th>所需刀具</th><th>加工方式</th><th>成本影响</th></tr>
+      <tr><td>R3+</td><td>φ6 平刀</td><td>正常三轴铣</td><td>基准价</td></tr>
+      <tr><td>R1 – R2</td><td>φ2 – φ4 平刀</td><td>正常铣，进给稍降</td><td>+10 – 20%</td></tr>
+      <tr><td>R0.5 – R1</td><td>φ1 – φ2 平刀</td><td>极低速 / 浅切深，易断刀</td><td>+50 – 100%</td></tr>
+      <tr><td>＜ R0.5</td><td>φ0.5 – φ1 刀或 EDM</td><td>几乎不可铣</td><td>+200% 或建议改设计</td></tr>
+    </table>
+
+    <p>经验法则：内角半径 ≥ 1 mm（对应 φ2 刀）是经济区间；≥ 2 mm（φ4 刀）最舒服；&lt; 0.5 mm 基本要 EDM 或拒单。</p>
+
+    <div class="dfm-box">
+      <strong>DFM 建议：</strong>能放 R2 就别放 R0.5。如果外观必须小圆角，DFM 做法——大腔体用 R2 粗加工，局部小 R 用 EDM 清角，比全程用小刀铣便宜。
+    </div>
+
+    <h2>5. 公差标注的"经济区间"—— 严一度，贵一倍</h2>
+    <h3>核心概念</h3>
+    <p>很多设计师把所有尺寸一律标 ±0.01 mm 或 ±0.005 mm，觉得"越严越好"。实际上 CNC 加工有个经济精度区间。公差越严，测量越密、装夹越讲究、环境要求越高，成本会翻几倍。</p>
+
+    <table>
+      <tr><th>公差等级</th><th>三轴常规能力</th><th>需要额外做什么</th><th>成本倍数</th></tr>
+      <tr><td>±0.1 mm</td><td>一刀到位</td><td>无</td><td>1×</td></tr>
+      <tr><td>±0.05 mm</td><td>正常精铣</td><td>无</td><td>1×</td></tr>
+      <tr><td>±0.02 mm</td><td>精铣 + 测量</td><td>每 5 件测一次</td><td>1.2×</td></tr>
+      <tr><td>±0.01 mm</td><td>精铣 + 首检 + 过程检</td><td>每件 CMM 或千分尺</td><td>1.5 – 2×</td></tr>
+      <tr><td>±0.005 mm</td><td>恒温 / 精磨 / 多次修光</td><td>可能需二次装夹 / 慢走丝</td><td>3 – 5×</td></tr>
+      <tr><td>±0.002 mm</td><td>磨床 / 坐标磨 / 五轴精修</td><td>单件定制工艺</td><td>10×+</td></tr>
+    </table>
+
+    <h3>几个真坑</h3>
+    <ul>
+      <li><strong>配合面才严标：</strong>轴承位、定位销孔、密封面必须严；外轮廓、非关键台阶放宽到 ±0.05 或 ±0.1，能省不少。</li>
+      <li><strong>形位公差比尺寸公差更贵：</strong>平面度 0.02 mm 比 ±0.01 mm 尺寸公差难控得多，因为要测整个面而不是一个点。</li>
+      <li><strong>未注公差别乱写：</strong>很多人默认所有尺寸都按 ±0.01，其实普通外观面放 ±0.1 完全够用。</li>
+      <li><strong>材料影响精度：</strong>同样的 ±0.01，铝合金容易，不锈钢就悬，钛合金更难。</li>
+    </ul>
+
+    <div class="dfm-box">
+      <strong>DFM 建议：</strong>配合面严标，非配合面放宽；形位公差谨慎写；未注公差给 ±0.1。记住：严一度，贵一倍，材料越硬越陡。
+    </div>
+
+    <div class="lead" style="margin-top: 32px;">
+      <strong>写在最后：</strong>这五个原则——壁厚、孔深、形状、内圆角、公差——决定了 80% 的 CNC 报价。它们全都可以在画图纸时解决，不用等车间返工。下一篇我们会讲薄板变形、螺纹深度、材料选择这三个同样容易踩坑的点。
+    </div>
+
+    <footer>
+      <strong>Eternal CNC Precision Machining · 鑫永恒精密加工</strong><br>
+      邮箱：sales@eternalcnc.com · 官网：www.eternalcnc.com<br>
+      本指南基于真实加工经验整理，转载请注明出处。
+    </footer>
+  </div>
+</body>
+</html>

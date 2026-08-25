@@ -1,0 +1,138 @@
+﻿---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '工艺能力', href: '/zh/capabilities' },
+  { label: '加工尺寸范围' },
+];
+
+const capabilities = [
+  {
+    title: '铣削加工范围',
+    items: ['X 轴行程 850mm', 'Y 轴行程 560mm', 'Z 轴行程 510mm'],
+    tolerance: '最大工件重量 500kg',
+    materials: '适合箱体类、壳体类及平板类零件',
+  },
+  {
+    title: '车削加工范围',
+    items: ['最大回转直径 320mm', '最大加工长度 600mm', '棒料直径 φ3~φ65mm'],
+    tolerance: '同心度 ≤0.003mm',
+    materials: '适合轴类、套类及盘类零件',
+  },
+  {
+    title: '五轴加工范围',
+    items: ['工作台直径 500mm', '最大工件高度 400mm', 'A/C 轴摆动范围 ±110°'],
+    tolerance: '一次装夹五面加工',
+    materials: '适合叶轮、涡轮及复杂曲面零件',
+  },
+  {
+    title: '微精密加工',
+    items: ['最小刀具直径 0.1mm', '最小特征尺寸 0.15mm', '微细孔直径 0.3mm'],
+    tolerance: '精密光学零件级',
+    materials: '适合微型连接器、微流控零件及精密模具嵌件',
+  },
+];
+
+const standards = [
+  { label: '首件确认', desc: '每个新项目先加工首件，全尺寸验证程序正确性后再批量加工。' },
+  { label: '过程监控', desc: '在机测头实时监控关键尺寸，刀具磨损自动补偿。' },
+  { label: '终检报告', desc: '关键尺寸可送集团共享计量中心 CMM 三坐标终检，出具包含所有关键尺寸的检测报告。' },
+  { label: '数据统计', desc: '批量订单提供 SPC 统计报告，Cpk ≥ 1.33。' },
+];
+---
+
+<PageLayout
+  title="CNC加工尺寸范围 | 最大行程850mm·回转直径320mm | Eternal CNC"
+  description="Eternal CNC 加工尺寸范围：铣削最大行程 X850mm，车削最大回转直径 320mm，五轴工作台直径 500mm。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">工艺能力</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        加工尺寸范围
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        最大行程 X 轴 850mm / 最大回转直径 320mm
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          查看加工服务 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">加工能力</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">各类工艺尺寸上限</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        从微型精密零件到大尺寸箱体，覆盖多种尺寸范围。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">关键指标</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">典型应用</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">质量管控</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">尺寸精度保障</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        全流程尺寸管控，确保每个零件符合图纸要求。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">有零件需要评估尺寸可行性？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        上传图纸，我们的工程师 24 小时内提供报价及工艺可行性分析。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          免费DFM图纸评审 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

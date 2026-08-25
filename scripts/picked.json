@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "description": "XYH image dedup library: (slot, subject, angle) triples of already-picked images. Avoids cross-page reuse per plan Part 1 §4.",
+  "picked": [
+    {
+      "slot": "product",
+      "subject": "machined-aluminum-mold",
+      "angle": "零件顶侧特写",
+      "source": "微信图片_20260809114353_195_331.jpg"
+    },
+    {
+      "slot": "equipment-detail",
+      "subject": "jiafu-jf-500",
+      "angle": "铭牌特写",
+      "source": "微信图片_20260808143500_81_331.jpg"
+    },
+    {
+      "slot": "equipment-detail",
+      "subject": "jiafu-jf-600",
+      "angle": "铭牌特写",
+      "source": "微信图片_20260808143502_83_331.jpg"
+    },
+    {
+      "slot": "equipment-detail",
+      "subject": "cato-ct-80",
+      "angle": "铭牌特写",
+      "source": "微信图片_20260808143505_88_331.jpg"
+    },
+    {
+      "slot": "equipment-detail",
+      "subject": "wanghui-xh-540",
+      "angle": "铭牌特写",
+      "source": "微信图片_20260808143506_89_331.jpg"
+    },
+    {
+      "slot": "equipment-detail",
+      "subject": "hongjinshun-hjs-t5",
+      "angle": "侧面型号标贴",
+      "source": "微信图片_20260808143508_92_331.jpg"
+    },
+    {
+      "slot": "equipment-detail",
+      "subject": "qiaohong-qh-t6",
+      "angle": "铭牌特写",
+      "source": "微信图片_20260808143511_96_331.jpg"
+    },
+    {
+      "slot": "process",
+      "subject": "aluminum-blanks",
+      "angle": "原材料堆垛（窗边）",
+      "source": "微信图片_20260809110816_138_331.jpg"
+    },
+    {
+      "slot": "product",
+      "subject": "aluminum-mold-cavity",
+      "angle": "模具型腔特写（无机器背景）",
+      "source": "微信图片_20260809114354_196_331.jpg"
+    },
+    {
+      "slot": "about-hero",
+      "subject": "factory-cnc-machine-lineup",
+      "angle": "车间设备排列生产线（Taikan 机床纵列）",
+      "source": "factory-machine-lineup-06.jpg"
+    }
+  ]
+}

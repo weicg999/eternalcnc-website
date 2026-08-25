@@ -1,0 +1,169 @@
+﻿---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Industries', href: '/industries' },
+  { label: 'Medical Devices' },
+];
+
+const capabilities = [
+  {
+    title: 'Diagnostic Housings',
+    items: ['CT scanner component housings', 'Ultrasound probe bodies', 'Blood analyzer enclosures', 'X-ray fixture plates'],
+    tolerance: '±0.01mm',
+    materials: 'Aluminum 6061, Stainless 316L, POM',
+  },
+  {
+    title: 'Surgical Instrument Brackets',
+    items: ['Endoscope alignment fixtures', 'Surgical drill guides', 'Laparoscopic tool holders', 'Calibration jigs'],
+    tolerance: '±0.005mm',
+    materials: 'Stainless 316L, Titanium Ti-6Al-4V, PEEK',
+  },
+  {
+    title: 'Implant Fixtures',
+    items: ['Surgical guide templates', 'Fixture plates for assembly', 'Non-contact holding jigs', 'Inspection fixtures'],
+    tolerance: '±0.01mm',
+    materials: 'PEEK, POM, Aluminum 6061, Stainless 316L',
+  },
+  {
+    title: 'Monitor Brackets',
+    items: ['Patient monitor mounts', 'IV pole brackets', 'Equipment tray supports', 'Wall-mount arms'],
+    tolerance: '±0.025mm',
+    materials: 'Aluminum 6061, ABS-like Acetal, Stainless 304',
+  },
+];
+
+const standards = [
+  { label: 'Biocompatibility', desc: 'Materials selected per ISO 10993. PEEK, titanium, and 316L stainless available for patient-contact applications.' },
+  { label: 'Cleanroom Assembly', desc: 'Optional cleanroom assembly and packaging for parts requiring controlled contamination levels.' },
+  { label: 'Full Traceability', desc: 'Every part tracked from raw material certificate through final inspection. Lot-level traceability standard.' },
+  { label: 'Sterilization Compliance', desc: 'Parts designed to withstand autoclave, EtO, and gamma sterilization cycles without degradation.' },
+];
+---
+
+<PageLayout
+  title="Medical Device CNC Machining | Enclosures · Brackets · Fixtures | Eternal CNC"
+  description="Precision CNC machining for medical devices — diagnostic housings, surgical instrument brackets, implant fixtures, monitor brackets. ISO-aligned processes."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Industries</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Medical Devices
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Enclosures · Brackets · Diagnostic equipment parts.
+        Precision CNC parts for medical device manufacturers with full traceability.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded-md transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          View Services →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Capabilities</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Medical Device Components</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        We machine parts for diagnostic, surgical, and monitoring equipment.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Precision Tolerance</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Requires precision finishing &amp; inspection. Subject to drawing review.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Common Materials</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Quality Control</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Medical Quality Standards</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Medical applications demand the highest levels of documentation and material integrity.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  
+
+<!-- 产品展示 -->
+<section style="background-color: var(--card-white); padding: 80px 0;">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Product Showcase</p>
+    <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Medical Device Components Showcase</h2>
+    <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">Product renderings for process demonstration only. Visual representation of machining capabilities. Images are for reference only due to NDA.</p>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/medical/cnc-medical-diagnostic-housing-01.webp" alt="CNC machined aluminum diagnostic housing" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">CNC machined aluminum diagnostic housing</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/medical/cnc-medical-surgical-instrument-02.webp" alt="Stainless steel surgical instrument parts" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Stainless steel surgical instrument parts</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/medical/cnc-medical-monitor-mount-arm-03.webp" alt="Patient monitor mounting arm" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Patient monitor mounting arm</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/medical/cnc-medical-lab-fixture-tray-04.webp" alt="Medical lab fixture and sample tray" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Medical lab fixture and sample tray</p></div>
+        </div>
+    </div>
+  </div>
+</section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Need medical device components?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Upload your drawing and our engineers will provide a quote with material and compliance recommendations.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold rounded-lg bg-[#8B0000] text-white transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Free Quote
+        </a>
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold border rounded-lg border border-white/30 text-white transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Free DFM Review →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

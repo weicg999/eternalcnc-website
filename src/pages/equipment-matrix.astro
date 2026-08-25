@@ -1,0 +1,128 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Capabilities', href: '/capabilities' },
+  { label: 'Equipment Matrix' },
+];
+
+// Fleet inventory (family-group combined capacity): 13 machine types, 30 units, Taikan-dominant.
+// Includes machines from the family group's affiliated workshops operating as one team for overseas orders.
+const equipment = [
+  { brand: 'Sun King (森氏精密)', brandEn: 'Sun King', model: 'CNC-5AX1S (DMU 400)', type: '5-Axis Machining Center', cat: '5-Axis', qty: 1, image: '/images/equipment/equipment-sunrise-dmu400-5axis-hero.webp' },
+  { brand: 'Taikan (台群)', brandEn: 'Taikan', model: 'T-V1270S (Heavy)', type: 'Vertical Machining Center', cat: 'VMC', qty: 2, image: '/images/equipment/equipment-taikan-tv1270s-hero.webp' },
+  { brand: 'Taikan (台群)', brandEn: 'Taikan', model: 'T-V856S', type: 'Vertical Machining Center', cat: 'VMC', qty: 3, image: '/images/equipment/equipment-taikan-tv856s-hero.webp' },
+  { brand: 'Taikan (台群)', brandEn: 'Taikan', model: 'T-700SE', type: 'Drill-Mill Machining Center', cat: 'Drill-Mill', qty: 2, image: '/images/equipment/equipment-taikan-t700se-hero.webp' },
+  { brand: 'JIAFU (佳富)', brandEn: 'JIAFU', model: 'JF-600', type: 'Drill-Tap Machining Center', cat: 'Drill-Mill', qty: 3, image: '/images/equipment/equipment-jiafu-jf600-hero.webp' },
+  { brand: 'Taikan (台群)', brandEn: 'Taikan', model: 'T-500S', type: 'Drill-Mill Machining Center', cat: 'Drill-Mill', qty: 12, image: '/images/equipment/equipment-taikan-t500s-hero.webp' },
+  { brand: '2.5D Measuring (2.5次元)', brandEn: '2.5D CMM', model: '2.5D Measurement', type: 'Inspection Equipment', cat: 'Inspection', qty: 1, image: '/images/equipment/gallery/cnc-measurement-equipment-2d-optical-comparator-01.webp' },
+  { brand: 'CATO (巨冈)', brandEn: 'CATO', model: 'CT-80', type: 'Vertical Machining Center', cat: 'VMC', qty: 1, image: '/images/equipment/cnc-machine-cato-ct80-vertical-machining-center-01.webp' },
+  { brand: 'JIAFU (佳富)', brandEn: 'JIAFU', model: 'JF-500', type: 'Drill-Tap Machining Center', cat: 'Drill-Mill', qty: 1, image: '/images/equipment/cnc-machine-jiafu-jf500-drill-tap-machining-center-01.webp' },
+  { brand: 'HONG JIN SHUN (鸿金顺)', brandEn: 'HONG JIN SHUN', model: 'HJS-T5', type: 'Drilling & Tapping Center', cat: 'Drill-Mill', qty: 1, image: '/images/equipment/cnc-machine-hongjinshun-hjs-t5-drill-tap-machining-center-01.webp' },
+  { brand: 'QIAO HONG (乔鸿)', brandEn: 'QIAO HONG', model: 'QH-T6', type: 'High-Speed Drill-Tap Machine', cat: 'Drill-Mill', qty: 1, image: '/images/equipment/cnc-machine-qiaohong-qh-t6-high-speed-drill-tap-01.webp' },
+  { brand: 'XINTENGHUI CNC (鑫腾辉数控)', brandEn: 'XINTENGHUI CNC', model: 'XTH-T540', type: 'Mold Engraving Machine', cat: 'Engraving', qty: 1, image: '/images/equipment/cnc-machine-xintenghui-xth-t540-mold-engraving-machining-center-01.webp' },
+  { brand: 'WANGHUI Machinery (望辉机械)', brandEn: 'WANGHUI Machinery', model: 'XH-540', type: 'Mold Engraving Machine', cat: 'Engraving', qty: 1, image: '/images/equipment/cnc-machine-wanghui-xh540-mold-engraving-machining-center-01.webp' },
+];
+
+const catColor = { '5-Axis': '#8B0000', 'VMC': '#1a1a1a', 'Drill-Mill': '#2563eb', 'Inspection': '#6b7280', 'Engraving': '#059669' };
+const totalUnits = equipment.reduce((s, e) => s + e.qty, 0);
+const taikanUnits = equipment.filter(e => e.brandEn === 'Taikan').reduce((s, e) => s + e.qty, 0);
+const taikanPct = Math.round((taikanUnits / totalUnits) * 100);
+const machineTypes = equipment.length;
+---
+
+<PageLayout
+  title="Equipment Matrix – 13 Machine Types · 30 Units | Eternal CNC"
+  description="Eternal CNC equipment matrix: 13 machine types, 30 units in service — Taikan-dominant fleet (19 units) covering 5-axis, VMC, drill-mill, mold engraving and 2.5D inspection."
+  breadcrumbs={breadcrumbs}
+>
+  <section style="background-color: var(--card-white); padding: 72px 0 48px;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Capabilities</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">Equipment Matrix</h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        A single overview of our combined shop-floor capacity: <strong>{machineTypes} machine types</strong> and <strong>{totalUnits} units</strong> — including the family group's affiliated workshops operating as one team.
+        The fleet is <strong style="color: var(--brand-red);">Taikan-dominant — {taikanUnits} of {totalUnits} units ({taikanPct}%)</strong> are Taikan (台群) machining centers, backed by a 5-axis machine and 2.5D inspection.
+      </p>
+
+      {/* Stat bar */}
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+        <div class="p-5 rounded-xl border" style="background-color: var(--page-bg); border-color: var(--border-color);">
+          <p class="text-3xl font-bold" style="color: var(--brand-dark);">{totalUnits}</p>
+          <p class="text-xs mt-1" style="color: var(--text-muted);">Total Units</p>
+        </div>
+        <div class="p-5 rounded-xl border" style="background-color: var(--page-bg); border-color: var(--border-color);">
+          <p class="text-3xl font-bold" style="color: var(--brand-dark);">{machineTypes}</p>
+          <p class="text-xs mt-1" style="color: var(--text-muted);">Machine Types</p>
+        </div>
+        <div class="p-5 rounded-xl border" style="background-color: var(--page-bg); border-color: var(--border-color);">
+          <p class="text-3xl font-bold" style="color: var(--brand-red);">{taikanUnits}</p>
+          <p class="text-xs mt-1" style="color: var(--text-muted);">Taikan (台群) Units</p>
+        </div>
+        <div class="p-5 rounded-xl border" style="background-color: var(--page-bg); border-color: var(--border-color);">
+          <p class="text-3xl font-bold" style="color: var(--brand-dark);">{taikanPct}%</p>
+          <p class="text-xs mt-1" style="color: var(--text-muted);">Taikan Share</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background-color: var(--page-bg); padding: 48px 0 80px;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="overflow-x-auto border rounded-xl" style="border-color: var(--border-color); background-color: var(--card-white);">
+        <table class="w-full text-sm">
+          <thead>
+            <tr style="background-color: var(--page-bg);">
+              <th class="text-left px-4 py-3 font-semibold" style="color: var(--brand-dark);">#</th>
+              <th class="text-left px-4 py-3 font-semibold" style="color: var(--brand-dark);">Photo</th>
+              <th class="text-left px-4 py-3 font-semibold" style="color: var(--brand-dark);">Brand</th>
+              <th class="text-left px-4 py-3 font-semibold" style="color: var(--brand-dark);">Model</th>
+              <th class="text-left px-4 py-3 font-semibold" style="color: var(--brand-dark);">Type</th>
+              <th class="text-left px-4 py-3 font-semibold" style="color: var(--brand-dark);">Category</th>
+              <th class="text-left px-4 py-3 font-semibold" style="color: var(--brand-dark);">Units</th>
+            </tr>
+          </thead>
+          <tbody>
+            {equipment.map((eq, i) => (
+              <tr class="border-t" style="border-color: var(--border-color);">
+                <td class="px-4 py-3 text-gray-500">{i + 1}</td>
+                <td class="px-4 py-3">
+                  {eq.image ? (
+                    <img src={eq.image} alt={`${eq.brandEn} ${eq.model}`} width="80" height="60" loading="lazy" class="w-20 h-14 object-cover rounded" />
+                  ) : (
+                    <div class="w-20 h-14 rounded bg-gray-100 flex items-center justify-center text-[10px] text-gray-400">Photo<br/>soon</div>
+                  )}
+                </td>
+                <td class="px-4 py-3 font-medium" style="color: var(--brand-dark);">{eq.brandEn}</td>
+                <td class="px-4 py-3" style="color: var(--text-body);">{eq.model}</td>
+                <td class="px-4 py-3" style="color: var(--text-body);">{eq.type}</td>
+                <td class="px-4 py-3">
+                  <span class="text-xs font-semibold text-white px-2.5 py-1 rounded" style={`background-color: ${catColor[eq.cat]};`}>{eq.cat}</span>
+                </td>
+                <td class="px-4 py-3 font-semibold" style="color: var(--brand-red);">{eq.qty}</td>
+              </tr>
+            ))}
+            <tr class="border-t font-bold" style="border-color: var(--border-color); background-color: var(--page-bg);">
+              <td class="px-4 py-3" colspan="6" style="color: var(--brand-dark);">Total</td>
+              <td class="px-4 py-3" style="color: var(--brand-red);">{totalUnits}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="text-sm mt-4" style="color: var(--text-muted);">
+        Taikan (台群) fleet: T-V1270S ×2, T-V856S ×3, T-700SE ×2, T-500S ×12 = <strong style="color: var(--brand-red);">{taikanUnits} units</strong>.
+        Figures cover the combined capacity of Eternal CNC and the family group's affiliated workshops (30 units total), operating as one team for overseas orders.
+      </p>
+
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/capabilities/equipment" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Full Equipment List →
+        </a>
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

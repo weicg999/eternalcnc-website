@@ -1,0 +1,170 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '知识库', href: '/zh/knowledge' },
+  { label: '如何选 CNC 供应商' },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: '如何选 CNC 供应商（海外采购指南）',
+  description: '海外买家下单前应做的尽调：铭牌核实的真厂、首件合格率、材料可追溯、商务红线与失败路径透明。',
+  author: { '@type': 'Organization', name: 'Eternal CNC Precision Machining' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Eternal CNC Precision Machining',
+    logo: { '@type': 'ImageObject', url: 'https://www.eternalcnc.com/images/og-default.webp' },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': Astro.url.href },
+  inLanguage: 'zh-CN',
+};
+---
+
+<PageLayout
+  title="如何选 CNC 供应商 | 海外采购指南 | 鑫永恒"
+  description="海外买家下单前应做的尽调：铭牌核实的真厂、首件合格率、材料可追溯、商务红线与失败路径透明。"
+  breadcrumbs={breadcrumbs}
+  schema={articleSchema}
+>
+  <style>
+    .sc-card { background: var(--card-white); border: 1px solid var(--border-color); border-left: 4px solid var(--brand-red); padding: 18px 20px; border-radius: 0 8px 8px 0; color: #374151; font-size: 15px; line-height: 1.75; }
+    .sc-card h3 { color: var(--brand-dark); margin: 0 0 8px; font-size: 17px; }
+    .sc-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 15px; line-height: 1.7; }
+    .sc-table th, .sc-table td { border: 1px solid var(--border-color); padding: 12px 14px; text-align: left; vertical-align: top; color: #374151; }
+    .sc-table th { background: var(--page-bg); color: var(--brand-dark); font-weight: 600; }
+    .sc-table tr:nth-child(even) { background: #FAFAFA; }
+    .sc-quote { background: var(--page-bg); border: 1px solid var(--border-color); border-left: 4px solid var(--brand-red); padding: 16px 20px; border-radius: 0 6px 6px 0; color: #374151; font-size: 15px; line-height: 1.8; }
+  </style>
+
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">知识库</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        如何选 CNC 供应商
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        海外买家选 CNC 厂，不是比价，是比"长期不翻车"。真厂、稳定良率、材料可追溯、出了问题敢说真话——这才是合格供应商的标准。下面是我们站在你立场写的尽调清单。
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/downloads/EternalCNC-Supplier-Ethics-CN.html" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          下载打印版指南 ↓
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1 真厂 -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">1 · 真厂</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">真机台，真铭牌</h2>
+      <p class="max-w-3xl mb-6" style="color: var(--text-body);">
+        B2B 平台上一个漂亮店铺不是工厂，贸易商转手单也不是工厂。要求视频看厂，镜头怼到正在跑你图纸的那台机器铭牌上——品牌、型号、出厂编号、校准标签日期都对得上。贸易商最怕这一关：让他拍"正在跑你这图纸的机器 + 当前 G 代码界面"，拍不出来就是中间层。
+      </p>
+      <div class="sc-card">
+        <h3>我们的做法</h3>
+        24 台加工中心按铭牌核实、季度校准。关于页有"铭牌墙"组图（敏感信息打码），比写"real factory"四个字有用 10 倍。
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 不是最便宜 -->
+  <section style="background-color: var(--card-white); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">2 · 价值，不是价格</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">低价 + 秒回 = 两个危险信号</h2>
+      <p class="max-w-3xl mb-6" style="color: var(--text-body);">
+        低价 + 秒回，通常只有两种可能：① 拿你单子外发小作坊；② 准备在材料/公差/检验上偷工。真正值钱的是把图纸变成合格零件的稳定度（首件合格率）、返工率、批次一致性。采购老手看的是"过去 10 批的平均首件通过率"，不是"这单单价低 8%"。
+      </p>
+    </div>
+  </section>
+
+  <!-- 3 稳定交付 -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">3 · 稳定交付</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">稳定交付 = 三件事</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="sc-card"><h3>不变形</h3>公差稳、薄壁不翘、深孔不偏、CMM 报告和你测的对得上。</div>
+        <div class="sc-card"><h3>不换料</h3>说 6061-T6 不偷偷换 6061-O 或回收铝；所有来料均与认证供应商合作，每单随附 EN 10204 3.1 材质证书，炉号（Heat Number）全程绑定可追溯。</div>
+        <div class="sc-card"><h3>能配合</h3>DFM 反馈（"你这孔 10×D 建议改两面钻"）、图纸疑问 24h 内反问、允许指定材质牌号和进货渠道。</div>
+      </div>
+      <p class="mt-6 max-w-3xl" style="color: var(--text-body);">
+        <strong>急单加急：</strong>靠谱厂不是承诺"永远 3 天"，而是当前稼动率透明——空得出就接急单，满产就老实说顺延。这种厂才敢长期合作。
+      </p>
+    </div>
+  </section>
+
+  <!-- 4 商务红线 -->
+  <section style="background-color: var(--card-white); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">4 · 商务红线</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">买家该设的六条红线</h2>
+      <table class="sc-table">
+        <thead><tr><th>你的红线</th><th>采购端解读</th><th>我们的对应动作</th></tr></thead>
+        <tbody>
+          <tr><td>全链路材料追溯体系</td><td>与认证材料供应商深度合作，所有来料均具备 EN 10204 3.1 认证；不接受口头"材质保证书"承诺</td><td>严格的炉号（Heat Number）绑定 + 批次建档；每一交付零件可追溯到源头的材质报告与力学性能数据</td></tr>
+          <tr><td>24h 内回报价</td><td>不是秒回价格，是 24h 内按 RFQ 完整度给出分段报价（机加+表面+QC+包装+运费）；DFM 深度随合作意向分级</td><td>三级响应：仅询价给粗估区间；有图纸给报价+关键 DFM 摘要；高意向/打样给完整 DFM 报告</td></tr>
+          <tr><td>愿签双语 NDA</td><td>中英双向保密，允许用客户自己的 NDA 版本</td><td>已定稿 Mutual NDA 中英双版，可双向</td></tr>
+          <tr><td>图纸存管方式</td><td>图纸加密存放、项目完结可销毁/退回、不用于第三方</td><td>明文写进 NDA 第 4 条 + 内部图档隔离目录</td></tr>
+          <tr><td>首单付费打样</td><td>样件收费（不免费试做）、同工艺量产、样件报告先行</td><td>首单 1–5 件付费打样，FAI 先行</td></tr>
+          <tr><td>定金 + 尾款见检验报告</td><td>拒 100% 预付；30–50% 定金 + 50–70% 见 CMM/出货报告付</td><td>报价单固定分段付款条款</td></tr>
+        </tbody>
+      </table>
+      <div class="sc-card mt-5 max-w-3xl">
+        <h3>为什么 DFM 要分级？</h3>
+        我们不把完整 DFM 当作“无条件赠品”。询价型客户拿到粗估区间即可锁定预算；有图纸的评估型客户拿到带关键风险提示的标准报价；只有明确打样或项目价值较高的高意向客户，工程部才会出具完整 DFM、装夹方案与公差分析。这样既保证 24 小时响应，也避免工程部在比价型 RFQ 上产生沉没成本。
+      </div>
+      <p class="mt-4 max-w-3xl" style="color: var(--text-body);">这六条齐了，海外买家基本会把你从"候选"挪到"qualified supplier list"——哪怕单价不是最低。</p>
+    </div>
+  </section>
+
+  <!-- 5 失败路径 -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">5 · 失败路径透明</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">真厂和贸易商最大的区别</h2>
+      <p class="max-w-3xl mb-6" style="color: var(--text-body);">
+        贸易商只谈成功样件，真厂敢谈"做砸了怎么办"。把这些写进报价单附件《Order Terms》，比"我们质量第一"管用 100 倍。
+      </p>
+      <div class="sc-card mb-4"><h3>首件超差</h3>返工费谁出？重做周期？运费？</div>
+      <div class="sc-card mb-4"><h3>批量中发现材料错</h3>召回机制？补偿方式？</div>
+      <div class="sc-card"><h3>交期延误</h3>提前几天通知？是否有备用产能？</div>
+    </div>
+  </section>
+
+  <!-- quote -->
+  <section style="background-color: var(--card-white); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">用我们的话讲</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">客户为什么长期留下来</h2>
+      <div class="sc-quote">
+        大多数买家不是按价格或回复速度选 CNC 厂，而是因为它真厂、铭牌核实的设备、把图纸稳定变成合格零件且返工少、从不偷换材料牌号、急单时还接得起电话。我们运营 24 台加工中心（DMU 400 + 台群阵容），季度校准，每单随附 CMM 尺寸报告与 EN 10204 3.1 材料证书，24 小时内按 RFQ 完整度返回对应层级报价与 DFM 反馈，签中英双语双向 NDA，隔离客户图纸，首单付费打样，采用 30–50% 定金 + 见检验报告付尾款——绝不收 100% 预付。这不是销售话术，而是我们避免成为"幽灵供应商"的方式。
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">准备好验厂了吗？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        发来图纸与项目背景，我们 24 小时内返回匹配你意向层级的分段报价与 DFM 反馈，并同步提供双语 NDA。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/knowledge" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          查看全部资源 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

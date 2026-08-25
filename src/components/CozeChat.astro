@@ -1,0 +1,21 @@
+---
+// Coze (扣子) 智能客服组件
+// 仅在英文站（路径不以 /zh 开头）注入；中文页不显示。
+const isZh = Astro.url.pathname.startsWith('/zh');
+
+// === 扣子网页嵌入代码（待粘贴）===
+// 把扣子后台 「发布 → 网页嵌入 / Web SDK」 复制出来的完整 <script> 片段
+// 整段粘到下面这个字符串里即可（必须包含 <script ...>...</script>）。
+// 例如：
+//   <script src="https://wc.coze.cn/web-sdk/embedded.js"></script>
+//   <script>
+//     new CozeWebSDK.WebChatClient({
+//       config: { botId: 'YOUR_BOT_ID' },
+//       componentProps: { title: 'EternalCNC Assistant' },
+//       auth: { type: 'token', token: 'YOUR_PAT_TOKEN', onRefresh: () => '' },
+//     });
+//   </script>
+const COZE_EMBED_CODE = `<!-- TODO: 在此粘贴扣子网页嵌入代码（Web SDK / <script> 完整片段） -->`;
+---
+
+{!isZh && <div id="coze-chat-embed" set:html={COZE_EMBED_CODE} />}

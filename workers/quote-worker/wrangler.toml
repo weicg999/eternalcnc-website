@@ -1,0 +1,24 @@
+name = "eternalcnc-quote"
+main = "src/index.js"
+compatibility_date = "2024-09-23"
+
+# 绑定一个 R2 桶，用于存放大文件（超过邮件附件上限的图纸）
+# 首次部署前需先创建桶：wrangler r2 bucket create eternalcnc-rfq
+[[r2_buckets]]
+binding = "RFQ_BUCKET"
+bucket_name = "eternalcnc-rfq"
+
+# 大文件公开下载基址（若 R2 桶设为公开访问）。签名 URL 优先，回退到此。
+# 也可不公开、仅依赖 createSignedUrl（Worker 付费计划支持）。
+[vars]
+# R2_PUBLIC_BASE = "https://<your-r2-public-host>"
+MAIL_FROM = "EternalCNC RFQ <rfq@eternalcnc.com>"
+SALES_EMAIL = "sales@eternalcnc.com"
+
+# --- 以下通过 secret 注入，不要写进文件 ---
+# wrangler secret put RESEND_API_KEY
+# （在 https://resend.com 注册，验证 eternalcnc.com 域名后取 API Key）
+#
+# 本地开发注入 secret：
+#   wrangler secret put RESEND_API_KEY --local
+#   wrangler secret put R2_PUBLIC_BASE --local   # 可选

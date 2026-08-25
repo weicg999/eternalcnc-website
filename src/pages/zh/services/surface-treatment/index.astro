@@ -1,0 +1,176 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '加工服务', href: '/zh/services' },
+  { label: '表面处理' },
+];
+
+const capabilities = [
+  {
+    title: '阳极氧化',
+    items: ['常规阳极氧化', '硬质阳极氧化', '着色氧化', '封闭处理'],
+    tolerance: '膜厚 ±2μm',
+    materials: '铝合金 6061/7075/5052',
+  },
+  {
+    title: '电镀处理',
+    items: ['镀镍', '镀铬', '镀金', '镀锌'],
+    tolerance: '镀层厚度 ±1μm',
+    materials: '钢、铜合金、锌合金基材',
+  },
+  {
+    title: '喷涂涂装',
+    items: ['粉末喷涂', '液体喷涂', '电泳涂装', '特氟龙涂层'],
+    tolerance: '膜厚 ±5μm',
+    materials: '各类金属基材',
+  },
+  {
+    title: '其他处理',
+    items: ['喷砂', '抛光', '钝化', '发黑/发蓝'],
+    tolerance: '按工艺标准',
+    materials: '不锈钢、钢、铝合金等',
+  },
+];
+
+const standards = [
+  { label: '品质检测', desc: '膜厚仪、盐雾试验、附着力测试等全项检测，确保处理质量。' },
+  { label: '环保合规', desc: '所有表面处理工艺符合 RoHS/REACH 环保要求，满足出口标准。' },
+  { label: '外观标准', desc: '色差 ΔE ≤ 1.5，无流挂、无气泡、无橘皮，确保外观一致性。' },
+  { label: '耐候性能', desc: '盐雾试验 ≥ 96h，满足户外长期使用需求，延长产品寿命。' },
+];
+---
+
+<PageLayout
+  title="表面处理服务 | 阳极氧化·电镀·喷涂 | Eternal CNC"
+  description="专业表面处理服务，支持阳极氧化、电镀、喷涂涂装、喷砂抛光等多种工艺，满足各类外观及功能需求。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">加工服务</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        表面处理
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        阳极氧化、电镀、喷涂等多种工艺，满足外观及功能需求。
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/industries" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          查看行业应用 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">服务分类</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">表面处理服务</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        我们提供全方位的技术支持与加工服务，确保每个环节都达到最高标准。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">精密公差</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">需精加工与检测工序保障，具体以图纸评审为准</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">常用材料</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Surface Treatment Gallery -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">工艺效果</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">表面处理效果展示</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        以下为 3D 渲染示意图，展示各类表面处理工艺的典型质感。真实样品图将陆续补充。
+      </p>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/surface-treatment/surface-treatment-anodizing-render-01.webp" alt="3D 渲染示意：阳极氧化铝合金外壳，哑光黑色表面" width="400" height="400" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">阳极氧化 · 哑光黑</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/surface-treatment/surface-treatment-electroplating-render-01.webp" alt="3D 渲染示意：电镀不锈钢支架，镜面铬质效果" width="400" height="400" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">电镀处理 · 镜面铬</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/surface-treatment/surface-treatment-black-oxide-render-01.webp" alt="3D 渲染示意：发黑处理钢制零件，枪灰哑光表面" width="400" height="400" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">发黑处理 · 枪灰</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/surface-treatment/surface-treatment-powder-coating-render-01.webp" alt="3D 渲染示意：粉末喷涂铝制外壳，哑光蓝色表面" width="400" height="400" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">粉末喷涂 · 哑光蓝</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/surface-treatment/surface-treatment-bead-blasting-render-01.webp" alt="3D 渲染示意：喷砂拉丝不锈钢零件，缎面哑光质感" width="400" height="400" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">喷砂拉丝 · 缎面</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/surface-treatment/surface-treatment-mirror-polish-render-01.webp" alt="3D 渲染示意：镜面抛光黄铜接头，高反光金色表面" width="400" height="400" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">镜面抛光 · 黄铜</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">质量管控</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">表面处理质量标准</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        每项服务均按严格标准执行，确保客户获得最佳体验。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">需要表面处理服务？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        上传图纸，我们的工程师 24 小时内提供报价及工艺方案建议。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          免费DFM图纸评审 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

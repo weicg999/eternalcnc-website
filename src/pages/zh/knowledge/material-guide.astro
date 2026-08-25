@@ -1,0 +1,143 @@
+﻿---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '知识库', href: '/zh/knowledge' },
+  { label: '材料选型指南' },
+];
+---
+
+<PageLayout
+  title="材料选型指南 – 鑫永恒"
+  description="CNC 加工材料选择指南：铝合金、钢、不锈钢、钛合金、铜/黄铜及工程塑料的性能对比与选型建议。"
+  breadcrumbs={breadcrumbs}
+>
+  <section style="background-color: var(--bg-dark); background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-5">材料选型指南</h1>
+      <p class="text-lg max-w-3xl" style="color: var(--text-helper);">为您的应用选择最合适的材料 — 平衡强度、重量、耐腐蚀性、可加工性和成本。</p>
+    </div>
+  </section>
+
+  <section class="py-16" style="background-color: var(--page-bg);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl space-y-12">
+
+        <div class="card p-6">
+          <h2 class="text-2xl font-bold mb-3">铝合金</h2>
+          <p class="mb-4" style="color: var(--text-body);">最受欢迎的 CNC 材料。出色的强度重量比，良好的可加工性，价格实惠。适用于原型、外壳、航空航天和汽车零部件。</p>
+          <div class="grid md:grid-cols-3 gap-4 text-sm">
+            <div>
+              <h3 class="font-bold mb-2">6061-T6</h3>
+              <p style="color: var(--text-muted);">通用型。强度好，可焊接，可阳极氧化。大多数应用的首选。</p>
+            </div>
+            <div>
+              <h3 class="font-bold mb-2">7075-T6</h3>
+              <p style="color: var(--text-muted);">高强度航空级。强度约为 6061 的 2 倍。耐腐蚀性较低，不可焊接。</p>
+            </div>
+            <div>
+              <h3 class="font-bold mb-2">2024-T4</h3>
+              <p style="color: var(--text-muted);">高疲劳强度。常用于航空结构件。耐腐蚀性低于 6061。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card p-6">
+          <h2 class="text-2xl font-bold mb-3">钢</h2>
+          <p class="mb-4" style="color: var(--text-body);">高强度和耐磨性。用于工装、结构件、齿轮和高载荷应用。</p>
+          <div class="grid md:grid-cols-3 gap-4 text-sm">
+            <div>
+              <h3 class="font-bold mb-2">1018（低碳钢）</h3>
+              <p style="color: var(--text-muted);">低碳，易加工和焊接。适用于通用零件和夹具。</p>
+            </div>
+            <div>
+              <h3 class="font-bold mb-2">4140（合金钢）</h3>
+              <p style="color: var(--text-muted);">铬钼合金钢。高韧性，良好的疲劳强度。可热处理。</p>
+            </div>
+            <div>
+              <h3 class="font-bold mb-2">P20 / H13（模具钢）</h3>
+              <p style="color: var(--text-muted);">用于模具和工装。热处理后高硬度。出色的耐磨性。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card p-6">
+          <h2 class="text-2xl font-bold mb-3">不锈钢</h2>
+          <p class="mb-4" style="color: var(--text-body);">出色的耐腐蚀性，良好的力学性能。用于医疗、食品、海洋和化工领域。</p>
+          <div class="grid md:grid-cols-3 gap-4 text-sm">
+            <div>
+              <h3 class="font-bold mb-2">303</h3>
+              <p style="color: var(--text-muted);">易切削不锈钢。不锈钢中可加工性最好。通用耐腐蚀。</p>
+            </div>
+            <div>
+              <h3 class="font-bold mb-2">304</h3>
+              <p style="color: var(--text-muted);">最常见不锈钢。耐腐蚀性优异。食品级。可加工性不如 303。</p>
+            </div>
+            <div>
+              <h3 class="font-bold mb-2">316L</h3>
+              <p style="color: var(--text-muted);">海洋级。耐腐蚀性卓越，尤其耐氯化物和酸。医疗/食品安全。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card p-6">
+          <h2 class="text-2xl font-bold mb-3">钛合金</h2>
+          <p class="mb-4" style="color: var(--text-body);">卓越的强度重量比和生物相容性。用于航空航天、医疗植入物和高性能应用。成本较高，加工速度较慢。</p>
+          <div class="grid md:grid-cols-2 gap-4 text-sm">
+            <div>
+              <h3 class="font-bold mb-2">Grade 2（纯钛）</h3>
+              <p style="color: var(--text-muted);">纯钛。耐腐蚀性极佳。成型性好。医疗和化工应用。</p>
+            </div>
+            <div>
+              <h3 class="font-bold mb-2">Grade 5（Ti-6Al-4V）</h3>
+              <p style="color: var(--text-muted);">最常见的航空钛合金。高强度，可热处理。比 Grade 2 强约 60%。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card p-6">
+          <h2 class="text-2xl font-bold mb-3">黄铜与铜</h2>
+          <p class="mb-4" style="color: var(--text-body);">优良的导电和导热性。黄铜可加工性好且有装饰效果；铜提供最大导电性。</p>
+          <div class="grid md:grid-cols-2 gap-4 text-sm">
+            <div>
+              <h3 class="font-bold mb-2">C360 黄铜</h3>
+              <p style="color: var(--text-muted);">易切削黄铜。可加工性最好的金属之一。适用于接头、阀门和装饰件。</p>
+            </div>
+            <div>
+              <h3 class="font-bold mb-2">C110 铜（ETP）</h3>
+              <p style="color: var(--text-muted);">电解韧铜。100% IACS 导电率。用于电气和导热应用。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card p-6">
+          <h2 class="text-2xl font-bold mb-3">工程塑料</h2>
+          <p class="mb-4" style="color: var(--text-body);">轻质、耐腐蚀、电绝缘。适用于原型、绝缘件和低摩擦应用。</p>
+          <div class="grid md:grid-cols-3 gap-4 text-sm">
+            <div>
+              <h3 class="font-bold mb-2">Delrin（POM）</h3>
+              <p style="color: var(--text-muted);">尺寸稳定性好，低摩擦。适用于齿轮、衬套和精密零件。</p>
+            </div>
+            <div>
+              <h3 class="font-bold mb-2">尼龙（PA6/PA66）</h3>
+              <p style="color: var(--text-muted);">韧性好，耐磨。适用于轴承、垫片和结构塑料件。</p>
+            </div>
+            <div>
+              <h3 class="font-bold mb-2">PEEK</h3>
+              <p style="color: var(--text-muted);">高性能。耐化学性和耐高温性优异。医疗和航空级。</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16" style="background-color: var(--bg-dark);">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-2xl font-bold text-white mb-4">不确定选哪种材料？</h2>
+      <p class="mb-8" style="color: var(--text-helper);">告诉我们您的应用需求，我们会推荐性能和预算最优的材料方案。</p>
+      <a href="/zh/contact/get-a-quote" class="btn-primary">获取材料建议 →</a>
+    </div>
+  </section>
+</PageLayout>

@@ -1,0 +1,171 @@
+﻿---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Cases', href: '/cases' },
+  { label: 'Robotics' },
+];
+
+const capabilities = [
+  {
+    title: 'Joint Module Housing',
+    items: ['5-axis machining from solid billet', 'Bearing seat concentricity ±0.003mm', 'Lightweight wall design', 'Hard anodized surface'],
+    tolerance: '±0.005mm',
+    materials: 'Aluminum 7075-T6',
+  },
+  {
+    title: 'Reducer Planet Carrier',
+    items: ['Gear hobbing + CNC finishing', 'Tooth profile accuracy Grade 5', 'Heat treatment HRC 58-62', 'Batch of 300 units'],
+    tolerance: '±0.01mm',
+    materials: 'Steel 20CrMnTi',
+  },
+  {
+    title: 'End Effector Base',
+    items: ['Multi-face milling in single setup', 'Mounting hole pattern ±0.005mm', 'Lightweight pocketed design', 'Quick-change adapter compatible'],
+    tolerance: '±0.005mm',
+    materials: 'Aluminum 6061-T6',
+  },
+  {
+    title: 'Encoder Bracket',
+    items: ['Precision CNC milling', 'Datum surface flatness 0.01mm', 'Compact form factor', 'Passivated finish'],
+    tolerance: '±0.01mm',
+    materials: 'Stainless 303',
+  },
+];
+
+const standards = [
+  { label: 'Repeatability Test', desc: 'Parts tested across multiple batches for ±0.005mm repeatability. SPC data available for critical dimensions.' },
+  { label: 'Surface Roughness', desc: 'Bearing surfaces finished to Ra 0.4–0.8. Mating surfaces matched for optimal fit and motion.' },
+  { label: 'Heat Treatment Report', desc: 'Gear and shaft heat treatment documented with hardness test results. Full process traceability.' },
+  { label: 'Stability Check', desc: 'Stress-relief treatment before final machining. Parts measured at controlled temperature for accuracy.' },
+];
+---
+
+<PageLayout
+  title="Robotics Parts Cases | Joint Modules · Reducers · Motion Control | Eternal CNC"
+  description="Real CNC machining case studies for robotics — joint module housings, reducer planet carriers, end effector bases, encoder brackets."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Cases</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Robotics Parts Cases
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Joint modules · Reducers · Motion control precision machining cases.
+        Proven track record delivering high-precision motion control components.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/cases" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          View All Cases →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Case Studies</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Featured Robotics Cases</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Selected projects demonstrating our robotics machining capabilities.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Tolerance Achieved</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Material</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Product Renders -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Product Gallery</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Featured Product Renders</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">Representative product renders — material, process, and surface detail.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/robotics/cnc-robotics-rotary-joint-aluminum-render-01.webp" alt="Aluminum 6-axis robot rotary joint" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Robot Rotary Joint</p>
+            <p class="text-xs" style="color: var(--text-muted);">Aluminum · 5-axis milling · H7 bearing seat</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/robotics/cnc-robotics-harmonic-reducer-steel-render-01.webp" alt="Steel harmonic reducer housing" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Harmonic Reducer Housing</p>
+            <p class="text-xs" style="color: var(--text-muted);">Steel · turn-mill · class-6 gear accuracy</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/robotics/cnc-robotics-arm-bracket-aluminum-render-01.webp" alt="Aluminum lightweight robot arm bracket" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Lightweight Arm Bracket</p>
+            <p class="text-xs" style="color: var(--text-muted);">Aluminum 6061 · milled + stress-relieved · ±0.02mm</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Quality Control</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Robotics Quality Standards</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Motion control components demand the tightest tolerances and surface finishes.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Have a similar project?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Upload your drawing and our engineers will provide a quote and DFM feedback within 24 hours.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/cases" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          View All Cases →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

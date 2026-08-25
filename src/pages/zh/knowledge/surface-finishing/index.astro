@@ -1,0 +1,138 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '知识库', href: '/zh/knowledge' },
+  { label: '表面处理' },
+];
+
+const capabilities = [
+  {
+    title: '阳极氧化',
+    items: ['本色阳极（银灰色，耐磨耐蚀）', '黑色硬质阳极（硬度高，耐磨）', '彩色阳极（装饰性，多种颜色可选）', '导电氧化（不绝缘，适合接地需求）'],
+    tolerance: '膜厚 5-25μm',
+    materials: '仅适用于铝及铝合金',
+  },
+  {
+    title: '钝化处理',
+    items: ['不锈钢钝化（提高耐蚀性 3-5 倍）', '镀锌钝化（彩钝/蓝白钝/黑钝）', '无铬钝化（环保合规）', '钝化后可直接装配'],
+    tolerance: '几乎不影响尺寸（<1μm）',
+    materials: '适用于不锈钢、镀锌件',
+  },
+  {
+    title: '电镀工艺',
+    items: ['镀镍（耐磨耐蚀，表面光亮）', '镀铬（高硬度高耐磨，镜面效果）', '镀锌（经济防腐，白锌/彩锌）', '镀铜（打底或导电用途）'],
+    tolerance: '镀层厚度 5-20μm',
+    materials: '需考虑镀层对公差的影响',
+  },
+  {
+    title: '喷涂工艺',
+    items: ['粉末喷涂（涂膜厚，耐冲击，环保）', '液体喷漆（表面平整，颜色丰富）', '喷塑（耐磨耐候，适合外壳）', '氟碳喷涂（超耐候，户外 20 年以上）'],
+    tolerance: '涂膜厚度 40-120μm',
+    materials: '喷涂前需做表面预处理',
+  },
+];
+
+const standards = [
+  { label: '预处理优先', desc: '任何表面处理前必须做好除油、除锈、活化等预处理。' },
+  { label: '尺寸预留', desc: '电镀、喷涂等有膜厚的工艺，设计时需预留公差余量。' },
+  { label: '材料适配', desc: '不同基材适用的表面处理工艺不同，需提前确认。' },
+  { label: '环境匹配', desc: '根据使用环境（室内/户外/腐蚀环境）选择处理等级。' },
+];
+---
+
+<PageLayout
+  title="CNC零件表面处理工艺 | 阳极氧化·钝化·电镀·喷涂 | Eternal CNC"
+  description="Eternal CNC 表面处理指南——阳极氧化、钝化处理、电镀工艺、喷涂工艺等 7 种常用表面处理的工艺特点、适用材料与膜厚规格。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">知识库</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        CNC 零件表面处理工艺指南
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        阳极氧化、钝化、电镀、喷涂等 7 种常用工艺详解
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          技术咨询
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">工艺类型</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">四大表面处理工艺</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        了解常见表面处理工艺的特点、适用材料和膜厚参数，为零件选择最合适的方案。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">膜厚规格</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">适用材料</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">选型原则</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">表面处理选型原则</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        正确选择表面处理工艺，兼顾防护效果、外观需求和成本控制。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">不确定选哪种表面处理？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        告诉我们使用场景和材料，我们推荐最合适的表面处理方案。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          技术咨询
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

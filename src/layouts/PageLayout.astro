@@ -1,0 +1,22 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  schema?: object;
+  breadcrumbs: { label: string; href?: string }[];
+}
+
+const { title, description, schema, breadcrumbs } = Astro.props;
+---
+
+<BaseLayout {title} {description} {schema}>
+  <div class="border-b" style="border-color: var(--border-color); background-color: var(--card-white);">
+    <div class="container-custom py-4">
+      <Breadcrumb items={breadcrumbs} />
+    </div>
+  </div>
+  <slot />
+</BaseLayout>

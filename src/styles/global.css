@@ -1,0 +1,225 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --brand-red: #8B0000;
+    --brand-dark: #1A1A1A;
+    --page-bg: #F4F3EE;
+    --card-white: #FFFFFF;
+    --text-body: #6B7280;
+    --text-muted: #888888;
+    --bg-dark: #0C0C10;
+    --text-helper: #9CA3AF;
+    --border-color: #E8E8E4;
+    --footer-bg: #ECECE8;
+    --brand-silver: #8B95A1;
+    --brand-secondary: #6B7280;
+    --brand-text: #1A1A1A;
+    --brand-bgAlt: #F4F3EE;
+    --border-light: #E8E8E4;
+    --font-heading: 'Inter', 'Noto Sans SC', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    --font-body: 'Inter', 'Noto Sans SC', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply antialiased;
+    font-family: 'Inter', 'Noto Sans SC', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background-color: var(--page-bg);
+    color: var(--text-body);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', 'Noto Sans SC', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    color: var(--brand-dark);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  h1 { @apply text-4xl md:text-5xl lg:text-6xl; }
+  h2 { @apply text-3xl md:text-4xl; }
+  h3 { @apply text-2xl md:text-3xl; }
+  h4 { @apply text-xl md:text-2xl; }
+
+  a {
+    color: var(--brand-red);
+    transition: color 0.2s ease;
+  }
+  a:hover {
+    color: #6B0000;
+  }
+  /* Prevent hover text from disappearing into the red button hover background. Only targets <a> buttons that actually use both text-white and bg-[#8B0000]. */
+  a[class~="text-white"][class~="bg-[#8B0000]"]:hover {
+    color: #fff !important;
+  }
+
+  ul, ol {
+    list-style-position: inside;
+  }
+
+  ul li::marker {
+    color: var(--brand-red);
+  }
+}
+
+@layer components {
+  /* === Buttons === */
+  .btn-primary {
+    @apply inline-flex items-center justify-center font-medium transition-all duration-200;
+    background-color: var(--brand-red);
+    color: #FFFFFF !important;
+    border-radius: 12px;
+    padding: 12px 28px;
+    font-size: 0.95rem;
+  }
+  .btn-primary:hover {
+    background-color: #6B0000;
+    color: #fff;
+  }
+  .btn-primary:focus {
+    @apply outline-none ring-2 ring-offset-2;
+    ring-color: var(--brand-red);
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center font-medium transition-all duration-200;
+    background-color: #FFFFFF;
+    border: 1px solid var(--brand-dark);
+    color: var(--brand-dark);
+    border-radius: 12px;
+    padding: 12px 28px;
+    font-size: 0.95rem;
+  }
+  .btn-outline:hover {
+    border-color: var(--brand-red);
+    color: var(--brand-red);
+  }
+
+  .btn-icon {
+    @apply inline-flex items-center justify-center rounded-full transition-all duration-200;
+    background-color: var(--brand-dark);
+    color: #fff;
+    width: 44px;
+    height: 44px;
+  }
+  .btn-icon:hover {
+    background-color: var(--brand-red);
+    color: #fff;
+  }
+
+  /* === Serif heading utility === */
+  .heading-serif {
+    font-family: 'Inter', 'Noto Sans SC', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  }
+
+  /* === Red decoration line === */
+  .red-line {
+    display: block;
+    width: 40px;
+    height: 3px;
+    background-color: var(--brand-red);
+    margin-bottom: 12px;
+  }
+
+  /* === Cards === */
+  .card {
+    @apply overflow-hidden transition-shadow duration-300;
+    background-color: var(--card-white);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+  }
+  .card:hover {
+    @apply shadow-lg;
+  }
+
+  .card-industry {
+    border-radius: 12px;
+    background-color: #F0F0EC;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+  }
+  .card-industry:hover {
+    @apply shadow-md;
+  }
+
+  /* === Container === */
+  .container-custom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  @media (max-width: 768px) {
+    .container-custom {
+      padding: 0 20px;
+    }
+  }
+
+  /* === Section spacing === */
+  .section-padding {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+
+  /* === Rounded industrial === */
+  .rounded-industrial {
+    border-radius: 12px;
+  }
+
+  /* === Form styles === */
+  .form-input {
+    @apply w-full px-4 py-3 border transition-all duration-200;
+    border-color: var(--border-color);
+    border-radius: 12px;
+    color: var(--text-body);
+  }
+  .form-input:focus {
+    @apply outline-none ring-2;
+    ring-color: var(--brand-red);
+    border-color: var(--brand-red);
+  }
+
+  .form-label {
+    @apply block text-sm font-medium mb-1;
+    color: var(--brand-dark);
+  }
+
+  /* === Comparison table === */
+  .comparison-table {
+    @apply w-full text-sm rounded-industrial overflow-hidden;
+    background-color: var(--card-white);
+    border: 1px solid var(--border-color);
+  }
+  .comparison-table thead tr {
+    background-color: var(--brand-dark);
+    color: #fff;
+  }
+  .comparison-table th {
+    @apply text-left px-6 py-4 font-medium;
+  }
+  .comparison-table td {
+    @apply px-6 py-4;
+    color: var(--text-body);
+  }
+  .comparison-table tbody tr {
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s;
+  }
+  .comparison-table tbody tr:hover {
+    background-color: #F0F0EC;
+  }
+  .comparison-table tbody tr:last-child {
+    border-bottom: 0;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

@@ -1,0 +1,138 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Knowledge Base', href: '/knowledge' },
+  { label: 'Tech Blog' },
+];
+
+const capabilities = [
+  {
+    title: 'Machining Tips',
+    items: ['How to optimize tool paths and reduce air cuts', 'Thin-wall part anti-deformation fixturing techniques', 'Deep hole machining chip evacuation solutions', 'Aluminum high-gloss surface machining parameter settings'],
+    tolerance: 'Continuously updated',
+    materials: 'Practical experience from frontline engineers',
+  },
+  {
+    title: 'Material Selection Guide',
+    items: ['Aluminum vs steel for structural components', 'Material selection guide for corrosive environments', 'Material comparison for high-temperature applications', 'Material alternatives for cost-sensitive parts'],
+    tolerance: 'Covers 20+ common materials',
+    materials: 'Helping you choose the most suitable material',
+  },
+  {
+    title: 'Process Optimization Cases',
+    items: ['Aluminum housing reduced from 8 operations to 5', 'Stainless steel part cycle time cut by 40%', 'Yield improvement from 85% to 98% — the full journey', 'How we reduced batch part cost by 25%'],
+    tolerance: 'Every case backed by data',
+    materials: 'From the shop floor, for the shop floor',
+  },
+  {
+    title: 'Industry Insights',
+    items: ['The growing adoption of 5-axis simultaneous machining', 'Smart manufacturing and digital factories', 'AI applications in machining parameter optimization', 'New demands from EV manufacturing on precision machining'],
+    tolerance: 'Focused on the technology frontier',
+    materials: 'Insights into industry development direction',
+  },
+];
+
+const standards = [
+  { label: 'Practical Knowledge', desc: 'All technical articles are based on real project experience — no empty theory.' },
+  { label: 'Data-Driven', desc: 'Optimization cases include detailed data comparisons — verifiable and reproducible.' },
+  { label: 'Consistent Updates', desc: '1-2 new articles published every week — technical content keeps growing.' },
+  { label: 'Reader Interaction', desc: 'Leave questions in comments — our engineering team replies regularly.' },
+];
+---
+
+<BaseLayout
+  title="CNC Machining Tech Blog | Machining Tips · Material Selection · Process Optimization | Eternal CNC"
+  description="Eternal CNC technical blog — CNC machining tips, material selection guides, process optimization case studies, and industry insights. Practical experience shared by frontline engineers."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Knowledge Base</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        CNC Machining Tech Blog
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        In-depth technical articles on machining tips, material selection, and process optimization
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Talk to an Engineer
+        </a>
+        <a href="/knowledge" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Browse All Articles →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Content Categories</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Four Technical Content Sections</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        From practical tips to industry insights — comprehensive coverage of CNC machining technology.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Content Status</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Content Feature</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Content Commitment</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Our Content Principles</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        We deliver valuable, actionable technical content — no fluff, no copy-paste.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Have a Technical Topic You Want to Explore?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Let us know what topics interest you — we will cover them in dedicated articles or answer them directly.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Talk to an Engineer
+        </a>
+        <a href="/knowledge" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Browse All Articles →
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,142 @@
+﻿---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '工艺能力' },
+];
+
+const capabilities = [
+  {
+    title: '设备清单',
+    items: ['品牌型号齐全', '30 台集团协作产能网络机组', '完整参数公开', '车间实拍可查'],
+    detail: '详情',
+    link: '/zh/capabilities/equipment',
+  },
+  {
+    title: '精度标准',
+    items: ['铣削 ±0.005mm', '车削 ±0.01mm', '磨削 ±0.01mm', '线切割 ±0.01mm'],
+    detail: '详情',
+    link: '/zh/capabilities/tolerance',
+  },
+  {
+    title: '材料范围',
+    items: ['铝合金 6061/7075', '不锈钢 304/316/4340', '铜合金 C360', '工程塑料 POM/PEEK'],
+    detail: '详情',
+    link: '/zh/capabilities/materials',
+  },
+  {
+    title: '加工尺寸范围',
+    items: ['最大行程 X 轴 850mm', '最大回转直径 400mm', '五轴联动加工', '大型零件可协商'],
+    detail: '详情',
+    link: '/zh/capabilities/size-range',
+  },
+  {
+    title: '交期说明',
+    items: ['打样 3-7 天', '量产 15-30 天', '急单可协商', '全程进度透明'],
+    detail: '详情',
+    link: '/zh/capabilities/lead-time',
+  },
+];
+
+const advantages = [
+  { label: '全流程透明', desc: '从报价到交付，每个环节进度可查，绝不黑箱操作。' },
+  { label: '工程师直营', desc: '15 年加工经验的工程师团队直接对接，技术沟通零障碍。' },
+  { label: '严格质控体系', desc: 'ISO 9001 认证中（2026），关键尺寸报告与材质证书按需提供，SPC 统计按客户要求。' },
+  { label: '一站式服务', desc: '从 DFM 分析到表面处理，无需多家协调，省时省心。' },
+];
+---
+
+<PageLayout
+  title="工艺能力 | 设备·精度·材料·尺寸·交期 | Eternal CNC"
+  description="透明公开我们的加工能力：30 台 CNC 设备、±0.005mm精度、全系列金属材料、最大850mm行程、3-7天打样交期。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section class="py-20" style="background-color: var(--card-white);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">工艺能力</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        能力透明，信任可见
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        设备 · 精度 · 材料 · 尺寸 · 交期，全部透明可查
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/capabilities/equipment" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          查看设备清单 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities Grid -->
+  <section class="py-20" style="background-color: var(--page-bg);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">能力清单</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">五大核心能力维度</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        我们相信透明是信任的基础，以下是客户最关心的五个维度。
+      </p>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <a href={cap.link} class="text-sm font-medium text-[#8B0000] transition-all duration-300 hover:text-[#6B0000] hover:translate-x-0.5">
+                {cap.detail} →
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Advantages -->
+  <section class="py-20" style="background-color: var(--card-white);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">核心优势</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">为什么选择我们</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        15 年精密加工经验，服务全球客户，以专业和透明赢得信任。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {advantages.map((adv) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{adv.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{adv.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20" style="background-color: var(--brand-dark);">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">查看完整能力清单</h2>
+      <p class="text-lg mb-8 text-gray-300">
+        上传图纸，获取专业评估及报价。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          免费DFM图纸评审 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

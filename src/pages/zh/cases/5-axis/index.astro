@@ -1,0 +1,121 @@
+﻿---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '案例展示', href: '/zh/cases' },
+  { label: '五轴加工案例' },
+];
+
+const caseCards = [
+  { title: '叶轮', material: '钛合金', process: '五轴联动精加工', spec: '叶片厚度 ±0.02mm' },
+  { title: '涡轮壳体', material: '铝合金', process: '五轴铣削', spec: '复杂内腔一次成型，位置度0.03mm' },
+  { title: '异形支架', material: '不锈钢', process: '五轴联动铣削', spec: '多角度曲面，无需二次装夹' },
+];
+
+const qualityStandards = [
+  { title: '五轴精度', desc: '五轴定位精度定期校准，确保加工精度' },
+  { title: '曲面质量', desc: '曲面轮廓度检测，确保设计意图实现' },
+  { title: '全流程追溯', desc: '加工参数全程记录，支持质量追溯' },
+];
+---
+
+<PageLayout
+  title="五轴加工案例 | Eternal CNC"
+  description="五轴加工案例，涵盖叶轮、涡轮壳体、异形支架等复杂零件。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">案例展示</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">五轴加工案例</h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">一次装夹、五面加工，异形零件零累计误差。</p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">获取报价</a>
+        <a href="/zh/cases" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">查看全部案例 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Case Cards -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">典型案例</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">精选加工案例</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">以下为代表性加工案例，展示我们的工艺能力与质量水平。</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        {caseCards.map((card) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{card.title}</h3>
+            <ul class="space-y-2 mb-4">
+              <li class="text-sm flex items-start"><span class="mr-2" style="color: var(--brand-red);">—</span><span style="color: var(--text-body);">材料：{card.material}</span></li>
+              <li class="text-sm flex items-start"><span class="mr-2" style="color: var(--brand-red);">—</span><span style="color: var(--text-body);">工艺：{card.process}</span></li>
+              <li class="text-sm flex items-start"><span class="mr-2" style="color: var(--brand-red);">—</span><span style="color: var(--text-body);">{card.spec}</span></li>
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Product Renders -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">产品图展示</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">精选产品渲染</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">代表性产品渲染图——展示材料工艺与表面细节。</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/5-axis/cnc-5axis-impeller-titanium-render-01.webp" alt="钛合金五轴叶轮" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">五轴钛合金叶轮</p>
+            <p class="text-xs" style="color: var(--text-muted);">钛合金 · 五轴联动 · 叶片轮廓度 0.05mm</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/5-axis/cnc-5axis-turbo-housing-aluminum-render-01.webp" alt="铝合金五轴涡壳" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">涡轮增压涡壳</p>
+            <p class="text-xs" style="color: var(--text-muted);">铝合金 · 五轴曲面铣削 · 清根 R0.5</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/5-axis/cnc-5axis-aerospace-bracket-aluminum-render-01.webp" alt="铝合金五轴航空支架" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">五轴航空支架</p>
+            <p class="text-xs" style="color: var(--text-muted);">铝合金 7075 · 多面五轴 · ±0.02mm</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality Standards -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">质量管控</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">质控标准</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">每批订单均按严格质控流程执行。</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        {qualityStandards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.title}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">有五轴加工需求？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">上传图纸，我们的工程师 24 小时内提供报价及 DFM 可制造性反馈。</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">免费获取报价</a>
+        <a href="/zh/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">免费DFM图纸评审 →</a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

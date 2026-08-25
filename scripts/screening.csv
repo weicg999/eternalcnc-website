@@ -1,0 +1,123 @@
+filename,device_model,angle,has_person,clean_background,recommended_slot,grade,status,notes
+sunrise_dmu400.jpg,Sun King DMU 400,整机侧视,否,否,—,—,EXCLUDE,五轴/DMU/Sunrise 硬排除
+WH-540.jpg,Wanghui XH-540,整机前侧,否,否,equipment-detail,B,KEEP,黄机身，警告告示/纸张杂乱，需 PS 精修
+WH-540-1.jpg,Wanghui XH-540,整机侧视,是,否,equipment-detail,C,KEEP,有人物入镜，纸张杂乱
+图片1.png,HANMER LU320,整机前侧,否,否,—,—,EXCLUDE,非白名单机型
+微信图片_20260808143457_76_331.jpg,Sun King DMU 400,铭牌特写,否,是,—,—,EXCLUDE,五轴铭牌 CNC-5AXIS/DMU-400
+微信图片_20260808143457_77_331.jpg,Sun King DMU 400,整机侧视（门开）,是,否,—,—,EXCLUDE,五轴整机 + 人物
+微信图片_20260809113553_187_331.jpg,5-axis rotary table,转台/夹具特写,否,是,—,—,EXCLUDE,五轴转台场景
+微信图片_20260809114353_195_331.jpg,machined aluminum mold,零件顶侧特写,否,是,product/process,A,KEEP,A 级，适合产品/工艺展示
+微信图片_20260808143458_78_331.jpg,Sun King DMU 400,整机侧视（门开+人物）,是,否,—,—,EXCLUDE,五轴 Sun King DMU 400 + 人物
+微信图片_20260808143459_79_331.jpg,Sun King DMU 400,整机侧视（门开+人物背影）,是,否,—,—,EXCLUDE,五轴 Sun King DMU 400 + 人物背影
+微信图片_20260808143500_80_331.jpg,JIAFU JF-500,整机前侧,否,否,equipment-detail,B,KEEP,佳富 JF-500 整机，警告告示/纸张杂乱，需 PS
+微信图片_20260808143500_81_331.jpg,JIAFU JF-500,铭牌特写,否,是,equipment-detail,A,KEEP,佳富 JF-500 铭牌，A 级细节图
+微信图片_20260808143501_82_331.jpg,JIAFU JF series (likely JF-600),整机前侧（门开/刀库）,否,否,equipment-detail,B,KEEP,佳富 JF 系列整机，门开展示刀库，背景杂乱
+微信图片_20260808143502_83_331.jpg,JIAFU JF-600,铭牌特写,否,是,equipment-detail,A,KEEP,佳富 JF-600 铭牌，A 级细节图
+微信图片_20260808143502_84_331.jpg,JIAFU JF series,整机前侧（门关）,是,否,equipment-detail,C,KEEP,佳富 JF 系列整机，右侧有人物，纸张杂乱
+微信图片_20260808143503_85_331.jpg,JIAFU JF-500,整机前侧（人物开门）,是,否,equipment-detail,C,KEEP,佳富 JF-500 整机，人物背影开门，需 PS/去人
+微信图片_20260808143504_86_331.jpg,CATO CT-80,整机前侧,否,否,equipment-detail,B,KEEP,巨冈 CT-80 整机，红色机身，警告告示/纸张/工具杂乱，需 PS
+微信图片_20260808143504_87_331.jpg,CATO CT-80,整机前侧（略偏）,否,否,equipment-detail,B,KEEP,巨冈 CT-80 整机，与 86 视角接近（疑似重复），需 PS
+微信图片_20260808143505_88_331.jpg,CATO CT-80,铭牌特写,否,是,equipment-detail,A,KEEP,巨冈 CT-80 铭牌，A 级细节图
+微信图片_20260808143506_89_331.jpg,Wanghui XH-540,铭牌特写,否,是,equipment-detail,A,KEEP,望辉 XH-540 铭牌（ scratched，但无 1540 变体），A 级
+微信图片_20260808143506_90_331.jpg,Wanghui XH-540,铭牌特写,否,是,equipment-detail,B,KEEP,望辉/鑫腾辉铭牌，型号区疑似 1540 字样，存在型号风险，不作为主铭牌
+微信图片_20260808143507_91_331.jpg,XINTENGHUI XTH-T540,整机前侧,否,否,equipment-hero,B,KEEP,鑫腾辉 XTH-T540 整机（黄机身+标识牌），纸张杂乱，需 PS 可做 hero
+微信图片_20260808143508_92_331.jpg,Hong Jin Shun HJS-T5,侧面型号标贴,否,是,equipment-detail,A,KEEP,鸿金顺 HJS-T5 侧面型号贴，A 级
+微信图片_20260808143509_93_331.jpg,Hong Jin Shun HJS-T5,机身喷字特写,否,是,equipment-detail,A,KEEP,鸿金顺 HJS-T5 机身喷字，A 级
+微信图片_20260808143510_94_331.jpg,Hong Jin Shun HJS-T5,整机前侧（门开/刀库）,否,否,equipment-detail,B,KEEP,鸿金顺 HJS-T5 整机，门开展示刀库，侧面有纸张，需 PS
+微信图片_20260808143510_95_331.jpg,Hong Jin Shun HJS-T5,整机前侧（门开/刀库，略偏）,否,否,equipment-detail,B,KEEP,鸿金顺 HJS-T5，与 94 视角极近（疑似重复）
+微信图片_20260808143511_96_331.jpg,Qiao Hong QH-T6,铭牌特写,否,是,equipment-detail,A,KEEP,乔鸿 QH-T6 铭牌，A 级细节图
+微信图片_20260808143512_97_331.jpg,Qiao Hong QH-T6,整机前侧（门开/刀库）,否,否,equipment-detail,B,KEEP,乔鸿 QH-T6 整机，门开展示刀库，纸张杂乱
+微信图片_20260808143512_98_331.jpg,Qiao Hong QH-T6,整机前侧（门开/刀库，略偏）,否,否,equipment-detail,B,KEEP,乔鸿 QH-T6，与 97 视角极近（疑似重复）
+微信图片_20260808143513_99_331.jpg,XINTENGHUI XTH-T540,整机前侧（门关/屏幕亮）,否,否,equipment-hero,B,KEEP,鑫腾辉 XTH-T540 整机，屏幕亮，纸张杂乱，需 PS 可做 hero
+微信图片_20260808143514_100_331.jpg,Wanghui XH-540,铭牌特写（部分被管遮挡）,否,是,equipment-detail,B,KEEP,望辉 XH-540 铭牌，有管遮挡且 scratched，不如 89 清晰
+微信图片_20260808143515_102_331.jpg,Taikan T-700SE,铭牌特写,否,是,—,—,EXCLUDE,台群 Taikan T-700SE 铭牌，台群硬排除
+微信图片_20260808143516_103_331.jpg,Taikan T-700SE,铭牌特写,否,是,—,—,EXCLUDE,台群 T-700SE 铭牌，台群硬排除
+微信图片_20260808143517_104_331.jpg,Taikan T-V1270S,整机前侧（门开）,否,否,—,—,EXCLUDE,台群 T-V1270S 整机，台群硬排除
+微信图片_20260808143517_105_331.jpg,Taikan T-V1270S,整机前侧（门开，略偏）,否,否,—,—,EXCLUDE,台群 T-V1270S 整机，与 104 视角极近（疑似重复），台群硬排除
+微信图片_20260808143518_106_331.jpg,Taikan T-V1270S,整机前侧（门开/刀库）,否,否,—,—,EXCLUDE,台群 T-V1270S 整机，台群硬排除
+微信图片_20260808143519_107_331.jpg,Taikan T-V1270S,整机前侧（门开/刀库，略偏）,否,否,—,—,EXCLUDE,台群 T-V1270S 整机，与 106 视角极近，台群硬排除
+微信图片_20260808143520_108_331.jpg,Taikan T-V1270S,整机前侧（门关/偏左）,否,否,—,—,EXCLUDE,台群 T-V1270S 整机，台群硬排除
+微信图片_20260808143520_109_331.jpg,Taikan T-V1270S,整机前侧（门关，略偏）,否,否,—,—,EXCLUDE,台群 T-V1270S 整机，与 108 视角极近，台群硬排除
+微信图片_20260808143521_110_331.jpg,Taikan T-V1270S,整机前侧（门开/不同角度）,否,否,—,—,EXCLUDE,台群 T-V1270S 整机，台群硬排除
+微信图片_20260808143522_111_331.jpg,Taikan T-V1270S,整机侧视（门开）,否,否,—,—,EXCLUDE,台群 T-V1270S 整机，台群硬排除
+微信图片_20260808143522_112_331.jpg,Taikan T-V1270S,铭牌特写,否,是,—,—,EXCLUDE,台群 T-V1270S 铭牌，台群硬排除
+微信图片_20260808143523_113_331.jpg,Taikan T-V856S,铭牌特写,否,是,—,—,EXCLUDE,台群 T-V856S 铭牌，台群硬排除
+微信图片_20260808143524_114_331.jpg,Taikan T-V856S,整机前侧（门开/第四轴转台）,否,否,—,—,EXCLUDE,台群 T-V856S 整机（带转台），台群硬排除
+微信图片_20260808143524_115_331.jpg,Taikan T-V856S,整机前侧（门开/第四轴转台，略偏）,否,否,—,—,EXCLUDE,台群 T-V856S 整机，与 114 视角极近，台群硬排除
+微信图片_20260808143525_116_331.jpg,Taikan T-V856S,整机前侧（门关）,否,否,—,—,EXCLUDE,台群 T-V856S 整机，台群硬排除
+微信图片_20260808143526_117_331.jpg,Taikan T-V856S,整机前侧（门关，略偏）,否,否,—,—,EXCLUDE,台群 T-V856S 整机，与 116 视角极近，台群硬排除
+微信图片_20260808143526_118_331.jpg,Taikan T-V856S,铭牌特写,否,是,—,—,EXCLUDE,台群 T-V856S 铭牌（序列号 172400702），台群硬排除
+微信图片_20260808143527_119_331.jpg,Taikan T-V856S,铭牌特写,否,是,—,—,EXCLUDE,台群 T-V856S 铭牌（序列号 172601873，出机日期 2026-03-12），台群硬排除
+微信图片_20260808143528_120_331.jpg,oil usage instructions chart,文档/告示特写,否,是,—,—,EXCLUDE,机床油品使用须知告示，非展示用图
+微信图片_20260808143528_121_331.jpg,Taikan T-V856S,整机前侧（门开/第四轴转台）,否,否,—,—,EXCLUDE,台群 T-V856S 整机（带转台），台群硬排除
+微信图片_20260808143529_122_331.jpg,Taikan T-V856S,整机前侧（门开/第四轴转台，略偏）,否,否,—,—,EXCLUDE,台群 T-V856S 整机，与 121 视角极近，台群硬排除
+微信图片_20260808143530_123_331.jpg,unidentified blue CNC (not whitelist),整机侧视,否,否,—,—,EXCLUDE,机身无清晰品牌/型号标识，无法确认为白名单机型，保守排除
+微信图片_20260808143530_124_331.jpg,Qiao Hong QH-T6,整机前侧（偏右/门关）,否,否,equipment-detail,B,KEEP,乔鸿 QH-T6 整机，QIA HONG 标识清晰，纸张/蓝箱杂乱，需 PS
+微信图片_20260808143531_125_331.jpg,Qiao Hong QH-T6,铭牌特写,否,是,equipment-detail,A,KEEP,乔鸿 QH-T6 铭牌，A 级细节图
+微信图片_20260808143532_126_331.jpg,Qiao Hong QH-T6,整机前侧（正面/门关）,否,否,equipment-detail,B,KEEP,乔鸿 QH-T6 整机正面，纸张杂乱，需 PS
+微信图片_20260808143532_127_331.jpg,unidentified blue CNC (not whitelist),整机前侧（正/门关）,否,否,—,—,EXCLUDE,蓝门机身，无清晰型号标识，与 123 疑似同机，非白名单排除
+微信图片_20260808143533_128_331.jpg,unidentified blue CNC (not whitelist),整机前侧（门关，略偏）,否,否,—,—,EXCLUDE,蓝门机身，与 123/127 视角极近，非白名单排除
+微信图片_20260808143534_129_331.jpg,Taikan T-500SE (Create Century),整机前侧（门开/刀库）,否,否,—,—,EXCLUDE,Create Century（台群系）T-500SE 钻攻中心，台群硬排除
+微信图片_20260808143534_130_331.jpg,Taikan T-500SE (Create Century),整机前侧（门关）,否,否,—,—,EXCLUDE,Create Century（台群系）T-500SE，台群硬排除
+微信图片_20260808143535_131_331.jpg,Taikan T-500SE (Create Century),整机前侧（门关，略偏）,否,否,—,—,EXCLUDE,Create Century（台群系）T-500SE，与 130 视角极近，台群硬排除
+微信图片_20260808143536_132_331.jpg,Taikan T-500SE (Create Century),整机前侧（门开/刀库，略偏）,否,否,—,—,EXCLUDE,Create Century（台群系）T-500SE，与 129 视角极近，台群硬排除
+微信图片_20260808143537_134_331.jpg,Taikan T-500SE (Create Century),整机前侧（门开/刀库）,否,否,—,—,EXCLUDE,Create Century（台群系）T-500SE，台群硬排除
+微信图片_20260808143538_135_331.jpg,Taikan T-500S,铭牌特写,否,是,—,—,EXCLUDE,台群 T-500S 铭牌，台群硬排除
+微信图片_20260808143538_136_331.jpg,Taikan T-700SE,铭牌特写,否,是,—,—,EXCLUDE,台群 T-700SE 铭牌（与 103 同机重复），台群硬排除
+微信图片_20260808143539_137_331.jpg,oil supply instructions chart,文档/告示特写,否,是,—,—,EXCLUDE,油品补给说明告示，非展示用图
+微信图片_20260809110816_138_331.jpg,aluminum blanks/raw material stock,原材料堆垛（窗边）,否,是,process,A,KEEP,A 级，铝锭/原材料库存，适合工艺/能力页展示用料规模
+微信图片_20260809110817_139_331.jpg,aluminum blanks/raw material stock,原材料堆垛（略偏）,否,是,process,B,KEEP,铝锭原材料，与 138 视角接近，B 级
+微信图片_20260809110818_140_331.jpg,aluminum blanks/raw material stock,原材料堆垛（更近）,否,是,process,C,KEEP,铝锭原材料，与 138/139 视角极近，C 级
+微信图片_20260809110819_141_331.jpg,machined aluminum parts in storage,成品/零件堆放（仓库角落）,否,否,product,C,KEEP,铝件成品堆放在纸箱/周转箱中，背景杂乱，C 级
+微信图片_20260809110820_142_331.jpg,Sunrise 5-axis CNC,整机侧视（人物操作）,是,否,—,—,EXCLUDE,Sunrise 五轴机 + 人物，硬排除
+微信图片_20260809110820_143_331.jpg,Sunrise 5-axis CNC,整机侧视（人物操作，略偏）,是,否,—,—,EXCLUDE,Sunrise 五轴机 + 人物，与 142 重复，硬排除
+微信图片_20260809110821_144_331.jpg,Sunrise 5-axis CNC,整机侧视（人物操作）,是,否,—,—,EXCLUDE,Sunrise 五轴机 + 人物，硬排除
+微信图片_20260809110823_145_331.jpg,Sunrise 5-axis CNC,整机前侧（人物操作）,是,否,—,—,EXCLUDE,Sunrise 五轴机 + 人物，硬排除
+微信图片_20260809110827_146_331.jpg,Sunrise 5-axis CNC,切削特写（带人物背影）,是,是,—,—,EXCLUDE,五轴切削特写 + 人物，硬排除
+微信图片_20260809110831_147_331.jpg,Sunrise 5-axis CNC,切削特写（无人物/更近）,否,是,—,—,EXCLUDE,五轴切削特写，硬排除
+微信图片_20260809110836_148_331.jpg,Sunrise 5-axis CNC,整机侧视（人物操作）,是,否,—,—,EXCLUDE,Sunrise 五轴机 + 人物，与 144/145 重复，硬排除
+微信图片_20260809110842_149_331.jpg,Sunrise 5-axis CNC,整机侧视（人物操作，略偏）,是,否,—,—,EXCLUDE,Sunrise 五轴机 + 人物，重复，硬排除
+微信图片_20260809110856_150_331.jpg,Sunrise 5-axis CNC,整机侧视（人物操作，更近）,是,否,—,—,EXCLUDE,Sunrise 五轴机 + 人物，重复，硬排除
+微信图片_20260809110901_151_331.jpg,Sunrise 5-axis CNC,切削特写（人物开门）,是,是,—,—,EXCLUDE,五轴切削特写 + 人物，硬排除
+微信图片_20260809110904_152_331.jpg,Sunrise 5-axis CNC,切削特写（无人物/更近些）,否,是,—,—,EXCLUDE,五轴切削特写，硬排除
+微信图片_20260809110908_153_331.jpg,Sunrise 5-axis CNC,切削特写（主轴/工件）,否,是,—,—,EXCLUDE,五轴切削特写，硬排除
+微信图片_20260809110912_154_331.jpg,Sunrise DMU 400 5-axis,切削特写（主轴/工件）,否,是,—,—,EXCLUDE,DMU 400 五轴切削特写，硬排除
+微信图片_20260809110915_155_331.jpg,Sunrise DMU 400 5-axis,整机前侧（人物开门）,是,否,—,—,EXCLUDE,DMU 400 五轴机 + 人物，硬排除
+微信图片_20260809110919_156_331.jpg,Sunrise DMU 400 5-axis,整机前侧（门关/控制面板）,否,否,—,—,EXCLUDE,DMU 400 五轴机，硬排除
+微信图片_20260809110921_157_331.jpg,Sunrise DMU 400 5-axis,整机前侧（门关，略偏）,否,否,—,—,EXCLUDE,DMU 400 五轴机，与 156 重复，硬排除
+微信图片_20260809110929_159_331.jpg,Sunrise DMU 400 5-axis,整机侧视（门开/车间）,否,否,—,—,EXCLUDE,DMU 400 五轴机整机，硬排除
+微信图片_20260809110933_160_331.jpg,Sunrise DMU 400 5-axis,整机侧视（人物开门）,是,否,—,—,EXCLUDE,DMU 400 五轴机 + 人物，硬排除
+微信图片_20260809110936_161_331.jpg,Sunrise DMU 400 5-axis,整机侧视（人物操作面板）,是,否,—,—,EXCLUDE,DMU 400 五轴机 + 人物，硬排除
+微信图片_20260809110939_162_331.jpg,Sunrise DMU 400 5-axis,整机后侧（人物操作）,是,否,—,—,EXCLUDE,DMU 400 五轴机 + 人物，硬排除
+微信图片_20260809110943_163_331.jpg,Sunrise DMU 400 5-axis,整机后侧（人物操作，略偏）,是,否,—,—,EXCLUDE,DMU 400 五轴机 + 人物，重复，硬排除
+微信图片_20260809110946_164_331.jpg,Sunrise DMU 400 5-axis,切削特写（人物背影）,是,是,—,—,EXCLUDE,DMU 400 五轴切削特写 + 人物，硬排除
+微信图片_20260809110948_165_331.jpg,XINTENGHUI XTH-T540,整机前侧（门开/控制面板侧）,否,否,equipment-detail,B,KEEP,鑫腾辉 XTH-T540 整机，黄色机身+标识清晰，纸张杂乱，需 PS
+微信图片_20260809110950_166_331.jpg,XINTENGHUI XTH-T540,整机正面（门关）,否,否,equipment-hero,B,KEEP,鑫腾辉 XTH-T540 整机正面，纸张杂乱，需 PS 可做 hero
+微信图片_20260809110953_167_331.jpg,XINTENGHUI XTH-T540,整机正面（门关，略偏）,否,否,equipment-hero,C,KEEP,鑫腾辉 XTH-T540，与 166 视角极近，C 级
+微信图片_20260809110954_168_331.jpg,XINTENGHUI XTH-T540,整机正面（门关/居中）,否,否,equipment-hero,B,KEEP,鑫腾辉 XTH-T540 整机正面居中，纸张杂乱，需 PS 可做 hero
+微信图片_20260809110957_169_331.jpg,XINTENGHUI XTH-T540,整机正面（门关/居中，略偏）,否,否,equipment-hero,C,KEEP,鑫腾辉 XTH-T540，与 168 视角极近，C 级
+微信图片_20260809110959_170_331.jpg,XINTENGHUI XTH-T540,整机前侧（控制面板/斜角）,否,否,equipment-detail,B,KEEP,鑫腾辉 XTH-T540 斜角，控制面板清晰，纸张杂乱，需 PS
+微信图片_20260809111001_171_331.jpg,XINTENGHUI XTH-T540,车间机群侧视（多台 T540）,否,否,workshop,B,KEEP,多台 XTH-T540 排列，展示机群规模，背景杂乱，需 PS
+微信图片_20260809111004_172_331.jpg,Wanghui XTH-T540,铭牌特写（磨损）,否,是,equipment-detail,B,KEEP,望辉 XTH-T540 铭牌，磨损严重，B 级
+微信图片_20260809111006_173_331.jpg,Wanghui XTH-T540,铭牌特写（磨损，略偏）,否,是,equipment-detail,C,KEEP,望辉 XTH-T540 铭牌，与 172 重复，C 级
+微信图片_20260809111008_174_331.jpg,XINTENGHUI XTH-T540,铭牌特写（磨损/锈蚀）,否,否,equipment-detail,C,KEEP,鑫腾辉/望辉 XTH-T540 铭牌，锈蚀磨损，C 级
+微信图片_20260809111013_176_331.jpg,XINTENGHUI XTH-T540,车间机群侧视（2台 T540）,否,否,workshop,B,KEEP,多台 XTH-T540 排列，展示机群规模，背景杂乱，需 PS
+微信图片_20260809111018_178_331.jpg,XINTENGHUI XTH-T540,整机前侧（门开/磨损明显）,否,否,equipment-detail,B,KEEP,鑫腾辉 XTH-T540 整机，磨损掉漆明显，B 级
+微信图片_20260809113554_189_331.jpg,5-axis rotary table with part,五轴转台上的铝件,否,是,—,—,EXCLUDE,五轴转台场景，硬排除
+微信图片_20260809113554_191_331.jpg,5-axis rotary table with part,五轴转台上的铝件（略偏）,否,是,—,—,EXCLUDE,五轴转台场景，与 189 重复，硬排除
+微信图片_20260809113555_192_331.jpg,5-axis rotary table with part,五轴转台上的铝件（另一角度）,否,是,—,—,EXCLUDE,五轴转台场景，硬排除
+微信图片_20260809113556_193_331.jpg,machined part on 5-axis rotary table,五轴转台上的模具型腔特写,否,是,—,—,EXCLUDE,虽为零件特写，但背景可见五轴转台，硬排除
+微信图片_20260809114354_196_331.jpg,machined aluminum mold cavity,模具型腔特写（无机器背景）,否,是,product,A,KEEP,A 级，铝件模具型腔高光面特写，适合产品展示
+微信图片_20260809114355_197_331.jpg,machined aluminum mold cavity,模具型腔特写（侧角度）,否,是,product,B,KEEP,铝件模具型腔特写，与 196 视角接近，B 级
+微信图片_20260809114356_198_331.jpg,machined aluminum mold cavity,模具型腔特写（更近）,否,是,product,C,KEEP,铝件模具型腔特写，与 196/197 视角极近，C 级
+微信图片_20260809114357_199_331.jpg,machined aluminum mold cavity,模具型腔特写（另一角度）,否,是,product,C,KEEP,铝件模具型腔特写，C 级
+微信图片_20260809114400_201_331.jpg,machined aluminum mold cavity on 5-axis rotary table,零件/模具型腔特写（五轴转台）,否,是,—,—,EXCLUDE,五轴转台场景，硬排除
+微信图片_20260811143134_296_2.jpg,Taikan T-V856S (row in workshop),车间机群侧视,是,否,—,—,EXCLUDE,台群 T-V856S 机群，含人物，台群硬排除
+微信图片_20260811143135_297_2.jpg,5-axis trunnion machining,五轴转台加工特写,否,是,—,—,EXCLUDE,五轴加工场景，硬排除
+微信图片_20260811143136_298_2.jpg,5-axis trunnion machining,五轴转台加工特写,否,是,—,—,EXCLUDE,五轴加工场景，硬排除
+微信图片_20260811143136_299_2.jpg,5-axis trunnion machining complex part,五轴转台加工复杂铝件,否,是,—,—,EXCLUDE,五轴加工场景，硬排除
+微信图片_20260811143138_301_2.jpg,Taikan T-V856S (row in workshop),车间机群侧视,是,否,—,—,EXCLUDE,台群 T-V856S 机群，含人物，台群硬排除
+微信图片_20260811143138_302_2.jpg,Taikan T-V856S (row in workshop),车间机群侧视,是,否,—,—,EXCLUDE,台群 T-V856S 机群，含人物，与 301 视角接近，台群硬排除
+微信图片_20260811152643_246_331.jpg,Sunrise DMU 400 5-axis,整机侧视（人物操作）,是,否,—,—,EXCLUDE,Sunrise DMU 400 五轴机 + 人物，硬排除
+微信图片_20260811152655_247_331.jpg,Sunrise DMU 400 5-axis,整机侧视（多人物）,是,否,—,—,EXCLUDE,Sunrise DMU 400 五轴机 + 多人物，硬排除
+微信图片_20260811162340_250_331.jpg,5-axis trunnion machining complex aluminum part,五轴转台加工复杂铝件,否,是,—,—,EXCLUDE,五轴加工场景，硬排除

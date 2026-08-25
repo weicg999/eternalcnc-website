@@ -1,0 +1,169 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Industries', href: '/industries' },
+  { label: 'Robotics & Automation Parts' },
+];
+
+const capabilities = [
+  {
+    title: 'Joint Modules',
+    items: ['Harmonic reducer planet carriers', 'Bearing seats', 'High-precision rotary parts', 'Cable routing channels'],
+    tolerance: '±0.005mm',
+    materials: 'Aluminum 7075, Steel 4140, Titanium',
+  },
+  {
+    title: 'Reducer Parts',
+    items: ['RV reducer housings', 'Cycloidal gears', 'Input/output shafts', 'Reducer mounting plates'],
+    tolerance: '±0.01mm',
+    materials: 'Steel 20CrMnTi, 40Cr, Aluminum 6061-T6',
+  },
+  {
+    title: 'End Effectors',
+    items: ['Gripper bases', 'Suction cup mounts', 'End-tooling fixtures', 'Tool changer adapters'],
+    tolerance: '±0.005mm',
+    materials: 'Aluminum 6061, POM, Stainless 303',
+  },
+  {
+    title: 'Sensor Brackets',
+    items: ['Encoder mounts', 'Signal acquisition housings', 'Vision brackets', 'Limit switch fixtures'],
+    tolerance: '±0.01mm',
+    materials: 'Aluminum, Brass, Engineering Plastics',
+  },
+];
+
+const standards = [
+  { label: 'Repeatability Testing', desc: 'Parts tested across multiple batches for ±0.005mm repeatability. SPC data available for critical dimensions.' },
+  { label: 'Surface Roughness Control', desc: 'Bearing surfaces finished to Ra 0.4–0.8. Mating surfaces matched for optimal fit and motion.' },
+  { label: 'Heat Treatment Report', desc: 'Gear and shaft heat treatment documented with hardness test results. Full process traceability per batch.' },
+  { label: 'Dimensional Stability Verification', desc: 'Stress-relief treatment before final machining. Parts measured at controlled temperature for accuracy.' },
+];
+---
+
+<PageLayout
+  title="Robotics & Automation Parts CNC Machining | Joints · Reducers · End Effectors | Eternal CNC"
+  description="Precision CNC machining for robotics — joint modules, reducer housings, end effectors, sensor brackets. High-precision motion control components."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Industries</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Robotics & Automation Parts
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Joint parts · Reducer housings · High-precision motion control.
+        Custom CNC parts for robotic arms, AGVs, and automated production lines.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded-md transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/industries" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          View All Industries →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Capabilities</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Robotics Component Categories</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        We supply precision parts for every stage of robotic systems.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Precision Tolerance</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Requires precision finishing &amp; inspection. Subject to drawing review.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Common Materials</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Showcase -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Product Showcase</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Robotics Parts Gallery</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Custom CNC machined brackets, mounts, and structural parts for robotics and automation systems. Product renderings for process demonstration only. Visual representation of machining capabilities. Images are for reference only due to NDA.
+      </p>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/robotics/cnc-robotics-custom-aluminum-bracket-01.webp" alt="Custom CNC machined aluminum brackets for robotics" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Custom Brackets</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/robotics/cnc-robotics-aluminum-mounting-bracket-02.webp" alt="Aluminum mounting brackets CNC machined" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Mounting Brackets</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/robotics/cnc-robotics-aluminum-structural-component-03.webp" alt="Precision aluminum structural parts for robots" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Structural Parts</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/robotics/cnc-robotics-precision-motion-control-component-04.webp" alt="Precision aluminum components for motion control" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Precision Components</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Quality Control</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Robotics Quality Standards</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Motion control components demand the tightest tolerances and surface finishes.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Need Robotics Parts Machined?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Upload your drawings — engineer feedback within 24h.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold rounded-lg bg-[#8B0000] text-white transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/industries" class="inline-block px-8 py-3.5 text-sm font-semibold border rounded-lg border border-white/30 text-white transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          View All Industries →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

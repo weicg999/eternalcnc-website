@@ -1,0 +1,50 @@
+---
+const isZh = Astro.url.pathname.startsWith('/zh');
+
+const heading = isZh ? '行业应用' : 'Industry Applications';
+const subheading = isZh ? '为最苛刻的行业提供精密零件' : 'Precision parts for the most demanding industries';
+const viewAllText = isZh ? '查看全部行业' : 'View All Industries';
+const viewAllHref = isZh ? '/zh/industries' : '/industries';
+
+const industries = isZh ? [
+  { name: '医疗设备', href: '/zh/industries/medical', image: '/images/industries/cnc-industry-medical-robotic-surgery-01.webp' },
+  { name: '机器人', href: '/zh/industries/robotics', image: '/images/industries/cnc-industry-robotics-humanoid-01.webp' },
+  { name: '航天通信', href: '/zh/industries/aerospace', image: '/images/industries/cnc-industry-aerospace-communication-satellite-01.webp' },
+  { name: '能源设备', href: '/zh/industries/energy', image: '/images/industries/cnc-industry-energy-fusion-reactor-01.webp' },
+] : [
+  { name: 'Medical Devices', href: '/industries/medical', image: '/images/industries/cnc-industry-medical-robotic-surgery-01.webp' },
+  { name: 'Robotics', href: '/industries/robotics', image: '/images/industries/cnc-industry-robotics-humanoid-01.webp' },
+  { name: 'Aerospace & Communications', href: '/industries/aerospace', image: '/images/industries/cnc-industry-aerospace-communication-satellite-01.webp' },
+  { name: 'Energy Equipment', href: '/industries/energy', image: '/images/industries/cnc-industry-energy-fusion-reactor-01.webp' },
+];
+---
+
+<section class="py-16 md:py-24" style="background-color: var(--page-bg);">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
+      <div>
+        <h2 class="text-2xl md:text-3xl font-bold" style="color: var(--brand-dark); font-family: var(--font-heading);">{heading}</h2>
+        <p class="mt-3 text-[17px]" style="color: var(--text-body);">{subheading}</p>
+      </div>
+      <a href={viewAllHref} class="inline-flex items-center gap-2 px-5 py-2 mt-4 md:mt-0 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-lg transition-all duration-200 hover:bg-[#8B0000] hover:text-white">
+        {viewAllText}
+      </a>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {industries.map(ind => (
+        <a href={ind.href} class="group block rounded-xl border overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:border-[#8B0000]" style="background-color: var(--card-white); border-color: var(--border-color);">
+          <!-- Image slot: drop your image at public/images/industries/{slug}.jpg -->
+          <div class="h-[180px] relative overflow-hidden" style="background-color: #181818;">
+            <img src={ind.image} alt={ind.name} loading="lazy" width="400" height="240"
+                 class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                 onerror="this.style.display='none'" />
+          </div>
+          <div class="p-4">
+            <h3 class="font-semibold text-base" style="color: var(--brand-dark);">{ind.name}</h3>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

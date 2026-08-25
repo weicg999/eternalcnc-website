@@ -1,0 +1,138 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Knowledge Base', href: '/knowledge' },
+  { label: 'Surface Finishing' },
+];
+
+const capabilities = [
+  {
+    title: 'Anodizing',
+    items: ['Natural anodizing (silver-gray, wear and corrosion resistant)', 'Black hard anodizing (high hardness, abrasion resistant)', 'Color anodizing (decorative, multiple color options)', 'Chromate conversion (non-insulating, suitable for grounding)'],
+    tolerance: 'Film thickness: 5-25μm',
+    materials: 'Only applicable to aluminum and aluminum alloys',
+  },
+  {
+    title: 'Passivation',
+    items: ['Stainless steel passivation (3-5x improved corrosion resistance)', 'Zinc plating passivation (color / blue-white / black)', 'Chromium-free passivation (environmentally compliant)', 'Ready for assembly directly after passivation'],
+    tolerance: 'Virtually no dimensional change (<1μm)',
+    materials: 'Applicable to stainless steel and zinc-plated parts',
+  },
+  {
+    title: 'Electroplating',
+    items: ['Nickel plating (wear and corrosion resistant, bright surface)', 'Chrome plating (high hardness and abrasion resistance, mirror finish)', 'Zinc plating (cost-effective corrosion protection, white / color zinc)', 'Copper plating (undercoat or conductive applications)'],
+    tolerance: 'Coating thickness: 5-20μm',
+    materials: 'Consider coating impact on tolerance specifications',
+  },
+  {
+    title: 'Spray Coating',
+    items: ['Powder coating (thick film, impact resistant, eco-friendly)', 'Liquid spray painting (smooth surface, rich color options)', 'Plastic spray coating (abrasion and weather resistant, ideal for enclosures)', 'Fluorocarbon coating (ultra weatherproof, 20+ years outdoors)'],
+    tolerance: 'Film thickness: 40-120μm',
+    materials: 'Surface pretreatment required before spraying',
+  },
+];
+
+const standards = [
+  { label: 'Pretreatment First', desc: 'Proper degreasing, rust removal, and activation are essential before any surface treatment.' },
+  { label: 'Dimensional Allowance', desc: 'For processes with film thickness (plating, coating), leave tolerance allowance in the design.' },
+  { label: 'Material Compatibility', desc: 'Different substrates support different surface treatments — verify before committing.' },
+  { label: 'Environment Matching', desc: 'Choose treatment grade based on the operating environment (indoor / outdoor / corrosive).' },
+];
+---
+
+<BaseLayout
+  title="CNC Part Surface Finishing Guide | Anodizing · Passivation · Plating · Coating | Eternal CNC"
+  description="Eternal CNC surface finishing guide — anodizing, passivation, electroplating, spray coating and other common surface treatments. Features, applicable materials, and film thickness specifications."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Knowledge Base</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        CNC Part Surface Finishing Guide
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Detailed overview of 7 common processes including anodizing, passivation, electroplating, and spray coating
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Quote
+        </a>
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Technical Consultation
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Process Types</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Four Major Surface Finishing Processes</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Understand the characteristics, applicable materials, and film thickness parameters of common surface treatments to select the best solution for your parts.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Film Thickness</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Applicable Materials</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Selection Principles</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Surface Treatment Selection Principles</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Select the right surface treatment process to balance protective effect, appearance requirements, and cost control.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Not Sure Which Surface Finish to Choose?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Tell us your application scenario and material — we will recommend the most suitable surface treatment solution.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Quote
+        </a>
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Technical Consultation
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

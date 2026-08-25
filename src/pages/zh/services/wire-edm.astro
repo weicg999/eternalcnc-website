@@ -1,0 +1,139 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '加工服务', href: '/zh/services' },
+  { label: '线切割' },
+];
+
+const capabilities = [
+  {
+    title: '慢走丝切割',
+    items: ['精密冲裁件', '模具镶件', '窄缝加工', '微细结构'],
+    tolerance: '±0.01mm',
+    materials: '硬质合金、模具钢、淬火钢',
+  },
+  {
+    title: '中走丝切割',
+    items: ['冲压模具', '挤压模具', '型腔加工', '电极'],
+    tolerance: '±0.01mm',
+    materials: 'Cr12MoV、SKD11、硬质合金',
+  },
+  {
+    title: '多次切割',
+    items: ['高精度型腔', '复杂轮廓', '精密槽', '异形孔'],
+    tolerance: '±0.01mm',
+    materials: '各类导电材料',
+  },
+  {
+    title: '穿丝孔加工',
+    items: ['穿丝孔', '起刀孔', '工艺孔', '定位孔'],
+    tolerance: '±0.01mm',
+    materials: '各类导电金属',
+  },
+];
+
+const standards = [
+  { label: '尺寸精度', desc: '慢走丝 ±0.01mm，中走丝 ±0.01mm，满足精密模具需求。' },
+  { label: '表面质量', desc: '多次切割表面粗糙度可达 Ra 0.2μm，减少后续抛光工序。' },
+  { label: '尖角清角', desc: '最小内圆角 R0.05mm，尖角精度 ≤0.01mm，适合精密模具。' },
+  { label: '自动检测', desc: '自动穿丝、在线检测，确保加工尺寸一致性与生产效率。' },
+];
+---
+
+<PageLayout
+  title="线切割EDM加工 | 慢走丝·中走丝精密加工 | Eternal CNC"
+  description="专业线切割EDM服务，慢走丝/中走丝精密加工，适合复杂轮廓、微细结构及超硬材料。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">加工服务</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        线切割
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        慢走丝/中走丝精密加工，复杂轮廓与微细结构的首选方案。
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/industries" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          查看行业应用 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">加工能力</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">按切割方式分类</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        我们提供四大类加工服务，关键尺寸由厂内 2.5D 影像测量仪与精密量具复核，必要时可送集团共享计量中心进行三坐标检测。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">精密公差</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">需精加工与检测工序保障，具体以图纸评审为准</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">常用材料</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">质量管控</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">线切割加工质量标准</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        每批订单均按严格的质量管控流程执行，确保产品符合图纸要求。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">有复杂零件需要线切割？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        上传图纸，我们的工程师 24 小时内提供报价及 DFM 可制造性反馈。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          免费DFM图纸评审 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

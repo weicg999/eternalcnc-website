@@ -1,0 +1,138 @@
+﻿---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '工艺能力', href: '/zh/capabilities' },
+  { label: '材料范围' },
+];
+
+const capabilities = [
+  {
+    title: '铝合金',
+    items: ['1060 纯铝（高导电）', '6061-T6 通用结构件', '7075-T6 高强度航空级'],
+    tolerance: '硬度 HB 30~150',
+    materials: '切削速度 200~800 m/min，视牌号而定',
+  },
+  {
+    title: '不锈钢',
+    items: ['304 通用耐蚀', '316L 耐酸碱 / 医疗级', '4340 高强度调质钢'],
+    tolerance: '硬度 HB 150~310',
+    materials: '切削速度 30~120 m/min，需充分冷却',
+  },
+  {
+    title: '铜合金',
+    items: ['C110 纯铜（高导电）', 'C360 易切黄铜', '磷铜 / 铍铜（弹性元件）'],
+    tolerance: '硬度 HB 40~200',
+    materials: '切削速度 100~300 m/min',
+  },
+  {
+    title: '钛合金 & 工程塑料',
+    items: ['Grade 2 纯钛（耐蚀）', 'Grade 5 Ti-6Al-4V（航空级）', 'POM / PEEK / PA6 / PC'],
+    tolerance: '钛合金切削速度 20~60 m/min',
+    materials: '工程塑料需控制切削温度，防止热变形',
+  },
+];
+
+const standards = [
+  { label: '材料证书', desc: '每批次提供 EN 10204 3.1 材料证书，成分与力学性能可查。' },
+  { label: '入库检测', desc: '来料硬度抽检，光谱仪验证合金成分，不合格批次退回。' },
+  { label: '储存管理', desc: '金属与塑料分区存放，铝合金防氧化包装，工程塑料恒温恒湿。' },
+  { label: '可追溯性', desc: '每批材料扫码入库，加工流转卡随附，成品可追溯至原材料炉号。' },
+];
+---
+
+<PageLayout
+  title="CNC加工材料范围 | 铝合金·不锈钢·铜合金·钛合金·工程塑料 | Eternal CNC"
+  description="Eternal CNC 支持加工铝合金、不锈钢、铜合金、钛合金及工程塑料，覆盖从纯铝到航空级钛合金全系列。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">工艺能力</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        材料范围
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        铝合金、不锈钢、铜合金、钛合金及工程塑料
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          查看加工服务 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">加工能力</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">可加工材料分类</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        覆盖常用金属与工程塑料，特殊牌号可提前备料。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">硬度范围</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">加工建议</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">质量管控</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">材料质量保障</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        从原材料入库到成品出库，材料全程可追溯。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">需要特殊材料加工？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        上传图纸，我们的工程师 24 小时内提供报价及材料选型建议。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          免费DFM图纸评审 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

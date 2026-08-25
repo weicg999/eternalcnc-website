@@ -1,0 +1,169 @@
+﻿---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Industries', href: '/industries' },
+  { label: 'Automation Equipment' },
+];
+
+const capabilities = [
+  {
+    title: 'Conveyor Components',
+    items: ['Sprockets, rollers, side rails', 'Guide plates and wear strips', 'Wear-resistant alloys and coatings', 'Custom lengths and configurations'],
+    tolerance: '±0.025mm',
+    materials: 'Steel 1045, Stainless 304, UHMW-PE',
+  },
+  {
+    title: 'Pick-and-Place Parts',
+    items: ['End effectors and vacuum grippers', 'Precision mounting plates', 'Lightweight aluminum designs', 'High-speed robot tooling'],
+    tolerance: '±0.01mm',
+    materials: 'Aluminum 6061/7075, POM (Acetal)',
+  },
+  {
+    title: 'CNC Fixtures & Jigs',
+    items: ['Custom workholding solutions', 'Zero-point clamping systems', 'Repeatable positioning', 'Quick-change tool interfaces'],
+    tolerance: '±0.01mm',
+    materials: 'Steel 4140, Aluminum 7075, POM',
+  },
+  {
+    title: 'Custom Assembly Stations',
+    items: ['Modular frames and indexing tables', 'Precision dowel pins', 'Pneumatic and servo press fixtures', 'Vision-guided alignment plates'],
+    tolerance: '±0.005mm',
+    materials: 'Steel, Aluminum, Engineering Plastics',
+  },
+];
+
+const standards = [
+  { label: 'Dimensional Inspection', desc: "full CMM report (from our group's shared metrology center), GD&T compliance, first-article inspection on every fixture." },
+  { label: 'Surface Finish Control', desc: 'Specified Ra values, deburred edges, coating thickness verified per print.' },
+  { label: 'Repeatability Testing', desc: 'Statistical process control, Cp/Cpk reports for high-volume automation parts.' },
+  { label: 'On-Site Installation Support', desc: 'Engineers available for fixture commissioning and line integration.' },
+];
+---
+
+<PageLayout
+  title="Automation Equipment CNC Machining | Conveyor · Pick-and-Place · Fixtures | Eternal CNC"
+  description="Precision CNC parts for industrial automation — conveyor components, pick-and-place tooling, CNC fixtures, and custom assembly stations. Repeatable accuracy to ±0.01mm."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Industries</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Automation Equipment Parts
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Conveyor systems · Pick-and-place · CNC fixtures · Custom assembly.
+        Precision parts that keep your production lines running with zero downtime.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium rounded-lg bg-[#8B0000] text-white transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Quote
+        </a>
+        <a href="/industries" class="inline-block px-6 py-3 text-sm font-medium rounded-lg transition-all duration-200 border" style="border-color: var(--brand-red); color: var(--brand-red);">
+          View Industries →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Capabilities</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Core Components</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        We machine precision parts for every stage of your automation line. Critical dimensions can be CMM-verified via our group's shared metrology center on request, with full documentation.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Precision Tolerance</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Requires precision finishing &amp; inspection. Subject to drawing review.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Common Materials</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Quality Control</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Automation Quality Standards</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Every fixture and component is built for repeatability and long-term reliability.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  
+
+<!-- 产品展示 -->
+<section style="background-color: var(--card-white); padding: 80px 0;">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Product Showcase</p>
+    <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Automation Equipment Components Showcase</h2>
+    <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">Automation equipment core parts — linear modules, reducer housings, grippers. Product renderings for process demonstration only. Visual representation of machining capabilities. Images are for reference only due to NDA.</p>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/automation-equipment/cnc-automation-linear-slide-rail-01.webp" alt="Linear motion slide rail and carriage" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Linear motion slide rail and carriage</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/automation-equipment/cnc-automation-harmonic-reducer-housing-02.webp" alt="Harmonic/RV reducer gearbox housing" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Harmonic/RV reducer gearbox housing</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/automation-equipment/cnc-automation-pneumatic-gripper-03.webp" alt="Pneumatic gripper finger" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Pneumatic gripper finger</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/automation-equipment/cnc-automation-chain-link-04.webp" alt="Conveyor chain link and sprocket" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Conveyor chain link and sprocket</p></div>
+        </div>
+    </div>
+  </div>
+</section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Automate with Confidence</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Tell us about your automation project — quote in 24h.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold rounded-lg bg-[#8B0000] text-white transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Quote →
+        </a>
+        <a href="/industries" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-lg transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Browse All Industries →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

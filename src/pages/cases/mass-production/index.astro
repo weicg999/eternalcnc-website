@@ -1,0 +1,170 @@
+﻿---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Cases', href: '/cases' },
+  { label: 'Mass Production' },
+];
+
+const capabilities = [
+  {
+    title: 'Production Shaft',
+    items: ['Monthly batch 1,000+ pieces', 'CNC turning + grinding', 'SPC-monitored critical dims', 'Steel 4140 hardened shafts'],
+    tolerance: '±0.005mm',
+    materials: 'Steel 4140',
+  },
+  {
+    title: 'Bulk Housing',
+    items: ['500 pcs/month steady output', '3+1 axis milling strategy', 'Tool life managed per piece', 'Aluminum 6061 anodized housings'],
+    tolerance: '±0.01mm',
+    materials: 'Aluminum 6061',
+  },
+  {
+    title: 'Volume Connector',
+    items: ['3,000+ pcs/month steady output', 'CNC turning with fixture setup', 'In-process gauging every 50th', 'Brass C360 nickel-plated'],
+    tolerance: '±0.005mm',
+    materials: 'Brass C360',
+  },
+  {
+    title: 'Batch Bracket',
+    items: ['200 pcs/lot delivered weekly', 'Fixture-based repeatable setup', 'Full dimensional report per lot', 'Stainless 304 passivated brackets'],
+    tolerance: '±0.025mm',
+    materials: 'Stainless 304',
+  },
+];
+
+const standards = [
+  { label: 'First Article Inspection', desc: "FAI with full CMM report (from our group's shared metrology center) before batch release. PPAP documentation available for automotive orders." },
+  { label: 'In-Process QC', desc: 'SPC-monitored production with control charts. Automatic machine probing for in-cycle verification.' },
+  { label: 'Final QC', desc: 'Sampling inspection per AQL 2.5 sampling standards. 100% inspection available for critical safety parts.' },
+  { label: 'Shipment QA', desc: 'Packaging, labeling, and shipping documents verified before every dispatch. Traceability records maintained.' },
+];
+---
+
+<PageLayout
+  title="Mass Production Cases | 50+ pcs · SPC Control · Stable Output | Eternal CNC"
+  description="Real mass production case studies — production shafts, bulk housings, volume connectors, batch brackets. 50+ pcs stable output with full SPC."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Cases</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Mass Production Cases
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        50+ pcs stable output, full SPC control.
+        Proven mass production capability — consistent quality at volume.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/cases" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          View All Cases →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Case Studies</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Featured Mass Production Cases</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Selected projects demonstrating our mass production capabilities.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Tolerance Achieved</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Material</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Product Renders -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Product Gallery</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Featured Product Renders</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">Representative product renders — material, process, and surface detail.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/mass-production/cnc-massprod-steel-pin-render-01.webp" alt="Mass production steel locating pins" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Mass-Production Pins</p>
+            <p class="text-xs" style="color: var(--text-muted);">45# steel · CNC turning · 50,000 pcs/month</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/mass-production/cnc-massprod-aluminum-housing-render-01.webp" alt="High volume aluminum housings" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">High-Volume Housing</p>
+            <p class="text-xs" style="color: var(--text-muted);">Aluminum 6061 · multi-station fixture · CPK ≥ 1.33</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/mass-production/cnc-massprod-bracket-aluminum-render-01.webp" alt="Mass production aluminum brackets" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Automated Line Bracket</p>
+            <p class="text-xs" style="color: var(--text-muted);">Aluminum 6061 · automated batch · ±0.03mm</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Quality Control</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Mass Production Quality Standards</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Volume production demands rigorous SPC and process control.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Need mass production support?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Upload your drawing and our engineers will provide a volume quote with SPC plan within 24 hours.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/cases" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          View All Cases →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

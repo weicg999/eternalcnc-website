@@ -1,0 +1,156 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '行业应用' },
+];
+
+const industries = [
+  {
+    title: '汽车制造',
+    items: ['发动机零件', '底盘结构件', '传动系统精密加工', 'OEM 及一级供应商'],
+    tolerance: '±0.01mm',
+    materials: '铝合金、钢 4140、铸铁',
+  },
+  {
+    title: '机器人',
+    items: ['关节零件', '减速器壳体', '高精度运动控制部件', '自动化集成'],
+    tolerance: '±0.005mm',
+    materials: '铝合金、钢、工程塑料',
+  },
+  {
+    title: '医疗器械',
+    items: ['外壳', '支架', '诊断设备零件', '严格质控流程'],
+    tolerance: '±0.01mm',
+    materials: '不锈钢 316L、钛合金',
+  },
+  {
+    title: '电子通信',
+    items: ['微型化结构', '散热片', '连接器壳体精密制造', '高频信号零件'],
+    tolerance: '±0.005mm',
+    materials: '铝合金、黄铜、POM',
+  },
+  {
+    title: '航空航天',
+    items: ['极端工况', '可追溯材料', '零缺陷标准', '适航认证件'],
+    tolerance: '±0.005mm',
+    materials: '钛合金、高温合金、铝合金',
+  },
+  {
+    title: '能源装备',
+    items: ['高载荷', '耐腐蚀', '长寿命周期', '阀体泵体'],
+    tolerance: '±0.01mm',
+    materials: '不锈钢、合金钢',
+  },
+  {
+    title: '自动化设备',
+    items: ['输送系统', '取放机器人', 'CNC 夹具', '定制装配'],
+    tolerance: '±0.01mm',
+    materials: '铝合金、钢、工程塑料',
+  },
+];
+
+const certifications = [
+  { label: '材料可追溯', desc: '每批次提供 EN 10204 3.1 材料证书，全程可追溯。' },
+  { label: 'ISO 9001 认证中', desc: '质量管理体系认证中（2026），全流程标准化管控。' },
+  { label: 'SPC 过程管控', desc: '统计过程控制，确保批量生产一致性。' },
+  { label: '报告按需', desc: '关键尺寸检验报告与材质证书按需提供，质量数据透明可查。' },
+];
+---
+
+<PageLayout
+  title="行业应用 | 汽车·机器人·医疗·航空·电子 | Eternal CNC"
+  description="为汽车、机器人、医疗器械、航空航天、电子通信、能源装备等行业提供精密CNC加工解决方案。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">行业应用</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        精密制造，服务多元行业
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        为不同行业提供精密 CNC 加工解决方案
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/cases/automotive" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          查看案例 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Industries Grid -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">服务行业</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">七大核心行业</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        15 年精密加工经验，服务全球多个行业的客户。
+      </p>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {industries.map((ind) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{ind.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {ind.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">精密公差</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{ind.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">需精加工与检测工序保障，具体以图纸评审为准</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">常用材料</p>
+              <p class="text-sm" style="color: var(--text-body);">{ind.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Certifications -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">质量保障</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">行业标准与认证</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        严格遵循各行业质量标准，确保交付产品符合要求。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {certifications.map((cert) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{cert.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{cert.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">找到适合您行业的解决方案</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        上传图纸，获取针对您行业的专业报价。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          免费DFM图纸评审 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

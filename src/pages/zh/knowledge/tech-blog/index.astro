@@ -1,0 +1,138 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '知识库', href: '/zh/knowledge' },
+  { label: '技术博客' },
+];
+
+const capabilities = [
+  {
+    title: '加工技巧',
+    items: ['如何优化刀具路径减少空行程', '薄壁零件防变形装夹技巧', '深孔加工排屑问题解决方案', '铝件高光面加工参数设置'],
+    tolerance: '持续更新中',
+    materials: '来自一线工程师的实战经验',
+  },
+  {
+    title: '材料选型指南',
+    items: ['结构件选铝还是选钢', '耐腐蚀环境材料选型指南', '高温应用场景材料对比', '成本敏感型零件材料替代方案'],
+    tolerance: '覆盖 20+ 常用材料',
+    materials: '帮您选到最合适的材料',
+  },
+  {
+    title: '工艺优化案例',
+    items: ['某铝壳零件从 8 道工序减到 5 道', '不锈钢零件加工周期缩短 40%', '合格率从 85% 提升到 98% 的改进过程', '批量件成本下降 25% 的方案'],
+    tolerance: '每个案例均有数据支撑',
+    materials: '从实战中来，到实战中去',
+  },
+  {
+    title: '行业观察',
+    items: ['五轴联动加工的普及趋势', '智能制造与数字化车间', 'AI 在加工参数优化中的应用', '新能源汽车对精密加工的新需求'],
+    tolerance: '关注技术前沿',
+    materials: '洞察行业发展方向',
+  },
+];
+
+const standards = [
+  { label: '实践出真知', desc: '所有技术文章均来自实际项目经验，不空谈理论。' },
+  { label: '数据说话', desc: '优化案例均有详细数据对比，可验证、可复现。' },
+  { label: '持续更新', desc: '每周更新 1-2 篇新文章，持续积累技术内容。' },
+  { label: '读者互动', desc: '欢迎留言提问，工程师团队定期回复解答。' },
+];
+---
+
+<PageLayout
+  title="CNC加工技术博客 | 加工技巧·材料选型·工艺优化 | Eternal CNC"
+  description="Eternal CNC 技术博客——CNC 加工技巧、材料选型指南、工艺优化案例、行业发展观察，来自一线工程师的实战经验分享。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">知识库</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        CNC 加工技术博客
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        加工技巧、材料选型、工艺优化的深度技术文章
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          联系工程师
+        </a>
+        <a href="/zh/knowledge" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          浏览全部文章 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">内容分类</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">四大技术内容板块</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        从实战技巧到行业洞察，全方位覆盖 CNC 加工技术内容。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">内容状态</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">内容特色</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">内容承诺</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">我们的内容原则</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        坚持输出有价值、可落地的技术内容，拒绝水文和搬运。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">有想了解的技术话题？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        告诉我们您感兴趣的主题，我们会安排专题文章或直接为您解答。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          联系工程师
+        </a>
+        <a href="/zh/knowledge" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          浏览全部文章 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

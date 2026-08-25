@@ -1,0 +1,154 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Knowledge Base', href: '/knowledge' },
+  { label: 'Industry News' },
+];
+
+const capabilities = [
+  {
+    title: '2026 Precision Manufacturing Trends',
+    items: ['Smart factory integration', 'AI-driven process optimization', 'Sustainable manufacturing practices', 'Digital twin technology adoption'],
+    tolerance: 'Industry Trend',
+    materials: 'Cross-Industry',
+    download: { label: 'Download full report', file: '/downloads/reports/2026-precision-manufacturing-trends-en.html' },
+  },
+  {
+    title: '5-Axis Localization',
+    items: ['Domestic machine tool advancement', 'Cost reduction in 5-axis adoption', 'Supply chain localization benefits', 'Technology maturity assessment'],
+    tolerance: 'Technology Trend',
+    materials: 'Multi-Axis CNC',
+    download: { label: 'Download full report', file: '/downloads/reports/5-axis-localization-en.html' },
+  },
+  {
+    title: 'EV Parts Demand',
+    items: ['Battery housing precision requirements', 'Motor component machining growth', 'Lightweight structural parts demand', 'Thermal management component trends'],
+    tolerance: 'Market Trend',
+    materials: 'Automotive EV',
+    download: { label: 'Download full report', file: '/downloads/reports/ev-parts-demand-en.html' },
+  },
+  {
+    title: 'ISO 9001 Update',
+    items: ['Quality management system changes', 'Risk-based thinking requirements', 'Supply chain quality integration', 'Continuous improvement mandates'],
+    tolerance: 'Compliance Update',
+    materials: 'Quality Standards',
+    download: { label: 'Download full report', file: '/downloads/reports/iso-9001-update-en.html' },
+  },
+];
+
+const standards = [
+  { label: 'Manufacturing Intelligence', desc: 'Latest developments in smart manufacturing, IoT integration, and data-driven quality control.' },
+  { label: 'Market Analysis', desc: 'Quarterly reports on CNC machining demand across automotive, medical, electronics, and aerospace sectors.' },
+  { label: 'Technology Updates', desc: 'New machining processes, tool materials, and automation solutions transforming precision manufacturing.' },
+  { label: 'Regulatory Changes', desc: 'ISO standards updates, industry compliance requirements, and certification developments.' },
+];
+---
+
+<PageLayout
+  title="Industry News | CNC Manufacturing Trends | Eternal CNC"
+  description="CNC manufacturing trends, technology updates, and market insights. Stay informed with the latest industry news."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Knowledge Base</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Industry News
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        CNC manufacturing trends, technology updates, and market insights.
+        Stay informed with the latest developments in precision machining.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          View Services →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Latest Updates</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Industry Highlights</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Key trends and developments shaping the CNC machining industry in 2026 and beyond.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Category</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Scope</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+              {cap.download && (
+                <a
+                  href={cap.download.file}
+                  download
+                  class="inline-flex items-center mt-4 text-sm font-semibold transition-colors hover:underline"
+                  style="color: var(--brand-red);"
+                >
+                  <span class="mr-2">↓</span>
+                  {cap.download.label}
+                </a>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Quality Standards</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Compliance & Standards</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Stay compliant with the latest industry standards and regulatory requirements.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Stay Informed</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Upload your drawings — engineer feedback within 24h.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/knowledge" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          View All Resources →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

@@ -1,0 +1,118 @@
+---
+/**
+ * v10 Hero
+ * - Default (light): original v9 light industrial banner, 555px, left text / right empty.
+ * - When backgroundImage is provided: dark mode with full-bleed background image,
+ *   rgba(10,15,30,0.55) overlay, centered white text (responsive down to mobile).
+ */
+interface Props {
+  title: string;
+  subtitle?: string;
+  helperText?: string;
+  ctaPrimaryText?: string;
+  ctaPrimaryHref?: string;
+  ctaSecondaryText?: string;
+  ctaSecondaryHref?: string;
+  backgroundImage?: string;
+  /** 右侧视频源（mp4/webm）；为空则保留空白占位 */
+  heroVideoSrc?: string;
+  /** 视频海报图（封面）；首帧前显示 */
+  heroVideoPoster?: string;
+}
+
+const {
+  title,
+  subtitle,
+  helperText,
+  ctaPrimaryText = 'Get a Quote',
+  ctaPrimaryHref = '/contact/get-a-quote',
+  ctaSecondaryText = 'View Capabilities',
+  ctaSecondaryHref = '/services/cnc-machining',
+  backgroundImage,
+  heroVideoSrc,
+  heroVideoPoster,
+} = Astro.props;
+
+const dark = Boolean(backgroundImage);
+const hasVideo = Boolean(heroVideoSrc);
+---
+
+{dark ? (
+  <section
+    class="w-full relative overflow-hidden h-[560px] md:h-[600px]"
+    style={`background-image: linear-gradient(rgba(10,15,30,0.55), rgba(10,15,30,0.55)), url('${backgroundImage}'); background-size: cover; background-position: center; background-repeat: no-repeat;`}
+    aria-label="Hero"
+  >
+    <div class="absolute inset-0 flex items-center justify-center px-6 py-10">
+      <div class="max-w-3xl text-center text-white">
+        {helperText && (
+          <p class="mb-4 text-[12px] md:text-[13px] font-medium tracking-[0.22em] uppercase text-white/85">{helperText}</p>
+        )}
+        <h1 class="text-[28px] sm:text-[34px] md:text-[44px] lg:text-[52px] font-bold leading-[1.15] mb-5 tracking-tight" style="font-family: var(--font-heading);">
+          {title}
+        </h1>
+        {subtitle && (
+          <p class="text-[16px] md:text-[18px] leading-relaxed mb-8 max-w-2xl mx-auto text-white/90">
+            {subtitle}
+          </p>
+        )}
+        <div class="flex flex-wrap gap-3 justify-center">
+          <a href={ctaPrimaryHref} class="inline-flex items-center gap-2 px-7 md:px-8 py-3 md:py-3.5 text-[15px] font-semibold text-white bg-[#8B0000] rounded-lg transition-all duration-200 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+            {ctaPrimaryText}
+          </a>
+          {ctaSecondaryText && ctaSecondaryHref && (
+            <a href={ctaSecondaryHref} class="inline-flex items-center justify-center px-7 md:px-8 py-3 md:py-3.5 text-[15px] font-medium border border-white/80 text-white rounded-lg transition-all duration-200 hover:bg-white hover:text-[#1A1A1A] hover:-translate-y-0.5">
+              {ctaSecondaryText}
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+) : (
+  <section class="w-full h-[555px]" style="background-color: var(--page-bg);">
+    <div class="max-w-7xl mx-auto px-6 h-full flex items-center gap-8">
+      <div class="w-full md:w-3/5 max-w-xl">
+        {helperText && (
+          <p class="mb-4 text-[13px] font-medium tracking-[0.05em] uppercase" style="color: var(--text-helper);">
+            {helperText}
+          </p>
+        )}
+        <h1 class="text-[42px] font-bold leading-tight mb-4 tracking-tight" style="color: var(--brand-dark); font-family: var(--font-heading);">
+          {title}
+        </h1>
+        {subtitle && (
+          <p class="text-[17px] leading-relaxed mb-8 max-w-md" style="color: var(--text-body);">
+            {subtitle}
+          </p>
+        )}
+        <div class="flex flex-wrap gap-3">
+          <a href={ctaPrimaryHref} class="inline-flex items-center gap-2 px-7 py-3 text-[15px] font-semibold text-white bg-[#8B0000] rounded-lg transition-all duration-200 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+            {ctaPrimaryText}
+          </a>
+          <a href={ctaSecondaryHref} class="inline-flex items-center justify-center px-7 py-3 text-[15px] font-medium border border-[#1A1A1A] text-[#1A1A1A] rounded-lg transition-all duration-200 hover:bg-[#8B0000] hover:text-white hover:border-[#8B0000] hover:-translate-y-0.5">
+            {ctaSecondaryText}
+          </a>
+        </div>
+      </div>
+<!-- Hero 右侧：有视频时渲染 <video>，否则保留空白占位 -->
+        {hasVideo ? (
+          <div class="hidden md:block w-2/5 h-full my-6 overflow-hidden rounded-2xl bg-black/5">
+            <video
+              src={heroVideoSrc}
+              poster={heroVideoPoster}
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              aria-label="5-axis CNC live machining product demonstration"
+              class="w-full h-full object-cover"
+            ></video>
+          </div>
+        ) : (
+          <div class="hidden md:block w-2/5 h-full rounded-2xl my-6" aria-hidden="true"></div>
+        )}
+    </div>
+  </section>
+)}

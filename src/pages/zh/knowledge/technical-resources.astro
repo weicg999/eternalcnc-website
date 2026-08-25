@@ -1,0 +1,155 @@
+﻿---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '知识库', href: '/zh/knowledge' },
+  { label: '技术资源' },
+];
+---
+
+<PageLayout
+  title="技术资源 – 鑫永恒"
+  description="工程参考资料、换算表、可下载资源及 CNC 加工项目实用工具。"
+  breadcrumbs={breadcrumbs}
+>
+  <section style="background-color: var(--bg-dark); background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-5">技术资源</h1>
+      <p class="text-lg max-w-3xl" style="color: var(--text-helper);">参考数据、换算工具和工程资源，助力您的 CNC 加工项目。</p>
+    </div>
+  </section>
+
+  <section class="py-16" style="background-color: var(--page-bg);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl space-y-12">
+
+        <!-- 单位换算 -->
+        <div>
+          <h2 class="text-2xl font-bold mb-4">单位换算速查</h2>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="card p-5">
+              <h3 class="font-bold mb-3">长度</h3>
+              <div class="text-sm space-y-1" style="color: var(--text-body);">
+                <p>1 英寸 = 25.4 mm</p>
+                <p>1 mm = 0.03937 英寸</p>
+                <p>1 英尺 = 304.8 mm</p>
+                <p>1 μm = 0.001 mm</p>
+              </div>
+            </div>
+            <div class="card p-5">
+              <h3 class="font-bold mb-3">表面粗糙度</h3>
+              <div class="text-sm space-y-1" style="color: var(--text-body);">
+                <p>Ra 0.4 μm ≈ 16 μin（镜面）</p>
+                <p>Ra 0.8 μm ≈ 32 μin（精细）</p>
+                <p>Ra 1.6 μm ≈ 63 μin（标准）</p>
+                <p>Ra 3.2 μm ≈ 125 μin（粗糙）</p>
+              </div>
+            </div>
+            <div class="card p-5">
+              <h3 class="font-bold mb-3">重量</h3>
+              <div class="text-sm space-y-1" style="color: var(--text-body);">
+                <p>1 kg = 2.205 磅</p>
+                <p>1 磅 = 0.4536 kg</p>
+                <p>1 盎司 = 28.35 g</p>
+              </div>
+            </div>
+            <div class="card p-5">
+              <h3 class="font-bold mb-3">温度</h3>
+              <div class="text-sm space-y-1" style="color: var(--text-body);">
+                <p>°C → °F：(°C × 9/5) + 32</p>
+                <p>°F → °C：(°F - 32) × 5/9</p>
+                <p>K = °C + 273.15</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 丝锥钻头 -->
+        <div>
+          <h2 class="text-2xl font-bold mb-4">公制丝锥钻头对照表</h2>
+          <div class="overflow-x-auto">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>螺纹</th>
+                  <th>螺距 (mm)</th>
+                  <th>钻头直径 (mm)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td class="font-medium">M2</td><td>0.4</td><td>1.6</td></tr>
+                <tr><td class="font-medium">M3</td><td>0.5</td><td>2.5</td></tr>
+                <tr><td class="font-medium">M4</td><td>0.7</td><td>3.3</td></tr>
+                <tr><td class="font-medium">M5</td><td>0.8</td><td>4.2</td></tr>
+                <tr><td class="font-medium">M6</td><td>1.0</td><td>5.0</td></tr>
+                <tr><td class="font-medium">M8</td><td>1.25</td><td>6.8</td></tr>
+                <tr><td class="font-medium">M10</td><td>1.5</td><td>8.5</td></tr>
+                <tr><td class="font-medium">M12</td><td>1.75</td><td>10.2</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 材料密度 -->
+        <div>
+          <h2 class="text-2xl font-bold mb-4">材料密度参考</h2>
+          <div class="overflow-x-auto">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>材料</th>
+                  <th>密度 (g/cm³)</th>
+                  <th>相对重量</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td class="font-medium">铝合金 6061</td><td>2.70</td><td>轻</td></tr>
+                <tr><td class="font-medium">黄铜 C360</td><td>8.49</td><td>重</td></tr>
+                <tr><td class="font-medium">铜 C110</td><td>8.94</td><td>重</td></tr>
+                <tr><td class="font-medium">钢 1018</td><td>7.87</td><td>重</td></tr>
+                <tr><td class="font-medium">不锈钢 304</td><td>7.93</td><td>重</td></tr>
+                <tr><td class="font-medium">钛合金 Grade 5</td><td>4.43</td><td>中</td></tr>
+                <tr><td class="font-medium">Delrin (POM)</td><td>1.41</td><td>很轻</td></tr>
+                <tr><td class="font-medium">尼龙 PA6</td><td>1.14</td><td>很轻</td></tr>
+                <tr><td class="font-medium">PEEK</td><td>1.32</td><td>很轻</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 文件格式 -->
+        <div>
+          <h2 class="text-2xl font-bold mb-4">接受的文件格式</h2>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="card p-5">
+              <h3 class="font-bold mb-3" style="color: var(--brand-red);">3D CAD（首选）</h3>
+              <ul class="text-sm space-y-1" style="color: var(--text-body);">
+                <li>• STEP (.stp, .step) — 通用交换格式</li>
+                <li>• IGES (.igs, .iges) — 曲面数据</li>
+                <li>• STL (.stl) — 网格（不太推荐）</li>
+                <li>• 原生格式：SolidWorks、Creo、CATIA、Fusion 360</li>
+              </ul>
+            </div>
+            <div class="card p-5">
+              <h3 class="font-bold mb-3" style="color: var(--brand-red);">2D 图纸</h3>
+              <ul class="text-sm space-y-1" style="color: var(--text-body);">
+                <li>• PDF — 标注尺寸的图纸</li>
+                <li>• DXF (.dxf) — 激光/水切割 2D 轮廓</li>
+                <li>• DWG (.dwg) — AutoCAD 格式</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16" style="background-color: var(--bg-dark);">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-2xl font-bold text-white mb-4">准备好开始您的项目了吗？</h2>
+      <p class="mb-8" style="color: var(--text-helper);">上传您的 CAD 文件，获取即时报价。</p>
+      <a href="/zh/contact/get-a-quote" class="btn-primary">获取报价 →</a>
+    </div>
+  </section>
+</PageLayout>

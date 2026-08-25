@@ -1,0 +1,115 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Resources' },
+];
+
+const downloads = [
+  {
+    title: 'Mutual NDA',
+    desc: 'Standard mutual non-disclosure agreement for sharing drawings and specifications. Available in English & Chinese.',
+    file: '/downloads/EternalCNC-Mutual-NDA-ENCN.docx',
+    name: 'EternalCNC-Mutual-NDA-ENCN.docx',
+  },
+  {
+    title: 'Company Profile (CN)',
+    desc: 'Eternal CNC / 鑫永恒 company introduction, capabilities and certifications overview.',
+    file: '/downloads/EternalCNC-Company-Profile-CN.docx',
+    name: 'EternalCNC-Company-Profile-CN.docx',
+  },
+  {
+    title: 'Company Profile (EN)',
+    desc: 'English company introduction — equipment list, capabilities and quality system.',
+    file: '/downloads/EternalCNC-Company-Profile-EN.html',
+    name: 'EternalCNC-Company-Profile-EN.html',
+  },
+  {
+    title: 'Capabilities Overview',
+    desc: 'Equipment grading (S/A/B), machining range, material list and quality process.',
+    file: '/downloads/EternalCNC-Capabilities-Overview.html',
+    name: 'EternalCNC-Capabilities-Overview.html',
+  },
+  {
+    title: 'RFQ Submission Checklist',
+    desc: 'What to attach when sending drawings — get a detailed quote within 24 hours.',
+    file: '/downloads/EternalCNC-RFQ-Checklist.html',
+    name: 'EternalCNC-RFQ-Checklist.html',
+  },
+];
+---
+
+<PageLayout
+  title="Resources – NDA & Company Documents | Eternal CNC"
+  description="Download our mutual NDA template and company profile. Eternal CNC provides verified capabilities, nameplate-confirmed equipment and ISO-aligned quality procedures for overseas customers."
+  breadcrumbs={breadcrumbs}
+>
+  <section style="background-color: var(--card-white); padding: 72px 0 48px;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Trust & Resources</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">Resources</h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Confidentiality is the foundation of our cooperation. Download our mutual NDA before sharing drawings, and review our company profile to understand our capabilities and quality system.
+      </p>
+    </div>
+  </section>
+
+  <section style="background-color: var(--page-bg); padding: 48px 0 64px;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-6">
+        {downloads.map((d) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl bg-white" style="border-color: var(--border-color);">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style="background-color: rgba(139,0,0,0.08);">
+                <svg class="w-6 h-6" style="color: var(--brand-red);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 10v6m0 0l-3-3m3 3l3-3M4 17V5a2 2 0 012-2h8l6 6v8a2 2 0 01-2 2H6a2 2 0 01-2-2z" />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-lg font-bold mb-1" style="color: var(--brand-dark);">{d.title}</h3>
+                <p class="text-sm mb-4" style="color: var(--text-body);">{d.desc}</p>
+                <a href={d.file} download title={d.name}
+                  class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold bg-[#8B0000] text-white rounded-lg transition-all duration-300 hover:bg-[#6B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+                  Download
+                  <span class="text-xs opacity-80">{d.name}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section style="background-color: var(--card-white); padding: 48px 0 80px;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Why Overseas Customers Trust Us</h2>
+      <div class="grid md:grid-cols-3 gap-6 mt-8">
+        <div class="p-6 border rounded-xl" style="border-color: var(--border-color); background-color: var(--page-bg);">
+          <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">Nameplate-Verified Equipment</h3>
+          <p class="text-sm" style="color: var(--text-body);">Every machine model is confirmed against its nameplate — no guesswork, no mismatched specs.</p>
+        </div>
+        <div class="p-6 border rounded-xl" style="border-color: var(--border-color); background-color: var(--page-bg);">
+          <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">ISO-Aligned Quality</h3>
+          <p class="text-sm" style="color: var(--text-body);">Processes follow ISO 9001-aligned procedures; certification in progress. Calibration quarterly.</p>
+        </div>
+        <div class="p-6 border rounded-xl" style="border-color: var(--border-color); background-color: var(--page-bg);">
+          <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">Confidentiality First</h3>
+          <p class="text-sm" style="color: var(--text-body);">Mutual NDA available; customer part drawings are never reused or disclosed without consent.</p>
+        </div>
+        <div class="p-6 border rounded-xl" style="border-color: var(--border-color); background-color: var(--page-bg);">
+          <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">Family-Run, Fast Response</h3>
+          <p class="text-sm" style="color: var(--text-body);">As a family-run shop, decisions go straight to the owner — no layers, no ticket queues. Most inquiries get a real answer within 24 hours, with far less back-and-forth.</p>
+        </div>
+        <div class="p-6 border rounded-xl" style="border-color: var(--border-color); background-color: var(--page-bg);">
+          <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">Factory-Direct Pricing</h3>
+          <p class="text-sm" style="color: var(--text-body);">You deal with the manufacturer, not a trading company. No middleman markup — just transparent, itemized quotes straight from the shop floor.</p>
+        </div>
+        <div class="p-6 border rounded-xl" style="border-color: var(--border-color); background-color: var(--page-bg);">
+          <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">Prototype &amp; Low-Volume Friendly</h3>
+          <p class="text-sm" style="color: var(--text-body);">From a single prototype to mass production — no minimum order quantity. Start with 1–10 pieces to verify fit and function before scaling up.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</PageLayout>

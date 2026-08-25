@@ -1,0 +1,163 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '加工服务' },
+];
+
+const services = [
+  {
+    title: 'CNC 铣削加工',
+    items: ['复杂曲面加工', '高精度铣削', '多轴联动', '模具零件'],
+    tolerance: '±0.005mm',
+    materials: '铝合金、不锈钢、工程塑料',
+  },
+  {
+    title: 'CNC 车削加工',
+    items: ['轴类零件', '套类零件', '盘类零件', '高同心度'],
+    tolerance: '±0.01mm',
+    materials: '钢、铝合金、黄铜',
+  },
+  {
+    title: '表面处理',
+    items: ['阳极氧化', '镀镍/镀铬', '达克罗涂装', '喷砂处理'],
+    tolerance: '按标准',
+    materials: '铝、钢、铜合金',
+  },
+  {
+    title: '精密磨削',
+    items: ['高光洁度', '严格公差', '镜面加工', '平面磨削'],
+    tolerance: '±0.01mm',
+    materials: '淬硬钢、硬质合金',
+  },
+  {
+    title: '线切割 EDM',
+    items: ['超硬材料', '异形轮廓', '慢走丝精加工', '微细切割'],
+    tolerance: '±0.01mm',
+    materials: '硬质合金、淬火钢',
+  },
+  {
+    title: 'DFM 可制造性分析',
+    items: ['图纸评估', '降本建议', '风险预警', '工艺优化'],
+    tolerance: '-',
+    materials: '全材料',
+  },
+  {
+    title: '材料选型',
+    items: ['金属对比', '工程塑料', '牌号推荐', '性能匹配'],
+    tolerance: '-',
+    materials: '全系列',
+  },
+  {
+    title: '质量检测',
+    items: ['三坐标测量', '尺寸检测', '检测报告按需提供', 'SPC 按客户要求'],
+    tolerance: '按图纸',
+    materials: '-',
+  },
+];
+
+const promises = [
+  { label: '24 小时报价响应', desc: '收到图纸后 24 小时内提供报价及 DFM 可制造性反馈。' },
+  { label: '首件确认制度', desc: '批量生产前先做首件，确认无误后再量产，降低风险。' },
+  { label: '全程可追溯', desc: '每批次提供材料证书、检测报告，全程质量可追溯。' },
+  { label: '急单支持', desc: '加急订单 3-5 天交付，满足紧急项目需求。' },
+];
+---
+
+<PageLayout
+  title="精密CNC加工服务 | 铣削·车削·磨削·表面处理 | Eternal CNC"
+  description="提供CNC铣削、车削、精密磨削、线切割、表面处理等一站式精密加工服务。从DFM分析到质量检测，全流程管控。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section class="py-20" style="background-color: var(--card-white);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">加工服务</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        精密制造，始于图纸
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        CNC 铣削 · CNC 车削 · 表面处理 · 精密磨削 · 线切割
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/capabilities/equipment" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          查看设备清单 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Grid -->
+  <section class="py-20" style="background-color: var(--page-bg);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">服务项目</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">八大核心加工服务</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        从原材料到成品，提供全流程精密加工服务，满足各类复杂零件需求。
+      </p>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {services.map((svc) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{svc.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {svc.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">精密公差</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{svc.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">需精加工与检测工序保障，具体以图纸评审为准</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">适用材料</p>
+              <p class="text-sm" style="color: var(--text-body);">{svc.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Promises -->
+  <section class="py-20" style="background-color: var(--card-white);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">服务承诺</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">我们的服务标准</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        以客户为中心，提供高效、透明、可追溯的加工服务。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {promises.map((p) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{p.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{p.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20" style="background-color: var(--brand-dark);">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">有零件需要加工？</h2>
+      <p class="text-lg mb-8 text-gray-300">
+        24 小时内获取报价及 DFM 可制造性反馈。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          免费DFM图纸评审 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

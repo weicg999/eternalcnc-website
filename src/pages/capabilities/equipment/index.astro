@@ -1,0 +1,498 @@
+﻿---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Capabilities', href: '/capabilities' },
+  { label: 'Equipment List' },
+];
+
+// Equipment list — verified from nameplate photos
+const equipment = [
+  {
+    detail: '/equipment/sunrise-dmu400-5axis',
+    id: 'sunrise-dmu400',
+    brand: 'Sun King (森氏精密)',
+    brandEn: 'Sun King Machinery',
+    model: 'CNC-5AX1S',
+    machineName: 'DMU 400',
+    type: '5-Axis Machining Center',
+    typeBadge: '5-Axis',
+    badgeColor: '#8B0000',
+    qty: 1,
+    image: '/images/equipment/cnc-machine-sunrise-dmu400-5axis-machining-center-01.webp',
+    imageAlt: 'Sunrise DMU 400 CNC-5AX1S 5-axis machining center at Eternal CNC factory, Shenzhen China',
+    specs: [
+      { label: 'Spindle', value: 'HSK-E40, max 30,000 rpm' },
+      { label: 'Positioning Accuracy', value: '0.002 mm / full travel' },
+      { label: 'Rapid Traverse', value: '60,000 mm/min (X/Y/Z)' },
+      { label: 'Rotary Axes', value: 'A ±120°, C 360° continuous' },
+      { label: 'Tool Magazine', value: '40 tools, servo-type (~1.5s ATC)' },
+      { label: 'Worktable', value: 'φ170 mm or φ230 mm' },
+      { label: 'Serial No.', value: 'DMU-400, manufactured 2026-08-08' },
+    ],
+    applications: 'Complex surfaces, impellers, precision molds, irregular parts',
+  },
+  {
+    detail: '/equipment/taikan-tv1270s',
+    id: 'taikan-tv1270s',
+    brand: 'Taikan (台群)',
+    brandEn: 'Taikan Machinery',
+    model: 'T-V1270S',
+    type: 'Vertical Machining Center (Heavy-Duty)',
+    typeBadge: 'VMC',
+    badgeColor: '#1a1a1a',
+    qty: 2,
+    image: '/images/equipment/cnc-machine-taikan-tv1270s-vertical-machining-center-01.webp',
+    imageAlt: 'Taikan T-V1270S heavy-duty vertical machining center at Eternal CNC facility',
+    specs: [
+      { label: 'Travel (X/Y/Z)', value: '1270 × 700 × 700 mm' },
+      { label: 'Worktable', value: '1300 × 650 mm' },
+      { label: 'Spindle', value: 'BT40, 8,000–12,000 rpm' },
+      { label: 'Rapid Traverse', value: '36/36/30 m/min (X/Y/Z)' },
+      { label: 'Tool Magazine', value: '24 tools, arm-type ATC' },
+      { label: 'Machine Weight', value: '~6,250 kg' },
+    ],
+    applications: 'Large molds, heavy mechanical components, die steel milling',
+  },
+  {
+    detail: '/equipment/taikan-t-v856s',
+    id: 'taikan-tv856s',
+    brand: 'Taikan (台群)',
+    brandEn: 'Taikan Machinery',
+    model: 'T-V856S',
+    type: 'Vertical Machining Center',
+    typeBadge: 'VMC',
+    badgeColor: '#1a1a1a',
+    qty: 3,
+    image: '/images/equipment/equipment-taikan-tv856s-hero.webp',
+    imageAlt: 'Taikan T-V856S vertical machining center at Eternal CNC factory',
+    specs: [
+      { label: 'Travel (X/Y/Z)', value: '800 × 550 × 600 mm' },
+      { label: 'Worktable', value: '1000 × 500 mm' },
+      { label: 'Spindle', value: 'BT40, direct-drive 12,000 rpm' },
+      { label: 'Rapid Traverse', value: '48,000 mm/min' },
+      { label: 'Tool Magazine', value: '24 tools, arm-type ATC' },
+    ],
+    applications: 'Precision molds, automation parts, general CNC milling',
+  },
+  {
+    detail: '/equipment/cato-ct80',
+    id: 'cato-ct80',
+    brand: 'CATO (巨冈机械)',
+    brandEn: 'CATO Machinery',
+    model: 'CT-80',
+    type: 'Vertical Machining Center',
+    typeBadge: 'VMC',
+    badgeColor: '#1a1a1a',
+    qty: 1,
+    image: '/images/equipment/cnc-machine-cato-ct80-vertical-machining-center-01.webp',
+    imageAlt: 'CATO CT-80 vertical machining center at Eternal CNC factory',
+    specs: [
+      { label: 'Travel (X/Y/Z)', value: '~800 × 500 × 500 mm' },
+      { label: 'Spindle', value: 'BT40, 8,000–12,000 rpm' },
+      { label: 'Worktable Load', value: '≥ 500 kg' },
+      { label: 'Tool Magazine', value: '24 tools, disk-type' },
+      { label: 'Rapid Traverse', value: '36,000–48,000 mm/min' },
+    ],
+    applications: 'Mold making, mechanical components, hardware parts',
+  },
+  {
+    detail: '/equipment/jiafu-jf500',
+    id: 'jiafu-jf500',
+    brand: 'JIAFU (佳富数控)',
+    brandEn: 'Jiafu CNC',
+    model: 'JF-500',
+    type: 'CNC Machining Center (Drill-Tap)',
+    typeBadge: 'Drill-Tap',
+    badgeColor: '#2563eb',
+    qty: 1,
+    image: '/images/equipment/cnc-machine-jiafu-jf500-drill-tap-machining-center-01.webp',
+    imageAlt: 'Jiafu JF-500 CNC drill-tap machining center at Eternal CNC factory',
+    specs: [
+      { label: 'Travel (X/Y/Z)', value: '500 × 400 × 300 mm' },
+      { label: 'Spindle', value: 'BT30, max 20,000 rpm' },
+      { label: 'Tool Magazine', value: '16 or 21 tools, servo-type' },
+      { label: 'Rapid Traverse', value: '48,000–60,000 mm/min' },
+      { label: 'Control System', value: 'Mitsubishi or Fanuc' },
+      { label: 'Serial No.', value: '870705107' },
+    ],
+    applications: '3C electronics, aluminum & copper parts, high-speed drilling & tapping',
+  },
+  {
+    detail: '/equipment/jiafu-jf600',
+    id: 'jiafu-jf600',
+    brand: 'JIAFU (佳富数控)',
+    brandEn: 'Jiafu CNC',
+    model: 'JF-600',
+    type: 'CNC Machining Center (Drill-Tap)',
+    typeBadge: 'Drill-Tap',
+    badgeColor: '#2563eb',
+    qty: 1,
+    image: '/images/equipment/cnc-machine-jiafu-jf600-drill-tap-machining-center-01.webp',
+    imageAlt: 'Jiafu JF-600 CNC drill-tap machining center at Eternal CNC factory',
+    specs: [
+      { label: 'Travel (X/Y/Z)', value: '600 × 420 × 330 mm' },
+      { label: 'Worktable', value: '720 × 400 mm' },
+      { label: 'Spindle', value: 'BT30, direct-drive 20,000 rpm' },
+      { label: 'Tool Magazine', value: '21 tools, servo-type' },
+      { label: 'Rapid Traverse', value: '60,000 mm/min (roller linear guide)' },
+      { label: 'Machine Weight', value: '~3,800 kg' },
+      { label: 'Serial No.', value: '861306101' },
+    ],
+    applications: 'Mid-to-large precision parts, automotive components',
+  },
+  {
+    detail: '/equipment/taikan-t700se',
+    id: 'taikan-t700se',
+    brand: 'Taikan (台群)',
+    brandEn: 'Taikan Machinery',
+    model: 'T-700SE',
+    type: 'Drill-Mill Machining Center',
+    typeBadge: 'Drill-Mill',
+    badgeColor: '#2563eb',
+    qty: 2,
+    image: '/images/equipment/cnc-machine-taikan-t700se-drill-mill-machining-center-01.webp',
+    imageAlt: 'Taikan T-700SE drill-mill machining center at Eternal CNC factory',
+    specs: [
+      { label: 'Capacity', value: '15 kVA' },
+      { label: 'Full-Load Current', value: '27 A' },
+      { label: 'Protection Rating', value: 'IP 54' },
+      { label: 'Manufactured', value: '2025-06-23' },
+    ],
+    applications: 'Batch production of precision parts — integrated drilling, milling & tapping',
+  },
+  {
+    detail: '/equipment/taikan-t500s',
+    id: 'taikan-t500s',
+    brand: 'Taikan (台群)',
+    brandEn: 'Taikan Machinery',
+    model: 'T-500S',
+    type: 'Drill-Mill Machining Center',
+    typeBadge: 'Drill-Mill',
+    badgeColor: '#2563eb',
+    qty: 1,
+    image: '/images/equipment/cnc-machine-taikan-t500s-drill-mill-machining-center-01.webp',
+    imageAlt: 'Taikan T-500S drill-mill machining center at Eternal CNC factory',
+    specs: [
+      { label: 'Travel (X/Y/Z)', value: '500 × 400 × 300 mm' },
+      { label: 'Spindle', value: 'BT30, 20,000 rpm' },
+      { label: 'Tool Magazine', value: '21 tools, servo-type' },
+    ],
+    applications: 'High-speed batch drilling, milling & tapping of aluminum parts',
+  },
+  {
+    id: 'hongjinshun-hjs-t5',
+    brand: 'HONG JIN SHUN (鸿金顺)',
+    brandEn: 'Hong Jin Shun',
+    model: 'HJS-T5',
+    type: 'Drilling & Tapping Center',
+    typeBadge: 'Drill-Tap',
+    badgeColor: '#2563eb',
+    qty: 1,
+    image: '/images/equipment/cnc-machine-hongjinshun-hjs-t5-drill-tap-machining-center-01.webp',
+    imageAlt: 'Hong Jin Shun HJS-T5 drilling and tapping center at Eternal CNC factory',
+    specs: [
+      { label: 'Travel (X/Y)', value: '~500 × 400 mm' },
+      { label: 'Spindle', value: 'BT30, 20,000 rpm' },
+      { label: 'Tool Magazine', value: '16 or 21 tools, servo-type' },
+      { label: 'Rapid Traverse', value: '60,000 mm/min' },
+    ],
+    applications: 'Hardware, electronics, auto parts — high-speed drilling & tapping',
+  },
+  {
+    detail: '/equipment/qiaohong-qh-t6',
+    id: 'qiaohong-qh-t6',
+    brand: 'QIAO HONG (乔鸿)',
+    brandEn: 'Qiao Hong Machinery',
+    model: 'QH-T6',
+    type: 'High-Speed Drill-Tap Machine',
+    typeBadge: 'Drill-Tap',
+    badgeColor: '#2563eb',
+    qty: 1,
+    image: '/images/equipment/cnc-machine-qiaohong-qh-t6-high-speed-drill-tap-01.webp',
+    imageAlt: 'Qiao Hong QH-T6 high-speed drill-tap machine at Eternal CNC factory',
+    specs: [
+      { label: 'Travel (X/Y)', value: '600 × 400 mm' },
+      { label: 'Feed Rate', value: '48,000 mm/min' },
+      { label: 'Rated Power', value: '10 kW' },
+      { label: 'Rated Voltage', value: '380V / 50Hz' },
+      { label: 'Rated Current', value: '50 A' },
+    ],
+    applications: '3C electronics, die-cast parts, hardware — high-speed drilling & tapping',
+  },
+  {
+    detail: '/equipment/xintenghui-xth-t540',
+    id: 'xintenghui-xth-t540',
+    brand: 'XINTENGHUI CNC (鑫腾辉数控)',
+    brandEn: 'XINTENGHUI CNC',
+    model: 'XTH-T540',
+    type: 'Mold Engraving / Drill-Tap / Machining Center / High-Gloss Machine',
+    typeBadge: 'Engraving',
+    badgeColor: '#059669',
+    qty: 1,
+    image: '/images/equipment/cnc-machine-xintenghui-xth-t540-mold-engraving-machining-center-01.webp',
+    imageAlt: 'XINTENGHUI CNC XTH-T540 mold engraving machining center at Eternal CNC factory',
+    specs: [
+      { label: 'Worktable', value: '~500 × 400 mm' },
+      { label: 'Spindle', value: 'High-speed motorized, 24,000–36,000 rpm' },
+      { label: 'Tool Holder', value: 'BT30 or ER collet' },
+      { label: 'Rapid Traverse', value: '≥ 20,000 mm/min' },
+    ],
+    applications: 'Aluminum high-gloss finishing, fiberglass, graphite electrodes, precision mold engraving',
+  },
+  {
+    detail: '/equipment/wanghui-xh540',
+    id: 'wanghui-xh540',
+    brand: 'WANGHUI Machinery (望辉机械)',
+    brandEn: 'WANGHUI Machinery',
+    model: 'XH-540',
+    type: 'Mold Engraving Machine / Machining Center',
+    typeBadge: 'Engraving',
+    badgeColor: '#059669',
+    qty: 1,
+    image: '/images/equipment/cnc-machine-wanghui-xh540-mold-engraving-machining-center-01.webp',
+    imageAlt: 'WANGHUI XH-540 mold engraving machining center at Eternal CNC factory',
+    specs: [
+      { label: 'Worktable', value: '~500 × 400 mm' },
+      { label: 'Spindle', value: 'High-speed motorized, ~24,000 rpm' },
+      { label: 'Drive System', value: 'Servo motor drive' },
+    ],
+    applications: 'Mold engraving, jig machining, aluminum batch drilling & tapping',
+  },
+];
+
+const categories = [
+  { name: '5-Axis Machining Centers', color: '#8B0000' },
+  { name: 'Vertical Machining Centers', color: '#1a1a1a' },
+  { name: 'Drill-Tap / Drill-Mill Centers', color: '#2563eb' },
+  { name: 'Mold Engraving Machines', color: '#059669' },
+];
+
+const standards = [
+  { label: 'Equipment Calibration', desc: 'All machines calibrated quarterly. Spindle run-out checked before every production run.' },
+  { label: 'Preventive Maintenance', desc: 'Scheduled maintenance ensures consistent accuracy and uptime across all machines.' },
+  { label: 'Capacity Monitoring', desc: 'Real-time load tracking allows flexible scheduling for rush orders and mass production.' },
+  { label: 'ISO Compliance', desc: 'Quality management system certification in progress. All processes follow ISO-aligned procedures.' },
+];
+
+// JSON-LD structured data for SEO
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Eternal CNC Equipment List',
+  description: 'Full CNC equipment matrix at Eternal CNC precision machining facility — 5-axis, VMC, drill-tap, and mold engraving — all nameplate verified.',
+  itemListElement: equipment.map((eq, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    item: {
+      '@type': 'Product',
+      name: `${eq.brandEn} ${eq.model} ${eq.type}`,
+      category: eq.type,
+      brand: { '@type': 'Brand', name: eq.brandEn },
+      model: eq.model,
+      additionalProperty: eq.specs.map(s => ({
+        '@type': 'PropertyValue',
+        name: s.label,
+        value: s.value,
+      })),
+    },
+  })),
+};
+---
+
+<PageLayout
+  title="CNC Equipment List – 5-Axis · VMC · Drill-Tap · Engraving | Eternal CNC"
+  description={`Full CNC equipment matrix at Eternal CNC: 5-axis machining, vertical machining centers, drill-tap centers, and mold engraving — all verified with nameplate photos.`}
+  breadcrumbs={breadcrumbs}
+  schema={itemListSchema}
+>
+  {/* Hero */}
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Capabilities</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Equipment List
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Diversified mainstream CNC equipment matrix — covering 5-axis simultaneous machining, high-speed drill-tap production and precision mold engraving.
+        Strict calibration and maintenance standards ensure consistent machining precision.
+      </p>
+
+      {/* Equipment Categories */}
+      <div class="flex flex-wrap gap-x-4 gap-y-2 mt-8">
+        {categories.map((cat, i) => (
+          <span class="text-sm font-medium" style="color: var(--text-body);">
+            {cat.name}{i < categories.length - 1 ? '  |' : ''}
+          </span>
+        ))}
+      </div>
+
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          View Services →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* Equipment List */}
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Our Fleet</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Complete Machine List</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Below is every CNC machine in our facility — with real photos, nameplate-verified model numbers, and full technical specifications.
+      </p>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {equipment.map((eq) => (
+          <div class={`border rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl`} style={`background-color: var(--card-white); border-color: var(--border-color);`}>
+            {/* Image */}
+            <div class="relative h-48 bg-gray-100 overflow-hidden">
+              {eq.image ? (
+                <img
+                  src={eq.image}
+                  alt={eq.imageAlt}
+                  width="400" height="300"
+                  loading="lazy" decoding="async"
+                  class="w-full h-full object-cover"
+                />
+              ) : (
+                <div class="w-full h-full flex items-center justify-center text-gray-400 text-sm">
+                  Photo coming soon
+                </div>
+              )}
+              {/* Badge */}
+              <span class="absolute top-3 left-3 text-xs font-semibold text-white px-2.5 py-1 rounded" style={`background-color: ${eq.badgeColor};`}>
+                {eq.typeBadge}
+              </span>
+                          </div>
+
+            {/* Content */}
+            <div class="p-5">
+              <p class="text-xs font-medium mb-1" style="color: var(--text-muted);">{eq.brand}</p>
+              <h3 class="text-lg font-bold mb-1" style="color: var(--brand-dark);">
+                {eq.brandEn} {eq.model}
+              </h3>
+              <p class="text-sm mb-3" style="color: var(--text-body);">{eq.type}</p>
+              {/* Spec table */}
+              <table class="w-full text-xs mb-4">
+                <tbody>
+                  {eq.specs.map((spec) => (
+                    <tr class="border-b" style="border-color: var(--border-color);">
+                      <th scope="row" class="py-1.5 pr-3 text-left font-medium whitespace-nowrap" style="color: var(--text-muted);">{spec.label}</th>
+                      <td class="py-1.5 text-right" style="color: var(--brand-dark);">{spec.value}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              {/* Applications */}
+              <p class="text-xs" style="color: var(--text-body);">
+                <span class="font-medium" style="color: var(--text-muted);">Applications: </span>
+                {eq.applications}
+              </p>
+
+              {eq.detail && (
+                <a href={eq.detail} class="inline-flex items-center gap-1 mt-3 text-xs font-semibold transition-colors" style="color: var(--brand-red);">
+                  View machine details
+                  <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* Quality Standards */}
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Quality Control</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Equipment Standards</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Every machine is maintained and calibrated to ensure consistent part quality.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* CTA */}
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Need precision-machined parts?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Upload your drawing and receive a quote within 24 hours with DFM feedback.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Free Quote
+        </a>
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Free DFM Review →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* Equipment Gallery */}
+  <section class="section-padding" style="background-color: var(--page-bg); padding-bottom: 120px;">
+    <div class="container-custom">
+      <div class="text-center mb-14">
+        <span class="red-line mx-auto"></span>
+        <h2 class="text-3xl font-bold" style="color: var(--brand-dark);">Inside Our Machine Shop</h2>
+        <p class="mt-4 text-lg" style="color: var(--text-muted);">A glimpse of our CNC equipment in action.</p>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-5axis-machine-01.webp" alt="5-axis CNC machining center close up" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-workshop-cato-vertical-machining-center-lineup-01.webp" alt="CATO CT-80 vertical machining center at Eternal CNC factory" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-5axis-machine-03.webp" alt="5-axis CNC machine spindle in operation" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-machine-closeup-03.webp" alt="Taikan T-V1270S heavy-duty VMC control panel at Eternal CNC" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-workshop-greato-vertical-machining-center-lineup-01.webp" alt="Taikan T-V series drill-mill machining center" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-workshop-machining-center-bay-overview-01.webp" alt="CNC machining center enclosure" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-workshop-taikan-vertical-machining-center-lineup-01.webp" alt="Taikan T-V856S vertical machining center open door" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-machine-closeup-09.webp" alt="Taikan T-V1270S VMC front view" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-5axis-sunrise-dmu400-closeup-front-01.webp" alt="SUNRISE DMU 400 5-axis CNC machining center front close-up at Eternal CNC factory" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-5axis-hanmer-lu320-front-01.webp" alt="HANMER LU320 5-axis CNC machining center front view at Eternal CNC workshop" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-vertical-machining-center-taikan-tv856s-workshop-01.webp" alt="Taikan T-V856S vertical machining center in Eternal CNC workshop" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-measurement-equipment-2d-optical-comparator-01.webp" alt="2.5D optical measuring machine for precision dimensional inspection at Eternal CNC" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+

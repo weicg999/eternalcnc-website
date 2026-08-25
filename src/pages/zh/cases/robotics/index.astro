@@ -1,0 +1,121 @@
+﻿---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '案例展示', href: '/zh/cases' },
+  { label: '机器人零件案例' },
+];
+
+const caseCards = [
+  { title: '关节模组壳体', material: '铝合金 7075', process: '五轴加工', spec: '同轴度 0.01mm' },
+  { title: '减速器行星架', material: '钢 4140', process: '精密铣削+热处理', spec: '精度 ±0.005mm，HRC58-62' },
+  { title: '末端夹爪', material: '铝合金+POM', process: '多材料组合加工', spec: '轻量化设计，夹持力均匀' },
+];
+
+const qualityStandards = [
+  { title: '重复定位精度', desc: '关节零件重复定位精度检测，确保运动一致性' },
+  { title: '表面粗糙度', desc: '关键配合面粗糙度严格控制' },
+  { title: '材料热处理报告', desc: '热处理工艺全程记录，报告按需提供' },
+];
+---
+
+<PageLayout
+  title="机器人零件案例 | Eternal CNC"
+  description="机器人零件CNC加工案例，涵盖关节模组、减速器、末端执行器等精密零件。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">案例展示</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">机器人零件案例</h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">为工业机器人制造商提供关节、减速器、末端执行器等精密零件。</p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">获取报价</a>
+        <a href="/zh/cases" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">查看全部案例 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Case Cards -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">典型案例</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">精选加工案例</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">以下为代表性加工案例，展示我们的工艺能力与质量水平。</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        {caseCards.map((card) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{card.title}</h3>
+            <ul class="space-y-2 mb-4">
+              <li class="text-sm flex items-start"><span class="mr-2" style="color: var(--brand-red);">—</span><span style="color: var(--text-body);">材料：{card.material}</span></li>
+              <li class="text-sm flex items-start"><span class="mr-2" style="color: var(--brand-red);">—</span><span style="color: var(--text-body);">工艺：{card.process}</span></li>
+              <li class="text-sm flex items-start"><span class="mr-2" style="color: var(--brand-red);">—</span><span style="color: var(--text-body);">{card.spec}</span></li>
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Product Renders -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">产品图展示</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">精选产品渲染</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">代表性产品渲染图——展示材料工艺与表面细节。</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/robotics/cnc-robotics-rotary-joint-aluminum-render-01.webp" alt="铝合金 6 轴机器人旋转关节" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">机器人旋转关节</p>
+            <p class="text-xs" style="color: var(--text-muted);">铝合金 · 五轴铣削 · 轴承座精度 H7</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/robotics/cnc-robotics-harmonic-reducer-steel-render-01.webp" alt="合金钢谐波减速器壳体" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">谐波减速器壳体</p>
+            <p class="text-xs" style="color: var(--text-muted);">合金钢 · 车铣复合 · 齿形精度 6 级</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/robotics/cnc-robotics-arm-bracket-aluminum-render-01.webp" alt="铝合金轻量化机器人臂支架" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">轻量化臂支架</p>
+            <p class="text-xs" style="color: var(--text-muted);">铝合金 6061 · 铣削+去应力 · ±0.02mm</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality Standards -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">质量管控</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">质控标准</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">每批订单均按严格质控流程执行。</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        {qualityStandards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.title}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">有机器人零件需要加工？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">上传图纸，我们的工程师 24 小时内提供报价及 DFM 可制造性反馈。</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">免费获取报价</a>
+        <a href="/zh/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">免费DFM图纸评审 →</a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

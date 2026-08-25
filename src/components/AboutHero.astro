@@ -1,0 +1,126 @@
+---
+/**
+ * AboutHero.astro — 关于我们页 Hero 区块（米色全宽 + 左文右视频 + 三列 stats + 双 CTA）
+ *
+ * 设计语言跟首页 Hero 一致：米色背景、深色标题、品牌红 accent、右侧嵌入循环静音视频。
+ *
+ * 用法：
+ *   <AboutHero />  // 默认中文
+ *   <AboutHero
+ *     label="About Us"
+ *     titleHtml="More Than a Machine Shop.<br/>Your Engineering Partner."
+ *     subtitle="23 years in manufacturing · 15 years in CNC precision machining · Drawing review → Mass production"
+ *     heroVideoSrc="/videos/eternal-cnc-5axis-machining-in-action-01.mp4"
+ *     stats={[{num:'23', unit:'yrs', label:'In manufacturing'}, ...]}
+ *     ctaPrimaryText="View Capabilities"
+ *     ctaPrimaryHref="/services/cnc-machining"
+ *     ctaSecondaryText="Get a Quote"
+ *     ctaSecondaryHref="/contact/get-a-quote"
+ *   />
+ */
+import { Image } from 'astro:assets';
+
+interface Stat {
+  num: string;
+  unit: string;
+  label: string;
+}
+
+interface Props {
+  /** 顶部小标签，如「关于我们」/「About Us」 */
+  label?: string;
+  /** 主标题（支持 <br/> 换行），需传完整 HTML 字符串 */
+  titleHtml?: string;
+  /** 副标题（一行，文案要具体不要套话） */
+  subtitle?: string;
+  /** 右侧视频路径（循环静音自动播放，跟首页 Hero 同款） */
+  heroVideoSrc?: string;
+  /** 视频无障碍标签 */
+  heroVideoAlt?: string;
+  /** 三列关键数据（跟 TrustBar 同款样式） */
+  stats?: Stat[];
+  /** 主 CTA 文案 + 链接 */
+  ctaPrimaryText?: string;
+  ctaPrimaryHref?: string;
+  /** 次 CTA 文案 + 链接 */
+  ctaSecondaryText?: string;
+  ctaSecondaryHref?: string;
+  /** 旧 prop 兼容（不再使用，仅作向后兼容） */
+  imageSrc?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  hideImage?: boolean;
+}
+
+const {
+  label = '关于我们',
+  titleHtml = '我们是你的工程伙伴，<br/>而不只是加工厂。',
+  subtitle = '23 年制造行业深耕 · 15 年 CNC 精密机加 · 图纸评估 → 工艺规划 → 打样验证 → 量产交付，全流程驻厂跟进。',
+  heroVideoSrc = '/videos/eternal-cnc-5axis-machining-in-action-01.mp4',
+  heroVideoAlt = '五轴 CNC 实景加工产品演示',
+  stats = [
+    { num: '23', unit: '年', label: '制造行业经验' },
+    { num: '30', unit: '台', label: 'CNC 设备' },
+    { num: '24', unit: 'h', label: '图纸报价' },
+  ],
+  ctaPrimaryText = '了解加工能力',
+  ctaPrimaryHref = '/zh/capabilities/equipment',
+  ctaSecondaryText = '获取报价',
+  ctaSecondaryHref = '/zh/contact/get-a-quote',
+} = Astro.props;
+---
+
+<section class="about-hero relative w-full overflow-hidden" style="background-color: var(--page-bg);">
+  <div class="max-w-7xl mx-auto px-6 py-16 md:py-20 lg:py-24">
+    <div class="grid lg:grid-cols-[55fr_45fr] gap-10 lg:gap-12 items-center">
+      <!-- 左：文字区 -->
+      <div class="order-2 lg:order-1">
+        <p class="text-sm font-semibold mb-5 tracking-widest uppercase" style="color: var(--brand-red);">{label}</p>
+        <h1 class="font-bold leading-[1.15] mb-5" style="color: var(--brand-dark); font-size: clamp(1.85rem, 4.2vw, 3.25rem); font-family: var(--font-heading);" set:html={titleHtml} />
+        <p class="text-base md:text-lg leading-relaxed mb-8 max-w-xl" style="color: var(--text-body);">{subtitle}</p>
+
+        <!-- 三列 stats -->
+        <div class="grid grid-cols-3 gap-4 md:gap-6 mb-8 max-w-lg">
+          {stats.map((s) => (
+            <div>
+              <div class="flex items-baseline gap-1">
+                <span class="font-bold leading-none tracking-tight" style="color: var(--brand-dark); font-size: clamp(28px, 3.5vw, 40px); font-family: var(--font-heading);">{s.num}</span>
+                <span class="font-semibold leading-none" style="color: var(--brand-red); font-size: clamp(15px, 1.8vw, 19px);">{s.unit}</span>
+              </div>
+              <p class="mt-2 text-[13px] md:text-sm font-medium leading-snug" style="color: var(--text-body);">{s.label}</p>
+            </div>
+          ))}
+        </div>
+
+        <!-- 双 CTA -->
+        <div class="flex flex-wrap gap-3">
+          <a href={ctaPrimaryHref} class="inline-flex items-center justify-center px-6 py-3 rounded-industrial font-semibold text-white transition-colors" style="background-color: var(--brand-red);">
+            {ctaPrimaryText}
+          </a>
+          <a href={ctaSecondaryHref} class="inline-flex items-center justify-center px-6 py-3 rounded-industrial font-semibold transition-colors border" style="color: var(--brand-dark); border-color: var(--brand-dark);">
+            {ctaSecondaryText}
+          </a>
+        </div>
+      </div>
+
+      <!-- 右：视频区（lg:self-stretch 强制撑满 grid row 高度，绕过父 items-center 的压缩） -->
+      <div class="order-1 lg:order-2 relative aspect-[4/3] lg:aspect-auto lg:self-stretch lg:min-h-[480px] rounded-industrial overflow-hidden" style="background-color: #000;">
+        <video
+          src={heroVideoSrc}
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          aria-label={heroVideoAlt}
+          class="absolute inset-0 w-full h-full object-cover"
+        ></video>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* 移动端视频置顶已通过 order-1/order-2 实现，无须额外样式 */
+</style>

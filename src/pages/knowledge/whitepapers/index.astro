@@ -1,0 +1,139 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Knowledge Base', href: '/knowledge' },
+  { label: 'Whitepapers' },
+];
+
+const capabilities = [
+  {
+    title: 'ISO 2768 Tolerance Analysis',
+    items: ['Fine (f), Medium (m), Coarse (c)', 'Linear & angular tolerances', 'Geometrical tolerance defaults', 'Comparison with ANSI standards'],
+    tolerance: 'Tolerance Standard',
+    materials: 'All Materials',
+  },
+  {
+    title: 'Aluminum 6061 vs 7075',
+    items: ['Strength-to-weight comparison', 'Machinability differences', 'Corrosion resistance data', 'Cost and availability analysis'],
+    tolerance: 'Material Comparison',
+    materials: 'Aluminum Alloys',
+  },
+  {
+    title: 'Surface Finish Selection',
+    items: ['Ra value comparison chart', 'Process capability by method', 'Cost impact of finish grade', 'Application-specific recommendations'],
+    tolerance: 'Surface Standard',
+    materials: 'All Materials',
+  },
+  {
+    title: '5-Axis Error Compensation',
+    items: ['Volumetric error sources', 'Thermal deformation effects', 'Tool deflection compensation', 'Probe-based verification'],
+    tolerance: 'Accuracy Analysis',
+    materials: 'Multi-Axis',
+  },
+];
+
+const standards = [
+  { label: 'ISO 2768 Reference', desc: 'Complete tolerance tables for linear, angular, and geometrical dimensions per ISO 2768.' },
+  { label: 'Material Data Sheets', desc: 'Mechanical properties, machinability ratings, and application guidelines for common CNC materials.' },
+  { label: 'Surface Finish Guide', desc: 'Ra value standards, process selection, and cost factors for different surface finish grades.' },
+  { label: '5-Axis Compensation', desc: 'Technical approaches to maintaining accuracy in simultaneous 5-axis machining operations.' },
+];
+---
+
+<PageLayout
+  title="Whitepapers | In-depth Technical Reports | Eternal CNC"
+  description="In-depth technical reports for better engineering decisions. ISO tolerance analysis, material comparisons, and more."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Knowledge Base</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Whitepapers
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        In-depth technical reports for better engineering decisions. Download our
+        whitepapers on tolerance analysis, materials, surface finishes, and more.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          View Services →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Technical Reports</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">In-Depth Analysis</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Detailed technical whitepapers covering tolerances, materials, surface finishes, and advanced machining topics.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Topic</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Scope</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Quality Standards</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Reference Standards</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        All whitepapers are based on international standards and our internal quality data.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Need Technical Data?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Upload your drawings — engineer feedback within 24h.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/knowledge" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          View All Resources →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

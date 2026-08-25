@@ -1,0 +1,31 @@
+﻿---
+const isZh = Astro.url.pathname.startsWith('/zh');
+
+const stats = isZh ? [
+  { num: '23', unit: '年', label: '制造行业经验' },
+  { num: '30', unit: '台', label: 'CNC 设备' },
+  { num: '±0.005', unit: 'mm', label: '加工精度可达' },
+  { num: '24', unit: 'h', label: '图纸报价' },
+] : [
+  { num: '23', unit: 'yrs', label: 'In manufacturing' },
+  { num: '30', unit: 'units', label: 'CNC machines' },
+  { num: '±0.005', unit: 'mm', label: 'Up to tolerance' },
+  { num: '24', unit: 'h', label: 'Quote turnaround' },
+];
+---
+
+<section style="background-color: var(--page-bg);">
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6">
+      {stats.map((s) => (
+        <div class="text-center md:text-left">
+          <div class="flex items-baseline justify-center md:justify-start gap-1.5">
+            <span class="font-bold leading-none tracking-tight" style="color: #1A1A1A; font-size: clamp(36px, 5vw, 48px); font-family: var(--font-heading);">{s.num}</span>
+            <span class="font-semibold leading-none" style="color: var(--brand-red); font-size: clamp(18px, 2.4vw, 22px);">{s.unit}</span>
+          </div>
+          <p class="mt-3 text-[15px] font-medium leading-snug" style="color: #1A1A1A;">{s.label}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

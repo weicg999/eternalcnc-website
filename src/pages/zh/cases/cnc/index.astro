@@ -1,0 +1,121 @@
+﻿---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '案例展示', href: '/zh/cases' },
+  { label: 'CNC 加工案例' },
+];
+
+const caseCards = [
+  { title: '五轴叶轮', material: '铝合金 7075', process: '五轴联动铣削', spec: '叶片轮廓度 0.02mm' },
+  { title: '复杂型腔', material: '模具钢 P20', process: '高速铣削+电火花', spec: '深度120mm，内角R0.5mm' },
+  { title: '精密钻孔件', material: '不锈钢 316L', process: '深孔钻削', spec: '孔径Φ1.2mm，深径比10:1' },
+];
+
+const qualityStandards = [
+  { title: '尺寸检测', desc: '关键尺寸可送 CMM 检测（集团共享计量中心），按需出具报告' },
+  { title: '表面质量', desc: '粗糙度仪检测，Ra 值全程记录' },
+  { title: '工艺验证', desc: '首件确认+过程巡检+成品全检' },
+];
+---
+
+<PageLayout
+  title="CNC 加工案例 | Eternal CNC"
+  description="CNC加工案例，涵盖铣削、钻孔、攻牙及复杂曲面加工的典型案例。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">案例展示</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">CNC 加工案例</h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">涵盖铣削、钻孔、攻牙及复杂曲面加工的典型案例。</p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">获取报价</a>
+        <a href="/zh/cases" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">查看全部案例 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Case Cards -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">典型案例</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">精选加工案例</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">以下为代表性加工案例，展示我们的工艺能力与质量水平。</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        {caseCards.map((card) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{card.title}</h3>
+            <ul class="space-y-2 mb-4">
+              <li class="text-sm flex items-start"><span class="mr-2" style="color: var(--brand-red);">—</span><span style="color: var(--text-body);">材料：{card.material}</span></li>
+              <li class="text-sm flex items-start"><span class="mr-2" style="color: var(--brand-red);">—</span><span style="color: var(--text-body);">工艺：{card.process}</span></li>
+              <li class="text-sm flex items-start"><span class="mr-2" style="color: var(--brand-red);">—</span><span style="color: var(--text-body);">{card.spec}</span></li>
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Product Renders -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">产品图展示</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">精选产品渲染</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">代表性产品渲染图——展示材料工艺与表面细节。</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/cnc/cnc-general-flange-stainless-render-01.webp" alt="不锈钢精密法兰盘" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">精密法兰盘</p>
+            <p class="text-xs" style="color: var(--text-muted);">316L 不锈钢 · 数控车削 · Ra 1.6</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/cnc/cnc-general-bracket-aluminum-render-01.webp" alt="铝合金定制安装支架" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">定制安装支架</p>
+            <p class="text-xs" style="color: var(--text-muted);">铝合金 6061 · 多面铣削 · 喷砂阳极</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/cnc/cnc-general-valve-body-brass-render-01.webp" alt="黄铜阀体" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">黄铜阀体</p>
+            <p class="text-xs" style="color: var(--text-muted);">黄铜 C360 · 车铣复合 · 气密检测通过</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality Standards -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">质量管控</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">质控标准</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">每批订单均按严格质控流程执行。</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        {qualityStandards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.title}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">有CNC加工需求？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">上传图纸，我们的工程师 24 小时内提供报价及 DFM 可制造性反馈。</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">免费获取报价</a>
+        <a href="/zh/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">免费DFM图纸评审 →</a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

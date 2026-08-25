@@ -1,0 +1,161 @@
+﻿---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Capabilities', href: '/capabilities' },
+  { label: 'Tolerance Standards' },
+];
+
+const capabilities = [
+  {
+    title: 'Linear Tolerance — ISO 2768-f',
+    items: ['Dimensions 6–30mm: ±0.10mm', 'Dimensions 30–120mm: ±0.15mm', 'Dimensions 120–400mm: ±0.20mm', 'Dimensions 400–1000mm: ±0.30mm'],
+    tolerance: '±0.005mm (CNC milling)',
+    materials: 'All metals & engineering plastics',
+  },
+  {
+    title: 'Angular Tolerance — ±0.01°',
+    items: ['Tight angular control for chamfers', 'Precision tapers & cones', 'Datum-aligned angle features', "CMM-verified via angular measurement at our group's shared metrology center"],
+    tolerance: '±0.01°',
+    materials: 'Steel, Aluminum, Titanium',
+  },
+  {
+    title: 'Surface Roughness — Ra 0.4',
+    items: ['Standard as-machined: Ra 1.6–3.2', 'Fine finish: Ra 0.8–1.6', 'Precision finish: Ra 0.4–0.8', 'Mirror finish: Ra 0.1–0.4 (grinding)'],
+    tolerance: 'Ra 0.4 µm achievable',
+    materials: 'Aluminum, Stainless Steel, Brass',
+  },
+  {
+    title: 'Form Tolerance — GD&T',
+    items: ['Flatness, parallelism, perpendicularity', 'True position (⌀0.02mm)', 'Concentricity & runout', 'Profile of surface & edge'],
+    tolerance: 'Per ASME Y14.5 / ISO GPS',
+    materials: 'All machined materials',
+  },
+];
+
+const standards = [
+  { label: "CMM verification (via our group's shared metrology center)", desc: 'First-article and sampling inspections use coordinate measuring machines (CMM) per AQL 2.5 sampling standards.' },
+  { label: 'Surface Measurement', desc: 'Roughness verified by profilometer. We can provide Ra readings for critical surfaces on request.' },
+  { label: 'Dimensional Reports', desc: 'Every order ships with a dimensional inspection report. Key characteristics measured and documented.' },
+  { label: 'Tight Tolerance Capability', desc: 'With 5-axis machining and temperature-controlled environment, we hold ±0.005mm on critical features.' },
+];
+---
+
+<PageLayout
+  title="Precision Standards – Milling ±0.005mm | Turning ±0.01mm | ISO 2768 | Eternal CNC"
+  description="CNC machining precision: linear tolerance ±0.005mm, angular ±0.01°, surface roughness Ra 0.4, full GD&T verification per ISO 2768-f."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Capabilities</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Precision Standards
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Milling ±0.005mm · Turning ±0.01mm · CMM verification available via our group's shared metrology center on request.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/services/quality-inspection" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Quality Inspection →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Tolerance Specs</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Precision Capabilities</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        We hold tight tolerances across all machining processes, verified by calibrated inspection equipment.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Achievable Tolerance</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Applicable Materials</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Inspection Process</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">How We Verify Precision</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Every part undergoes rigorous inspection before shipping.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  <!-- Quality Inspection -->
+  <section class="section-padding" style="background-color: var(--card-white);">
+    <div class="container-custom">
+      <div class="text-center mb-14">
+        <span class="red-line mx-auto"></span>
+        <h2 class="text-3xl font-bold" style="color: var(--brand-dark);">Inspection Equipment</h2>
+        <p class="mt-4 text-lg" style="color: var(--text-muted);">Precision measurement you can trust.</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="rounded-industrial overflow-hidden">
+          <img src="/images/quality/cnc-quality-cmm-coordinate-measuring-machine-01.webp" alt="CMM coordinate measuring machine for precision inspection" class="w-full h-64 object-cover" loading="lazy" width="600" height="256" />
+        </div>
+        <div class="rounded-industrial overflow-hidden">
+          <img src="/images/quality/cnc-quality-micrometer-inspection-02.webp" alt="Quality inspection equipment at Eternal CNC" class="w-full h-64 object-cover" loading="lazy" width="600" height="256" />
+        </div>
+        <div class="rounded-industrial overflow-hidden">
+          <img src="/images/quality/cnc-quality-inspecting-machined-part-03.webp" alt="Precision measurement instruments" class="w-full h-64 object-cover" loading="lazy" width="600" height="256" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Need tight-tolerance parts?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Upload your drawing with GD&T callouts. Our engineers will confirm feasibility within 24 hours.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Free Quote
+        </a>
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Free DFM Review →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

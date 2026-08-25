@@ -1,0 +1,131 @@
+﻿---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '知识库', href: '/zh/knowledge' },
+  { label: '加工公差' },
+];
+---
+
+<PageLayout
+  title="加工公差指南 – 鑫永恒"
+  description="CNC 加工公差标准：ISO 2768-m 公差表、GD&T 能力、公差指定建议。"
+  breadcrumbs={breadcrumbs}
+>
+  <section style="background-color: var(--bg-dark); background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-5">加工公差指南</h1>
+      <p class="text-lg max-w-3xl" style="color: var(--text-helper);">了解 CNC 加工的公差能力，合理指定公差要求以平衡成本与精度。</p>
+    </div>
+  </section>
+
+  <section class="py-16" style="background-color: var(--page-bg);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl space-y-12">
+
+        <!-- ISO 2768 -->
+        <div>
+          <h2 class="text-2xl font-bold mb-4">ISO 2768-m 一般公差</h2>
+          <div class="overflow-x-auto">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>尺寸范围 (mm)</th>
+                  <th>F (精密)</th>
+                  <th>M (中等)</th>
+                  <th>C (粗糙)</th>
+                  <th>V (最粗)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td class="font-medium">0.5 – 3</td><td>±0.05</td><td>±0.1</td><td>±0.2</td><td>—</td></tr>
+                <tr><td class="font-medium">3 – 6</td><td>±0.05</td><td>±0.1</td><td>±0.5</td><td>±1.0</td></tr>
+                <tr><td class="font-medium">6 – 30</td><td>±0.1</td><td>±0.2</td><td>±0.5</td><td>±1.5</td></tr>
+                <tr><td class="font-medium">30 – 120</td><td>±0.15</td><td>±0.3</td><td>±0.8</td><td>±3.0</td></tr>
+                <tr><td class="font-medium">120 – 400</td><td>±0.2</td><td>±0.5</td><td>±1.2</td><td>±5.0</td></tr>
+                <tr><td class="font-medium">400 – 1000</td><td>±0.3</td><td>±0.8</td><td>±2.0</td><td>±8.0</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="text-sm mt-3" style="color: var(--text-muted);">单位：mm。默认公差等级为 ISO 2768-m（中等）。</p>
+        </div>
+
+        <!-- 能力卡片 -->
+        <div>
+          <h2 class="text-2xl font-bold mb-4">我们的加工能力</h2>
+          <div class="grid md:grid-cols-3 gap-6">
+            <div class="card p-5 text-center">
+              <div class="text-3xl font-bold text-[#8B0000] mb-2">±0.01mm</div>
+              <p class="text-sm" style="color: var(--text-body);">标准精度能力</p>
+            </div>
+            <div class="card p-5 text-center">
+              <div class="text-3xl font-bold text-[#8B0000] mb-2">±0.005mm</div>
+              <p class="text-sm" style="color: var(--text-body);">精密加工能力</p>
+            </div>
+            <div class="card p-5 text-center">
+              <div class="text-3xl font-bold text-[#8B0000] mb-2">Ra 0.4μm</div>
+              <p class="text-sm" style="color: var(--text-body);">最佳表面粗糙度</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 如何指定 -->
+        <div>
+          <h2 class="text-2xl font-bold mb-4">如何指定公差</h2>
+          <div class="space-y-4">
+            <div class="card p-5">
+              <h3 class="font-bold mb-2">1. 仅对关键特征标注紧密公差</h3>
+              <p class="text-sm" style="color: var(--text-body);">每增加一个紧密公差都会增加检测成本和加工时间。非配合面使用一般公差即可。</p>
+            </div>
+            <div class="card p-5">
+              <h3 class="font-bold mb-2">2. 使用 GD&T 替代坐标公差</h3>
+              <p class="text-sm" style="color: var(--text-body);">GD&T 提供更精确的功能定义，允许更大的加工公差带，降低生产成本。</p>
+            </div>
+            <div class="card p-5">
+              <h3 class="font-bold mb-2">3. 考虑材料对公差的影响</h3>
+              <p class="text-sm" style="color: var(--text-body);">不同材料的热膨胀系数不同。高温环境下工作的零件需要预留热膨胀间隙。</p>
+            </div>
+            <div class="card p-5">
+              <h3 class="font-bold mb-2">4. 提供 2D 图纸标注关键尺寸</h3>
+              <p class="text-sm" style="color: var(--text-body);">3D 模型定义几何形状，2D 图纸标注关键尺寸和公差。两者配合使用效果最佳。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- GD&T -->
+        <div>
+          <h2 class="text-2xl font-bold mb-4">GD&T 能力</h2>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="card p-5">
+              <h3 class="font-bold mb-3">形状公差</h3>
+              <ul class="text-sm space-y-1" style="color: var(--text-body);">
+                <li>• 直线度 (Straightness)</li>
+                <li>• 平面度 (Flatness)</li>
+                <li>• 圆度 (Circularity)</li>
+                <li>• 圆柱度 (Cylindricity)</li>
+              </ul>
+            </div>
+            <div class="card p-5">
+              <h3 class="font-bold mb-3">位置/方向公差</h3>
+              <ul class="text-sm space-y-1" style="color: var(--text-body);">
+                <li>• 平行度 (Parallelism)</li>
+                <li>• 垂直度 (Perpendicularity)</li>
+                <li>• 同轴度 (Concentricity)</li>
+                <li>• 位置度 (Position)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16" style="background-color: var(--bg-dark);">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-2xl font-bold text-white mb-4">有公差相关的问题？</h2>
+      <p class="mb-8" style="color: var(--text-helper);">我们的工程团队可以帮您评估公差要求并优化成本。</p>
+      <a href="/zh/contact/get-a-quote" class="btn-primary">咨询工程师 →</a>
+    </div>
+  </section>
+</PageLayout>

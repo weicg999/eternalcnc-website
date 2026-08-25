@@ -1,0 +1,138 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '知识库', href: '/zh/knowledge' },
+  { label: '加工公差' },
+];
+
+const capabilities = [
+  {
+    title: '线性尺寸公差',
+    items: ['精密级 f 级 ±0.05mm（小件）', '中等 m 级 ±0.1mm（常规）', '粗糙 c 级 ±0.2mm（非配合）', '最粗 v 级 ±0.5mm（焊接件）'],
+    tolerance: '默认执行 ISO 2768-m',
+    materials: '公差越严，加工成本越高',
+  },
+  {
+    title: '形位公差 GD&T',
+    items: ['平面度可达 0.02mm/100mm', '平行度可达 0.01mm/100mm', '同轴度可达 0.02mm', '位置度可达 ±0.01mm'],
+    tolerance: '以三坐标检测报告为准',
+    materials: '形位公差需配套检测手段',
+  },
+  {
+    title: '表面粗糙度',
+    items: ['粗铣 Ra 3.2-6.3μm', '精铣 Ra 1.6-3.2μm', '磨削 Ra 0.4-1.6μm', '抛光 Ra 0.05-0.2μm'],
+    tolerance: '默认交付 Ra 3.2μm',
+    materials: '粗糙度要求越高，工序越多',
+  },
+  {
+    title: '公差指定建议',
+    items: ['只在配合面上标注严公差', '非功能面走默认未注公差', '关键特性用 GD&T 明确标注', '避免全尺寸严公差标注'],
+    tolerance: '配合面 ±0.02~0.05mm 足够',
+    materials: '合理公差可降低成本 30% 以上',
+  },
+];
+
+const standards = [
+  { label: '公差累积原则', desc: '尺寸链越长，累积公差越大，设计时需考虑。' },
+  { label: '基准优先', desc: '先确定加工基准，再标注各尺寸公差。' },
+  { label: '经济精度', desc: '选择满足功能要求的最松公差，降低成本。' },
+  { label: '检测配套', desc: '标注的公差必须是可测量的，否则无意义。' },
+];
+---
+
+<PageLayout
+  title="CNC加工公差规范 | ISO 2768·GD&T·表面粗糙度 | Eternal CNC"
+  description="Eternal CNC 加工公差指南——ISO 2768-m 标准对照、形位公差 GD&T 能力、表面粗糙度范围与公差标注建议，帮助您合理指定加工精度。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">知识库</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        CNC 加工公差与精度规范
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        ISO 2768-m 公差标准、GD&T 能力与公差指定建议
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          咨询工程师
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">公差体系</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">四大公差维度</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        全面了解 CNC 加工的公差能力，合理指定精度要求。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">基准标准</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">成本提示</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">公差原则</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">合理公差的四条原则</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        公差指定不是越严越好，而是越合理越好。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">不确定公差怎么标？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        把图纸发给我们，工程师会根据功能需求给出合理的公差建议。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          咨询工程师
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

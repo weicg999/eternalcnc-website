@@ -1,0 +1,55 @@
+---
+const isZh = Astro.url.pathname.startsWith('/zh');
+
+const cards = isZh ? [
+  {
+    title: '精密加工',
+    desc: '铣削精度可达 ±0.005mm，支持五轴复杂曲面、异形零件加工，覆盖铝、不锈钢、铜、工程塑料等材质',
+    icon: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>'
+  },
+  {
+    title: '快速交付',
+    desc: '图纸 24 小时报价，30 台 CNC 协同作业，样品急单可快速出货，兼顾小批量试样与稳定量产',
+    icon: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'
+  },
+  {
+    title: '质量保障',
+    desc: '全程 ISO 质控流程，配备 TESA 高精度测高仪，首件检验、过程巡检、成品检验，尺寸报告按需提供',
+    icon: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>'
+  },
+] : [
+  {
+    title: 'Precision Machining',
+    desc: 'Milling accuracy up to ±0.005mm, supporting 5-axis complex surfaces and custom parts in aluminum, stainless steel, copper, engineering plastics and more',
+    icon: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>'
+  },
+  {
+    title: 'Fast Delivery',
+    desc: '24-hour quoting from drawings, 30 CNC machines working in parallel, rapid prototyping with stable mass production capability',
+    icon: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'
+  },
+  {
+    title: 'Quality Assurance',
+    desc: 'Full ISO-based quality control process, equipped with TESA high-precision height gauges. First-article, in-process, and final inspection; dimensional reports available on request.',
+    icon: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>'
+  },
+];
+---
+
+<section class="py-14 md:py-20" style="background-color: var(--card-white);">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid md:grid-cols-3 gap-8 md:gap-0">
+      {cards.map((card, i) => (
+        <div class:list={['flex items-start gap-4 md:px-8', i > 0 ? 'md:border-l' : '']} style={i > 0 ? 'border-color: var(--border-color);' : ''}>
+          <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style="background-color: rgba(139,0,0,0.1); color: var(--brand-red);">
+            <Fragment set:html={card.icon} />
+          </div>
+          <div>
+            <h3 class="text-lg font-bold mb-1" style="color: var(--brand-dark);">{card.title}</h3>
+            <p class="text-sm leading-relaxed" style="color: var(--text-body);">{card.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

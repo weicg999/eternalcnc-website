@@ -1,0 +1,193 @@
+---
+/**
+ * v7 Footer - Light industrial style with three layers
+ * Updated: email moved to right column, sales@eternalcnc.com, all hover effects
+ */
+const currentYear = '2024-2026';
+const currentPath = Astro.url.pathname;
+const isZh = currentPath.startsWith('/zh');
+---
+
+<footer style="background-color: var(--footer-bg);">
+  <!-- Layer 1: Quick Contact Bar -->
+  <div class="border-b" style="border-color: var(--border-color);">
+    <div class="container-custom py-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <a href={isZh ? '/zh/contact/get-a-quote' : '/contact/get-a-quote'} class="flex items-center gap-3 p-3 rounded-lg hover:bg-white transition-all duration-300 group">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-[#8B0000] text-white transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </div>
+          <div>
+            <div class="text-sm font-medium transition-all duration-300 group-hover:text-[#8B0000]" style="color: var(--brand-dark);">{isZh ? '产品咨询' : 'Product Inquiry'}</div>
+            <div class="text-xs" style="color: var(--text-muted);">{isZh ? '技术选型与报价' : 'Technical advice & quotes'}</div>
+          </div>
+        </a>
+        <a href="mailto:sales@eternalcnc.com" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white transition-all duration-300 group">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-[#8B0000] text-white transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          </div>
+          <div>
+            <div class="text-sm font-medium transition-all duration-300 group-hover:text-[#8B0000]" style="color: var(--brand-dark);">{isZh ? '销售对接' : 'Sales Contact'}</div>
+            <div class="text-xs" style="color: var(--text-muted);">sales@eternalcnc.com</div>
+          </div>
+        </a>
+        <a href={isZh ? '/zh/contact/get-a-quote' : '/contact/get-a-quote'} class="flex items-center gap-3 p-3 rounded-lg hover:bg-white transition-all duration-300 group">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-[#8B0000] text-white transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.26-.904 2.95l-.102.085"/></svg>
+          </div>
+          <div>
+            <div class="text-sm font-medium transition-all duration-300 group-hover:text-[#8B0000]" style="color: var(--brand-dark);">{isZh ? '售后支持' : 'After-Sales'}</div>
+            <div class="text-xs" style="color: var(--text-muted);">{isZh ? '技术支持与服务' : 'Technical support'}</div>
+          </div>
+        </a>
+        <a href={isZh ? '/zh/knowledge/' : '/knowledge/'} class="flex items-center gap-3 p-3 rounded-lg hover:bg-white transition-all duration-300 group">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-[#8B0000] text-white transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.253 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.246 18 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+          </div>
+          <div>
+            <div class="text-sm font-medium transition-all duration-300 group-hover:text-[#8B0000]" style="color: var(--brand-dark);">{isZh ? '知识库' : 'Knowledge Base'}</div>
+            <div class="text-xs" style="color: var(--text-muted);">{isZh ? '技术指南与行业洞察' : 'Guides & industry insights'}</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Layer 2: Three Column Layout -->
+  <div class="container-custom py-12 lg:py-16">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-8">
+      
+      <!-- Column 1: Products -->
+      <div>
+        <h4 class="text-sm font-semibold uppercase tracking-wider mb-5" style="color: var(--brand-dark); font-family: Inter, system-ui, sans-serif;">
+          {isZh ? '产品' : 'Products'}
+        </h4>
+        <ul class="space-y-3">
+          {(isZh ? [
+            { label: 'CNC 精密加工', href: '/zh/services/cnc-machining' },
+            { label: '数控车削', href: '/zh/services/cnc-turning' },
+            { label: '精密磨削', href: '/zh/services/precision-grinding' },
+            { label: '线切割 (EDM)', href: '/zh/services/wire-edm' },
+            { label: '质量检测', href: '/zh/services/quality-inspection' },
+          ] : [
+            { label: 'CNC Machining', href: '/services/cnc-machining' },
+            { label: 'CNC Turning', href: '/services/cnc-turning' },
+            { label: 'Precision Grinding', href: '/services/precision-grinding' },
+            { label: 'Wire EDM', href: '/services/wire-edm' },
+            { label: 'Quality Inspection', href: '/services/quality-inspection' },
+          ]).map((link) => (
+            <li>
+              <a href={link.href} class="text-sm text-gray-400 inline-block transition-all duration-300 hover:text-[#8B0000] hover:translate-x-0.5">{link.label}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Column 2: Company -->
+      <div>
+        <h4 class="text-sm font-semibold uppercase tracking-wider mb-5" style="color: var(--brand-dark); font-family: Inter, system-ui, sans-serif;">
+          {isZh ? '公司' : 'Company'}
+        </h4>
+        <ul class="space-y-3">
+          {(isZh ? [
+            { label: '关于我们', href: '/zh/about' },
+            { label: '联系我们', href: '/zh/contact/get-a-quote' },
+          ] : [
+            { label: 'About Us', href: '/about' },
+            { label: 'Contact Us', href: '/contact/get-a-quote' },
+          ]).map((link) => (
+            <li>
+              <a href={link.href} class="text-sm text-gray-400 inline-block transition-all duration-300 hover:text-[#8B0000] hover:translate-x-0.5">{link.label}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Column 3: Social + Email + Company -->
+      <div>
+        <h4 class="text-sm font-semibold uppercase tracking-wider mb-5" style="color: var(--brand-dark); font-family: Inter, system-ui, sans-serif;">
+          {isZh ? '社交媒体' : 'Social'}
+        </h4>
+        <div class="flex items-center gap-4">
+          {isZh ? (
+            <!-- WeChat -->
+            <a href="tel:+8618123983352" class="w-10 h-10 rounded-full flex items-center justify-center bg-[#8B0000] text-white transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5" aria-label="微信">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 01.213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 00.167-.054l1.903-1.114a.864.864 0 01.717-.098 10.16 10.16 0 002.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178A1.17 1.17 0 014.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178 1.17 1.17 0 01-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.914 6.109.853 2.62 3.297 4.222 6.146 4.222.826 0 1.622-.12 2.361-.336a.722.722 0 01.598.082l1.584.926a.272.272 0 00.14.045c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.49.49 0 01.177-.554C23.016 18.115 24 16.405 24 14.479c0-3.197-3.098-5.621-7.062-5.621zm-2.36 2.63c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.982.97-.982zm4.72 0c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.982.97-.982z"/></svg>
+            </a>
+          ) : (
+            <!-- WhatsApp -->
+            <a href="https://wa.me/8618123983352" target="_blank" rel="noopener" class="w-10 h-10 rounded-full flex items-center justify-center bg-[#8B0000] text-white transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5" aria-label="WhatsApp">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+          )}
+          <!-- LinkedIn -->
+          <a href={isZh ? '/zh' : '/'} class="w-10 h-10 rounded-full flex items-center justify-center bg-[#8B0000] text-white transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5" aria-label="LinkedIn">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <!-- YouTube -->
+          <a href={isZh ? '/zh' : '/'} class="w-10 h-10 rounded-full flex items-center justify-center bg-[#8B0000] text-white transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5" aria-label="YouTube">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+          <!-- Facebook -->
+          <a href={isZh ? '/zh' : '/'} class="w-10 h-10 rounded-full flex items-center justify-center bg-[#8B0000] text-white transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5" aria-label="Facebook">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <!-- Twitter/X -->
+          <a href={isZh ? '/zh' : '/'} class="w-10 h-10 rounded-full flex items-center justify-center bg-[#8B0000] text-white transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5" aria-label="Twitter">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+        </div>
+        <!-- Email -->
+        <div class="mt-6">
+          <a href="mailto:sales@eternalcnc.com" class="inline-flex items-center gap-2 text-sm text-gray-400 transition-all duration-300 hover:text-[#8B0000] hover:translate-x-0.5">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            sales@eternalcnc.com
+          </a>
+        </div>
+        <!-- Phone / Messenger -->
+        <div class="mt-2">
+          {isZh ? (
+            <a href="tel:+8618123983352" class="inline-flex items-center gap-2 text-sm text-gray-400 transition-all duration-300 hover:text-[#8B0000] hover:translate-x-0.5">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 01.213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 00.167-.054l1.903-1.114a.864.864 0 01.717-.098 10.16 10.16 0 002.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178A1.17 1.17 0 014.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178 1.17 1.17 0 01-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.914 6.109.853 2.62 3.297 4.222 6.146 4.222.826 0 1.622-.12 2.361-.336a.722.722 0 01.598.082l1.584.926a.272.272 0 00.14.045c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.49.49 0 01.177-.554C23.016 18.115 24 16.405 24 14.479c0-3.197-3.098-5.621-7.062-5.621zm-2.36 2.63c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.982.97-.982zm4.72 0c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.982.97-.982z"/></svg>
+              微信 / 电话：181 2398 3352
+            </a>
+          ) : (
+            <a href="https://wa.me/8618123983352" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm text-gray-400 transition-all duration-300 hover:text-[#8B0000] hover:translate-x-0.5">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              WhatsApp: +86 181 2398 3352
+            </a>
+          )}
+        </div>
+        <!-- Company Name -->
+        <div class="mt-3">
+          <p class="text-sm" style="color: var(--text-body);">
+            {isZh ? '鑫永恒（深圳）精密实业有限公司' : 'Xinyongheng (Shenzhen) Precision Industrial Co., Ltd.'}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Layer 3: Copyright Bar -->
+  <div class="border-t" style="border-color: var(--border-color);">
+    <div class="container-custom py-5 flex flex-col md:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <img src="/images/logo/logo-full.png" alt="Eternal CNC" class="h-6 w-auto" />
+        <p class="text-xs" style="color: var(--text-muted);">
+          &copy; {currentYear} {isZh ? '鑫永恒（深圳）精密实业有限公司' : 'Eternal CNC'}. {isZh ? '版权所有.' : 'All rights reserved.'}
+        </p>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href={isZh ? '/zh/confidentiality' : '/confidentiality'} class="text-xs text-gray-400 inline-block transition-all duration-300 hover:text-[#8B0000] hover:translate-x-0.5">
+          {isZh ? '保密政策' : 'Confidentiality Policy'}
+        </a>
+        <a href={isZh ? '/zh/privacy-policy' : '/privacy-policy'} class="text-xs text-gray-400 inline-block transition-all duration-300 hover:text-[#8B0000] hover:translate-x-0.5">
+          {isZh ? '隐私政策' : 'Privacy Policy'}
+        </a>
+        <a href="#" onclick="if(window.openCookieSettings)window.openCookieSettings();return false;" class="text-xs text-gray-400 inline-block transition-all duration-300 hover:text-[#8B0000] hover:translate-x-0.5">
+          {isZh ? 'Cookie 设置' : 'Cookie Settings'}
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

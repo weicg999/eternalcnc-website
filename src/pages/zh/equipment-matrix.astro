@@ -1,0 +1,128 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '工艺能力', href: '/zh/capabilities' },
+  { label: '设备矩阵' },
+];
+
+// 设备台账（家族集团合并产能）：13 类机型，30 台，以台群为主。
+// 含家族关联企业车间设备，共同组成一个整体承接海外订单。
+const equipment = [
+  { brand: '森氏精密 (Sun King)', brandEn: 'Sun King', model: 'CNC-5AX1S (DMU 400)', type: '五轴加工中心', cat: '5-Axis', qty: 1, image: '/images/equipment/equipment-sunrise-dmu400-5axis-hero.webp' },
+  { brand: '台群 (Taikan)', brandEn: 'Taikan', model: 'T-V1270S（重型）', type: '立式加工中心', cat: 'VMC', qty: 2, image: '/images/equipment/equipment-taikan-tv1270s-hero.webp' },
+  { brand: '台群 (Taikan)', brandEn: 'Taikan', model: 'T-V856S', type: '立式加工中心', cat: 'VMC', qty: 3, image: '/images/equipment/equipment-taikan-tv856s-hero.webp' },
+  { brand: '台群 (Taikan)', brandEn: 'Taikan', model: 'T-700SE', type: '钻铣加工中心', cat: 'Drill-Mill', qty: 2, image: '/images/equipment/equipment-taikan-t700se-hero.webp' },
+  { brand: '佳富 (JIAFU)', brandEn: 'JIAFU', model: 'JF-600', type: '钻攻加工中心', cat: 'Drill-Mill', qty: 3, image: '/images/equipment/equipment-jiafu-jf600-hero.webp' },
+  { brand: '台群 (Taikan)', brandEn: 'Taikan', model: 'T-500S', type: '钻铣加工中心', cat: 'Drill-Mill', qty: 12, image: '/images/equipment/equipment-taikan-t500s-hero.webp' },
+  { brand: '2.5次元 (2.5D)', brandEn: '2.5D CMM', model: '2.5次元测量仪', type: '检测设备', cat: 'Inspection', qty: 1, image: '/images/equipment/gallery/cnc-measurement-equipment-2d-optical-comparator-01.webp' },
+  { brand: '巨冈 (CATO)', brandEn: 'CATO', model: 'CT-80', type: '立式加工中心', cat: 'VMC', qty: 1, image: '/images/equipment/cnc-machine-cato-ct80-vertical-machining-center-01.webp' },
+  { brand: '佳富 (JIAFU)', brandEn: 'JIAFU', model: 'JF-500', type: '钻攻加工中心', cat: 'Drill-Mill', qty: 1, image: '/images/equipment/cnc-machine-jiafu-jf500-drill-tap-machining-center-01.webp' },
+  { brand: '鸿金顺 (HONG JIN SHUN)', brandEn: 'HONG JIN SHUN', model: 'HJS-T5', type: '钻孔攻牙加工中心', cat: 'Drill-Mill', qty: 1, image: '/images/equipment/cnc-machine-hongjinshun-hjs-t5-drill-tap-machining-center-01.webp' },
+  { brand: '乔鸿 (QIAO HONG)', brandEn: 'QIAO HONG', model: 'QH-T6', type: '高速钻攻机', cat: 'Drill-Mill', qty: 1, image: '/images/equipment/cnc-machine-qiaohong-qh-t6-high-speed-drill-tap-01.webp' },
+  { brand: '鑫腾辉 (XINTENGHUI)', brandEn: 'XINTENGHUI', model: 'XTH-T540', type: '模具雕铣机', cat: 'Engraving', qty: 1, image: '/images/equipment/cnc-machine-xintenghui-xth-t540-mold-engraving-machining-center-01.webp' },
+  { brand: '望辉 (WANGHUI)', brandEn: 'WANGHUI', model: 'XH-540', type: '模具雕铣机', cat: 'Engraving', qty: 1, image: '/images/equipment/cnc-machine-wanghui-xh540-mold-engraving-machining-center-01.webp' },
+];
+
+const catColor = { '5-Axis': '#8B0000', 'VMC': '#1a1a1a', 'Drill-Mill': '#2563eb', 'Inspection': '#6b7280', 'Engraving': '#059669' };
+const totalUnits = equipment.reduce((s, e) => s + e.qty, 0);
+const taikanUnits = equipment.filter(e => e.brandEn === 'Taikan').reduce((s, e) => s + e.qty, 0);
+const taikanPct = Math.round((taikanUnits / totalUnits) * 100);
+const machineTypes = equipment.length;
+---
+
+<PageLayout
+  title="设备矩阵 – 13 类机型 · 30 台 | 鑫永恒"
+  description="鑫永恒集团合并产能总览：13 类机型、30 台（含家族关联企业车间），以台群为主（19 台），涵盖五轴、立式加工中心、钻铣加工中心、模具雕铣及 2.5次元检测。"
+  breadcrumbs={breadcrumbs}
+>
+  <section style="background-color: var(--card-white); padding: 72px 0 48px;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">工艺能力</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">设备矩阵</h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        集团合并产能一览：共 <strong>{machineTypes} 类机型</strong>、<strong>{totalUnits} 台</strong>，含家族关联企业车间设备，共同组成一个整体。
+        机群<strong style="color: var(--brand-red);">以台群为主 —— {taikanUnits} / {totalUnits} 台（{taikanPct}%）</strong>为台群(Taikan)加工中心，辅以 1 台五轴机与 2.5次元检测。
+      </p>
+
+      {/* 概览条 */}
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+        <div class="p-5 rounded-xl border" style="background-color: var(--page-bg); border-color: var(--border-color);">
+          <p class="text-3xl font-bold" style="color: var(--brand-dark);">{totalUnits}</p>
+          <p class="text-xs mt-1" style="color: var(--text-muted);">总台数</p>
+        </div>
+        <div class="p-5 rounded-xl border" style="background-color: var(--page-bg); border-color: var(--border-color);">
+          <p class="text-3xl font-bold" style="color: var(--brand-dark);">{machineTypes}</p>
+          <p class="text-xs mt-1" style="color: var(--text-muted);">机型类别</p>
+        </div>
+        <div class="p-5 rounded-xl border" style="background-color: var(--page-bg); border-color: var(--border-color);">
+          <p class="text-3xl font-bold" style="color: var(--brand-red);">{taikanUnits}</p>
+          <p class="text-xs mt-1" style="color: var(--text-muted);">台群(Taikan)台数</p>
+        </div>
+        <div class="p-5 rounded-xl border" style="background-color: var(--page-bg); border-color: var(--border-color);">
+          <p class="text-3xl font-bold" style="color: var(--brand-dark);">{taikanPct}%</p>
+          <p class="text-xs mt-1" style="color: var(--text-muted);">台群占比</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background-color: var(--page-bg); padding: 48px 0 80px;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="overflow-x-auto border rounded-xl" style="border-color: var(--border-color); background-color: var(--card-white);">
+        <table class="w-full text-sm">
+          <thead>
+            <tr style="background-color: var(--page-bg);">
+              <th class="text-left px-4 py-3 font-semibold" style="color: var(--brand-dark);">#</th>
+              <th class="text-left px-4 py-3 font-semibold" style="color: var(--brand-dark);">图片</th>
+              <th class="text-left px-4 py-3 font-semibold" style="color: var(--brand-dark);">品牌</th>
+              <th class="text-left px-4 py-3 font-semibold" style="color: var(--brand-dark);">型号</th>
+              <th class="text-left px-4 py-3 font-semibold" style="color: var(--brand-dark);">类型</th>
+              <th class="text-left px-4 py-3 font-semibold" style="color: var(--brand-dark);">类别</th>
+              <th class="text-left px-4 py-3 font-semibold" style="color: var(--brand-dark);">台数</th>
+            </tr>
+          </thead>
+          <tbody>
+            {equipment.map((eq, i) => (
+              <tr class="border-t" style="border-color: var(--border-color);">
+                <td class="px-4 py-3 text-gray-500">{i + 1}</td>
+                <td class="px-4 py-3">
+                  {eq.image ? (
+                    <img src={eq.image} alt={`${eq.brandEn} ${eq.model}`} width="80" height="60" loading="lazy" class="w-20 h-14 object-cover rounded" />
+                  ) : (
+                    <div class="w-20 h-14 rounded bg-gray-100 flex items-center justify-center text-[10px] text-gray-400">待补图</div>
+                  )}
+                </td>
+                <td class="px-4 py-3 font-medium" style="color: var(--brand-dark);">{eq.brandEn}</td>
+                <td class="px-4 py-3" style="color: var(--text-body);">{eq.model}</td>
+                <td class="px-4 py-3" style="color: var(--text-body);">{eq.type}</td>
+                <td class="px-4 py-3">
+                  <span class="text-xs font-semibold text-white px-2.5 py-1 rounded" style={`background-color: ${catColor[eq.cat]};`}>{eq.cat}</span>
+                </td>
+                <td class="px-4 py-3 font-semibold" style="color: var(--brand-red);">{eq.qty}</td>
+              </tr>
+            ))}
+            <tr class="border-t font-bold" style="border-color: var(--border-color); background-color: var(--page-bg);">
+              <td class="px-4 py-3" colspan="6" style="color: var(--brand-dark);">合计</td>
+              <td class="px-4 py-3" style="color: var(--brand-red);">{totalUnits}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="text-sm mt-4" style="color: var(--text-muted);">
+        台群(Taikan)机群：T-V1270S ×2、T-V856S ×3、T-700SE ×2、T-500S ×12，合计 <strong style="color: var(--brand-red);">{taikanUnits} 台</strong>。
+        数据涵盖鑫永恒与家族关联企业车间的合并产能（总计 30 台），共同作为一个整体承接海外订单。
+      </p>
+
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/capabilities/equipment" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          完整设备清单 →
+        </a>
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          获取报价
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

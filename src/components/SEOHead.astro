@@ -1,0 +1,104 @@
+---
+/**
+ * SEOHead 组件 - TDK + Schema.org 结构化数据 + Open Graph + hreflang 双语互链
+ *
+ * hreflang 采用 import.meta.glob 枚举 src/pages 下真实存在的路由，
+ * 不再依赖 fs.existsSync + import.meta.url（静态构建下该探测恒失效）。
+ * 命名不对称的双语页（知识页）用 LANG_MAP 显式映射。
+ */
+interface Props {
+  title: string;
+  description: string;
+  canonicalUrl?: string;
+  ogImage?: string;
+  schema?: object | object[];
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonicalUrl,
+  ogImage = '/images/og-default.webp',
+  schema,
+  noindex = false,
+} = Astro.props;
+
+const canonical = canonicalUrl || new URL(Astro.url.pathname, Astro.site).href;
+
+// 枚举所有真实存在的路由
+const allModules = import.meta.glob('../pages/**/*.astro', { eager: true });
+const routes = new Set<string>();
+for (const p of Object.keys(allModules)) {
+  let r = p.replace(/^\.\.\/pages\//, '').replace(/\.astro$/, '');
+  r = r.replace(/\/index$/, '');
+  if (r === 'index') r = '';
+  routes.add('/' + r);
+}
+
+// 命名不对称的双语页（仅 slug 不同的几对知识页）——其余中英文仅前缀不同，自动互换
+const LANG_MAP: Record<string, string> = {
+  '/zh/knowledge/dfm-guides': '/knowledge/dfm-guide',
+  '/zh/knowledge/machining-tolerances': '/knowledge/tolerance',
+  '/zh/knowledge/material-guide': '/knowledge/material-handbook',
+  '/zh/knowledge/quality-certification': '/knowledge/quality',
+  '/knowledge/dfm-guide': '/zh/knowledge/dfm-guides',
+  '/knowledge/tolerance': '/zh/knowledge/machining-tolerances',
+  '/knowledge/material-handbook': '/zh/knowledge/material-guide',
+  '/knowledge/quality': '/zh/knowledge/quality-certification',
+};
+
+// 归一化：去掉尾斜杠（根路径 '/' 除外），避免 /about/ 与 /about 匹配不上
+const norm = (p: string) => (p.length > 1 ? p.replace(/\/$/, '') : p);
+const pathname = Astro.url.pathname;
+const np = norm(pathname);
+const isZh = np.startsWith('/zh');
+const ogLocale = isZh ? 'zh_CN' : 'en_US';
+const ogSiteName = isZh ? '永恒精密数控加工' : 'Eternal CNC Precision Machining';
+
+const enPath = isZh ? (np.replace(/^\/zh/, '') || '/') : np;
+const zhPath = isZh ? np : ('/zh' + (np === '/' ? '' : np));
+
+// 对页路径：先按前缀互换，再用映射表修正非对称命名
+const counterPath = norm(LANG_MAP[np] || (isZh ? enPath : zhPath));
+const counterExists = routes.has(counterPath);
+
+const enUrl = new URL(isZh ? counterPath : np, Astro.site).href;
+const zhUrl = new URL(isZh ? np : counterPath, Astro.site).href;
+---
+
+<!-- SEO Meta Tags -->
+<title>{title}</title>
+<meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- hreflang: 仅当对页真实存在时发出（避免悬空标注） -->
+    {counterExists && (
+      <>
+        <link rel="alternate" hreflang="en" href={enUrl} />
+        <link rel="alternate" hreflang="zh-CN" href={zhUrl} />
+        <link rel="alternate" hreflang="x-default" href={enUrl} />
+      </>
+    )}
+
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={new URL(ogImage, Astro.site).href} />
+<meta property="og:site_name" content={ogSiteName} />
+<meta property="og:locale" content={ogLocale} />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={new URL(ogImage, Astro.site).href} />
+
+<!-- 结构化数据 Schema.org -->
+{schema && (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+)}

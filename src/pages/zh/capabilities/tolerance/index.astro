@@ -1,0 +1,160 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '工艺能力', href: '/zh/capabilities' },
+  { label: '精度标准' },
+];
+
+const capabilities = [
+  {
+    title: '铣削精度',
+    items: ['标准铣削 ±0.01mm', '精密铣削 ±0.005mm', '精细铣削 ±0.003mm'],
+    tolerance: 'ISO 2768-f / H',
+    materials: '三坐标测量（集团共享计量中心）可全检或抽检',
+  },
+  {
+    title: '车削精度',
+    items: ['标准车削 ±0.01mm', '精密车削 ±0.005mm', '同心度 ≤0.003mm'],
+    tolerance: 'ISO 2768-f',
+    materials: '圆度仪 + 粗糙度仪逐件检测',
+  },
+  {
+    title: '五轴联动精度',
+    items: ['定位精度 ±0.005mm', '重复定位 ±0.003mm', 'RTCP 精度校验'],
+    tolerance: 'NAS 979 标准试件验证',
+    materials: '激光干涉仪定期校准',
+  },
+  {
+    title: '表面质量',
+    items: ['Ra 0.8μm 标准加工面', 'Ra 0.4μm 精加工面', 'Ra 0.2μm 镜面加工（需抛光）'],
+    tolerance: '轮廓仪检测',
+    materials: '每件随附粗糙度检测报告',
+  },
+];
+
+const standards = [
+  { label: '首件检验', desc: '每批次首件全尺寸检测，合格后方可批量加工。' },
+  { label: '过程巡检', desc: '每 50 件抽检关键尺寸，监控刀具磨损趋势，及时换刀。' },
+  { label: '终检出厂', desc: '100% 外观检查 + 关键尺寸可送集团共享计量中心 CMM 终检，出具检测报告。' },
+  { label: '溯源管理', desc: '检测报告可随货或按需提供，支持扫码查看原始测量数据。' },
+];
+---
+
+<PageLayout
+  title="CNC加工精度标准 | 铣削±0.005mm·车削±0.01mm | Eternal CNC"
+  description="Eternal CNC 加工精度标准：铣削 ±0.005mm、车削 ±0.01mm，关键尺寸可送三坐标检测（集团共享计量中心，按需），符合 ISO 2768-m 标准。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">工艺能力</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        精度标准
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        铣削 ±0.005mm / 车削 ±0.01mm / 关键尺寸可送三坐标检测（集团共享计量中心，按需）
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          查看加工服务 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">加工能力</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">精度等级与检测方式</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        从标准加工到精密级，每一档精度均有对应的检测手段和质量标准。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">参考标准</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">检测方法</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">质量管控</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">精度保障流程</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        全流程精度管控，从首件到出厂层层把关。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 检测设备 -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <span class="red-line mx-auto"></span>
+        <h2 class="text-3xl font-bold" style="color: var(--brand-dark);">检测设备</h2>
+        <p class="mt-4 text-lg" style="color: var(--text-muted);">可靠的精密测量设备，为每一件产品保驾护航。</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="rounded-industrial overflow-hidden">
+          <img src="/images/quality/cnc-quality-cmm-coordinate-measuring-machine-01.webp" alt="三坐标测量机（CMM）精密检测" class="w-full h-64 object-cover" loading="lazy" width="600" height="256" />
+        </div>
+        <div class="rounded-industrial overflow-hidden">
+          <img src="/images/quality/cnc-quality-micrometer-inspection-02.webp" alt="精密千分尺测量" class="w-full h-64 object-cover" loading="lazy" width="600" height="256" />
+        </div>
+        <div class="rounded-industrial overflow-hidden">
+          <img src="/images/quality/cnc-quality-inspecting-machined-part-03.webp" alt="精密测量仪器与检测" class="w-full h-64 object-cover" loading="lazy" width="600" height="256" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">有高精度零件需要加工？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        上传图纸，我们的工程师 24 小时内提供报价及 DFM 可制造性反馈。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          免费DFM图纸评审 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

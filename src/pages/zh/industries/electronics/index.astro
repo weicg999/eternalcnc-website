@@ -1,0 +1,169 @@
+﻿---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '行业应用', href: '/zh/industries' },
+  { label: '电子通信' },
+];
+
+const capabilities = [
+  {
+    title: '射频外壳',
+    items: ['5G基站腔体', '滤波器壳体', '功放外壳', '混频器座'],
+    tolerance: '±0.01mm',
+    materials: '铝合金 6061/7075',
+  },
+  {
+    title: '散热片',
+    items: ['LED散热基板', '芯片散热片', '热管底座', '翅片散热器'],
+    tolerance: '±0.05mm',
+    materials: '铝合金 1050/6063、铜 C110',
+  },
+  {
+    title: '连接器壳体',
+    items: ['光纤连接器', '射频同轴壳体', '航空插头', 'D-SUB外壳'],
+    tolerance: '±0.005mm',
+    materials: '黄铜 C360、不锈钢',
+  },
+  {
+    title: '屏蔽罩',
+    items: ['EMI屏蔽框', '屏蔽盖', '接地弹片座', '天线反射板'],
+    tolerance: '±0.02mm',
+    materials: '不锈钢、铝合金',
+  },
+];
+
+const standards = [
+  { label: '尺寸一致性SPC', desc: '批量生产采用统计过程控制，确保CPK≥1.33。' },
+  { label: '表面导电性检测', desc: '镀层零件提供导电性测试报告，满足信号完整性要求。' },
+  { label: '镀层厚度管控', desc: '化学镍、镀金、镀银等镀层厚度可控制在±1μm。' },
+  { label: '外观标准管控', desc: '按客户外观标准执行，提供目检及显微镜检测。' },
+];
+---
+
+<PageLayout
+  title="电子通信零件精密制造 | 射频外壳·散热片·连接器 | Eternal CNC"
+  description="为电子通信行业提供精密CNC加工——射频外壳、散热片、连接器壳体、屏蔽罩，高精度与一致性保障。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">行业应用</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        电子通信
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        为电子通信行业提供精密CNC加工服务。
+        涵盖射频外壳、散热片、连接器壳体及屏蔽罩。
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          查看加工服务 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">加工能力</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">按电子通信系统分类</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        我们为四大电子通信子系统加工零件，关键尺寸可送集团共享计量中心三坐标测量机验证。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">精密公差</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">需精加工与检测工序保障，具体以图纸评审为准</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">常用材料</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">质量管控</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">电子通信行业质量标准</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        每批订单均按电子通信级质量管控流程执行。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  
+
+<!-- 产品展示 -->
+<section style="background-color: var(--card-white); padding: 80px 0;">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">产品展示</p>
+    <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">电子通信零件展示</h2>
+    <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">精密电子零件——散热器、屏蔽壳体、射频连接器。以下为工艺演示用的产品渲染图，用于直观呈现本厂的加工能力；因保密协议（NDA）约束，图片仅供参考。</p>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/electronics/cnc-electronics-aluminum-heat-sink-01.webp" alt="CNC加工铝散热器" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">CNC加工铝散热器</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/electronics/cnc-electronics-rf-shielded-enclosure-02.webp" alt="通信设备铝屏蔽壳体" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">通信设备铝屏蔽壳体</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/electronics/cnc-electronics-rf-connector-03.webp" alt="精密射频连接器" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">精密射频连接器</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/electronics/cnc-electronics-pcb-mount-bracket-04.webp" alt="PCB安装支架治具" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">PCB安装支架治具</p></div>
+        </div>
+    </div>
+  </div>
+</section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">有电子零件需要加工？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        上传图纸，工程师24小时内提供报价及DFM反馈。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          免费DFM图纸评审 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

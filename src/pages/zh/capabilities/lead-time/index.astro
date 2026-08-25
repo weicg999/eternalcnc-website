@@ -1,0 +1,138 @@
+﻿---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '工艺能力', href: '/zh/capabilities' },
+  { label: '交期说明' },
+];
+
+const capabilities = [
+  {
+    title: '打样交期',
+    items: ['简单零件 3-5 个工作日', '复杂零件 5-7 个工作日', '五轴零件 7-10 个工作日'],
+    tolerance: '含编程 + 首件检验',
+    materials: '可选加急，加急周期另议',
+  },
+  {
+    title: '小批量交期',
+    items: ['50-200 件 10-15 个工作日', '200-500 件 15-20 个工作日', '含首件确认 + 批量加工'],
+    tolerance: '全程 SPC 管控',
+    materials: '可按需分批交货',
+  },
+  {
+    title: '量产交期',
+    items: ['500-2000 件 20-30 个工作日', '2000 件以上月度滚动交货', '安全库存备货服务'],
+    tolerance: '产能自动排程系统',
+    materials: '签订长期供货协议可优先排产',
+  },
+  {
+    title: '加急服务',
+    items: ['24 小时快速报价', '加急打样最快 48 小时交付', '紧急订单专线响应'],
+    tolerance: '加急费视复杂度另计',
+    materials: '需提前沟通确认产能',
+  },
+];
+
+const standards = [
+  { label: '订单评审', desc: '收到图纸后 24 小时内完成工艺评审及报价。' },
+  { label: '排产透明', desc: '订单确认后提供详细排产计划，客户可随时查看进度。' },
+  { label: '异常预警', desc: '如遇设备故障或材料延迟，第一时间通知客户并调整交期。' },
+  { label: '准时交付', desc: '近三年订单准时交付率 98.5%。' },
+];
+---
+
+<PageLayout
+  title="CNC加工交期说明 | 打样3-7天·量产15-30天 | Eternal CNC"
+  description="Eternal CNC 加工交期：打样 3-7 天，量产 15-30 天，支持加急服务。全程透明排产，准时交付率 98.5%。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">工艺能力</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        交期说明
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        打样 3-7 天 / 量产 15-30 天 / 急单可协商
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          查看加工服务 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">加工能力</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">各类订单交期参考</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        从打样到量产，不同批量对应标准交期，加急订单可协商。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">备注</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">灵活方案</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">质量管控</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">交期保障机制</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        完善的计划与沟通机制确保每一笔订单按时交付。
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">有紧急订单需要处理？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        上传图纸，我们的工程师 24 小时内提供报价及最快交期方案。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          免费DFM图纸评审 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

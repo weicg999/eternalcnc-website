@@ -1,0 +1,198 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Knowledge Base', href: '/knowledge' },
+  { label: 'DFM Cost-Saving Guide' },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: 'DFM Cost-Saving Guide for CNC Machining (Part 1)',
+  description: 'Five geometric design principles that decide 80% of a CNC quote: wall thickness, hole depth ratio, shape, inside corner radius and tolerances — with shop-floor cost data.',
+  author: { '@type': 'Organization', name: 'Eternal CNC Precision Machining' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Eternal CNC Precision Machining',
+    logo: { '@type': 'ImageObject', url: 'https://www.eternalcnc.com/images/og-default.webp' },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': Astro.url.href },
+  inLanguage: 'en',
+};
+---
+
+<PageLayout
+  title="DFM Cost-Saving Guide (Part 1) | CNC Design Rules | Eternal CNC"
+  description="Five geometric DFM principles that decide 80% of a CNC quote: wall thickness, hole depth ratio, shape, inside corner radius and tolerances — with real shop-floor cost data."
+  breadcrumbs={breadcrumbs}
+  schema={articleSchema}
+>
+  <style>
+    .dfm-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+    .dfm-table th, .dfm-table td { border: 1px solid var(--border-color); padding: 10px 12px; text-align: left; vertical-align: top; }
+    .dfm-table th { background: var(--page-bg); color: var(--brand-dark); font-weight: 600; }
+    .dfm-table tr:nth-child(even) { background: #FAFAFA; }
+    .dfm-box { background: #FFF8F8; border: 1px solid #F0D0D0; border-left: 4px solid var(--brand-red); padding: 14px 16px; border-radius: 0 6px 6px 0; color: var(--text-body); }
+    .dfm-box strong { color: var(--brand-red); }
+  </style>
+
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Knowledge Base</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        DFM Cost-Saving Guide (Part 1)
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Five geometric design principles that decide 80% of a CNC quote. Not copied from a textbook —
+        lessons from quoting, planning and reworking real jobs. The problem is rarely machine accuracy; it's the "small numbers" in the drawing.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Quote
+        </a>
+        <a href="/downloads/EternalCNC-DFM-Design-Guide-Part1-EN.html" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Download Print-Ready Guide ↓
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1 Wall thickness -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">1. Wall Thickness — thinner isn't fancier</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">CNC cuts with a tool pressed against the material. Too-thin walls chatter, vibrate and deform — ending in out-of-tolerance dimensions or a fish-scale surface. The cost isn't material, it's process cost and scrap rate.</p>
+      <table class="dfm-table">
+        <thead><tr><th>Material</th><th>Comfortable wall (small feature)</th><th>Large flat / thin wall</th><th>Risk</th></tr></thead>
+        <tbody>
+          <tr><td>Aluminum 6061/7075</td><td>≥ 1.0 mm</td><td>≥ 2.0 mm</td><td>Chatter, warp</td></tr>
+          <tr><td>Carbon / alloy steel</td><td>≥ 1.5 mm</td><td>≥ 2.5 mm</td><td>Vibration</td></tr>
+          <tr><td>Stainless 304/316</td><td>≥ 2.0 mm</td><td>≥ 3.0 mm</td><td>Work-harden + warp</td></tr>
+          <tr><td>Titanium</td><td>≥ 2.0 mm</td><td>≥ 3.5 mm</td><td>Spring-back, chatter</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">Traps:</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>Tall thin walls of a deep pocket swing while cutting — keep wall ≥ 1/20 of pocket depth (a 50 mm pocket wants ≥ 2.5 mm wall).</li>
+        <li>Isolated thin posts whip like a fishing rod — add ribs, or make it separate and assemble.</li>
+        <li>Abrupt thickness changes warp the thin side — use fillets / gradual transitions.</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>DFM tip:</strong> aluminum ≥ 1 mm, steel ≥ 1.5 mm, stainless ≥ 2 mm. For non-load-bearing covers, use ribs or bosses instead of thickening the whole part.</div>
+    </div>
+  </section>
+
+  <!-- 2 Hole depth -->
+  <section style="background-color: var(--card-white); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">2. Hole Depth Ratio — you can't drill as deep as you want</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">A long drill doesn't mean deep holes. The length-to-diameter ratio (depth ÷ diameter) decides whether you use a normal drill or a deep-hole machine.</p>
+      <table class="dfm-table">
+        <thead><tr><th>Ratio L/D</th><th>Process</th><th>Cost impact</th></tr></thead>
+        <tbody>
+          <tr><td>≤ 3×D</td><td>Standard drill, one pass</td><td>Baseline</td></tr>
+          <tr><td>3×D – 5×D</td><td>Standard drill, retract to clear chips</td><td>+20 – 30%</td></tr>
+          <tr><td>5×D – 10×D</td><td>Deep-hole / gun drill</td><td>+50 – 100%</td></tr>
+          <tr><td>＞ 10×D</td><td>Deep-hole machine (BTA / gun drill)</td><td>+200% or redesign</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">Traps:</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>Small deep holes (φ1 mm × 10 mm, L/D=10) break and wander easily — avoid if you can.</li>
+        <li>Chip packing in blind holes heats and breaks the drill — through-holes clear chips far better.</li>
+        <li>Stepped holes beat deep blind holes — cheaper than drill-deep-then-tap.</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>DFM tip:</strong> keep holes within 5×D; above 10×D confirm the process with the shop. Through-holes beat blind holes.</div>
+    </div>
+  </section>
+
+  <!-- 3 Shape -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">3. Shape — square is always cheaper than fancy</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">CNC loves flat faces, right angles, flat-bottom pockets, uniform radii. Add spheres, free-form surfaces, undercuts or angled walls and you need ball-nose tools, 5-axis or EDM — time climbs exponentially.</p>
+      <table class="dfm-table">
+        <thead><tr><th>Geometry</th><th>Recommendation</th><th>Cost factor</th></tr></thead>
+        <tbody>
+          <tr><td>Block / regular outline</td><td>★★★★★</td><td>1×</td></tr>
+          <tr><td>Vertical walls + flat-bottom pocket</td><td>★★★★★</td><td>1×</td></tr>
+          <tr><td>Spherical / curved surface</td><td>★★★☆☆</td><td>1.5 – 3×</td></tr>
+          <tr><td>Undercut / side recess</td><td>★★☆☆☆</td><td>3 – 10×</td></tr>
+          <tr><td>Deep narrow slot</td><td>★★☆☆☆</td><td>2 – 5×</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">Traps:</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>Square over round — a square pocket is cheaper than a round one (flat end mill runs to the bottom in one pass).</li>
+        <li>Undercuts are a cost bomb — a 3-axis tool can't reach an inward recess. Avoid them and the quote drops a tier.</li>
+        <li>Unify radii and hole sizes — R0.5/R1/R2/R3 forces a dozen tool changes; standardize to R2/R3.</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>DFM tip:</strong> prefer regular geometry; flat faces + right angles; flat-bottom + uniform radii; avoid undercuts. Let the 3-axis finish in one setup.</div>
+    </div>
+  </section>
+
+  <!-- 4 Inside radius -->
+  <section style="background-color: var(--card-white); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">4. Inside Corner Radius — the hidden threshold for tool choice</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">The inside corner radius must be ≥ the tool radius. To get an R0.5 corner you need a φ1 tool — which in steel means very high breakage risk, only extreme-low speed, and exploded cycle time.</p>
+      <table class="dfm-table">
+        <thead><tr><th>Inside radius</th><th>Tool needed</th><th>Cost impact</th></tr></thead>
+        <tbody>
+          <tr><td>R3+</td><td>φ6 flat mill</td><td>Baseline</td></tr>
+          <tr><td>R1 – R2</td><td>φ2 – φ4 flat mill</td><td>+10 – 20%</td></tr>
+          <tr><td>R0.5 – R1</td><td>φ1 – φ2 flat mill</td><td>+50 – 100%</td></tr>
+          <tr><td>＜ R0.5</td><td>φ0.5 – φ1 or EDM</td><td>+200% or redesign</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2" style="color: var(--text-body);">Rule of thumb: inside radius ≥ 1 mm (φ2 tool) is the economic zone; ≥ 2 mm (φ4 tool) is most comfortable; &lt; 0.5 mm basically needs EDM.</p>
+      <div class="dfm-box mt-4"><strong>DFM tip:</strong> use R2, not R0.5. If the look demands a small radius, rough the big pocket at R2, then EDM the local small R — cheaper than milling the whole thing with a tiny tool.</div>
+    </div>
+  </section>
+
+  <!-- 5 Tolerance -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">5. The "Economic Zone" of Tolerances — one notch tighter, double the cost</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">The tighter the tolerance, the denser the measurement and the fussier the fixturing — cost multiplies. Tighten only what functionally needs it.</p>
+      <table class="dfm-table">
+        <thead><tr><th>Tolerance</th><th>3-axis normal capability</th><th>Cost factor</th></tr></thead>
+        <tbody>
+          <tr><td>±0.1 mm</td><td>One pass</td><td>1×</td></tr>
+          <tr><td>±0.05 mm</td><td>Normal finish mill</td><td>1×</td></tr>
+          <tr><td>±0.02 mm</td><td>Finish mill + measure</td><td>1.2×</td></tr>
+          <tr><td>±0.01 mm</td><td>+ first / in-process check</td><td>1.5 – 2×</td></tr>
+          <tr><td>±0.005 mm</td><td>Thermostat / fine grind</td><td>3 – 5×</td></tr>
+          <tr><td>±0.002 mm</td><td>Grinder / jig grinder</td><td>10×+</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">Traps:</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>Only tighten fit surfaces (bearing seats, pin holes, seals); relax outer contours to ±0.05 / ±0.1.</li>
+        <li>GD&T is pricier than size tolerance — 0.02 mm flatness is harder than ±0.01 mm size.</li>
+        <li>Don't over-specify untouched dims — a cosmetic face at ±0.1 is fine.</li>
+        <li>Material matters: ±0.01 is easy in aluminum, shaky in stainless, harder in titanium.</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>DFM tip:</strong> tighten fit surfaces, relax the rest; write GD&T with care; leave ±0.1 for untouched dims. One notch tighter, double the cost.</div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Need a Free DFM Review?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Upload your drawing — our engineers provide a quote and DFM feedback within 24 hours.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Free Quote
+        </a>
+        <a href="/knowledge" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          View All Resources →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

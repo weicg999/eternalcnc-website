@@ -1,0 +1,138 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Knowledge Base', href: '/knowledge' },
+  { label: 'DFM Analysis' },
+];
+
+const capabilities = [
+  {
+    title: 'Process Feasibility Analysis',
+    items: ['Deep cavity depth-to-diameter ratio assessment', 'Undercut structure machinability evaluation', 'Thin-wall part deformation risk classification', 'Special process requirement identification'],
+    tolerance: 'Early identification rate ≥ 95%',
+    materials: 'Avoid discovering process blind spots after production starts',
+  },
+  {
+    title: 'Cost Optimization Analysis',
+    items: ['Material utilization improvement strategies', 'Process merging and simplification recommendations', 'Tolerance tightness economic evaluation', 'Surface treatment selection optimization'],
+    tolerance: 'Average cost reduction potential 15-30%',
+    materials: 'Balance performance requirements with manufacturing cost',
+  },
+  {
+    title: 'Tolerance Rationality Review',
+    items: ['Fit dimension tolerance grading recommendations', 'GD&T applicability verification', 'Default standard recommendation for unspecified tolerances', 'Key characteristic identification and annotation'],
+    tolerance: 'Reference: ISO 2768-m / ASME Y14.5',
+    materials: 'Overly tight tolerances directly drive up machining costs',
+  },
+  {
+    title: 'Assembly Interference Check',
+    items: ['Assembly sequence and accessibility verification', 'Thread clearance space inspection', 'Seal groove and mating face interference analysis', 'Thermal expansion gap allowance'],
+    tolerance: 'First-pass assembly rate improved by 40%',
+    materials: 'Reduce trial assembly rework and design changes',
+  },
+];
+
+const standards = [
+  { label: 'Reduce Setup Count', desc: 'Design parts to be machined in a single setup whenever possible to minimize cumulative error.' },
+  { label: 'Tool Accessibility', desc: 'Ensure cutting tools can reach all machined surfaces — avoid deep cavities and narrow slots that cause tool interference.' },
+  { label: 'Standardized Features', desc: 'Use standard drills, standard taps, and standard radii whenever possible to reduce custom tooling.' },
+  { label: 'Material Compatibility', desc: 'Consider machinability when selecting materials. Avoid hard-to-machine materials for high-volume parts.' },
+];
+---
+
+<PageLayout
+  title="CNC DFM Analysis Guide | Process Feasibility · Cost Optimization · Tolerance Review | Eternal CNC"
+  description="Eternal CNC professional DFM analysis service — process feasibility assessment, cost optimization recommendations, tolerance rationality review, and assembly interference checking to reduce machining risk and control production costs."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Knowledge Base</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        CNC DFM Manufacturability Analysis Guide
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Systematically identify machining risks and optimization opportunities from design to production
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Free Quote
+        </a>
+        <a href="/services/dfm-analysis" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Learn More →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Analysis Dimensions</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Four Core DFM Analysis Dimensions</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Systematically evaluate part manufacturability across four dimensions: process, cost, tolerance, and assembly.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Key Metric</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Value Benefit</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Design Principles</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">DFM Manufacturability Principles</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Design with manufacturing process limitations in mind to improve part quality from the source.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Need Professional DFM Analysis?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Upload your drawings and receive a complete manufacturability analysis report and quote within 24 hours.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Free Quote
+        </a>
+        <a href="/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Learn More →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

@@ -1,0 +1,155 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Knowledge Base', href: '/knowledge' },
+  { label: 'FAQ' },
+];
+
+const capabilities = [
+  {
+    title: 'MOQ & Pricing',
+    items: ['No minimum order quantity', 'Pricing based on complexity & material', 'Volume discounts available', 'Free DFM analysis with every quote'],
+    tolerance: 'Order Policy',
+    materials: 'All Services',
+  },
+  {
+    title: 'Quote File Formats',
+    items: ['STEP (.stp / .step) preferred', 'IGES (.igs) also accepted', 'DXF for 2D drawings', 'STL for rapid prototyping only'],
+    tolerance: 'File Requirements',
+    materials: 'CAD Data',
+  },
+  {
+    title: 'Lead Time',
+    items: ['Prototypes: 3-5 business days', 'Small batch: 7-10 business days', 'Mass production: 15-25 business days', 'Rush orders available upon request'],
+    tolerance: 'Delivery Time',
+    materials: 'All Projects',
+  },
+  {
+    title: 'Inspection Reports',
+    items: ['CMM reports for critical dimensions', 'Surface finish Ra values', 'Material certificates (EN 10204 3.1)', 'Final photos before shipment'],
+    tolerance: 'Quality Docs',
+    materials: 'All Orders',
+  },
+];
+
+const standards = [
+  { label: 'Order Process', desc: 'From drawing upload to final delivery — understand each step of working with Eternal CNC.' },
+  { label: 'Payment & Terms', desc: 'Standard payment terms, accepted methods, and invoicing procedures for domestic and international orders.' },
+  { label: 'Shipping & Logistics', desc: 'Packaging standards, shipping options, and estimated delivery timelines for your region.' },
+  { label: 'After-Sales Support', desc: 'Quality issue resolution, rework policies, and ongoing technical support for repeat orders.' },
+];
+
+// FAQPage structured data for GEO (AI search answer snippets)
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: capabilities.map((cap) => ({
+    '@type': 'Question',
+    name: cap.title,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: cap.items.join(' '),
+    },
+  })),
+};
+
+---
+
+<PageLayout
+  title="FAQ | Common Questions About Eternal CNC | Eternal CNC"
+  description="Everything you need to know about working with Eternal CNC. MOQ, pricing, lead time, file formats, and inspection reports."
+  breadcrumbs={breadcrumbs}
+  schema={faqSchema}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Knowledge Base</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        FAQ
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Everything you need to know about working with Eternal CNC.
+        Find answers to common questions about ordering, pricing, and quality.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          View Services →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Common Questions</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Frequently Asked Questions</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Quick answers to the most common questions from our customers.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Topic</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Scope</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Quality Standards</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Our Commitment</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        We stand behind every part we make. Here is what you can expect from us.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Still Have Questions?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Upload your drawings — our engineers are ready to help within 24h.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/knowledge" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          View All Resources →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

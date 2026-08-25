@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>材料选择指南｜Eternal CNC</title>
+  <meta name="description" content="CNC 材料选择指南：铝合金、不锈钢、黄铜、工程塑料的特性、加工难点与典型应用对照。">
+  <style>
+    :root {
+      --brand: #8B0000;
+      --brand-dark: #1A1A1A;
+      --text: #333333;
+      --muted: #666666;
+      --bg: #FFFFFF;
+      --light: #F7F7F7;
+      --border: #E5E5E5;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+      margin: 0;
+      padding: 0;
+    }
+    .page { max-width: 210mm; margin: 0 auto; padding: 18mm 22mm; }
+    header { border-bottom: 3px solid var(--brand); padding-bottom: 14px; margin-bottom: 26px; }
+    h1 { font-size: 25px; color: var(--brand-dark); margin: 0 0 6px; line-height: 1.3; }
+    .subtitle { font-size: 14px; color: var(--muted); margin: 0; }
+    .badge {
+      display: inline-block; background: var(--brand); color: #fff;
+      font-size: 12px; padding: 3px 10px; border-radius: 4px; margin-bottom: 10px;
+    }
+    h2 {
+      font-size: 18px; color: var(--brand); margin-top: 30px; margin-bottom: 12px;
+      padding-bottom: 6px; border-bottom: 1px solid var(--border);
+    }
+    p { margin: 10px 0; font-size: 14px; }
+    .lead {
+      font-size: 15px; background: var(--light); padding: 14px 18px;
+      border-left: 4px solid var(--brand); margin: 18px 0;
+    }
+    table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
+    th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+    th { background: var(--light); color: var(--brand-dark); font-weight: 600; }
+    tr:nth-child(even) { background: #FAFAFA; }
+    .dfm-box {
+      background: #FFF8F8; border: 1px solid #F0D0D0; border-left: 4px solid var(--brand);
+      padding: 14px 16px; margin: 16px 0; border-radius: 0 6px 6px 0;
+    }
+    .dfm-box strong { color: var(--brand); }
+    .note { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    footer { margin-top: 38px; padding-top: 18px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .page { padding: 0; }
+      h2 { page-break-after: avoid; }
+      .dfm-box, table { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <span class="badge">CNC 选材手册</span>
+    <h1>材料选择指南：不是越贵越好，是选对了才省钱</h1>
+    <p class="subtitle">Eternal CNC 车间经验谈 · 一份给设计师和采购的速查表</p>
+  </header>
+
+  <div class="lead">
+    图纸上写"铝"还是写"6061-T6"，报价能差出好几倍。材料决定了三件事：能不能加工、要多久、花多少钱。
+    这篇不讲材料学原理，只讲我们天天在机床上踩出来的实话——哪种材料好做、哪种材料贵在哪、什么场合该选什么。
+  </div>
+
+  <h2>一、一张表看懂 7 种常用材料</h2>
+  <p>下面的"相对成本系数"是以铝 6061-T6 为基准 1× 的估算，已经把刀具损耗、工时、报废率算进去了。数字不是绝对值，是车间里长期的经验区间。</p>
+  <table>
+    <thead>
+      <tr>
+        <th>材料</th>
+        <th>切削速度（参考）</th>
+        <th>刀具寿命</th>
+        <th>表面质量</th>
+        <th>相对成本系数</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>铝 6061-T6</strong></td><td>快（300–500 m/min）</td><td>长</td><td>好（Ra 0.8 轻松到位）</td><td>1×</td></tr>
+      <tr><td><strong>铝 7075-T6</strong></td><td>较快（250–400 m/min）</td><td>中</td><td>好</td><td>1.2×</td></tr>
+      <tr><td><strong>黄铜 C360</strong></td><td>极快（400–600 m/min）</td><td>极长</td><td>极好</td><td>1.1×</td></tr>
+      <tr><td><strong>不锈钢 304</strong></td><td>慢（80–150 m/min）</td><td>短（易加工硬化）</td><td>差（需多道精修）</td><td>3–4×</td></tr>
+      <tr><td><strong>不锈钢 316L</strong></td><td>极慢（60–120 m/min）</td><td>极短</td><td>差</td><td>4–5×</td></tr>
+      <tr><td><strong>钛合金 Ti-6Al-4V</strong></td><td>极慢（30–60 m/min）</td><td>极短（易燃/易崩）</td><td>中</td><td>5–8×</td></tr>
+      <tr><td><strong>工程塑料 PEEK</strong></td><td>中（200–300 m/min）</td><td>中</td><td>好</td><td>1.5×</td></tr>
+    </tbody>
+  </table>
+  <p class="note">碳钢（如 45#、Q235）也很常用，成本比不锈钢低一截，但会生锈——户外或潮湿环境慎选。需要防锈又想省钱，优先考虑表面处理（见下文）。</p>
+
+  <h2>二、逐材料点评（老师傅的实话）</h2>
+
+  <div class="dfm-box">
+    <strong>铝 6061-T6 —— 性价比之王，闭眼选</strong>
+    <p>绝大多数结构件、外壳、支架，6061-T6 都够用。切得快、刀具不费、表面光，Ra 0.8 随便拿。如果功能允许，这是我们的第一推荐。除非你要更高的强度或硬度，否则别犹豫。</p>
+  </div>
+
+  <div class="dfm-box">
+    <strong>铝 7075-T6 —— 强度党，但比 6061 难啃</strong>
+    <p>7075 强度比 6061 高一大截，航空、受力件常用。但材料更黏，容易积屑瘤，切削比 6061 费刀、费工时，成本系数 1.2× 只是材料差价，算上加工损耗其实更贵一点。不是不能用，是要接受它"贵得有道理"。</p>
+  </div>
+
+  <div class="dfm-box">
+    <strong>黄铜 C360 —— 易切削之王</strong>
+    <p>切起来飞快、刀具寿命极长、表面极亮，特别适合精密小件、接头、装饰件。成本只比铝略高，但成品观感好很多。做铜接头、齿轮、阀门件的优先选项。</p>
+  </div>
+
+  <div class="dfm-box">
+    <strong>不锈钢 304 / 316L —— 耐腐蚀，但"慢"是硬伤</strong>
+    <p>不锈钢的真凶不是硬，是<strong>加工硬化</strong>：刀一钝就硬化，越切越难切，必须用锋利新刀 + 够转速，不能慢悠悠蹭。所以刀具寿命短、工时长是常态。两点提醒：① 交期比铝长 30–50%，下单前留余量；② 公差放宽一级，表面粗糙度 Ra 1.6 是合理上限，别硬要 Ra 0.8。316L 比 304 更耐氯离子腐蚀（海边、化工），但更慢更贵。</p>
+  </div>
+
+  <div class="dfm-box">
+    <strong>钛合金 Ti-6Al-4V —— 除非必须，否则别碰</strong>
+    <p>钛的加工成本能吃掉利润：切速极慢、刀具极易崩、还易燃（切屑高温会烧）。生物相容、耐高温的零件（医疗、航天）才用它。功能上能换 316L 或 7075 的，建议换——省下的钱不是一星半点。</p>
+  </div>
+
+  <div class="dfm-box">
+    <strong>工程塑料 PEEK —— 高温绝缘场景专用</strong>
+    <p>PEEK 耐温高、绝缘好、自润滑，是半导体和医疗的常客。成本 1.5× 左右，加工不慢，但要注意装夹（容易让刀、变形）。非高温/绝缘需求，用普通尼龙或 ABS 就行，便宜得多。</p>
+  </div>
+
+  <h2>三、什么场合选什么（速查）</h2>
+  <table>
+    <thead>
+      <tr><th>你的需求</th><th>首选材料</th><th>备注</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>一般结构件、外壳、支架</td><td>6061-T6</td><td>性价比最高</td></tr>
+      <tr><td>受力件、航空/高强度</td><td>7075-T6</td><td>接受略贵</td></tr>
+      <tr><td>精密小件、铜接头、装饰</td><td>黄铜 C360</td><td>表面亮、好加工</td></tr>
+      <tr><td>食品/医疗/海边/化工耐腐蚀</td><td>304 / 316L</td><td>交期 +30–50%，公差放宽</td></tr>
+      <tr><td>生物相容 / 耐高温</td><td>钛合金</td><td>功能必须才用</td></tr>
+      <tr><td>高温绝缘 / 半导体</td><td>PEEK</td><td>非必需用尼龙/ABS</td></tr>
+      <tr><td>室内干燥结构、要省钱</td><td>碳钢 + 表面处理</td><td>会生锈，靠镀层防锈</td></tr>
+    </tbody>
+  </table>
+
+  <h2>四、老司机提醒（写在图纸上能省一半返工）</h2>
+  <ul>
+    <li><strong>牌号写全，别只写大类。</strong>"铝"不等于"6061-T6"，"不锈钢"不等于"304"。写"铝"我们得回头问，写"304"我们可能按 304 备料却发现你要的是 316——直接写牌号，比如 <code>6061-T6</code>、<code>304 SS</code>、<code>7075</code>，一步到位。</li>
+    <li><strong>不接受"材质保证书"口头承诺。</strong>每单我们附材料报告（MTC，炉号可追溯），这是真厂的底线，也是你验厂时该要的东西。</li>
+    <li><strong>回收铝要避开。</strong>便宜的回收铝杂质多、内应力大，加工易变形、强度不稳。关键件用原生铝棒，别为省一点料钱赌整批报废。</li>
+    <li><strong>想防锈又想省钱，用表面处理。</strong>碳钢喷粉/镀锌、铝件阳极氧化，往往比直接上不锈钢便宜，还能达到类似耐蚀效果。选材时把"表面处理"一起考虑。</li>
+    <li><strong>图纸没标材料？就勾"按图纸"或填牌号。</strong>我们的询价表单里材料默认"按图纸标注"，你图纸上写了我们就照做；想换材料或指定牌号，在框里打一行就行。</li>
+  </ul>
+
+  <div class="lead">
+    一句话总结：<strong>功能允许就选 6061-T6，要耐腐蚀就 304，要强度就 7075，钛和 PEEK 留给真正需要的场合。</strong>
+    材料选对，成本、交期、合格率一起好。
+  </div>
+
+  <footer>
+    © Eternal CNC Precision Machining · 本文基于车间实际加工经验整理，仅供参考，具体以图纸要求与报价确认为准。<br>
+    需要英文版或针对你项目的选材建议，联系 sales@eternalcnc.com。
+  </footer>
+</div>
+</body>
+</html>

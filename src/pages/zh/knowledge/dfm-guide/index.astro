@@ -1,0 +1,197 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '知识库', href: '/zh/knowledge' },
+  { label: 'DFM 省钱设计要点' },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: 'CNC DFM 省钱设计要点（上篇）',
+  description: '决定 CNC 报价 80% 的五个几何设计原则：壁厚、孔深比、形状、内圆角、公差——附车间真实成本数据。',
+  author: { '@type': 'Organization', name: 'Eternal CNC Precision Machining' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Eternal CNC Precision Machining',
+    logo: { '@type': 'ImageObject', url: 'https://www.eternalcnc.com/images/og-default.webp' },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': Astro.url.href },
+  inLanguage: 'zh-CN',
+};
+---
+
+<PageLayout
+  title="DFM 省钱设计要点（上篇） | CNC 设计原则 | 鑫永恒"
+  description="决定 CNC 报价 80% 的五个几何 DFM 原则：壁厚、孔深比、形状、内圆角、公差——附车间真实成本数据。"
+  breadcrumbs={breadcrumbs}
+  schema={articleSchema}
+>
+  <style>
+    .dfm-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+    .dfm-table th, .dfm-table td { border: 1px solid var(--border-color); padding: 10px 12px; text-align: left; vertical-align: top; }
+    .dfm-table th { background: var(--page-bg); color: var(--brand-dark); font-weight: 600; }
+    .dfm-table tr:nth-child(even) { background: #FAFAFA; }
+    .dfm-box { background: #FFF8F8; border: 1px solid #F0D0D0; border-left: 4px solid var(--brand-red); padding: 14px 16px; border-radius: 0 6px 6px 0; color: var(--text-body); }
+    .dfm-box strong { color: var(--brand-red); }
+  </style>
+
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">知识库</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        DFM 省钱设计要点（上篇）
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        五个几何设计原则，决定 CNC 报价 80%。不是从教科书抄的，是长期接单、拆工艺、报价、返工踩出来的经验。问题往往不在机床精度，而在图纸里那些设计师没意识到的"小数字"。
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/downloads/EternalCNC-DFM-Design-Guide-Part1-CN.html" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          下载打印版指南 ↓
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1 壁厚 -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">1. 壁厚控制 —— 不是越薄越高级</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">CNC 是刀具顶着材料切削。壁太薄会颤、会振刀、会变形，最后尺寸超差或表面像鱼鳞。薄壁的代价不是材料，而是工艺成本和报废率。</p>
+      <table class="dfm-table">
+        <thead><tr><th>材料</th><th>小特征舒适壁厚</th><th>大平面/薄壁建议</th><th>风险</th></tr></thead>
+        <tbody>
+          <tr><td>铝 6061/7075</td><td>≥ 1.0 mm</td><td>≥ 2.0 mm</td><td>振刀纹、翘曲</td></tr>
+          <tr><td>碳钢 / 合金钢</td><td>≥ 1.5 mm</td><td>≥ 2.5 mm</td><td>颤动、尺寸散</td></tr>
+          <tr><td>不锈钢 304/316</td><td>≥ 2.0 mm</td><td>≥ 3.0 mm</td><td>加工硬化 + 变形</td></tr>
+          <tr><td>钛合金</td><td>≥ 2.0 mm</td><td>≥ 3.5 mm</td><td>弹性回弹、震颤</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">常见坑：</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>深腔侧壁又高又薄：腔越深摆动越大，壁厚 ≥ 腔深 1/20 才稳（50 mm 深腔最好 ≥ 2.5 mm）。</li>
+        <li>孤立凸台/小立柱：3 mm 粗伸出 20 mm 高，加工时晃如钓鱼竿，加筋或分体做再组装。</li>
+        <li>壁厚突变：一处 5 mm 一处 1 mm，散热应力不均，薄的会翘，过渡处渐变或加圆角。</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>DFM 建议：</strong>铝小件别低于 1 mm，钢件别低于 1.5 mm，不锈钢别低于 2 mm。非承重外壳用加强筋/凸台代替整体加厚，省料又稳。</div>
+    </div>
+  </section>
+
+  <!-- 2 孔深比 -->
+  <section style="background-color: var(--card-white); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">2. 孔深比 —— 不是想钻多深就能钻多深</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">长径比（孔深 ÷ 孔径）直接决定用普通钻还是深孔专机。钻头不是杆子长就能钻深孔。</p>
+      <table class="dfm-table">
+        <thead><tr><th>深径比 L/D</th><th>工艺</th><th>成本影响</th></tr></thead>
+        <tbody>
+          <tr><td>≤ 3×D</td><td>普通钻头，一刀出</td><td>基准价</td></tr>
+          <tr><td>3×D – 5×D</td><td>普通钻头，需退刀排屑</td><td>+20 – 30%</td></tr>
+          <tr><td>5×D – 10×D</td><td>深孔钻 / 枪钻</td><td>+50 – 100%</td></tr>
+          <tr><td>＞ 10×D</td><td>深孔专机（BTA / 枪钻）</td><td>+200% 或改设计</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">真坑：</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>小孔深钻：φ1 mm 钻 10 mm 深，L/D=10，极易断钻、孔偏，能不做就不做。</li>
+        <li>盲孔堆屑：钻到底铁屑没处走，钻头越钻越热，糊刀或断；通孔排屑好得多。</li>
+        <li>阶梯孔替代深孔：一段螺纹 + 一段光孔，画成阶梯孔比先钻深盲孔再攻丝便宜。</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>DFM 建议：</strong>孔深控制在 5×D 以内；超 10×D 先和车间确认工艺。通孔比盲孔友好，阶梯孔比深盲孔便宜。</div>
+    </div>
+  </section>
+
+  <!-- 3 形状 -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">3. 形状选择 —— 方形永远比异形便宜</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">CNC 最爱直面、直角、平底腔、统一圆角。一旦出现球面、自由曲面、倒扣、斜壁，就要上球刀、五轴、侧铣头或 EDM，工时会指数级上升。</p>
+      <table class="dfm-table">
+        <thead><tr><th>几何特征</th><th>推荐程度</th><th>成本倍数</th></tr></thead>
+        <tbody>
+          <tr><td>长方体 / 规则外形</td><td>★★★★★</td><td>1×</td></tr>
+          <tr><td>垂直侧壁 + 平底腔</td><td>★★★★★</td><td>1×</td></tr>
+          <tr><td>球面 / 曲面</td><td>★★★☆☆</td><td>1.5 – 3×</td></tr>
+          <tr><td>倒扣 / 侧凹</td><td>★★☆☆☆</td><td>3 – 10×</td></tr>
+          <tr><td>深窄槽 / 异形槽</td><td>★★☆☆☆</td><td>2 – 5×</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">设计师常踩：</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>能方不圆：方腔一把平底刀走到底，圆腔/球腔要球刀慢爬还要光刀。</li>
+        <li>倒扣是成本炸弹：侧壁往里凹三轴刀下不去，必须侧铣头/五轴/线割，避免倒扣报价降一档。</li>
+        <li>统一圆角和孔径：R0.5/R1/R2/R3 全有要换十几把刀，统一成 R2/R3 减 30% 换刀时间。</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>DFM 建议：</strong>功能允许优先规则几何；外形用直面+直角；内腔用平底+统一圆角；绝对避免倒扣。让三轴一次干完。</div>
+    </div>
+  </section>
+
+  <!-- 4 内圆角 -->
+  <section style="background-color: var(--card-white); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">4. 内圆角半径 —— 刀具选择的"隐形门槛"</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">型腔内角半径必须 ≥ 刀具半径。做 R0.5 内角就得用 φ1 刀；φ1 刀加工钢件断刀风险极高，只能极低速极浅切深，工时爆炸。</p>
+      <table class="dfm-table">
+        <thead><tr><th>内角半径</th><th>所需刀具</th><th>成本影响</th></tr></thead>
+        <tbody>
+          <tr><td>R3+</td><td>φ6 平刀</td><td>基准价</td></tr>
+          <tr><td>R1 – R2</td><td>φ2 – φ4 平刀</td><td>+10 – 20%</td></tr>
+          <tr><td>R0.5 – R1</td><td>φ1 – φ2 平刀</td><td>+50 – 100%</td></tr>
+          <tr><td>＜ R0.5</td><td>φ0.5 – φ1 刀或 EDM</td><td>+200% 或改设计</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2" style="color: var(--text-body);">经验法则：内角 ≥ 1 mm（φ2 刀）是经济区间；≥ 2 mm（φ4 刀）最舒服；&lt; 0.5 mm 基本要 EDM 或拒单。</p>
+      <div class="dfm-box mt-4"><strong>DFM 建议：</strong>能放 R2 就别放 R0.5。外观必须小圆角，用 R2 粗开大腔 + EDM 清局部小 R，比全程小刀铣便宜。</div>
+    </div>
+  </section>
+
+  <!-- 5 公差 -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">5. 公差标注的"经济区间"—— 严一度，贵一倍</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">公差越严，测量越密、装夹越讲究、环境要求越高，成本翻几倍。只严标功能需要的。</p>
+      <table class="dfm-table">
+        <thead><tr><th>公差等级</th><th>三轴常规能力</th><th>成本倍数</th></tr></thead>
+        <tbody>
+          <tr><td>±0.1 mm</td><td>一刀到位</td><td>1×</td></tr>
+          <tr><td>±0.05 mm</td><td>正常精铣</td><td>1×</td></tr>
+          <tr><td>±0.02 mm</td><td>精铣 + 测量</td><td>1.2×</td></tr>
+          <tr><td>±0.01 mm</td><td>精铣 + 首检 + 过程检</td><td>1.5 – 2×</td></tr>
+          <tr><td>±0.005 mm</td><td>恒温 / 精磨 / 多次修光</td><td>3 – 5×</td></tr>
+          <tr><td>±0.002 mm</td><td>磨床 / 坐标磨 / 五轴精修</td><td>10×+</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">真坑：</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>配合面才严标（轴承位、销孔、密封面）；外轮廓、非关键台阶放宽到 ±0.05 或 ±0.1。</li>
+        <li>形位公差比尺寸公差更贵：平面度 0.02 mm 比 ±0.01 mm 尺寸难控（测整个面不是一点）。</li>
+        <li>未注公差别乱写：普通外观面放 ±0.1 够用，别默认全 ±0.01。</li>
+        <li>材料影响精度：同样 ±0.01，铝容易、不锈钢悬、钛更难。</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>DFM 建议：</strong>配合面严标，非配合面放宽；形位公差谨慎写；未注公差给 ±0.1。严一度贵一倍，材料越硬越陡。</div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">需要免费 DFM 评审？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        上传图纸，我们的工程师在 24 小时内提供报价与 DFM 反馈。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/knowledge" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          查看全部资源 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

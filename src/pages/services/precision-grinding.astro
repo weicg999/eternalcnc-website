@@ -1,0 +1,139 @@
+﻿---
+import PageLayout from '../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Services', href: '/services' },
+  { label: 'Precision Grinding' },
+];
+
+const capabilities = [
+  {
+    title: 'Surface Grinding',
+    items: ['Flat die plates', 'Mold inserts', 'Gauge blocks', 'Parallel plates'],
+    tolerance: '±0.01mm',
+    materials: 'Tool Steel D2/H13, Stainless 440C, Ceramic substrates',
+  },
+  {
+    title: 'Cylindrical Grinding',
+    items: ['Precision shafts', 'Punches & die pins', 'Hydraulic rods', 'Spindle journals'],
+    tolerance: '±0.01mm',
+    materials: 'Steel 4140/4340, Stainless 304/316, Tungsten Carbide',
+  },
+  {
+    title: 'Internal Grinding',
+    items: ['Bore finishing', 'Hydraulic cylinder bores', 'Bearing seats', 'Nozzle orifices'],
+    tolerance: '±0.01mm',
+    materials: 'Steel H13/S136, Stainless 303, Aluminum 7075',
+  },
+  {
+    title: 'Centerless Grinding',
+    items: ['High-volume pins', 'Needle rollers', 'Piston pins', 'Guide rods'],
+    tolerance: '±0.01mm',
+    materials: 'Bearing Steel GCr15, Steel 1045, Stainless 303',
+  },
+];
+
+const standards = [
+  { label: 'Surface Roughness', desc: 'Ra 0.1-0.4μm achievable. Measured by profilometer on every critical surface.' },
+  { label: 'Roundness & Flatness', desc: 'Roundness ≤0.001mm, flatness ≤0.002mm. Verified by roundness tester and optical flat.' },
+  { label: 'Material Integrity', desc: 'No thermal damage guaranteed. Nital etch inspection available for hardened steels.' },
+  { label: 'Dimensional Report', desc: "Full inspection reports (FAI) and CMM data (from our group's shared metrology center on request) available for each batch. Strictly follows ISO 2768-m tolerances and AQL 2.5 sampling to ensure critical dimensions are precise and traceable." },
+];
+---
+
+<PageLayout
+  title="Precision Grinding Services | Sub-Micron Finishing | Eternal CNC"
+  description="Surface, cylindrical, internal, and centerless grinding. Sub-micron precision for tooling, shafts, and high-wear components."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Services</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Precision Grinding
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Surface, cylindrical, internal, and centerless grinding — sub-micron precision machining.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Quote
+        </a>
+        <a href="/services/dfm-analysis" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Free DFM Review →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Capabilities</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">By Grinding Process</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        We offer four grinding processes for sub-micron precision finishing.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Precision Tolerance</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Requires precision finishing &amp; inspection. Subject to drawing review.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Common Materials</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Quality Control</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Quality Standards</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Every ground part undergoes rigorous inspection for surface integrity and dimensional accuracy.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Need Ground Parts?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Upload your drawings. Our engineers will provide a quote and DFM feedback within 24 hours.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Free Quote
+        </a>
+        <a href="/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Free DFM Review →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

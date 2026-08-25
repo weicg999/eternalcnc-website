@@ -1,0 +1,138 @@
+﻿---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Capabilities', href: '/capabilities' },
+  { label: 'Material Range' },
+];
+
+const capabilities = [
+  {
+    title: 'Aluminum 6061-T6 / 7075-T6',
+    items: ['Excellent strength-to-weight ratio', 'Good machinability & surface finish', 'Ideal for aerospace & automotive', 'Anodizing compatible'],
+    tolerance: '±0.005mm',
+    materials: '6061-T6, 7075-T6, 5052-H32, 2024-T3',
+  },
+  {
+    title: 'Stainless Steel 304 / 316 / 4340',
+    items: ['Superior corrosion resistance (316)', 'High tensile strength (4340)', 'Medical & food-grade options', 'Passivation & electropolishing ready'],
+    tolerance: '±0.01mm',
+    materials: '304, 316L, 303, 4340, 17-4 PH',
+  },
+  {
+    title: 'Copper & Brass Alloys',
+    items: ['Excellent electrical & thermal conductivity', 'Decorative & functional applications', 'Good corrosion resistance', 'Ideal for connectors & housings'],
+    tolerance: '±0.005mm',
+    materials: 'C110 (ETP Copper), C360 (Brass), C172 (Beryllium Copper)',
+  },
+  {
+    title: 'Engineering Plastics (POM / PEEK)',
+    items: ['Lightweight alternatives to metal', 'Chemical & wear resistance', 'Electrical insulation properties', 'Bio-compatible options (PEEK)'],
+    tolerance: '±0.05mm',
+    materials: 'POM (Delrin), PEEK, Nylon (PA6/PA66), PTFE, ABS',
+  },
+];
+
+const standards = [
+  { label: 'Material Certification', desc: 'EN 10204 3.1 material certificates provided with every batch. Full traceability from raw stock to finished part.' },
+  { label: 'Stock Availability', desc: 'Common alloys kept in stock for fast turnaround. Special orders typically arrive within 3–5 business days.' },
+  { label: 'Material Selection Support', desc: 'Our engineers can recommend the optimal material for your application — balancing performance, cost, and lead time.' },
+  { label: 'Recycling & Sustainability', desc: 'Metal chips and scrap are separated by alloy and recycled. We minimize waste through efficient nesting and process optimization.' },
+];
+---
+
+<PageLayout
+  title="Material Range – Aluminum, Stainless Steel, Copper, Titanium & Plastics | Eternal CNC"
+  description="CNC machining in aluminum 6061/7075, stainless steel 304/316/4340, copper alloys, titanium, and engineering plastics including POM and PEEK."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Capabilities</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Material Range
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Aluminum, stainless steel, copper alloys, titanium & engineering plastics.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/services/material-selection" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Material Guide →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Material Categories</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Materials We Machine</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        We work with a wide range of metals and plastics. Below are our most commonly requested materials.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Machining Tolerance</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Available Grades</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Quality Assurance</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Material Standards</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Every material batch is verified and documented for full traceability.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Need a material recommendation?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Our engineers will help you choose the right material for your application.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Free Quote
+        </a>
+        <a href="/knowledge/material-handbook" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Material Handbook →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

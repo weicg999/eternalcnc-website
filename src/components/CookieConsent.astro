@@ -1,0 +1,69 @@
+---
+// Cookie consent banner
+// - Shows on first visit (no stored choice)
+// - GA4 is NOT loaded until the visitor accepts
+// - Provides a withdraw/reopen entry point via window.openCookieSettings()
+const isZh = Astro.url.pathname.startsWith('/zh');
+const GA4_ID = 'G-V81JQNC9YW';
+---
+
+<div id="cookie-banner" class="fixed inset-x-0 bottom-0 z-[9999]" style="display:none;">
+  <div class="mx-auto m-4 sm:m-6 max-w-5xl p-5 rounded-xl shadow-2xl flex flex-col sm:flex-row items-start sm:items-center gap-4" style="background-color:#1A1A1A;color:#ffffff;">
+    <div class="flex-1 text-sm leading-relaxed">
+      {isZh
+        ? '我们使用 Cookie 与类似技术来改善网站体验并分析流量。必要 Cookie 为网站运行所必需；分析类 Cookie 仅在您同意后加载。'
+        : 'We use cookies and similar technologies to improve your experience and analyse traffic. Essential cookies are required for the site to function; analytics cookies are loaded only with your consent.'}
+    </div>
+    <div class="flex gap-3 shrink-0">
+      <button id="cc-reject" type="button" class="px-4 py-2 text-sm font-semibold rounded-lg border" style="border-color:#8B0000;color:#ffffff;">{isZh ? '拒绝' : 'Reject'}</button>
+      <button id="cc-accept" type="button" class="px-4 py-2 text-sm font-semibold text-white rounded-lg" style="background-color:#8B0000;">{isZh ? '接受' : 'Accept'}</button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var GA4_ID = 'G-V81JQNC9YW';
+    var KEY = 'cc-consent';
+    function loadGA4() {
+      if (window.__ga4Loaded) return;
+      window.__ga4Loaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_ID;
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { window.dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', GA4_ID);
+    }
+    function showBanner() {
+      var b = document.getElementById('cookie-banner');
+      if (b) b.style.display = 'block';
+    }
+    function hideBanner() {
+      var b = document.getElementById('cookie-banner');
+      if (b) b.style.display = 'none';
+    }
+    function setConsent(v) {
+      try { localStorage.setItem(KEY, v); } catch (e) {}
+      hideBanner();
+      if (v === 'accepted') loadGA4();
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+      var consent = null;
+      try { consent = localStorage.getItem(KEY); } catch (e) {}
+      if (consent === 'accepted') {
+        loadGA4();
+      } else if (!consent) {
+        showBanner();
+      }
+      var accept = document.getElementById('cc-accept');
+      var reject = document.getElementById('cc-reject');
+      if (accept) accept.addEventListener('click', function () { setConsent('accepted'); });
+      if (reject) reject.addEventListener('click', function () { setConsent('rejected'); });
+    });
+    window.openCookieSettings = function () { showBanner(); };
+  })();
+</script>

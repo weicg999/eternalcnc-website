@@ -1,0 +1,591 @@
+---
+// Get a Quote - 3-step wizard (consolidated quote flow)
+// Step 1: Upload drawings (+ optional part name)
+// Step 2: Material / Quantity / Tolerance
+// Step 3: Contact -> mailto submit
+const { lang = 'en' } = Astro.props;
+
+const texts = {
+  en: {
+    // --- Step 1 ---
+    title: 'Upload Your Drawings',
+    formats: 'Supported formats: STEP, IGES, STL, PDF, DXF, DWG (max 50MB per file)',
+    formats_small: 'STEP, IGES, STL, PDF, DXF up to 50MB',
+    drag: 'Drag & drop files here or ',
+    browse: 'browse',
+    partName: 'Part Name / Drawing No. (optional)',
+    partNamePh: 'e.g. Impeller HX-206 / DWG-001',
+    // --- Step 2 ---
+    title2: 'Material & Quantity',
+    subtitle2: 'Tell us what you need — we confirm the rest',
+    material_label: 'Material',
+    material_aluminum: 'Aluminum',
+    material_aluminum_desc: '6061-T6, 7075-T6, 5052-H32...',
+    material_steel: 'Steel',
+    material_steel_desc: '1018, 4140, 304 SS...',
+    material_titanium: 'Titanium',
+    material_titanium_desc: 'Grade 2, Grade 5',
+    material_copper: 'Copper / Brass',
+    material_copper_desc: 'C110, C360, Phosphor Bronze',
+    material_plastics: 'Engineering Plastics',
+    material_plastics_desc: 'Delrin, Nylon, PEEK',
+    material_other: 'Other / Not Sure',
+    material_other_desc: 'We can help recommend',
+    material_per_drawing: 'Material as per drawing (default)',
+    material_per_drawing_desc: 'We will read it from your files',
+    material_specify: 'Specify a material / grade',
+    material_detail_ph: 'e.g. 6061-T6, 7075-T6, 304 SS, PEEK...',
+    material_detail_hint: 'Leave blank if same as the drawing',
+    material_quick_hint: 'Or tap a common grade below',
+    material_chip_per_drawing: 'As per drawing (default)',
+    material_chip_304: '304 SS',
+    material_chip_316: '316 SS',
+    material_chip_steel: 'Carbon Steel',
+    material_chip_brass: 'Brass / Copper',
+    material_chip_titanium: 'Titanium',
+    material_chip_plastic: 'Engineering Plastic',
+    material_chip_other: 'Other…',
+    material_cat_aluminum: 'Aluminum',
+    material_cat_stainless: 'Stainless',
+    material_cat_steel: 'Steel',
+    material_cat_copper: 'Copper',
+    material_cat_titanium: 'Titanium',
+    material_cat_plastic: 'Plastic',
+    material_cat_others: 'Other',
+    qty_label: 'Quantity',
+    qty_1_10: '1 – 10 pieces',
+    qty_11_50: '11 – 50 pieces',
+    qty_51_200: '51 – 200 pieces',
+    qty_201_500: '201 – 500 pieces',
+    qty_501_1000: '501 – 1,000 pieces',
+    qty_1000_5000: '1,000 – 5,000 pieces',
+    qty_5000_plus: '5,000+ pieces',
+    qty_ongoing: 'Ongoing production',
+    tolerance_label: 'Tolerance (optional)',
+    tolerance_ph: 'e.g. ±0.01 mm',
+    // --- Step 3 ---
+    title3: 'Your Contact Information',
+    subtitle3: 'So we can send you the quote',
+    contact_name: 'Full Name',
+    contact_company: 'Company',
+    contact_email: 'Email',
+    contact_phone: 'Phone',
+    contact_notes: 'Additional Notes',
+    name_placeholder: 'John Smith',
+    company_placeholder: 'Your Company Ltd.',
+    email_placeholder: 'john@company.com',
+    phone_placeholder: '150 1234 5678',
+    notes_placeholder: 'Shipping address, special requirements...',
+    success: 'Your request was received — we will reply within 24 hours.',
+    // --- Navigation ---
+    back: '← Back',
+    next: 'Next →',
+    submit: 'Submit Quote Request'
+  },
+  zh: {
+    // --- Step 1 ---
+    title: '上传您的图纸',
+    formats: '支持格式：STEP, IGES, STL, PDF, DXF, DWG（单个文件最大 50MB）',
+    formats_small: 'STEP, IGES, STL, PDF, DXF 最大 50MB',
+    drag: '将文件拖放到此处或 ',
+    browse: '浏览文件',
+    partName: '零件名称 / 图号（选填）',
+    partNamePh: '如：叶轮 HX-206 / DWG-001',
+    // --- Step 2 ---
+    title2: '材料与数量',
+    subtitle2: '告诉我们您的需求，其余我们确认',
+    material_label: '材料',
+    material_aluminum: '铝合金',
+    material_aluminum_desc: '6061-T6, 7075-T6, 5052-H32...',
+    material_steel: '钢材',
+    material_steel_desc: '1018, 4140, 304 不锈钢...',
+    material_titanium: '钛合金',
+    material_titanium_desc: '2级, 5级',
+    material_copper: '铜 / 黄铜',
+    material_copper_desc: 'C110, C360, 磷青铜',
+    material_plastics: '工程塑料',
+    material_plastics_desc: 'Delrin, 尼龙, PEEK',
+    material_other: '其他 / 不确定',
+    material_other_desc: '我们可以帮您推荐',
+    material_per_drawing: '材料按图纸标注（默认）',
+    material_per_drawing_desc: '我们从图纸上读取',
+    material_specify: '指定材料 / 牌号',
+    material_detail_ph: '如：6061-T6、7075、304 不锈钢、PEEK……',
+    material_detail_hint: '若与图纸一致，无需填写',
+    material_quick_hint: '或在下方直接点选常用牌号',
+    material_chip_per_drawing: '按图纸标注（默认）',
+    material_chip_304: '304 不锈钢',
+    material_chip_316: '316 不锈钢',
+    material_chip_steel: '碳钢',
+    material_chip_brass: '黄铜 / 紫铜',
+    material_chip_titanium: '钛合金',
+    material_chip_plastic: '工程塑料',
+    material_chip_other: '其他…',
+    material_cat_aluminum: '铝',
+    material_cat_stainless: '不锈钢',
+    material_cat_steel: '钢',
+    material_cat_copper: '铜',
+    material_cat_titanium: '钛',
+    material_cat_plastic: '塑料',
+    material_cat_others: '其他',
+    qty_label: '数量',
+    qty_1_10: '1 – 10 件',
+    qty_11_50: '11 – 50 件',
+    qty_51_200: '51 – 200 件',
+    qty_201_500: '201 – 500 件',
+    qty_501_1000: '501 – 1,000 件',
+    qty_1000_5000: '1,000 – 5,000 件',
+    qty_5000_plus: '5,000 件以上',
+    qty_ongoing: '持续生产',
+    tolerance_label: '公差（选填）',
+    tolerance_ph: '如：±0.01 mm',
+    // --- Step 3 ---
+    title3: '您的联系方式',
+    subtitle3: '我们将把报价发送给您',
+    contact_name: '姓名',
+    contact_company: '公司',
+    contact_email: '邮箱',
+    contact_phone: '电话',
+    contact_notes: '补充说明',
+    name_placeholder: '张三',
+    company_placeholder: '您的公司名称',
+    email_placeholder: 'example@company.com',
+    phone_placeholder: '138 0000 0000',
+    notes_placeholder: '收货地址、特殊要求……',
+    success: '您的询盘已收到，我们将在 24 小时内回复。',
+    // --- Navigation ---
+    back: '← 上一步',
+    next: '下一步 →',
+    submit: '提交报价请求'
+  }
+};
+const isZh = lang === 'zh';
+---
+
+<div id="quote-form" data-lang={lang} data-back={texts[lang].back} data-next={texts[lang].next} data-submit={texts[lang].submit} class="w-full max-w-3xl mx-auto">
+  <!-- Progress bar -->
+  <div class="mb-8">
+    <div class="flex items-center justify-between mb-2">
+      <span class="text-sm font-medium text-brand-text" id="step-label">{isZh ? '第 1 步，共 3 步' : 'Step 1 of 3'}</span>
+      <span class="text-sm text-brand-silver" id="step-percent">33%</span>
+    </div>
+    <div class="w-full bg-gray-200 rounded-full h-1.5">
+      <div id="progress-bar" class="h-1.5 rounded-full transition-all duration-300" style="width: 33%; background-color: var(--brand-red);"></div>
+    </div>
+  </div>
+
+  <form id="quote-form-element" class="space-y-0">
+    <!-- Step 1: Upload Drawings -->
+    <div class="form-step" data-step="1">
+      <h3 class="text-xl font-bold text-brand-text mb-2">{texts[lang].title}</h3>
+      <p class="text-sm text-brand-secondary mb-6">{texts[lang].formats}</p>
+      <div class="border-2 border-dashed border-gray-200 rounded-xl p-10 text-center hover:border-brand-text transition-colors cursor-pointer bg-white" id="drop-zone">
+        <svg class="w-10 h-10 text-brand-silver mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+        </svg>
+        <p class="text-sm text-brand-secondary mb-1">{texts[lang].drag}<span class="text-brand-text font-medium underline">{texts[lang].browse}</span></p>
+        <p class="text-xs text-brand-silver">{texts[lang].formats_small}</p>
+        <input type="file" multiple accept=".step,.stp,.iges,.igs,.stl,.pdf,.dxf,.dwg" class="hidden" id="file-input" />
+      </div>
+      <div id="file-list" class="mt-4 space-y-2"></div>
+      <div class="mt-5">
+        <label for="qf-part" class="block text-sm font-medium text-brand-text mb-1">{texts[lang].partName}</label>
+        <input type="text" id="qf-part" name="partName" placeholder={texts[lang].partNamePh}
+          class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none transition bg-white" />
+      </div>
+    </div>
+
+    <!-- Step 2: Material & Quantity & Tolerance -->
+    <div class="form-step hidden" data-step="2">
+      <h3 class="text-xl font-bold text-brand-text mb-2">{texts[lang].title2}</h3>
+      <p class="text-sm text-brand-secondary mb-6">{texts[lang].subtitle2}</p>
+
+      <p class="text-sm font-medium text-brand-text mb-2">{texts[lang].material_label}</p>
+      <div class="mb-4" id="material-chips">
+        <div class="mb-3">
+          <label class="material-chip active"><input type="radio" name="material" value="per-drawing" class="hidden" checked /><span>{texts[lang].material_chip_per_drawing}</span></label>
+        </div>
+        <p class="text-xs text-brand-silver mb-2">{texts[lang].material_quick_hint}</p>
+        <div class="grid grid-cols-[auto_1fr] gap-x-3 gap-y-2 items-center">
+          <span class="text-xs font-medium text-brand-silver text-right">{texts[lang].material_cat_aluminum}</span>
+          <div class="flex flex-wrap gap-2">
+            <label class="material-chip"><input type="radio" name="material" value="6061-T6" class="hidden" /><span>6061-T6</span></label>
+            <label class="material-chip"><input type="radio" name="material" value="7075-T6" class="hidden" /><span>7075-T6</span></label>
+          </div>
+
+          <span class="text-xs font-medium text-brand-silver text-right">{texts[lang].material_cat_stainless}</span>
+          <div class="flex flex-wrap gap-2">
+            <label class="material-chip"><input type="radio" name="material" value="304 SS" class="hidden" /><span>{texts[lang].material_chip_304}</span></label>
+            <label class="material-chip"><input type="radio" name="material" value="316 SS" class="hidden" /><span>{texts[lang].material_chip_316}</span></label>
+          </div>
+
+          <span class="text-xs font-medium text-brand-silver text-right">{texts[lang].material_cat_steel}</span>
+          <div class="flex flex-wrap gap-2">
+            <label class="material-chip"><input type="radio" name="material" value="Carbon Steel" class="hidden" /><span>{texts[lang].material_chip_steel}</span></label>
+          </div>
+
+          <span class="text-xs font-medium text-brand-silver text-right">{texts[lang].material_cat_copper}</span>
+          <div class="flex flex-wrap gap-2">
+            <label class="material-chip"><input type="radio" name="material" value="Brass / Copper" class="hidden" /><span>{texts[lang].material_chip_brass}</span></label>
+          </div>
+
+          <span class="text-xs font-medium text-brand-silver text-right">{texts[lang].material_cat_titanium}</span>
+          <div class="flex flex-wrap gap-2">
+            <label class="material-chip"><input type="radio" name="material" value="Titanium" class="hidden" /><span>{texts[lang].material_chip_titanium}</span></label>
+          </div>
+
+          <span class="text-xs font-medium text-brand-silver text-right">{texts[lang].material_cat_plastic}</span>
+          <div class="flex flex-wrap gap-2">
+            <label class="material-chip"><input type="radio" name="material" value="Engineering Plastic" class="hidden" /><span>{texts[lang].material_chip_plastic}</span></label>
+          </div>
+
+          <span class="text-xs font-medium text-brand-silver text-right">{texts[lang].material_cat_others}</span>
+          <div class="flex flex-wrap gap-2">
+            <label class="material-chip" id="qf-chip-other"><input type="radio" name="material" value="other" class="hidden" /><span>{texts[lang].material_chip_other}</span></label>
+          </div>
+        </div>
+      </div>
+      <div id="qf-material-detail-wrap" class="mb-6 hidden">
+        <input type="text" id="qf-material-detail" name="material_detail" placeholder={texts[lang].material_detail_ph}
+          class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none transition bg-white" />
+        <p class="text-xs text-brand-silver mt-1">{texts[lang].material_detail_hint}</p>
+      </div>
+
+      <p class="text-sm font-medium text-brand-text mb-2">{texts[lang].qty_label}</p>
+      <div class="grid sm:grid-cols-2 gap-3 mb-6">
+        <label class="quantity-card flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-text transition-colors bg-white">
+          <input type="radio" name="quantity" value="1-10" class="mr-3" /> <span class="font-medium text-sm">{texts[lang].qty_1_10}</span>
+        </label>
+        <label class="quantity-card flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-text transition-colors bg-white">
+          <input type="radio" name="quantity" value="11-50" class="mr-3" /> <span class="font-medium text-sm">{texts[lang].qty_11_50}</span>
+        </label>
+        <label class="quantity-card flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-text transition-colors bg-white">
+          <input type="radio" name="quantity" value="51-200" class="mr-3" /> <span class="font-medium text-sm">{texts[lang].qty_51_200}</span>
+        </label>
+        <label class="quantity-card flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-text transition-colors bg-white">
+          <input type="radio" name="quantity" value="201-500" class="mr-3" /> <span class="font-medium text-sm">{texts[lang].qty_201_500}</span>
+        </label>
+        <label class="quantity-card flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-text transition-colors bg-white">
+          <input type="radio" name="quantity" value="501-1000" class="mr-3" /> <span class="font-medium text-sm">{texts[lang].qty_501_1000}</span>
+        </label>
+        <label class="quantity-card flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-text transition-colors bg-white">
+          <input type="radio" name="quantity" value="1000-5000" class="mr-3" /> <span class="font-medium text-sm">{texts[lang].qty_1000_5000}</span>
+        </label>
+        <label class="quantity-card flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-text transition-colors bg-white">
+          <input type="radio" name="quantity" value="5000+" class="mr-3" /> <span class="font-medium text-sm">{texts[lang].qty_5000_plus}</span>
+        </label>
+        <label class="quantity-card flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-text transition-colors bg-white">
+          <input type="radio" name="quantity" value="ongoing" class="mr-3" /> <span class="font-medium text-sm">{texts[lang].qty_ongoing}</span>
+        </label>
+      </div>
+
+      <label for="qf-tolerance" class="block text-sm font-medium text-brand-text mb-1">{texts[lang].tolerance_label}</label>
+      <input type="text" id="qf-tolerance" name="tolerance" placeholder={texts[lang].tolerance_ph}
+        class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none transition bg-white" />
+    </div>
+
+    <!-- Step 3: Contact Info -->
+    <div class="form-step hidden" data-step="3">
+      <h3 class="text-xl font-bold text-brand-text mb-2">{texts[lang].title3}</h3>
+      <p class="text-sm text-brand-secondary mb-6">{texts[lang].subtitle3}</p>
+      <div class="grid sm:grid-cols-2 gap-5">
+        <div>
+          <label for="qf-name" class="block text-sm font-medium text-brand-text mb-1">{texts[lang].contact_name} *</label>
+          <input type="text" id="qf-name" name="name" required placeholder={texts[lang].name_placeholder}
+            class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none transition bg-white" />
+        </div>
+        <div>
+          <label for="qf-company" class="block text-sm font-medium text-brand-text mb-1">{texts[lang].contact_company}</label>
+          <input type="text" id="qf-company" name="company" placeholder={texts[lang].company_placeholder}
+            class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none transition bg-white" />
+        </div>
+        <div>
+          <label for="qf-email" class="block text-sm font-medium text-brand-text mb-1">{texts[lang].contact_email} *</label>
+          <input type="email" id="qf-email" name="email" required placeholder={texts[lang].email_placeholder}
+            class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none transition bg-white" />
+        </div>
+        <div>
+          <label for="qf-phone" class="block text-sm font-medium text-brand-text mb-1">{texts[lang].contact_phone}</label>
+          <div class="flex gap-2">
+            <select id="qf-country-code" name="country_code" class="w-24 px-2 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none transition bg-white">
+              <option value="+86">🇨🇳 +86</option>
+              <option value="+1">🇺🇸 +1</option>
+              <option value="+44">🇬🇧 +44</option>
+              <option value="+49">🇩🇪 +49</option>
+              <option value="+33">🇫🇷 +33</option>
+              <option value="+81">🇯🇵 +81</option>
+              <option value="+82">🇰🇷 +82</option>
+              <option value="+61">🇦🇺 +61</option>
+              <option value="+91">🇮🇳 +91</option>
+              <option value="+971">🇦🇪 +971</option>
+              <option value="+65">🇸🇬 +65</option>
+              <option value="+60">🇲🇾 +60</option>
+              <option value="+66">🇹🇭 +66</option>
+              <option value="+39">🇮🇹 +39</option>
+              <option value="+34">🇪🇸 +34</option>
+              <option value="+7">🇷🇺 +7</option>
+              <option value="+55">🇧🇷 +55</option>
+              <option value="+52">🇲🇽 +52</option>
+              <option value="+27">🇿🇦 +27</option>
+              <option value="+90">🇹🇷 +90</option>
+            </select>
+            <input type="tel" id="qf-phone" name="phone" placeholder={texts[lang].phone_placeholder}
+              class="flex-1 px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none transition bg-white" />
+          </div>
+        </div>
+      </div>
+      <div class="mt-5">
+        <label for="qf-notes" class="block text-sm font-medium text-brand-text mb-1">{texts[lang].contact_notes}</label>
+        <textarea id="qf-notes" name="notes" rows="3" placeholder={texts[lang].notes_placeholder}
+          class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none transition resize-none bg-white"></textarea>
+      </div>
+      <p id="qf-success" class="text-sm text-green-700 mt-3 hidden">{texts[lang].success}</p>
+    </div>
+
+    <!-- Navigation buttons (rendered by client-side JS) -->
+    <div class="form-actions" style="display:flex;justify-content:space-between;align-items:center;margin-top:2rem;gap:1rem;"></div>
+
+    <p style="font-size:0.75rem;color:#888;margin-top:1rem;line-height:1.5;">
+      {lang === 'zh'
+        ? '提交即表示您同意我们的 <a href="/zh/privacy-policy" style="color:#8B0000;text-decoration:underline;">隐私政策</a>。'
+        : 'By submitting, you agree to our <a href="/privacy-policy" style="color:#8B0000;text-decoration:underline;">Privacy Policy</a>.'}
+    </p>
+  </form>
+</div>
+
+<style>
+  .form-actions {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f3f4f6;
+    gap: 1rem;
+  }
+  .form-actions .btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.8rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+    font-family: inherit;
+    line-height: 1.2;
+  }
+  .form-actions .btn-back {
+    background-color: transparent !important;
+    border: 1.5px solid #8B0000 !important;
+    color: #8B0000 !important;
+    box-shadow: 0 2px 8px rgba(139, 0, 0, 0.2) !important;
+  }
+  .form-actions .btn-back:hover {
+    background-color: #8B0000 !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 4px 12px rgba(139, 0, 0, 0.35) !important;
+  }
+  .form-actions .btn-next {
+    background-color: #8B0000 !important;
+    border: 1.5px solid #8B0000 !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 2px 8px rgba(139, 0, 0, 0.25) !important;
+  }
+  .form-actions .btn-next:hover {
+    background-color: #6B0000 !important;
+    border-color: #6B0000 !important;
+    box-shadow: 0 4px 12px rgba(139, 0, 0, 0.4) !important;
+  }
+  #material-chips .material-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 9999px;
+    cursor: pointer;
+    background: #fff;
+    color: #1A1A1A;
+    transition: all 0.18s ease;
+    user-select: none;
+    line-height: 1.2;
+  }
+  #material-chips .material-chip:hover { border-color: #1A1A1A; }
+  #material-chips .material-chip.active {
+    border-color: #8B0000;
+    background-color: #8B0000;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(139, 0, 0, 0.25);
+  }
+  .quantity-card { transition: all 0.18s ease; }
+  .quantity-card:has(input:checked) {
+    background-color: #8B0000;
+    border-color: #8B0000;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(139, 0, 0, 0.25);
+  }
+  .quantity-card:has(input:checked) input[type="radio"] {
+    accent-color: #fff;
+  }
+</style>
+<script>
+  (function() {
+    let currentStep = 1;
+    const totalSteps = 3;
+    const steps = document.querySelectorAll('.form-step');
+    const progressBar = document.getElementById('progress-bar');
+    const stepLabel = document.getElementById('step-label');
+    const stepPercent = document.getElementById('step-percent');
+    const formEl = document.getElementById('quote-form');
+    const texts = formEl ? { back: formEl.dataset.back, next: formEl.dataset.next, submit: formEl.dataset.submit } : { back: 'Back', next: 'Next', submit: 'Submit' };
+    const uploadedFiles = [];
+
+    function updateUI() {
+      steps.forEach(function(s) {
+        s.classList.toggle('hidden', parseInt(s.dataset.step) !== currentStep);
+      });
+      const pct = Math.round((currentStep / totalSteps) * 100);
+      if (progressBar) progressBar.style.width = pct + '%';
+      const isZh = formEl && formEl.dataset.lang === 'zh';
+      if (stepLabel) stepLabel.textContent = isZh ? '第 ' + currentStep + ' 步，共 ' + totalSteps + ' 步' : 'Step ' + currentStep + ' of ' + totalSteps;
+      if (stepPercent) stepPercent.textContent = pct + '%';
+      renderActions();
+    }
+
+    function renderActions() {
+      const container = document.querySelector('.form-actions');
+      if (!container) return;
+      const isLast = currentStep === totalSteps;
+      const backStyle = "display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.7rem 1.8rem;font-size:0.95rem;font-weight:600;border-radius:6px;cursor:pointer;transition:all 0.2s ease;font-family:inherit;line-height:1.2;background-color:transparent;border:1.5px solid #8B0000;color:#8B0000;box-shadow:0 2px 8px rgba(139,0,0,0.2);";
+      const nextStyle = "display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.7rem 1.8rem;font-size:0.95rem;font-weight:600;border-radius:6px;cursor:pointer;transition:all 0.2s ease;font-family:inherit;line-height:1.2;background-color:#8B0000;border:1.5px solid #8B0000;color:#FFFFFF;box-shadow:0 2px 8px rgba(139,0,0,0.25);";
+      const backHtml = currentStep > 1 ? "<button type=\"button\" id=\"backBtn\" style=\"" + backStyle + "\">" + texts.back + "</button>" : "<div style=\"width:1px;flex:0 0 auto;\"></div>";
+      const nextHtml = !isLast ? "<button type=\"button\" id=\"nextBtn\" style=\"" + nextStyle + "\">" + texts.next + "</button>" : "<button type=\"submit\" id=\"submitBtn\" style=\"" + nextStyle + "\">" + texts.submit + "</button>";
+      container.innerHTML = backHtml + nextHtml;
+      const bb = document.getElementById('backBtn');
+      if (bb) {
+        bb.addEventListener('click', goBack);
+        bb.addEventListener('mouseover', function() { this.style.backgroundColor = "#8B0000"; this.style.color = "#FFFFFF"; this.style.boxShadow = "0 4px 12px rgba(139,0,0,0.35)"; });
+        bb.addEventListener('mouseout', function() { this.style.backgroundColor = "transparent"; this.style.color = "#8B0000"; this.style.boxShadow = "0 2px 8px rgba(139,0,0,0.2)"; });
+      }
+      const nb = document.getElementById('nextBtn');
+      if (nb) {
+        nb.addEventListener('click', goNext);
+        nb.addEventListener('mouseover', function() { this.style.backgroundColor = "#6B0000"; this.style.boxShadow = "0 4px 12px rgba(139,0,0,0.4)"; });
+        nb.addEventListener('mouseout', function() { this.style.backgroundColor = "#8B0000"; this.style.boxShadow = "0 2px 8px rgba(139,0,0,0.25)"; });
+      }
+      const sb = document.getElementById('submitBtn');
+      if (sb) {
+        sb.addEventListener('mouseover', function() { this.style.backgroundColor = "#6B0000"; this.style.boxShadow = "0 4px 12px rgba(139,0,0,0.4)"; });
+        sb.addEventListener('mouseout', function() { this.style.backgroundColor = "#8B0000"; this.style.boxShadow = "0 2px 8px rgba(139,0,0,0.25)"; });
+      }
+    }
+
+    function goBack() { if (currentStep > 1) { currentStep--; updateUI(); } }
+    function goNext() { if (currentStep < totalSteps) { currentStep++; updateUI(); } }
+
+    // Material chips
+    const materialChips = document.querySelectorAll('#material-chips .material-chip');
+    const materialDetailWrap = document.getElementById('qf-material-detail-wrap');
+    const materialDetailInput = document.getElementById('qf-material-detail');
+    function syncMaterial() {
+      const sel = document.querySelector('input[name="material"]:checked');
+      materialChips.forEach(function(c) { c.classList.toggle('active', c.querySelector('input').checked); });
+      const show = sel && sel.value === 'other';
+      if (materialDetailWrap) materialDetailWrap.classList.toggle('hidden', !show);
+      if (!show && materialDetailInput) materialDetailInput.value = '';
+    }
+    materialChips.forEach(function(c) { c.querySelector('input').addEventListener('change', syncMaterial); });
+    syncMaterial();
+
+    // File upload handling
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    const fileList = document.getElementById('file-list');
+
+    if (dropZone) dropZone.addEventListener('click', () => fileInput?.click());
+    if (dropZone) dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-brand-text'); });
+    if (dropZone) dropZone.addEventListener('dragleave', () => dropZone.classList.remove('border-brand-text'));
+    if (dropZone) dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('border-brand-text');
+      if (e.dataTransfer?.files) handleFiles(e.dataTransfer.files);
+    });
+    if (fileInput) fileInput.addEventListener('change', () => { if (fileInput.files) handleFiles(fileInput.files); });
+
+    function handleFiles(files) {
+      if (!fileList) return;
+      Array.from(files).forEach(f => {
+        uploadedFiles.push(f);
+        const div = document.createElement('div');
+        div.className = 'flex items-center justify-between bg-brand-bgAlt rounded-lg px-4 py-2';
+        div.innerHTML = `<span class="text-sm text-brand-text truncate mr-2">${f.name}</span><span class="text-xs text-brand-silver whitespace-nowrap">${(f.size / 1024 / 1024).toFixed(2)} MB</span>`;
+        fileList.appendChild(div);
+      });
+    }
+
+    // Submit -> POST /api/quote (Cloudflare Worker 收图纸并发邮件)
+    const form = document.getElementById('quote-form-element');
+    const API_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+      ? 'http://localhost:8787'   // 本地：wrangler dev 端口
+      : '';                        // 生产：与官网同域
+    function setSubmitting(on) {
+      const sb = document.getElementById('submitBtn');
+      if (sb) { sb.disabled = on; sb.style.opacity = on ? '0.6' : '1'; sb.textContent = on ? (isZh ? '提交中…' : 'Submitting…') : texts.submit; }
+    }
+    function showResult(msg, isError) {
+      const ok = document.getElementById('qf-success');
+      if (!ok) return;
+      ok.textContent = msg;
+      ok.classList.remove('hidden');
+      ok.style.color = isError ? '#B91C1C' : '#15803D';
+    }
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const data = new FormData(form);
+        const name = (data.get('name') || '').toString().trim();
+        const mail = (data.get('email') || '').toString().trim();
+        if (!name || !mail) { form.reportValidity(); return; }
+
+        const fd = new FormData();
+        fd.append('name', name);
+        fd.append('company', (data.get('company') || '').toString().trim());
+        fd.append('email', mail);
+        fd.append('country_code', (data.get('country_code') || '').toString().trim());
+        fd.append('phone', (data.get('phone') || '').toString().trim());
+        fd.append('partName', (data.get('partName') || '').toString().trim());
+        fd.append('material', (data.get('material') || '').toString().trim());
+        fd.append('material_detail', (data.get('material_detail') || '').toString().trim());
+        fd.append('quantity', (data.get('quantity') || '').toString().trim());
+        fd.append('tolerance', (data.get('tolerance') || '').toString().trim());
+        fd.append('notes', (data.get('notes') || '').toString().trim());
+        uploadedFiles.forEach(f => fd.append('drawings', f, f.name));
+
+        setSubmitting(true);
+        fetch(API_BASE + '/api/quote', { method: 'POST', body: fd })
+          .then(async r => {
+            const j = await r.json().catch(() => ({}));
+            if (r.ok && j.ok) {
+              showResult(isZh ? '已收到您的询盘与图纸，我们将在 24 小时内回复。' : 'Quote request and drawings received — we will reply within 24 hours.', false);
+              form.reset();
+              if (fileList) fileList.innerHTML = '';
+              uploadedFiles.length = 0;
+            } else {
+              showResult(isZh ? ('提交失败：' + (j.error || '请稍后重试，或直接发邮件到 sales@eternalcnc.com')) : ('Submission failed: ' + (j.error || 'Please retry later or email sales@eternalcnc.com directly.')), true);
+            }
+          })
+          .catch(() => {
+            showResult(isZh ? '网络错误，请稍后重试，或直接发邮件到 sales@eternalcnc.com 并附上图纸。' : 'Network error. Please retry, or email sales@eternalcnc.com with your drawings attached.', true);
+          })
+          .finally(() => setSubmitting(false));
+      });
+    }
+
+    updateUI();
+  })();
+</script>

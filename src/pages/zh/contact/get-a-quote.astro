@@ -1,0 +1,214 @@
+﻿---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import QuoteForm from '../../../components/QuoteForm.astro';
+
+const breadcrumbs = [
+  { label: '联系我们', href: '/zh/contact' },
+  { label: '获取报价' },
+];
+---
+
+<PageLayout
+  title="获取报价 | Eternal CNC 鑫永恒精密"
+  description="上传您的图纸，我们将在 24 小时内为您提供详细的 CNC 加工报价及 DFM 可制造性分析。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero Section -->
+  <section class="quote-hero">
+    <div class="hero-container">
+      <span class="hero-tag">获取报价</span>
+      <h1>透明报价，极速反馈</h1>
+      <p class="hero-subtitle">
+        设备 · 精度 · 材料 · 尺寸范围 · 交期 — 上传图纸，24 小时内获取精准报价。
+      </p>
+      <div class="hero-actions">
+        <a href="/zh/contact/get-a-quote" class="btn btn-primary">获取报价</a>
+        <a href="/zh/capabilities" class="btn btn-outline">查看设备列表 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quote Form Section -->
+  <section class="py-16 bg-brand-bgAlt">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <QuoteForm lang="zh" />
+    </div>
+  </section>
+
+  <!-- Contact Info -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-12">
+        <div>
+          <h2 class="text-2xl text-brand-text mb-8">联系方式</h2>
+          <div class="space-y-6">
+            <div class="flex items-start">
+              <div class="w-10 h-10 bg-brand-bgAlt rounded-lg flex items-center justify-center flex-shrink-0 mr-4">
+                <svg class="w-5 h-5 text-brand-silver" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-medium text-brand-text mb-1">公司地址</h3>
+                <p class="text-brand-secondary text-sm">深圳市宝安区松岗街道沙浦社区广进路 33 号<br />综合楼 101</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="w-10 h-10 bg-brand-bgAlt rounded-lg flex items-center justify-center flex-shrink-0 mr-4">
+                <svg class="w-5 h-5 text-brand-silver" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-medium text-brand-text mb-1">电子邮箱</h3>
+                <p class="text-brand-secondary text-sm">sales@eternalcnc.com</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="w-10 h-10 bg-brand-bgAlt rounded-lg flex items-center justify-center flex-shrink-0 mr-4">
+                <svg class="w-5 h-5 text-brand-silver" fill="currentColor" viewBox="0 0 24 24"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 01.213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 00.167-.054l1.903-1.114a.864.864 0 01.717-.098 10.16 10.16 0 002.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178A1.17 1.17 0 014.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178 1.17 1.17 0 01-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.914 6.109.853 2.62 3.297 4.222 6.146 4.222.826 0 1.622-.12 2.361-.336a.722.722 0 01.598.082l1.584.926a.272.272 0 00.14.045c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.49.49 0 01.177-.554C23.016 18.115 24 16.405 24 14.479c0-3.197-3.098-5.621-7.062-5.621zm-2.36 2.63c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.982.97-.982zm4.72 0c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.982.97-.982z"/></svg>
+              </div>
+              <div>
+                <h3 class="font-medium text-brand-text mb-1">微信</h3>
+                <p class="text-brand-secondary text-sm"><a href="tel:+8618123983352" style="color: var(--brand-red);">181 2398 3352</a> — 添加微信，发图纸询价回复最快</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="w-10 h-10 bg-brand-bgAlt rounded-lg flex items-center justify-center flex-shrink-0 mr-4">
+                <svg class="w-5 h-5 text-brand-silver" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-medium text-brand-text mb-1">工作时间</h3>
+                <p class="text-brand-secondary text-sm">周一至周六，9:00 – 18:00（北京时间）</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="text-2xl text-brand-text mb-8">公司位置</h2>
+          <div class="rounded-xl h-80 flex items-center justify-center" style="background-color: var(--page-bg); border: 1px solid var(--border-color);">
+            <div class="text-center text-brand-silver">
+              <svg class="w-12 h-12 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <p class="text-sm">中国深圳市宝安区</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+<script>
+  // 强制页面内容区 SVG 图标为品牌暗红（不影响 footer）
+  document.querySelectorAll('main svg, section svg, .quote-hero svg').forEach(svg => {
+    if (svg.closest('footer')) return;
+    svg.style.color = '#8B0000';
+    svg.querySelectorAll('[stroke]').forEach(el => {
+      el.setAttribute('stroke', '#8B0000');
+    });
+    svg.querySelectorAll('[fill]:not([fill="none"])').forEach(el => {
+      el.setAttribute('fill', '#8B0000');
+    });
+  });
+</script>
+
+<style>
+  /* ===== Hero 区域 ===== */
+  .quote-hero {
+    min-height: 230px;
+    padding: 60px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #FAFAFA;
+    border-bottom: 1px solid #EEEEEE;
+  }
+  .hero-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+    text-align: left;
+  }
+  .hero-tag {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #8B0000;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    font-family: 'Inter', 'Noto Sans SC', 'SimHei', 'Microsoft YaHei', sans-serif;
+  }
+  .quote-hero h1 {
+    font-size: 42px;
+    font-weight: 900;
+    color: #1A1A1A;
+    margin-bottom: 16px;
+    font-family: 'Inter', 'Noto Sans SC', 'SimHei', 'Microsoft YaHei', sans-serif;
+    line-height: 1.2;
+  }
+  .hero-subtitle {
+    font-size: 16px;
+    color: #666666;
+    font-weight: 400;
+    margin-bottom: 32px;
+    line-height: 1.6;
+    font-family: 'Inter', 'Noto Sans SC', 'SimHei', 'Microsoft YaHei', sans-serif;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-family: 'Inter', 'Noto Sans SC', 'SimHei', 'Microsoft YaHei', sans-serif;
+  }
+  .btn-primary {
+    background-color: #8B0000;
+    color: #FFFFFF;
+    border: 1px solid #8B0000;
+  }
+  .btn-primary:hover {
+    background-color: #6B0000;
+    border-color: #6B0000;
+  }
+  .btn-outline {
+    background-color: transparent;
+    color: #333333;
+    border: 1px solid #CCCCCC;
+  }
+  .btn-outline:hover {
+    border-color: #8B0000;
+    color: #8B0000;
+  }
+  /* ===== 全页图标统一品牌暗红 ===== */
+  .quote-hero svg,
+  form svg,
+  [class*="icon"] svg,
+  [class*="card"] svg,
+  [class*="feature"] svg {
+    stroke: #8B0000 !important;
+    color: #8B0000 !important;
+  }
+  [class*="icon-wrapper"],
+  [class*="icon-container"],
+  [class*="step-num"] {
+    background-color: rgba(139, 0, 0, 0.08) !important;
+    color: #8B0000 !important;
+  }
+</style>
