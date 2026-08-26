@@ -3,31 +3,31 @@ import PageLayout from '../../../../layouts/PageLayout.astro';
 
 const breadcrumbs = [
   { label: '行业应用', href: '/zh/industries' },
-  { label: '航空航天' },
+  { label: '通信与卫星设备' },
 ];
 
 const capabilities = [
   {
-    title: '发动机支架',
-    items: ['安装支架', '隔热罩', '管路卡箍', '减振座'],
+    title: '卫星支架',
+    items: ['卫星平台支架', '太阳能板支架', '天线臂', '结构连接件'],
     tolerance: '±0.01mm',
     materials: '钛合金 Ti-6Al-4V、Inconel 718',
   },
   {
-    title: '起落架零件',
-    items: ['活塞杆', '轴承座', '缓冲器零件', '连接叉'],
+    title: '伺服壳体',
+    items: ['作动器壳体', '陀螺支架', '扭矩连杆件', '衬套适配器'],
     tolerance: '±0.005mm',
     materials: '高强度钢 4340、300M',
   },
   {
-    title: '航电壳体',
-    items: ['惯性导航壳体', '雷达底座', '通信机箱', '电源模块壳'],
+    title: '天线壳体',
+    items: ['射频屏蔽壳体', 'GPS 天线座', '通信机架', '传感器集成板'],
     tolerance: '±0.01mm',
     materials: '铝合金 7075、镁合金',
   },
   {
-    title: '燃油接头',
-    items: ['快换接头', '阀体', '过滤器壳体', '密封法兰'],
+    title: '结构框架',
+    items: ['框架连接件', '面板接头', '波导歧管', '快换接头'],
     tolerance: '±0.005mm',
     materials: '不锈钢 316L、钛合金',
   },
@@ -42,8 +42,8 @@ const standards = [
 ---
 
 <PageLayout
-  title="航空航天零件精密制造 | 发动机支架·航电壳体·燃油接头 | Eternal CNC"
-  description="为航空航天行业提供精密CNC加工——发动机支架、起落架零件、航电壳体、燃油接头，全流程质控与材质追溯。"
+  title="通信与卫星设备精密制造 | 卫星支架·天线壳体·结构框架 | Eternal CNC"
+  description="为通信与卫星设备行业提供精密CNC加工——卫星支架、天线壳体、伺服壳体、结构框架，全流程质控与材质追溯。"
   breadcrumbs={breadcrumbs}
 >
   <!-- Hero -->
@@ -51,17 +51,17 @@ const standards = [
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">行业应用</p>
       <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
-        航空航天
+        通信与卫星设备
       </h1>
       <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
-        为航空航天行业提供精密CNC加工服务。
-        涵盖发动机支架、起落架零件、航电壳体及燃油接头。
+        为通信与卫星设备行业提供精密CNC加工服务。
+        涵盖卫星支架、天线壳体、伺服壳体及结构框架。
       </p>
       <div class="flex flex-wrap gap-4 mt-8">
         <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
           获取报价
         </a>
-        <a href="/zh/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+        <a href="/zh/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
           查看加工服务 →
         </a>
       </div>
@@ -72,9 +72,9 @@ const standards = [
   <section style="background-color: var(--page-bg); padding: 80px 0;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">加工能力</p>
-      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">按航空系统分类</h2>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">按系统分类</h2>
       <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
-        我们为四大航空子系统加工零件，关键尺寸可送集团共享计量中心三坐标测量机验证。
+        我们为卫星结构与通信设备加工关键零件，关键尺寸可送集团共享计量中心三坐标测量机验证。
       </p>
       <div class="grid md:grid-cols-2 gap-6">
         {capabilities.map((cap) => (
@@ -105,9 +105,9 @@ const standards = [
   <section style="background-color: var(--card-white); padding: 80px 0;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">质量管控</p>
-      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">航空航天行业质量标准</h2>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">行业质量标准</h2>
       <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
-        每批订单均按航空航天级质量管控流程执行。
+        每批订单均按高可靠性质量管控流程执行。
       </p>
       <div class="grid md:grid-cols-2 gap-6">
         {standards.map((std) => (
@@ -120,14 +120,14 @@ const standards = [
     </div>
   </section>
 
-  
+
 
 <!-- 产品展示 -->
 <section style="background-color: var(--card-white); padding: 80px 0;">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">产品展示</p>
-    <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">航空航天零件展示</h2>
-    <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">高可靠性航空零件——卫星结构、舵机壳体、涡轮叶片。以下为工艺演示用的产品渲染图，用于直观呈现本厂的加工能力；因保密协议（NDA）约束，图片仅供参考。</p>
+    <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">零件展示</h2>
+    <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">高可靠性零件——卫星结构、舵机壳体、结构框架。以下为工艺演示用的产品渲染图，用于直观呈现本厂的加工能力；因保密协议（NDA）约束，图片仅供参考。</p>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
           <img src="/images/cases/aerospace/cnc-aerospace-satellite-bracket-01.webp" alt="卫星结构铝件CNC加工" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
@@ -138,8 +138,8 @@ const standards = [
           <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">舵机壳体精密加工</p></div>
         </div>
         <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
-          <img src="/images/cases/aerospace/cnc-aerospace-turbine-blade-03.webp" alt="涡轮叶片精密加工" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
-          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">涡轮叶片精密加工</p></div>
+          <img src="/images/cases/aerospace/cnc-aerospace-turbine-blade-03.webp" alt="精密叶片零件加工" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">精密叶片零件加工</p></div>
         </div>
         <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
           <img src="/images/cases/aerospace/cnc-aerospace-antenna-housing-04.webp" alt="天线外壳CNC加工" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
@@ -152,7 +152,7 @@ const standards = [
   <!-- CTA -->
   <section style="background-color: var(--brand-dark); padding: 80px 0;">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-3xl font-bold text-white mb-5">有航空零件需要加工？</h2>
+      <h2 class="text-3xl font-bold text-white mb-5">有卫星与通信设备零件需要加工？</h2>
       <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
         上传图纸，工程师24小时内提供报价及DFM反馈。
       </p>

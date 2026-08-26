@@ -12,8 +12,8 @@ const metalCategories = [
     color: 'from-[#8B0000] to-[#6B0000]',
     image: '/images/materials/materials-aluminum-render-01.webp',
     grades: [
-      { grade: '6061-T6', density: '2.70 g/cm³', tensile: '310 MPa', hardness: '95 HB', features: '加工性优良，良好的强度重量比', applications: '航空夹具、散热器、壳体' },
-      { grade: '7075-T6', density: '2.81 g/cm³', tensile: '572 MPa', hardness: '150 HB', features: '最高强度铝合金，航空级', applications: '航空结构件、模具、运动器材' },
+      { grade: '6061-T6', density: '2.70 g/cm³', tensile: '310 MPa', hardness: '95 HB', features: '加工性优良，良好的强度重量比', applications: '高可靠性夹具、散热器、壳体' },
+      { grade: '7075-T6', density: '2.81 g/cm³', tensile: '572 MPa', hardness: '150 HB', features: '最高强度铝合金，高可靠性级', applications: '高可靠性结构件、模具、运动器材' },
       { grade: '2024-T3', density: '2.78 g/cm³', tensile: '476 MPa', hardness: '120 HB', features: '高抗疲劳性，良好损伤容限', applications: '飞机结构、机身、机翼组件' },
       { grade: '5052-H32', density: '2.68 g/cm³', tensile: '228 MPa', hardness: '60 HB', features: '优异耐腐蚀性，海洋级', applications: '海洋部件、化工处理' },
     ]
@@ -26,8 +26,8 @@ const metalCategories = [
     grades: [
       { grade: '303', density: '7.90 g/cm³', tensile: '620 MPa', hardness: '228 HB', features: '易切削，优异加工性能', applications: '轴、齿轮、紧固件' },
       { grade: '304', density: '7.93 g/cm³', tensile: '515 MPa', hardness: '201 HB', features: '通用型，优异耐腐蚀性', applications: '食品加工、化工、建筑' },
-      { grade: '316L', density: '7.99 g/cm³', tensile: '485 MPa', hardness: '217 HB', features: '医疗级，优异耐氯性', applications: '医疗植入物、海洋、制药' },
-      { grade: '17-4 PH', density: '7.78 g/cm³', tensile: '930 MPa', hardness: '44 HRC', features: '沉淀硬化，高强度', applications: '航空、化工、石油天然气' },
+      { grade: '316L', density: '7.99 g/cm³', tensile: '485 MPa', hardness: '217 HB', features: '医疗级，优异耐氯性', applications: '非植入医疗器械、海洋、制药' },
+      { grade: '17-4 PH', density: '7.78 g/cm³', tensile: '930 MPa', hardness: '44 HRC', features: '沉淀硬化，高强度', applications: '高可靠性、化工、石油天然气' },
     ]
   },
   {
@@ -48,7 +48,7 @@ const metalCategories = [
     image: '/images/materials/materials-titanium-render-01.webp',
     grades: [
       { grade: 'Grade 2 (纯钛)', density: '4.51 g/cm³', tensile: '345 MPa', hardness: '20 HRC', features: '纯钛，优异耐腐蚀性', applications: '化工、医疗、海洋' },
-      { grade: 'Grade 5 (Ti-6Al-4V)', density: '4.43 g/cm³', tensile: '950 MPa', hardness: '36 HRC', features: '最广泛使用的钛合金，航空级', applications: '航空、医疗植入物、赛车' },
+      { grade: 'Grade 5 (Ti-6Al-4V)', density: '4.43 g/cm³', tensile: '950 MPa', hardness: '36 HRC', features: '最广泛使用的钛合金，高可靠性级', applications: '高可靠性、非植入医疗器械、赛车' },
       { grade: 'Grade 9', density: '4.51 g/cm³', tensile: '725 MPa', hardness: '30 HRC', features: '优异焊接性，中等强度', applications: '飞机液压、自行车架' },
     ]
   },
@@ -69,7 +69,7 @@ const metalCategories = [
 const plasticGrades = [
   { grade: 'POM（赛钢）', density: '1.41 g/cm³', tensile: '70 MPa', hardness: '120 HRM', features: '低摩擦，优异尺寸稳定性', applications: '齿轮、轴承、衬套', image: '/images/materials/materials-delrin-render-01.webp' },
   { grade: '尼龙 (PA6)', density: '1.14 g/cm³', tensile: '85 MPa', hardness: '118 HRM', features: '耐磨，抗冲击', applications: '耐磨垫、滚轮、结构件', image: '/images/materials/materials-nylon-render-01.webp' },
-  { grade: 'PEEK', density: '1.32 g/cm³', tensile: '100 MPa', hardness: '25 HRM', features: '耐高温（250°C），耐化学', applications: '医疗植入物、半导体、航空', image: '/images/materials/materials-peek-render-01.webp' },
+  { grade: 'PEEK', density: '1.32 g/cm³', tensile: '100 MPa', hardness: '25 HRM', features: '耐高温（250°C），耐化学', applications: '非植入医疗器械、半导体、高可靠性', image: '/images/materials/materials-peek-render-01.webp' },
   { grade: 'PTFE（铁氟龙）', density: '2.15 g/cm³', tensile: '21 MPa', hardness: 'Shore D 55', features: '最低摩擦系数，化学惰性', applications: '密封件、垫片、绝缘体', image: '/images/materials/materials-ptfe-render-01.webp' },
   { grade: 'UHMW-PE', density: '0.93 g/cm³', tensile: '48 MPa', hardness: 'Shore D 67', features: '极高抗冲击性，食品级', applications: '食品加工、输送带、医疗', image: '/images/materials/materials-uhmw-pe-render-01.webp' },
   { grade: 'PC（聚碳酸酯）', density: '1.20 g/cm³', tensile: '70 MPa', hardness: '120 HRM', features: '高抗冲击性，光学透明', applications: '透明外壳、镜片、防护罩', image: '/images/materials/materials-pc-render-01.webp' },
@@ -121,7 +121,7 @@ const useFilters = [
       <div class="mb-16">
         <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--text-helper);">Metals</p>
         <h2 class="text-3xl md:text-4xl font-bold mb-4" style="color: var(--brand-dark);">金属材料</h2>
-        <p class="text-brand-secondary max-w-2xl text-lg">从轻量铝合金到航空级钛合金——为您的应用选择最合适的金属。</p>
+        <p class="text-brand-secondary max-w-2xl text-lg">从轻量铝合金到高可靠性级钛合金——为您的应用选择最合适的金属。</p>
       </div>
 
       {metalCategories.map((cat) => (

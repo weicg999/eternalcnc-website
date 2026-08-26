@@ -29,9 +29,9 @@ const metalCategories: MetalCategory[] = [
     id: 'aluminum',
     icon: '🔵',
     grades: [
-      { grade: '6061-T6', density: '2.70 g/cm³', tensile: '310 MPa', hardness: '95 HB', features: 'Excellent machinability, good strength-to-weight', applications: 'Aerospace fixtures, heat sinks, housings', tags: ['lightweight', 'general'] },
-      { grade: '7075-T6', density: '2.81 g/cm³', tensile: '572 MPa', hardness: '150 HB', features: 'Highest strength aluminum alloy, aerospace grade', applications: 'Aerospace structural, mold tooling', tags: ['high-strength', 'lightweight'] },
-      { grade: '2024-T3', density: '2.78 g/cm³', tensile: '476 MPa', hardness: '120 HB', features: 'High fatigue resistance, good damage tolerance', applications: 'Aircraft structures, wing components', tags: ['high-strength'] },
+      { grade: '6061-T6', density: '2.70 g/cm³', tensile: '310 MPa', hardness: '95 HB', features: 'Excellent machinability, good strength-to-weight', applications: 'high-reliability fixtures, heat sinks, housings', tags: ['lightweight', 'general'] },
+      { grade: '7075-T6', density: '2.81 g/cm³', tensile: '572 MPa', hardness: '150 HB', features: 'Highest strength aluminum alloy, high-strength', applications: 'high-reliability structural, mold tooling', tags: ['high-strength', 'lightweight'] },
+      { grade: '2024-T3', density: '2.78 g/cm³', tensile: '476 MPa', hardness: '120 HB', features: 'High fatigue resistance, good damage tolerance', applications: 'Structural components, lightweight frames', tags: ['high-strength'] },
       { grade: '5052-H32', density: '2.68 g/cm³', tensile: '228 MPa', hardness: '60 HB', features: 'Excellent corrosion resistance, marine grade', applications: 'Marine components, chemical processing', tags: ['corrosion-resistant', 'lightweight'] },
     ]
   },
@@ -42,8 +42,8 @@ const metalCategories: MetalCategory[] = [
     grades: [
       { grade: '303', density: '7.90 g/cm³', tensile: '620 MPa', hardness: '228 HB', features: 'Free-machining, excellent machinability', applications: 'Shafts, gears, fasteners', tags: ['general'] },
       { grade: '304', density: '7.93 g/cm³', tensile: '515 MPa', hardness: '201 HB', features: 'General purpose, excellent corrosion resistance', applications: 'Food processing, chemical, architectural', tags: ['corrosion-resistant'] },
-      { grade: '316L', density: '7.99 g/cm³', tensile: '485 MPa', hardness: '217 HB', features: 'Medical grade, superior chloride resistance', applications: 'Medical implants, marine, pharmaceutical', tags: ['corrosion-resistant', 'high-temp'] },
-      { grade: '17-4 PH', density: '7.78 g/cm³', tensile: '930 MPa', hardness: '44 HRC', features: 'Precipitation hardened, high strength', applications: 'Aerospace, chemical processing', tags: ['high-strength', 'high-temp'] },
+      { grade: '316L', density: '7.99 g/cm³', tensile: '485 MPa', hardness: '217 HB', features: 'Medical grade, superior chloride resistance', applications: 'non-implant medical, marine, pharmaceutical', tags: ['corrosion-resistant', 'high-temp'] },
+      { grade: '17-4 PH', density: '7.78 g/cm³', tensile: '930 MPa', hardness: '44 HRC', features: 'Precipitation hardened, high strength', applications: 'high-reliability, chemical processing', tags: ['high-strength', 'high-temp'] },
     ]
   },
   {
@@ -62,8 +62,8 @@ const metalCategories: MetalCategory[] = [
     icon: '🔘',
     grades: [
       { grade: 'Grade 2 (CP)', density: '4.51 g/cm³', tensile: '345 MPa', hardness: '20 HRC', features: 'Pure titanium, excellent corrosion resistance', applications: 'Chemical processing, medical, marine', tags: ['corrosion-resistant', 'lightweight'] },
-      { grade: 'Grade 5 (Ti-6Al-4V)', density: '4.43 g/cm³', tensile: '950 MPa', hardness: '36 HRC', features: 'Most widely used Ti alloy, aerospace grade', applications: 'Aerospace, medical implants, motorsport', tags: ['high-strength', 'high-temp', 'lightweight'] },
-      { grade: 'Grade 9', density: '4.51 g/cm³', tensile: '725 MPa', hardness: '30 HRC', features: 'Excellent weldability, intermediate strength', applications: 'Aircraft hydraulic, bicycle frames', tags: ['high-strength'] },
+      { grade: 'Grade 5 (Ti-6Al-4V)', density: '4.43 g/cm³', tensile: '950 MPa', hardness: '36 HRC', features: 'Most widely used Ti alloy, high-strength', applications: 'high-reliability, non-implant medical, motorsport', tags: ['high-strength', 'high-temp', 'lightweight'] },
+      { grade: 'Grade 9', density: '4.51 g/cm³', tensile: '725 MPa', hardness: '30 HRC', features: 'Excellent weldability, intermediate strength', applications: 'Hydraulic systems, bicycle frames', tags: ['high-strength'] },
     ]
   },
   {
@@ -82,7 +82,7 @@ const metalCategories: MetalCategory[] = [
 const plasticGrades: Grade[] = [
   { grade: 'Delrin (POM)', density: '1.41 g/cm³', tensile: '70 MPa', hardness: '120 HRM', features: 'Low friction, excellent dimensional stability', applications: 'Gears, bearings, bushings', tags: ['lightweight'], image: '/images/materials/materials-delrin-render-01.webp' },
   { grade: 'Nylon (PA6)', density: '1.14 g/cm³', tensile: '85 MPa', hardness: '118 HRM', features: 'Wear resistant, impact tough', applications: 'Wear pads, rollers, structural parts', tags: ['lightweight'], image: '/images/materials/materials-nylon-render-01.webp' },
-  { grade: 'PEEK', density: '1.32 g/cm³', tensile: '100 MPa', hardness: '25 HRM', features: 'High temperature (250°C), chemical resistant', applications: 'Medical implants, semiconductor, aerospace', tags: ['high-temp', 'corrosion-resistant', 'lightweight'], image: '/images/materials/materials-peek-render-01.webp' },
+  { grade: 'PEEK', density: '1.32 g/cm³', tensile: '100 MPa', hardness: '25 HRM', features: 'High temperature (250°C), chemical resistant', applications: 'non-implant medical, semiconductor, high-reliability', tags: ['high-temp', 'corrosion-resistant', 'lightweight'], image: '/images/materials/materials-peek-render-01.webp' },
   { grade: 'PTFE (Teflon)', density: '2.15 g/cm³', tensile: '21 MPa', hardness: 'Shore D 55', features: 'Lowest friction coefficient, chemically inert', applications: 'Seals, gaskets, insulators', tags: ['corrosion-resistant'], image: '/images/materials/materials-ptfe-render-01.webp' },
   { grade: 'UHMW-PE', density: '0.93 g/cm³', tensile: '48 MPa', hardness: 'Shore D 67', features: 'Extreme impact resistance, food safe', applications: 'Food processing, conveyor, medical', tags: ['lightweight', 'corrosion-resistant'], image: '/images/materials/materials-uhmw-pe-render-01.webp' },
   { grade: 'PC (Polycarbonate)', density: '1.20 g/cm³', tensile: '70 MPa', hardness: '120 HRM', features: 'High impact strength, optical clarity', applications: 'Transparent housings, lenses, guards', tags: ['lightweight'], image: '/images/materials/materials-pc-render-01.webp' },
@@ -136,7 +136,7 @@ const useFilters = [
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="mb-16">
         <h2 class="text-3xl md:text-4xl text-brand-text mb-4">Metal Materials</h2>
-        <p class="text-brand-secondary max-w-2xl text-lg">From lightweight aluminum to aerospace-grade titanium — select the right metal for your application.</p>
+        <p class="text-brand-secondary max-w-2xl text-lg">From lightweight aluminum to high-reliability titanium — select the right metal for your application.</p>
       </div>
 
       {metalCategories.map((cat) => (

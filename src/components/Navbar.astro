@@ -82,7 +82,7 @@ const zhHref = np === '/404' ? '/zh/' : (isZh ? np : (counterExists ? counterPat
             <div class="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
               <div class="bg-white border min-w-[240px]" style="border-color:var(--border-color);border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.08)">
                 <div class="p-3">
-                  {(isZh ? [{l:'汽车制造',h:'/zh/industries/automotive'},{l:'医疗器械',h:'/zh/industries/medical'},{l:'电子通信',h:'/zh/industries/electronics'},{l:'工业机器人',h:'/zh/industries/robotics'},{l:'航空航天',h:'/zh/industries/aerospace'},{l:'能源装备',h:'/zh/industries/energy'},{l:'自动化设备',h:'/zh/industries/automation-equipment'}] : [{l:'Automotive',h:'/industries/automotive'},{l:'Medical Devices',h:'/industries/medical'},{l:'Electronics',h:'/industries/electronics'},{l:'Robotics',h:'/industries/robotics'},{l:'Aerospace',h:'/industries/aerospace'},{l:'Energy Equipment',h:'/industries/energy'},{l:'Automation Equipment',h:'/industries/automation-equipment'}]).map(i=>(<a href={i.h} class="dropdown-item block px-3 py-2 text-sm" style="color:#1A1A1A">{i.l}</a>))}
+                  {(isZh ? [{l:'汽车制造',h:'/zh/industries/automotive'},{l:'医疗器械',h:'/zh/industries/medical'},{l:'电子通信',h:'/zh/industries/electronics'},{l:'工业机器人',h:'/zh/industries/robotics'},{l:'通信与卫星设备',h:'/zh/industries/communications-satellite'},{l:'能源装备',h:'/zh/industries/energy'},{l:'自动化设备',h:'/zh/industries/automation-equipment'}] : [{l:'Automotive',h:'/industries/automotive'},{l:'Medical Devices',h:'/industries/medical'},{l:'Electronics',h:'/industries/electronics'},{l:'Robotics',h:'/industries/robotics'},{l:'Communications & Satellite Equipment',h:'/industries/communications-satellite'},{l:'Energy Equipment',h:'/industries/energy'},{l:'Automation Equipment',h:'/industries/automation-equipment'}]).map(i=>(<a href={i.h} class="dropdown-item block px-3 py-2 text-sm" style="color:#1A1A1A">{i.l}</a>))}
                 </div>
               </div>
             </div>
@@ -172,7 +172,7 @@ const zhHref = np === '/404' ? '/zh/' : (isZh ? np : (counterExists ? counterPat
             {l:'设备清单',h:'/zh/capabilities/equipment'},{l:'设备矩阵',h:'/zh/equipment-matrix'},{l:'精度标准',h:'/zh/capabilities/tolerance'},{l:'材料范围',h:'/zh/capabilities/materials'},{l:'加工尺寸范围',h:'/zh/capabilities/size-range'},{l:'交期说明',h:'/zh/capabilities/lead-time'}
           ]},
           {label:'行业应用',href:'/zh/industries',children:[
-            {l:'汽车制造',h:'/zh/industries/automotive'},{l:'医疗器械',h:'/zh/industries/medical'},{l:'电子通信',h:'/zh/industries/electronics'},{l:'工业机器人',h:'/zh/industries/robotics'},{l:'航空航天',h:'/zh/industries/aerospace'},{l:'能源装备',h:'/zh/industries/energy'},{l:'自动化设备',h:'/zh/industries/automation-equipment'}
+            {l:'汽车制造',h:'/zh/industries/automotive'},{l:'医疗器械',h:'/zh/industries/medical'},{l:'电子通信',h:'/zh/industries/electronics'},{l:'工业机器人',h:'/zh/industries/robotics'},{l:'通信与卫星设备',h:'/zh/industries/communications-satellite'},{l:'能源装备',h:'/zh/industries/energy'},{l:'自动化设备',h:'/zh/industries/automation-equipment'}
           ]},
           {label:'案例展示',href:'/zh/cases',children:[
             {g:'按行业'},{l:'汽车零部件案例',h:'/zh/cases/automotive'},{l:'医疗器械案例',h:'/zh/cases/medical'},{l:'电子零件案例',h:'/zh/cases/electronics'},{l:'机器人零件案例',h:'/zh/cases/robotics'},
@@ -194,7 +194,7 @@ const zhHref = np === '/404' ? '/zh/' : (isZh ? np : (counterExists ? counterPat
             {l:'Equipment List',h:'/capabilities/equipment'},{l:'Equipment Matrix',h:'/equipment-matrix'},{l:'Tolerance Standards',h:'/capabilities/tolerance'},{l:'Material Range',h:'/capabilities/materials'},{l:'Size Range',h:'/capabilities/size-range'},{l:'Lead Time',h:'/capabilities/lead-time'}
           ]}
           ,{label:'Industries',href:'/industries',children:[
-            {l:'Automotive',h:'/industries/automotive'},{l:'Medical Devices',h:'/industries/medical'},{l:'Electronics',h:'/industries/electronics'},{l:'Robotics',h:'/industries/robotics'},{l:'Aerospace',h:'/industries/aerospace'},{l:'Energy Equipment',h:'/industries/energy'},{l:'Automation Equipment',h:'/industries/automation-equipment'}
+            {l:'Automotive',h:'/industries/automotive'},{l:'Medical Devices',h:'/industries/medical'},{l:'Electronics',h:'/industries/electronics'},{l:'Robotics',h:'/industries/robotics'},{l:'Communications & Satellite Equipment',h:'/industries/communications-satellite'},{l:'Energy Equipment',h:'/industries/energy'},{l:'Automation Equipment',h:'/industries/automation-equipment'}
           ]}
           ,{label:'Cases',href:'/cases',children:[
             {g:'By Industry'},{l:'Automotive Cases',h:'/cases/automotive'},{l:'Medical Cases',h:'/cases/medical'},{l:'Electronics Cases',h:'/cases/electronics'},{l:'Robotics Cases',h:'/cases/robotics'},
