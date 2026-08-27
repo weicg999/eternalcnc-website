@@ -1,8 +1,6 @@
 ---
 // Coze (扣子) 智能客服组件
-// 仅在英文站（路径不以 /zh 开头）注入；中文页不显示。
-// 机器人本身多语（跟随客户语言），英文站已覆盖海外多语客户。
-const isZh = Astro.url.pathname.startsWith('/zh');
+// 英文站与中文站（/zh 路径）均注入；机器人本身多语，可跟随客户语言回复。
 
 // 从 .env 读取（.env 已 gitignore，不会进仓库）。
 // ⚠️ 安全提示：Astro 构建会把此处引用的值内联进客户端 bundle，
@@ -15,7 +13,7 @@ const COZE_PAT    = import.meta.env.COZE_PAT    || '';
 const COZE_SDK_SRC = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js';
 ---
 
-{!isZh && (
+{(
   <>
     <!-- 自定义悬浮球：使用客服头像（女士） -->
     <button id="coze-custom-fab" aria-label="Open chat">
