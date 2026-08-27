@@ -17,7 +17,7 @@ const COZE_SDK_SRC = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sd
 
 {!isZh && (
   <>
-    <!-- 自定义悬浮球头像按钮 -->
+    <!-- 自定义悬浮球：使用客服头像（女士） -->
     <button id="coze-custom-fab" aria-label="Open chat">
       <img src="/images/chat-avatar.png" alt="Chat assistant" />
     </button>
@@ -30,13 +30,21 @@ const COZE_SDK_SRC = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sd
 
         var client = new CozeWebSDK.WebChatClient({
           config: { bot_id: COZE_BOT_ID, isIframe: false },
-          componentProps: { title: 'EternalCNC Assistant' },
+          componentProps: {
+            title: 'EternalCNC Assistant',
+            icon: '/images/chat-avatar.png' // 尝试设置对话消息里的 Bot 头像
+          },
           auth: {
             type: 'token',
             token: COZE_PAT,
             onRefreshToken: function () { return COZE_PAT }
           },
           ui: {
+            base: {
+              icon: '/images/logo/favicon.png',
+              layout: 'pc',
+              zIndex: 10000
+            },
             asstBtn: { isNeed: false }, // 隐藏默认蓝色悬浮球
             chatBot: {
               title: 'EternalCNC Assistant',
