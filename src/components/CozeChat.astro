@@ -66,6 +66,22 @@ const COZE_SDK_SRC = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sd
             client.showChatBot();
           });
         }
+
+        // 强制把消息气泡里的 Bot 头像换成客服头像（女士）。
+        // 扣子个人版的 componentProps.icon 对消息气泡头像无效，
+        // SDK 用的是 bot 后台图标（class: coze-chat-sdk-semi-avatar-img），这里用 observer 持续覆盖。
+        function forceBotAvatar() {
+          document.querySelectorAll('img.coze-chat-sdk-semi-avatar-img').forEach(function (img) {
+            if (img.getAttribute('src') !== '/images/chat-avatar.png') {
+              img.setAttribute('src', '/images/chat-avatar.png');
+            }
+          });
+        }
+        forceBotAvatar();
+        if (window.MutationObserver) {
+          var avObserver = new MutationObserver(forceBotAvatar);
+          avObserver.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['src'] });
+        }
       </script>
     )}
 
