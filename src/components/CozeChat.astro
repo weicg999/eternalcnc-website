@@ -22,14 +22,58 @@ const COZE_SDK_SRC = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sd
       <img src="/images/chat-avatar.png" alt="Chat assistant" />
     </button>
 
+    <!-- 扣子 Web SDK -->
     <script src={COZE_SDK_SRC} is:inline></script>
 
     {(COZE_BOT_ID && COZE_PAT) && (
       <script is:inline define:vars={{ COZE_BOT_ID, COZE_PAT }}>
+      (function () {
         var fab = document.getElementById('coze-custom-fab');
 
+        // ===== 会话身份与生命周期策略 =====
+        // - 匿名用户身份存 localStorage（eternalcnc_coze_uid = {id, ts}）
+        // - 24h 内：静默续接（同一人当天回来不弹窗）
+        // - 24h~7天：弹窗询问 [继续] / [清空开始新对话]
+        // - >7天 或首次：自动丢弃旧会话，开新窗口
+        var DAY = 86400000;
+        var RESUME_MS = 1 * DAY;   // 24h 静默续接窗口
+        var RETAIN_MS = 7 * DAY;   // 7天硬上限
+        var UID_KEY = 'eternalcnc_coze_uid';
+        var SDK_STORE = 'SLARDARbot_studio_sdk'; // SDK 运行时实际持久化 key（探针确认）
+
+        function genId() {
+          if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+          return 'u' + Date.now().toString(16) + Math.random().toString(16).slice(2);
+        }
+        function readUid() {
+          try { var r = localStorage.getItem(UID_KEY); if (r) return JSON.parse(r); } catch (e) {}
+          return null;
+        }
+        function writeUid(obj) {
+          try { localStorage.setItem(UID_KEY, JSON.stringify(obj)); } catch (e) {}
+        }
+        function freshUid() {
+          var o = { id: genId(), ts: Date.now() };
+          writeUid(o);
+          return o;
+        }
+
+        var uid = readUid();
+        var age = uid ? (Date.now() - uid.ts) : Infinity;
+        var mode; // 'fresh' | 'resume' | 'prompt'
+        if (!uid || age > RETAIN_MS) {
+          // 超过7天或首次：清掉 SDK 持久化，避免恢复旧会话
+          try { localStorage.removeItem(SDK_STORE); } catch (e) {}
+          uid = freshUid();
+          mode = 'fresh';
+        } else if (age < RESUME_MS) {
+          mode = 'resume'; // 24h 内静默续接
+        } else {
+          mode = 'prompt'; // 24h~7天 弹窗询问
+        }
+
         var client = new CozeWebSDK.WebChatClient({
-          config: { bot_id: COZE_BOT_ID, isIframe: false },
+          config: { bot_id: COZE_BOT_ID, isIframe: false, user: uid.id },
           componentProps: {
             title: 'EternalCNC Assistant',
             icon: '/images/chat-avatar.png' // 尝试设置对话消息里的 Bot 头像
@@ -37,7 +81,7 @@ const COZE_SDK_SRC = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sd
           auth: {
             type: 'token',
             token: COZE_PAT,
-            onRefreshToken: function () { return COZE_PAT }
+            onRefreshToken: function () { return COZE_PAT; }
           },
           ui: {
             base: {
@@ -49,11 +93,10 @@ const COZE_SDK_SRC = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sd
             chatBot: {
               title: 'EternalCNC Assistant',
               onShow: function () {
-                // 聊天框打开时，隐藏自定义悬浮球
                 if (fab) fab.style.display = 'none';
+                onChatOpen();
               },
               onHide: function () {
-                // 聊天框关闭时，显示自定义悬浮球
                 if (fab) fab.style.display = '';
               }
             }
@@ -62,9 +105,7 @@ const COZE_SDK_SRC = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sd
 
         // 点击自定义悬浮球 → 打开聊天框
         if (fab) {
-          fab.addEventListener('click', function () {
-            client.showChatBot();
-          });
+          fab.addEventListener('click', function () { client.showChatBot(); });
         }
 
         // 强制把消息气泡里的 Bot 头像换成客服头像（女士）。
@@ -79,9 +120,77 @@ const COZE_SDK_SRC = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sd
         }
         forceBotAvatar();
         if (window.MutationObserver) {
-          var avObserver = new MutationObserver(forceBotAvatar);
-          avObserver.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['src'] });
+          new MutationObserver(forceBotAvatar).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['src'] });
         }
+
+        // ===== 新对话 / 清屏 =====
+        // 点击：调用 SDK 接口结束当前会话（newConversation）+ 清空前端展示（clearChatHistory）
+        //      + 旋转本地匿名身份并重置 7天计时。
+        function startNewConversation() {
+          try { if (client.newConversation) client.newConversation(); } catch (e) {}
+          try { if (client.clearChatHistory) client.clearChatHistory(); } catch (e) {}
+          freshUid();
+        }
+
+        // ===== 透明提示：输入框下方固定小字 =====
+        function injectFooterHint() {
+          if (document.getElementById('eternalcnc-chat-hint')) return;
+          var panel = document.querySelector('[class*="coze-chat-sdk"]');
+          if (!panel) return;
+          var hint = document.createElement('div');
+          hint.id = 'eternalcnc-chat-hint';
+          hint.innerHTML = '对话仅保存7天（用于服务与溯源），共享设备请及时清空 ' +
+            '<a href="javascript:void(0)" id="eternalcnc-newchat-link" style="color:#8B0000;text-decoration:underline;">[新对话]</a>';
+          hint.style.cssText = 'font-size:12px;color:#888;padding:6px 12px;text-align:center;border-top:1px solid #eee;';
+          panel.appendChild(hint);
+          var link = hint.querySelector('#eternalcnc-newchat-link');
+          if (link) link.addEventListener('click', function (e) { e.preventDefault(); startNewConversation(); });
+        }
+
+        // ===== 固定“新对话”按钮（浮球上方） =====
+        var newBtn = document.createElement('button');
+        newBtn.id = 'coze-newchat-fab';
+        newBtn.textContent = '新对话';
+        newBtn.title = '对话仅保存7天，点击清空并开启新会话';
+        newBtn.style.cssText = 'position:fixed;right:24px;bottom:92px;z-index:10000;background:#8B0000;color:#fff;border:none;border-radius:18px;padding:8px 14px;font-size:13px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.15);';
+        document.body.appendChild(newBtn);
+        newBtn.addEventListener('click', function () { startNewConversation(); });
+
+        // ===== 24h~7天 历史记录弹窗 =====
+        function showHistoryPopup() {
+          if (document.getElementById('eternalcnc-hist-modal')) return;
+          var overlay = document.createElement('div');
+          overlay.id = 'eternalcnc-hist-modal';
+          overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:10001;display:flex;align-items:center;justify-content:center;';
+          overlay.innerHTML = '<div style="background:#fff;border-radius:10px;max-width:340px;padding:24px;font-family:Arial,sans-serif;">' +
+            '<p style="margin:0 0 16px;font-size:15px;line-height:1.5;">检测到历史记录，是否继续上次的对话？</p>' +
+            '<div style="display:flex;gap:12px;justify-content:flex-end;">' +
+            '<button id="hist-continue" style="padding:8px 16px;border:1px solid #8B0000;background:#fff;color:#8B0000;border-radius:6px;cursor:pointer;">继续</button>' +
+            '<button id="hist-clear" style="padding:8px 16px;border:none;background:#8B0000;color:#fff;border-radius:6px;cursor:pointer;">清空开始新对话</button>' +
+            '</div></div>';
+          document.body.appendChild(overlay);
+          overlay.querySelector('#hist-continue').addEventListener('click', function () { overlay.remove(); });
+          overlay.querySelector('#hist-clear').addEventListener('click', function () {
+            overlay.remove();
+            startNewConversation();
+            client.showChatBot();
+          });
+        }
+
+        var popupShown = false;
+        function onChatOpen() {
+          injectFooterHint();
+          if (mode === 'prompt' && !popupShown) {
+            popupShown = true;
+            showHistoryPopup();
+          }
+        }
+
+        // 聊天容器出现后持续注入提示
+        if (window.MutationObserver) {
+          new MutationObserver(function () { injectFooterHint(); }).observe(document.body, { childList: true, subtree: true });
+        }
+      })();
       </script>
     )}
 
