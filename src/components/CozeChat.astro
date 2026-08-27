@@ -79,7 +79,7 @@ const COZE_SDK_SRC = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sd
         }
 
         var client = new CozeWebSDK.WebChatClient({
-          config: { bot_id: COZE_BOT_ID, isIframe: false, user: uid.id },
+          config: { bot_id: COZE_BOT_ID, isIframe: false },
           componentProps: {
             title: 'EternalCNC Assistant',
             icon: '/images/chat-avatar.png' // 尝试设置对话消息里的 Bot 头像
@@ -87,6 +87,7 @@ const COZE_SDK_SRC = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sd
           auth: {
             type: 'token',
             token: COZE_PAT,
+            user_id: uid.id, // 关键：每个访客唯一ID，扣子靠这个隔离会话
             onRefreshToken: function () { return COZE_PAT; }
           },
           ui: {
