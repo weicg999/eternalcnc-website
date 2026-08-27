@@ -2,12 +2,10 @@
 // Coze (扣子) 智能客服组件
 // 英文站与中文站（/zh 路径）均注入；机器人本身多语，可跟随客户语言回复。
 
-// 从 .env 读取（.env 已 gitignore，不会进仓库）。
-// ⚠️ 安全提示：Astro 构建会把此处引用的值内联进客户端 bundle，
-//    因此 PAT 仍会出现在构建产物源码里。本地测试 OK；
-//    上线 Cloudflare Pages 前必须改成「Worker 代理」方案（PAT 不进前端 bundle）。
+// bot_id 是公开标识，可注入前端。
+// ⚠️ PAT（访问令牌）不再注入前端：改为运行时从 Pages Function /chat-token 获取，
+//    避免 PAT 出现在构建产物源码里。
 const COZE_BOT_ID = import.meta.env.COZE_BOT_ID || '';
-const COZE_PAT    = import.meta.env.COZE_PAT    || '';
 
 // SDK 版本来自扣子「安装」页（1.2.0-beta.19，beta 版，留意稳定性）
 const COZE_SDK_SRC = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js';
@@ -23,8 +21,8 @@ const COZE_SDK_SRC = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sd
     <!-- 扣子 Web SDK -->
     <script src={COZE_SDK_SRC} is:inline></script>
 
-    {(COZE_BOT_ID && COZE_PAT) && (
-      <script is:inline define:vars={{ COZE_BOT_ID, COZE_PAT }}>
+    {(COZE_BOT_ID) && (
+      <script is:inline define:vars={{ COZE_BOT_ID }}>
       (function () {
         var fab = document.getElementById('coze-custom-fab');
 
@@ -42,8 +40,11 @@ const COZE_SDK_SRC = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sd
         var ACTIVE_KEY = 'eternalcnc_coze_active'; // 当前持有 SDK 会话的身份 id
 
         function genId() {
-          if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
-          return 'u' + Date.now().toString(16) + Math.random().toString(16).slice(2);
+          var raw = (window.crypto && crypto.randomUUID)
+            ? crypto.randomUUID()
+            : ('u' + Date.now().toString(16) + Math.random().toString(16).slice(2));
+          // 前缀 visitor- 便于服务端 /chat-token 校验身份格式
+          return 'visitor-' + raw;
         }
         function readUid() {
           try { var r = localStorage.getItem(UID_KEY); if (r) return JSON.parse(r); } catch (e) {}
@@ -78,7 +79,10 @@ const COZE_SDK_SRC = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sd
           mode = 'prompt';           // 同身份 24h~7天 → 弹窗询问
         }
 
-        var client = new CozeWebSDK.WebChatClient({
+        // ===== 获取令牌后再初始化 SDK（PAT 仅存在于服务端 /chat-token，不进前端源码） =====
+        var client = null;
+        function bootstrap(token) {
+        client = new CozeWebSDK.WebChatClient({
           config: { bot_id: COZE_BOT_ID, isIframe: false },
           componentProps: {
             title: 'EternalCNC Assistant',
@@ -86,9 +90,9 @@ const COZE_SDK_SRC = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sd
           },
           auth: {
             type: 'token',
-            token: COZE_PAT,
+            token: token,
             user_id: uid.id, // 关键：每个访客唯一ID，扣子靠这个隔离会话
-            onRefreshToken: function () { return COZE_PAT; }
+            onRefreshToken: function () { return token; }
           },
           ui: {
             base: {
@@ -235,14 +239,20 @@ const COZE_SDK_SRC = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sd
           new MutationObserver(function () { injectFooterHint(); markChatRoot(); }).observe(document.body, { childList: true, subtree: true });
         }
         markChatRoot();
-      })();
-      </script>
-    )}
+        } // ===== end bootstrap =====
 
-    {!(COZE_BOT_ID && COZE_PAT) && (
-      <script is:inline>
-        var fab = document.getElementById('coze-custom-fab');
-        if (fab) fab.style.display = 'none';
+        // 运行时从 Pages Function 取访问令牌（PAT 仅在服务端环境变量里，不进前端源码）
+        fetch('/chat-token?user_id=' + encodeURIComponent(uid.id))
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (!data || !data.token) throw new Error('no token returned from /chat-token');
+            bootstrap(data.token);
+          })
+          .catch(function (err) {
+            console.error('[Coze] chat init failed:', err);
+            if (fab) fab.style.display = 'none';
+          });
+      })();
       </script>
     )}
 

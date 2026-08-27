@@ -13,7 +13,7 @@ async function collectConversation(userLabel, clearStorage) {
     if (match && !convIds.includes(match[1])) convIds.push(match[1]);
   });
 
-  await page.goto('http://localhost:8099/', { waitUntil: 'networkidle' });
+  await page.goto('http://localhost:8077/', { waitUntil: 'networkidle' });
   if (clearStorage) {
     await page.evaluate(() => {
       localStorage.removeItem('eternalcnc_coze_uid');
