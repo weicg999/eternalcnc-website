@@ -287,6 +287,14 @@
               raw.split('\n').forEach(function (ln) {
                 if (ln.indexOf('data:') === 0) dataStr += ln.slice(5).replace(/^\s/, '');
               });
+              // 先取事件名，哪怕 data 为空（如 event:done）
+              var ev = (raw.match(/event:\s*(\S+)/) || [])[1] || '';
+              if (ev === 'done') {
+                botEl.classList.remove('ec-typing');
+                if (!full) botEl.textContent = '（暂无回复，请稍后再试）';
+                busy = false; sendBtn.disabled = false;
+                return;
+              }
               if (!dataStr) continue;
               var data;
               try { data = JSON.parse(dataStr); } catch (e) { continue; }
@@ -297,18 +305,24 @@
                 busy = false; sendBtn.disabled = false;
                 return;
               }
-              if (data && data.content && typeof data.content === 'string') {
-                var ev = (raw.match(/event:\s*(\S+)/) || [])[1] || '';
-                if (ev.indexOf('delta') !== -1) {
-                  full += data.content;            // 增量累加
-                } else if (ev.indexOf('completed') !== -1) {
-                  full = data.content;             // 完成时以完整内容覆盖，避免重复
-                } else {
-                  full += data.content;
-                }
-                botEl.textContent = full;
-                scrollBottom();
+              // 取内容：优先 data.message.content（coze.cn 实测格式），兼容 data.content
+              var msg = data && data.message;
+              var content = (msg && typeof msg.content === 'string') ? msg.content
+                : (data && typeof data.content === 'string') ? data.content : '';
+              var msgType = msg && msg.type;
+              var isFinish = msg && msg.is_finish;
+              // 结束标记（最后一条 answer 常带 is_finish:true 且 content 为空）
+              if (isFinish) {
+                botEl.classList.remove('ec-typing');
+                if (!full) botEl.textContent = '（暂无回复，请稍后再试）';
+                busy = false; sendBtn.disabled = false;
+                return;
               }
+              // 忽略 verbose 等非 answer 内容
+              if (!content || (msgType && msgType !== 'answer')) continue;
+              full += content;
+              botEl.textContent = full;
+              scrollBottom();
             }
             return pump();
           });
