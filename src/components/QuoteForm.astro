@@ -444,6 +444,7 @@ const isZh = lang === 'zh';
     const formEl = document.getElementById('quote-form');
     const texts = formEl ? { back: formEl.dataset.back, next: formEl.dataset.next, submit: formEl.dataset.submit } : { back: 'Back', next: 'Next', submit: 'Submit' };
     const uploadedFiles = [];
+    const isZh = formEl && formEl.dataset.lang === 'zh';
 
     function updateUI() {
       steps.forEach(function(s) {
@@ -451,7 +452,6 @@ const isZh = lang === 'zh';
       });
       const pct = Math.round((currentStep / totalSteps) * 100);
       if (progressBar) progressBar.style.width = pct + '%';
-      const isZh = formEl && formEl.dataset.lang === 'zh';
       if (stepLabel) stepLabel.textContent = isZh ? '第 ' + currentStep + ' 步，共 ' + totalSteps + ' 步' : 'Step ' + currentStep + ' of ' + totalSteps;
       if (stepPercent) stepPercent.textContent = pct + '%';
       renderActions();
@@ -567,6 +567,50 @@ const isZh = lang === 'zh';
         uploadedFiles.forEach(f => fd.append('drawings', f, f.name));
 
         setSubmitting(true);
+
+        // Helper: 当后端不可用时，降级为 mailto 方案
+        function fallbackToMailto() {
+          const cc = (data.get('country_code') || '').toString().trim();
+          const phone = (data.get('phone') || '').toString().trim();
+          const mat = (data.get('material') || '').toString().trim();
+          const matDetail = (data.get('material_detail') || '').toString().trim();
+          const qty = (data.get('quantity') || '').toString().trim();
+          const tol = (data.get('tolerance') || '').toString().trim();
+          const notes = (data.get('notes') || '').toString().trim();
+          const part = (data.get('partName') || '').toString().trim();
+
+          const bodyLines = [
+            isZh ? '【EternalCNC 在线报价请求】' : '[EternalCNC Online Quote Request]',
+            '',
+            isZh ? '姓名：' : 'Name: ', name,
+            isZh ? '公司：' : 'Company: ', (data.get('company') || '').toString().trim(),
+            isZh ? '邮箱：' : 'Email: ', mail,
+            isZh ? '电话：' : 'Phone: ', (cc && phone ? cc + ' ' + phone : phone || 'N/A'),
+            '',
+            isZh ? '零件名/图号：' : 'Part Name / Drawing No.: ', part || 'N/A',
+            isZh ? '材料：' : 'Material: ', (mat === 'per-drawing' ? (isZh ? '按图纸标注' : 'As per drawing') : (matDetail || mat || 'N/A')),
+            isZh ? '数量：' : 'Quantity: ', qty || 'N/A',
+            isZh ? '公差：' : 'Tolerance: ', tol || 'N/A',
+            '',
+            isZh ? '补充说明：' : 'Additional Notes:',
+            notes || (isZh ? '无' : 'None'),
+            '',
+            '---',
+            isZh ? '【请手动附上图纸文件（STEP / PDF / DXF 等）再发送此邮件】' : '[Please manually attach your drawing files (STEP / PDF / DXF) before sending this email.]',
+            '',
+            isZh ? '发送成功后，我们将在 24 小时内回复。' : 'We will reply within 24 hours after receiving.'
+          ];
+          const subject = isZh
+            ? ('【报价请求】' + (part || name) + ' — EternalCNC')
+            : ('[Quote Request] ' + (part || name) + ' — EternalCNC');
+          const mailto = 'mailto:sales@eternalcnc.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(bodyLines.join('\n'));
+          window.location.href = mailto;
+
+          showResult(isZh
+            ? '已为您生成邮件草稿，请确认邮件内容并附上图纸后发送。'
+            : 'An email draft has been prepared for you. Please review, attach your drawings, and send.', false);
+        }
+
         fetch(API_BASE + '/api/quote', { method: 'POST', body: fd })
           .then(async r => {
             const j = await r.json().catch(() => ({}));
@@ -575,12 +619,16 @@ const isZh = lang === 'zh';
               form.reset();
               if (fileList) fileList.innerHTML = '';
               uploadedFiles.length = 0;
+            } else if (r.status === 404) {
+              // 后端接口未部署 → 降级 mailto
+              fallbackToMailto();
             } else {
               showResult(isZh ? ('提交失败：' + (j.error || '请稍后重试，或直接发邮件到 sales@eternalcnc.com')) : ('Submission failed: ' + (j.error || 'Please retry later or email sales@eternalcnc.com directly.')), true);
             }
           })
           .catch(() => {
-            showResult(isZh ? '网络错误，请稍后重试，或直接发邮件到 sales@eternalcnc.com 并附上图纸。' : 'Network error. Please retry, or email sales@eternalcnc.com with your drawings attached.', true);
+            // 网络错误（后端不存在）→ 降级 mailto
+            fallbackToMailto();
           })
           .finally(() => setSubmitting(false));
       });
