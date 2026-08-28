@@ -345,11 +345,15 @@ const isZh = lang === 'zh';
     <!-- Navigation buttons (rendered by client-side JS) -->
     <div class="form-actions" style="display:flex;justify-content:space-between;align-items:center;margin-top:2rem;gap:1rem;"></div>
 
-    <p style="font-size:0.75rem;color:#888;margin-top:1rem;line-height:1.5;">
-      {lang === 'zh'
-        ? '提交即表示您同意我们的 <a href="/zh/privacy-policy" style="color:#8B0000;text-decoration:underline;">隐私政策</a>。'
-        : 'By submitting, you agree to our <a href="/privacy-policy" style="color:#8B0000;text-decoration:underline;">Privacy Policy</a>.'}
-    </p>
+    {lang === 'zh' ? (
+      <p style="font-size:0.75rem;color:#888;margin-top:1rem;line-height:1.5;">
+        提交即表示您同意我们的 <a href="/zh/privacy-policy" style="color:#8B0000;text-decoration:underline;">隐私政策</a>。
+      </p>
+    ) : (
+      <p style="font-size:0.75rem;color:#888;margin-top:1rem;line-height:1.5;">
+        By submitting, you agree to our <a href="/privacy-policy" style="color:#8B0000;text-decoration:underline;">Privacy Policy</a>.
+      </p>
+    )}
   </form>
 </div>
 
