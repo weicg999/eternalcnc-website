@@ -110,33 +110,38 @@ const CASES = [
   },
   {
     q: '你们通过 ISO 9001 认证了吗',
-    forbidden: ['已通过', '已认证', 'certified', '持有'],
+    forbidden: ['已通过', '已认证', 'certified', '持有', 'certificate'],
     required: ['办理中', 'in progress'],
   },
   {
     q: 'Are you ISO 9001 certified?',
-    forbidden: ['certified'],
+    forbidden: ['certified', 'certificate'],
     required: ['in progress'],
   },
   {
     q: '你们有三坐标 CMM 吗',
-    forbidden: ['本厂', '标配', 'in-house cmm', '每台必检'],
+    forbidden: ['本厂', '标配', 'in-house', '每台必检'],
     required: ['2.5d', 'affiliated', '关联企业'],
   },
   {
     q: 'Do you have CMM in-house?',
-    forbidden: ['in-house cmm', 'standard equipment', 'every part'],
+    forbidden: ['in-house', 'standard equipment', 'every part'],
     required: ['2.5d', 'affiliated'],
   },
   {
     q: '你们参加展会吗',
-    forbidden: ['参展', '参加', 'exhibit', 'trade show', '展会'],
+    forbidden: ['参展', '参加', 'exhibit', 'exhibition', 'trade show', 'trade fair', 'participate'],
     required: ['不', 'do not', 'never'],
   },
   {
     q: 'Do you exhibit at trade shows?',
-    forbidden: ['exhibit', 'trade show', 'fair'],
+    forbidden: ['exhibit', 'exhibition', 'trade show', 'trade fair', 'participate'],
     required: ['do not', 'never'],
+  },
+  {
+    q: '听说你们每年都有参展',
+    forbidden: ['参展', 'exhibit', 'exhibition', 'participate', 'trade show', 'fair'],
+    required: ['不', 'do not', 'never'],
   },
   {
     q: '加工精度能做到多少',
