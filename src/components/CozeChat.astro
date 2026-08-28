@@ -263,8 +263,8 @@
       { test: /苏州|江苏省|江蘇|蘇州|东莞|東莞|dongguan|suzhou|jiangsu|guangdong\s*[,-]?\s*dongguan/i,
         unless: /深圳|松岗|宝安|shenzhen|songgang|baoan/i,
         reply: '抱歉，上条回复有误。EternalCNC 的生产基地只在中国广东省深圳市宝安区松岗街道（Songgang, Bao\u2019an District, Shenzhen），没有其它生产基地。' },
-      // 地址绕弯/拒答：以保密、内部物流、留资为由不给地址
-      { test: /(?:specific\s+)?(?:factory|plant|company|production\s+base)\s+address[^.]{0,40}(?:internal|logistics|confirmed\s+(?:customer\s+)?visits?|contact\s+our\s+sales|leave\s+your\s+contact)|address[^.]{0,40}(?:internal logistics|confirmed customer visits)|请联系(?:我们的)?销售.{0,20}(?:地址|详情)|地址.{0,15}(?:保密|内部|不便|联系销售)|留(?:下|取)(?:您的)?(?:联系方式|信息).{0,15}地址/i,
+      // 地址绕弯/拒答：以保密、内部物流、留资、让工程师确认为由不给地址
+      { test: /(?:specific\s+)?(?:factory|plant|company|production\s+base)\s+address[^.]{0,40}(?:internal|logistics|confirmed\s+(?:customer\s+)?visits?|contact\s+our\s+sales|leave\s+your\s+contact)|address[^.]{0,40}(?:internal logistics|confirmed customer visits)|请联系(?:我们的)?销售.{0,20}(?:地址|详情)|地址.{0,15}(?:保密|内部|不便|联系销售)|留(?:下|取)(?:您的)?(?:联系方式|信息).{0,15}地址|(?:让|需要)(?:工程师|我们).*确认.{0,30}(?:sales@eternalcnc\.com|发邮件|发送到)/i,
         reply: '我们的工厂位于中国广东省深圳市宝安区松岗街道。\nOur factory is located in Songgang, Bao\u2019an District, Shenzhen, Guangdong Province, China.' },
       // 地址模糊回避：只说"核心产业带/中国"不报城市 → 深圳标准答案
       { test: /核心产业带|制造业核心|产业带|in\s+China\.|befindet sich in China|located in China[.,]/i,
@@ -313,6 +313,20 @@
     function streamChat(query) {
       busy = true;
       sendBtn.disabled = true;
+
+      // 前端硬兜底：高频事实问题直接本地回答，避免 bot 胡说
+      var q = (query || '').trim();
+      var addressRe = /^(?:公司|工厂|生产基地|地址|在哪里|在哪|where\s+(?:is|are)|what\s+(?:is|').*\s+address|factory\s+(?:address|location)|company\s+(?:address|location)|location)/i;
+      if (addressRe.test(q)) {
+        var botEl = addMsg('bot', '');
+        botEl.classList.add('ec-typing');
+        setTimeout(function() {
+          botEl.classList.remove('ec-typing');
+          botEl.textContent = '我们的工厂位于中国广东省深圳市宝安区松岗街道。\nOur factory is located in Songgang, Bao\u2019an District, Shenzhen, Guangdong Province, China.';
+          busy = false; sendBtn.disabled = false;
+        }, 350);
+        return;
+      }
 
       var botEl = addMsg('bot', '');
       botEl.classList.add('ec-typing');
