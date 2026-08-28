@@ -640,10 +640,7 @@ const isZh = lang === 'zh';
             : ('[Quote Request] ' + (part || name) + ' — EternalCNC');
           const mailto = 'mailto:sales@eternalcnc.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(bodyLines.join('\n'));
 
-          // 尝试自动打开邮件客户端
-          window.location.href = mailto;
-
-          // 同时在页面上显示可点击的链接 + 可复制的内容（保底）
+          // 先在页面上显示可点击的链接 + 可复制的内容（保底）
           const mailtoLink = document.getElementById('qf-mailto-link');
           const mailBody = document.getElementById('qf-mail-body');
           const mailtoActions = document.getElementById('qf-mailto-actions');
@@ -661,6 +658,11 @@ const isZh = lang === 'zh';
               setTimeout(function() { copyBtn.textContent = original; }, 2000);
             };
           }
+
+          // 再尝试自动打开邮件客户端（延迟 200ms，避免中断上面 DOM 更新）
+          setTimeout(function() {
+            window.location.href = mailto;
+          }, 200);
 
           showResult(isZh
             ? '已为您生成邮件草稿，请确认邮件内容并附上图纸后发送。'
