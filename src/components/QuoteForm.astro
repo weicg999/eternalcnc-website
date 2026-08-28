@@ -81,10 +81,10 @@ const texts = {
     back: '← Back',
     next: 'Next →',
     submit: 'Submit Quote Request',
-    open_email: 'Open Email Client',
-    copy_email: 'Copy Email Content',
+    open_email: 'Copy email info & try opening client',
+    copy_email: 'Copy email body only',
     copied: 'Copied!',
-    mailto_hint: 'If your email client does not open automatically, click the button above or copy the content below.',
+    mailto_hint: 'If your email app does not open automatically, copy the info above and paste it into a new email to sales@eternalcnc.com.',
     email_preview: 'Email content'
   },
   zh: {
@@ -162,10 +162,10 @@ const texts = {
     back: '← 上一步',
     next: '下一步 →',
     submit: '提交报价请求',
-    open_email: '打开邮件客户端',
-    copy_email: '复制邮件内容',
+    open_email: '复制邮件信息并尝试打开',
+    copy_email: '仅复制邮件正文',
     copied: '已复制',
-    mailto_hint: '如果邮件客户端未自动打开，请点击上方按钮或复制以下内容。',
+    mailto_hint: '如果邮件客户端未自动打开，请复制上方信息，手动新建邮件发给 sales@eternalcnc.com。',
     email_preview: '邮件内容'
   }
 };
@@ -645,7 +645,34 @@ const isZh = lang === 'zh';
           const mailBody = document.getElementById('qf-mail-body');
           const mailtoActions = document.getElementById('qf-mailto-actions');
           const copyBtn = document.getElementById('qf-copy-btn');
-          if (mailtoLink) mailtoLink.href = mailto;
+          const fullCopyText = [
+            isZh ? '收件人：' : 'To: ', 'sales@eternalcnc.com',
+            isZh ? '主题：' : 'Subject: ', subject,
+            '',
+            isZh ? '正文：' : 'Body:',
+            bodyLines.join('\n')
+          ].join('\n');
+          if (mailtoLink) {
+            mailtoLink.href = mailto;
+            mailtoLink.onclick = function(e) {
+              e.preventDefault();
+              // 复制完整邮件信息到剪贴板
+              const ta = document.createElement('textarea');
+              ta.value = fullCopyText;
+              ta.style.position = 'fixed';
+              ta.style.opacity = '0';
+              document.body.appendChild(ta);
+              ta.select();
+              try { document.execCommand('copy'); } catch (err) {}
+              document.body.removeChild(ta);
+              // 再尝试打开邮件客户端
+              window.location.href = mailto;
+              // 给用户明确反馈
+              const original = mailtoLink.textContent;
+              mailtoLink.textContent = texts.copied;
+              setTimeout(function() { mailtoLink.textContent = original; }, 2000);
+            };
+          }
           if (mailBody) mailBody.value = bodyLines.join('\n');
           if (mailtoActions) mailtoActions.style.display = 'block';
           if (copyBtn) {
