@@ -260,11 +260,11 @@
     // ---------- 内容安全兜底（后端 KB 未压实时做最后拦截）----------
     var GUARDRAIL = [
       { test: /苏州|江苏省|suzhou|jiangsu/i, reply: '抱歉，上条回复有误。EternalCNC 的生产基地只在中国广东省深圳市宝安区松岗街道，没有其它生产基地。' },
-      { test: /ISO\s*9001.*(?:certified|已通过|已认证|持有)|已通过.*ISO|已认证.*ISO/i, reply: '说明：ISO 9001:2015 目前正在办理中（certification in progress），尚未获证。' },
-      { test: /本厂.*(?:三坐标|CMM)|in-house.*CMM|每台必检/i, reply: '说明：厂内检测设备为 2.5D 影像测量仪 + 精密量具；桥式三坐标报告可应要求由家族关联企业检测中心提供。' },
-      { test: /参展|参加.*展会|exhibit.*trade|trade show/i, reply: '说明：EternalCNC 不参加国内外展会，我们通过数字营销和直接销售服务海外客户。' },
-      { test: /每单.*(?:全尺寸|报告)|full.*every order|every order.*full/i, reply: '说明：尺寸报告可应要求提供，并非每单标配；具体检测方案由工程师评审后确认。' },
-      { test: /产业集群|物流覆盖|成熟配套|产业配套/i, reply: '我会向工程师确认后，通过 sales@eternalcnc.com 回复您。' }
+      { test: /ISO\s*9001.*(?:certified|已通过|已认证|持有|certificate)|(?:certified|已通过|已认证|持有|certificate).*ISO|iso\s*certification/i, reply: '说明：ISO 9001:2015 目前正在办理中（certification in progress），尚未获证。' },
+      { test: /本厂.*(?:三坐标|CMM)|(?:三坐标|CMM).*本厂|in[-\s]?house.*CMM|CMM.*in[-\s]?house|coordinate measuring machine.*in[-\s]?house|每台必检/i, reply: '说明：厂内检测设备为 2.5D 影像测量仪 + 精密量具；桥式三坐标报告可应要求由家族关联企业检测中心提供。' },
+      { test: /参展|参加.*展会|exhibit|exhibition|trade\s*fair|participate.*(?:exhibition|fair|show)|industry\s+(?:exhibition|fair|show)|from time to time.*exhibit/i, reply: '说明：EternalCNC 不参加国内外展会，我们通过数字营销和直接销售服务海外客户。' },
+      { test: /每单.*(?:全尺寸|报告|检测)|(?:全尺寸|报告|检测).*每单|full.*(?:report|inspection|dimension).*every order|every order.*full.*(?:report|inspection|dimension)|report.*every order/i, reply: '说明：尺寸报告可应要求提供，并非每单标配；具体检测方案由工程师评审后确认。' },
+      { test: /产业集群|物流覆盖|成熟配套|产业配套|industrial cluster|global logistics|mature supply chain/i, reply: '我会向工程师确认后，通过 sales@eternalcnc.com 回复您。' }
     ];
     function applyGuardrail(text) {
       if (!text) return text;
