@@ -569,13 +569,13 @@ const isZh = lang === 'zh';
       const sb = document.getElementById('submitBtn');
       if (sb) { sb.disabled = on; sb.style.opacity = on ? '0.6' : '1'; sb.textContent = on ? (isZh ? '提交中…' : 'Submitting…') : texts.submit; }
     }
-    function showResult(msg, isError) {
+    function showResult(msg, isError, keepMailto) {
       const ok = document.getElementById('qf-success');
       const msgEl = document.getElementById('qf-success-msg');
       const mailtoActions = document.getElementById('qf-mailto-actions');
       if (!ok) return;
       if (msgEl) msgEl.textContent = msg;
-      if (mailtoActions) mailtoActions.style.display = 'none';
+      if (mailtoActions && !keepMailto) mailtoActions.style.display = 'none';
       ok.classList.remove('hidden');
       if (msgEl) msgEl.style.color = isError ? '#B91C1C' : '#15803D';
     }
@@ -666,7 +666,7 @@ const isZh = lang === 'zh';
 
           showResult(isZh
             ? '已为您生成邮件草稿，请确认邮件内容并附上图纸后发送。'
-            : 'An email draft has been prepared for you. Please review, attach your drawings, and send.', false);
+            : 'An email draft has been prepared for you. Please review, attach your drawings, and send.', false, true);
         }
 
         fetch(API_BASE + '/api/quote', { method: 'POST', body: fd })
