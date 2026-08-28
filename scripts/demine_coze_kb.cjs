@@ -99,6 +99,11 @@ const CASES = [
     required: ['深圳', 'shenzhen'],
   },
   {
+    q: '你们公司的具体地址怎么在苏州？不是说在深圳吗',
+    forbidden: ['苏州', '实际位于苏州', '苏州基地', 'suzhou'],
+    required: ['深圳', 'shenzhen'],
+  },
+  {
     q: 'Where is your factory located?',
     forbidden: ['suzhou', 'jiangsu', 'suzhou'],
     required: ['shenzhen'],
