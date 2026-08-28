@@ -19,6 +19,7 @@
   <!-- 聊天面板 -->
   <div id="ec-panel" class="ec-hidden" role="dialog" aria-label="Chat with EternalCNC Assistant">
     <div id="ec-header">
+      <img src="/images/logo/favicon.png" class="ec-header-logo" alt="EternalCNC" />
       <div class="ec-title">EternalCNC Assistant</div>
       <button id="ec-new" type="button" title="开启新对话">新对话</button>
       <button id="ec-close" type="button" title="关闭" aria-label="Close chat">×</button>
@@ -82,11 +83,20 @@
       border-bottom: 2px solid #8B0000; /* 品牌红点缀：标题下划线 */
       background: #f4f3ee;
     }
-    #ec-title {
+    .ec-title {
       font-weight: 600;
       font-size: 15px;
       flex: 1;
       color: #1a1a1a;
+    }
+    .ec-header-logo {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      object-fit: contain;
+      background: #fff;
+      padding: 2px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
     }
     #ec-header button {
       border: none;
@@ -109,10 +119,15 @@
       flex-direction: column;
       gap: 10px;
     }
+    .ec-msg-wrap { display: flex; align-items: flex-start; gap: 8px; max-width: 100%; }
+    .ec-msg-wrap.user { justify-content: flex-end; }
+    .ec-msg-wrap.bot { justify-content: flex-start; }
+    .ec-msg-wrap.sys { justify-content: center; }
+    .ec-msg-avatar { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1px solid #e7e3da; flex-shrink: 0; margin-top: 2px; }
     .ec-msg { max-width: 85%; padding: 9px 12px; border-radius: 12px; font-size: 14px; line-height: 1.5; word-wrap: break-word; white-space: pre-wrap; }
-    .ec-msg.user { align-self: flex-end; background: #8B0000; color: #fff; border-bottom-right-radius: 4px; }
-    .ec-msg.bot { align-self: flex-start; background: #fff; color: #1a1a1a; border: 1px solid #e7e3da; border-bottom-left-radius: 4px; }
-    .ec-msg.sys { align-self: center; background: #f0e9df; color: #8B0000; font-size: 12px; max-width: 92%; text-align: center; }
+    .ec-msg.user { background: #8B0000; color: #fff; border-bottom-right-radius: 4px; }
+    .ec-msg.bot { background: #fff; color: #1a1a1a; border: 1px solid #e7e3da; border-bottom-left-radius: 4px; }
+    .ec-msg.sys { background: #f0e9df; color: #8B0000; font-size: 12px; max-width: 92%; text-align: center; }
 
     #ec-inputbar {
       display: flex;
@@ -213,18 +228,31 @@
     function scrollBottom() { messages.scrollTop = messages.scrollHeight; }
 
     function addMsg(role, text) {
+      var wrap = document.createElement('div');
+      wrap.className = 'ec-msg-wrap ' + role;
+      if (role === 'bot') {
+        var avatar = document.createElement('img');
+        avatar.src = '/images/chat-avatar.png';
+        avatar.className = 'ec-msg-avatar';
+        avatar.alt = 'Assistant';
+        wrap.appendChild(avatar);
+      }
       var el = document.createElement('div');
       el.className = 'ec-msg ' + role;
       el.textContent = text;
-      messages.appendChild(el);
+      wrap.appendChild(el);
+      messages.appendChild(wrap);
       scrollBottom();
       return el;
     }
     function addSys(text) {
+      var wrap = document.createElement('div');
+      wrap.className = 'ec-msg-wrap sys';
       var el = document.createElement('div');
       el.className = 'ec-msg sys';
       el.textContent = text;
-      messages.appendChild(el);
+      wrap.appendChild(el);
+      messages.appendChild(wrap);
       scrollBottom();
       return el;
     }
