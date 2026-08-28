@@ -619,8 +619,8 @@ const isZh = lang === 'zh';
               form.reset();
               if (fileList) fileList.innerHTML = '';
               uploadedFiles.length = 0;
-            } else if (r.status === 404) {
-              // 后端接口未部署 → 降级 mailto
+            } else if (!r.ok) {
+              // 后端接口未部署或返回错误 → 降级 mailto
               fallbackToMailto();
             } else {
               showResult(isZh ? ('提交失败：' + (j.error || '请稍后重试，或直接发邮件到 sales@eternalcnc.com')) : ('Submission failed: ' + (j.error || 'Please retry later or email sales@eternalcnc.com directly.')), true);
