@@ -226,7 +226,6 @@ function transformStream(cozeResponse) {
 export async function onRequestPost(context) {
   const { request, env } = context;
   const origin = request.headers.get('origin') || '';
-
   // 1. 来源校验
   if (origin && !isOriginAllowed(origin)) {
     return jsonResponse(403, { code: 403, msg: 'Origin not allowed' }, origin);
@@ -242,7 +241,9 @@ export async function onRequestPost(context) {
   const pat = env.COZE_PAT;
   const botId = env.COZE_BOT_ID;
   if (!pat || !botId) {
-    return jsonResponse(500, { code: 500, msg: 'Server configuration error: missing environment variables' }, origin);
+    // 调试：返回环境变量keys，帮助排查
+    const envKeys = Object.keys(env || {});
+    return jsonResponse(500, { code: 500, msg: 'Server configuration error: missing environment variables', debug_env_keys: envKeys }, origin);
   }
 
   // 4. 解析请求体
