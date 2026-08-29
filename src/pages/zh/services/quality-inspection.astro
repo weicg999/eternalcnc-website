@@ -9,7 +9,7 @@ const breadcrumbs = [
 const capabilities = [
   {
     title: '尺寸检测',
-    items: ['三坐标测量', '影像测量', '高度规测量', '螺纹检测'],
+    items: ['三坐标测量（按需）', '影像测量', '高度规测量', '螺纹检测'],
     tolerance: '±0.001mm',
     materials: '各类金属及塑料件',
   },
@@ -35,7 +35,7 @@ const capabilities = [
 
 const standards = [
   { label: '校准', desc: '所有仪器均定期校准并可追溯至国家标准。校准证书可按需提供。' },
-  { label: '检测报告（FAI）', desc: '支持首件全尺寸报告（FAI）及 过程质量管控/GD&T 分析。常规订单提供关键尺寸检验报告及材质证书，深度数据报告可按需定制。' },
+  { label: '检测报告（FAI）', desc: '支持首件全尺寸报告（FAI）及 过程质量管控/GD&T 分析。材质证书（EN 10204 3.1）随常规订单提供；关键尺寸检验报告、深度数据报告及 CMM 三坐标报告可按需提供。' },
   { label: 'AQL抽样', desc: '按照 ISO 2859-1（AQL 2.5）标准进行检验。关键尺寸可进行 100% 检验。' },
   { label: '可追溯性', desc: '支持全批次/单件追溯。每个零件或批次均可追溯到其批次、机器、操作员和检验数据。' },
 ];
@@ -43,7 +43,7 @@ const standards = [
 
 <PageLayout
   title="质量检测服务 | 三坐标测量·无损检测 | Eternal CNC"
-  description="专业质量检测服务，三坐标测量由集团共享计量中心提供（非本厂标配），本厂配备影像测量仪等设备，提供尺寸检测、材料检测、无损检测等全项检测。"
+  description="专业质量检测服务，三坐标测量可按需提供（集团共享计量中心，非本厂标配），本厂配备影像测量仪等设备，提供尺寸检测、材料检测、无损检测等全项检测。"
   breadcrumbs={breadcrumbs}
 >
   <!-- Hero -->
@@ -54,7 +54,7 @@ const standards = [
         质量检测
       </h1>
       <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
-        三坐标测量（集团共享计量中心）、无损检测、材料分析，全流程质量保障。
+        三坐标测量可按需提供（集团共享计量中心）、无损检测、材料分析，全流程质量保障。
       </p>
       <div class="flex flex-wrap gap-4 mt-8">
         <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
