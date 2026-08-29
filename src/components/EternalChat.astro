@@ -1,0 +1,515 @@
+---
+// EternalChat - API 版智能客服组件
+// 自建前端 UI + Cloudflare Pages Function 后端调扣子 Open API
+// 解决 SDK 串聊问题，每个访客独立 user_id
+// 德系极简风：直角，品牌红 #8B0000，无阴影无渐变
+---
+
+<div id="eternal-chat-widget" class="fixed bottom-6 right-6 z-50" style="--brand-red: var(--brand-red, #8B0000);">
+  <!-- 悬浮按钮 -->
+  <button
+    id="eternal-chat-toggle-btn"
+    class="w-14 h-14 text-white flex items-center justify-center transition-all duration-300"
+    style="background-color: var(--brand-red); border-radius: 0;"
+    aria-label="Open AI Chat"
+  >
+    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+    </svg>
+  </button>
+
+  <!-- 聊天面板 -->
+  <div
+    id="eternal-chat-panel"
+    class="hidden absolute bottom-16 right-0 w-80 sm:w-96 bg-white border border-[#E0E0E0] overflow-hidden flex flex-col"
+    style="border-radius: 0; height: 480px; max-height: calc(100vh - 120px);"
+  >
+    <!-- 头部 -->
+    <div class="text-white p-4 flex items-center justify-between flex-shrink-0" style="background-color: #222222;">
+      <div>
+        <h4 class="font-semibold text-sm" id="eternal-chat-title">AI 项目工程师</h4>
+        <p class="text-xs text-gray-400">Eternal CNC · 在线</p>
+      </div>
+      <button id="eternal-chat-close-btn" class="text-white hover:text-gray-300 transition-colors" aria-label="Close chat">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- 消息区域 -->
+    <div
+      id="eternal-chat-messages"
+      class="flex-1 overflow-y-auto p-4 space-y-3"
+      style="background-color: #FAFAFA;"
+    >
+      <!-- 消息动态插入 -->
+    </div>
+
+    <!-- 输入区域 -->
+    <div class="p-3 border-t border-[#E0E0E0] bg-white flex-shrink-0">
+      <div class="flex items-center gap-2">
+        <input
+          id="eternal-chat-input"
+          type="text"
+          placeholder="请输入您的问题..."
+          class="flex-1 text-sm border border-[#E0E0E0] px-4 py-2 focus:outline-none"
+          style="border-radius: 0;"
+          autocomplete="off"
+        />
+        <button
+          id="eternal-chat-send-btn"
+          class="w-9 h-9 text-white flex items-center justify-center transition-colors flex-shrink-0"
+          style="background-color: var(--brand-red); border-radius: 0;"
+          aria-label="Send"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  #eternal-chat-widget .chat-msg {
+    display: flex;
+    max-width: 85%;
+    word-break: break-word;
+    white-space: pre-wrap;
+  }
+  #eternal-chat-widget .chat-msg.user {
+    justify-content: flex-end;
+    margin-left: auto;
+  }
+  #eternal-chat-widget .chat-msg.bot {
+    justify-content: flex-start;
+    margin-right: auto;
+  }
+  #eternal-chat-widget .chat-bubble {
+    padding: 10px 14px;
+    font-size: 14px;
+    line-height: 1.6;
+    border-radius: 0;
+  }
+  #eternal-chat-widget .chat-msg.user .chat-bubble {
+    background-color: var(--brand-red, #8B0000);
+    color: #fff;
+  }
+  #eternal-chat-widget .chat-msg.bot .chat-bubble {
+    background-color: #FFFFFF;
+    color: #222222;
+    border: 1px solid #E0E0E0;
+  }
+
+  /* 加载动画：三个点 */
+  #eternal-chat-widget .typing-dots {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px 0;
+  }
+  #eternal-chat-widget .typing-dots span {
+    width: 8px;
+    height: 8px;
+    background-color: #999;
+    border-radius: 50%;
+    animation: eternal-chat-bounce 1.4s infinite ease-in-out both;
+  }
+  #eternal-chat-widget .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+  #eternal-chat-widget .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+  @keyframes eternal-chat-bounce {
+    0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+    40% { transform: scale(1); opacity: 1; }
+  }
+
+  /* 滚动条样式 */
+  #eternal-chat-messages::-webkit-scrollbar {
+    width: 6px;
+  }
+  #eternal-chat-messages::-webkit-scrollbar-track {
+    background: #F0F0F0;
+  }
+  #eternal-chat-messages::-webkit-scrollbar-thumb {
+    background: #CCC;
+    border-radius: 0;
+  }
+  #eternal-chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #999;
+  }
+
+  /* 光标闪烁（流式输出时） */
+  #eternal-chat-widget .chat-bubble.streaming::after {
+    content: '▊';
+    display: inline-block;
+    margin-left: 2px;
+    animation: eternal-chat-cursor 1s infinite;
+    font-weight: 300;
+    opacity: 0.6;
+  }
+  @keyframes eternal-chat-cursor {
+    0%, 50% { opacity: 0.6; }
+    51%, 100% { opacity: 0; }
+  }
+
+  /* 移动端适配：底部弹窗 */
+  @media (max-width: 640px) {
+    #eternal-chat-widget {
+      bottom: 0;
+      right: 0;
+      left: 0;
+      width: 100%;
+    }
+    #eternal-chat-toggle-btn {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+    }
+    #eternal-chat-panel {
+      position: fixed !important;
+      bottom: 0 !important;
+      right: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 85vh !important;
+      max-height: 85vh !important;
+      border: none;
+      border-top: 1px solid #E0E0E0;
+    }
+  }
+</style>
+
+<script>
+(function() {
+  'use strict';
+
+  // ========== 常量配置 ==========
+  const STORAGE_USER_ID = 'eternal_chat_user_id';
+  const STORAGE_CONVERSATION_ID = 'eternal_chat_conversation_id';
+  const STORAGE_MESSAGES = 'eternal_chat_messages';
+  const STORAGE_HAS_GREETED = 'eternal_chat_has_greeted';
+  const API_ENDPOINT = '/api/chat';
+
+  // 欢迎语（按浏览器语言）
+  function getWelcomeMessage() {
+    const lang = (navigator.language || 'en').toLowerCase();
+    if (lang.startsWith('zh')) {
+      return '您好，我是鑫永恒的项目工程师，请问有什么可以帮您？';
+    }
+    return 'Hello, I am a project engineer from Eternal CNC. How can I help you?';
+  }
+
+  // 占位符文本（按语言）
+  function getPlaceholderText() {
+    const lang = (navigator.language || 'en').toLowerCase();
+    if (lang.startsWith('zh')) {
+      return '请输入您的问题...';
+    }
+    return 'Type your question...';
+  }
+
+  // 生成唯一ID
+  function generateId(prefix) {
+    return prefix + '_' + Date.now().toString(36) + '_' + Math.random().toString(36).substr(2, 9);
+  }
+
+  // 获取或创建 user_id
+  function getUserId() {
+    let userId = localStorage.getItem(STORAGE_USER_ID);
+    if (!userId) {
+      userId = generateId('user');
+      localStorage.setItem(STORAGE_USER_ID, userId);
+    }
+    return userId;
+  }
+
+  // 获取或创建 conversation_id
+  function getConversationId() {
+    let convId = localStorage.getItem(STORAGE_CONVERSATION_ID);
+    if (!convId) {
+      convId = generateId('conv');
+      localStorage.setItem(STORAGE_CONVERSATION_ID, convId);
+    }
+    return convId;
+  }
+
+  // 保存会话历史
+  function saveMessages(messages) {
+    try {
+      localStorage.setItem(STORAGE_MESSAGES, JSON.stringify(messages));
+    } catch (e) {
+      console.warn('Failed to save chat messages:', e);
+    }
+  }
+
+  // 加载会话历史
+  function loadMessages() {
+    try {
+      const raw = localStorage.getItem(STORAGE_MESSAGES);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  // ========== DOM 元素 ==========
+  const widget = document.getElementById('eternal-chat-widget');
+  const toggleBtn = document.getElementById('eternal-chat-toggle-btn');
+  const closeBtn = document.getElementById('eternal-chat-close-btn');
+  const panel = document.getElementById('eternal-chat-panel');
+  const messagesEl = document.getElementById('eternal-chat-messages');
+  const inputEl = document.getElementById('eternal-chat-input');
+  const sendBtn = document.getElementById('eternal-chat-send-btn');
+  const titleEl = document.getElementById('eternal-chat-title');
+
+  if (!widget || !panel) return;
+
+  // 状态
+  let messages = loadMessages();
+  let isStreaming = false;
+  let currentBotMsgEl = null;
+  let currentBotBubbleEl = null;
+  let abortController = null;
+
+  // 设置输入框占位符
+  inputEl.placeholder = getPlaceholderText();
+
+  // 标题语言
+  const isZh = (navigator.language || 'en').toLowerCase().startsWith('zh');
+  titleEl.textContent = isZh ? 'AI 项目工程师' : 'AI Project Engineer';
+
+  // ========== 消息渲染 ==========
+  function scrollToBottom() {
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function createMessageEl(role, content) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'chat-msg ' + role;
+
+    const bubble = document.createElement('div');
+    bubble.className = 'chat-bubble';
+    bubble.textContent = content;
+
+    msgDiv.appendChild(bubble);
+    return { msgDiv, bubble };
+  }
+
+  function createTypingEl() {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'chat-msg bot';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'chat-bubble';
+
+    const dots = document.createElement('div');
+    dots.className = 'typing-dots';
+    dots.innerHTML = '<span></span><span></span><span></span>';
+
+    bubble.appendChild(dots);
+    msgDiv.appendChild(bubble);
+    return { msgDiv, bubble };
+  }
+
+  function renderExistingMessages() {
+    messagesEl.innerHTML = '';
+    messages.forEach(function(msg) {
+      const { msgDiv } = createMessageEl(msg.role, msg.content);
+      messagesEl.appendChild(msgDiv);
+    });
+    scrollToBottom();
+  }
+
+  // ========== 发送消息 ==========
+  function sendMessage() {
+    if (isStreaming) return;
+
+    const text = inputEl.value.trim();
+    if (!text) return;
+
+    inputEl.value = '';
+    inputEl.focus();
+
+    // 添加用户消息
+    messages.push({ role: 'user', content: text });
+    saveMessages(messages);
+
+    const { msgDiv: userMsgEl } = createMessageEl('user', text);
+    messagesEl.appendChild(userMsgEl);
+    scrollToBottom();
+
+    // 显示加载动画
+    const { msgDiv: typingEl, bubble: typingBubble } = createTypingEl();
+    messagesEl.appendChild(typingEl);
+    scrollToBottom();
+
+    isStreaming = true;
+    sendBtn.disabled = true;
+
+    const userId = getUserId();
+    const conversationId = getConversationId();
+
+    abortController = new AbortController();
+
+    // 调用API
+    fetch(API_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: text,
+        user_id: userId,
+        conversation_id: conversationId
+      }),
+      signal: abortController.signal
+    }).then(function(response) {
+      if (!response.ok) {
+        throw new Error('HTTP ' + response.status);
+      }
+
+      // 移除loading，创建bot消息气泡
+      typingEl.remove();
+
+      const { msgDiv: botMsgEl, bubble: botBubble } = createMessageEl('bot', '');
+      botBubble.classList.add('streaming');
+      messagesEl.appendChild(botMsgEl);
+      currentBotMsgEl = botMsgEl;
+      currentBotBubbleEl = botBubble;
+
+      // 处理流式响应
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder('utf-8');
+      let buffer = '';
+      let fullContent = '';
+
+      function readStream() {
+        return reader.read().then(function(result) {
+          if (result.done) {
+            finishStreaming(fullContent);
+            return;
+          }
+
+          buffer += decoder.decode(result.value, { stream: true });
+
+          // 解析SSE事件（按行分割）
+          const lines = buffer.split('\n');
+          buffer = lines.pop() || ''; // 保留不完整的行
+
+          for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (!line) continue;
+            if (line.startsWith('data:')) {
+              const dataStr = line.slice(5).trim();
+              if (dataStr === '[DONE]') {
+                finishStreaming(fullContent);
+                return;
+              }
+              try {
+                const data = JSON.parse(dataStr);
+                // v2格式: { event: 'message', message: { content: '...' } }
+                // v3格式: { event_type: 'conversation.message.delta', data: { content: '...' } }
+                let delta = '';
+                if (data.event === 'message' && data.message && data.message.content) {
+                  delta = data.message.content;
+                } else if (data.event_type === 'conversation.message.delta' && data.data && data.data.content) {
+                  delta = data.data.content;
+                } else if (data.event === 'done' || data.event_type === 'conversation.chat.completed') {
+                  continue;
+                }
+                if (delta) {
+                  fullContent += delta;
+                  currentBotBubbleEl.textContent = fullContent;
+                  scrollToBottom();
+                }
+              } catch (e) {
+                // 忽略解析错误
+              }
+            }
+          }
+
+          return readStream();
+        });
+      }
+
+      return readStream();
+
+    }).catch(function(err) {
+      if (err.name === 'AbortError') return;
+
+      // 移除loading，显示错误
+      if (typingEl.parentNode) {
+        typingEl.remove();
+      }
+      const errorMsg = isZh ? '抱歉，服务暂时不可用，请稍后再试。' : 'Sorry, service is temporarily unavailable. Please try again later.';
+      const { msgDiv: errMsgEl } = createMessageEl('bot', errorMsg);
+      messagesEl.appendChild(errMsgEl);
+      messages.push({ role: 'bot', content: errorMsg });
+      saveMessages(messages);
+      scrollToBottom();
+
+      isStreaming = false;
+      sendBtn.disabled = false;
+    });
+
+    function finishStreaming(content) {
+      if (currentBotBubbleEl) {
+        currentBotBubbleEl.classList.remove('streaming');
+      }
+      if (content) {
+        messages.push({ role: 'bot', content: content });
+        saveMessages(messages);
+      }
+      isStreaming = false;
+      sendBtn.disabled = false;
+      currentBotMsgEl = null;
+      currentBotBubbleEl = null;
+      abortController = null;
+    }
+  }
+
+  // ========== 事件绑定 ==========
+  toggleBtn.addEventListener('click', function() {
+    const isHidden = panel.classList.contains('hidden');
+    if (isHidden) {
+      panel.classList.remove('hidden');
+      // 首次展开：如果没有消息，发送欢迎语
+      if (messages.length === 0) {
+        const welcome = getWelcomeMessage();
+        messages.push({ role: 'bot', content: welcome });
+        saveMessages(messages);
+        renderExistingMessages();
+      } else {
+        renderExistingMessages();
+      }
+      // 延迟聚焦输入框
+      setTimeout(function() { inputEl.focus(); }, 100);
+    } else {
+      panel.classList.add('hidden');
+      if (isStreaming && abortController) {
+        abortController.abort();
+      }
+    }
+  });
+
+  closeBtn.addEventListener('click', function() {
+    panel.classList.add('hidden');
+    if (isStreaming && abortController) {
+      abortController.abort();
+    }
+  });
+
+  sendBtn.addEventListener('click', sendMessage);
+
+  inputEl.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  // 初始化渲染（如果有历史消息）
+  if (messages.length > 0) {
+    // 不立即渲染，等展开时再渲染
+  }
+
+})();
+</script>
