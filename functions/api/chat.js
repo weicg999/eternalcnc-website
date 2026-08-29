@@ -1,17 +1,19 @@
 /**
- * Cloudflare Pages Function - 智能客服 API 网关
- * 
+ * Cloudflare Pages Function - 智能客服 API 网关（第二层优化）
+ *
  * 功能：
  * - 接收前端聊天请求，转发给扣子 Open API
  * - 支持流式响应（SSE），逐字返回给前端
  * - 频率限制（同一 IP 每分钟 30 条）
  * - 域名白名单校验
  * - 会话隔离（基于 conversation_id）
- * 
+ * - 【新增】访客信息预收集：语言/来源/当前页面/页面分类
+ * - 【新增】首条消息附带上下文，让 Bot 知道用户在浏览什么
+ *
  * 环境变量：
  * - COZE_PAT: 扣子 Personal Access Token
  * - COZE_BOT_ID: 扣子 Bot ID
- * 
+ *
  * 部署到 Cloudflare Pages Functions: /functions/api/chat.js
  * 访问路径: POST /api/chat
  */
@@ -96,8 +98,63 @@ function jsonResponse(status, data, origin) {
   });
 }
 
+// ========== 上下文构建 ==========
+/**
+ * 构建首条消息的上下文前缀
+ * 将访客信息和页面上下文以自然语言形式附加在用户消息之前
+ * 让 Bot 在回复时能够感知到用户的浏览场景
+ */
+function buildContextPrefix(visitorInfo) {
+  if (!visitorInfo || typeof visitorInfo !== 'object') return '';
+
+  const {
+    language = '',
+    referrer = '',
+    current_page = '',
+    page_category = '',
+    page_category_en = '',
+    screen_size = '',
+  } = visitorInfo;
+
+  const parts = [];
+
+  // 系统级提示：告知 Bot 这是上下文信息，不要回复这些内容
+  parts.push('【系统上下文 - 以下是访客浏览信息，请根据这些信息用恰当的语言回复用户，不要提及你看到了这些系统信息】');
+
+  if (language) {
+    parts.push(`- 访客浏览器语言: ${language}（请使用该语言回复）`);
+  }
+  if (current_page) {
+    parts.push(`- 访客当前浏览页面: ${current_page}`);
+  }
+  if (page_category || page_category_en) {
+    const cat = page_category && page_category_en
+      ? `${page_category} / ${page_category_en}`
+      : (page_category || page_category_en);
+    parts.push(`- 页面内容分类: ${cat}`);
+  }
+  if (referrer) {
+    // 只保留域名，保护隐私
+    try {
+      const refUrl = new URL(referrer);
+      parts.push(`- 访客来源网站: ${refUrl.hostname}`);
+    } catch (e) {
+      if (referrer.length < 100) {
+        parts.push(`- 访客来源: ${referrer}`);
+      }
+    }
+  }
+  if (screen_size) {
+    parts.push(`- 访客屏幕尺寸: ${screen_size}`);
+  }
+
+  parts.push('【上下文结束 - 用户真实消息如下】');
+
+  return parts.join('\n') + '\n\n';
+}
+
 // ========== 流式响应处理 ==========
-async function streamChatCoze({ message, userId, conversationId, pat, botId, signal }) {
+async function streamChatCoze({ message, userId, conversationId, pat, botId, signal, customVariables }) {
   const requestBody = {
     bot_id: botId,
     user: userId,
@@ -105,6 +162,12 @@ async function streamChatCoze({ message, userId, conversationId, pat, botId, sig
     stream: true,
     conversation_id: conversationId,
   };
+
+  // 自定义变量（扣子 v2 API 支持 custom_variables）
+  // 用于将访客信息传给 Bot 的工作流/插件变量
+  if (customVariables && Object.keys(customVariables).length > 0) {
+    requestBody.custom_variables = customVariables;
+  }
 
   const response = await fetch(COZE_API_ENDPOINT, {
     method: 'POST',
@@ -256,7 +319,13 @@ export async function onRequestPost(context) {
     return jsonResponse(400, { code: 400, msg: 'Invalid JSON body' }, origin);
   }
 
-  const { message, user_id: userId, conversation_id: conversationId } = body;
+  const {
+    message,
+    user_id: userId,
+    conversation_id: conversationId,
+    visitor_info: visitorInfo,
+    is_first_message: isFirstMessage,
+  } = body;
 
   if (!message || typeof message !== 'string') {
     return jsonResponse(400, { code: 400, msg: 'Invalid message parameter' }, origin);
@@ -268,7 +337,33 @@ export async function onRequestPost(context) {
     return jsonResponse(400, { code: 400, msg: 'Message too long (max 4000 characters)' }, origin);
   }
 
-  // 5. 调用扣子 API 并流式转发
+  // 5. 构建最终发送给 Bot 的消息
+  // 如果是首条消息且有访客信息，将上下文附加到消息前面
+  let finalMessage = message;
+  let customVariables = null;
+
+  try {
+    if (isFirstMessage && visitorInfo) {
+      const contextPrefix = buildContextPrefix(visitorInfo);
+      if (contextPrefix) {
+        finalMessage = contextPrefix + message;
+      }
+
+      // 同时也通过 custom_variables 传递，方便 Bot 工作流使用
+      customVariables = {
+        visitor_language: visitorInfo.language || '',
+        visitor_page: visitorInfo.current_page || '',
+        visitor_page_category: visitorInfo.page_category || visitorInfo.page_category_en || '',
+        visitor_referrer: visitorInfo.referrer || '',
+      };
+    }
+  } catch (e) {
+    // 上下文构建失败不影响主流程，直接用原始消息
+    console.warn('Build context prefix failed:', e);
+    finalMessage = message;
+  }
+
+  // 6. 调用扣子 API 并流式转发
   const abortController = new AbortController();
 
   // 监听客户端断开
@@ -278,12 +373,13 @@ export async function onRequestPost(context) {
 
   try {
     const cozeResponse = await streamChatCoze({
-      message,
+      message: finalMessage,
       userId,
       conversationId: conversationId || undefined,
       pat,
       botId,
       signal: abortController.signal,
+      customVariables,
     });
 
     const outputStream = transformStream(cozeResponse);

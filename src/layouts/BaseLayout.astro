@@ -2,28 +2,48 @@
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import EternalChat from '../components/EternalChat.astro';
-// import AIChatWidget from '../components/AIChatWidget.astro'; // SDK版，暂保留
 import SEOHead from '../components/SEOHead.astro';
 
 interface Props {
   title: string;
   description: string;
-  schema?: object;
+  schema?: object | object[];
+  lang?: string;
+  ogImage?: string;
+  alternateUrls?: {
+    en?: string;
+    zh?: string;
+  };
 }
 
-const { title, description, schema } = Astro.props;
+const {
+  title,
+  description,
+  schema,
+  lang = 'en',
+  ogImage,
+  alternateUrls,
+} = Astro.props;
 ---
 
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang={lang} class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#222222" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    <SEOHead {title} {description} schema={schema} />
+    <SEOHead
+      title={title}
+      description={description}
+      schema={schema}
+      lang={lang}
+      ogImage={ogImage}
+      alternateUrls={alternateUrls}
+    />
   </head>
   <body class="font-['Inter',sans-serif] text-gray-800 antialiased bg-white">
     <Navbar />
@@ -32,7 +52,6 @@ const { title, description, schema } = Astro.props;
     </main>
     <Footer />
     <EternalChat />
-    <!-- <AIChatWidget /> --> <!-- SDK版，暂保留 -->
   </body>
 </html>
 

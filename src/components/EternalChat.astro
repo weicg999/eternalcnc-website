@@ -1,16 +1,28 @@
 ---
-// EternalChat - API 版智能客服组件
-// 自建前端 UI + Cloudflare Pages Function 后端调扣子 Open API
-// 解决 SDK 串聊问题，每个访客独立 user_id
+// EternalChat - API 版智能客服组件（第二层优化）
+// 功能：
+// 1. 页面上下文感知 - 根据当前页面动态调整开场白
+// 2. 访客信息预收集 - 语言/来源/当前页自动传给Bot
+// 3. 行为触发 - 30秒停留/滚动到底部/鼠标离开顶部 主动提示
 // 设计风格：简约大气，对话式布局，左右气泡错开，带头像
 ---
 
 <div id="eternal-chat-widget" class="fixed bottom-6 right-6 z-50">
+  <!-- 主动提示气泡 -->
+  <div
+    id="eternal-chat-proactive-bubble"
+    class="proactive-bubble"
+    role="button"
+    aria-label="Open chat"
+  >
+    <span id="eternal-chat-proactive-text"></span>
+  </div>
+
   <!-- 悬浮按钮 -->
   <button
     id="eternal-chat-toggle-btn"
     class="w-14 h-14 text-white flex items-center justify-center transition-all duration-300 hover:scale-105"
-    style="background-color: #8B0000; border-radius: 50%; box-shadow: 0 4px 20px rgba(139, 0, 0, 0.3);"
+    style="background-color: var(--brand-red, #8B0000); border-radius: 50%; box-shadow: 0 4px 20px rgba(139, 0, 0, 0.3);"
     aria-label="Open AI Chat"
   >
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -25,7 +37,7 @@
     style="width: 380px; height: 520px; max-height: calc(100vh - 120px); display: none; position: fixed; bottom: 88px; right: 24px; z-index: 100; border-radius: 16px; box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);"
   >
     <!-- 头部 -->
-    <div class="text-white p-4 flex items-center gap-3 flex-shrink-0" style="background: linear-gradient(135deg, #8B0000 0%, #6B0000 100%); border-radius: 16px 16px 0 0;">
+    <div class="text-white p-4 flex items-center gap-3 flex-shrink-0" style="background: linear-gradient(135deg, var(--brand-red, #8B0000) 0%, var(--brand-red-hover, #6B0000) 100%); border-radius: 16px 16px 0 0;">
       <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -50,7 +62,7 @@
     <div
       id="eternal-chat-messages"
       class="flex-1 overflow-y-auto px-4 py-4 space-y-4"
-      style="background-color: #F8F9FA;"
+      style="background-color: var(--warm-white, #F4F3EE);"
     >
       <!-- 消息动态插入 -->
     </div>
@@ -68,7 +80,7 @@
         <button
           id="eternal-chat-send-btn"
           class="w-8 h-8 text-white flex items-center justify-center transition-all flex-shrink-0 rounded-full hover:scale-105"
-          style="background-color: #8B0000;"
+          style="background-color: var(--brand-red, #8B0000);"
           aria-label="Send"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -81,6 +93,53 @@
 </div>
 
 <style>
+  /* ========== 主动提示气泡 ========== */
+  #eternal-chat-widget .proactive-bubble {
+    position: absolute;
+    right: 70px;
+    bottom: 6px;
+    max-width: 240px;
+    padding: 10px 14px;
+    background-color: #fff;
+    color: #1A202C;
+    font-size: 13px;
+    line-height: 1.5;
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(8px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  #eternal-chat-widget .proactive-bubble.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  #eternal-chat-widget .proactive-bubble::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    bottom: 14px;
+    width: 12px;
+    height: 12px;
+    background-color: #fff;
+    transform: rotate(45deg);
+    border-radius: 2px;
+    box-shadow: 2px -2px 4px rgba(0, 0, 0, 0.04);
+  }
+
+  #eternal-chat-widget .proactive-bubble:hover {
+    transform: translateX(-2px);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+  }
+
   /* ========== 消息气泡基础样式 ========== */
   #eternal-chat-widget .chat-msg {
     display: flex;
@@ -135,7 +194,7 @@
     color: #fff;
   }
   #eternal-chat-widget .chat-msg.user .chat-avatar {
-    background: linear-gradient(135deg, #8B0000, #6B0000);
+    background: linear-gradient(135deg, var(--brand-red, #8B0000), var(--brand-red-hover, #6B0000));
   }
   #eternal-chat-widget .chat-msg.bot .chat-avatar {
     background: linear-gradient(135deg, #4A5568, #2D3748);
@@ -160,7 +219,7 @@
     position: relative;
   }
   #eternal-chat-widget .chat-msg.user .chat-bubble {
-    background-color: #8B0000;
+    background-color: var(--brand-red, #8B0000);
     color: #fff;
     border-bottom-right-radius: 6px;
   }
@@ -248,6 +307,11 @@
     #eternal-chat-widget .chat-bubble {
       max-width: 82%;
     }
+    #eternal-chat-widget .proactive-bubble {
+      right: 70px;
+      bottom: 6px;
+      max-width: 200px;
+    }
   }
 </style>
 
@@ -260,24 +324,135 @@
   const STORAGE_CONVERSATION_ID = 'eternal_chat_conversation_id';
   const STORAGE_MESSAGES = 'eternal_chat_messages';
   const STORAGE_HAS_GREETED = 'eternal_chat_has_greeted';
+  const STORAGE_PROACTIVE_COUNT = 'eternal_chat_proactive_count';
+  const STORAGE_PANEL_OPENED = 'eternal_chat_panel_opened';
   const API_ENDPOINT = '/api/chat';
 
-  // 欢迎语（按浏览器语言）
-  function getWelcomeMessage() {
-    const lang = (navigator.language || 'en').toLowerCase();
-    if (lang.startsWith('zh')) {
-      return '您好，我是鑫永恒的项目工程师，请问有什么可以帮您？';
+  // 行为触发配置
+  const PROACTIVE_CONFIG = {
+    maxTriggers: 2,           // 每会话最多触发次数
+    stayDuration: 30000,      // 停留30秒触发
+    bottomThreshold: 300,     // 距底部300px触发
+    bubbleDuration: 3000,     // 气泡显示时长（毫秒）
+    mouseleaveTopThreshold: 20, // 鼠标离开顶部多少px算离开
+  };
+
+  // ========== 页面上下文感知 ==========
+  function getPageCategory() {
+    try {
+      const pathname = location.pathname.toLowerCase();
+      const categories = [
+        { patterns: ['/milling/', 'milling', '铣削'], label: '铣削加工', labelEn: 'Milling' },
+        { patterns: ['/turning/', 'turning', '车削'], label: '车削加工', labelEn: 'Turning' },
+        { patterns: ['/grinding/', 'grinding', '磨削'], label: '磨削加工', labelEn: 'Grinding' },
+        { patterns: ['/wire-edm/', 'wire', '线切割'], label: '线切割', labelEn: 'Wire EDM' },
+        { patterns: ['/materials/', 'material', '材料'], label: '材料选择', labelEn: 'Materials' },
+        { patterns: ['/about/', 'about', '关于', '公司'], label: '公司介绍', labelEn: 'About Us' },
+        { patterns: ['/contact/', 'contact', '联系'], label: '联系我们', labelEn: 'Contact' },
+      ];
+
+      for (let i = 0; i < categories.length; i++) {
+        const cat = categories[i];
+        for (let j = 0; j < cat.patterns.length; j++) {
+          if (pathname.indexOf(cat.patterns[j]) !== -1) {
+            return cat;
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('getPageCategory error:', e);
     }
-    return 'Hello, I am a project engineer from Eternal CNC. How can I help you?';
+    return null;
+  }
+
+  // 语言检测
+  function isChineseLang() {
+    try {
+      const lang = (navigator.language || 'en').toLowerCase();
+      return lang.indexOf('zh') === 0;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // 欢迎语（结合页面上下文 + 语言）
+  function getWelcomeMessage() {
+    try {
+      const zh = isChineseLang();
+      const pageCat = getPageCategory();
+
+      if (pageCat) {
+        if (zh) {
+          return '看起来您对' + pageCat.label + '感兴趣，有什么零件需要报价吗？';
+        } else {
+          return "It looks like you're interested in " + pageCat.labelEn + ". Do you have any parts that need a quote?";
+        }
+      }
+
+      // 通用问候
+      return zh
+        ? '您好，我是鑫永恒的项目工程师，请问有什么可以帮您？'
+        : 'Hello, I am a project engineer from Eternal CNC. How can I help you?';
+    } catch (e) {
+      return 'Hello, how can I help you?';
+    }
   }
 
   // 占位符文本（按语言）
   function getPlaceholderText() {
-    const lang = (navigator.language || 'en').toLowerCase();
-    if (lang.startsWith('zh')) {
-      return '请输入您的问题...';
+    return isChineseLang() ? '请输入您的问题...' : 'Type your question...';
+  }
+
+  // 主动提示文案（按触发类型 + 语言）
+  function getProactiveMessage(triggerType) {
+    const zh = isChineseLang();
+    const pageCat = getPageCategory();
+    const serviceName = pageCat ? (zh ? pageCat.label : pageCat.labelEn) : '';
+
+    switch (triggerType) {
+      case 'stay':
+        if (zh) {
+          return serviceName
+            ? '对' + serviceName + '有疑问？我可以帮您报价 👋'
+            : '有任何问题都可以问我，随时为您报价 👋';
+        } else {
+          return serviceName
+            ? 'Questions about ' + serviceName + '? I can help quote 👋'
+            : 'Have questions? I can help with quotes 👋';
+        }
+      case 'bottom':
+        if (zh) {
+          return '看完了？聊聊您的项目需求吧 💬';
+        } else {
+          return 'Finished reading? Let us discuss your project 💬';
+        }
+      case 'exit':
+        if (zh) {
+          return '等等！先留下您的需求，我们马上回复您 ⚡';
+        } else {
+          return 'Wait! Leave your requirements, we will reply soon ⚡';
+        }
+      default:
+        return zh ? '有什么可以帮您的吗？' : 'How can I help you?';
     }
-    return 'Type your question...';
+  }
+
+  // ========== 访客信息收集 ==========
+  function getVisitorInfo() {
+    try {
+      const pageCat = getPageCategory();
+      return {
+        language: navigator.language || 'en',
+        referrer: document.referrer || '',
+        current_page: location.pathname + location.search,
+        page_category: pageCat ? pageCat.label : '',
+        page_category_en: pageCat ? pageCat.labelEn : '',
+        user_agent: navigator.userAgent || '',
+        screen_size: (window.screen ? window.screen.width + 'x' + window.screen.height : ''),
+      };
+    } catch (e) {
+      return { language: 'en', referrer: '', current_page: '', page_category: '', page_category_en: '' };
+    }
   }
 
   // 生成唯一ID
@@ -324,6 +499,39 @@
     }
   }
 
+  // 主动触发计数
+  function getProactiveCount() {
+    try {
+      return parseInt(localStorage.getItem(STORAGE_PROACTIVE_COUNT) || '0', 10);
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  function incrementProactiveCount() {
+    try {
+      const count = getProactiveCount() + 1;
+      localStorage.setItem(STORAGE_PROACTIVE_COUNT, String(count));
+      return count;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  function hasOpenedPanel() {
+    try {
+      return localStorage.getItem(STORAGE_PANEL_OPENED) === '1';
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function markPanelOpened() {
+    try {
+      localStorage.setItem(STORAGE_PANEL_OPENED, '1');
+    } catch (e) {}
+  }
+
   // ========== DOM 元素 ==========
   const widget = document.getElementById('eternal-chat-widget');
   const toggleBtn = document.getElementById('eternal-chat-toggle-btn');
@@ -334,6 +542,8 @@
   const sendBtn = document.getElementById('eternal-chat-send-btn');
   const titleEl = document.getElementById('eternal-chat-title');
   const statusEl = document.getElementById('eternal-chat-status');
+  const proactiveBubble = document.getElementById('eternal-chat-proactive-bubble');
+  const proactiveText = document.getElementById('eternal-chat-proactive-text');
 
   if (!widget || !panel) return;
 
@@ -343,25 +553,32 @@
   let currentBotMsgEl = null;
   let currentBotBubbleEl = null;
   let abortController = null;
+  let isFirstMessage = messages.length === 0; // 是否是第一条用户消息
+  let proactiveBubbleTimer = null;
+
+  // 已触发的类型集合（内存级，单页面生命周期内不重复）
+  const triggeredTypes = {};
 
   // 设置输入框占位符
   inputEl.placeholder = getPlaceholderText();
 
   // 标题语言
-  const isZh = (navigator.language || 'en').toLowerCase().startsWith('zh');
-  titleEl.textContent = isZh ? 'AI 项目工程师' : 'AI Project Engineer';
-  statusEl.textContent = isZh ? '在线 · 通常几分钟内回复' : 'Online · Usually replies in minutes';
+  const zh = isChineseLang();
+  titleEl.textContent = zh ? 'AI 项目工程师' : 'AI Project Engineer';
+  statusEl.textContent = zh ? '在线 · 通常几分钟内回复' : 'Online · Usually replies in minutes';
 
   // ========== 消息渲染 ==========
   function scrollToBottom() {
-    messagesEl.scrollTop = messagesEl.scrollHeight;
+    try {
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    } catch (e) {}
   }
 
   // 创建头像文字
   function createAvatarEl(role) {
     const el = document.createElement('div');
     el.style.cssText = 'font-size:12px;font-weight:600;color:#fff;line-height:1;';
-    el.textContent = role === 'user' ? '我' : 'E';
+    el.textContent = role === 'user' ? (zh ? '我' : 'U') : 'E';
     return el;
   }
 
@@ -416,6 +633,55 @@
     scrollToBottom();
   }
 
+  // ========== 主动提示气泡 ==========
+  function showProactiveBubble(message, triggerType) {
+    // 检查：已打开过面板 → 不触发
+    if (hasOpenedPanel()) return false;
+    // 检查：超过最大触发次数 → 不触发
+    if (getProactiveCount() >= PROACTIVE_CONFIG.maxTriggers) return false;
+    // 检查：该类型已触发过 → 不触发
+    if (triggeredTypes[triggerType]) return false;
+    // 检查：气泡当前正在显示 → 不重复显示
+    if (proactiveBubble.classList.contains('show')) return false;
+
+    try {
+      triggeredTypes[triggerType] = true;
+      incrementProactiveCount();
+
+      proactiveText.textContent = message;
+      proactiveBubble.classList.add('show');
+
+      // 3秒后自动消失
+      if (proactiveBubbleTimer) {
+        clearTimeout(proactiveBubbleTimer);
+      }
+      proactiveBubbleTimer = setTimeout(function() {
+        hideProactiveBubble();
+      }, PROACTIVE_CONFIG.bubbleDuration);
+
+      return true;
+    } catch (e) {
+      console.warn('showProactiveBubble error:', e);
+      return false;
+    }
+  }
+
+  function hideProactiveBubble() {
+    try {
+      proactiveBubble.classList.remove('show');
+      if (proactiveBubbleTimer) {
+        clearTimeout(proactiveBubbleTimer);
+        proactiveBubbleTimer = null;
+      }
+    } catch (e) {}
+  }
+
+  // 点击气泡 → 打开聊天面板
+  proactiveBubble.addEventListener('click', function() {
+    hideProactiveBubble();
+    toggleChatPanel(true);
+  });
+
   // ========== 发送消息 ==========
   function sendMessage() {
     if (isStreaming) return;
@@ -447,15 +713,24 @@
 
     abortController = new AbortController();
 
+    // 构建请求体
+    const requestBody = {
+      message: text,
+      user_id: userId,
+      conversation_id: conversationId,
+    };
+
+    // 第一条消息附带访客信息和页面上下文
+    if (isFirstMessage) {
+      requestBody.visitor_info = getVisitorInfo();
+      requestBody.is_first_message = true;
+    }
+
     // 调用API
     fetch(API_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        message: text,
-        user_id: userId,
-        conversation_id: conversationId
-      }),
+      body: JSON.stringify(requestBody),
       signal: abortController.signal
     }).then(function(response) {
       if (!response.ok) {
@@ -535,7 +810,7 @@
       if (typingEl.parentNode) {
         typingEl.remove();
       }
-      const errorMsg = isZh ? '抱歉，服务暂时不可用，请稍后再试。' : 'Sorry, service is temporarily unavailable. Please try again later.';
+      const errorMsg = zh ? '抱歉，服务暂时不可用，请稍后再试。' : 'Sorry, service is temporarily unavailable. Please try again later.';
       const { msgDiv: errMsgEl } = createMessageEl('bot', errorMsg);
       messagesEl.appendChild(errMsgEl);
       messages.push({ role: 'bot', content: errorMsg });
@@ -559,14 +834,21 @@
       currentBotMsgEl = null;
       currentBotBubbleEl = null;
       abortController = null;
+      // 第一条消息发送完成，标记为非首次
+      isFirstMessage = false;
     }
   }
 
-  // ========== 事件绑定 ==========
-  toggleBtn.addEventListener('click', function() {
+  // ========== 聊天面板开关 ==========
+  function toggleChatPanel(forceOpen) {
     const isHidden = panel.style.display === 'none' || panel.style.display === '';
-    if (isHidden) {
+    const shouldOpen = forceOpen === true ? true : (forceOpen === false ? false : isHidden);
+
+    if (shouldOpen) {
       panel.style.display = 'flex';
+      markPanelOpened();
+      hideProactiveBubble();
+
       // 首次展开：如果没有消息，发送欢迎语
       if (messages.length === 0) {
         const welcome = getWelcomeMessage();
@@ -584,13 +866,15 @@
         abortController.abort();
       }
     }
+  }
+
+  // ========== 事件绑定 ==========
+  toggleBtn.addEventListener('click', function() {
+    toggleChatPanel();
   });
 
   closeBtn.addEventListener('click', function() {
-    panel.style.display = 'none';
-    if (isStreaming && abortController) {
-      abortController.abort();
-    }
+    toggleChatPanel(false);
   });
 
   sendBtn.addEventListener('click', sendMessage);
@@ -602,9 +886,64 @@
     }
   });
 
+  // ========== 行为触发逻辑 ==========
+
+  // 1. 停留30秒触发
+  try {
+    setTimeout(function() {
+      const msg = getProactiveMessage('stay');
+      showProactiveBubble(msg, 'stay');
+    }, PROACTIVE_CONFIG.stayDuration);
+  } catch (e) {}
+
+  // 2. 滚动到底部触发
+  try {
+    let bottomTriggered = false;
+    function handleScroll() {
+      if (bottomTriggered) return;
+      if (hasOpenedPanel()) {
+        window.removeEventListener('scroll', handleScroll);
+        return;
+      }
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+      const distanceToBottom = docHeight - scrollTop - windowHeight;
+
+      if (distanceToBottom <= PROACTIVE_CONFIG.bottomThreshold) {
+        bottomTriggered = true;
+        const msg = getProactiveMessage('bottom');
+        showProactiveBubble(msg, 'bottom');
+        window.removeEventListener('scroll', handleScroll);
+      }
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true });
+  } catch (e) {}
+
+  // 3. 鼠标离开顶部（即将关闭标签）触发
+  try {
+    function handleMouseLeave(e) {
+      if (hasOpenedPanel()) {
+        document.removeEventListener('mouseleave', handleMouseLeave);
+        return;
+      }
+      // 只检测从顶部离开（鼠标移向浏览器标签关闭区域）
+      if (e.clientY <= PROACTIVE_CONFIG.mouseleaveTopThreshold) {
+        const msg = getProactiveMessage('exit');
+        const shown = showProactiveBubble(msg, 'exit');
+        if (shown) {
+          // exit 类型只触发一次
+          document.removeEventListener('mouseleave', handleMouseLeave);
+        }
+      }
+    }
+    document.addEventListener('mouseleave', handleMouseLeave);
+  } catch (e) {}
+
   // 初始化渲染（如果有历史消息）
   if (messages.length > 0) {
     // 不立即渲染，等展开时再渲染
+    isFirstMessage = false; // 有历史消息说明不是首次对话
   }
 
 })();
