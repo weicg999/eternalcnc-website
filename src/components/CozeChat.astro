@@ -307,6 +307,21 @@ const COZE_SDK_SRC = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sd
             popupShown = true;
             showHistoryPopup();
           }
+          // 安全网：若聊天窗打开 5s 后仍未渲染出输入框（典型为令牌缺「会话管理」权限导致
+          // SDK 初始化失败），恢复悬浮球并提示走邮件，避免「闪一下就消失」的静默失败。
+          setTimeout(function () {
+            var hasInput = document.querySelector('.eternalcnc-chat-root textarea, [class*="coze-chat-sdk"] textarea, [class*="coze-chat-sdk"] input[type="text"]');
+            if (hasInput) return;
+            if (fab && fab.style.display === 'none') fab.style.display = '';
+            var panel = document.querySelector('.eternalcnc-chat-root') || document.querySelector('[class*="coze-chat-sdk"]');
+            if (panel && !document.getElementById('eternalcnc-chat-fallback')) {
+              var fb = document.createElement('div');
+              fb.id = 'eternalcnc-chat-fallback';
+              fb.style.cssText = 'position:absolute;left:0;right:0;bottom:0;padding:10px 14px;font-size:13px;color:#8B0000;background:#fff;border-top:1px solid #eee;z-index:10;';
+              fb.innerHTML = '客服组件加载异常，请直接邮件 <a href="mailto:sales@eternalcnc.com" style="color:#8B0000;text-decoration:underline;">sales@eternalcnc.com</a>';
+              panel.appendChild(fb);
+            }
+          }, 5000);
         }
 
         // 给 Coze 注入的聊天窗口根容器打标记，便于 CSS 做移动端全屏覆盖
