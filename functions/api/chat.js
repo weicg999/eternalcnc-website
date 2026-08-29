@@ -21,6 +21,10 @@ const COZE_API_ENDPOINT = 'https://api.coze.cn/open_api/v2/chat';
 const RATE_LIMIT_MAX = 30; // 每分钟最多请求数
 const RATE_LIMIT_WINDOW = 60 * 1000; // 时间窗口（毫秒）
 
+// 扣子配置（写死，绕过Cloudflare环境变量读取问题）
+const COZE_PAT = 'pat_rqNvQTy7enkEsB5jFOi8VGYnY4xVe5QT8HbhDDWg1RuUqkEHa7y1egk012SZWfox';
+const COZE_BOT_ID = '7677859860893040694';
+
 // 允许的来源域名
 const ALLOWED_ORIGINS = [
   'https://eternalcnc.com',
@@ -237,13 +241,11 @@ export async function onRequestPost(context) {
     return jsonResponse(429, { code: 429, msg: 'Rate limit exceeded. Please try again later.' }, origin);
   }
 
-  // 3. 环境变量检查
-  const pat = env.COZE_PAT;
-  const botId = env.COZE_BOT_ID;
+  // 3. 环境变量检查（优先读环境变量，fallback到内置常量）
+  const pat = env.COZE_PAT || COZE_PAT;
+  const botId = env.COZE_BOT_ID || COZE_BOT_ID;
   if (!pat || !botId) {
-    // 调试：返回环境变量keys，帮助排查
-    const envKeys = Object.keys(env || {});
-    return jsonResponse(500, { code: 500, msg: 'Server configuration error: missing environment variables', debug_env_keys: envKeys }, origin);
+    return jsonResponse(500, { code: 500, msg: 'Server configuration error: missing environment variables' }, origin);
   }
 
   // 4. 解析请求体
