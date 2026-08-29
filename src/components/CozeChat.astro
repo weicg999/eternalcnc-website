@@ -6,7 +6,9 @@
 // 1. 使用扣子官方 Web SDK（CozeWebSDK.WebChatClient）嵌入聊天窗口，省去自建 UI。
 // 2. bot_id 是公开标识：优先读 import.meta.env.COZE_BOT_ID，缺失时回落到硬编码值，
 //    保证 Cloudflare 构建环境没有注入该变量时聊天仍可用。
-// 3. ⚠️ PAT（账号级访问令牌）绝不进前端：运行时从 Pages Function /chat-token 获取。
+// 3. ⚠️ 令牌绝不进前端：运行时从 Pages Function /chat-token 获取。
+//    /chat-token 默认走 OAuth（JWT Service App，短命、按 Bot 隔离、泄露影响极小）；
+//    未配置 OAuth 变量时自动回落到 PAT。两种模式都对前端只暴露换发后的 token。
 // 4. 7 天匿名身份策略：隔离不同访客会话，杜绝跨访客串聊。
 // 5. 真诚真实兜底（GUARDRAIL）：SDK 把答案渲染进 DOM 后，MutationObserver 扫描 bot
 //    消息气泡，命中违禁表述（错城地址 / ISO 已认证 / 三坐标 in-house / 每单报告等）
@@ -168,7 +170,7 @@ const COZE_SDK_SRC = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sd
           guardTimer = setTimeout(guardBotMessages, 500); // 等流式输出落定再扫
         }
 
-        // ===== 获取令牌后再初始化 SDK（PAT 仅存在于服务端 /chat-token，不进前端源码） =====
+        // ===== 获取令牌后再初始化 SDK（令牌由服务端 /chat-token 签发，绝不进前端源码） =====
         var client = null;
         function bootstrap(token) {
         client = new CozeWebSDK.WebChatClient({
@@ -181,7 +183,14 @@ const COZE_SDK_SRC = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sd
             type: 'token',
             token: token,
             user_id: uid.id, // 关键：每个访客唯一ID，扣子靠这个隔离会话
-            onRefreshToken: function () { return token; }
+            // OAuth token 短命（默认 1h，不可刷新），到期必须重新向 /chat-token 换发。
+            // 重新请求会得到服务端新签发的 JWT 换来的新 access_token。
+            onRefreshToken: function () {
+              return fetch('/chat-token?user_id=' + encodeURIComponent(uid.id))
+                .then(function (r) { return r.json(); })
+                .then(function (data) { return (data && data.token) ? data.token : token; })
+                .catch(function () { return token; });
+            }
           },
           ui: {
             base: {
@@ -346,7 +355,7 @@ const COZE_SDK_SRC = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sd
         markChatRoot();
         } // ===== end bootstrap =====
 
-        // 运行时从 Pages Function 取访问令牌（PAT 仅在服务端环境变量里，不进前端源码）
+        // 运行时从 Pages Function 取访问令牌（OAuth 优先，PAT 回退；令牌仅在服务端签发，不进前端源码）
         fetch('/chat-token?user_id=' + encodeURIComponent(uid.id))
           .then(function (r) { return r.json(); })
           .then(function (data) {
