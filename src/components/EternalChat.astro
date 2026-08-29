@@ -5,7 +5,7 @@
 // 德系极简风：直角，品牌红 #8B0000，无阴影无渐变
 ---
 
-<div id="eternal-chat-widget" class="fixed bottom-6 right-6 z-50" style="--brand-red: var(--brand-red, #8B0000);">
+<div id="eternal-chat-widget" class="fixed bottom-6 right-6 z-50" style="--brand-red: #8B0000;">
   <!-- 悬浮按钮 -->
   <button
     id="eternal-chat-toggle-btn"
@@ -21,8 +21,8 @@
   <!-- 聊天面板 -->
   <div
     id="eternal-chat-panel"
-    class="hidden absolute bottom-16 right-0 w-80 sm:w-96 bg-white border border-[#E0E0E0] overflow-hidden flex flex-col"
-    style="border-radius: 0; height: 480px; max-height: calc(100vh - 120px);"
+    class="w-80 sm:w-96 bg-white border border-[#E0E0E0] overflow-hidden flex flex-col"
+    style="border-radius: 0; height: 480px; max-height: calc(100vh - 120px); display: none; position: fixed; bottom: 88px; right: 24px; z-index: 100;"
   >
     <!-- 头部 -->
     <div class="text-white p-4 flex items-center justify-between flex-shrink-0" style="background-color: #222222;">
@@ -468,9 +468,9 @@
 
   // ========== 事件绑定 ==========
   toggleBtn.addEventListener('click', function() {
-    const isHidden = panel.classList.contains('hidden');
+    const isHidden = panel.style.display === 'none' || panel.style.display === '';
     if (isHidden) {
-      panel.classList.remove('hidden');
+      panel.style.display = 'flex';
       // 首次展开：如果没有消息，发送欢迎语
       if (messages.length === 0) {
         const welcome = getWelcomeMessage();
@@ -483,7 +483,7 @@
       // 延迟聚焦输入框
       setTimeout(function() { inputEl.focus(); }, 100);
     } else {
-      panel.classList.add('hidden');
+      panel.style.display = 'none';
       if (isStreaming && abortController) {
         abortController.abort();
       }
@@ -491,7 +491,7 @@
   });
 
   closeBtn.addEventListener('click', function() {
-    panel.classList.add('hidden');
+    panel.style.display = 'none';
     if (isStreaming && abortController) {
       abortController.abort();
     }
