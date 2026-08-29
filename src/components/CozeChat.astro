@@ -1,467 +1,401 @@
 ---
-// Coze 自建聊天 UI（方案 A：彻底隔离 + PAT 不进前端）
+// Coze (扣子) 智能客服组件 —— SDK 版本（CozeWebSDK.WebChatClient）
+// 英文站与中文站（/zh 路径）均注入；机器人本身多语，可跟随客户语言回复。
 //
 // 设计要点：
-// 1. 不使用 Coze Web SDK，改用 Coze Chat API（/open_api/v1/chat）自建浮球面板。
-// 2. 隔离原理：每个访客在 localStorage 存独立标识 visitor-<uuid> 与 conversation_id，
-//    聊天时连同 user + conversation_id 发给 /api/coze/chat，
-//    Coze 按 user + conversation 天然隔离，不同访客/不同设备互不串聊。
-// 3. PAT 仅存在于服务端 Functions 环境变量，前端只跟同源 /api/coze/* 打交道。
-// 4. 保留品牌色纪律：暖白底 + 黑字 + 品牌红(#8B0000)点缀；红不做大底色。
+// 1. 使用扣子官方 Web SDK（CozeWebSDK.WebChatClient）嵌入聊天窗口，省去自建 UI。
+// 2. bot_id 是公开标识：优先读 import.meta.env.COZE_BOT_ID，缺失时回落到硬编码值，
+//    保证 Cloudflare 构建环境没有注入该变量时聊天仍可用。
+// 3. ⚠️ PAT（账号级访问令牌）绝不进前端：运行时从 Pages Function /chat-token 获取。
+// 4. 7 天匿名身份策略：隔离不同访客会话，杜绝跨访客串聊。
+// 5. 真诚真实兜底（GUARDRAIL）：SDK 把答案渲染进 DOM 后，MutationObserver 扫描 bot
+//    消息气泡，命中违禁表述（错城地址 / ISO 已认证 / 三坐标 in-house / 每单报告等）
+//    则就地替换为诚实口径——补足老 SDK 版无兜底的缺陷。
+
+// bot_id 公开，可注入前端；硬编码回落值避免 Cloudflare 未注入时失效。
+const COZE_BOT_ID = import.meta.env.COZE_BOT_ID || '7677859860893040694';
+
+// SDK 版本来自扣子「安装」页（1.2.0-beta.19，beta 版，留意稳定性）
+const COZE_SDK_SRC = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js';
 ---
 
-<>
-  <!-- 悬浮球 -->
-  <button id="ec-fab" aria-label="Open chat" type="button">
-    <img src="/images/chat-avatar.png" alt="Chat assistant" />
-  </button>
+{(
+  <>
+    <!-- 自定义悬浮球：使用客服头像（女士） -->
+    <button id="coze-custom-fab" aria-label="Open chat">
+      <img src="/images/chat-avatar.png" alt="Chat assistant" />
+    </button>
 
-  <!-- 聊天面板 -->
-  <div id="ec-panel" class="ec-hidden" role="dialog" aria-label="Chat with EternalCNC Assistant">
-    <div id="ec-header">
-      <img src="/images/logo/favicon.png" class="ec-header-logo" alt="EternalCNC" />
-      <div class="ec-title">EternalCNC Assistant</div>
-      <button id="ec-new" type="button" title="开启新对话">新对话</button>
-      <button id="ec-close" type="button" title="关闭" aria-label="Close chat">×</button>
-    </div>
-    <div id="ec-messages" aria-live="polite"></div>
-    <div id="ec-inputbar">
-      <textarea id="ec-input" rows="1" placeholder="输入您的问题，Enter 发送…" aria-label="Message"></textarea>
-      <button id="ec-send" type="button">发送</button>
-    </div>
-    <div id="ec-hint">对话用于售前服务与溯源；共享设备请及时点「新对话」清空。</div>
-  </div>
+    <!-- 扣子 Web SDK -->
+    <script src={COZE_SDK_SRC} is:inline></script>
 
-  <style is:global>
-    /* 悬浮球（复用原样式） */
-    #ec-fab {
-      position: fixed;
-      right: 24px;
-      bottom: 24px;
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      border: 2px solid #fff;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-      cursor: pointer;
-      padding: 0;
-      overflow: hidden;
-      z-index: 10000;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      background: transparent;
-    }
-    #ec-fab:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); }
-    #ec-fab img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    {(COZE_BOT_ID) && (
+      <script is:inline define:vars={{ COZE_BOT_ID }}>
+      (function () {
+        var fab = document.getElementById('coze-custom-fab');
 
-    /* 面板 */
-    #ec-panel {
-      position: fixed;
-      right: 24px;
-      bottom: 96px;
-      width: 380px;
-      max-width: calc(100vw - 32px);
-      height: 600px;
-      max-height: calc(100vh - 120px);
-      background: #fff;
-      border: 1px solid #e7e3da;
-      border-radius: 14px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
-      z-index: 10001;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      font-family: Inter, "Noto Sans SC", Arial, sans-serif;
-      color: #1a1a1a;
-    }
-    #ec-panel.ec-hidden { display: none; }
+        // ===== 会话身份与生命周期策略 =====
+        // - 匿名用户身份存 localStorage（eternalcnc_coze_uid = {id, ts}）
+        // - 同一身份 24h 内：静默续接
+        // - 同一身份 24h~7天：弹窗询问 [继续] / [清空开始新对话]
+        // - 身份变更 / >7天 / 首次：强制丢弃 SDK 旧会话，杜绝跨访客串聊
+        // ⚠️ 关键：Coze SDK 的会话续接绑在它自己的 conversation_id 上（非我们的 user），
+        //    仅改 user 或删 Slardar 键都拦不住，必须调用 newConversation()+clearChatHistory() 真正丢弃。
+        var DAY = 86400000;
+        var RESUME_MS = 1 * DAY;   // 24h 静默续接窗口
+        var RETAIN_MS = 7 * DAY;   // 7天硬上限
+        var UID_KEY = 'eternalcnc_coze_uid';
+        var ACTIVE_KEY = 'eternalcnc_coze_active'; // 当前持有 SDK 会话的身份 id
 
-    #ec-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 14px;
-      border-bottom: 2px solid #8B0000; /* 品牌红点缀：标题下划线 */
-      background: #f4f3ee;
-    }
-    .ec-title {
-      font-weight: 600;
-      font-size: 15px;
-      flex: 1;
-      color: #1a1a1a;
-    }
-    .ec-header-logo {
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
-      object-fit: contain;
-      background: #fff;
-      padding: 2px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-    }
-    #ec-header button {
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      font-size: 13px;
-      color: #555;
-      padding: 4px 8px;
-      border-radius: 6px;
-    }
-    #ec-new:hover { color: #8B0000; }
-    #ec-close { font-size: 20px; line-height: 1; }
-
-    #ec-messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 14px;
-      background: #fbfaf7;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .ec-msg-wrap { display: flex; align-items: flex-start; gap: 8px; max-width: 100%; }
-    .ec-msg-wrap.user { justify-content: flex-end; }
-    .ec-msg-wrap.bot { justify-content: flex-start; }
-    .ec-msg-wrap.sys { justify-content: center; }
-    .ec-msg-avatar { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1px solid #e7e3da; flex-shrink: 0; margin-top: 2px; }
-    .ec-msg { max-width: 85%; padding: 9px 12px; border-radius: 12px; font-size: 14px; line-height: 1.5; word-wrap: break-word; white-space: pre-wrap; }
-    .ec-msg.user { background: #8B0000; color: #fff; border-bottom-right-radius: 4px; }
-    .ec-msg.bot { background: #fff; color: #1a1a1a; border: 1px solid #e7e3da; border-bottom-left-radius: 4px; }
-    .ec-msg.sys { background: #f0e9df; color: #8B0000; font-size: 12px; max-width: 92%; text-align: center; }
-
-    #ec-inputbar {
-      display: flex;
-      gap: 8px;
-      padding: 10px;
-      border-top: 1px solid #e7e3da;
-      background: #fff;
-    }
-    #ec-input {
-      flex: 1;
-      resize: none;
-      border: 1px solid #d8d3c8;
-      border-radius: 8px;
-      padding: 8px 10px;
-      font-size: 14px;
-      font-family: inherit;
-      max-height: 120px;
-      outline: none;
-    }
-    #ec-input:focus { border-color: #8B0000; }
-    #ec-send {
-      border: none;
-      background: #8B0000; /* 品牌红点缀：发送按钮 */
-      color: #fff;
-      border-radius: 8px;
-      padding: 0 16px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-    #ec-send:disabled { opacity: 0.5; cursor: default; }
-    #ec-hint { font-size: 11px; color: #999; padding: 0 14px 10px; background: #fff; text-align: center; }
-
-    .ec-typing::after {
-      content: '…';
-      animation: ecblink 1.2s steps(4, start) infinite;
-    }
-    @keyframes ecblink { to { visibility: hidden; } }
-
-    /* 移动端：面板占满全屏 */
-    @media (max-width: 820px) {
-      #ec-panel {
-        inset: 0 !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        max-width: none !important;
-        max-height: none !important;
-        border-radius: 0 !important;
-        border: none !important;
-      }
-      #ec-fab { right: 16px; bottom: 16px; }
-    }
-  </style>
-
-  <script is:inline>
-  (function () {
-    var STORE_KEY = 'eternalcnc_coze_state';
-    var DAY = 86400000;
-    var RETAIN_MS = 7 * DAY;
-
-    // ---------- 状态（每访客独立） ----------
-    function genId() {
-      var raw = (window.crypto && crypto.randomUUID)
-        ? crypto.randomUUID()
-        : ('u' + Date.now().toString(16) + Math.random().toString(16).slice(2));
-      return 'visitor-' + raw;
-    }
-    function readState() {
-      try { var r = localStorage.getItem(STORE_KEY); if (r) return JSON.parse(r); } catch (e) {}
-      return null;
-    }
-    function writeState(s) {
-      try { localStorage.setItem(STORE_KEY, JSON.stringify(s)); } catch (e) {}
-    }
-    function freshState() {
-      var s = { user: genId(), conversation_id: '', ts: Date.now() };
-      writeState(s);
-      return s;
-    }
-    var state = readState();
-    if (!state || !state.user) state = freshState();
-    if (Date.now() - (state.ts || 0) > RETAIN_MS) {
-      // 超 7 天硬上限：旋转到全新身份 + 新会话
-      state = freshState();
-    }
-
-    // ---------- DOM ----------
-    var fab = document.getElementById('ec-fab');
-    var panel = document.getElementById('ec-panel');
-    var messages = document.getElementById('ec-messages');
-    var input = document.getElementById('ec-input');
-    var sendBtn = document.getElementById('ec-send');
-    var closeBtn = document.getElementById('ec-close');
-    var newBtn = document.getElementById('ec-new');
-
-    var convReady = !!state.conversation_id;
-    var busy = false;
-
-    function scrollBottom() { messages.scrollTop = messages.scrollHeight; }
-
-    function addMsg(role, text) {
-      var wrap = document.createElement('div');
-      wrap.className = 'ec-msg-wrap ' + role;
-      if (role === 'bot') {
-        var avatar = document.createElement('img');
-        avatar.src = '/images/chat-avatar.png';
-        avatar.className = 'ec-msg-avatar';
-        avatar.alt = 'Assistant';
-        wrap.appendChild(avatar);
-      }
-      var el = document.createElement('div');
-      el.className = 'ec-msg ' + role;
-      el.textContent = text;
-      wrap.appendChild(el);
-      messages.appendChild(wrap);
-      scrollBottom();
-      return el;
-    }
-    function addSys(text) {
-      var wrap = document.createElement('div');
-      wrap.className = 'ec-msg-wrap sys';
-      var el = document.createElement('div');
-      el.className = 'ec-msg sys';
-      el.textContent = text;
-      wrap.appendChild(el);
-      messages.appendChild(wrap);
-      scrollBottom();
-      return el;
-    }
-
-    // ---------- 内容安全兜底（后端 KB 未压实时做最后拦截）----------
-    var GUARDRAIL = [
-      // 地址：出现错误城市（含繁体/英文）→ 深圳标准答案；若已含正确地址（unless）则不拦
-      { test: /苏州|江苏省|江蘇|蘇州|东莞|東莞|dongguan|suzhou|jiangsu|guangdong\s*[,-]?\s*dongguan/i,
-        unless: /深圳|松岗|宝安|shenzhen|songgang|baoan/i,
-        reply: '抱歉，上条回复有误。EternalCNC 的生产基地只在中国广东省深圳市宝安区松岗街道（Songgang, Bao\u2019an District, Shenzhen），没有其它生产基地。' },
-      // 地址绕弯/拒答：以保密、内部物流、留资、让工程师确认为由不给地址
-      { test: /(?:specific\s+)?(?:factory|plant|company|production\s+base)\s+address[^.]{0,40}(?:internal|logistics|confirmed\s+(?:customer\s+)?visits?|contact\s+our\s+sales|leave\s+your\s+contact)|address[^.]{0,40}(?:internal logistics|confirmed customer visits)|请联系(?:我们的)?销售.{0,20}(?:地址|详情)|地址.{0,15}(?:保密|内部|不便|联系销售)|留(?:下|取)(?:您的)?(?:联系方式|信息).{0,15}地址|(?:让|需要)(?:工程师|我们).*确认.{0,30}(?:sales@eternalcnc\.com|发邮件|发送到)/i,
-        reply: '我们的工厂位于中国广东省深圳市宝安区松岗街道。\nOur factory is located in Songgang, Bao\u2019an District, Shenzhen, Guangdong Province, China.' },
-      // 地址模糊回避：只说"核心产业带/中国"不报城市 → 深圳标准答案
-      { test: /核心产业带|制造业核心|产业带|in\s+China\.|befindet sich in China|located in China[.,]/i,
-        unless: /深圳|松岗|宝安|shenzhen|songgang|baoan/i,
-        reply: '抱歉，上条回复不完整。我们的生产基地是中国广东省深圳市宝安区松岗街道（Songgang, Bao\u2019an District, Shenzhen, Guangdong, China）。' },
-      { test: /ISO\s*9001.*(?:certified|已通过|已认证|持有|certificate)|(?:certified|已通过|已认证|持有|certificate).*ISO|iso\s*certification/i, reply: '说明：ISO 9001:2015 目前正在办理中（certification in progress），尚未获证。' },
-      { test: /本厂.*(?:三坐标|CMM)|(?:三坐标|CMM).*本厂|in[-\s]?house.*CMM|CMM.*in[-\s]?house|coordinate measuring machine.*in[-\s]?house|每台必检/i, reply: '说明：厂内检测设备为 2.5D 影像测量仪 + 精密量具；桥式三坐标报告可应要求由家族关联企业检测中心提供。' },
-      { test: /参展|参加.*展会|exhibit|exhibition|trade\s*fair|participate.*(?:exhibition|fair|show)|industry\s+(?:exhibition|fair|show)|from time to time.*exhibit/i, reply: '说明：EternalCNC 不参加国内外展会，我们通过数字营销和直接销售服务海外客户。' },
-      // 精度：把"常规/稳定做到/regular/consistently hold"压回"可达 ±0.005"
-      { test: /常规(?:加工)?精度|稳定做到|常规公差|regular\s+tolerance|consistently\s+hold|standard\s+tolerance/i,
-        reply: '说明：我们的加工精度可达 ±0.005mm（铣削）/ ±0.01mm（车削）；实际可达性取决于材料、结构、批量与检测要求，由工程师评审后确认。' },
-      // 报告：把"常规出货随附报告/standard orders 提供报告"压回"按需"
-      { test: /常规出货|standard\s+orders?|随附(?:厂内自检)?.*(?:尺寸)?报告|inspection\s+(?:records?|report).*standard/i,
-        reply: '说明：尺寸报告可应要求提供，并非每单标配；具体检测方案由工程师评审后确认。' },
-      { test: /每单.*(?:全尺寸|报告|检测)|(?:全尺寸|报告|检测).*每单|full.*(?:report|inspection|dimension).*every order|every order.*full.*(?:report|inspection|dimension)|report.*every order/i, reply: '说明：尺寸报告可应要求提供，并非每单标配；具体检测方案由工程师评审后确认。' },
-      { test: /产业集群|物流覆盖|成熟配套|产业配套|industrial cluster|global logistics|mature supply chain/i, reply: '我会向工程师确认后，通过 sales@eternalcnc.com 回复您。' }
-    ];
-    function applyGuardrail(text) {
-      if (!text) return text;
-      for (var i = 0; i < GUARDRAIL.length; i++) {
-        var rule = GUARDRAIL[i];
-        if (!rule.test.test(text)) continue;
-        if (rule.unless && rule.unless.test(text)) continue; // 已含正确表述，不拦
-        console.warn('[CozeGuardrail] hit rule', i, ':', text.slice(0, 80));
-        return rule.reply;
-      }
-      return text;
-    }
-
-    // ---------- 会话准备：打开面板时若没有 conversation_id 则创建 ----------
-    function ensureConversation() {
-      if (convReady) return Promise.resolve(state.conversation_id);
-      return fetch('/api/coze/conversation', { method: 'POST' })
-        .then(function (r) { return r.json(); })
-        .then(function (data) {
-          if (!data || !data.conversation_id) throw new Error(data && data.error ? data.error : 'no conversation_id');
-          state.conversation_id = data.conversation_id;
-          state.ts = Date.now();
-          writeState(state);
-          convReady = true;
-          return state.conversation_id;
-        });
-    }
-
-    // ---------- 流式聊天 ----------
-    function streamChat(query) {
-      busy = true;
-      sendBtn.disabled = true;
-
-      // 前端硬兜底：高频事实问题直接本地回答，避免 bot 胡说
-      var q = (query || '').trim();
-      var addressRe = /^(?:公司|工厂|生产基地|地址|在哪里|在哪|where\s+(?:is|are)|what\s+(?:is|').*\s+address|factory\s+(?:address|location)|company\s+(?:address|location)|location)/i;
-      if (addressRe.test(q)) {
-        var botEl = addMsg('bot', '');
-        botEl.classList.add('ec-typing');
-        setTimeout(function() {
-          botEl.classList.remove('ec-typing');
-          botEl.textContent = '我们的工厂位于中国广东省深圳市宝安区松岗街道。\nOur factory is located in Songgang, Bao\u2019an District, Shenzhen, Guangdong Province, China.';
-          busy = false; sendBtn.disabled = false;
-        }, 350);
-        return;
-      }
-
-      var botEl = addMsg('bot', '');
-      botEl.classList.add('ec-typing');
-      var full = '';
-
-      fetch('/api/coze/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          user: state.user,
-          conversation_id: state.conversation_id,
-          query: query
-        })
-      }).then(function (res) {
-        if (!res.ok || !res.body) {
-          return res.text().then(function (t) { throw new Error(t || ('HTTP ' + res.status)); });
+        function genId() {
+          var raw = (window.crypto && crypto.randomUUID)
+            ? crypto.randomUUID()
+            : ('u' + Date.now().toString(16) + Math.random().toString(16).slice(2));
+          // 前缀 visitor- 便于服务端 /chat-token 校验身份格式
+          return 'visitor-' + raw;
         }
-        var reader = res.body.getReader();
-        var decoder = new TextDecoder();
-        var buf = '';
+        function readUid() {
+          try { var r = localStorage.getItem(UID_KEY); if (r) return JSON.parse(r); } catch (e) {}
+          return null;
+        }
+        function writeUid(obj) {
+          try { localStorage.setItem(UID_KEY, JSON.stringify(obj)); } catch (e) {}
+        }
+        function freshUid() {
+          var o = { id: genId(), ts: Date.now() };
+          writeUid(o);
+          return o;
+        }
 
-        function pump() {
-          return reader.read().then(function (r) {
-            if (r.done) {
-              botEl.classList.remove('ec-typing');
-              botEl.textContent = applyGuardrail(full) || '（暂无回复，请稍后再试）';
-              busy = false; sendBtn.disabled = false;
-              return;
-            }
-            buf += decoder.decode(r.value, { stream: true });
+        var uid = readUid();
+        if (!uid) uid = freshUid();
+        var age = Date.now() - uid.ts;
+        var active = null;
+        try { active = localStorage.getItem(ACTIVE_KEY); } catch (e) {}
 
-            var idx;
-            while ((idx = buf.indexOf('\n\n')) !== -1) {
-              var raw = buf.slice(0, idx);
-              buf = buf.slice(idx + 2);
-              var dataStr = '';
-              raw.split('\n').forEach(function (ln) {
-                if (ln.indexOf('data:') === 0) dataStr += ln.slice(5).replace(/^\s/, '');
-              });
-              // 先取事件名，哪怕 data 为空（如 event:done）
-              var ev = (raw.match(/event:\s*(\S+)/) || [])[1] || '';
-              if (ev === 'done') {
-                botEl.classList.remove('ec-typing');
-                botEl.textContent = applyGuardrail(full) || '（暂无回复，请稍后再试）';
-                busy = false; sendBtn.disabled = false;
-                return;
-              }
-              if (!dataStr) continue;
-              var data;
-              try { data = JSON.parse(dataStr); } catch (e) { continue; }
-              // Coze 错误体（非 SSE 时返回 JSON）
-              if (data && data.code && data.code !== 0) {
-                botEl.classList.remove('ec-typing');
-                botEl.textContent = '（服务暂不可用：' + (data.msg || ('code ' + data.code)) + '）';
-                busy = false; sendBtn.disabled = false;
-                return;
-              }
-              // 取内容：优先 data.message.content（coze.cn 实测格式），兼容 data.content
-              var msg = data && data.message;
-              var content = (msg && typeof msg.content === 'string') ? msg.content
-                : (data && typeof data.content === 'string') ? data.content : '';
-              var msgType = msg && msg.type;
-              var isFinish = msg && msg.is_finish;
-              // 结束标记（最后一条 answer 常带 is_finish:true 且 content 为空）
-              if (isFinish) {
-                botEl.classList.remove('ec-typing');
-                botEl.textContent = applyGuardrail(full) || '（暂无回复，请稍后再试）';
-                busy = false; sendBtn.disabled = false;
-                return;
-              }
-              // 忽略 verbose 等非 answer 内容
-              if (!content || (msgType && msgType !== 'answer')) continue;
-              full += content;
-              botEl.textContent = full;
-              scrollBottom();
+        // 身份与上次持有会话的身份不一致 → 视为不同访客，必须丢弃旧会话
+        var identityChanged = (active !== uid.id);
+
+        var mode; // 'fresh' | 'resume' | 'prompt'
+        if (identityChanged) {
+          mode = 'fresh';            // 不同 ID / 新访客 → 开新会话
+        } else if (age > RETAIN_MS) {
+          mode = 'fresh';            // 同身份但超 7 天 → 丢弃
+        } else if (age < RESUME_MS) {
+          mode = 'resume';           // 同身份 24h 内 → 静默续接
+        } else {
+          mode = 'prompt';           // 同身份 24h~7天 → 弹窗询问
+        }
+
+        // ===== 内容安全兜底（GUARDRAIL）—— 后端 KB 未压实时做最后拦截 =====
+        // 规则在 SDK 把 bot 答案渲染进 DOM 后扫描文本；命中则返回诚实口径替换原文。
+        var GUARDRAIL = [
+          // 地址：出现错误城市（含繁体/英文）→ 深圳标准答案；若已含正确地址则不拦
+          { test: /苏州|江苏省|江蘇|蘇州|东莞|東莞|dongguan|suzhou|jiangsu|guangdong\s*[,-]?\s*dongguan/i,
+            unless: /深圳|松岗|宝安|shenzhen|songgang|baoan/i,
+            reply: '抱歉，上条回复有误。EternalCNC 的生产基地只在中国广东省深圳市宝安区松岗街道（Songgang, Bao’an District, Shenzhen），没有其它生产基地。' },
+          // 地址绕弯/拒答：以保密、内部物流、留资、让工程师确认为由不给地址
+          { test: /(?:specific\s+)?(?:factory|plant|company|production\s+base)\s+address[^.]{0,40}(?:internal|logistics|confirmed\s+(?:customer\s+)?visits?|contact\s+our\s+sales|leave\s+your\s+contact)|address[^.]{0,40}(?:internal logistics|confirmed customer visits)|请联系(?:我们的)?销售.{0,20}(?:地址|详情)|地址.{0,15}(?:保密|内部|不便|联系销售)|留(?:下|取)(?:您的)?(?:联系方式|信息).{0,15}地址|(?:让|需要)(?:工程师|我们).*确认.{0,30}(?:sales@eternalcnc\.com|发邮件|发送到)/i,
+            reply: '我们的工厂位于中国广东省深圳市宝安区松岗街道。\nOur factory is located in Songgang, Bao’an District, Shenzhen, Guangdong Province, China.' },
+          // 地址模糊回避：只说"核心产业带/中国"不报城市 → 深圳标准答案
+          { test: /核心产业带|制造业核心|产业带|in\s+China\.|befindet sich in China|located in China[.,]/i,
+            unless: /深圳|松岗|宝安|shenzhen|songgang|baoan/i,
+            reply: '抱歉，上条回复不完整。我们的生产基地是中国广东省深圳市宝安区松岗街道（Songgang, Bao’an District, Shenzhen, Guangdong, China）。' },
+          { test: /ISO\s*9001.*(?:certified|已通过|已认证|持有|certificate)|(?:certified|已通过|已认证|持有|certificate).*ISO|iso\s*certification/i,
+            reply: '说明：ISO 9001:2015 目前正在办理中（certification in progress），尚未获证。' },
+          { test: /本厂.*(?:三坐标|CMM)|(?:三坐标|CMM).*本厂|in[-\s]?house.*CMM|CMM.*in[-\s]?house|coordinate measuring machine.*in[-\s]?house|每台必检/i,
+            reply: '说明：厂内检测设备为 2.5D 影像测量仪 + 精密量具；桥式三坐标报告可应要求由家族关联企业检测中心提供。' },
+          { test: /参展|参加.*展会|exhibit|exhibition|trade\s*fair|participate.*(?:exhibition|fair|show)|industry\s+(?:exhibition|fair|show)|from time to time.*exhibit/i,
+            reply: '说明：EternalCNC 不参加国内外展会，我们通过数字营销和直接销售服务海外客户。' },
+          // 精度：把"常规/稳定做到/regular/consistently hold"压回"可达 ±0.005"
+          { test: /常规(?:加工)?精度|稳定做到|常规公差|regular\s+tolerance|consistently\s+hold|standard\s+tolerance/i,
+            reply: '说明：我们的加工精度可达 ±0.005mm（铣削）/ ±0.01mm（车削）；实际可达性取决于材料、结构、批量与检测要求，由工程师评审后确认。' },
+          // 报告：把"常规出货随附报告/standard orders 提供报告"压回"按需"
+          { test: /常规出货|standard\s+orders?|随附(?:厂内自检)?.*(?:尺寸)?报告|inspection\s+(?:records?|report).*standard/i,
+            reply: '说明：尺寸报告可应要求提供，并非每单标配；具体检测方案由工程师评审后确认。' },
+          { test: /每单.*(?:全尺寸|报告|检测)|(?:全尺寸|报告|检测).*每单|full.*(?:report|inspection|dimension).*every order|every order.*full.*(?:report|inspection|dimension)|report.*every order/i,
+            reply: '说明：尺寸报告可应要求提供，并非每单标配；具体检测方案由工程师评审后确认。' },
+          { test: /产业集群|物流覆盖|成熟配套|产业配套|industrial cluster|global logistics|mature supply chain/i,
+            reply: '我会向工程师确认后，通过 sales@eternalcnc.com 回复您。' }
+        ];
+        function applyGuardrail(text) {
+          if (!text) return text;
+          for (var i = 0; i < GUARDRAIL.length; i++) {
+            var rule = GUARDRAIL[i];
+            if (!rule.test.test(text)) continue;
+            if (rule.unless && rule.unless.test(text)) continue; // 已含正确表述，不拦
+            console.warn('[CozeGuardrail] hit rule', i, ':', text.slice(0, 80));
+            return rule.reply;
+          }
+          return text;
+        }
+
+        // 在 SDK 渲染的 bot 消息气泡里找到承载文字的节点（最大文本元素，排除头像）
+        function findTextEl(root, avatar) {
+          var cands = root.querySelectorAll('*');
+          var best = null, bestLen = 0;
+          for (var i = 0; i < cands.length; i++) {
+            var el = cands[i];
+            if (el === avatar) continue;
+            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') continue;
+            if (el.querySelector && el.querySelector('img.coze-chat-sdk-semi-avatar-img')) continue;
+            var t = (el.innerText || el.textContent || '').trim();
+            if (t.length > bestLen) { bestLen = t.length; best = el; }
+          }
+          return best;
+        }
+        // 扫描所有 bot 消息气泡，命中违禁表述则就地替换为诚实口径
+        function guardBotMessages() {
+          var avatars = document.querySelectorAll('img.coze-chat-sdk-semi-avatar-img');
+          avatars.forEach(function (av) {
+            var row = av;
+            for (var i = 0; i < 4 && row; i++) row = row.parentElement;
+            if (!row) return;
+            var bubble = findTextEl(row, av);
+            if (!bubble) return;
+            var text = (bubble.innerText || bubble.textContent || '').trim();
+            if (!text) return;
+            var fixed = applyGuardrail(text);
+            if (fixed && fixed !== text) {
+              bubble.textContent = fixed;
+              console.warn('[CozeGuardrail] replaced a bot message with the honest fallback.');
             }
-            return pump();
           });
         }
-        return pump();
-      }).catch(function (err) {
-        botEl.classList.remove('ec-typing');
-        botEl.textContent = '（发送失败：' + (err && err.message ? err.message : err) + '）';
-        busy = false; sendBtn.disabled = false;
-      });
-    }
+        var guardTimer = null;
+        function scheduleGuard() {
+          if (guardTimer) clearTimeout(guardTimer);
+          guardTimer = setTimeout(guardBotMessages, 500); // 等流式输出落定再扫
+        }
 
-    // ---------- 交互 ----------
-    function openPanel() {
-      panel.classList.remove('ec-hidden');
-      if (fab) fab.style.display = 'none';
-      ensureConversation().catch(function (e) {
-        addSys('会话初始化失败：' + (e && e.message ? e.message : e));
-      });
-      setTimeout(function () { input.focus(); }, 50);
-    }
-    function closePanel() {
-      panel.classList.add('ec-hidden');
-      if (fab) fab.style.display = '';
-    }
-    function send() {
-      var q = input.value.trim();
-      if (!q || busy) return;
-      addMsg('user', q);
-      input.value = '';
-      input.style.height = 'auto';
-      ensureConversation().then(function () {
-        streamChat(q);
-      }).catch(function (e) {
-        addSys('无法开始对话：' + (e && e.message ? e.message : e));
-      });
-    }
-    function startNew() {
-      state = freshState();
-      convReady = false;
-      messages.innerHTML = '';
-      addSys('已开启新对话。');
-      ensureConversation().catch(function (e) {
-        addSys('会话初始化失败：' + (e && e.message ? e.message : e));
-      });
-    }
+        // ===== 获取令牌后再初始化 SDK（PAT 仅存在于服务端 /chat-token，不进前端源码） =====
+        var client = null;
+        function bootstrap(token) {
+        client = new CozeWebSDK.WebChatClient({
+          config: { bot_id: COZE_BOT_ID, isIframe: false },
+          componentProps: {
+            title: 'EternalCNC Assistant',
+            icon: '/images/chat-avatar.png' // 尝试设置对话消息里的 Bot 头像
+          },
+          auth: {
+            type: 'token',
+            token: token,
+            user_id: uid.id, // 关键：每个访客唯一ID，扣子靠这个隔离会话
+            onRefreshToken: function () { return token; }
+          },
+          ui: {
+            base: {
+              icon: '/images/logo/favicon.png',
+              layout: 'pc',
+              zIndex: 10000
+            },
+            asstBtn: { isNeed: false }, // 隐藏默认蓝色悬浮球
+            chatBot: {
+              title: 'EternalCNC Assistant',
+              onShow: function () {
+                if (fab) fab.style.display = 'none';
+                onChatOpen();
+              },
+              onHide: function () {
+                if (fab) fab.style.display = '';
+              }
+            }
+          }
+        });
 
-    if (fab) fab.addEventListener('click', openPanel);
-    if (closeBtn) closeBtn.addEventListener('click', closePanel);
-    if (newBtn) newBtn.addEventListener('click', startNew);
-    if (sendBtn) sendBtn.addEventListener('click', send);
-    if (input) {
-      input.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
-      });
-      input.addEventListener('input', function () {
-        input.style.height = 'auto';
-        input.style.height = Math.min(input.scrollHeight, 120) + 'px';
-      });
-    }
-  })();
-  </script>
-</>
+        // ===== 关键修复：丢弃 SDK 自动续接的旧会话（跨访客串聊根因） =====
+        // Coze SDK 会按自己的 conversation_id 自动续接上次的聊天，仅改 user/删键无效，
+        // 必须显式 newConversation()+clearChatHistory() 才能真正清空。
+        var clearedThisLoad = false;
+        function resetConversation() {
+          try { if (client.newConversation) client.newConversation(); } catch (e) {}
+          try { if (client.clearChatHistory) client.clearChatHistory(); } catch (e) {}
+          clearedThisLoad = true;
+          try { localStorage.setItem(ACTIVE_KEY, uid.id); } catch (e) {}
+        }
+        function ensureFresh() {
+          if (clearedThisLoad) return;
+          resetConversation();
+        }
+        if (mode === 'fresh') {
+          // SDK 初始化可能尚未就绪，立即 + 延迟 + 首次打开兜底三保险
+          try { ensureFresh(); } catch (e) {}
+          setTimeout(function () { try { ensureFresh(); } catch (e) {} }, 1200);
+        }
+
+        // 点击自定义悬浮球 → 打开聊天框
+        if (fab) {
+          fab.addEventListener('click', function () { client.showChatBot(); });
+        }
+
+        // 强制把消息气泡里的 Bot 头像换成客服头像（女士）。
+        // 扣子个人版的 componentProps.icon 对消息气泡头像无效，
+        // SDK 用的是 bot 后台图标（class: coze-chat-sdk-semi-avatar-img），这里用 observer 持续覆盖。
+        function forceBotAvatar() {
+          document.querySelectorAll('img.coze-chat-sdk-semi-avatar-img').forEach(function (img) {
+            if (img.getAttribute('src') !== '/images/chat-avatar.png') {
+              img.setAttribute('src', '/images/chat-avatar.png');
+            }
+          });
+        }
+        forceBotAvatar();
+        if (window.MutationObserver) {
+          new MutationObserver(forceBotAvatar).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['src'] });
+        }
+
+        // ===== 新对话 / 清屏 =====
+        // 点击：丢弃当前 SDK 会话（newConversation + clearChatHistory）+ 旋转到全新匿名身份 + 重置 7天计时。
+        function startNewConversation() {
+          resetConversation();        // 丢弃当前 SDK 会话并记 active=当前 uid
+          uid = freshUid();           // 旋转到全新身份
+          try { localStorage.setItem(ACTIVE_KEY, uid.id); } catch (e) {}
+        }
+
+        // ===== 透明提示：输入框下方固定小字 =====
+        function injectFooterHint() {
+          if (document.getElementById('eternalcnc-chat-hint')) return;
+          var panel = document.querySelector('[class*="coze-chat-sdk"]');
+          if (!panel) return;
+          var hint = document.createElement('div');
+          hint.id = 'eternalcnc-chat-hint';
+          hint.innerHTML = '对话仅保存7天（用于服务与溯源），共享设备请及时清空 ' +
+            '<a href="javascript:void(0)" id="eternalcnc-newchat-link" style="color:#8B0000;text-decoration:underline;">[新对话]</a>';
+          hint.style.cssText = 'font-size:12px;color:#888;padding:6px 12px;text-align:center;border-top:1px solid #eee;';
+          panel.appendChild(hint);
+          var link = hint.querySelector('#eternalcnc-newchat-link');
+          if (link) link.addEventListener('click', function (e) { e.preventDefault(); startNewConversation(); });
+        }
+
+        // ===== 固定“新对话”按钮（浮球上方） =====
+        var newBtn = document.createElement('button');
+        newBtn.id = 'coze-newchat-fab';
+        newBtn.textContent = '新对话';
+        newBtn.title = '对话仅保存7天，点击清空并开启新会话';
+        newBtn.style.cssText = 'position:fixed;right:24px;bottom:92px;z-index:10000;background:#8B0000;color:#fff;border:none;border-radius:18px;padding:8px 14px;font-size:13px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.15);';
+        document.body.appendChild(newBtn);
+        newBtn.addEventListener('click', function () { startNewConversation(); });
+
+        // ===== 24h~7天 历史记录弹窗 =====
+        function showHistoryPopup() {
+          if (document.getElementById('eternalcnc-hist-modal')) return;
+          var overlay = document.createElement('div');
+          overlay.id = 'eternalcnc-hist-modal';
+          overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:10001;display:flex;align-items:center;justify-content:center;';
+          overlay.innerHTML = '<div style="background:#fff;border-radius:10px;max-width:340px;padding:24px;font-family:Arial,sans-serif;">' +
+            '<p style="margin:0 0 16px;font-size:15px;line-height:1.5;">检测到历史记录，是否继续上次的对话？</p>' +
+            '<div style="display:flex;gap:12px;justify-content:flex-end;">' +
+            '<button id="hist-continue" style="padding:8px 16px;border:1px solid #8B0000;background:#fff;color:#8B0000;border-radius:6px;cursor:pointer;">继续</button>' +
+            '<button id="hist-clear" style="padding:8px 16px;border:none;background:#8B0000;color:#fff;border-radius:6px;cursor:pointer;">清空开始新对话</button>' +
+            '</div></div>';
+          document.body.appendChild(overlay);
+          overlay.querySelector('#hist-continue').addEventListener('click', function () { overlay.remove(); });
+          overlay.querySelector('#hist-clear').addEventListener('click', function () {
+            overlay.remove();
+            startNewConversation();
+            client.showChatBot();
+          });
+        }
+
+        var popupShown = false;
+        function onChatOpen() {
+          // fresh 模式下，若首开聊天时仍未清屏（client 当时未就绪），在此兜底丢弃旧会话
+          if (mode === 'fresh' && !clearedThisLoad) { try { ensureFresh(); } catch (e) {} }
+          injectFooterHint();
+          markChatRoot();
+          scheduleGuard(); // 打开即扫一次，防历史消息带违禁表述
+          if (mode === 'prompt' && !popupShown) {
+            popupShown = true;
+            showHistoryPopup();
+          }
+        }
+
+        // 给 Coze 注入的聊天窗口根容器打标记，便于 CSS 做移动端全屏覆盖
+        function markChatRoot() {
+          try {
+            var roots = document.querySelectorAll('.coze-chat-sdk:not([class*="coze-chat-sdk-semi"])');
+            for (var i = 0; i < roots.length; i++) {
+              var el = roots[i];
+              var style = window.getComputedStyle(el);
+              // 仅标记固定定位的大容器（排除内部小控件）
+              if (style.position === 'fixed' && !el.classList.contains('eternalcnc-chat-root')) {
+                el.classList.add('eternalcnc-chat-root');
+              }
+            }
+          } catch (e) {}
+        }
+
+        // 聊天容器出现后持续注入提示 + 标记根容器 + 扫描兜底
+        if (window.MutationObserver) {
+          new MutationObserver(function () { injectFooterHint(); markChatRoot(); scheduleGuard(); }).observe(document.body, { childList: true, subtree: true });
+        }
+        markChatRoot();
+        } // ===== end bootstrap =====
+
+        // 运行时从 Pages Function 取访问令牌（PAT 仅在服务端环境变量里，不进前端源码）
+        fetch('/chat-token?user_id=' + encodeURIComponent(uid.id))
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (!data || !data.token) throw new Error('no token returned from /chat-token');
+            bootstrap(data.token);
+          })
+          .catch(function (err) {
+            console.error('[Coze] chat init failed:', err);
+            if (fab) fab.style.display = 'none';
+          });
+      })();
+      </script>
+    )}
+
+    <style is:global>
+      /* 自定义悬浮球样式 */
+      #coze-custom-fab {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        cursor: pointer;
+        padding: 0;
+        overflow: hidden;
+        z-index: 10000;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        background: transparent;
+      }
+      #coze-custom-fab:hover {
+        transform: scale(1.08);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      }
+      #coze-custom-fab img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* 移动端：Coze 聊天窗口占满全屏 */
+      @media (max-width: 640px) {
+        .eternalcnc-chat-root {
+          position: fixed !important;
+          inset: 0 !important;
+          width: 100vw !important;
+          height: 100vh !important;
+          max-width: none !important;
+          max-height: none !important;
+          min-width: auto !important;
+          min-height: auto !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          border-radius: 0 !important;
+          transform: none !important;
+          left: 0 !important;
+          right: 0 !important;
+          top: 0 !important;
+          bottom: 0 !important;
+        }
+      }
+    </style>
+  </>
+)}
