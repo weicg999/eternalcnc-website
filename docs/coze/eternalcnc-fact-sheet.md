@@ -45,7 +45,7 @@
 
 | 项目 | 内容 |
 |------|------|
-| 设备总数 | 30+ 台 CNC 设备（3轴 / 4轴 / 5轴） |
+| 设备总数 | 24 台 CNC 设备（3轴 / 4轴 / 5轴） |
 | 5轴设备 | Sunrise DMU 400（CNC-5AX1S）：HSK-E40 主轴 30,000rpm，定位精度 0.002mm，A ±120° / C 360° |
 | 立加设备 | 台群 T-V1270S（X1270×Y700×Z700mm）、台群 T-V856S（800×550×600mm）、巨冈 CT-80 等 |
 | 最大加工尺寸 | X 1270mm / Y 700mm / Z 700mm；车削最大回转直径 400mm、车削长度 700mm |
@@ -54,7 +54,7 @@
 | 报价速度 | 24 小时内出报价（24h quote turnaround） |
 
 **English:**
-- 30+ CNC machines (3-axis, 4-axis, 5-axis capability).
+- 24 CNC machines (3-axis, 4-axis, 5-axis capability).
 - 5-axis: Sunrise DMU 400, spindle 30,000 rpm, positioning accuracy 0.002mm.
 - Max machining travel: X 1270mm / Y 700mm / Z 700mm; turning max swing Ø400mm, max length 700mm.
 - Micro features down to 0.1mm; batch from 1 to 10,000 pcs; max part weight 25kg.
@@ -120,7 +120,7 @@
 | 厂内日常检测 | 2.5D 影像测量仪 + 精密量具（卡尺、千分尺、螺纹规等） |
 | 桥式三坐标 CMM | **不属于厂内标配设备**；由集团/家族关联企业共享计量中心**按需送检**，产生额外费用 |
 | 首件/抽样 | 首件检测 + 抽样检验（AQL 2.5） |
-| 材料证书 | EN 10204 3.1 材料证书（每批随附） |
+| 材料证书 | EN 10204 3.1 材料证书**按需提供**（on request），并非每单默认随附；厂内保留炉号绑定与批次追溯 |
 | 表面粗糙度 | 轮廓仪测量，可按需提供 Ra 读数 |
 | 尺寸报告 | **按需提供**（Dimensional report on request），不是每单默认标配 |
 | ISO 9001 | **贯标中（in progress），尚未获证**；禁止说 Certified / 已通过 / 已认证 |
@@ -129,7 +129,7 @@
 - In-house daily inspection: 2.5D vision measuring machine + precision gauges (calipers, micrometers, thread gauges).
 - CMM inspection: available on-demand via our group's shared metrology center, at additional cost (not an in-house standard machine).
 - First-article inspection + sampling per AQL 2.5.
-- Material certificates per EN 10204 3.1 with each batch.
+- Material certificates per EN 10204 3.1 available on request (not shipped with every order).
 - Dimensional reports available on request.
 - ISO 9001:2015 certification in progress — NOT yet certified.
 
@@ -165,10 +165,11 @@
 4. 不说 ISO 已认证（只能说贯标中）。
 5. 不编造设备型号、数量、员工人数等（只引用本表/官网数字）。
 6. 不编造展会经历——我们**不参加展会**，通过数字营销和直接销售服务客户。
-7. 不承诺"每单随附尺寸报告"（按需提供）。
+7. 不承诺"每单随附尺寸报告"或"每批随附材料证书"（均按需提供）。
 8. 不出现"东莞/广州/惠州/佛山/苏州"等其他城市作为公司地址。
-9. 军民两用/敏感用途咨询 → 立即转人工。
-10. 知识库/官网没有的信息 → 如实说"需要工程师确认"，引导发 sales@eternalcnc.com，禁止猜测。
+9. 不声称"数字化生产/数字化制造/Digital Manufacturing"——目前仅数字化营销，生产端未达数字化生产。
+10. 军民两用/敏感用途咨询 → 立即转人工。
+11. 知识库/官网没有的信息 → 如实说"需要工程师确认"，引导发 sales@eternalcnc.com，禁止猜测。
 
 ---
 
