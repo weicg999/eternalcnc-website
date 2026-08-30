@@ -8,7 +8,27 @@ import IndustryCards from '../components/IndustryCards.astro';
 import QuoteCTA from '../components/QuoteCTA.astro';
 ---
 
-<BaseLayout title="Eternal CNC – Precision CNC Machining" description="23 years in manufacturing, 15 years in CNC precision machining. 30 machines, ±0.005mm tolerance. Send a drawing, get a quote in 24 hours.">
+<BaseLayout
+  title="Eternal CNC – Precision CNC Machining Factory in Shenzhen"
+  description="Professional CNC machining factory in Shenzhen, China. 20+ machines including 5-axis, milling, turning, grinding and wire EDM. Free DFM review and quote in 1–2 business days. No MOQ."
+  schema={[{
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    serviceType: 'CNC Precision Machining',
+    provider: {
+      '@type': 'Organization',
+      name: 'Eternal CNC Precision Co., Ltd.',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Guangjin Road No.33, Shapu Community, Songgang Street',
+        addressLocality: 'Baoan District, Shenzhen',
+        addressCountry: 'CN',
+      },
+    },
+    areaServed: 'Worldwide',
+    description: 'CNC milling, turning, precision grinding, wire EDM, surface treatment and DFM analysis services',
+  }]}
+>
 
   <!-- 1. HERO -->
   <Hero
