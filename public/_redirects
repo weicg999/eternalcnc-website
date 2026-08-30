@@ -1,3 +1,7 @@
 # Cloudflare Pages _redirects — relative paths only.
 # Apex (eternalcnc.com) -> www (www.eternalcnc.com) redirect is configured
 # in Cloudflare "Custom domains" settings, not here (absolute URLs not allowed).
+
+# SEO: old /about-us to new /about/
+/about-us  /about/  301
+/zh/about-us  /zh/about/  301
