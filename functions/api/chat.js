@@ -1,5 +1,5 @@
 /**
- * Cloudflare Pages Function - 智能客服 API 网关（第二层优化）
+ * Cloudflare Pages Function - 智能客服 API 网关（第三层优化：质量校验 + 自动重试）
  *
  * 功能：
  * - 接收前端聊天请求，转发给扣子 Open API
@@ -7,8 +7,9 @@
  * - 频率限制（同一 IP 每分钟 30 条）
  * - 域名白名单校验
  * - 会话隔离（基于 conversation_id）
- * - 【新增】访客信息预收集：语言/来源/当前页面/页面分类
- * - 【新增】首条消息附带上下文，让 Bot 知道用户在浏览什么
+ * - 访客信息预收集：语言/来源/当前页面/页面分类
+ * - 首条消息附带上下文，让 Bot 知道用户在浏览什么
+ * - 【新增】回复质量校验：语言一致性 + 禁词检测，失败自动重试
  *
  * 环境变量：
  * - COZE_PAT: 扣子 Personal Access Token
@@ -22,6 +23,7 @@
 const COZE_API_ENDPOINT = 'https://api.coze.cn/open_api/v2/chat';
 const RATE_LIMIT_MAX = 30; // 每分钟最多请求数
 const RATE_LIMIT_WINDOW = 60 * 1000; // 时间窗口（毫秒）
+const MAX_RETRY_COUNT = 1; // 质量校验失败最大重试次数
 
 // 扣子配置（写死，绕过Cloudflare环境变量读取问题）
 const COZE_PAT = 'pat_rqNvQTy7enkEsB5jFOi8VGYnY4xVe5QT8HbhDDWg1RuUqkEHa7y1egk012SZWfox';
@@ -37,9 +39,29 @@ const ALLOWED_ORIGINS = [
 // 本地开发环境也允许
 const ALLOWED_LOCAL = /^http:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0):\d+$/;
 
+// ========== 质量校验配置 ==========
+// 禁止出现的句式（中英文都列，检测到就重试）
+const FORBIDDEN_PATTERNS = [
+  // 复读机核心禁句
+  /什么类型的零件/,
+  /what type of (parts|part|components|component)/i,
+  /what kind of (parts|part|components|component)/i,
+  /what (parts|part) do you need/i,
+  /milling parts, turning parts.*combination/i,
+  /铣削件.*车削件.*多种工艺/,
+  // 敏感词铁律
+  /CMM/i,
+  /三坐标/,
+  /SPC/i,
+  /统计过程控制/,
+  /precision aerospace/i,
+  /零累积误差/,
+  // 医疗植入
+  /implant/i,
+  /植入/,
+];
+
 // ========== 频率限制（内存级，单 Worker 实例有效） ==========
-// 注意：Cloudflare Workers 是分布式的，多实例间不共享内存
-// 对于低流量站点，内存级限流足够；如需精确全局限流，可用 KV/ Durable Object
 const rateLimitMap = new Map();
 
 function checkRateLimit(ip) {
@@ -52,7 +74,6 @@ function checkRateLimit(ip) {
     rateLimitMap.set(ip, timestamps);
   }
 
-  // 清理过期时间戳
   timestamps = timestamps.filter(t => t > windowStart);
   rateLimitMap.set(ip, timestamps);
 
@@ -66,7 +87,6 @@ function checkRateLimit(ip) {
 
 // ========== 工具函数 ==========
 function getClientIp(request) {
-  // Cloudflare 提供 CF-Connecting-IP 头
   return request.headers.get('cf-connecting-ip')
     || request.headers.get('x-forwarded-for')?.split(',')[0].trim()
     || 'unknown';
@@ -98,12 +118,69 @@ function jsonResponse(status, data, origin) {
   });
 }
 
-// ========== 上下文构建 ==========
+// ========== 语言检测 ==========
 /**
- * 构建首条消息的上下文前缀
- * 将访客信息和页面上下文以自然语言形式附加在用户消息之前
- * 让 Bot 在回复时能够感知到用户的浏览场景
+ * 检测文本主要语言，返回 'zh' 或 'en'
+ * 基于中文字符占比判断
  */
+function detectLanguage(text) {
+  if (!text) return 'en';
+  const chineseChars = text.match(/[\u4e00-\u9fa5]/g);
+  const chineseCount = chineseChars ? chineseChars.length : 0;
+  const totalChars = text.replace(/\s/g, '').length;
+  if (totalChars === 0) return 'en';
+  // 中文字符占比超过15%认为是中文
+  return (chineseCount / totalChars) > 0.15 ? 'zh' : 'en';
+}
+
+// ========== 质量校验 ==========
+/**
+ * 校验回复质量
+ * @returns {{ valid: boolean, reason: string }}
+ */
+function validateReply(userMessage, replyContent) {
+  if (!replyContent || replyContent.trim().length < 2) {
+    return { valid: false, reason: 'empty_reply' };
+  }
+
+  // 1. 禁词检测
+  for (const pattern of FORBIDDEN_PATTERNS) {
+    if (pattern.test(replyContent)) {
+      return { valid: false, reason: 'forbidden_pattern: ' + pattern.toString().slice(0, 50) };
+    }
+  }
+
+  // 2. 语言一致性检测
+  const userLang = detectLanguage(userMessage);
+  const replyLang = detectLanguage(replyContent);
+  if (userLang !== replyLang) {
+    return { valid: false, reason: `language_mismatch: user=${userLang}, reply=${replyLang}` };
+  }
+
+  return { valid: true, reason: 'ok' };
+}
+
+/**
+ * 生成重试时的强化提示词
+ * 把用户原始消息包裹在强指令里，迫使模型遵守规则
+ */
+function buildRetryMessage(originalMessage, failureReason, userLang) {
+  const langInstruction = userLang === 'zh'
+    ? '【严重警告：你必须用中文回复！绝对不可以说英文！】'
+    : '【CRITICAL: YOU MUST REPLY IN ENGLISH ONLY! DO NOT USE ANY CHINESE!】';
+
+  const forbiddenInstruction = userLang === 'zh'
+    ? '【严重警告：绝对禁止询问"什么类型的零件"、"铣削件还是车削件"这类问题！用户问什么就直接回答什么，不要反问加工类型！】'
+    : '【CRITICAL: NEVER ask "what type of parts", "milling or turning" or similar questions! Answer the user\'s question directly. Do NOT ask about part types!】';
+
+  const directAnswer = userLang === 'zh'
+    ? '【规则：直接回答用户的问题，不要反问，不要引导，不要收集信息。用户问什么答什么。】'
+    : '【RULE: Answer the user\'s question directly. Do NOT ask follow-up questions. Do NOT try to collect information. Just answer what they asked.】';
+
+  return langInstruction + '\n' + forbiddenInstruction + '\n' + directAnswer + '\n\n用户问题：\n' + originalMessage;
+}
+
+// ========== 上下文构建 ==========
 function buildContextPrefix(visitorInfo) {
   if (!visitorInfo || typeof visitorInfo !== 'object') return '';
 
@@ -118,7 +195,6 @@ function buildContextPrefix(visitorInfo) {
 
   const parts = [];
 
-  // 系统级提示：告知 Bot 这是上下文信息，不要回复这些内容
   parts.push('【系统上下文 - 以下是访客浏览信息，请根据这些信息用恰当的语言回复用户，不要提及你看到了这些系统信息】');
 
   if (language) {
@@ -134,7 +210,6 @@ function buildContextPrefix(visitorInfo) {
     parts.push(`- 页面内容分类: ${cat}`);
   }
   if (referrer) {
-    // 只保留域名，保护隐私
     try {
       const refUrl = new URL(referrer);
       parts.push(`- 访客来源网站: ${refUrl.hostname}`);
@@ -153,18 +228,16 @@ function buildContextPrefix(visitorInfo) {
   return parts.join('\n') + '\n\n';
 }
 
-// ========== 流式响应处理 ==========
-async function streamChatCoze({ message, userId, conversationId, pat, botId, signal, customVariables }) {
+// ========== 扣子 API 调用 ==========
+async function callCoze({ message, userId, conversationId, pat, botId, customVariables }) {
   const requestBody = {
     bot_id: botId,
     user: userId,
     query: message,
-    stream: true,
+    stream: false, // 非流式，便于质量校验
     conversation_id: conversationId,
   };
 
-  // 自定义变量（扣子 v2 API 支持 custom_variables）
-  // 用于将访客信息传给 Bot 的工作流/插件变量
   if (customVariables && Object.keys(customVariables).length > 0) {
     requestBody.custom_variables = customVariables;
   }
@@ -174,10 +247,9 @@ async function streamChatCoze({ message, userId, conversationId, pat, botId, sig
     headers: {
       'Authorization': `Bearer ${pat}`,
       'Content-Type': 'application/json',
-      'Accept': 'text/event-stream',
+      'Accept': 'application/json',
     },
     body: JSON.stringify(requestBody),
-    signal,
   });
 
   if (!response.ok) {
@@ -185,105 +257,51 @@ async function streamChatCoze({ message, userId, conversationId, pat, botId, sig
     throw new Error(`Coze API error (${response.status}): ${errorText}`);
   }
 
-  return response;
+  const data = await response.json();
+
+  // 提取回复内容（兼容 v2/v3 格式）
+  let content = '';
+  let newConversationId = conversationId;
+
+  if (data.messages) {
+    // v2 格式
+    const answerMsg = data.messages.find(m => m.type === 'answer' && m.content_type === 'text');
+    if (answerMsg) content = answerMsg.content;
+    if (data.conversation_id) newConversationId = data.conversation_id;
+  } else if (data.data) {
+    // v3 格式
+    if (data.data.content) content = data.data.content;
+    if (data.data.conversation_id) newConversationId = data.data.conversation_id;
+  }
+
+  return { content, conversationId: newConversationId };
 }
 
-// 将 Coze 的 SSE 流转换为我们自己的 SSE 格式返回给前端
-function transformStream(cozeResponse) {
-  const reader = cozeResponse.body.getReader();
-  const decoder = new TextDecoder('utf-8');
+// ========== 流式输出给前端（模拟流式效果） ==========
+function createSseStream(fullContent, conversationId) {
   const encoder = new TextEncoder();
-  let buffer = '';
-  let hasStarted = false;
+  let index = 0;
+  const chunkSize = 3; // 每次输出几个字符，模拟打字效果
 
   const stream = new ReadableStream({
-    async start(controller) {
-      try {
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) {
-            // 发送结束标记
-            controller.enqueue(encoder.encode('data: [DONE]\n\n'));
-            controller.close();
-            break;
-          }
+    start(controller) {
+      // 先发 conversation_id 事件
+      controller.enqueue(encoder.encode(`data: ${JSON.stringify({ event: 'conversation', conversation_id: conversationId })}\n\n`));
 
-          buffer += decoder.decode(value, { stream: true });
-
-          // 按行解析 SSE
-          const lines = buffer.split('\n');
-          buffer = lines.pop() || ''; // 保留不完整行
-
-          for (const line of lines) {
-            const trimmed = line.trim();
-            if (!trimmed) continue;
-
-            // 只处理 data: 行
-            if (trimmed.startsWith('data:')) {
-              const dataStr = trimmed.slice(5).trim();
-              if (!dataStr) continue;
-
-              try {
-                const data = JSON.parse(dataStr);
-
-                // 处理 v2 格式: { event: 'message', message: { content, type, role } }
-                if (data.event === 'message' && data.message) {
-                  if (data.message.type === 'answer' && data.message.content) {
-                    // 提取内容增量
-                    const content = data.message.content;
-                    if (content) {
-                      // 首包标记
-                      if (!hasStarted) {
-                        hasStarted = true;
-                      }
-                      controller.enqueue(encoder.encode(`data: ${JSON.stringify({ event: 'message', message: { content } })}\n\n`));
-                    }
-                  } else if (data.message.type === 'verbose') {
-                    // 多 answer 完成标记，忽略
-                    continue;
-                  }
-                }
-                // v3 格式兼容: { event_type: 'conversation.message.delta', data: { content } }
-                else if (data.event_type === 'conversation.message.delta' && data.data) {
-                  const content = data.data.content;
-                  if (content) {
-                    if (!hasStarted) hasStarted = true;
-                    controller.enqueue(encoder.encode(`data: ${JSON.stringify({ event: 'message', message: { content } })}\n\n`));
-                  }
-                }
-                // v3 完成事件
-                else if (data.event_type === 'conversation.chat.completed' || data.event_type === 'conversation.message.completed') {
-                  continue;
-                }
-                // done 事件
-                else if (data.event === 'done') {
-                  // 稍后在循环结束时统一发 [DONE]
-                  continue;
-                }
-                // error 事件
-                else if (data.event === 'error' || data.event_type?.includes('error')) {
-                  const errorInfo = data.error_information || data.data || {};
-                  controller.enqueue(encoder.encode(`data: ${JSON.stringify({ event: 'error', error: errorInfo })}\n\n`));
-                }
-
-              } catch (e) {
-                // JSON 解析失败，可能是不完整的包，跳过
-                continue;
-              }
-            }
-          }
+      // 按字符拆分输出，模拟流式
+      const interval = setInterval(() => {
+        if (index >= fullContent.length) {
+          clearInterval(interval);
+          controller.enqueue(encoder.encode('data: [DONE]\n\n'));
+          controller.close();
+          return;
         }
-      } catch (err) {
-        console.error('Stream transform error:', err);
-        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ event: 'error', error: { msg: err.message } })}\n\n`));
-        controller.enqueue(encoder.encode('data: [DONE]\n\n'));
-        controller.close();
-      }
-    },
 
-    cancel() {
-      reader.cancel().catch(() => {});
-    }
+        const chunk = fullContent.slice(index, index + chunkSize);
+        index += chunkSize;
+        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ event: 'message', message: { content: chunk } })}\n\n`));
+      }, 30); // 每30ms输出一块
+    },
   });
 
   return stream;
@@ -293,6 +311,7 @@ function transformStream(cozeResponse) {
 export async function onRequestPost(context) {
   const { request, env } = context;
   const origin = request.headers.get('origin') || '';
+
   // 1. 来源校验
   if (origin && !isOriginAllowed(origin)) {
     return jsonResponse(403, { code: 403, msg: 'Origin not allowed' }, origin);
@@ -304,11 +323,11 @@ export async function onRequestPost(context) {
     return jsonResponse(429, { code: 429, msg: 'Rate limit exceeded. Please try again later.' }, origin);
   }
 
-  // 3. 环境变量检查（优先读环境变量，fallback到内置常量）
+  // 3. 环境变量检查
   const pat = env.COZE_PAT || COZE_PAT;
   const botId = env.COZE_BOT_ID || COZE_BOT_ID;
   if (!pat || !botId) {
-    return jsonResponse(500, { code: 500, msg: 'Server configuration error: missing environment variables' }, origin);
+    return jsonResponse(500, { code: 500, msg: 'Server configuration error' }, origin);
   }
 
   // 4. 解析请求体
@@ -334,11 +353,10 @@ export async function onRequestPost(context) {
     return jsonResponse(400, { code: 400, msg: 'Invalid user_id parameter' }, origin);
   }
   if (message.length > 4000) {
-    return jsonResponse(400, { code: 400, msg: 'Message too long (max 4000 characters)' }, origin);
+    return jsonResponse(400, { code: 400, msg: 'Message too long' }, origin);
   }
 
-  // 5. 构建最终发送给 Bot 的消息
-  // 如果是首条消息且有访客信息，将上下文附加到消息前面
+  // 5. 构建最终消息（首条消息加上下文）
   let finalMessage = message;
   let customVariables = null;
 
@@ -348,8 +366,6 @@ export async function onRequestPost(context) {
       if (contextPrefix) {
         finalMessage = contextPrefix + message;
       }
-
-      // 同时也通过 custom_variables 传递，方便 Bot 工作流使用
       customVariables = {
         visitor_language: visitorInfo.language || '',
         visitor_page: visitorInfo.current_page || '',
@@ -358,31 +374,52 @@ export async function onRequestPost(context) {
       };
     }
   } catch (e) {
-    // 上下文构建失败不影响主流程，直接用原始消息
-    console.warn('Build context prefix failed:', e);
     finalMessage = message;
   }
 
-  // 6. 调用扣子 API 并流式转发
-  const abortController = new AbortController();
-
-  // 监听客户端断开
-  request.signal.addEventListener('abort', () => {
-    abortController.abort();
-  });
-
+  // 6. 调用扣子 API + 质量校验 + 自动重试
   try {
-    const cozeResponse = await streamChatCoze({
-      message: finalMessage,
-      userId,
-      conversationId: conversationId || undefined,
-      pat,
-      botId,
-      signal: abortController.signal,
-      customVariables,
-    });
+    let result = null;
+    let currentMessage = finalMessage;
+    let currentConvId = conversationId || undefined;
+    let retryCount = 0;
 
-    const outputStream = transformStream(cozeResponse);
+    while (retryCount <= MAX_RETRY_COUNT) {
+      result = await callCoze({
+        message: currentMessage,
+        userId,
+        conversationId: currentConvId,
+        pat,
+        botId,
+        customVariables: retryCount > 0 ? null : customVariables, // 重试时不传 customVariables 避免干扰
+      });
+
+      // 用用户原始消息做语言校验（去掉上下文前缀）
+      const validation = validateReply(message, result.content);
+
+      if (validation.valid) {
+        break;
+      }
+
+      // 校验失败，准备重试
+      retryCount++;
+      if (retryCount > MAX_RETRY_COUNT) {
+        // 超过最大重试次数，用最后一次的结果（总比报错好）
+        console.warn('Quality check failed after retries:', validation.reason);
+        break;
+      }
+
+      console.log('Quality check failed, retrying:', validation.reason);
+
+      // 构建强化版重试消息
+      const userLang = detectLanguage(message);
+      currentMessage = buildRetryMessage(message, validation.reason, userLang);
+      // 重试时使用新的 conversation_id 避免历史干扰
+      currentConvId = undefined;
+    }
+
+    // 7. 流式输出给前端（模拟打字效果）
+    const outputStream = createSseStream(result.content, result.conversationId);
 
     return new Response(outputStream, {
       status: 200,
