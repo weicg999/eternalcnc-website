@@ -311,6 +311,7 @@ function buildContextPrefix(visitorInfo) {
       langTip += '; please reply in English.';
     }
     parts.push(langTip);
+    parts.push('- 重要指令：不要向访客询问「您想用哪种语言」，也不要声称自己仅支持某几种固定语言；请直接以上述访客语言偏好回复（若为粵語则用广东话口语，繁简皆可）。支持多语言是默认能力，无需访客手动选择。');
   }
   if (current_page) parts.push(`- 访客当前浏览页面: ${current_page}`);
   if (page_category || page_category_en) {
