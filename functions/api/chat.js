@@ -291,7 +291,27 @@ function buildContextPrefix(visitorInfo) {
 
   const parts = [];
   parts.push('【系统上下文 - 以下是访客浏览信息，请根据这些信息用恰当的语言回复用户，不要提及你看到了这些系统信息】');
-  if (language) parts.push(`- 访客浏览器语言: ${language}（请使用该语言回复）`);
+  if (language) {
+    const langMap = {
+      'yue': '粵語（广东话/香港话）',
+      'zh-hk': '粵語（广东话/香港话）',
+      'zh-mo': '粵語（广东话/香港话）',
+      'zh-tw': '繁體中文',
+      'zh-cn': '简体中文',
+      'zh': '简体中文',
+      'en': 'English',
+    };
+    const langLabel = langMap[language.toLowerCase()] || language;
+    let langTip = `- 访客语言偏好: ${langLabel}（请务必使用该语言回复）`;
+    if (langLabel.indexOf('粵語') === 0) {
+      langTip += '；请使用粵語（广东话）口语化回复，繁简皆可，避免书面普通话。';
+    } else if (langLabel === '简体中文') {
+      langTip += '；请使用简体中文回复。';
+    } else if (langLabel === 'English') {
+      langTip += '; please reply in English.';
+    }
+    parts.push(langTip);
+  }
   if (current_page) parts.push(`- 访客当前浏览页面: ${current_page}`);
   if (page_category || page_category_en) {
     const cat = page_category && page_category_en
@@ -392,7 +412,7 @@ function buildCustomerProfileContext(profile, lang) {
 
   if (!hasInfo) return '';
 
-  const isZh = lang === 'zh';
+  const isZh = (lang === 'zh' || lang === 'yue' || (typeof lang === 'string' && lang.indexOf('zh') === 0));
   const lines = [];
 
   if (isZh) {
@@ -495,7 +515,7 @@ function shouldExtractInfo(userMessage, botReply, profile) {
  * 发给同一个Bot，让它从对话中提取结构化信息更新档案
  */
 function buildExtractionPrompt(userMessage, botReply, profile, lang) {
-  const isZh = lang === 'zh';
+  const isZh = (lang === 'zh' || lang === 'yue' || (typeof lang === 'string' && lang.indexOf('zh') === 0));
   const currentProfileJson = JSON.stringify(profile, null, 2);
 
   if (isZh) {

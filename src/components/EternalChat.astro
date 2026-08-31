@@ -52,6 +52,12 @@
           <span id="eternal-chat-status">在线 · 通常几分钟内回复</span>
         </p>
       </div>
+      <!-- 语言切换 -->
+      <div class="flex items-center gap-1 mr-1" id="eternal-chat-lang-switch">
+        <button type="button" data-lang="zh-CN" class="chat-lang-btn" aria-label="简体中文">简</button>
+        <button type="button" data-lang="yue" class="chat-lang-btn" aria-label="粵語">粵</button>
+        <button type="button" data-lang="en" class="chat-lang-btn" aria-label="English">EN</button>
+      </div>
       <div class="flex items-center gap-1">
         <button id="eternal-chat-minimize-btn" class="text-white/70 hover:text-white transition-colors w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10" aria-label="Minimize chat">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -113,6 +119,29 @@
 </div>
 
 <style is:global>
+  /* ========== 语言切换按钮 ========== */
+  #eternal-chat-widget .chat-lang-btn {
+    font-size: 11px;
+    line-height: 1;
+    padding: 3px 7px;
+    border-radius: 9999px;
+    color: rgba(255, 255, 255, 0.7);
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+  }
+  #eternal-chat-widget .chat-lang-btn:hover {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+  #eternal-chat-widget .chat-lang-btn.active {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.22);
+    border-color: rgba(255, 255, 255, 0.55);
+  }
+
   /* ========== 主动提示气泡 ========== */
   #eternal-chat-widget .proactive-bubble {
     position: absolute;
@@ -544,34 +573,58 @@
     return null;
   }
 
-  // 语言检测
-  function isChineseLang() {
+  // ========== 语言状态：'zh-CN' 简体中文 / 'yue' 粵語 / 'en' 英文 ==========
+  function detectInitialLang() {
     try {
-      const lang = (navigator.language || 'en').toLowerCase();
-      return lang.indexOf('zh') === 0;
-    } catch (e) {
-      return false;
+      const saved = localStorage.getItem('xyh.chatLang');
+      if (saved === 'zh-CN' || saved === 'yue' || saved === 'en') return saved;
+    } catch (e) {}
+    const nav = (navigator.language || 'en').toLowerCase();
+    if (nav === 'zh-hk' || nav === 'zh-mo' || nav.indexOf('yue') === 0) return 'yue';
+    if (nav.indexOf('zh') === 0) return 'zh-CN';
+    return 'en';
+  }
+  let currentLang = detectInitialLang();
+  function getLang() { return currentLang; }
+  // 兼容旧逻辑：中文（简体或粵語）返回 true
+  function isChineseLang() {
+    return currentLang !== 'en';
+  }
+
+  // 按当前语言刷新界面文案 + 切换器高亮
+  function applyLang() {
+    const lang = getLang();
+    if (typeof inputEl !== 'undefined' && inputEl) inputEl.placeholder = getPlaceholderText();
+    if (typeof titleEl !== 'undefined' && titleEl) titleEl.textContent = lang === 'en' ? 'AI Project Engineer' : (lang === 'yue' ? 'AI 項目工程師' : 'AI 项目工程师');
+    if (typeof statusEl !== 'undefined' && statusEl) statusEl.textContent = lang === 'en' ? 'Online · Usually replies in minutes' : (lang === 'yue' ? '在線 · 通常幾分鐘內回覆' : '在线 · 通常几分钟内回复');
+    if (typeof renderFaqButtons === 'function') renderFaqButtons();
+    const btns = document.querySelectorAll('#eternal-chat-lang-switch .chat-lang-btn');
+    for (let i = 0; i < btns.length; i++) {
+      if (btns[i].getAttribute('data-lang') === lang) btns[i].classList.add('active');
+      else btns[i].classList.remove('active');
     }
   }
 
   // 欢迎语（结合页面上下文 + 语言）
   function getWelcomeMessage() {
     try {
-      const zh = isChineseLang();
+      const lang = getLang();
       const pageCat = getPageCategory();
 
       if (pageCat) {
-        if (zh) {
-          return '看起来您对' + pageCat.label + '感兴趣，有什么零件需要报价吗？';
-        } else {
+        if (lang === 'en') {
           return "It looks like you're interested in " + pageCat.labelEn + ". Do you have any parts that need a quote?";
         }
+        if (lang === 'yue') {
+          return '睇吓你對 ' + pageCat.label + ' 有興趣，有冇零件需要報價呀？';
+        }
+        return '看起来您对' + pageCat.label + '感兴趣，有什么零件需要报价吗？';
       }
 
       // 通用问候
-      return zh
-        ? '您好，我是鑫永恒的项目工程师，请问有什么可以帮您？'
-        : 'Hello, I am a project engineer from Eternal CNC. How can I help you?';
+      if (lang === 'en') return 'Hello, I am a project engineer from Eternal CNC. How can I help you?';
+      if (lang === 'yue') return '你好，我係鑫永恆嘅項目工程師，有咩可以幫到你？';
+      return '您好，我是鑫永恒的项目工程师，请问有什么可以帮您？';
     } catch (e) {
       return 'Hello, how can I help you?';
     }
@@ -579,80 +632,92 @@
 
   // 占位符文本（按语言）
   function getPlaceholderText() {
-    return isChineseLang() ? '请输入您的问题...' : 'Type your question...';
+    const lang = getLang();
+    if (lang === 'en') return 'Type your question...';
+    if (lang === 'yue') return '輸入你嘅問題...';
+    return '请输入您的问题...';
   }
 
   // 主动提示文案（按触发类型 + 语言）
   function getProactiveMessage(triggerType) {
-    const zh = isChineseLang();
+    const lang = getLang();
     const pageCat = getPageCategory();
-    const serviceName = pageCat ? (zh ? pageCat.label : pageCat.labelEn) : '';
+    const serviceName = pageCat ? (lang === 'en' ? pageCat.labelEn : pageCat.label) : '';
 
     switch (triggerType) {
       case 'stay':
-        if (zh) {
-          return serviceName
-            ? '对' + serviceName + '有疑问？我可以帮您报价 👋'
-            : '有任何问题都可以问我，随时为您报价 👋';
-        } else {
-          return serviceName
-            ? 'Questions about ' + serviceName + '? I can help quote 👋'
-            : 'Have questions? I can help with quotes 👋';
+        if (lang === 'en') {
+          return serviceName ? 'Questions about ' + serviceName + '? I can help quote 👋' : 'Have questions? I can help with quotes 👋';
         }
+        if (lang === 'yue') {
+          return serviceName ? '對 ' + serviceName + ' 有疑問？我幫你報價 👋' : '有咩問題都可以問我，隨時幫你報價 👋';
+        }
+        return serviceName ? '对' + serviceName + '有疑问？我可以帮您报价 👋' : '有任何问题都可以问我，随时为您报价 👋';
       case 'bottom':
-        if (zh) {
-          return '看完了？聊聊您的项目需求吧 💬';
-        } else {
-          return 'Finished reading? Let us discuss your project 💬';
-        }
+        if (lang === 'en') return 'Finished reading? Let us discuss your project 💬';
+        if (lang === 'yue') return '睇完喇？傾下你嘅項目需求啦 💬';
+        return '看完了？聊聊您的项目需求吧 💬';
       case 'exit':
-        if (zh) {
-          return '等等！先留下您的需求，我们马上回复您 ⚡';
-        } else {
-          return 'Wait! Leave your requirements, we will reply soon ⚡';
-        }
+        if (lang === 'en') return 'Wait! Leave your requirements, we will reply soon ⚡';
+        if (lang === 'yue') return '等等！先留低你嘅需求，我哋即刻回覆你 ⚡';
+        return '等等！先留下您的需求，我们马上回复您 ⚡';
       default:
-        return zh ? '有什么可以帮您的吗？' : 'How can I help you?';
+        if (lang === 'en') return 'How can I help you?';
+        if (lang === 'yue') return '有咩可以幫你？';
+        return '有什么可以帮您的吗？';
     }
   }
 
   // FAQ快捷问题
   function getFaqQuestions() {
-    const zh = isChineseLang();
-    if (zh) {
-      return ['获取报价', '能加工哪些材料？', '加工精度是多少？', '提供哪些服务？'];
-    }
-    return ['Get a quote', 'What materials do you work with?', "What's your tolerance?", 'What services do you offer?'];
+    const lang = getLang();
+    if (lang === 'en') return ['Get a quote', 'What materials do you work with?', "What's your tolerance?", 'What services do you offer?'];
+    if (lang === 'yue') return ['獲取報價', '可以加工咩材料？', '加工精度幾多？', '提供咩服務？'];
+    return ['获取报价', '能加工哪些材料？', '加工精度是多少？', '提供哪些服务？'];
   }
 
   // 转人工表单文案
   function getHumanFormTexts() {
-    const zh = isChineseLang();
-    if (zh) {
+    const lang = getLang();
+    if (lang === 'en') {
       return {
-        title: '转人工',
-        emailLabel: '您的邮箱',
+        title: 'Talk to human',
+        emailLabel: 'Your email',
         emailPlaceholder: 'example@email.com',
-        descLabel: '请描述您的需求',
-        descPlaceholder: '简单描述您的项目需求...',
+        descLabel: 'Describe your needs',
+        descPlaceholder: 'Briefly describe your project needs...',
+        submit: 'Submit',
+        success: "Received, we'll contact you within 1 business day",
+      };
+    }
+    if (lang === 'yue') {
+      return {
+        title: '轉人工',
+        emailLabel: '你嘅郵箱',
+        emailPlaceholder: 'example@email.com',
+        descLabel: '請描述你嘅需求',
+        descPlaceholder: '簡單描述你嘅項目需求...',
         submit: '提交',
-        success: '已收到，我们会在1个工作日内联系您',
+        success: '已收到，我哋會喺 1 個工作日内聯絡你',
       };
     }
     return {
-      title: 'Talk to human',
-      emailLabel: 'Your email',
+      title: '转人工',
+      emailLabel: '您的邮箱',
       emailPlaceholder: 'example@email.com',
-      descLabel: 'Describe your needs',
-      descPlaceholder: 'Briefly describe your project needs...',
-      submit: 'Submit',
-      success: "Received, we'll contact you within 1 business day",
+      descLabel: '请描述您的需求',
+      descPlaceholder: '简单描述您的项目需求...',
+      submit: '提交',
+      success: '已收到，我们会在1个工作日内联系您',
     };
   }
 
   // typing 提示文字
   function getTypingText() {
-    return isChineseLang() ? '工程师正在输入...' : 'Engineer is typing...';
+    const lang = getLang();
+    if (lang === 'en') return 'Engineer is typing...';
+    if (lang === 'yue') return '工程師正在輸入...';
+    return '工程师正在输入...';
   }
 
   // ========== 访客信息收集 ==========
@@ -660,7 +725,7 @@
     try {
       const pageCat = getPageCategory();
       return {
-        language: navigator.language || 'en',
+        language: getLang(),
         referrer: document.referrer || '',
         current_page: location.pathname + location.search,
         page_category: pageCat ? pageCat.label : '',
@@ -781,13 +846,8 @@
   // 已触发的类型集合（内存级，单页面生命周期内不重复）
   const triggeredTypes = {};
 
-  // 设置输入框占位符
-  inputEl.placeholder = getPlaceholderText();
-
-  // 标题语言
-  const zh = isChineseLang();
-  titleEl.textContent = zh ? 'AI 项目工程师' : 'AI Project Engineer';
-  statusEl.textContent = zh ? '在线 · 通常几分钟内回复' : 'Online · Usually replies in minutes';
+  // 按当前语言初始化界面文案 + 切换器高亮
+  applyLang();
 
   // ========== 消息渲染 ==========
   function scrollToBottom() {
@@ -1338,6 +1398,18 @@
   }
 
   sendBtn.addEventListener('click', sendMessage);
+
+  // 语言切换
+  const langBtns = document.querySelectorAll('#eternal-chat-lang-switch .chat-lang-btn');
+  for (let i = 0; i < langBtns.length; i++) {
+    langBtns[i].addEventListener('click', function() {
+      const newLang = this.getAttribute('data-lang');
+      if (!newLang) return;
+      currentLang = newLang;
+      try { localStorage.setItem('xyh.chatLang', newLang); } catch (e) {}
+      applyLang();
+    });
+  }
 
   inputEl.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && !e.shiftKey) {
