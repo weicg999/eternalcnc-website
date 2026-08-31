@@ -21,7 +21,7 @@ const faqs = [
   },
   {
     q: '标准交期是多长？',
-    a: '标准交期为 7–15 个工作日，具体取决于复杂度和数量。可接受加急订单 — 如有紧急需求请联系我们。'
+    a: '打样：3–5 个工作日。小批量：7–10 个工作日。量产：15–25 个工作日。可接受加急订单 — 如有紧急需求请联系我们。'
   },
   {
     q: '出货时是否附带检测报告？',
@@ -49,6 +49,20 @@ const faqs = [
   },
 ];
 
+// FAQPage 结构化数据（与英文版对齐，便于中文搜索引擎 / GEO 收录）
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.a,
+    },
+  })),
+};
+
 const standards = [
   { label: '快速响应', desc: '工作日 24 小时内回复所有技术咨询，复杂问题 48 小时内给出详细方案。' },
   { label: '透明报价', desc: '报价单包含材料费、加工费、表面处理费及运费明细，无隐藏费用。' },
@@ -61,6 +75,7 @@ const standards = [
   title="常见问题 | CNC加工MOQ·报价·交期·材料·公差 | Eternal CNC"
   description="关于 Eternal CNC 加工服务的常见问题：起订量、报价格式、交期、检测报告、材料、公差、表面处理、工厂参观等。"
   breadcrumbs={breadcrumbs}
+  schema={faqSchema}
 >
   <!-- Hero -->
   <section style="background-color: var(--card-white); padding: 80px 0;">

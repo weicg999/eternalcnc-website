@@ -6,30 +6,58 @@ const breadcrumbs = [
   { label: 'FAQ' },
 ];
 
-const capabilities = [
+const faqs = [
   {
-    title: 'MOQ & Pricing',
-    items: ['No minimum order quantity', 'Pricing based on complexity & material', 'Volume discounts available', 'Free DFM analysis with every quote'],
-    tolerance: 'Order Policy',
-    materials: 'All Services',
+    q: 'What is your minimum order quantity (MOQ)?',
+    a: 'We support both prototyping (from a single piece) and mass production. There is no strict minimum order quantity — we are glad to start with a small batch and scale up as your project grows.'
   },
   {
-    title: 'Quote File Formats',
-    items: ['STEP (.stp / .step) preferred', 'IGES (.igs) also accepted', 'DXF for 2D drawings', 'STL for rapid prototyping only'],
-    tolerance: 'File Requirements',
-    materials: 'CAD Data',
+    q: 'Which file formats do you accept for quoting?',
+    a: 'We accept STEP, IGES, STL, PDF (2D drawings), and native formats from SolidWorks, Creo, and CATIA. The fastest quote comes from a 3D model (preferably STEP) plus a 2D PDF with critical tolerances marked.'
   },
   {
-    title: 'Lead Time',
-    items: ['Prototypes: 3-5 business days', 'Small batch: 7-10 business days', 'Mass production: 15-25 business days', 'Rush orders available upon request'],
-    tolerance: 'Delivery Time',
-    materials: 'All Projects',
+    q: 'How fast will I receive a quote?',
+    a: 'Most quotes are delivered within 24 hours. Complex projects involving multiple parts or tight tolerances may need up to 48 hours for a detailed engineering review.'
   },
   {
-    title: 'Inspection Reports',
-    items: ['CMM reports available on request for critical dimensions', 'Surface finish Ra values on request', 'Material certificates (EN 10204 3.1) available on request', 'Final photos before shipment'],
-    tolerance: 'Quality Docs',
-    materials: 'Standard & On Request',
+    q: 'What are your standard lead times?',
+    a: 'Prototypes: 3–5 business days. Small batches: 7–10 business days. Mass production: 15–25 business days. Rush orders are available on request.'
+  },
+  {
+    q: 'Do you provide inspection reports with shipments?',
+    a: 'Yes. Every shipment includes a Certificate of Conformance (CoC) and final photos before delivery. Dimensional inspection reports and material certificates (EN 10204 3.1) are available on request. RoHS and REACH documentation can also be provided upon application.'
+  },
+  {
+    q: 'What materials can you machine?',
+    a: 'We machine 30+ materials, including aluminum alloys (6061, 7075), stainless steel (303, 304, 316L), steel (1018, 4140), titanium, copper/brass, and engineering plastics (Delrin, Nylon, PEEK, PTFE).'
+  },
+  {
+    q: 'What tolerances can you hold?',
+    a: 'Standard tolerance is ±0.05 mm (ISO 2768-m). We can hold ±0.01 mm or tighter on request. With grinding, a surface finish down to Ra 0.2 μm is achievable.'
+  },
+  {
+    q: 'Do you offer surface finishing services?',
+    a: 'Yes. We provide anodizing, sandblasting, plating, powder coating, passivation, and heat treatment. All finishing is coordinated in-house to keep quality control consistent.'
+  },
+  {
+    q: 'Are you ISO certified?',
+    a: 'We operate under a rigorous quality management system; our ISO 9001 certification is currently in progress. We are happy to share our quality procedures and inspection workflow on request.'
+  },
+  {
+    q: 'Can I visit your factory?',
+    a: 'Absolutely. We welcome factory visits — please contact us in advance so we can arrange a tour of the workshop and inspection area.'
+  },
+  {
+    q: 'What is the relationship between Eternal CNC and Xinyongheng?',
+    a: 'Xinyongheng (Shenzhen) Precision Industrial Co., Ltd. is our legal entity registered in China. Eternal CNC is the international brand we operate under for global customers. Same team, same workshop — just the name you see on the website.'
+  },
+  {
+    q: 'How long has your company been in business?',
+    a: 'Our group has been in manufacturing since 2003 and in CNC precision machining since 2011. The current legal entity, Xinyongheng (Shenzhen) Precision Industrial Co., Ltd., was incorporated in 2024 to support our global branding. So while the company name is newer, the workshop experience is well established.'
+  },
+  {
+    q: 'Are you a factory or a trading company?',
+    a: 'We are a factory-direct CNC machining workshop, not a trading company. We run in-house 2.5D optical inspection and precision measuring tools; bridge-type CMM measurement is handled through our group\'s shared metrology center on request. This keeps both cost and quality under our own control.'
   },
 ];
 
@@ -44,21 +72,20 @@ const standards = [
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: capabilities.map((cap) => ({
+  mainEntity: faqs.map((faq) => ({
     '@type': 'Question',
-    name: cap.title,
+    name: faq.q,
     acceptedAnswer: {
       '@type': 'Answer',
-      text: cap.items.join(' '),
+      text: faq.a,
     },
   })),
 };
-
 ---
 
 <PageLayout
   title="FAQ | Common Questions About Eternal CNC | Eternal CNC"
-  description="Everything you need to know about working with Eternal CNC. MOQ, pricing, lead time, file formats, and inspection reports."
+  description="Everything you need to know about working with Eternal CNC — MOQ, pricing, lead time, file formats, inspection reports, materials, tolerances, and our company background."
   breadcrumbs={breadcrumbs}
   schema={faqSchema}
 >
@@ -71,7 +98,7 @@ const faqSchema = {
       </h1>
       <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
         Everything you need to know about working with Eternal CNC.
-        Find answers to common questions about ordering, pricing, and quality.
+        Find answers to common questions about ordering, pricing, quality, and our company.
       </p>
       <div class="flex flex-wrap gap-4 mt-8">
         <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
@@ -84,32 +111,19 @@ const faqSchema = {
     </div>
   </section>
 
-  <!-- Capabilities -->
+  <!-- FAQ List -->
   <section style="background-color: var(--page-bg); padding: 80px 0;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Common Questions</p>
       <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Frequently Asked Questions</h2>
       <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
-        Quick answers to the most common questions from our customers.
+        Quick answers to the most common questions from our customers — from ordering and pricing to quality and our company background.
       </p>
       <div class="grid md:grid-cols-2 gap-6">
-        {capabilities.map((cap) => (
+        {faqs.map((faq) => (
           <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
-            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
-            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
-              {cap.items.map((item) => (
-                <li class="text-sm flex items-start">
-                  <span class="mr-2" style="color: var(--brand-red);">—</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <div class="pt-4 border-t" style="border-color: var(--border-color);">
-              <p class="text-xs mb-1" style="color: var(--text-muted);">Topic</p>
-              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
-              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Scope</p>
-              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
-            </div>
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{faq.q}</h3>
+            <p class="text-sm leading-relaxed" style="color: var(--text-body);">{faq.a}</p>
           </div>
         ))}
       </div>
