@@ -1,6 +1,6 @@
 ---
 /**
- * Breadcrumb navigation component with Schema.org BreadcrumbList markup
+ * Breadcrumb navigation component
  * Links use muted color, current page is bold
  */
 interface Props {
@@ -12,26 +12,6 @@ const currentPath = Astro.url.pathname;
 const isZh = currentPath.startsWith('/zh');
 const homeLabel = isZh ? '首页' : 'Home';
 const homeHref = isZh ? '/zh/' : '/';
-
-// 构建 BreadcrumbList schema
-const crumbs = [{ name: homeLabel, item: new URL(homeHref, Astro.site).href }];
-items.forEach((it) => {
-  crumbs.push({
-    name: it.label,
-    item: it.href ? new URL(it.href, Astro.site).href : undefined,
-  });
-});
-
-const breadcrumbSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: crumbs.map((c, i) => ({
-    '@type': 'ListItem',
-    position: i + 1,
-    name: c.name,
-    ...(c.item ? { item: c.item } : {}),
-  })),
-};
 ---
 
 <nav aria-label="Breadcrumb">
@@ -53,5 +33,3 @@ const breadcrumbSchema = {
     ))}
   </ol>
 </nav>
-
-<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />

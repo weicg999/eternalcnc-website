@@ -7,6 +7,7 @@ export default defineConfig({
   integrations: [
     tailwind(),
     sitemap({
+      // 重定向桩不进 sitemap
       filter: (page) => !/\/(zh\/)?rfq\/?$/.test(new URL(page).pathname),
       serialize: (item) => {
         item.lastmod = new Date().toISOString().split('T')[0];
