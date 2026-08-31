@@ -52,12 +52,6 @@
           <span id="eternal-chat-status">在线 · 通常几分钟内回复</span>
         </p>
       </div>
-      <!-- 语言切换 -->
-      <div class="flex items-center gap-1 mr-1" id="eternal-chat-lang-switch">
-        <button type="button" data-lang="zh-CN" class="chat-lang-btn" aria-label="简体中文">简</button>
-        <button type="button" data-lang="yue" class="chat-lang-btn" aria-label="粵語">粵</button>
-        <button type="button" data-lang="en" class="chat-lang-btn" aria-label="English">EN</button>
-      </div>
       <div class="flex items-center gap-1">
         <button id="eternal-chat-minimize-btn" class="text-white/70 hover:text-white transition-colors w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10" aria-label="Minimize chat">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -115,31 +109,25 @@
         </button>
       </div>
     </div>
+
+    <!-- 多语言提示 footer -->
+    <div class="px-3 py-1.5 text-center flex-shrink-0" style="background-color: var(--warm-white, #F4F3EE); border-top: 1px solid rgba(0,0,0,0.04);">
+      <span class="text-[11px] text-gray-400" id="eternal-chat-lang-foottext">🌐 支持多语言，您可直接用母语沟通</span>
+    </div>
   </div>
 </div>
 
 <style is:global>
-  /* ========== 语言切换按钮 ========== */
-  #eternal-chat-widget .chat-lang-btn {
+  /* ========== 多语言提示信息 ========== */
+  #eternal-chat-widget .chat-info-msg {
+    text-align: center;
     font-size: 11px;
-    line-height: 1;
-    padding: 3px 7px;
-    border-radius: 9999px;
-    color: rgba(255, 255, 255, 0.7);
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-family: inherit;
-  }
-  #eternal-chat-widget .chat-lang-btn:hover {
-    color: #fff;
-    border-color: rgba(255, 255, 255, 0.5);
-  }
-  #eternal-chat-widget .chat-lang-btn.active {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.22);
-    border-color: rgba(255, 255, 255, 0.55);
+    color: #9CA3AF;
+    padding: 6px 12px;
+    margin: 2px auto 0;
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 10px;
+    max-width: 90%;
   }
 
   /* ========== 主动提示气泡 ========== */
@@ -577,32 +565,69 @@
   function detectInitialLang() {
     try {
       const saved = localStorage.getItem('xyh.chatLang');
-      if (saved === 'zh-CN' || saved === 'yue' || saved === 'en') return saved;
-    } catch (e) {}
-    const nav = (navigator.language || 'en').toLowerCase();
-    if (nav === 'zh-hk' || nav === 'zh-mo' || nav.indexOf('yue') === 0) return 'yue';
-    if (nav.indexOf('zh') === 0) return 'zh-CN';
-    return 'en';
+      if (saved) return saved; // 旧版可能只存 zh-CN/yue/en，新版可存任意语言码
+      const nav = (navigator.language || 'en').toLowerCase();
+      const base = nav.split('-')[0];
+      if (base === 'yue' || nav === 'zh-hk' || nav === 'zh-mo') return 'yue';
+      if (base === 'zh') return 'zh-CN';
+      const multi = ['ja','ko','de','fr','es','pt','ru','it','nl','pl','tr','vi','th','ar','hi','id','ms','sv','cs','el','he','ro','uk','fa'];
+      if (multi.indexOf(base) !== -1) return base;
+      return 'en';
+    } catch (e) {
+      return 'en';
+    }
   }
   let currentLang = detectInitialLang();
   function getLang() { return currentLang; }
-  // 兼容旧逻辑：中文（简体或粵語）返回 true
+  // 中文（简体或粵語）返回 true，其他语言（ja/ko/de/fr...）走英文兜底
   function isChineseLang() {
-    return currentLang !== 'en';
+    return currentLang === 'zh-CN' || currentLang === 'yue';
   }
 
-  // 按当前语言刷新界面文案 + 切换器高亮
+  // 按当前语言刷新界面文案 + 多语言 footer
   function applyLang() {
     const lang = getLang();
     if (typeof inputEl !== 'undefined' && inputEl) inputEl.placeholder = getPlaceholderText();
-    if (typeof titleEl !== 'undefined' && titleEl) titleEl.textContent = lang === 'en' ? 'AI Project Engineer' : (lang === 'yue' ? 'AI 項目工程師' : 'AI 项目工程师');
-    if (typeof statusEl !== 'undefined' && statusEl) statusEl.textContent = lang === 'en' ? 'Online · Usually replies in minutes' : (lang === 'yue' ? '在線 · 通常幾分鐘內回覆' : '在线 · 通常几分钟内回复');
+    if (typeof titleEl !== 'undefined' && titleEl) titleEl.textContent = lang === 'yue' ? 'AI 項目工程師' : (lang === 'zh-CN' ? 'AI 项目工程师' : 'AI Project Engineer');
+    if (typeof statusEl !== 'undefined' && statusEl) statusEl.textContent = lang === 'yue' ? '在線 · 通常幾分鐘內回覆' : (lang === 'zh-CN' ? '在线 · 通常几分钟内回复' : 'Online · Usually replies in minutes');
     if (typeof renderFaqButtons === 'function') renderFaqButtons();
-    const btns = document.querySelectorAll('#eternal-chat-lang-switch .chat-lang-btn');
-    for (let i = 0; i < btns.length; i++) {
-      if (btns[i].getAttribute('data-lang') === lang) btns[i].classList.add('active');
-      else btns[i].classList.remove('active');
-    }
+    const footEl = document.getElementById('eternal-chat-lang-foottext');
+    if (footEl) footEl.textContent = getMultilingualHint(lang);
+  }
+
+  // 多语言提示文案（按访客语言显示）
+  function getMultilingualHint(lang) {
+    const map = {
+      'zh-CN': '🌐 支持多语言，您可直接用母语沟通',
+      'yue': '🌐 支持多語言，您可以直接用母語溝通',
+      'en': '🌐 Multilingual support — just talk in your language',
+      'ja': '🌐 多言語対応 — あなたの言語でお話しください',
+      'ko': '🌐 다국어 지원 — 편한 언어로 말씀해 주세요',
+      'de': '🌐 Mehrsprachig — einfach in Ihrer Sprache schreiben',
+      'fr': '🌐 Multilingue — écrivez dans votre langue',
+      'es': '🌐 Multidioma — escribe en tu idioma',
+      'pt': '🌐 Multilíngue — fale no seu idioma',
+      'ru': '🌐 Многоязычная поддержка — пишите на вашем языке',
+      'it': '🌐 Multilingue — scrivi nella tua lingua',
+      'nl': '🌐 Meertalig — schrijf in je eigen taal',
+      'pl': '🌐 Wielojęzyczny — pisz w swoim języku',
+      'tr': '🌐 Çok dilli — kendi dilinizde yazın',
+      'vi': '🌐 Đa ngôn ngữ — hãy viết bằng tiếng của bạn',
+      'th': '🌐 รองรับหลายภาษา — พิมพ์ด้วยภาษาของคุณ',
+      'ar': '🌐 دعم متعدد اللغات — تحدث بلغتك',
+      'hi': '🌐 बहुभाषी सहायता — अपनी भाषा में लिखें',
+    };
+    return map[lang] || '🌐 Multilingual support — just talk in your language';
+  }
+
+  // 首次打开面板时在消息区插入一条多语言提示（不发给后端）
+  function addInfoMessage(text) {
+    if (!messagesEl) return;
+    const div = document.createElement('div');
+    div.className = 'chat-info-msg';
+    div.textContent = text;
+    messagesEl.appendChild(div);
+    if (typeof scrollToBottom === 'function') scrollToBottom();
   }
 
   // 欢迎语（结合页面上下文 + 语言）
@@ -1342,12 +1367,13 @@
       markPanelOpened();
       hideProactiveBubble();
 
-      // 首次展开：如果没有消息，发送欢迎语
+      // 首次展开：如果没有消息，发送欢迎语 + 多语言提示
       if (messages.length === 0) {
         const welcome = getWelcomeMessage();
         messages.push({ role: 'bot', content: welcome });
         saveMessages(messages);
         renderExistingMessages();
+        addInfoMessage(getMultilingualHint(getLang()));
       } else {
         renderExistingMessages();
       }
@@ -1398,18 +1424,6 @@
   }
 
   sendBtn.addEventListener('click', sendMessage);
-
-  // 语言切换
-  const langBtns = document.querySelectorAll('#eternal-chat-lang-switch .chat-lang-btn');
-  for (let i = 0; i < langBtns.length; i++) {
-    langBtns[i].addEventListener('click', function() {
-      const newLang = this.getAttribute('data-lang');
-      if (!newLang) return;
-      currentLang = newLang;
-      try { localStorage.setItem('xyh.chatLang', newLang); } catch (e) {}
-      applyLang();
-    });
-  }
 
   inputEl.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && !e.shiftKey) {
