@@ -1,0 +1,1411 @@
+---
+// EternalChat - API 版智能客服组件（第二层优化）
+// 功能：
+// 1. 页面上下文感知 - 根据当前页面动态调整开场白
+// 2. 访客信息预收集 - 语言/来源/当前页自动传给Bot
+// 3. 行为触发 - 30秒停留/滚动到底部/鼠标离开顶部 主动提示
+// 设计风格：简约大气，对话式布局，左右气泡错开，带头像
+---
+
+<div id="eternal-chat-widget" class="fixed bottom-6 right-6 z-50">
+  <!-- 主动提示气泡 -->
+  <div
+    id="eternal-chat-proactive-bubble"
+    class="proactive-bubble"
+    role="button"
+    aria-label="Open chat"
+  >
+    <span id="eternal-chat-proactive-text"></span>
+  </div>
+
+  <!-- 悬浮按钮 -->
+  <button
+    id="eternal-chat-toggle-btn"
+    class="w-14 h-14 text-white flex items-center justify-center transition-all duration-300 hover:scale-105"
+    style="background-color: var(--brand-red, #8B0000); border-radius: 50%; box-shadow: 0 4px 20px rgba(139, 0, 0, 0.3);"
+    aria-label="Open AI Chat"
+  >
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+    </svg>
+    <span id="eternal-chat-unread-dot" class="absolute top-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2" style="border-color: var(--brand-red, #8B0000); display: none;"></span>
+  </button>
+
+  <!-- 聊天面板 -->
+  <div
+    id="eternal-chat-panel"
+    class="bg-white overflow-hidden flex flex-col"
+    style="width: 420px; height: 600px; max-height: calc(100vh - 120px); display: none; position: fixed; bottom: 88px; right: 24px; z-index: 100; border-radius: 16px; box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);"
+  >
+    <!-- 头部 -->
+    <div class="text-white p-4 flex items-center gap-3 flex-shrink-0" style="background: linear-gradient(135deg, var(--brand-red, #8B0000) 0%, var(--brand-red-hover, #6B0000) 100%); border-radius: 16px 16px 0 0;">
+      <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      </div>
+      <div class="flex-1 min-w-0">
+        <h4 class="font-semibold text-base" id="eternal-chat-title">AI 项目工程师</h4>
+        <p class="text-xs text-white/70 flex items-center gap-1.5">
+          <span class="w-2 h-2 bg-green-400 rounded-full"></span>
+          <span id="eternal-chat-status">在线 · 通常几分钟内回复</span>
+        </p>
+      </div>
+      <div class="flex items-center gap-1">
+        <button id="eternal-chat-minimize-btn" class="text-white/70 hover:text-white transition-colors w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10" aria-label="Minimize chat">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+          </svg>
+        </button>
+        <button id="eternal-chat-human-btn" class="text-white/70 hover:text-white transition-colors w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10" aria-label="Talk to human">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 18v-6a9 9 0 0118 0v6" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z" />
+          </svg>
+        </button>
+        <button id="eternal-chat-close-btn" class="text-white/70 hover:text-white transition-colors w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10" aria-label="Close chat">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 消息区域 -->
+    <div
+      id="eternal-chat-messages"
+      class="flex-1 overflow-y-auto px-4 py-4 space-y-4"
+      style="background-color: var(--warm-white, #F4F3EE);"
+    >
+      <!-- 消息动态插入 -->
+    </div>
+
+    <!-- 快捷FAQ区域 -->
+    <div id="eternal-chat-faq" class="px-3 pb-2 flex-shrink-0" style="display: none;">
+      <div class="flex flex-wrap gap-2 justify-center">
+      </div>
+    </div>
+
+    <!-- 输入区域 -->
+    <div class="p-3 border-t border-gray-100 bg-white flex-shrink-0" style="border-radius: 0 0 16px 16px;">
+      <div class="flex items-center gap-2 bg-gray-50 rounded-full px-4 py-2 border border-gray-100 focus-within:border-gray-300 focus-within:bg-white transition-all">
+        <input
+          id="eternal-chat-input"
+          type="text"
+          placeholder="请输入您的问题..."
+          class="flex-1 text-sm bg-transparent focus:outline-none"
+          autocomplete="off"
+        />
+        <button
+          id="eternal-chat-send-btn"
+          class="w-8 h-8 text-white flex items-center justify-center transition-all flex-shrink-0 rounded-full hover:scale-105"
+          style="background-color: var(--brand-red, #8B0000);"
+          aria-label="Send"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  /* ========== 主动提示气泡 ========== */
+  #eternal-chat-widget .proactive-bubble {
+    position: absolute;
+    right: 70px;
+    bottom: 6px;
+    max-width: 240px;
+    padding: 10px 14px;
+    background-color: #fff;
+    color: #1A202C;
+    font-size: 13px;
+    line-height: 1.5;
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(8px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  #eternal-chat-widget .proactive-bubble.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  #eternal-chat-widget .proactive-bubble::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    bottom: 14px;
+    width: 12px;
+    height: 12px;
+    background-color: #fff;
+    transform: rotate(45deg);
+    border-radius: 2px;
+    box-shadow: 2px -2px 4px rgba(0, 0, 0, 0.04);
+  }
+
+  #eternal-chat-widget .proactive-bubble:hover {
+    transform: translateX(-2px);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  /* ========== 消息气泡基础样式 ========== */
+  #eternal-chat-widget .chat-msg {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    word-break: break-word;
+    white-space: pre-wrap;
+    animation: msgFadeIn 0.25s ease-out;
+  }
+
+  @keyframes msgFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* 用户消息：右侧，头像在右 */
+  #eternal-chat-widget .chat-msg.user {
+    justify-content: flex-end;
+    margin-left: auto;
+    flex-direction: row;
+    gap: 6px;
+  }
+  #eternal-chat-widget .chat-msg.user .chat-avatar {
+    order: 2;
+  }
+
+  /* Bot消息：左侧，头像在左 */
+  #eternal-chat-widget .chat-msg.bot {
+    justify-content: flex-start;
+    margin-right: auto;
+    gap: 6px;
+  }
+
+  /* 头像 */
+  #eternal-chat-widget .chat-avatar {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    max-width: 32px;
+    max-height: 32px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    flex-grow: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  #eternal-chat-widget .chat-avatar img {
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 100% !important;
+    min-height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+  }
+  #eternal-chat-widget .chat-msg.user .chat-avatar {
+    background: linear-gradient(135deg, var(--brand-red, #8B0000), var(--brand-red-hover, #6B0000));
+  }
+  #eternal-chat-widget .chat-msg.bot .chat-avatar {
+    background: linear-gradient(135deg, #4A5568, #2D3748);
+  }
+  #eternal-chat-widget .chat-avatar svg {
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px;
+    min-height: 20px;
+    max-width: 20px;
+    max-height: 20px;
+    flex-shrink: 0;
+  }
+
+  /* 气泡 - 微信风格 */
+  #eternal-chat-widget .chat-bubble {
+    max-width: 78%;
+    padding: 10px 14px;
+    font-size: 14px;
+    line-height: 1.65;
+    border-radius: 6px;
+    position: relative;
+    word-break: break-word;
+  }
+  #eternal-chat-widget .chat-msg.user .chat-bubble {
+    background-color: var(--brand-red, #8B0000);
+    color: #fff;
+    order: 1;
+  }
+  /* 用户气泡尾巴 - 指向右边头像 */
+  #eternal-chat-widget .chat-msg.user .chat-bubble::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: 12px;
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 6px solid var(--brand-red, #8B0000);
+  }
+  #eternal-chat-widget .chat-msg.bot .chat-bubble {
+    background-color: #F5F5F5;
+    color: #1A1A1A;
+  }
+  /* Bot气泡尾巴 - 指向左边头像 */
+  #eternal-chat-widget .chat-msg.bot .chat-bubble::after {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 12px;
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right: 6px solid #F5F5F5;
+  }
+
+  /* 加载动画：三个点 */
+  #eternal-chat-widget .typing-dots {
+    display: inline-flex;
+    gap: 4px;
+    padding: 2px 4px;
+  }
+  #eternal-chat-widget .typing-dots span {
+    width: 6px;
+    height: 6px;
+    background-color: #A0AEC0;
+    border-radius: 50%;
+    animation: eternal-chat-bounce 1.4s infinite ease-in-out both;
+  }
+  #eternal-chat-widget .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+  #eternal-chat-widget .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+  @keyframes eternal-chat-bounce {
+    0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+    40% { transform: scale(1); opacity: 1; }
+  }
+
+  /* 滚动条样式 */
+  #eternal-chat-messages::-webkit-scrollbar {
+    width: 4px;
+  }
+  #eternal-chat-messages::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  #eternal-chat-messages::-webkit-scrollbar-thumb {
+    background: #CBD5E0;
+    border-radius: 2px;
+  }
+  #eternal-chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #A0AEC0;
+  }
+
+  /* 光标闪烁（流式输出时） */
+  #eternal-chat-widget .chat-bubble.streaming::after {
+    content: '▍';
+    display: inline-block;
+    margin-left: 1px;
+    animation: eternal-chat-cursor 1s infinite;
+    font-weight: 300;
+    opacity: 0.5;
+    font-size: 0.9em;
+  }
+  @keyframes eternal-chat-cursor {
+    0%, 50% { opacity: 0.5; }
+    51%, 100% { opacity: 0; }
+  }
+
+  /* ========== 快捷FAQ按钮 ========== */
+  #eternal-chat-widget .faq-btn {
+    padding: 6px 14px;
+    font-size: 12px;
+    background-color: #EDF2F7;
+    color: #4A5568;
+    border: 1px solid #E2E8F0;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+  #eternal-chat-widget .faq-btn:hover {
+    background-color: #CBD5E0;
+    color: #2D3748;
+    border-color: #A0AEC0;
+  }
+
+  /* ========== 正在输入文字提示 ========== */
+  #eternal-chat-widget .typing-text {
+    font-size: 12px;
+    color: #A0AEC0;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  /* ========== 转人工表单 ========== */
+  #eternal-chat-widget .human-form-bubble {
+    max-width: 85%;
+    padding: 14px;
+    background-color: #FFFFFF;
+    color: #1A202C;
+    border: 1px solid #E2E8F0;
+    border-bottom-left-radius: 6px;
+    border-radius: 18px;
+    border-bottom-left-radius: 6px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  #eternal-chat-widget .human-form-bubble h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #1A202C;
+  }
+  #eternal-chat-widget .human-form-bubble .form-field {
+    margin-bottom: 10px;
+  }
+  #eternal-chat-widget .human-form-bubble .form-field label {
+    display: block;
+    font-size: 12px;
+    color: #718096;
+    margin-bottom: 4px;
+  }
+  #eternal-chat-widget .human-form-bubble .form-field input,
+  #eternal-chat-widget .human-form-bubble .form-field textarea {
+    width: 100%;
+    padding: 6px 10px;
+    font-size: 13px;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    background-color: #F7FAFC;
+    font-family: inherit;
+    box-sizing: border-box;
+    resize: vertical;
+  }
+  #eternal-chat-widget .human-form-bubble .form-field input:focus,
+  #eternal-chat-widget .human-form-bubble .form-field textarea:focus {
+    outline: none;
+    border-color: var(--brand-red, #8B0000);
+    background-color: #fff;
+  }
+  #eternal-chat-widget .human-form-bubble .submit-btn {
+    width: 100%;
+    padding: 8px;
+    font-size: 13px;
+    color: #fff;
+    background-color: var(--brand-red, #8B0000);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  #eternal-chat-widget .human-form-bubble .submit-btn:hover {
+    background-color: var(--brand-red-hover, #6B0000);
+  }
+  #eternal-chat-widget .human-form-bubble .submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  #eternal-chat-widget .human-form-success {
+    text-align: center;
+    padding: 10px 0;
+    color: #2F855A;
+    font-size: 13px;
+  }
+
+  /* ========== 未读提示点 ========== */
+  #eternal-chat-widget #eternal-chat-toggle-btn {
+    position: relative;
+  }
+  #eternal-chat-widget #eternal-chat-unread-dot {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 10px;
+    height: 10px;
+    background-color: #48BB78;
+    border-radius: 50%;
+    border: 2px solid var(--brand-red, #8B0000);
+    display: none;
+  }
+
+  /* 移动端适配 */
+  @media (max-width: 640px) {
+    #eternal-chat-widget {
+      bottom: 0;
+      right: 0;
+      left: 0;
+      width: 100%;
+    }
+    #eternal-chat-toggle-btn {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+    }
+    #eternal-chat-panel {
+      position: fixed !important;
+      bottom: 0 !important;
+      right: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 85vh !important;
+      max-height: 85vh !important;
+      border: none;
+      border-radius: 16px 16px 0 0 !important;
+    }
+    #eternal-chat-widget .chat-bubble {
+      max-width: 82%;
+    }
+    #eternal-chat-widget .proactive-bubble {
+      right: 70px;
+      bottom: 6px;
+      max-width: 200px;
+    }
+    #eternal-chat-widget .chat-avatar {
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      min-height: 28px;
+      max-width: 28px;
+      max-height: 28px;
+    }
+  }
+</style>
+
+<script>
+(function() {
+  'use strict';
+
+  // ========== 常量配置 ==========
+  const STORAGE_USER_ID = 'eternal_chat_user_id';
+  const STORAGE_CONVERSATION_ID = 'eternal_chat_conversation_id';
+  const STORAGE_MESSAGES = 'eternal_chat_messages';
+  const STORAGE_HAS_GREETED = 'eternal_chat_has_greeted';
+  const STORAGE_PROACTIVE_COUNT = 'eternal_chat_proactive_count';
+  const STORAGE_PANEL_OPENED = 'eternal_chat_panel_opened';
+  const STORAGE_HUMAN_FORM_SUBMITTED = 'eternal_chat_human_submitted';
+  const API_ENDPOINT = '/api/chat';
+  const HUMAN_LEAD_API = '/api/chat-lead';
+
+  // 行为触发配置
+  const PROACTIVE_CONFIG = {
+    maxTriggers: 2,           // 每会话最多触发次数
+    stayDuration: 30000,      // 停留30秒触发
+    bottomThreshold: 300,     // 距底部300px触发
+    bubbleDuration: 3000,     // 气泡显示时长（毫秒）
+    mouseleaveTopThreshold: 20, // 鼠标离开顶部多少px算离开
+  };
+
+  // ========== 页面上下文感知 ==========
+  function getPageCategory() {
+    try {
+      const pathname = location.pathname.toLowerCase();
+      const categories = [
+        { patterns: ['/milling/', 'milling', '铣削'], label: '铣削加工', labelEn: 'Milling' },
+        { patterns: ['/turning/', 'turning', '车削'], label: '车削加工', labelEn: 'Turning' },
+        { patterns: ['/grinding/', 'grinding', '磨削'], label: '磨削加工', labelEn: 'Grinding' },
+        { patterns: ['/wire-edm/', 'wire', '线切割'], label: '线切割', labelEn: 'Wire EDM' },
+        { patterns: ['/materials/', 'material', '材料'], label: '材料选择', labelEn: 'Materials' },
+        { patterns: ['/about/', 'about', '关于', '公司'], label: '公司介绍', labelEn: 'About Us' },
+        { patterns: ['/contact/', 'contact', '联系'], label: '联系我们', labelEn: 'Contact' },
+      ];
+
+      for (let i = 0; i < categories.length; i++) {
+        const cat = categories[i];
+        for (let j = 0; j < cat.patterns.length; j++) {
+          if (pathname.indexOf(cat.patterns[j]) !== -1) {
+            return cat;
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('getPageCategory error:', e);
+    }
+    return null;
+  }
+
+  // 语言检测
+  function isChineseLang() {
+    try {
+      const lang = (navigator.language || 'en').toLowerCase();
+      return lang.indexOf('zh') === 0;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // 欢迎语（结合页面上下文 + 语言）
+  function getWelcomeMessage() {
+    try {
+      const zh = isChineseLang();
+      const pageCat = getPageCategory();
+
+      if (pageCat) {
+        if (zh) {
+          return '看起来您对' + pageCat.label + '感兴趣，有什么零件需要报价吗？';
+        } else {
+          return "It looks like you're interested in " + pageCat.labelEn + ". Do you have any parts that need a quote?";
+        }
+      }
+
+      // 通用问候
+      return zh
+        ? '您好，我是鑫永恒的项目工程师，请问有什么可以帮您？'
+        : 'Hello, I am a project engineer from Eternal CNC. How can I help you?';
+    } catch (e) {
+      return 'Hello, how can I help you?';
+    }
+  }
+
+  // 占位符文本（按语言）
+  function getPlaceholderText() {
+    return isChineseLang() ? '请输入您的问题...' : 'Type your question...';
+  }
+
+  // 主动提示文案（按触发类型 + 语言）
+  function getProactiveMessage(triggerType) {
+    const zh = isChineseLang();
+    const pageCat = getPageCategory();
+    const serviceName = pageCat ? (zh ? pageCat.label : pageCat.labelEn) : '';
+
+    switch (triggerType) {
+      case 'stay':
+        if (zh) {
+          return serviceName
+            ? '对' + serviceName + '有疑问？我可以帮您报价 👋'
+            : '有任何问题都可以问我，随时为您报价 👋';
+        } else {
+          return serviceName
+            ? 'Questions about ' + serviceName + '? I can help quote 👋'
+            : 'Have questions? I can help with quotes 👋';
+        }
+      case 'bottom':
+        if (zh) {
+          return '看完了？聊聊您的项目需求吧 💬';
+        } else {
+          return 'Finished reading? Let us discuss your project 💬';
+        }
+      case 'exit':
+        if (zh) {
+          return '等等！先留下您的需求，我们马上回复您 ⚡';
+        } else {
+          return 'Wait! Leave your requirements, we will reply soon ⚡';
+        }
+      default:
+        return zh ? '有什么可以帮您的吗？' : 'How can I help you?';
+    }
+  }
+
+  // FAQ快捷问题
+  function getFaqQuestions() {
+    const zh = isChineseLang();
+    if (zh) {
+      return ['获取报价', '能加工哪些材料？', '加工精度是多少？', '提供哪些服务？'];
+    }
+    return ['Get a quote', 'What materials do you work with?', "What's your tolerance?", 'What services do you offer?'];
+  }
+
+  // 转人工表单文案
+  function getHumanFormTexts() {
+    const zh = isChineseLang();
+    if (zh) {
+      return {
+        title: '转人工',
+        emailLabel: '您的邮箱',
+        emailPlaceholder: 'example@email.com',
+        descLabel: '请描述您的需求',
+        descPlaceholder: '简单描述您的项目需求...',
+        submit: '提交',
+        success: '已收到，我们会在1个工作日内联系您',
+      };
+    }
+    return {
+      title: 'Talk to human',
+      emailLabel: 'Your email',
+      emailPlaceholder: 'example@email.com',
+      descLabel: 'Describe your needs',
+      descPlaceholder: 'Briefly describe your project needs...',
+      submit: 'Submit',
+      success: "Received, we'll contact you within 1 business day",
+    };
+  }
+
+  // typing 提示文字
+  function getTypingText() {
+    return isChineseLang() ? '工程师正在输入...' : 'Engineer is typing...';
+  }
+
+  // ========== 访客信息收集 ==========
+  function getVisitorInfo() {
+    try {
+      const pageCat = getPageCategory();
+      return {
+        language: navigator.language || 'en',
+        referrer: document.referrer || '',
+        current_page: location.pathname + location.search,
+        page_category: pageCat ? pageCat.label : '',
+        page_category_en: pageCat ? pageCat.labelEn : '',
+        user_agent: navigator.userAgent || '',
+        screen_size: (window.screen ? window.screen.width + 'x' + window.screen.height : ''),
+      };
+    } catch (e) {
+      return { language: 'en', referrer: '', current_page: '', page_category: '', page_category_en: '' };
+    }
+  }
+
+  // 生成唯一ID
+  function generateId(prefix) {
+    return prefix + '_' + Date.now().toString(36) + '_' + Math.random().toString(36).substr(2, 9);
+  }
+
+  // 获取或创建 user_id
+  function getUserId() {
+    let userId = localStorage.getItem(STORAGE_USER_ID);
+    if (!userId) {
+      userId = generateId('user');
+      localStorage.setItem(STORAGE_USER_ID, userId);
+    }
+    return userId;
+  }
+
+  // 获取或创建 conversation_id
+  function getConversationId() {
+    let convId = localStorage.getItem(STORAGE_CONVERSATION_ID);
+    if (!convId) {
+      convId = generateId('conv');
+      localStorage.setItem(STORAGE_CONVERSATION_ID, convId);
+    }
+    return convId;
+  }
+
+  // 保存会话历史
+  function saveMessages(messages) {
+    try {
+      localStorage.setItem(STORAGE_MESSAGES, JSON.stringify(messages));
+    } catch (e) {
+      console.warn('Failed to save chat messages:', e);
+    }
+  }
+
+  // 加载会话历史
+  function loadMessages() {
+    try {
+      const raw = localStorage.getItem(STORAGE_MESSAGES);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  // 主动触发计数
+  function getProactiveCount() {
+    try {
+      return parseInt(localStorage.getItem(STORAGE_PROACTIVE_COUNT) || '0', 10);
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  function incrementProactiveCount() {
+    try {
+      const count = getProactiveCount() + 1;
+      localStorage.setItem(STORAGE_PROACTIVE_COUNT, String(count));
+      return count;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  function hasOpenedPanel() {
+    try {
+      return localStorage.getItem(STORAGE_PANEL_OPENED) === '1';
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function markPanelOpened() {
+    try {
+      localStorage.setItem(STORAGE_PANEL_OPENED, '1');
+    } catch (e) {}
+  }
+
+  // ========== DOM 元素 ==========
+  const widget = document.getElementById('eternal-chat-widget');
+  const toggleBtn = document.getElementById('eternal-chat-toggle-btn');
+  const closeBtn = document.getElementById('eternal-chat-close-btn');
+  const panel = document.getElementById('eternal-chat-panel');
+  const messagesEl = document.getElementById('eternal-chat-messages');
+  const inputEl = document.getElementById('eternal-chat-input');
+  const sendBtn = document.getElementById('eternal-chat-send-btn');
+  const titleEl = document.getElementById('eternal-chat-title');
+  const statusEl = document.getElementById('eternal-chat-status');
+  const proactiveBubble = document.getElementById('eternal-chat-proactive-bubble');
+  const proactiveText = document.getElementById('eternal-chat-proactive-text');
+  const faqContainer = document.getElementById('eternal-chat-faq');
+  const minimizeBtn = document.getElementById('eternal-chat-minimize-btn');
+  const humanBtn = document.getElementById('eternal-chat-human-btn');
+  const unreadDot = document.getElementById('eternal-chat-unread-dot');
+
+  if (!widget || !panel) return;
+
+  // 状态
+  let messages = loadMessages();
+  let isStreaming = false;
+  let currentBotMsgEl = null;
+  let currentBotBubbleEl = null;
+  let abortController = null;
+  let isFirstMessage = messages.length === 0; // 是否是第一条用户消息
+  let proactiveBubbleTimer = null;
+
+  // 已触发的类型集合（内存级，单页面生命周期内不重复）
+  const triggeredTypes = {};
+
+  // 设置输入框占位符
+  inputEl.placeholder = getPlaceholderText();
+
+  // 标题语言
+  const zh = isChineseLang();
+  titleEl.textContent = zh ? 'AI 项目工程师' : 'AI Project Engineer';
+  statusEl.textContent = zh ? '在线 · 通常几分钟内回复' : 'Online · Usually replies in minutes';
+
+  // ========== 消息渲染 ==========
+  function scrollToBottom() {
+    try {
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    } catch (e) {}
+  }
+
+  // 创建头像 SVG 图标
+  // 创建头像
+  function createAvatarEl(role) {
+    if (role === 'bot') {
+      var img = document.createElement('img');
+      img.src = '/images/bot-avatar.jpg';
+      img.alt = '客服';
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;';
+      return img;
+    } else {
+      var svgNS = 'http://www.w3.org/2000/svg';
+      var svg = document.createElementNS(svgNS, 'svg');
+      svg.setAttribute('viewBox', '0 0 24 24');
+      svg.setAttribute('width', '20');
+      svg.setAttribute('height', '20');
+      svg.setAttribute('fill', 'none');
+      svg.setAttribute('stroke', 'white');
+      svg.setAttribute('stroke-width', '2');
+      svg.setAttribute('stroke-linecap', 'round');
+      svg.setAttribute('stroke-linejoin', 'round');
+      var path1 = document.createElementNS(svgNS, 'path');
+      path1.setAttribute('d', 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2');
+      svg.appendChild(path1);
+      var circle = document.createElementNS(svgNS, 'circle');
+      circle.setAttribute('cx', '12');
+      circle.setAttribute('cy', '7');
+      circle.setAttribute('r', '4');
+      svg.appendChild(circle);
+      return svg;
+    }
+  }
+
+  function createMessageEl(role, content) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'chat-msg ' + role;
+
+    // 头像
+    const avatar = document.createElement('div');
+    avatar.className = 'chat-avatar';
+    avatar.appendChild(createAvatarEl(role));
+
+    // 气泡
+    const bubble = document.createElement('div');
+    bubble.className = 'chat-bubble';
+    bubble.textContent = content;
+
+    msgDiv.appendChild(avatar);
+    msgDiv.appendChild(bubble);
+    return { msgDiv, bubble };
+  }
+
+  function createTypingEl() {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'chat-msg bot';
+
+    // 头像
+    const avatar = document.createElement('div');
+    avatar.className = 'chat-avatar';
+    avatar.appendChild(createAvatarEl('bot'));
+
+    // 气泡
+    const bubble = document.createElement('div');
+    bubble.className = 'chat-bubble';
+
+    const dots = document.createElement('div');
+    dots.className = 'typing-dots';
+    dots.style.display = 'inline-flex';
+    dots.style.verticalAlign = 'middle';
+    dots.innerHTML = '<span></span><span></span><span></span>';
+
+    const typingText = document.createElement('span');
+    typingText.className = 'typing-text';
+    typingText.textContent = getTypingText();
+
+    bubble.appendChild(dots);
+    bubble.appendChild(typingText);
+    msgDiv.appendChild(avatar);
+    msgDiv.appendChild(bubble);
+    return { msgDiv, bubble };
+  }
+
+  // ========== FAQ 快捷按钮 ==========
+  function renderFaqButtons() {
+    if (!faqContainer) return;
+    // 只有消息列表里只有1条欢迎语时才显示
+    const shouldShow = messages.length <= 1;
+    if (!shouldShow) {
+      faqContainer.style.display = 'none';
+      return;
+    }
+    const faqs = getFaqQuestions();
+    const inner = faqContainer.querySelector('.flex');
+    inner.innerHTML = '';
+    for (let i = 0; i < faqs.length; i++) {
+      (function(q) {
+        const btn = document.createElement('button');
+        btn.className = 'faq-btn';
+        btn.type = 'button';
+        btn.textContent = q;
+        btn.addEventListener('click', function() {
+          // 直接发送这个问题
+          inputEl.value = q;
+          sendMessage();
+        });
+        inner.appendChild(btn);
+      })(faqs[i]);
+    }
+    faqContainer.style.display = 'block';
+  }
+
+  function hideFaqButtons() {
+    if (faqContainer) {
+      faqContainer.style.display = 'none';
+    }
+  }
+
+  function renderExistingMessages() {
+    messagesEl.innerHTML = '';
+    messages.forEach(function(msg) {
+      const { msgDiv } = createMessageEl(msg.role, msg.content);
+      messagesEl.appendChild(msgDiv);
+    });
+    renderFaqButtons();
+    scrollToBottom();
+  }
+
+  // ========== 主动提示气泡 ==========
+  function showProactiveBubble(message, triggerType) {
+    // 检查：已打开过面板 → 不触发
+    if (hasOpenedPanel()) return false;
+    // 检查：超过最大触发次数 → 不触发
+    if (getProactiveCount() >= PROACTIVE_CONFIG.maxTriggers) return false;
+    // 检查：该类型已触发过 → 不触发
+    if (triggeredTypes[triggerType]) return false;
+    // 检查：气泡当前正在显示 → 不重复显示
+    if (proactiveBubble.classList.contains('show')) return false;
+
+    try {
+      triggeredTypes[triggerType] = true;
+      incrementProactiveCount();
+
+      proactiveText.textContent = message;
+      proactiveBubble.classList.add('show');
+
+      // 3秒后自动消失
+      if (proactiveBubbleTimer) {
+        clearTimeout(proactiveBubbleTimer);
+      }
+      proactiveBubbleTimer = setTimeout(function() {
+        hideProactiveBubble();
+      }, PROACTIVE_CONFIG.bubbleDuration);
+
+      return true;
+    } catch (e) {
+      console.warn('showProactiveBubble error:', e);
+      return false;
+    }
+  }
+
+  function hideProactiveBubble() {
+    try {
+      proactiveBubble.classList.remove('show');
+      if (proactiveBubbleTimer) {
+        clearTimeout(proactiveBubbleTimer);
+        proactiveBubbleTimer = null;
+      }
+    } catch (e) {}
+  }
+
+  // 点击气泡 → 打开聊天面板
+  proactiveBubble.addEventListener('click', function() {
+    hideProactiveBubble();
+    toggleChatPanel(true);
+  });
+
+  // ========== 转人工表单 ==========
+  function showHumanForm() {
+    if (isStreaming) return;
+
+    const texts = getHumanFormTexts();
+
+    // 检查是否已提交过
+    try {
+      if (localStorage.getItem(STORAGE_HUMAN_FORM_SUBMITTED) === '1') {
+        const successMsg = texts.success;
+        messages.push({ role: 'bot', content: successMsg });
+        saveMessages(messages);
+        const { msgDiv } = createMessageEl('bot', successMsg);
+        messagesEl.appendChild(msgDiv);
+        hideFaqButtons();
+        scrollToBottom();
+        return;
+      }
+    } catch (e) {}
+
+    // 以 bot 消息形式插入表单
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'chat-msg bot';
+
+    const avatar = document.createElement('div');
+    avatar.className = 'chat-avatar';
+    avatar.appendChild(createAvatarEl('bot'));
+
+    const formBubble = document.createElement('div');
+    formBubble.className = 'human-form-bubble';
+
+    const titleEl = document.createElement('h4');
+    titleEl.textContent = texts.title;
+    formBubble.appendChild(titleEl);
+
+    // 邮箱字段
+    const emailField = document.createElement('div');
+    emailField.className = 'form-field';
+    const emailLabel = document.createElement('label');
+    emailLabel.textContent = texts.emailLabel;
+    const emailInput = document.createElement('input');
+    emailInput.type = 'email';
+    emailInput.placeholder = texts.emailPlaceholder;
+    emailField.appendChild(emailLabel);
+    emailField.appendChild(emailInput);
+    formBubble.appendChild(emailField);
+
+    // 描述字段
+    const descField = document.createElement('div');
+    descField.className = 'form-field';
+    const descLabel = document.createElement('label');
+    descLabel.textContent = texts.descLabel;
+    const descTextarea = document.createElement('textarea');
+    descTextarea.rows = 3;
+    descTextarea.placeholder = texts.descPlaceholder;
+    descField.appendChild(descLabel);
+    descField.appendChild(descTextarea);
+    formBubble.appendChild(descField);
+
+    // 提交按钮
+    const submitBtn = document.createElement('button');
+    submitBtn.className = 'submit-btn';
+    submitBtn.type = 'button';
+    submitBtn.textContent = texts.submit;
+    formBubble.appendChild(submitBtn);
+
+    msgDiv.appendChild(avatar);
+    msgDiv.appendChild(formBubble);
+    messagesEl.appendChild(msgDiv);
+    hideFaqButtons();
+    scrollToBottom();
+
+    submitBtn.addEventListener('click', function() {
+      var email = emailInput.value.trim();
+      var desc = descTextarea.value.trim();
+      if (!email) {
+        emailInput.focus();
+        return;
+      }
+      if (!desc) {
+        descTextarea.focus();
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = texts.submit + '...';
+
+      const userId = getUserId();
+      const conversationId = getConversationId();
+      const visitorInfo = getVisitorInfo();
+
+      fetch(HUMAN_LEAD_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email,
+          description: desc,
+          user_id: userId,
+          conversation_id: conversationId,
+          visitor_info: visitorInfo,
+        }),
+      }).then(function() {
+        // 无论成功还是404，都显示成功状态
+        showHumanFormSuccess(formBubble, texts.success);
+        try {
+          localStorage.setItem(STORAGE_HUMAN_FORM_SUBMITTED, '1');
+        } catch (e) {}
+        messages.push({ role: 'bot', content: texts.success });
+        saveMessages(messages);
+      }).catch(function() {
+        // 出错也显示成功状态（按需求）
+        showHumanFormSuccess(formBubble, texts.success);
+        try {
+          localStorage.setItem(STORAGE_HUMAN_FORM_SUBMITTED, '1');
+        } catch (e) {}
+        messages.push({ role: 'bot', content: texts.success });
+        saveMessages(messages);
+      });
+    });
+  }
+
+  function showHumanFormSuccess(formBubble, successText) {
+    formBubble.innerHTML = '';
+    var successDiv = document.createElement('div');
+    successDiv.className = 'human-form-success';
+    successDiv.textContent = successText;
+    formBubble.appendChild(successDiv);
+  }
+
+  // ========== 发送消息 ==========
+  function sendMessage() {
+    if (isStreaming) return;
+
+    const text = inputEl.value.trim();
+    if (!text) return;
+
+    inputEl.value = '';
+    inputEl.focus();
+
+    // 添加用户消息
+    messages.push({ role: 'user', content: text });
+    saveMessages(messages);
+
+    const { msgDiv: userMsgEl } = createMessageEl('user', text);
+    messagesEl.appendChild(userMsgEl);
+    hideFaqButtons();
+    scrollToBottom();
+
+    // 显示加载动画
+    const { msgDiv: typingEl, bubble: typingBubble } = createTypingEl();
+    messagesEl.appendChild(typingEl);
+    scrollToBottom();
+
+    isStreaming = true;
+    sendBtn.disabled = true;
+
+    const userId = getUserId();
+    const conversationId = getConversationId();
+
+    abortController = new AbortController();
+
+    // 构建请求体
+    const requestBody = {
+      message: text,
+      user_id: userId,
+      conversation_id: conversationId,
+    };
+
+    // 第一条消息附带访客信息和页面上下文
+    if (isFirstMessage) {
+      requestBody.visitor_info = getVisitorInfo();
+      requestBody.is_first_message = true;
+    }
+
+    // 调用API
+    fetch(API_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(requestBody),
+      signal: abortController.signal
+    }).then(function(response) {
+      if (!response.ok) {
+        throw new Error('HTTP ' + response.status);
+      }
+
+      // 移除loading，创建bot消息气泡
+      typingEl.remove();
+
+      const { msgDiv: botMsgEl, bubble: botBubble } = createMessageEl('bot', '');
+      botBubble.classList.add('streaming');
+      messagesEl.appendChild(botMsgEl);
+      currentBotMsgEl = botMsgEl;
+      currentBotBubbleEl = botBubble;
+
+      // 处理流式响应
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder('utf-8');
+      let buffer = '';
+      let fullContent = '';
+
+      function readStream() {
+        return reader.read().then(function(result) {
+          if (result.done) {
+            finishStreaming(fullContent);
+            return;
+          }
+
+          buffer += decoder.decode(result.value, { stream: true });
+
+          // 解析SSE事件（按行分割）
+          const lines = buffer.split('\n');
+          buffer = lines.pop() || ''; // 保留不完整的行
+
+          for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (!line) continue;
+            if (line.startsWith('data:')) {
+              const dataStr = line.slice(5).trim();
+              if (dataStr === '[DONE]') {
+                finishStreaming(fullContent);
+                return;
+              }
+              try {
+                const data = JSON.parse(dataStr);
+                // v2格式: { event: 'message', message: { content: '...' } }
+                // v3格式: { event_type: 'conversation.message.delta', data: { content: '...' } }
+                let delta = '';
+                if (data.event === 'message' && data.message && data.message.content) {
+                  delta = data.message.content;
+                } else if (data.event_type === 'conversation.message.delta' && data.data && data.data.content) {
+                  delta = data.data.content;
+                } else if (data.event === 'done' || data.event_type === 'conversation.chat.completed') {
+                  continue;
+                }
+                if (delta) {
+                  fullContent += delta;
+                  currentBotBubbleEl.textContent = fullContent;
+                  scrollToBottom();
+                }
+              } catch (e) {
+                // 忽略解析错误
+              }
+            }
+          }
+
+          return readStream();
+        });
+      }
+
+      return readStream();
+
+    }).catch(function(err) {
+      if (err.name === 'AbortError') return;
+
+      // 移除loading，显示错误
+      if (typingEl.parentNode) {
+        typingEl.remove();
+      }
+      const errorMsg = zh ? '抱歉，服务暂时不可用，请稍后再试。' : 'Sorry, service is temporarily unavailable. Please try again later.';
+      const { msgDiv: errMsgEl } = createMessageEl('bot', errorMsg);
+      messagesEl.appendChild(errMsgEl);
+      messages.push({ role: 'bot', content: errorMsg });
+      saveMessages(messages);
+      scrollToBottom();
+
+      isStreaming = false;
+      sendBtn.disabled = false;
+    });
+
+    function finishStreaming(content) {
+      if (currentBotBubbleEl) {
+        currentBotBubbleEl.classList.remove('streaming');
+      }
+      if (content) {
+        messages.push({ role: 'bot', content: content });
+        saveMessages(messages);
+      }
+      isStreaming = false;
+      sendBtn.disabled = false;
+      currentBotMsgEl = null;
+      currentBotBubbleEl = null;
+      abortController = null;
+      // 第一条消息发送完成，标记为非首次
+      isFirstMessage = false;
+      updateUnreadDot();
+    }
+  }
+
+  // ========== 未读/对话中状态指示 ==========
+  function updateUnreadDot() {
+    if (!unreadDot) return;
+    // 有对话进行中（消息数 > 1）且面板关闭时显示
+    const isPanelOpen = panel.style.display === 'flex';
+    const hasConversation = messages.length > 1;
+    if (!isPanelOpen && hasConversation) {
+      unreadDot.style.display = 'block';
+    } else {
+      unreadDot.style.display = 'none';
+    }
+  }
+
+  // ========== 聊天面板开关 ==========
+  function toggleChatPanel(forceOpen) {
+    const isHidden = panel.style.display === 'none' || panel.style.display === '';
+    const shouldOpen = forceOpen === true ? true : (forceOpen === false ? false : isHidden);
+
+    if (shouldOpen) {
+      panel.style.display = 'flex';
+      markPanelOpened();
+      hideProactiveBubble();
+
+      // 首次展开：如果没有消息，发送欢迎语
+      if (messages.length === 0) {
+        const welcome = getWelcomeMessage();
+        messages.push({ role: 'bot', content: welcome });
+        saveMessages(messages);
+        renderExistingMessages();
+      } else {
+        renderExistingMessages();
+      }
+      // 延迟聚焦输入框
+      setTimeout(function() { inputEl.focus(); }, 100);
+    } else {
+      panel.style.display = 'none';
+      if (isStreaming && abortController) {
+        abortController.abort();
+      }
+    }
+    updateUnreadDot();
+  }
+
+  // ========== 最小化 ==========
+  function minimizeChatPanel() {
+    // 最小化 = 关闭面板但保留对话状态
+    panel.style.display = 'none';
+    if (isStreaming && abortController) {
+      abortController.abort();
+    }
+    updateUnreadDot();
+  }
+
+  // ========== 事件绑定 ==========
+  toggleBtn.addEventListener('click', function() {
+    toggleChatPanel();
+  });
+
+  closeBtn.addEventListener('click', function() {
+    toggleChatPanel(false);
+  });
+
+  if (minimizeBtn) {
+    minimizeBtn.addEventListener('click', function() {
+      minimizeChatPanel();
+    });
+  }
+
+  if (humanBtn) {
+    humanBtn.addEventListener('click', function() {
+      // 先打开面板（如果没打开）
+      if (panel.style.display !== 'flex') {
+        toggleChatPanel(true);
+      }
+      showHumanForm();
+    });
+  }
+
+  sendBtn.addEventListener('click', sendMessage);
+
+  inputEl.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  // ========== 行为触发逻辑 ==========
+
+  // 1. 停留30秒触发
+  try {
+    setTimeout(function() {
+      const msg = getProactiveMessage('stay');
+      showProactiveBubble(msg, 'stay');
+    }, PROACTIVE_CONFIG.stayDuration);
+  } catch (e) {}
+
+  // 2. 滚动到底部触发
+  try {
+    let bottomTriggered = false;
+    function handleScroll() {
+      if (bottomTriggered) return;
+      if (hasOpenedPanel()) {
+        window.removeEventListener('scroll', handleScroll);
+        return;
+      }
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+      const distanceToBottom = docHeight - scrollTop - windowHeight;
+
+      if (distanceToBottom <= PROACTIVE_CONFIG.bottomThreshold) {
+        bottomTriggered = true;
+        const msg = getProactiveMessage('bottom');
+        showProactiveBubble(msg, 'bottom');
+        window.removeEventListener('scroll', handleScroll);
+      }
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true });
+  } catch (e) {}
+
+  // 3. 鼠标离开顶部（即将关闭标签）触发
+  try {
+    function handleMouseLeave(e) {
+      if (hasOpenedPanel()) {
+        document.removeEventListener('mouseleave', handleMouseLeave);
+        return;
+      }
+      // 只检测从顶部离开（鼠标移向浏览器标签关闭区域）
+      if (e.clientY <= PROACTIVE_CONFIG.mouseleaveTopThreshold) {
+        const msg = getProactiveMessage('exit');
+        const shown = showProactiveBubble(msg, 'exit');
+        if (shown) {
+          // exit 类型只触发一次
+          document.removeEventListener('mouseleave', handleMouseLeave);
+        }
+      }
+    }
+    document.addEventListener('mouseleave', handleMouseLeave);
+  } catch (e) {}
+
+  // 初始化渲染（如果有历史消息）
+  if (messages.length > 0) {
+    // 不立即渲染，等展开时再渲染
+    isFirstMessage = false; // 有历史消息说明不是首次对话
+    updateUnreadDot();
+  }
+
+})();
+</script>

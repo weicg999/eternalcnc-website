@@ -3,7 +3,6 @@
  * SEOHead 组件 - TDK + Schema.org 结构化数据 + Open Graph + hreflang 双语互链
  *
  * hreflang 采用 import.meta.glob 枚举 src/pages 下真实存在的路由，
- * 不再依赖 fs.existsSync + import.meta.url（静态构建下该探测恒失效）。
  * 命名不对称的双语页（知识页）用 LANG_MAP 显式映射。
  */
 interface Props {
@@ -13,6 +12,8 @@ interface Props {
   ogImage?: string;
   schema?: object | object[];
   noindex?: boolean;
+  lang?: string;
+  alternateUrls?: { en?: string; zh?: string };
 }
 
 const {
@@ -22,9 +23,14 @@ const {
   ogImage = '/images/og-default.webp',
   schema,
   noindex = false,
+  lang = 'en',
+  alternateUrls,
 } = Astro.props;
 
 const canonical = canonicalUrl || new URL(Astro.url.pathname, Astro.site).href;
+const isZh = lang === 'zh' || Astro.url.pathname.startsWith('/zh');
+const ogLocale = isZh ? 'zh_CN' : 'en_US';
+const ogSiteName = isZh ? '鑫永恒精密加工' : 'Eternal CNC Precision Machining';
 
 // 枚举所有真实存在的路由
 const allModules = import.meta.glob('../pages/**/*.astro', { eager: true });
@@ -36,7 +42,7 @@ for (const p of Object.keys(allModules)) {
   routes.add('/' + r);
 }
 
-// 命名不对称的双语页（仅 slug 不同的几对知识页）——其余中英文仅前缀不同，自动互换
+// 命名不对称的双语页（仅 slug 不同的几对知识页）
 const LANG_MAP: Record<string, string> = {
   '/zh/knowledge/dfm-guides': '/knowledge/dfm-guide',
   '/zh/knowledge/machining-tolerances': '/knowledge/tolerance',
@@ -48,13 +54,10 @@ const LANG_MAP: Record<string, string> = {
   '/knowledge/quality': '/zh/knowledge/quality-certification',
 };
 
-// 归一化：去掉尾斜杠（根路径 '/' 除外），避免 /about/ 与 /about 匹配不上
+// 归一化：去掉尾斜杠（根路径 '/' 除外）
 const norm = (p: string) => (p.length > 1 ? p.replace(/\/$/, '') : p);
 const pathname = Astro.url.pathname;
 const np = norm(pathname);
-const isZh = np.startsWith('/zh');
-const ogLocale = isZh ? 'zh_CN' : 'en_US';
-const ogSiteName = isZh ? '永恒精密数控加工' : 'Eternal CNC Precision Machining';
 
 const enPath = isZh ? (np.replace(/^\/zh/, '') || '/') : np;
 const zhPath = isZh ? np : ('/zh' + (np === '/' ? '' : np));
@@ -63,25 +66,66 @@ const zhPath = isZh ? np : ('/zh' + (np === '/' ? '' : np));
 const counterPath = norm(LANG_MAP[np] || (isZh ? enPath : zhPath));
 const counterExists = routes.has(counterPath);
 
-const enUrl = new URL(isZh ? counterPath : np, Astro.site).href;
-const zhUrl = new URL(isZh ? np : counterPath, Astro.site).href;
+// 优先用 alternateUrls prop，再用自动推导
+const enUrl = alternateUrls?.en || new URL(isZh ? counterPath : np, Astro.site).href;
+const zhUrl = alternateUrls?.zh || new URL(isZh ? np : counterPath, Astro.site).href;
+
+// 默认 Organization 结构化数据（所有页面都加）
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: isZh ? '鑫永恒（深圳）精密实业有限公司' : 'Eternal CNC Precision Co., Ltd.',
+  url: new URL(isZh ? '/zh/' : '/', Astro.site).href,
+  logo: new URL('/images/og-default.webp', Astro.site).href,
+  description: isZh
+    ? '深圳鑫永恒精密，专注CNC精密零部件加工，提供铣削、车削、磨削、线切割一站式服务'
+    : 'Eternal CNC Precision - Professional CNC machining services including milling, turning, grinding and wire EDM in Shenzhen, China',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Songgang Street Shapu Community Guangjin Road No. 33 Comprehensive Building 101',
+    addressLocality: 'Baoan District, Shenzhen',
+    addressCountry: 'CN',
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+86-181-2398-3352',
+    email: 'sales@eternalcnc.com',
+    contactType: 'sales',
+    availableLanguage: ['English', 'Chinese', 'German', 'Japanese'],
+  },
+  sameAs: [],
+};
+
+// 合并 schema：传入的 + 默认 orgSchema
+const allSchemas: object[] = [orgSchema];
+if (schema) {
+  if (Array.isArray(schema)) {
+    allSchemas.push(...schema);
+  } else {
+    allSchemas.push(schema);
+  }
+}
 ---
 
 <!-- SEO Meta Tags -->
 <title>{title}</title>
 <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+<link rel="canonical" href={canonical} />
 
-    <!-- hreflang: 仅当对页真实存在时发出（避免悬空标注） -->
-    {counterExists && (
-      <>
-        <link rel="alternate" hreflang="en" href={enUrl} />
-        <link rel="alternate" hreflang="zh-CN" href={zhUrl} />
-        <link rel="alternate" hreflang="x-default" href={enUrl} />
-      </>
-    )}
+<!-- hreflang: 仅当对页真实存在时发出 -->
+{counterExists && (
+  <>
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="zh-CN" href={zhUrl} />
+    <link rel="alternate" hreflang="x-default" href={enUrl} />
+  </>
+)}
 
 {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<!-- 搜索验证 -->
+<meta name="google-site-verification" content="a4BZWAu4n-u9YfshFWMLfDpNy9UtAy5mdWSBqpW1c6I" />
+<meta name="baidu-site-verification" content="codeva-a3LVJU7qZD" />
 
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
@@ -99,6 +143,6 @@ const zhUrl = new URL(isZh ? np : counterPath, Astro.site).href;
 <meta name="twitter:image" content={new URL(ogImage, Astro.site).href} />
 
 <!-- 结构化数据 Schema.org -->
-{schema && (
-  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
-)}
+{allSchemas.map((s) => (
+  <script type="application/ld+json" set:html={JSON.stringify(s)} />
+))}
