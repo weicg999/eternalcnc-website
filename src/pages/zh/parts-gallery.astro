@@ -1,0 +1,116 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '资源', href: '/zh/knowledge' },
+  { label: '产品图集' },
+];
+
+const items = [
+  {
+    src: '/images/parts-gallery/aluminum-parts-collection.jpg',
+    title: '铝合金 CNC 加工件合集',
+    caption: '法兰、阀体、泵壳、支架等——铝合金非标加工的缩影。',
+  },
+  {
+    src: '/images/parts-gallery/multi-port-air-manifold.jpg',
+    title: '多路气源分配器',
+    caption: 'CNC 铣削铝合金多通分配器，用于流体 / 气路分配。',
+  },
+  {
+    src: '/images/parts-gallery/black-anodized-bracket.jpg',
+    title: '黑色阳极氧化支架',
+    caption: '铝合金侧装支架，表面做黑色阳极氧化处理。',
+  },
+  {
+    src: '/images/parts-gallery/die-cast-heatsink-flange.jpg',
+    title: '压铸铝散热器法兰座',
+    caption: '压铸铝合金散热器外壳，配合 CNC 精加工完成。',
+  },
+  {
+    src: '/images/parts-gallery/wheel-hub-bearing-seats.jpg',
+    title: '轮毂轴承座',
+    caption: '铝合金轮毂 / 轴承座支架，用于电驱动系统。',
+  },
+  {
+    src: '/images/parts-gallery/aluminum-impeller.jpg',
+    title: '铝合金叶轮',
+    caption: 'CNC 铣削铝合金叶轮，用于冷却 / 泵类场景。',
+  },
+  {
+    src: '/images/parts-gallery/l-shaped-mounting-bracket.jpg',
+    title: '异形 L 型安装支架',
+    caption: '非标 L 型铝合金支架，用于自动化设备。',
+  },
+  {
+    src: '/images/parts-gallery/vacuum-tee-fitting.jpg',
+    title: '真空三通接头',
+    caption: '精密加工的铝合金真空三通接头。',
+  },
+];
+---
+
+<PageLayout
+  title="产品图集 | 我们做过的真实铝合金零件 | Eternal CNC"
+  description="精选未签保密协议的铝合金 CNC 加工件——法兰、分配器、支架、叶轮、电机壳体等，不编客户名与公差，所见即真实。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">真实零件</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        产品图集
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        我们大部分订单签有保密协议（NDA），因此不能公开客户名、Logo 或具体公差。
+        以下零件来自未受限项目，能让你直观了解我们实际加工的产品。
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/knowledge/faq" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          查看 FAQ →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Grid -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {items.map((item) => (
+          <div class="group border rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <a href={item.src} target="_blank" rel="noopener noreferrer" class="block aspect-[4/3] overflow-hidden bg-gray-100">
+              <img src={item.src} alt={item.title} class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+            </a>
+            <div class="p-6">
+              <h3 class="text-lg font-bold mb-2" style="color: var(--brand-dark);">{item.title}</h3>
+              <p class="text-sm leading-relaxed" style="color: var(--text-body);">{item.caption}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">有零件想做？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        上传图纸，我们会在 24 小时内回复报价。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/services/cnc-machining" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          查看加工服务 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

@@ -61,7 +61,7 @@ const faqs = [
   },
   {
     q: 'Why aren\'t there any customer cases or client logos on your website?',
-    a: 'To be honest, that gap reflects how we prioritized our work in the past — we focused on the craft and under-invested in our own brand. Much of our early business came through domestic trading companies, where we did the precision machining behind the scenes rather than building a brand in the foreground.\n\nOur leadership comes from an engineering background, and for years we put our energy into “how to make a part right” rather than into marketing and business development. Times have changed, and we\'ve come to realize that craftsmanship alone isn\'t enough — we also need to communicate our value. This website is the first step in that transformation.\n\nWe should also be clear: most of what we make is non-standard custom work, and a substantial share of those parts are covered by non-disclosure agreements (NDAs). Per those agreements, customer names, drawings, and finished-part photos cannot be published. That isn\'t us avoiding the question — it\'s us keeping our word.\n\nThat said, among the custom parts not under NDA, there is a portion we can show. We\'ve put together a selection of permissible real part photos (our Parts Gallery), annotated with material, process, and surface finish — no invented customer names, no fabricated tolerances. What you see is real.'
+    a: 'To be honest, that gap reflects how we prioritized our work in the past — we focused on the craft and under-invested in our own brand. Much of our early business came through domestic trading companies, where we did the precision machining behind the scenes rather than building a brand in the foreground.\n\nOur leadership comes from an engineering background, and for years we put our energy into “how to make a part right” rather than into marketing and business development. Times have changed, and we\'ve come to realize that craftsmanship alone isn\'t enough — we also need to communicate our value. This website is the first step in that transformation.\n\nWe should also be clear: most of what we make is non-standard custom work, and a substantial share of those parts are covered by non-disclosure agreements (NDAs). Per those agreements, customer names, drawings, and finished-part photos cannot be published. That isn\'t us avoiding the question — it\'s us keeping our word.\n\nThat said, among the custom parts not under NDA, there is a portion we can show. We\'ve put together a selection of permissible real part photos (our <a href="/parts-gallery">Parts Gallery</a>), annotated with material, process, and surface finish — no invented customer names, no fabricated tolerances. What you see is real.'
   },
 ];
 
@@ -127,7 +127,7 @@ const faqSchema = {
         {faqs.map((faq) => (
           <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
             <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{faq.q}</h3>
-            <p class="text-sm leading-relaxed" style="color: var(--text-body);">{faq.a}</p>
+            <p class="text-sm leading-relaxed" style="color: var(--text-body);" set:html={faq.a}></p>
           </div>
         ))}
       </div>
