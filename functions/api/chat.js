@@ -67,13 +67,11 @@ const FORBIDDEN_PATTERNS = [
   // 医疗植入
   /implant/i,
   /植入/,
-  // 越界能力
-  /注塑|injection mold/i,
-  /3D打印|3d print/i,
-  /钣金|sheet metal/i,
-  /激光切割|laser cut/i,
-  /冲压|stamp/i,
-  /铸造|cast(ing)?/i,
+  // 越界能力（只挡"我方做/提供该工艺"的过承诺；"可介绍/伙伴/对接"等牵线话术放行）
+  // 否定环视 (?![^。.!?\n]{0,15}不) 排除"我们不做X/不涉及X/不直接做X"等正确否认句式，避免误杀牵线回复
+  /(我们|我方|本公司|本厂|我司)(?![^。.!?\n]{0,15}不)[^。.!?\n]{0,8}(做|提供|承接|主营|擅长|专做|也做|涉及|具备|拥有)[^。.!?\n]{0,6}(注塑|injection|3D打印|3d print|钣金|sheet metal|激光切割|laser cut|冲压|stamp|铸造|cast)/i,
+  // 英文同理：挡 "we do/offer injection..." 过承诺；"we can introduce you to our injection partner" 因 intro 词在 15 字窗外而放行；(?![^.!?\n]{0,10}(?:n't|\bnot\b)) 排除 "we do not / we don't offer"
+  /we (?:also |can |do |offer |provide |handle |manufacture)(?![^.!?\n]{0,10}(?:n't|\bnot\b))[^.!?\n]{0,15}(?:injection|sheet metal|laser cutting|stamping|casting|3d printing)/i,
 ];
 
 // 2. 核心事实反向校验（检测到错误数字/事实就重试）
