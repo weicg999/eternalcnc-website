@@ -1,6 +1,7 @@
 # Cloudflare Pages _redirects — relative paths only.
-# Apex (eternalcnc.com) -> www (www.eternalcnc.com) redirect is configured
-# in Cloudflare "Custom domains" settings, not here (absolute URLs not allowed).
+# 规范域名（canonical）已于 2026-09-03 统一为裸域 eternalcnc.com，见 astro.config.mjs 的 site。
+# 裸域与 www 目前均直接 200、无 301 互跳（Cloudflare "Custom domains" 未启用 apex→www 重定向）。
+# 注：本文件不允许写绝对 URL，重定向规则只能在 Cloudflare 后台配。
 
 # SEO: old /about-us to new /about/
 /about-us  /about/  301

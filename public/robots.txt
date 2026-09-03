@@ -3,5 +3,5 @@ Allow: /
 Disallow: /api/
 Disallow: /_astro/
 
-Sitemap: https://www.eternalcnc.com/sitemap-index.xml
-Sitemap: https://www.eternalcnc.com/sitemap-0.xml
+Sitemap: https://eternalcnc.com/sitemap-index.xml
+Sitemap: https://eternalcnc.com/sitemap-0.xml

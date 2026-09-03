@@ -6,15 +6,15 @@
  *   印在纸卡/名片/展会物料上的【动态二维码】指向本页（或经短链服务跳转至此）。
  *   官网正式上线后，有两种零重印切换方式：
  *     1) 改下方 TARGET_URL 为本司正式官网，重新 build 部署即可；
- *     2) 或直接在短链后台把指向从 /qr 改为 https://www.eternalcnc.com （推荐，连部署都不用）。
+ *     2) 或直接在短链后台把指向从 /qr 改为 https://eternalcnc.com （推荐，连部署都不用）。
  *
  * 注意：本页不承诺任何质量/认证内容，仅为引流与品牌占位，避免虚假宣传风险。
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 // ===== 跳转目标配置（唯一需要改动的地方）=====
-// 官网就绪后改为 'https://www.eternalcnc.com' 重新部署，或保持本页不动、只改短链后台。
-const TARGET_URL = 'https://www.eternalcnc.com';
+// 官网就绪后改为 'https://eternalcnc.com' 重新部署，或保持本页不动、只改短链后台。
+const TARGET_URL = 'https://eternalcnc.com';
 const REDIRECT_DELAY_MS = 4000; // 4 秒后自动跳转；设为 0 可关闭自动跳转
 // ============================================
 
@@ -38,7 +38,7 @@ const pageDesc = 'Our new website is on the way. Meanwhile, reach our team direc
       </div>
 
       <ul class="qr-contact">
-        <li><span>Web</span><a href={TARGET_URL}>www.eternalcnc.com</a></li>
+        <li><span>Web</span><a href={TARGET_URL}>eternalcnc.com</a></li>
         <li><span>RFQ</span><a href="/contact/get-a-quote">Send a drawing, get a quote in 24h</a></li>
       </ul>
 

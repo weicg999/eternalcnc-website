@@ -3,7 +3,7 @@ import { readdirSync, writeFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 const outDir = 'dist';
-const site = 'https://www.eternalcnc.com';
+const site = 'https://eternalcnc.com';
 
 function walk(dir) {
   const out = [];
