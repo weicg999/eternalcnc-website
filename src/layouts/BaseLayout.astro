@@ -16,11 +16,14 @@ interface Props {
 const { title, description, schema, lang } = Astro.props;
 const pageLang = lang || (Astro.url.pathname.startsWith('/zh') ? 'zh' : 'en');
 
-// Site-wide Organization structured data (GEO: helps AI engines identify a real business)
+// Site-wide Organization structured data (helps search engines / AI engines
+// identify a real, registered Shenzhen business and disambiguate from unrelated
+// entities that also use the "eternalcnc.com" domain in legacy directories)
 const orgSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Eternal CNC Precision Machining',
+  legalName: 'Xinyongheng (Shenzhen) Precision Industrial Co., Ltd.',
   url: 'https://www.eternalcnc.com',
   logo: 'https://www.eternalcnc.com/images/logo/home-logo-brand-mark.webp',
   image: 'https://www.eternalcnc.com/images/og-default.webp',
@@ -28,6 +31,14 @@ const orgSchema = {
   slogan: 'Precision CNC Machining for Global Engineers',
   areaServed: 'Worldwide',
   knowsAbout: ['CNC Machining', '5-Axis Milling', 'CNC Turning', 'Wire EDM', 'Precision Grinding', 'DFM Analysis', 'Surface Treatment'],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Room 101, Comprehensive Building, No.33 Guangjin Road, Shapu Community, Songgang Street',
+    addressLocality: 'Shenzhen',
+    addressRegion: 'Guangdong',
+    addressCountry: 'CN',
+  },
+  telephone: '+86 181 2398 3352',
 };
 ---
 
@@ -36,6 +47,8 @@ const orgSchema = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- 神马验证改用根目录文件 /shenma-site-verification.txt（public/ 直出），meta 方式已废弃 -->
+    <meta name="sogou_site_verification" content="pMUajSopW3" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />

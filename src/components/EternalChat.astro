@@ -473,8 +473,20 @@
       right: 0;
       left: 0;
       width: 100%;
+      /* 容器整宽且 z-50，会形成横跨屏幕的透明拦截带，吃掉页面底部点击
+         （实测挡住 cookie 横幅的 Accept/Reject，导致横幅关不掉、底部 CTA 永久不可点）。
+         故容器本身不接收点击，仅交互元素接收。 */
+      pointer-events: none;
     }
-    #eternal-chat-toggle-btn {
+    #eternal-chat-widget #eternal-chat-toggle-btn,
+    #eternal-chat-widget #eternal-chat-panel,
+    #eternal-chat-widget .proactive-bubble {
+      pointer-events: auto;
+    }
+    /* 注意：选择器必须带 #eternal-chat-widget 前缀。
+       上面的基础样式也是双 ID 选择器 (0,2,0)，媒体查询不提升特异性，
+       若这里写成单 ID (0,1,0) 则 position:fixed 不生效，按钮会跑出屏幕左侧。 */
+    #eternal-chat-widget #eternal-chat-toggle-btn {
       position: fixed;
       bottom: 16px;
       right: 16px;
