@@ -1,0 +1,311 @@
+---
+// Coze (扣子) 智能客服组件
+// 英文站与中文站（/zh 路径）均注入；机器人本身多语，可跟随客户语言回复。
+
+// bot_id 是公开标识，可注入前端。
+// ⚠️ PAT（访问令牌）不再注入前端：改为运行时从 Pages Function /chat-token 获取，
+//    避免 PAT 出现在构建产物源码里。
+const COZE_BOT_ID = import.meta.env.COZE_BOT_ID || '';
+
+// SDK 版本来自扣子「安装」页（1.2.0-beta.19，beta 版，留意稳定性）
+const COZE_SDK_SRC = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js';
+---
+
+{(
+  <>
+    <!-- 自定义悬浮球：使用客服头像（女士） -->
+    <button id="coze-custom-fab" aria-label="Open chat">
+      <img src="/images/chat-avatar.png" alt="Chat assistant" />
+    </button>
+
+    <!-- 扣子 Web SDK -->
+    <script src={COZE_SDK_SRC} is:inline></script>
+
+    {(COZE_BOT_ID) && (
+      <script is:inline define:vars={{ COZE_BOT_ID }}>
+      (function () {
+        var fab = document.getElementById('coze-custom-fab');
+
+        // ===== 会话身份与生命周期策略 =====
+        // - 匿名用户身份存 localStorage（eternalcnc_coze_uid = {id, ts}）
+        // - 同一身份 24h 内：静默续接
+        // - 同一身份 24h~7天：弹窗询问 [继续] / [清空开始新对话]
+        // - 身份变更 / >7天 / 首次：强制丢弃 SDK 旧会话，杜绝跨访客串聊
+        // ⚠️ 关键：Coze SDK 的会话续接绑在它自己的 conversation_id 上（非我们的 user），
+        //    仅改 user 或删 Slardar 键都拦不住，必须调用 newConversation()+clearChatHistory() 真正丢弃。
+        var DAY = 86400000;
+        var RESUME_MS = 1 * DAY;   // 24h 静默续接窗口
+        var RETAIN_MS = 7 * DAY;   // 7天硬上限
+        var UID_KEY = 'eternalcnc_coze_uid';
+        var ACTIVE_KEY = 'eternalcnc_coze_active'; // 当前持有 SDK 会话的身份 id
+
+        function genId() {
+          var raw = (window.crypto && crypto.randomUUID)
+            ? crypto.randomUUID()
+            : ('u' + Date.now().toString(16) + Math.random().toString(16).slice(2));
+          // 前缀 visitor- 便于服务端 /chat-token 校验身份格式
+          return 'visitor-' + raw;
+        }
+        function readUid() {
+          try { var r = localStorage.getItem(UID_KEY); if (r) return JSON.parse(r); } catch (e) {}
+          return null;
+        }
+        function writeUid(obj) {
+          try { localStorage.setItem(UID_KEY, JSON.stringify(obj)); } catch (e) {}
+        }
+        function freshUid() {
+          var o = { id: genId(), ts: Date.now() };
+          writeUid(o);
+          return o;
+        }
+
+        var uid = readUid();
+        if (!uid) uid = freshUid();
+        var age = Date.now() - uid.ts;
+        var active = null;
+        try { active = localStorage.getItem(ACTIVE_KEY); } catch (e) {}
+
+        // 身份与上次持有会话的身份不一致 → 视为不同访客，必须丢弃旧会话
+        var identityChanged = (active !== uid.id);
+
+        var mode; // 'fresh' | 'resume' | 'prompt'
+        if (identityChanged) {
+          mode = 'fresh';            // 不同 ID / 新访客 → 开新会话
+        } else if (age > RETAIN_MS) {
+          mode = 'fresh';            // 同身份但超 7 天 → 丢弃
+        } else if (age < RESUME_MS) {
+          mode = 'resume';           // 同身份 24h 内 → 静默续接
+        } else {
+          mode = 'prompt';           // 同身份 24h~7天 → 弹窗询问
+        }
+
+        // ===== 获取令牌后再初始化 SDK（PAT 仅存在于服务端 /chat-token，不进前端源码） =====
+        var client = null;
+        function bootstrap(token) {
+        client = new CozeWebSDK.WebChatClient({
+          config: { bot_id: COZE_BOT_ID, isIframe: false },
+          componentProps: {
+            title: 'EternalCNC Assistant',
+            icon: '/images/chat-avatar.png' // 尝试设置对话消息里的 Bot 头像
+          },
+          auth: {
+            type: 'token',
+            token: token,
+            user_id: uid.id, // 关键：每个访客唯一ID，扣子靠这个隔离会话
+            onRefreshToken: function () { return token; }
+          },
+          ui: {
+            base: {
+              icon: '/images/logo/favicon.png',
+              layout: 'pc',
+              zIndex: 10000
+            },
+            asstBtn: { isNeed: false }, // 隐藏默认蓝色悬浮球
+            chatBot: {
+              title: 'EternalCNC Assistant',
+              onShow: function () {
+                if (fab) fab.style.display = 'none';
+                onChatOpen();
+              },
+              onHide: function () {
+                if (fab) fab.style.display = '';
+              }
+            }
+          }
+        });
+
+        // ===== 关键修复：丢弃 SDK 自动续接的旧会话（跨访客串聊根因） =====
+        // Coze SDK 会按自己的 conversation_id 自动续接上次的聊天，仅改 user/删键无效，
+        // 必须显式 newConversation()+clearChatHistory() 才能真正清空。
+        var clearedThisLoad = false;
+        function resetConversation() {
+          try { if (client.newConversation) client.newConversation(); } catch (e) {}
+          try { if (client.clearChatHistory) client.clearChatHistory(); } catch (e) {}
+          clearedThisLoad = true;
+          try { localStorage.setItem(ACTIVE_KEY, uid.id); } catch (e) {}
+        }
+        function ensureFresh() {
+          if (clearedThisLoad) return;
+          resetConversation();
+        }
+        if (mode === 'fresh') {
+          // SDK 初始化可能尚未就绪，立即 + 延迟 + 首次打开兜底三保险
+          try { ensureFresh(); } catch (e) {}
+          setTimeout(function () { try { ensureFresh(); } catch (e) {} }, 1200);
+        }
+
+        // 点击自定义悬浮球 → 打开聊天框
+        if (fab) {
+          fab.addEventListener('click', function () { client.showChatBot(); });
+        }
+
+        // 强制把消息气泡里的 Bot 头像换成客服头像（女士）。
+        // 扣子个人版的 componentProps.icon 对消息气泡头像无效，
+        // SDK 用的是 bot 后台图标（class: coze-chat-sdk-semi-avatar-img），这里用 observer 持续覆盖。
+        function forceBotAvatar() {
+          document.querySelectorAll('img.coze-chat-sdk-semi-avatar-img').forEach(function (img) {
+            if (img.getAttribute('src') !== '/images/chat-avatar.png') {
+              img.setAttribute('src', '/images/chat-avatar.png');
+            }
+          });
+        }
+        forceBotAvatar();
+        if (window.MutationObserver) {
+          new MutationObserver(forceBotAvatar).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['src'] });
+        }
+
+        // ===== 新对话 / 清屏 =====
+        // 点击：丢弃当前 SDK 会话（newConversation + clearChatHistory）+ 旋转到全新匿名身份 + 重置 7天计时。
+        function startNewConversation() {
+          resetConversation();        // 丢弃当前 SDK 会话并记 active=当前 uid
+          uid = freshUid();           // 旋转到全新身份
+          try { localStorage.setItem(ACTIVE_KEY, uid.id); } catch (e) {}
+        }
+
+        // ===== 透明提示：输入框下方固定小字 =====
+        function injectFooterHint() {
+          if (document.getElementById('eternalcnc-chat-hint')) return;
+          var panel = document.querySelector('[class*="coze-chat-sdk"]');
+          if (!panel) return;
+          var hint = document.createElement('div');
+          hint.id = 'eternalcnc-chat-hint';
+          hint.innerHTML = '对话仅保存7天（用于服务与溯源），共享设备请及时清空 ' +
+            '<a href="javascript:void(0)" id="eternalcnc-newchat-link" style="color:#8B0000;text-decoration:underline;">[新对话]</a>';
+          hint.style.cssText = 'font-size:12px;color:#888;padding:6px 12px;text-align:center;border-top:1px solid #eee;';
+          panel.appendChild(hint);
+          var link = hint.querySelector('#eternalcnc-newchat-link');
+          if (link) link.addEventListener('click', function (e) { e.preventDefault(); startNewConversation(); });
+        }
+
+        // ===== 固定“新对话”按钮（浮球上方） =====
+        var newBtn = document.createElement('button');
+        newBtn.id = 'coze-newchat-fab';
+        newBtn.textContent = '新对话';
+        newBtn.title = '对话仅保存7天，点击清空并开启新会话';
+        newBtn.style.cssText = 'position:fixed;right:24px;bottom:92px;z-index:10000;background:#8B0000;color:#fff;border:none;border-radius:18px;padding:8px 14px;font-size:13px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.15);';
+        document.body.appendChild(newBtn);
+        newBtn.addEventListener('click', function () { startNewConversation(); });
+
+        // ===== 24h~7天 历史记录弹窗 =====
+        function showHistoryPopup() {
+          if (document.getElementById('eternalcnc-hist-modal')) return;
+          var overlay = document.createElement('div');
+          overlay.id = 'eternalcnc-hist-modal';
+          overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:10001;display:flex;align-items:center;justify-content:center;';
+          overlay.innerHTML = '<div style="background:#fff;border-radius:10px;max-width:340px;padding:24px;font-family:Arial,sans-serif;">' +
+            '<p style="margin:0 0 16px;font-size:15px;line-height:1.5;">检测到历史记录，是否继续上次的对话？</p>' +
+            '<div style="display:flex;gap:12px;justify-content:flex-end;">' +
+            '<button id="hist-continue" style="padding:8px 16px;border:1px solid #8B0000;background:#fff;color:#8B0000;border-radius:6px;cursor:pointer;">继续</button>' +
+            '<button id="hist-clear" style="padding:8px 16px;border:none;background:#8B0000;color:#fff;border-radius:6px;cursor:pointer;">清空开始新对话</button>' +
+            '</div></div>';
+          document.body.appendChild(overlay);
+          overlay.querySelector('#hist-continue').addEventListener('click', function () { overlay.remove(); });
+          overlay.querySelector('#hist-clear').addEventListener('click', function () {
+            overlay.remove();
+            startNewConversation();
+            client.showChatBot();
+          });
+        }
+
+        var popupShown = false;
+        function onChatOpen() {
+          // fresh 模式下，若首开聊天时仍未清屏（client 当时未就绪），在此兜底丢弃旧会话
+          if (mode === 'fresh' && !clearedThisLoad) { try { ensureFresh(); } catch (e) {} }
+          injectFooterHint();
+          markChatRoot();
+          if (mode === 'prompt' && !popupShown) {
+            popupShown = true;
+            showHistoryPopup();
+          }
+        }
+
+        // 给 Coze 注入的聊天窗口根容器打标记，便于 CSS 做移动端全屏覆盖
+        function markChatRoot() {
+          try {
+            var roots = document.querySelectorAll('.coze-chat-sdk:not([class*="coze-chat-sdk-semi"])');
+            for (var i = 0; i < roots.length; i++) {
+              var el = roots[i];
+              var style = window.getComputedStyle(el);
+              // 仅标记固定定位的大容器（排除内部小控件）
+              if (style.position === 'fixed' && !el.classList.contains('eternalcnc-chat-root')) {
+                el.classList.add('eternalcnc-chat-root');
+              }
+            }
+          } catch (e) {}
+        }
+
+        // 聊天容器出现后持续注入提示 + 标记根容器
+        if (window.MutationObserver) {
+          new MutationObserver(function () { injectFooterHint(); markChatRoot(); }).observe(document.body, { childList: true, subtree: true });
+        }
+        markChatRoot();
+        } // ===== end bootstrap =====
+
+        // 运行时从 Pages Function 取访问令牌（PAT 仅在服务端环境变量里，不进前端源码）
+        fetch('/chat-token?user_id=' + encodeURIComponent(uid.id))
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (!data || !data.token) throw new Error('no token returned from /chat-token');
+            bootstrap(data.token);
+          })
+          .catch(function (err) {
+            console.error('[Coze] chat init failed:', err);
+            if (fab) fab.style.display = 'none';
+          });
+      })();
+      </script>
+    )}
+
+    <style is:global>
+      /* 自定义悬浮球样式 */
+      #coze-custom-fab {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        cursor: pointer;
+        padding: 0;
+        overflow: hidden;
+        z-index: 10000;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        background: transparent;
+      }
+      #coze-custom-fab:hover {
+        transform: scale(1.08);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      }
+      #coze-custom-fab img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* 移动端：Coze 聊天窗口占满全屏 */
+      @media (max-width: 640px) {
+        .eternalcnc-chat-root {
+          position: fixed !important;
+          inset: 0 !important;
+          width: 100vw !important;
+          height: 100vh !important;
+          max-width: none !important;
+          max-height: none !important;
+          min-width: auto !important;
+          min-height: auto !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          border-radius: 0 !important;
+          transform: none !important;
+          left: 0 !important;
+          right: 0 !important;
+          top: 0 !important;
+          bottom: 0 !important;
+        }
+      }
+    </style>
+  </>
+)}

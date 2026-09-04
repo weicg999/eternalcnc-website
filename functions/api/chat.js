@@ -37,6 +37,38 @@ const KV_KEY_PREFIX = 'customer:';
 // 记忆 TTL（秒）：90 天无互动自动过期
 const KV_TTL_SECONDS = 90 * 24 * 60 * 60;
 
+// ========== 个人邮箱（非对公）域名清单 ==========
+// 背景：2026-09-03 线上事故——访客在对话中留了个人 Gmail，被抽取进 profile.contact_email
+// 并在后续对话里被 Bot 包装成「您之前留的 xxx 对应的对接邮箱」引用出来，造成"公司有个人邮箱"
+// 的误导。护栏第 346 行虽有「个人邮箱不算对公」约束，但只作用于回复生成，管不到档案抽取。
+// 故此处做代码级硬保证：个人邮箱不写入 contact_email，也不作为「联系邮箱」注入上下文。
+const PERSONAL_EMAIL_DOMAINS = [
+  // 国内主流公众邮箱
+  'qq.com', 'vip.qq.com', 'foxmail.com', '163.com', '126.com', 'yeah.net',
+  'sina.com', 'sina.cn', 'sohu.com', 'aliyun.com', 'tom.com', '21cn.com',
+  '139.com', '189.cn', 'wo.cn',
+  // 国际主流公众邮箱
+  'gmail.com', 'googlemail.com', 'outlook.com', 'hotmail.com', 'live.com',
+  'msn.com', 'yahoo.com', 'yahoo.com.cn', 'ymail.com', 'icloud.com',
+  'me.com', 'mac.com', 'aol.com', 'protonmail.com', 'proton.me',
+  'zoho.com', 'gmx.com', 'gmx.de', 'mail.com', 'mail.ru', 'yandex.com',
+  'naver.com', 'hanmail.net', 'daum.net', 'nate.com',
+];
+
+/**
+ * 判断邮箱是否为个人/公众邮箱（非对公企业邮箱）
+ * @param {string} email
+ * @returns {boolean} true=个人邮箱，不应作为对公联系方式存储或引用
+ */
+function isPersonalEmail(email) {
+  if (!email || typeof email !== 'string') return false;
+  const at = email.lastIndexOf('@');
+  if (at < 0) return false;
+  const domain = email.slice(at + 1).toLowerCase().trim();
+  if (!domain) return false;
+  return PERSONAL_EMAIL_DOMAINS.some((d) => domain === d || domain.endsWith('.' + d));
+}
+
 const ALLOWED_ORIGINS = [
   'https://eternalcnc.com',
   'https://www.eternalcnc.com',
@@ -166,6 +198,57 @@ function jsonResponse(status, data, origin) {
   });
 }
 
+// ========== 细粒度语言识别（2026-09-04 新增） ==========
+// 背景：下面的 detectLanguage() 只有 zh/en 两档，日语/韩语/印地语/阿拉伯语/泰语/俄语/
+// 希腊语等全部被判成 en，导致 validateReply 的语言一致性检测在 18/20 个非中英场景里
+// 完全失效 —— 用户用印地语提问、bot 回英文，两边都判 en → "一致" → 放行（R12 实测）。
+// 故新增基于 Unicode 文段的识别，专供语言护栏使用。
+// 判定规则：按"独有文字"顺序检查，某文段出现 ≥2 个字符即判定（假名只用于日语，
+// 谚文只用于韩语，依此类推），避免日文回复因汉字占多数而被误判成中文。
+const SCRIPT_RANGES = [
+  { lang: 'ja', re: /[\u3040-\u309F\u30A0-\u30FF]/g },          // 平假名 / 片假名
+  { lang: 'ko', re: /[\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F]/g }, // 谚文
+  { lang: 'hi', re: /[\u0900-\u097F]/g },                        // 天城文
+  { lang: 'th', re: /[\u0E00-\u0E7F]/g },                        // 泰文
+  { lang: 'ar', re: /[\u0600-\u06FF\u0750-\u077F]/g },           // 阿拉伯文
+  { lang: 'he', re: /[\u0590-\u05FF]/g },                        // 希伯来文
+  { lang: 'el', re: /[\u0370-\u03FF]/g },                        // 希腊文
+  { lang: 'ru', re: /[\u0400-\u04FF]/g },                        // 西里尔文
+  { lang: 'zh', re: /[\u4E00-\u9FFF\u3400-\u4DBF]/g },           // 汉字（普通话与粤语共用）
+];
+
+function detectScript(text) {
+  if (!text || typeof text !== 'string') return 'en';
+  for (const s of SCRIPT_RANGES) {
+    const m = text.match(s.re);
+    if (m && m.length >= 2) return s.lang;
+  }
+  return 'en';
+}
+
+// 浏览器语言码 → 内部语言码。
+// 前端 EternalChat.astro 的 detectInitialLang() 已传标准码（ja / hi / yue / zh-CN / en …），
+// 故此处只需归一：粤语与繁体中文共用汉字，统一映射为 zh，否则粤语回复会被判成不匹配。
+function normalizeLang(lang) {
+  if (!lang || typeof lang !== 'string') return '';
+  const l = lang.trim().toLowerCase();
+  if (!l) return '';
+  if (l === 'yue' || l === 'zh-hk' || l === 'zh-mo' || l === 'zh-tw') return 'zh';
+  return l.split('-')[0] || '';
+}
+
+// 语种名称，供重试指令下发正确语言。
+// 修复缺陷：原 buildRetryMessage 对非 zh 用户一律下发 "REPLY IN PURE ENGLISH ONLY"，
+// 把日语/德语/法语用户本该用母语的回复硬掰成英文（R01 日本 100% 英文疑似由此而来）。
+const LANG_NAMES = {
+  ja: 'Japanese', ko: 'Korean', hi: 'Hindi', th: 'Thai', ar: 'Arabic',
+  he: 'Hebrew', el: 'Greek', ru: 'Russian', de: 'German', fr: 'French',
+  es: 'Spanish', pt: 'Portuguese', it: 'Italian', nl: 'Dutch', pl: 'Polish',
+  tr: 'Turkish', vi: 'Vietnamese', id: 'Indonesian', ms: 'Malay',
+  sv: 'Swedish', cs: 'Czech', ro: 'Romanian', uk: 'Ukrainian', fa: 'Persian',
+  zh: 'Chinese', en: 'English',
+};
+
 function detectLanguage(text) {
   if (!text) return 'en';
   const chineseChars = text.match(/[\u4e00-\u9fa5]/g);
@@ -175,7 +258,74 @@ function detectLanguage(text) {
   return (chineseCount / totalChars) > 0.15 ? 'zh' : 'en';
 }
 
-function validateReply(userMessage, replyContent) {
+// ========== 邮箱露出护栏（2026-09-04 新增） ==========
+// 背景：实测 14/20 场景在非问价、非要报价、非发图的情况下露出 sales@eternalcnc.com。
+// 原 validateReply 的三道检测（禁词 / 语言 / 事实）里，跟邮箱相关的规则命中数为 0，
+// 口径只写在 system prompt 中，没有任何代码兜底。
+// 策略：采用「后置删除」而非「判不合格重试」—— 重试会串行再跑一次 LLM，
+// 直接把响应耗时翻倍；删除是纯本地操作，零延迟。
+const EMAIL_DETECT_RE = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
+// 按句删除：从句首（不含句末标点）一直删到句末标点，不会跨句误伤
+const EMAIL_SENTENCE_RE = /[^。！？!?\n]*[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}[^。！？!?\n]*[。！？!?]?/g;
+// 允许露邮箱的两种场景：客户问价 / 客户要发图纸。
+// ⚠️ 不能只匹配裸「图纸」二字：R19 实测客户问「我啲圖紙會唔會保密㗎」是问保密而非要发图，
+// 关键词里却有"圖紙"，旧规则会误判成发图意图、邮箱照露。故必须「动作词 + 图纸」才放行。
+const EMAIL_ALLOWED_INTENT_RE = new RegExp(
+  '(报价|報價|价格|價錢|价钱|多少钱|多少錢|询价|詢價|費用|费用|\\bquote\\b|\\bquotation\\b|' +
+  '\\bpricing\\b|\\bprice\\b|\\bcost\\b|\\brfq\\b)' +
+  '|' +
+  '((发|發|寄|传|傳|上传|上傳|提交|递交|遞交)[^。！？!?\\n]{0,8}(图|圖|檔|档|文件|图纸)|' +
+  '(图|圖|檔|档|文件|图纸)[^。！？!?\\n]{0,8}(发|發|寄|传|傳|上传|上傳|提交)|' +
+  '\\b(send|upload|share)\\b[^.\\n]{0,20}(drawing|file|step|stp|dxf|model)|' +
+  '(drawing|file)[^.\\n]{0,20}\\b(send|upload|share)\\b)',
+  'i'
+);
+
+const FALLBACK_REPLY = {
+  yue: '明白，呢個問題我轉畀項目工程師同你確認。方便留低貴司企業郵箱嗎？我會安排工程師盡快回覆你。',
+  zh: '明白，这个问题我转给项目工程师跟您确认。方便留个贵司企业邮箱吗？我会安排工程师尽快回复您。',
+  en: 'Understood — let me route this to our project engineer for confirmation. Could you share your corporate email so we can follow up with the details?',
+};
+
+function getFallbackReply(userLang, visitorLangRaw) {
+  const raw = String(visitorLangRaw || '').toLowerCase();
+  if (raw === 'yue' || raw === 'zh-hk' || raw === 'zh-mo') return FALLBACK_REPLY.yue;
+  return userLang === 'zh' ? FALLBACK_REPLY.zh : FALLBACK_REPLY.en;
+}
+
+// 悬空指代清理：删掉邮箱地址后，常留下「请发到上面的邮箱」「via the above email」之类
+// 指代残留 —— 客户看得见指代却找不到地址，比露出邮箱更糟。
+// 通用做法：只要剩余文本仍提到邮箱类词汇（各语言写法），就把那一句一并删掉。
+const EMAIL_MENTION_DETECT_RE = /\b(e-?mail|mail)\b|邮箱|郵箱|邮件|郵件|电邮|電郵/i;
+const EMAIL_MENTION_STRIP_RE = /[^\n。！？!?]*(\b(e-?mail|mail)\b|邮箱|郵箱|邮件|郵件|电邮|電郵)[^\n。！？!?]*[。！？!?]?/gi;
+// 删掉的比例过高，说明回复主体就在讲邮箱，删完会答非所问 —— 此时改用兜底话术
+const STRIP_RATIO_LIMIT = 0.6;
+
+function stripEmailIfNotAllowed(userMessage, replyContent) {
+  if (!replyContent || typeof replyContent !== 'string') {
+    return { text: replyContent, stripped: false, tooShort: false };
+  }
+  if (!EMAIL_DETECT_RE.test(replyContent)) {
+    return { text: replyContent, stripped: false, tooShort: false };
+  }
+  // 客户确实在问价 / 要发图纸 —— 允许露出邮箱
+  if (EMAIL_ALLOWED_INTENT_RE.test(userMessage || '')) {
+    return { text: replyContent, stripped: false, tooShort: false };
+  }
+
+  let cleaned = replyContent.replace(EMAIL_SENTENCE_RE, '');
+  // 连同「上面的邮箱」这类悬空指代一起清掉，最多迭代 3 次防止死循环
+  for (let i = 0; i < 3 && EMAIL_MENTION_DETECT_RE.test(cleaned); i++) {
+    cleaned = cleaned.replace(EMAIL_MENTION_STRIP_RE, '');
+  }
+  cleaned = cleaned.replace(/\n{3,}/g, '\n\n').trim();
+
+  const ratio = replyContent.length ? 1 - cleaned.length / replyContent.length : 0;
+  const gutted = cleaned.length < 40 || ratio > STRIP_RATIO_LIMIT;
+  return { text: cleaned, stripped: true, tooShort: gutted };
+}
+
+function validateReply(userMessage, replyContent, visitorLang) {
   if (!replyContent || replyContent.trim().length < 2) {
     return { valid: false, reason: 'empty_reply' };
   }
@@ -188,10 +338,19 @@ function validateReply(userMessage, replyContent) {
   }
 
   // 2. 语言一致性检测
-  const userLang = detectLanguage(userMessage);
-  const replyLang = detectLanguage(replyContent);
-  if (userLang !== replyLang) {
-    return { valid: false, reason: `language_mismatch: user=${userLang}, reply=${replyLang}` };
+  // 基准优先级：访客浏览器语言 > 用户消息语言。
+  // 原实现以「用户消息语言」为基准，客户用英文提问、浏览器是日语时，
+  // 英文回复会被判「一致」而放行（R01 日本 / R12 印度实测即此缺陷：
+  // 印地语提问 → 判 en，英文回复 → 判 en → 通过）。
+  // 改为优先取浏览器语言后，日语场景的英文回复才能被正确拦下。
+  const browserLang = normalizeLang(visitorLang);
+  const expectedLang = browserLang || detectScript(userMessage);
+  const replyLang = detectScript(replyContent);
+  if (replyLang !== expectedLang) {
+    return {
+      valid: false,
+      reason: `language_mismatch: expected=${expectedLang}(via ${browserLang ? 'browser' : 'message'}), reply=${replyLang}`,
+    };
   }
 
   // 3. 核心事实反向校验
@@ -205,14 +364,23 @@ function validateReply(userMessage, replyContent) {
   return { valid: true, reason: 'ok' };
 }
 
-function buildRetryMessage(originalMessage, failureReason, userLang, retryCount) {
+function buildRetryMessage(originalMessage, failureReason, userLang, retryCount, visitorLangRaw) {
   const parts = [];
 
-  // 语言强制
-  if (userLang === 'zh') {
+  // 语言强制：按访客实际语种下发指令。
+  // 原实现对非中文用户一律下发 "REPLY IN PURE ENGLISH ONLY"，导致日语/德语/法语用户
+  // 一旦触发重试，回复就被硬掰成英文 —— R01 日本场景 100% 英文回复疑似由此而来。
+  const raw = String(visitorLangRaw || '').toLowerCase();
+  const langName = LANG_NAMES[userLang] || 'English';
+  if (raw === 'yue' || raw === 'zh-hk' || raw === 'zh-mo' || raw === 'zh-tw') {
+    parts.push('【最高優先級指令：必須用廣東話口語回覆，繁體字；唔好夾雜簡體字，亦唔好夾普通話詞彙（例如「還是」「什麼」「我們」「多少」）。違反將不合格。】');
+  } else if (userLang === 'zh') {
     parts.push('【最高优先级指令：你必须用纯中文回复，不能夹杂任何英文单词！违反将不合格。】');
-  } else {
+  } else if (userLang === 'en') {
     parts.push('【TOP PRIORITY: REPLY IN PURE ENGLISH ONLY! NO CHINESE CHARACTERS AT ALL.】');
+  } else {
+    parts.push(`【TOP PRIORITY: YOU MUST REPLY ENTIRELY IN ${langName.toUpperCase()}! ` +
+      `Do NOT reply in English or any other language — the customer is browsing in ${langName}.】`);
   }
 
   // 禁问引导
@@ -275,6 +443,21 @@ function buildRetryMessage(originalMessage, failureReason, userLang, retryCount)
   return parts.join('\n');
 }
 
+// 轻量语言指令：供非首条消息使用。
+// 原实现只在首条消息通过 buildContextPrefix 下发语言信息，第二轮之后完全没有语言提示，
+// bot 会在多轮对话中悄悄切回英文。这里补一条短指令，控制 prompt 长度。
+function buildLanguageDirective(visitorLangRaw, userLang) {
+  const raw = String(visitorLangRaw || '').toLowerCase();
+  if (raw === 'yue' || raw === 'zh-hk' || raw === 'zh-mo' || raw === 'zh-tw') {
+    return '【语言指令：必須使用廣東話口語回覆，繁體字，唔好夾雜簡體字同普通話詞彙。】\n';
+  }
+  if (userLang === 'zh') return '【语言指令：必须使用简体中文回复。】\n';
+  if (userLang === 'en') return '【Language directive: you must reply entirely in English.】\n';
+  const name = LANG_NAMES[userLang];
+  if (name) return `【Language directive: you must reply entirely in ${name}, not in English.】\n`;
+  return '';
+}
+
 function buildContextPrefix(visitorInfo) {
   if (!visitorInfo || typeof visitorInfo !== 'object') return '';
 
@@ -299,14 +482,27 @@ function buildContextPrefix(visitorInfo) {
       'zh': '简体中文',
       'en': 'English',
     };
-    const langLabel = langMap[language.toLowerCase()] || language;
-    let langTip = `- 访客语言偏好: ${langLabel}（请务必使用该语言回复）`;
+    // ⚠️ 原实现 langMap 只覆盖 7 个语言码，日语 / 印地语 / 德语 / 法语等其余 18 个语种
+    // 全部落到 `|| language` 兜底分支，bot 只看到「访客语言偏好: ja」这种弱提示，
+    // 缺少明确指令 —— 实测 15/20 场景因此仍回英文（R01 日本、R12 印度等）。
+    // 现用 LANG_NAMES 补全语种名称，并对所有语种统一加强措辞。
+    const langKey = language.toLowerCase();
+    const langBase = langKey.split('-')[0];
+    let langLabel = langMap[langKey];
+    if (!langLabel) {
+      const name = LANG_NAMES[langBase];
+      langLabel = name ? `${name}（${language}）` : language;
+    }
+    let langTip;
     if (langLabel.indexOf('粵語') === 0) {
-      langTip += '；请使用粵語（广东话）口语化回复，繁简皆可，避免书面普通话。';
+      langTip = `- 访客语言偏好: ${langLabel}。请使用粵語（广东话）口语化回复，使用繁体字，避免书面普通话词汇；不得改用英文或其他语言。`;
     } else if (langLabel === '简体中文') {
-      langTip += '；请使用简体中文回复。';
+      langTip = `- 访客语言偏好: 简体中文。请使用简体中文回复，不得改用英文或其他语言。`;
     } else if (langLabel === 'English') {
-      langTip += '; please reply in English.';
+      langTip = `- 访客语言偏好: English. You must reply entirely in English.`;
+    } else {
+      const name = LANG_NAMES[langBase] || langLabel;
+      langTip = `- 访客语言偏好: ${name}（${language}）。You must write the entire reply in ${name}, not in English.`;
     }
     parts.push(langTip);
     parts.push('- 重要指令：不要向访客询问「您想用哪种语言」，也不要声称自己仅支持某几种固定语言；请直接以上述访客语言偏好回复（若为粵語则用广东话口语，繁简皆可）。支持多语言是默认能力，无需访客手动选择。');
@@ -387,6 +583,18 @@ async function saveCustomerProfile(kv, userId, profile) {
   if (!kv) return;
   try {
     const key = KV_KEY_PREFIX + userId;
+    // 兜底拦截：即便 LLM 未按抽取规则区分，个人邮箱也不得写入 contact_email，
+    // 否则会被 Bot 当作「您之前留的邮箱」引用出来（2026-09-03 线上事故）。
+    if (profile.contact_email && isPersonalEmail(profile.contact_email)) {
+      // 注意：notes 同样会被注入上下文供 Bot 读取，故此处【不得】记录具体邮箱地址，
+      // 否则等于绕过拦截——Bot 仍能看到并引用它。只记性质，不落地址。
+      const note = '客户留的是个人邮箱（非对公），需引导提供企业邮箱';
+      if (!profile.notes || !profile.notes.includes(note)) {
+        profile.notes = profile.notes ? `${profile.notes}；${note}` : note;
+      }
+      if (profile.notes.length > 500) profile.notes = profile.notes.slice(0, 500);
+      profile.contact_email = '';
+    }
     await kv.put(key, JSON.stringify(profile), {
       expirationTtl: KV_TTL_SECONDS,
     });
@@ -455,7 +663,13 @@ function buildCustomerProfileContext(profile, lang) {
       lines.push(`- 客户关注点: ${profile.concerns.join(', ')}`);
     }
     if (profile.has_sent_drawing) lines.push('- 客户已发送过图纸');
-    if (profile.contact_email) lines.push(`- 联系邮箱: ${profile.contact_email}`);
+    // 个人邮箱不注入：历史档案中可能已存有个人邮箱（脏数据），若注入会被 Bot 包装成
+    // 「您之前留的 xxx 对应的对接邮箱」引用出来。命中个人邮箱时改为提示走对公口径。
+    if (profile.contact_email && !isPersonalEmail(profile.contact_email)) {
+      lines.push(`- 联系邮箱: ${profile.contact_email}`);
+    } else if (profile.contact_email) {
+      lines.push('- 联系邮箱: 客户此前留的是个人邮箱（非对公），请礼貌引导其提供贵司企业邮箱后再推进报价/图纸对接');
+    }
     if (profile.notes) lines.push(`- 备注: ${profile.notes}`);
     lines.push('【背景信息结束 - 直接回复用户当前的问题，自然利用以上信息，不要提及你有客户记录】');
   } else {
@@ -472,7 +686,12 @@ function buildCustomerProfileContext(profile, lang) {
       lines.push(`- Key concerns: ${profile.concerns.join(', ')}`);
     }
     if (profile.has_sent_drawing) lines.push('- Customer has sent drawings before');
-    if (profile.contact_email) lines.push(`- Contact email: ${profile.contact_email}`);
+    // 同上：个人邮箱不注入，改为提示走对公口径
+    if (profile.contact_email && !isPersonalEmail(profile.contact_email)) {
+      lines.push(`- Contact email: ${profile.contact_email}`);
+    } else if (profile.contact_email) {
+      lines.push('- Contact email: the customer previously left a personal (non-corporate) email — politely ask for their company email before moving forward with quotes or drawings');
+    }
     if (profile.notes) lines.push(`- Notes: ${profile.notes}`);
     lines.push('【End of background — Reply to the user\'s current message directly. Use the above info naturally, never mention that you have customer records.】');
   }
@@ -559,7 +778,7 @@ ${currentProfileJson}
 6. 如果对话涉及报价，更新 quote_status（enquired=刚咨询报价 / quoted=已给出报价 / follow_up=报价后跟进中 / closed=已结束）
 7. 如果客户提到了关注的重点（精度、交期、价格、质量等），追加到 concerns 数组（去重）
 8. 如果客户提到已发送图纸或要发图纸，设置 has_sent_drawing 为 true
-9. 如果客户留下了邮箱，填入 contact_email
+9. 如果客户留下了【企业/对公】邮箱，填入 contact_email；若是个人邮箱（Gmail/QQ/163/126/Outlook/Yahoo/Hotmail/Foxmail/icloud/sina 等公众邮箱），【不要】填入 contact_email，改为在 notes 追加「客户留的是个人邮箱，需引导提供企业邮箱」
 10. 其他重要信息存入 notes
 
 【输出格式】
@@ -585,7 +804,7 @@ Support reply: ${botReply}
 6. If the conversation is about quotation, update "quote_status" (enquired / quoted / follow_up / closed).
 7. If the customer mentioned key concerns (precision, lead time, price, quality, etc.), append to "concerns" array (deduplicate).
 8. If the customer sent or will send drawings, set "has_sent_drawing" to true.
-9. If the customer left an email, fill "contact_email".
+9. If the customer left a CORPORATE email, fill "contact_email". If it is a PERSONAL/public email (Gmail, QQ, 163, 126, Outlook, Yahoo, Hotmail, Foxmail, iCloud, Sina, etc.), do NOT fill "contact_email" — instead append to "notes": "customer left a personal email, need to ask for their company email"
 10. Other important info goes into "notes".
 
 [OUTPUT FORMAT]
@@ -831,7 +1050,13 @@ export async function onRequestPost(context) {
 
   let finalMessage = message;
   let customVariables = null;
-  const userLang = detectLanguage(message);
+  // 语言基准：优先取浏览器语言（前端 EternalChat.astro 已传标准语言码
+  // ja / hi / yue / zh-CN / en …），取不到再退回"用户消息语言"。
+  // 原实现只认消息语言，导致客户用英文提问时，日语/印地语场景的英文回复被判"一致"放行。
+  // 归一化后 zh / yue 同为 'zh'，粤语客户走中文注入层，其余语种走英文注入层。
+  const visitorLangRaw = (visitorInfo && visitorInfo.language) || '';
+  const userLang = normalizeLang(visitorLangRaw) || detectScript(message);
+
 
   try {
     // 等待档案读取完成（KV 通常很快，几十毫秒级）
@@ -858,9 +1083,10 @@ export async function onRequestPost(context) {
         visitor_page_category: visitorInfo.page_category || visitorInfo.page_category_en || '',
         visitor_referrer: visitorInfo.referrer || '',
       };
-    } else if (profileContext) {
-      // 非首条消息也带上客户背景（让 Bot 在多轮对话中也有记忆）
-      finalMessage = profileContext + message;
+    } else {
+      // 非首条消息：原先只带客户档案，完全没有语言提示，bot 会在多轮对话中切回英文。
+      // 这里补一条轻量语言指令（首条消息已由 buildContextPrefix 下发，不重复）。
+      finalMessage = buildLanguageDirective(visitorLangRaw, userLang) + (profileContext || '') + message;
     }
   } catch (e) {
     finalMessage = message;
@@ -884,21 +1110,40 @@ export async function onRequestPost(context) {
         customVariables: retryCount > 0 ? null : customVariables,
       });
 
-      const validation = validateReply(message, result.content);
+      // 后置修正：非问价 / 非发图场景的邮箱露出，直接删掉含邮箱的整句。
+      // 走本地改写而非判不合格重试 —— 重试会串行再跑一次 LLM，把响应耗时翻倍。
+      const emailFix = stripEmailIfNotAllowed(message, result.content);
+      if (emailFix.stripped) {
+        if (emailFix.tooShort) {
+          // 整段都在讲邮箱，删完没内容了 —— 直接给兜底话术，不再重试
+          result.content = getFallbackReply(userLang, visitorLangRaw);
+          console.log('Email stripped, reply too short — using fallback:', visitorLangRaw || userLang);
+          break;
+        }
+        console.log('Email stripped from reply (non-quote scenario)');
+        result.content = emailFix.text;
+      }
+
+      const validation = validateReply(message, result.content, userLang);
 
       if (validation.valid) break;
 
       lastFailureReason = validation.reason;
       retryCount++;
 
-      if (retryCount > MAX_RETRY_COUNT) {
+      // 语言类失败只重试 1 次（其余类型仍按 MAX_RETRY_COUNT）。
+      // 原因：Coze bot 若生不出某个语种，多试几次通常还是不行（R12 印地语实测连跑 3 次
+      // 均为英文），而每次重试都是一次完整 LLM 调用、串行累加 8s 左右。
+      // 语言问题重试超过 1 次就接受，避免把响应拖到 20s 以上。
+      const maxRetry = /^language_mismatch/.test(validation.reason) ? 1 : MAX_RETRY_COUNT;
+      if (retryCount > maxRetry) {
         console.warn('Quality check failed after all retries:', validation.reason);
         break;
       }
 
       console.log('Quality check failed (attempt ' + retryCount + '):', validation.reason);
 
-      currentMessage = buildRetryMessage(message, validation.reason, userLang, retryCount);
+      currentMessage = buildRetryMessage(message, validation.reason, userLang, retryCount, visitorLangRaw);
       currentConvId = undefined; // 重试用新会话，避免历史干扰
     }
 

@@ -5,7 +5,7 @@ const chromePath = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
   const browser = await chromium.launch({ executablePath: chromePath, headless: true });
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)' });
   const page = await context.newPage();
-  await page.goto('http://localhost:8099/', { waitUntil: 'networkidle' });
+  await page.goto('http://localhost:8077/', { waitUntil: 'networkidle' });
   await page.waitForTimeout(1500);
   await page.locator('#coze-custom-fab').click({ force: true });
   await page.waitForTimeout(2500);

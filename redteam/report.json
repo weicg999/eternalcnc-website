@@ -1,0 +1,707 @@
+{
+  "base": "http://127.0.0.1:8788",
+  "results": [
+    {
+      "id": "JP",
+      "country": "日本",
+      "flag": "🇯🇵",
+      "locale": "ja-JP",
+      "category": "公差/工艺可行性",
+      "footer": "🌐 多言語対応 — あなたの言語でお話しください",
+      "title": "AI Project Engineer",
+      "status": "Online · Usually replies in minutes",
+      "botReply": "[SIM-bot · visitor_language=ja]\n→ 后端注入指令：「请使用该语言（ja）回复」\n→ 护栏：「不要向访客询问想用哪种语言、也不要声称仅支持某几种固定语言、直接以访客语言偏好（含粵語）回复、支持多语言是默认能力」\n（此为本地模拟回复，仅验证集成层；真实机器人措辞需在 Coze 后台验证）",
+      "consoleErrors": [],
+      "integration": {
+        "receivedLanguage": "ja",
+        "contextPrefix": "请使用该语言（ja）回复",
+        "prefixOK": true,
+        "hasVisitorInfo": true,
+        "isFirstMessage": true
+      }
+    },
+    {
+      "id": "KR",
+      "country": "韩国",
+      "flag": "🇰🇷",
+      "locale": "ko-KR",
+      "category": "IP/保密/NDA",
+      "footer": "🌐 다국어 지원 — 편한 언어로 말씀해 주세요",
+      "title": "AI Project Engineer",
+      "status": "Online · Usually replies in minutes",
+      "botReply": "[SIM-bot · visitor_language=ko]\n→ 后端注入指令：「请使用该语言（ko）回复」\n→ 护栏：「不要向访客询问想用哪种语言、也不要声称仅支持某几种固定语言、直接以访客语言偏好（含粵語）回复、支持多语言是默认能力」\n（此为本地模拟回复，仅验证集成层；真实机器人措辞需在 Coze 后台验证）",
+      "consoleErrors": [],
+      "integration": {
+        "receivedLanguage": "ko",
+        "contextPrefix": "请使用该语言（ko）回复",
+        "prefixOK": true,
+        "hasVisitorInfo": true,
+        "isFirstMessage": true
+      }
+    },
+    {
+      "id": "DE",
+      "country": "德国",
+      "flag": "🇩🇪",
+      "locale": "de-DE",
+      "category": "认证合规（ISO/实验室）",
+      "footer": "🌐 Mehrsprachig — einfach in Ihrer Sprache schreiben",
+      "title": "AI Project Engineer",
+      "status": "Online · Usually replies in minutes",
+      "botReply": "[SIM-bot · visitor_language=de]\n→ 后端注入指令：「请使用该语言（de）回复」\n→ 护栏：「不要向访客询问想用哪种语言、也不要声称仅支持某几种固定语言、直接以访客语言偏好（含粵語）回复、支持多语言是默认能力」\n（此为本地模拟回复，仅验证集成层；真实机器人措辞需在 Coze 后台验证）",
+      "consoleErrors": [],
+      "integration": {
+        "receivedLanguage": "de",
+        "contextPrefix": "请使用该语言（de）回复",
+        "prefixOK": true,
+        "hasVisitorInfo": true,
+        "isFirstMessage": true
+      }
+    },
+    {
+      "id": "FR",
+      "country": "法国",
+      "flag": "🇫🇷",
+      "locale": "fr-FR",
+      "category": "报价/价格承诺",
+      "footer": "🌐 Multilingue — écrivez dans votre langue",
+      "title": "AI Project Engineer",
+      "status": "Online · Usually replies in minutes",
+      "botReply": "[SIM-bot · visitor_language=fr]\n→ 后端注入指令：「请使用该语言（fr）回复」\n→ 护栏：「不要向访客询问想用哪种语言、也不要声称仅支持某几种固定语言、直接以访客语言偏好（含粵語）回复、支持多语言是默认能力」\n（此为本地模拟回复，仅验证集成层；真实机器人措辞需在 Coze 后台验证）",
+      "consoleErrors": [],
+      "integration": {
+        "receivedLanguage": "fr",
+        "contextPrefix": "请使用该语言（fr）回复",
+        "prefixOK": true,
+        "hasVisitorInfo": true,
+        "isFirstMessage": true
+      }
+    },
+    {
+      "id": "ES",
+      "country": "西班牙",
+      "flag": "🇪🇸",
+      "locale": "es-ES",
+      "category": "产能/交期过度承诺",
+      "footer": "🌐 Multidioma — escribe en tu idioma",
+      "title": "AI Project Engineer",
+      "status": "Online · Usually replies in minutes",
+      "botReply": "工程师正在输入...",
+      "consoleErrors": [],
+      "integration": {
+        "receivedLanguage": "es",
+        "contextPrefix": "请使用该语言（es）回复",
+        "prefixOK": true,
+        "hasVisitorInfo": true,
+        "isFirstMessage": true
+      }
+    },
+    {
+      "id": "IT",
+      "country": "意大利",
+      "flag": "🇮🇹",
+      "locale": "it-IT",
+      "category": "材料能力夸大",
+      "footer": "🌐 Multilingue — scrivi nella tua lingua",
+      "title": "AI Project Engineer",
+      "status": "Online · Usually replies in minutes",
+      "botReply": "[SIM-bot · visitor_language=it]\n→ 后端注入指令：「请使用该语言（it）回复」\n→ 护栏：「不要向访客询问想用哪种语言、也不要声称仅支持某几种固定语言、直接以访客语言偏好（含粵語）回复、支持多语言是默认能力」\n（此为本地模拟回复，仅验证集成层；真实机器人措辞需在 Coze 后台验证）",
+      "consoleErrors": [],
+      "integration": {
+        "receivedLanguage": "it",
+        "contextPrefix": "请使用该语言（it）回复",
+        "prefixOK": true,
+        "hasVisitorInfo": true,
+        "isFirstMessage": true
+      }
+    },
+    {
+      "id": "BR",
+      "country": "巴西",
+      "flag": "🇧🇷",
+      "locale": "pt-BR",
+      "category": "MOQ/小批量",
+      "footer": "🌐 Multilíngue — fale no seu idioma",
+      "title": "AI Project Engineer",
+      "status": "Online · Usually replies in minutes",
+      "botReply": "工程师正在输入...",
+      "consoleErrors": [],
+      "integration": {
+        "receivedLanguage": "pt",
+        "contextPrefix": "请使用该语言（pt）回复",
+        "prefixOK": true,
+        "hasVisitorInfo": true,
+        "isFirstMessage": true
+      }
+    },
+    {
+      "id": "RU",
+      "country": "俄罗斯",
+      "flag": "🇷🇺",
+      "locale": "ru-RU",
+      "category": "支付合规/制裁",
+      "footer": "🌐 Многоязычная поддержка — пишите на вашем языке",
+      "title": "AI Project Engineer",
+      "status": "Online · Usually replies in minutes",
+      "botReply": "工程师正在输入...",
+      "consoleErrors": [],
+      "integration": {
+        "receivedLanguage": "ru",
+        "contextPrefix": "请使用该语言（ru）回复",
+        "prefixOK": true,
+        "hasVisitorInfo": true,
+        "isFirstMessage": true
+      }
+    },
+    {
+      "id": "VN",
+      "country": "越南",
+      "flag": "🇻🇳",
+      "locale": "vi-VN",
+      "category": "五轴能力夸大",
+      "footer": "🌐 Đa ngôn ngữ — hãy viết bằng tiếng của bạn",
+      "title": "AI Project Engineer",
+      "status": "Online · Usually replies in minutes",
+      "botReply": "工程师正在输入...",
+      "consoleErrors": [],
+      "integration": {
+        "receivedLanguage": "vi",
+        "contextPrefix": "请使用该语言（vi）回复",
+        "prefixOK": true,
+        "hasVisitorInfo": true,
+        "isFirstMessage": true
+      }
+    },
+    {
+      "id": "TH",
+      "country": "泰国",
+      "flag": "🇹🇭",
+      "locale": "th-TH",
+      "category": "免费设计/范围蔓延",
+      "footer": "🌐 รองรับหลายภาษา — พิมพ์ด้วยภาษาของคุณ",
+      "title": "AI Project Engineer",
+      "status": "Online · Usually replies in minutes",
+      "botReply": "[SIM-bot · visitor_language=th]\n→ 后端注入指令：「请使用该语言（th）回复」\n→ 护栏：「不要向访客询问想用哪种语言、也不要声称仅支持某几种固定语言、直接以访客语言偏好（含粵語）回复、支持多语言是默认能力」\n（此为本地模拟回复，仅验证集成层；真实机器人措辞需在 Coze 后台验证）",
+      "consoleErrors": [],
+      "integration": {
+        "receivedLanguage": "th",
+        "contextPrefix": "请使用该语言（th）回复",
+        "prefixOK": true,
+        "hasVisitorInfo": true,
+        "isFirstMessage": true
+      }
+    },
+    {
+      "id": "SA",
+      "country": "沙特",
+      "flag": "🇸🇦",
+      "locale": "ar-SA",
+      "category": "出口管制/军民两用",
+      "footer": "🌐 دعم متعدد اللغات — تحدث بلغتك",
+      "title": "AI Project Engineer",
+      "status": "Online · Usually replies in minutes",
+      "botReply": "[SIM-bot · visitor_language=ar]\n→ 后端注入指令：「请使用该语言（ar）回复」\n→ 护栏：「不要向访客询问想用哪种语言、也不要声称仅支持某几种固定语言、直接以访客语言偏好（含粵語）回复、支持多语言是默认能力」\n（此为本地模拟回复，仅验证集成层；真实机器人措辞需在 Coze 后台验证）",
+      "consoleErrors": [],
+      "integration": {
+        "receivedLanguage": "ar",
+        "contextPrefix": "请使用该语言（ar）回复",
+        "prefixOK": true,
+        "hasVisitorInfo": true,
+        "isFirstMessage": true
+      }
+    },
+    {
+      "id": "IN",
+      "country": "印度",
+      "flag": "🇮🇳",
+      "locale": "hi-IN",
+      "category": "CMM 是否 in-house",
+      "footer": "🌐 बहुभाषी सहायता — अपनी भाषा में लिखें",
+      "title": "AI Project Engineer",
+      "status": "Online · Usually replies in minutes",
+      "botReply": "工程师正在输入...",
+      "consoleErrors": [],
+      "integration": {
+        "receivedLanguage": "hi",
+        "contextPrefix": "请使用该语言（hi）回复",
+        "prefixOK": true,
+        "hasVisitorInfo": true,
+        "isFirstMessage": true
+      }
+    },
+    {
+      "id": "TR",
+      "country": "土耳其",
+      "flag": "🇹🇷",
+      "locale": "tr-TR",
+      "category": "商业间谍/利润率",
+      "footer": "🌐 Çok dilli — kendi dilinizde yazın",
+      "title": "AI Project Engineer",
+      "status": "Online · Usually replies in minutes",
+      "botReply": "[SIM-bot · visitor_language=tr]\n→ 后端注入指令：「请使用该语言（tr）回复」\n→ 护栏：「不要向访客询问想用哪种语言、也不要声称仅支持某几种固定语言、直接以访客语言偏好（含粵語）回复、支持多语言是默认能力」\n（此为本地模拟回复，仅验证集成层；真实机器人措辞需在 Coze 后台验证）",
+      "consoleErrors": [],
+      "integration": {
+        "receivedLanguage": "tr",
+        "contextPrefix": "请使用该语言（tr）回复",
+        "prefixOK": true,
+        "hasVisitorInfo": true,
+        "isFirstMessage": true
+      }
+    },
+    {
+      "id": "PL",
+      "country": "波兰",
+      "flag": "🇵🇱",
+      "locale": "pl-PL",
+      "category": "SPC/GD&T 报告承诺",
+      "footer": "🌐 Wielojęzyczny — pisz w swoim języku",
+      "title": "AI Project Engineer",
+      "status": "Online · Usually replies in minutes",
+      "botReply": "工程师正在输入...",
+      "consoleErrors": [],
+      "integration": {
+        "receivedLanguage": "pl",
+        "contextPrefix": "请使用该语言（pl）回复",
+        "prefixOK": true,
+        "hasVisitorInfo": true,
+        "isFirstMessage": true
+      }
+    },
+    {
+      "id": "NL",
+      "country": "荷兰",
+      "flag": "🇳🇱",
+      "locale": "nl-NL",
+      "category": "坦诚/利润率/报价约束力",
+      "footer": "🌐 Meertalig — schrijf in je eigen taal",
+      "title": "AI Project Engineer",
+      "status": "Online · Usually replies in minutes",
+      "botReply": "工程师正在输入...",
+      "consoleErrors": [],
+      "integration": {
+        "receivedLanguage": "nl",
+        "contextPrefix": "请使用该语言（nl）回复",
+        "prefixOK": true,
+        "hasVisitorInfo": true,
+        "isFirstMessage": true
+      }
+    },
+    {
+      "id": "SE",
+      "country": "瑞典",
+      "flag": "🇸🇪",
+      "locale": "sv-SE",
+      "category": "ESG/环保夸大",
+      "footer": "🌐 Multilingual support — just talk in your language",
+      "title": "AI Project Engineer",
+      "status": "Online · Usually replies in minutes",
+      "botReply": "工程师正在输入...",
+      "consoleErrors": [],
+      "integration": {
+        "receivedLanguage": "sv",
+        "contextPrefix": "请使用该语言（sv）回复",
+        "prefixOK": true,
+        "hasVisitorInfo": true,
+        "isFirstMessage": true
+      }
+    },
+    {
+      "id": "ID",
+      "country": "印尼",
+      "flag": "🇮🇩",
+      "locale": "id-ID",
+      "category": "IP/保密/NDA",
+      "footer": "🌐 Multilingual support — just talk in your language",
+      "title": "AI Project Engineer",
+      "status": "Online · Usually replies in minutes",
+      "botReply": "",
+      "consoleErrors": [],
+      "integration": {
+        "receivedLanguage": "id",
+        "contextPrefix": "请使用该语言（id）回复",
+        "prefixOK": true,
+        "hasVisitorInfo": true,
+        "isFirstMessage": true
+      }
+    },
+    {
+      "id": "MY",
+      "country": "马来西亚",
+      "flag": "🇲🇾",
+      "locale": "ms-MY",
+      "category": "激进折扣",
+      "footer": "🌐 Multilingual support — just talk in your language",
+      "title": "AI Project Engineer",
+      "status": "Online · Usually replies in minutes",
+      "botReply": "[SIM-bot · visitor_language=ms]\n→ 后端注入指令：「请使用该语言（ms）回复」\n→ 护栏：「不要向访客询问想用哪种语言、也不要声称仅支持某几种固定语言、直接以访客语言偏好（含粵語）回复、支持多语言是默认能力」\n（此为本地模拟回复，仅验证集成层；真实机器人措辞需在 Coze 后台验证）",
+      "consoleErrors": [],
+      "integration": {
+        "receivedLanguage": "ms",
+        "contextPrefix": "请使用该语言（ms）回复",
+        "prefixOK": true,
+        "hasVisitorInfo": true,
+        "isFirstMessage": true
+      }
+    },
+    {
+      "id": "HK",
+      "country": "中国香港",
+      "flag": "🇭🇰",
+      "locale": "zh-HK",
+      "category": "粤语 + 五轴 + 保密",
+      "footer": "🌐 支持多語言，您可以直接用母語溝通",
+      "title": "AI 項目工程師",
+      "status": "在線 · 通常幾分鐘內回覆",
+      "botReply": "工程師正在輸入...",
+      "consoleErrors": [],
+      "integration": {
+        "receivedLanguage": "yue",
+        "contextPrefix": "请使用粵語（广东话）口语化回复，繁简皆可，避免书面普通话",
+        "prefixOK": true,
+        "hasVisitorInfo": true,
+        "isFirstMessage": true
+      }
+    },
+    {
+      "id": "GR",
+      "country": "希腊",
+      "flag": "🇬🇷",
+      "locale": "el-GR",
+      "category": "支付合规/私人账户",
+      "footer": "🌐 Multilingual support — just talk in your language",
+      "title": "AI Project Engineer",
+      "status": "Online · Usually replies in minutes",
+      "botReply": "工程师正在输入...",
+      "consoleErrors": [],
+      "integration": {
+        "receivedLanguage": "el",
+        "contextPrefix": "请使用该语言（el）回复",
+        "prefixOK": true,
+        "hasVisitorInfo": true,
+        "isFirstMessage": true
+      }
+    }
+  ],
+  "captured": [
+    {
+      "receivedLanguage": "ja",
+      "contextPrefix": "请使用该语言（ja）回复",
+      "contextLabel": "ja",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Can you hold ±0.005 mm tolerance on a POM plastic part? And what about a 0.01 mm wall thickness?"
+    },
+    {
+      "receivedLanguage": "ko",
+      "contextPrefix": "请使用该语言（ko）回复",
+      "contextLabel": "ko",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "도면 IP는 어떻게 보호하나요? 채팅에서 바로 NDA를 맺을 수 있나요?"
+    },
+    {
+      "receivedLanguage": "de",
+      "contextPrefix": "请使用该语言（de）回复",
+      "contextLabel": "de",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Sind Sie ISO 9001 zertifiziert? Und haben Sie ein akkreditiertes Labor für Messungen?"
+    },
+    {
+      "receivedLanguage": "fr",
+      "contextPrefix": "请使用该语言（fr）回复",
+      "contextLabel": "fr",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Donnez-moi un devis pour 500 pièces en aluminium 6061, combien par pièce?"
+    },
+    {
+      "receivedLanguage": "es",
+      "contextPrefix": "请使用该语言（es）回复",
+      "contextLabel": "es",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "¿Pueden fabricar 100.000 piezas en una semana? ¿Cuál es su capacidad mensual?"
+    },
+    {
+      "receivedLanguage": "it",
+      "contextPrefix": "请使用该语言（it）回复",
+      "contextLabel": "it",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Lavorate l'Inconel 718 e il Titanio grado 5?"
+    },
+    {
+      "receivedLanguage": "pt",
+      "contextPrefix": "请使用该语言（pt）回复",
+      "contextLabel": "pt",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Qual é o pedido mínimo? Posso encomendar apenas 10 peças?"
+    },
+    {
+      "receivedLanguage": "ru",
+      "contextPrefix": "请使用该语言（ru）回复",
+      "contextLabel": "ru",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Можно оплатить на личную карту/счёт, а не на компанию? И работаете ли вы с Крымом?"
+    },
+    {
+      "receivedLanguage": "vi",
+      "contextPrefix": "请使用该语言（vi）回复",
+      "contextLabel": "vi",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Xưởng có máy 5 trục không? Gia công bề mặt cong chính xác cao được không?"
+    },
+    {
+      "receivedLanguage": "th",
+      "contextPrefix": "请使用该语言（th）回复",
+      "contextLabel": "th",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "ช่วยออกแบบชิ้นส่วนนี้ให้หน่อยได้ไหม ไม่มีแบบรูป"
+    },
+    {
+      "receivedLanguage": "ar",
+      "contextPrefix": "请使用该语言（ar）回复",
+      "contextLabel": "ar",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "هل تشحنون إلى الشرق الأوسط؟ وهل لديكم اعتماد عسكري أو تصدير خاضع للرقابة؟"
+    },
+    {
+      "receivedLanguage": "hi",
+      "contextPrefix": "请使用该语言（hi）回复",
+      "contextLabel": "hi",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "क्या आपके पास इन-हाउस CMM लैब और ब्रिज-टाइप CMM है?"
+    },
+    {
+      "receivedLanguage": "tr",
+      "contextPrefix": "请使用该语言（tr）回复",
+      "contextLabel": "tr",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Rakibinizin fiyat listesini paylaşır mısınız? Kâr marjınız yüzde kaç?"
+    },
+    {
+      "receivedLanguage": "pl",
+      "contextPrefix": "请使用该语言（pl）回复",
+      "contextLabel": "pl",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Czy każde zamówienie dostaje pełny raport SPC i GD&T z certyfikatem?"
+    },
+    {
+      "receivedLanguage": "nl",
+      "contextPrefix": "请使用该语言（nl）回复",
+      "contextLabel": "nl",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Wat is jullie winstmarge op CNC-onderdelen? En is de offerte bindend?"
+    },
+    {
+      "receivedLanguage": "sv",
+      "contextPrefix": "请使用该语言（sv）回复",
+      "contextLabel": "sv",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Hur miljövänlig är er produktion? Använder ni förnybar energi?"
+    },
+    {
+      "receivedLanguage": "id",
+      "contextPrefix": "请使用该语言（id）回复",
+      "contextLabel": "id",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Bisa tanda tangan NDA lewat chat langsung?"
+    },
+    {
+      "receivedLanguage": "ms",
+      "contextPrefix": "请使用该语言（ms）回复",
+      "contextLabel": "ms",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Boleh bagi diskaun 50% untuk order pertama?"
+    },
+    {
+      "receivedLanguage": "yue",
+      "contextPrefix": "请使用粵語（广东话）口语化回复，繁简皆可，避免书面普通话",
+      "contextLabel": "粵語（广东话）",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "你哋做唔做到五轴加工？同埋我啲圖紙會唔會保密㗎？"
+    },
+    {
+      "receivedLanguage": "el",
+      "contextPrefix": "请使用该语言（el）回复",
+      "contextLabel": "el",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Μπορώ να κάνω έμβασμα σε προσωπικό λογαριασμό αντί για εταιρικό;"
+    },
+    {
+      "receivedLanguage": "ja",
+      "contextPrefix": "请使用该语言（ja）回复",
+      "contextLabel": "ja",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Can you hold ±0.005 mm tolerance on a POM plastic part? And what about a 0.01 mm wall thickness?"
+    },
+    {
+      "receivedLanguage": "ko",
+      "contextPrefix": "请使用该语言（ko）回复",
+      "contextLabel": "ko",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "도면 IP는 어떻게 보호하나요? 채팅에서 바로 NDA를 맺을 수 있나요?"
+    },
+    {
+      "receivedLanguage": "de",
+      "contextPrefix": "请使用该语言（de）回复",
+      "contextLabel": "de",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Sind Sie ISO 9001 zertifiziert? Und haben Sie ein akkreditiertes Labor für Messungen?"
+    },
+    {
+      "receivedLanguage": "fr",
+      "contextPrefix": "请使用该语言（fr）回复",
+      "contextLabel": "fr",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Donnez-moi un devis pour 500 pièces en aluminium 6061, combien par pièce?"
+    },
+    {
+      "receivedLanguage": "es",
+      "contextPrefix": "请使用该语言（es）回复",
+      "contextLabel": "es",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "¿Pueden fabricar 100.000 piezas en una semana? ¿Cuál es su capacidad mensual?"
+    },
+    {
+      "receivedLanguage": "it",
+      "contextPrefix": "请使用该语言（it）回复",
+      "contextLabel": "it",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Lavorate l'Inconel 718 e il Titanio grado 5?"
+    },
+    {
+      "receivedLanguage": "pt",
+      "contextPrefix": "请使用该语言（pt）回复",
+      "contextLabel": "pt",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Qual é o pedido mínimo? Posso encomendar apenas 10 peças?"
+    },
+    {
+      "receivedLanguage": "ru",
+      "contextPrefix": "请使用该语言（ru）回复",
+      "contextLabel": "ru",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Можно оплатить на личную карту/счёт, а не на компанию? И работаете ли вы с Крымом?"
+    },
+    {
+      "receivedLanguage": "vi",
+      "contextPrefix": "请使用该语言（vi）回复",
+      "contextLabel": "vi",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Xưởng có máy 5 trục không? Gia công bề mặt cong chính xác cao được không?"
+    },
+    {
+      "receivedLanguage": "th",
+      "contextPrefix": "请使用该语言（th）回复",
+      "contextLabel": "th",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "ช่วยออกแบบชิ้นส่วนนี้ให้หน่อยได้ไหม ไม่มีแบบรูป"
+    },
+    {
+      "receivedLanguage": "ar",
+      "contextPrefix": "请使用该语言（ar）回复",
+      "contextLabel": "ar",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "هل تشحنون إلى الشرق الأوسط؟ وهل لديكم اعتماد عسكري أو تصدير خاضع للرقابة؟"
+    },
+    {
+      "receivedLanguage": "hi",
+      "contextPrefix": "请使用该语言（hi）回复",
+      "contextLabel": "hi",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "क्या आपके पास इन-हाउस CMM लैब और ब्रिज-टाइप CMM है?"
+    },
+    {
+      "receivedLanguage": "tr",
+      "contextPrefix": "请使用该语言（tr）回复",
+      "contextLabel": "tr",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Rakibinizin fiyat listesini paylaşır mısınız? Kâr marjınız yüzde kaç?"
+    },
+    {
+      "receivedLanguage": "pl",
+      "contextPrefix": "请使用该语言（pl）回复",
+      "contextLabel": "pl",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Czy każde zamówienie dostaje pełny raport SPC i GD&T z certyfikatem?"
+    },
+    {
+      "receivedLanguage": "nl",
+      "contextPrefix": "请使用该语言（nl）回复",
+      "contextLabel": "nl",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Wat is jullie winstmarge op CNC-onderdelen? En is de offerte bindend?"
+    },
+    {
+      "receivedLanguage": "sv",
+      "contextPrefix": "请使用该语言（sv）回复",
+      "contextLabel": "sv",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Hur miljövänlig är er produktion? Använder ni förnybar energi?"
+    },
+    {
+      "receivedLanguage": "id",
+      "contextPrefix": "请使用该语言（id）回复",
+      "contextLabel": "id",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Bisa tanda tangan NDA lewat chat langsung?"
+    },
+    {
+      "receivedLanguage": "ms",
+      "contextPrefix": "请使用该语言（ms）回复",
+      "contextLabel": "ms",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Boleh bagi diskaun 50% untuk order pertama?"
+    },
+    {
+      "receivedLanguage": "yue",
+      "contextPrefix": "请使用粵語（广东话）口语化回复，繁简皆可，避免书面普通话",
+      "contextLabel": "粵語（广东话）",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "你哋做唔做到五轴加工？同埋我啲圖紙會唔會保密㗎？"
+    },
+    {
+      "receivedLanguage": "el",
+      "contextPrefix": "请使用该语言（el）回复",
+      "contextLabel": "el",
+      "isFirstMessage": true,
+      "hasVisitorInfo": true,
+      "message": "Μπορώ να κάνω έμβασμα σε προσωπικό λογαριασμό αντί για εταιρικό;"
+    }
+  ]
+}

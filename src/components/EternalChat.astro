@@ -450,6 +450,137 @@
     font-size: 13px;
   }
 
+  /* ========== 👍👎 消息反馈（L3） ========== */
+  /* bot 消息允许换行，使反馈行独占新行 */
+  #eternal-chat-widget .chat-msg.bot {
+    flex-wrap: wrap;
+  }
+  #eternal-chat-widget .chat-feedback-row {
+    flex-basis: 100%;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-top: 2px;
+    padding-left: 38px; /* 头像 32px + gap 6px */
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  /* hover 到消息行时浮现反馈按钮；已评价则常显 */
+  #eternal-chat-widget .chat-msg.bot:hover .chat-feedback-row,
+  #eternal-chat-widget .chat-feedback-row.always-visible {
+    opacity: 1;
+  }
+  #eternal-chat-widget .thumb-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: #A0AEC0;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-size: 13px;
+    line-height: 1;
+    padding: 0;
+  }
+  #eternal-chat-widget .thumb-btn:hover {
+    background: rgba(0, 0, 0, 0.06);
+    color: #4A5568;
+    transform: scale(1.12);
+  }
+  #eternal-chat-widget .thumb-btn.voted-up {
+    color: #2F855A;
+    background: rgba(47, 133, 90, 0.12);
+  }
+  #eternal-chat-widget .thumb-btn.voted-down {
+    color: #C53030;
+    background: rgba(197, 48, 48, 0.12);
+  }
+  #eternal-chat-widget .thumb-btn:disabled {
+    cursor: default;
+  }
+
+  /* 点踩后转人工确认卡 */
+  #eternal-chat-widget .human-transfer-bubble {
+    background: #FFF;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    padding: 12px 14px;
+    max-width: 330px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #2D3748;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  }
+  #eternal-chat-widget .human-transfer-bubble .tt-title {
+    font-weight: 600;
+    font-size: 13.5px;
+    margin-bottom: 4px;
+    color: var(--brand-red, #8B0000);
+  }
+  #eternal-chat-widget .human-transfer-bubble .tt-body {
+    color: #4A5568;
+    margin-bottom: 8px;
+  }
+  #eternal-chat-widget .human-transfer-bubble textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 13px;
+    resize: none;
+    outline: none;
+    background: #FAFAF9;
+    color: #2D3748;
+    font-family: inherit;
+  }
+  #eternal-chat-widget .human-transfer-bubble textarea:focus {
+    border-color: var(--brand-red, #8B0000);
+    background: #FFF;
+  }
+  #eternal-chat-widget .human-transfer-bubble .tt-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    justify-content: flex-end;
+  }
+  #eternal-chat-widget .human-transfer-bubble .tt-btn {
+    border: none;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  #eternal-chat-widget .human-transfer-bubble .tt-btn-primary {
+    background: var(--brand-red, #8B0000);
+    color: #FFF;
+  }
+  #eternal-chat-widget .human-transfer-bubble .tt-btn-primary:hover {
+    background: var(--brand-red-hover, #6B0000);
+  }
+  #eternal-chat-widget .human-transfer-bubble .tt-btn-ghost {
+    background: transparent;
+    color: #A0AEC0;
+  }
+  #eternal-chat-widget .human-transfer-bubble .tt-btn-ghost:hover {
+    color: #4A5568;
+  }
+  #eternal-chat-widget .human-transfer-bubble .tt-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  #eternal-chat-widget .human-transfer-bubble .tt-sent {
+    color: #2F855A;
+    font-size: 13px;
+    text-align: center;
+    padding: 8px 0;
+  }
+
   /* ========== 未读提示点 ========== */
   #eternal-chat-widget #eternal-chat-toggle-btn {
     position: relative;
@@ -533,6 +664,7 @@
   const STORAGE_PROACTIVE_COUNT = 'eternal_chat_proactive_count';
   const STORAGE_PANEL_OPENED = 'eternal_chat_panel_opened';
   const STORAGE_HUMAN_FORM_SUBMITTED = 'eternal_chat_human_submitted';
+  const STORAGE_FEEDBACK = 'eternal_chat_feedback'; // { [bot消息在messages中的下标]: 'up'|'down' }
   const API_ENDPOINT = '/api/chat';
   const HUMAN_LEAD_API = '/api/chat-lead';
 
@@ -749,6 +881,45 @@
     };
   }
 
+  // 👍👎 反馈与转人工确认卡文案（L3）
+  function getFeedbackTexts() {
+    const lang = getLang();
+    if (lang === 'en') {
+      return {
+        thumbUp: 'Helpful',
+        thumbDown: 'Not helpful',
+        ttTitle: 'Connected to a human specialist',
+        ttBody: 'A project engineer will follow up with you. Optionally leave a note to help us reply faster:',
+        notePlaceholder: 'Optional: briefly describe your needs...',
+        send: 'Send',
+        skip: 'Skip',
+        sent: "Got it — we'll get back to you within 1 business day.",
+      };
+    }
+    if (lang === 'yue') {
+      return {
+        thumbUp: '有幫助',
+        thumbDown: '冇幫助',
+        ttTitle: '已為你轉接人工專員',
+        ttBody: '項目工程師會盡快跟進。你可以選擇留低補充說明，等我哋回覆更快：',
+        notePlaceholder: '選填：簡單講下你嘅需求…',
+        send: '發送',
+        skip: '跳過',
+        sent: '收到，我哋會喺 1 個工作日內聯絡你。',
+      };
+    }
+    return {
+      thumbUp: '有帮助',
+      thumbDown: '没帮助',
+      ttTitle: '已为您转接人工专员',
+      ttBody: '项目工程师会尽快跟进。您可以选择留下补充说明，方便我们更快回复：',
+      notePlaceholder: '选填：简单说一下您的需求…',
+      send: '发送',
+      skip: '跳过',
+      sent: '收到，我们会在 1 个工作日内联系您。',
+    };
+  }
+
   // typing 提示文字
   function getTypingText() {
     const lang = getLang();
@@ -879,6 +1050,21 @@
   let abortController = null;
   let isFirstMessage = messages.length === 0; // 是否是第一条用户消息
   let proactiveBubbleTimer = null;
+
+  // 👍👎 反馈状态：{ [bot消息下标]: 'up'|'down' }，持久化到 localStorage
+  let feedbackState = {};
+  try {
+    feedbackState = JSON.parse(localStorage.getItem(STORAGE_FEEDBACK) || '{}');
+  } catch (e) {
+    feedbackState = {};
+  }
+  function saveFeedbackState() {
+    try {
+      localStorage.setItem(STORAGE_FEEDBACK, JSON.stringify(feedbackState));
+    } catch (e) {}
+  }
+  // 同一次页面生命周期内，点👎弹出的「转人工确认卡」只出现一次（避免连续点踩反复打扰）
+  let humanTransferShown = false;
 
   // 已触发的类型集合（内存级，单页面生命周期内不重复）
   const triggeredTypes = {};
@@ -1011,9 +1197,13 @@
 
   function renderExistingMessages() {
     messagesEl.innerHTML = '';
-    messages.forEach(function(msg) {
+    messages.forEach(function(msg, index) {
       const { msgDiv } = createMessageEl(msg.role, msg.content);
       messagesEl.appendChild(msgDiv);
+      // bot 回复（欢迎语 index 0 与错误消息除外）挂 👍👎 反馈
+      if (msg.role === 'bot' && index >= 1 && !msg._err) {
+        attachFeedbackRow(msgDiv, index);
+      }
     });
     renderFaqButtons();
     scrollToBottom();
@@ -1197,6 +1387,186 @@
     formBubble.appendChild(successDiv);
   }
 
+  // ========== 👍👎 消息反馈（L3） ==========
+
+  // 发送反馈/线索到 /api/chat-lead（fire-and-forget，失败静默忽略）
+  function sendFeedback(extra) {
+    try {
+      const payload = Object.assign({
+        user_id: getUserId(),
+        conversation_id: getConversationId(),
+        visitor_info: getVisitorInfo(),
+      }, extra || {});
+      fetch(HUMAN_LEAD_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      }).catch(function() {});
+    } catch (e) {}
+  }
+
+  // 取某条 bot 回复对应的前一条用户消息（用于记录上下文）
+  function getPrecedingUserMessage(index) {
+    try {
+      for (let i = index - 1; i >= 0; i--) {
+        if (messages[i] && messages[i].role === 'user') return messages[i].content || '';
+      }
+    } catch (e) {}
+    return '';
+  }
+
+  // 在 bot 消息尾部挂 👍👎 行。index 为 messages 下标，用于持久化评价状态。
+  function attachFeedbackRow(msgDiv, index) {
+    if (!msgDiv || !index || index < 1) return; // index 0 = 欢迎语，不评价
+    if (msgDiv.querySelector('.chat-feedback-row')) return; // 防重复挂载
+
+    const texts = getFeedbackTexts();
+    const voted = feedbackState[index];
+
+    const row = document.createElement('div');
+    row.className = 'chat-feedback-row';
+    if (voted) row.classList.add('always-visible');
+
+    const upBtn = document.createElement('button');
+    upBtn.type = 'button';
+    upBtn.className = 'thumb-btn' + (voted === 'up' ? ' voted-up' : '');
+    upBtn.title = texts.thumbUp;
+    upBtn.setAttribute('aria-label', texts.thumbUp);
+    upBtn.textContent = '👍';
+
+    const downBtn = document.createElement('button');
+    downBtn.type = 'button';
+    downBtn.className = 'thumb-btn' + (voted === 'down' ? ' voted-down' : '');
+    downBtn.title = texts.thumbDown;
+    downBtn.setAttribute('aria-label', texts.thumbDown);
+    downBtn.textContent = '👎';
+
+    if (voted) {
+      upBtn.disabled = true;
+      downBtn.disabled = true;
+    } else {
+      upBtn.addEventListener('click', function() { onThumb('up', index, upBtn, downBtn, msgDiv); });
+      downBtn.addEventListener('click', function() { onThumb('down', index, upBtn, downBtn, msgDiv); });
+    }
+
+    row.appendChild(upBtn);
+    row.appendChild(downBtn);
+    msgDiv.appendChild(row);
+    return row;
+  }
+
+  // 点赞/点踩处理
+  function onThumb(type, index, upBtn, downBtn, msgDiv) {
+    feedbackState[index] = type;
+    saveFeedbackState();
+
+    upBtn.classList.toggle('voted-up', type === 'up');
+    downBtn.classList.toggle('voted-down', type === 'down');
+    upBtn.disabled = true;
+    downBtn.disabled = true;
+    const row = upBtn.parentNode;
+    if (row) row.classList.add('always-visible');
+
+    const botMsg = messages[index] ? messages[index].content : '';
+    const userMsg = getPrecedingUserMessage(index);
+
+    sendFeedback({
+      type: type === 'up' ? 'up' : 'down',
+      bot_message: botMsg,
+      user_message: userMsg,
+    });
+
+    // 点👎 → 弹出「已转人工」确认卡（同生命周期仅一次）
+    if (type === 'down') showHumanTransferCard(msgDiv);
+  }
+
+  // 点踩后的转人工确认卡：bot 消息样式插入到被踩消息之后，含可选留话输入
+  function showHumanTransferCard(anchorMsgDiv) {
+    if (!anchorMsgDiv || humanTransferShown) return;
+    humanTransferShown = true;
+
+    const texts = getFeedbackTexts();
+
+    const cardMsg = document.createElement('div');
+    cardMsg.className = 'chat-msg bot';
+    cardMsg.style.flexWrap = 'wrap';
+
+    const avatar = document.createElement('div');
+    avatar.className = 'chat-avatar';
+    avatar.appendChild(createAvatarEl('bot'));
+    cardMsg.appendChild(avatar);
+
+    const bubble = document.createElement('div');
+    bubble.className = 'human-transfer-bubble';
+
+    const titleEl = document.createElement('div');
+    titleEl.className = 'tt-title';
+    titleEl.textContent = texts.ttTitle;
+    bubble.appendChild(titleEl);
+
+    const bodyEl = document.createElement('div');
+    bodyEl.className = 'tt-body';
+    bodyEl.textContent = texts.ttBody;
+    bubble.appendChild(bodyEl);
+
+    const noteInput = document.createElement('textarea');
+    noteInput.rows = 2;
+    noteInput.placeholder = texts.notePlaceholder;
+    bubble.appendChild(noteInput);
+
+    const actions = document.createElement('div');
+    actions.className = 'tt-actions';
+
+    const skipBtn = document.createElement('button');
+    skipBtn.type = 'button';
+    skipBtn.className = 'tt-btn tt-btn-ghost';
+    skipBtn.textContent = texts.skip;
+    actions.appendChild(skipBtn);
+
+    const sendBtn = document.createElement('button');
+    sendBtn.type = 'button';
+    sendBtn.className = 'tt-btn tt-btn-primary';
+    sendBtn.textContent = texts.send;
+    actions.appendChild(sendBtn);
+
+    bubble.appendChild(actions);
+    cardMsg.appendChild(bubble);
+
+    function settle(description) {
+      // 卡片收敛为「已转人工」确认文案
+      bubble.innerHTML = '';
+      const sentDiv = document.createElement('div');
+      sentDiv.className = 'tt-sent';
+      sentDiv.textContent = texts.sent;
+      bubble.appendChild(sentDiv);
+      if (description) {
+        sendFeedback({ type: 'human', description: description });
+      }
+      scrollToBottom();
+    }
+
+    skipBtn.addEventListener('click', function() { settle(''); });
+    sendBtn.addEventListener('click', function() {
+      sendBtn.disabled = true;
+      skipBtn.disabled = true;
+      settle(noteInput.value.trim());
+    });
+    noteInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendBtn.click();
+      }
+    });
+
+    if (anchorMsgDiv.parentNode) {
+      anchorMsgDiv.parentNode.insertBefore(cardMsg, anchorMsgDiv.nextSibling);
+    }
+    scrollToBottom();
+    try {
+      noteInput.focus();
+    } catch (e) {}
+  }
+
   // ========== 发送消息 ==========
   function sendMessage() {
     if (isStreaming) return;
@@ -1329,7 +1699,7 @@
       const errorMsg = zh ? '抱歉，服务暂时不可用，请稍后再试。' : 'Sorry, service is temporarily unavailable. Please try again later.';
       const { msgDiv: errMsgEl } = createMessageEl('bot', errorMsg);
       messagesEl.appendChild(errMsgEl);
-      messages.push({ role: 'bot', content: errorMsg });
+      messages.push({ role: 'bot', content: errorMsg, _err: true });
       saveMessages(messages);
       scrollToBottom();
 
@@ -1344,6 +1714,8 @@
       if (content) {
         messages.push({ role: 'bot', content: content });
         saveMessages(messages);
+        // 流式结束 → 给这条 bot 回复挂 👍👎
+        attachFeedbackRow(currentBotMsgEl, messages.length - 1);
       }
       isStreaming = false;
       sendBtn.disabled = false;

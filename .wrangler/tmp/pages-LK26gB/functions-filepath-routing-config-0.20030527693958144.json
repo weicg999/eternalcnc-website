@@ -1,0 +1,69 @@
+{
+  "routes": [
+    {
+      "routePath": "/api/coze/chat",
+      "mountPath": "/api/coze",
+      "method": "POST",
+      "module": [
+        "api/coze/chat.js:onRequestPost"
+      ]
+    },
+    {
+      "routePath": "/api/coze/conversation",
+      "mountPath": "/api/coze",
+      "method": "POST",
+      "module": [
+        "api/coze/conversation.js:onRequestPost"
+      ]
+    },
+    {
+      "routePath": "/api/chat",
+      "mountPath": "/api",
+      "method": "OPTIONS",
+      "module": [
+        "api/chat.js:onRequestOptions"
+      ]
+    },
+    {
+      "routePath": "/api/chat",
+      "mountPath": "/api",
+      "method": "POST",
+      "module": [
+        "api/chat.js:onRequestPost"
+      ]
+    },
+    {
+      "routePath": "/api/chat-lead",
+      "mountPath": "/api",
+      "method": "OPTIONS",
+      "module": [
+        "api/chat-lead.js:onRequestOptions"
+      ]
+    },
+    {
+      "routePath": "/api/chat-lead",
+      "mountPath": "/api",
+      "method": "POST",
+      "module": [
+        "api/chat-lead.js:onRequestPost"
+      ]
+    },
+    {
+      "routePath": "/api/quote",
+      "mountPath": "/api",
+      "method": "POST",
+      "module": [
+        "api/quote.js:onRequestPost"
+      ]
+    },
+    {
+      "routePath": "/chat-token",
+      "mountPath": "/",
+      "method": "",
+      "module": [
+        "chat-token.js:onRequest"
+      ]
+    }
+  ],
+  "baseURL": "/"
+}
