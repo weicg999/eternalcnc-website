@@ -76,7 +76,7 @@ const texts = {
     email_placeholder: 'john@company.com',
     phone_placeholder: '150 1234 5678',
     notes_placeholder: 'Shipping address, special requirements...',
-    success: 'Your request was received — we will reply within 24 hours.',
+    success: 'Your request was received — we will reply within 2 hours.',
     // --- Navigation ---
     back: '← Back',
     next: 'Next →',
@@ -157,7 +157,7 @@ const texts = {
     email_placeholder: 'example@company.com',
     phone_placeholder: '138 0000 0000',
     notes_placeholder: '收货地址、特殊要求……',
-    success: '您的询盘已收到，我们将在 24 小时内回复。',
+    success: '您的询盘已收到，我们将在 2 小时内回复。',
     // --- Navigation ---
     back: '← 上一步',
     next: '下一步 →',
@@ -633,7 +633,7 @@ const isZh = lang === 'zh';
             '---',
             isZh ? '【请手动附上图纸文件（STEP / PDF / DXF 等）再发送此邮件】' : '[Please manually attach your drawing files (STEP / PDF / DXF) before sending this email.]',
             '',
-            isZh ? '发送成功后，我们将在 24 小时内回复。' : 'We will reply within 24 hours after receiving.'
+            isZh ? '发送成功后，我们将在 2 小时内回复。' : 'We will reply within 2 hours after receiving.'
           ];
           const subject = isZh
             ? ('【报价请求】' + (part || name) + ' — EternalCNC')
@@ -700,7 +700,7 @@ const isZh = lang === 'zh';
           .then(async r => {
             const j = await r.json().catch(() => ({}));
             if (r.ok && j.ok) {
-              showResult(isZh ? '已收到您的询盘与图纸，我们将在 24 小时内回复。' : 'Quote request and drawings received — we will reply within 24 hours.', false);
+              showResult(isZh ? '已收到您的询盘与图纸，我们将在 2 小时内回复。' : 'Quote request and drawings received — we will reply within 2 hours.', false);
               form.reset();
               if (fileList) fileList.innerHTML = '';
               uploadedFiles.length = 0;
