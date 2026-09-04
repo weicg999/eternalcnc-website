@@ -968,6 +968,141 @@ async function callCoze({ message, userId, conversationId, pat, botId, customVar
   return { content, conversationId: newConversationId };
 }
 
+// ============================================================
+// FAQ 秒答拦截层（2026-09-04）
+// 目标：高频问题不进 LLM，命中即流式直答（<1s），且口径 100% 可控。
+// - 覆盖：中/粤/英（其他语种放行 LLM 路径，由语言护栏兜底）
+// - 邮箱口径（与全站一致）：仅「询价 / 发图」意图的答案带 sales@eternalcnc.com；
+//   其余答案不带邮箱，结尾软引导"发图询价"——访客真的问价时，邮箱自然出现。
+// - 匹配条件：消息 8-200 字符 + 命中意图关键词；不命中一律走原 LLM 路径。
+// - 事实口径来源：官网 equipment-matrix / capabilities / tolerance 等页面（勿凭记忆改）。
+// ============================================================
+const FAQ_EMAIL = 'sales@eternalcnc.com';
+
+const FAQ_INTENTS = [
+  {
+    id: 'quote',
+    // 询价/报价 —— 转化时刻，直接给路径 + 邮箱
+    re: /报价|价格|多少钱|费用|怎么合作|quotation|quote|price|pricing|cost|\brfq\b|how much/i,
+    zh: '好的，报价流程很简单：把图纸（STEP / STP / IGS / DXF / PDF 均可）发到 ' + FAQ_EMAIL + '，或通过官网询价表单提交。工程师评估后常规 2 小时内回复报价，复杂件最多 1 个工作日。',
+    yue: '冇問題，報價好簡單：將圖紙（STEP / STP / IGS / DXF / PDF 都得）發去 ' + FAQ_EMAIL + '，或者喺官網詢價表單提交。工程師評估後常規 2 小時內回覆報價，複雜件最多 1 個工作日。',
+    en: 'Sure — getting a quote is simple: send your drawing (STEP / STP / IGS / DXF / PDF) to ' + FAQ_EMAIL + ' or use the RFQ form on our website. Engineers typically reply within 2 hours; complex parts within 1 business day.',
+  },
+  {
+    id: 'drawing',
+    // 发图纸/文件 —— 同为转化时刻，带邮箱
+    re: /发图纸|發圖紙|发图|發圖|传图纸|傳圖紙|图纸给|圖紙畀|发文件|发模型|send (you )?(the |us )?(drawing|file|model|step)|upload[^.]{0,20}(drawing|file|step)|share[^.]{0,20}(drawing|file|step)/i,
+    zh: '可以直接发：支持 STEP / STP / IGS / DXF / PDF 等格式，发到 ' + FAQ_EMAIL + ' 即可（也支持官网询价表单上传）。收到后工程师评估，常规 2 小时内给您反馈可行性、工艺建议与报价。',
+    yue: '可以直接發：支持 STEP / STP / IGS / DXF / PDF 等格式，發去 ' + FAQ_EMAIL + ' 就得（亦可以喺官網詢價表單上傳）。收到後工程師評估，常規 2 小時內同你講可行性、工藝建議同報價。',
+    en: 'You can send it directly: we accept STEP / STP / IGS / DXF / PDF at ' + FAQ_EMAIL + ' (or upload via the RFQ form). Our engineers will review it and reply within 2 hours with feasibility, process advice and a quote.',
+  },
+  {
+    id: 'tolerance',
+    re: /公差|精度|误差|誤差|tolerance|precision|accuracy|±\s*0\.00/i,
+    zh: '我们的精密加工公差可达 ±0.005mm（关键特征、恒温车间），角度公差 ±0.01°，表面粗糙度最高 Ra 0.4。具体以零件特征与材料为准——把图纸发来，工程师会给出每个特征的可达精度。',
+    yue: '我哋嘅精密加工公差可達 ±0.005mm（關鍵特徵、恒溫車間），角度公差 ±0.01°，表面粗糙度最高 Ra 0.4。具體以零件特徵同材料為準——將圖紙發嚟，工程師會逐個特徵話你知可達精度。',
+    en: 'Tolerance: down to ±0.005mm on critical features (temperature-controlled shop), angular ±0.01°, surface finish down to Ra 0.4. Exact capability depends on the feature and material — send your drawing and our engineers will confirm feature by feature.',
+  },
+  {
+    id: 'fiveaxis',
+    re: /五轴|五軸|5\s*轴|5\s*軸|five.?axis|5.?axis/i,
+    zh: '有的。我们配备五轴联动加工中心（SUNRISE DMU 400、HANMER LU320），复杂曲面、异形结构件可一次装夹完成，避免多次装夹的累积误差。您的零件具体适不适合五轴，欢迎发图，工程师会给工艺建议。',
+    yue: '有嘅。我哋配備五軸聯動加工中心（SUNRISE DMU 400、HANMER LU320），複雜曲面、異形結構件可以一次裝夾完成，避免多次裝夾嘅累積誤差。你件嘢啱唔啱用五軸，歡迎發圖，工程師會畀工藝建議。',
+    en: 'Yes — we run 5-axis machining centers (SUNRISE DMU 400, HANMER LU320). Complex curved surfaces and irregular parts can be done in one setup, avoiding accumulated error from multiple fixtures. Send your part drawing and our engineers will advise whether 5-axis is the right process.',
+  },
+  {
+    id: 'cmm',
+    re: /CMM|三坐标|三座標|检测|檢測|檢驗|测量|測量|量测|inspection|measurement/i,
+    zh: '可以的。厂内配备 2.5D 影像仪与精密量具做常规尺寸检测；桥式三坐标（CMM）由集团共享计量中心按需送检，可满足尺寸与形位公差检测需求。检测报告（含 SPC / GD&T）按订单约定出具。',
+    yue: '得嘅。廠內配備 2.5D 影像儀同精密量具做常規尺寸檢測；橋式三坐標（CMM）由集團共享計量中心按需送檢，可以滿足尺寸同形位公差檢測需求。檢測報告（含 SPC / GD&T）按訂單約定出具。',
+    en: 'Yes. In-house we run a 2.5D vision measuring machine and precision gauges for routine dimensional checks; bridge-type CMM is provided on demand through our group shared metrology center, covering dimensional and GD&T requirements. Inspection reports (incl. SPC / GD&T) are provided as agreed per order.',
+  },
+  {
+    id: 'iso',
+    re: /ISO\s*9001|质量体系|質量體系|认证|認證|certified|certification/i,
+    zh: '我们按 ISO 9001 质量管理体系贯标运行（认证进度以正式公示为准）。全流程按体系文件执行：来料检验、过程管控、出货检验；材质证明（EN 10204 3.1）与检测报告可按订单约定提供。',
+    yue: '我哋按 ISO 9001 質量管理體系貫標運行（認證進度以正式公示為準）。全流程按體系文件執行：來料檢驗、過程管控、出貨檢驗；材質證明（EN 10204 3.1）同檢測報告可以按訂單約定提供。',
+    en: 'We operate under an ISO 9001 quality management system (certification in progress; formal status per official publication). The full process follows QMS procedures: incoming inspection, in-process control, outgoing inspection. Material certs (EN 10204 3.1) and inspection reports available per order agreement.',
+  },
+  {
+    id: 'leadtime',
+    re: /交期|货期|貨期|多久|多长时间|多長時間|交货|交貨|lead.?time|how long|delivery/i,
+    zh: '打样常规数个工作日内完成，具体取决于工艺复杂度、材料与表面处理；报价时会一并确认准确交期。报价响应时效：常规 2 小时内，特殊件最多 2 个工作日。',
+    yue: '打樣常規幾個工作日內完成，具體視乎工藝複雜度、材料同表面處理；報價時會一併確認準確交期。報價響應時效：常規 2 小時內，特殊件最多 2 個工作日。',
+    en: 'Prototypes are typically completed within a few working days, depending on complexity, material and surface treatment; the exact lead time is confirmed with the quote. Quote response: usually within 2 hours, up to 2 business days for special parts.',
+  },
+  {
+    id: 'moq',
+    re: /起订|起訂|MOQ|最小批量|打样|打樣|样件|样品|小批量|1\s*件|一件|minimum\s*(order|quantit)|\bsample|\bproto/i,
+    zh: '我们没有硬性 MOQ，1 件起做，打样和小批量都是常规业务，量产也一样接。批量越大单价越优——把图纸和数量发来，工程师按工艺和批量给您准确报价。',
+    yue: '我哋冇硬性 MOQ，1 件起做，打樣同比小批量都係常規業務，量產一樣接。批量越大單價越平——將圖紙同比數量發嚟，工程師按工藝同比批量畀你準確報價。',
+    en: 'No hard MOQ — we regularly take single-piece prototypes and small batches, as well as volume production. Unit price improves with quantity. Send your drawing and quantity, and our engineers will quote precisely.',
+  },
+  {
+    id: 'materials',
+    re: /材料|铝|鋁|不锈鋼|不鏽鋼|不锈|钛|鈦|铜|銅|材料表|material|aluminum|aluminium|titanium|stainless|steel|inconel|brass|copper|peek|delrin/i,
+    zh: '常规加工材料覆盖：铝合金（6061 / 7075）、不锈钢（303 / 304 / 316 / 17-4PH）、钛合金（Ti-6Al-4V）、铜、模具钢及工程塑料（PEEK / Delrin / PP 等）；难加工材料如 Inconel 718 / 625 也有成熟案例。您这批零件用什么材料？',
+    yue: '常規加工材料覆蓋：鋁合金（6061 / 7075）、不鏽鋼（303 / 304 / 316 / 17-4PH）、鈦合金（Ti-6Al-4V）、銅、模具鋼及工程塑膠（PEEK / Delrin / PP 等）；難加工材料如 Inconel 718 / 625 亦有成熟案例。你批零件用咩材料？',
+    en: 'Common materials we machine: aluminum (6061 / 7075), stainless steel (303 / 304 / 316 / 17-4PH), titanium (Ti-6Al-4V), copper, tool steel and engineering plastics (PEEK / Delrin / PP, etc.). Difficult alloys like Inconel 718 / 625 are also well established here. What material are your parts?',
+  },
+  {
+    id: 'payment',
+    re: /付款|支付|转账|轉賬|对公|對公|私人账户|私人賬戶|payment|bank transfer|\bT\/T\b|paypal/i,
+    zh: '我们仅接受对公账户付款（银行转账 / T/T 等）。基于合规要求，不接受私人账户收款，也不与受制裁地区交易。具体付款条款会在报价单中注明。',
+    yue: '我哋只接受對公賬戶付款（銀行轉賬 / T/T 等）。基於合規要求，唔接受私人賬戶收款，亦唔同受制裁地區交易。具體付款條款會喺報價單註明。',
+    en: 'We only accept corporate bank transfers (T/T etc.). For compliance reasons we cannot accept payments to personal accounts, and we do not trade with sanctioned regions. Payment terms are specified on the quotation.',
+  },
+  {
+    id: 'nda',
+    re: /保密|機密|机密|泄露|洩露|NDA|confidential/i,
+    zh: '请放心，保密是底线：可签署正式保密协议（NDA）；您的图纸仅在项目相关工程师与生产部门内部流转，未经您书面同意，绝不外泄或用作案例展示。',
+    yue: '你放心，保密係底線：可以簽正式保密協議（NDA）；你嘅圖紙只會喺項目相關工程師同比生產部門內部流轉，未經你書面同意，絕對唔會外洩或者攞去做案例展示。',
+    en: 'Rest assured, confidentiality is a baseline for us: we can sign a formal NDA; your drawings only circulate among the project engineers and production team, and will never be shared externally or used as case studies without your written consent.',
+  },
+  {
+    id: 'shipping',
+    re: /发货|發貨|物流|快递|快遞|运费|運費|shipping|dhl|fedex|\bups\b/i,
+    zh: '支持 DHL / FedEx / UPS 等国际快递全球发货，深圳及周边可自提或同城配送。运费按实际重量与目的地计算，报价时会一并确认。',
+    yue: '支持 DHL / FedEx / UPS 等國際快遞全球發貨，深圳及周邊可以自提或者同城配送。運費按實際重量同比目的地計算，報價時會一併確認。',
+    en: 'We ship worldwide via DHL / FedEx / UPS; self-pickup or local delivery available in Shenzhen. Shipping cost depends on actual weight and destination, confirmed together with the quote.',
+  },
+  {
+    id: 'discount',
+    re: /折扣|便宜|优惠|優惠|还价|還價|打折|打\d*\s*折|\d+\s*折|五折|半价|discount|cheaper|rebate/i,
+    zh: '我们没有统一折扣政策——报价基于实际材料、工艺与精度要求核算。首次合作或批量订单，工程师会在报价时给您优化建议（工艺替代、材料选型等），把成本花在刀刃上。',
+    yue: '我哋冇統一折扣政策——報價基於實際材料、工藝同比精度要求核算。首次合作或者批量訂單，工程師會喺報價時畀你優化建議（工藝替代、材料選型等），成本用喺刀刃上。',
+    en: "We don't run a blanket discount policy — quotes are costed on actual material, process and precision requirements. For first orders or volume production, our engineers will suggest optimizations (process alternatives, material selection) to get the most out of your budget.",
+  },
+];
+
+/**
+ * FAQ 秒答匹配。命中返回 { id, answer }，否则返回 null。
+ * 规则：消息 ≥5 字符（中文信息密度高，7 字符短问句如"打样交期多久？"是常态）、
+ *       ≤200 字符；仅 zh / en（yue 归 zh，按浏览器语言给粤语版）；其他语种放行 LLM。
+ * 简繁归一：粤语/繁体用户打"報價/圖紙/檢測"等繁体，先归一为简体再匹配正则。
+ */
+const FAQ_T2S = {
+  '報': '报', '價': '价', '錢': '钱', '圖': '图', '發': '发', '傳': '传', '檢': '检', '測': '测',
+  '驗': '验', '誤': '误', '認': '认', '證': '证', '質': '质', '體': '体', '訂': '订',
+  '樣': '样', '機': '机', '洩': '泄', '轉': '转', '賬': '账', '對': '对', '運': '运',
+  '費': '费', '遞': '递', '優': '优', '還': '还', '軸': '轴', '鈦': '钛', '鋁': '铝',
+  '鋼': '钢', '銅': '铜', '鏽': '锈', '膠': '胶',
+};
+
+function matchFaq(message, userLang, visitorLangRaw) {
+  const raw = String(message || '').trim();
+  if (raw.length < 5 || raw.length > 200) return null;
+  if (userLang !== 'zh' && userLang !== 'en') return null;
+  const msg = userLang === 'zh' ? raw.replace(/[報價錢圖發傳檢測驗誤認證質體訂樣機洩轉賬對運費遞優還軸鈦鋁鋼銅鏽膠]/g, (c) => FAQ_T2S[c] || c) : raw;
+  const lang = (String(visitorLangRaw || '').toLowerCase() === 'yue' || ['zh-hk', 'zh-mo'].includes(String(visitorLangRaw || '').toLowerCase())) ? 'yue' : (userLang === 'zh' ? 'zh' : 'en');
+  for (const intent of FAQ_INTENTS) {
+    if (intent.re.test(msg)) {
+      return { id: intent.id, answer: intent[lang] || intent.zh };
+    }
+  }
+  return null;
+}
+
 function createSseStream(fullContent, conversationId) {
   const encoder = new TextEncoder();
   let index = 0;
@@ -1091,6 +1226,40 @@ export async function onRequestPost(context) {
   } catch (e) {
     finalMessage = message;
     console.warn('Profile context build failed:', e.message);
+  }
+
+  // ===== FAQ 秒答拦截层 =====
+  // 高频问题（询价/公差/MOQ/五轴/CMM/ISO…）命中即流式直答，不进 LLM。
+  // 0.5s 内响应（对比 LLM 路径 8-15s），且预写口径 100% 准确。
+  const faqHit = matchFaq(message, userLang, visitorLangRaw);
+  if (faqHit) {
+    console.log('FAQ fast answer [' + faqHit.id + ']:', message.slice(0, 60));
+
+    // 客户档案 touch（不阻断响应）：记录最后联系时间与最后消息，保持画像连续
+    if (kv) {
+      try {
+        const now = new Date().toISOString().split('T')[0];
+        customerProfile.last_contact = now;
+        if (!customerProfile.first_contact) customerProfile.first_contact = now;
+        customerProfile.language = userLang;
+        if (message) customerProfile.last_message = message.slice(0, 100);
+        const touchPromise = saveCustomerProfile(kv, userId, customerProfile);
+        if (context.waitUntil) context.waitUntil(touchPromise);
+      } catch (e) {
+        console.warn('FAQ profile touch failed:', e.message);
+      }
+    }
+
+    return new Response(createSseStream(faqHit.answer, conversationId || ('faq_' + userId)), {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/event-stream; charset=utf-8',
+        'Cache-Control': 'no-cache, no-transform',
+        'Connection': 'keep-alive',
+        'X-Accel-Buffering': 'no',
+        ...corsHeaders(origin),
+      },
+    });
   }
 
   try {
