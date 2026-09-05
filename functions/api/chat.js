@@ -1073,6 +1073,24 @@ const FAQ_INTENTS = [
     yue: '我哋冇統一折扣政策——報價基於實際材料、工藝同比精度要求核算。首次合作或者批量訂單，工程師會喺報價時畀你優化建議（工藝替代、材料選型等），成本用喺刀刃上。',
     en: "We don't run a blanket discount policy — quotes are costed on actual material, process and precision requirements. For first orders or volume production, our engineers will suggest optimizations (process alternatives, material selection) to get the most out of your budget.",
   },
+  {
+    // 语言元问题兜底（2026-09-05）：用户实测 bot 自称"仅支持中英德日"——错误声明来自
+    // Coze 线上旧 prompt（本地新版已明令禁止该行为，待发布）。网站侧 FAQ 秒答正确口径。
+    id: 'cantonese',
+    // 粤语能力确认 —— 访客要粤语就一定用粤语答（铁律：粤语必须真通）
+    re: /粤语|粵語|广东话|廣東話|白话|白話|讲粤语|講粵語|cantonese/i,
+    zh: '支持，粤语、普通话都可以。您直接用粤语提问就行——报价、工艺、材料、交期都能用粤语沟通；有图纸也可以直接发过来，工程师逐项讲解。',
+    yue: '冇問題，我哋一直都可以用粵語傾！報價、工藝、材料、交期咩都用粵語講得。有圖紙嘅話可以直接發過嚟，工程師逐樣同你講解。',
+    en: 'Yes — we speak Cantonese (and Mandarin and English). Feel free to continue in Cantonese: quoting, processes, materials, lead times — all covered.',
+  },
+  {
+    id: 'language',
+    // 语言能力清单 —— 不列死"仅支持X种"，列主要语种+20多种口径
+    re: /什么语言|甚麼語言|哪些语言|哪種語言|邊種語言|几种语言|幾種語言|语言呢|語言呢|会.{0,3}语言|會.{0,3}語言|语言能力|語言能力|支持语言|支持語言|支持.{0,2}语种|德语|德語|德文|法语|法語|西班牙语|西班牙語|俄语|俄語|阿拉伯|葡萄牙语|葡萄牙語|意大利语|意大利語|韩语|韓語|(what|which)\s+languages?|speak\s+(arabic|spanish|french|russian|german)|\barabic\b|\bespanol\b|العربية/i,
+    zh: '语言不用担心——我们支持全球主要语言：中文（含粤语）、英语、日语、韩语、德语、法语、西班牙语、俄语、阿拉伯语、葡萄牙语、意大利语、土耳其语、越南语、泰语、印地语等 20 多种。您直接用母语提问即可，工程师对接无障碍。',
+    yue: '語言唔使擔心——我哋支持全球主要語言：中文（含粵語）、英語、日語、韓語、德語、法語、西班牙語、俄語、阿拉伯語、葡萄牙語、意大利語等 20 多種，你直接用母語問就得，工程師對接冇障礙。',
+    en: "No worries — we support 20+ major languages: English, Chinese (incl. Cantonese), Japanese, Korean, German, French, Spanish, Russian, Arabic, Portuguese, Italian, Turkish, Vietnamese, Thai, Hindi and more. Just ask in your native language and our engineers will follow up seamlessly.",
+  },
 ];
 
 /**
@@ -1094,10 +1112,22 @@ function matchFaq(message, userLang, visitorLangRaw) {
   if (raw.length < 5 || raw.length > 200) return null;
   if (userLang !== 'zh' && userLang !== 'en') return null;
   const msg = userLang === 'zh' ? raw.replace(/[報價錢圖發傳檢測驗誤認證質體訂樣機洩轉賬對運費遞優還軸鈦鋁鋼銅鏽膠]/g, (c) => FAQ_T2S[c] || c) : raw;
-  const lang = (String(visitorLangRaw || '').toLowerCase() === 'yue' || ['zh-hk', 'zh-mo'].includes(String(visitorLangRaw || '').toLowerCase())) ? 'yue' : (userLang === 'zh' ? 'zh' : 'en');
+  const rawLang = String(visitorLangRaw || '').toLowerCase();
+  let lang;
+  if (rawLang === 'yue' || rawLang === 'zh-hk' || rawLang === 'zh-mo') {
+    lang = 'yue';
+  } else if (userLang === 'en') {
+    lang = 'en';
+  } else {
+    // 浏览器语言无粤语信号时，按消息里的粤语特征字兜底
+    // （手动测试/内嵌浏览器不带 visitor_info 的场景，如"你哋做唔做到五軸加工"）
+    lang = /[唔嘅咗喺佢乜咁啲嚟畀冇哋]/.test(raw) ? 'yue' : 'zh';
+  }
   for (const intent of FAQ_INTENTS) {
     if (intent.re.test(msg)) {
-      return { id: intent.id, answer: intent[lang] || intent.zh };
+      // 粤语能力确认：zh 用户问粤语 → 直接用粤语答（要粤语就给他粤语，最强确认）
+      const answerKey = (intent.id === 'cantonese' && lang === 'zh') ? 'yue' : lang;
+      return { id: intent.id, answer: intent[answerKey] || intent.zh };
     }
   }
   return null;
