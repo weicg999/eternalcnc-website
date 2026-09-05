@@ -1,7 +1,9 @@
 User-agent: *
 Allow: /
 Disallow: /api/
-Disallow: /_astro/
+# 切勿屏蔽 /_astro/ ：Astro 的 CSS/JS 全部构建在此目录。
+# 屏蔽后 Google 抓不到样式与脚本，页面渲染失败，会被判定为「有阻塞资源」，
+# 直接压低抓取优先级——2026-09-05 实测内页 0 收录与此直接相关。
 
 Sitemap: https://eternalcnc.com/sitemap-index.xml
 Sitemap: https://eternalcnc.com/sitemap-0.xml
