@@ -27,7 +27,14 @@
 const COZE_API_ENDPOINT = 'https://api.coze.cn/open_api/v2/chat';
 const RATE_LIMIT_MAX = 30;
 const RATE_LIMIT_WINDOW = 60 * 1000;
-const MAX_RETRY_COUNT = 2; // 质量校验失败最多重试2次
+const MAX_RETRY_COUNT = 1; // 质量校验失败最多重试1次（原 2）
+// 延迟预算：Coze 单次响应基线就有 14-19s，20s 是体验红线。
+// 重试前先算账——已经耗掉的时间 + 一次完整调用（按 12s 估）若超过 TOTAL_BUDGET_MS，
+// 就不再重试，直接接受当前结果。宁可放过一次质检，也不要让访客等 30 秒。
+const COZE_TIMEOUT_MS = 20000;   // 单次调用硬超时，防上游挂死
+const TOTAL_BUDGET_MS = 20000;   // 端到端总耗时预算
+const RETRY_RESERVE_MS = 12000;  // 判定"还够不够再跑一次"的预留
+const LANG_RETRY_ENABLED = false; // 语言类失败是否重试
 
 const COZE_PAT = 'pat_rqNvQTy7enkEsB5jFOi8VGYnY4xVe5QT8HbhDDWg1RuUqkEHa7y1egk012SZWfox';
 const COZE_BOT_ID = '7677859860893040694';
@@ -281,16 +288,51 @@ const EMAIL_ALLOWED_INTENT_RE = new RegExp(
   'i'
 );
 
+// 2026-09-08 修复：原只有 yue/zh/en 三档，其余 20+ 语种一旦走到兜底就掉英文
+// （R20 希腊 / R18 马来西亚实测：回复一字不差都是 FALLBACK_REPLY.en，被判 P0）。
+// 现按 LANG_NAMES 的语种集合补齐；缺失语种仍回落 en，但不会再出现"希腊客户收到英文"。
+// 口径与中文版一致：转项目工程师确认 + 索取企业邮箱（不露出我们自己的邮箱地址）。
 const FALLBACK_REPLY = {
   yue: '明白，呢個問題我轉畀項目工程師同你確認。方便留低貴司企業郵箱嗎？我會安排工程師盡快回覆你。',
   zh: '明白，这个问题我转给项目工程师跟您确认。方便留个贵司企业邮箱吗？我会安排工程师尽快回复您。',
+  'zh-tw': '明白，這個問題我轉給專案工程師跟您確認。方便留個貴司企業郵箱嗎？我會安排工程師盡快回覆您。',
+  ja: '承知いたしました。この件はプロジェクトエンジニアに確認のうえ、折り返しご連絡いたします。恐れ入りますが、貴社の会社用メールアドレスをお知らせいただけますでしょうか。',
+  ko: '알겠습니다. 이 부분은 프로젝트 엔지니어에게 확인 후 회신드리겠습니다. 귀사의 회사 이메일 주소를 남겨주시겠습니까?',
+  hi: 'समझ गया। इस विषय की पुष्टि मैं हमारे प्रोजेक्ट इंजीनियर से करवाकर आपको उत्तर दूँगा। कृपया अपनी कंपनी का ईमेल पता साझा करें।',
+  th: 'รับทราบครับ ผมจะส่งเรื่องนี้ให้วิศวกรโปรเจกต์ตรวจสอบแล้วตอบกลับคุณ ขออนุญาตทราบอีเมลของบริษัทคุณเพื่อติดตามรายละเอียดครับ',
+  ar: 'فهمت. سأحيل هذا الأمر إلى مهندس المشروع للتأكيد ثم أعود إليك. هل يمكنك مشاركة البريد الإلكتروني لشركتك؟',
+  he: 'הבנתי. אעביר זאת למהנדס הפרויקט לאישור ואחזור אליך. האם תוכל לשתף את כתובת המייל העסקית שלך?',
+  el: 'Κατανοητό — θα το διαβιβάσω στον μηχανικό του έργου για επιβεβαίωση. Θα μπορούσατε να μοιραστείτε το εταιρικό σας email;',
+  ru: 'Понял вас. Я передам этот вопрос инженеру проекта для подтверждения и вернусь с ответом. Не могли бы вы оставить корпоративный email вашей компании?',
+  de: 'Verstanden — ich gebe das an unseren Projektingenieur zur Bestätigung weiter. Könnten Sie uns Ihre Firmen-E-Mail-Adresse nennen?',
+  fr: 'Bien compris — je transmets cette question à notre ingénieur projet pour confirmation. Pourriez-vous partager l’e-mail professionnel de votre entreprise ?',
+  es: 'Entendido — voy a remitir esto a nuestro ingeniero de proyecto para confirmarlo. ¿Podría compartir el correo corporativo de su empresa?',
+  pt: 'Entendido — vou encaminhar isso ao nosso engenheiro de projeto para confirmação. Poderia compartilhar o e-mail corporativo da sua empresa?',
+  it: 'Capito — inoltro la questione al nostro ingegnere di progetto per conferma. Potrebbe condividere l’email aziendale della vostra ditta?',
+  nl: 'Begrepen — ik leg dit voor aan onze projectingenieur ter bevestiging. Zou u het zakelijke e-mailadres van uw bedrijf kunnen delen?',
+  pl: 'Rozumiem — przekażę to naszemu inżynierowi projektu do potwierdzenia. Czy może Pan/Pani podać firmowy adres e-mail?',
+  tr: 'Anlaşıldı — bunu doğrulamak üzere proje mühendisimize ileteceğim. Şirketinizin kurumsal e-posta adresini paylaşabilir misiniz?',
+  vi: 'Đã hiểu — tôi sẽ chuyển việc này cho kỹ sư dự án xác nhận rồi phản hồi lại. Bạn có thể cho biết email công ty không?',
+  id: 'Baik, saya akan teruskan hal ini ke engineer proyek kami untuk dikonfirmasi. Bolehkah Anda membagikan email perusahaan Anda?',
+  ms: 'Faham — saya akan serahkan ini kepada jurutera projek kami untuk pengesahan. Bolehkah anda kongsi emel korporat syarikat anda?',
+  sv: 'Uppfattat — jag vidarebefordrar detta till vår projektingenjör för bekräftelse. Kan du dela företagets e-postadress?',
+  cs: 'Rozumím — předám to našemu projektovému inženýrovi k potvrzení. Můžete sdělit firemní e-mailovou adresu?',
+  ro: 'Am înțeles — voi transmite această solicitare inginerului de proiect pentru confirmare. Puteți furniza adresa de e-mail a companiei?',
+  uk: 'Зрозуміло — я передам це нашому інженеру проєкту для підтвердження. Чи могли б ви надати корпоративну електронну пошту?',
+  fa: 'متوجه شدم — این مورد را برای تأیید به مهندس پروژه ارجاع می‌دهم. لطفاً ایمیل شرکتی خود را در اختیار ما قرار دهید.',
   en: 'Understood — let me route this to our project engineer for confirmation. Could you share your corporate email so we can follow up with the details?',
 };
 
 function getFallbackReply(userLang, visitorLangRaw) {
   const raw = String(visitorLangRaw || '').toLowerCase();
   if (raw === 'yue' || raw === 'zh-hk' || raw === 'zh-mo') return FALLBACK_REPLY.yue;
-  return userLang === 'zh' ? FALLBACK_REPLY.zh : FALLBACK_REPLY.en;
+  if (raw === 'zh-tw') return FALLBACK_REPLY['zh-tw'];
+  // 先按浏览器语种精确匹配，再退到语种主码（如 pl-PL → pl），都没有才用英文
+  if (FALLBACK_REPLY[raw]) return FALLBACK_REPLY[raw];
+  const base = raw.split('-')[0];
+  if (FALLBACK_REPLY[base]) return FALLBACK_REPLY[base];
+  if (FALLBACK_REPLY[userLang]) return FALLBACK_REPLY[userLang];
+  return FALLBACK_REPLY.en;
 }
 
 // 悬空指代清理：删掉邮箱地址后，常留下「请发到上面的邮箱」「via the above email」之类
@@ -322,6 +364,21 @@ function stripEmailIfNotAllowed(userMessage, replyContent) {
 
   const ratio = replyContent.length ? 1 - cleaned.length / replyContent.length : 0;
   const gutted = cleaned.length < 40 || ratio > STRIP_RATIO_LIMIT;
+
+  // 整句删除会把回复掏空（实测 403 字删到 51 字）。此时退一步：只抹掉邮箱地址本身，
+  // 保住正文与语种。宁可留一处地址，也不要让整段话被掏空后掉进兜底话术——
+  // 实测 R20 希腊 / R18 马来西亚即因删空走 getFallbackReply，而旧兜底只有 yue/zh/en
+  // 三档，语种直接丢失、判成 P0「语言完全不跟随」。
+  if (gutted) {
+    const masked = replyContent
+      .replace(EMAIL_DETECT_RE, '')
+      .replace(/[ \t]{2,}/g, ' ')
+      .trim();
+    if (masked.length >= 40) {
+      return { text: masked, stripped: true, tooShort: false };
+    }
+  }
+
   return { text: cleaned, stripped: true, tooShort: gutted };
 }
 
@@ -925,7 +982,7 @@ function asyncExtractAndSave(kv, userId, userMessage, botReply, profile, lang, p
 
 // ========== Coze API 调用 ==========
 
-async function callCoze({ message, userId, conversationId, pat, botId, customVariables }) {
+async function callCoze({ message, userId, conversationId, pat, botId, customVariables, timeoutMs }) {
   const requestBody = {
     bot_id: botId,
     user: userId,
@@ -937,15 +994,28 @@ async function callCoze({ message, userId, conversationId, pat, botId, customVar
     requestBody.custom_variables = customVariables;
   }
 
-  const response = await fetch(COZE_API_ENDPOINT, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${pat}`,
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    },
-    body: JSON.stringify(requestBody),
-  });
+  // 上游无超时保护时，慢响应会把 Worker 一直挂住，访客侧表现为长时间空白等待。
+  // 重试调用会传入更短的 timeoutMs，由重试预算统一控制总耗时。
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs || COZE_TIMEOUT_MS);
+
+  let response;
+  try {
+    response = await fetch(COZE_API_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${pat}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+      signal: controller.signal,
+    });
+  } catch (err) {
+    clearTimeout(timer);
+    throw err;
+  }
+  clearTimeout(timer);
 
   if (!response.ok) {
     const errorText = await response.text().catch(() => '');
@@ -1299,15 +1369,35 @@ export async function onRequestPost(context) {
     let retryCount = 0;
     let lastFailureReason = '';
 
+    const chatStart = Date.now();
+
     while (retryCount <= MAX_RETRY_COUNT) {
-      result = await callCoze({
-        message: currentMessage,
-        userId,
-        conversationId: currentConvId,
-        pat,
-        botId,
-        customVariables: retryCount > 0 ? null : customVariables,
-      });
+      // 重试调用单独限时：只给"剩余预算"，超时就放弃重试、沿用首轮结果，
+      // 避免首轮 15s + 重试 15s = 30s 的串行叠加。
+      const elapsed = Date.now() - chatStart;
+      const callTimeout = retryCount === 0
+        ? COZE_TIMEOUT_MS
+        : Math.max(6000, TOTAL_BUDGET_MS - elapsed - 1000);
+
+      let attempt;
+      try {
+        attempt = await callCoze({
+          message: currentMessage,
+          userId,
+          conversationId: currentConvId,
+          pat,
+          botId,
+          customVariables: retryCount > 0 ? null : customVariables,
+          timeoutMs: callTimeout,
+        });
+      } catch (err) {
+        if (retryCount === 0) throw err; // 首轮失败：按原逻辑交给外层错误处理
+        // 重试失败（多为超时）：沿用首轮结果，不再纠缠
+        console.warn('Retry call failed, keeping first result:', err.message);
+        break;
+      }
+
+      result = attempt;
 
       // 后置修正：非问价 / 非发图场景的邮箱露出，直接删掉含邮箱的整句。
       // 走本地改写而非判不合格重试 —— 重试会串行再跑一次 LLM，把响应耗时翻倍。
@@ -1330,13 +1420,20 @@ export async function onRequestPost(context) {
       lastFailureReason = validation.reason;
       retryCount++;
 
-      // 语言类失败只重试 1 次（其余类型仍按 MAX_RETRY_COUNT）。
-      // 原因：Coze bot 若生不出某个语种，多试几次通常还是不行（R12 印地语实测连跑 3 次
-      // 均为英文），而每次重试都是一次完整 LLM 调用、串行累加 8s 左右。
-      // 语言问题重试超过 1 次就接受，避免把响应拖到 20s 以上。
-      const maxRetry = /^language_mismatch/.test(validation.reason) ? 1 : MAX_RETRY_COUNT;
+      // 语言类：Coze bot 若生不出某个语种，多试几次通常还是不行（R12 印地语 / R20 希腊
+      // 实测连跑均为英文），而每次重试都是一次完整 LLM 调用、串行累加 10s 以上。
+      // 默认不再为语言问题重试，改由多语种兜底话术保证语种不失。
+      const isLangFail = /^language_mismatch/.test(validation.reason);
+      const maxRetry = isLangFail ? (LANG_RETRY_ENABLED ? 1 : 0) : MAX_RETRY_COUNT;
       if (retryCount > maxRetry) {
         console.warn('Quality check failed after all retries:', validation.reason);
+        break;
+      }
+
+      // 延迟预算：再跑一次大概率突破 TOTAL_BUDGET_MS 时，直接接受当前结果。
+      // 重试耗尽本来也照样返回这份回复（见上），不如省下这 10 秒。
+      if (Date.now() - chatStart + RETRY_RESERVE_MS > TOTAL_BUDGET_MS) {
+        console.warn('Quality check failed, retry skipped (latency budget):', validation.reason);
         break;
       }
 
