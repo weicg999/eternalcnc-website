@@ -1,5 +1,6 @@
 ﻿---
 import PageLayout from '../../../layouts/PageLayout.astro';
+import IndustryArticles from '../../../components/IndustryArticles.astro';
 
 const breadcrumbs = [
   { label: 'Industries', href: '/industries' },
@@ -148,6 +149,19 @@ const standards = [
     </div>
   </div>
 </section>
+
+  <IndustryArticles
+    system="automation-equipment"
+    collection="blog"
+    basePath="/knowledge/tech-blog"
+    eyebrow="In-depth guides"
+    heading="Automation equipment machining guides"
+    fallbackHeading="Machining guides from our technical blog"
+    intro="Notes on frames, fixtures and motion hardware for automation lines."
+    generalHeading="General foundation"
+    generalTag="The chain every part goes through — drawing, DFM, material, machine, finishing, quote."
+    locale="en-US"
+  />
 
   <!-- CTA -->
   <section style="background-color: var(--brand-dark); padding: 80px 0;">

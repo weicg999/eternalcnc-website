@@ -1,15 +1,94 @@
 ﻿---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import AboutHero from '../../../components/AboutHero.astro';
+
+// ── 能力矩阵：材料 × 典型工艺（数据取自本站 materials / capabilities 页，不臆造）──
+const capabilityMatrix = [
+  { material: '铝合金', grades: 'AL-6061 / AL-7075', process: '三轴 / 四轴 / 五轴铣削、车削', use: '机器人结构件、散热壳体、自动化夹具' },
+  { material: '不锈钢', grades: 'SS304 / SS316L / 17-4PH', process: '车铣复合、精密磨削、线切割', use: '医疗器件、真空腔体、连接器外壳' },
+  { material: '钛合金', grades: 'Ti-6Al-4V (TC4)', process: '五轴联动、慢走丝、精修工艺', use: '轻量化结构件、医疗植入级工装' },
+  { material: '工程塑料', grades: 'PEEK / Delrin(POM) / Nylon / PTFE / UHMW-PE / PC', process: '高速铣削、精车、去毛刺', use: '绝缘件、耐磨衬套、洁净室零件' },
+  { material: '碳钢 / 合金钢', grades: '45# / Q235 / H13 / S136', process: '车削、铣削、热处理配合、表面处理', use: '模具镶件、重载结构件、传动部件' },
+];
+
+// ── 常见问题（FAQPage schema 同步用同一份数据源）──
+const faqs = [
+  {
+    q: '你们是工厂还是贸易公司？',
+    a: '我们是自有工厂的精密加工厂，位于深圳市宝安区，非贸易型中间商。图纸评估、工艺规划、编程、加工、质检全部在厂内完成，工程师全程跟进，沟通链路更短、问题定位更快。',
+  },
+  {
+    q: '能做小批量打样吗？最少多少件？',
+    a: '打样与中小批量正是我们的主场。1 件起做，无需开模。从单件验证件到数百件的小批量，我们都按同一套工艺标准执行。',
+  },
+  {
+    q: '报价要多久？需要提供什么？',
+    a: '提供 STEP / IGS / DWG / PDF 图纸即可，工程师在 2 小时内完成 DFM 工艺评审并给出报价与最快交期方案。批量件或复杂件通常 1 个工作日内回复。',
+  },
+  {
+    q: '能达到什么精度？',
+    a: '常规加工公差为 ±0.05 mm（ISO 2768-m）；配合五轴联动与精密磨削，关键尺寸可稳定做到 ±0.005 mm，高要求场合可达 ±0.003 mm。表面粗糙度常规 Ra 1.6，精修可至更优。',
+  },
+  {
+    q: '质保和售后怎么算？',
+    a: '全流程质量可追溯，出货附尺寸检测报告。若确属我方制造原因导致的尺寸或外观问题，我们主动返工或重做，费用由我方承担。',
+  },
+  {
+    q: '支持哪些表面处理？',
+    a: '可做阳极氧化、硬质氧化、电镀、钝化、喷砂、拉丝、粉末喷涂、发黑等，也可按客户指定工艺协调外协并统一质检后出货。',
+  },
+];
 ---
 
-<BaseLayout title="关于我们 – 鑫永恒" description="鑫永恒（深圳）精密实业有限公司，23年制造行业经验，15年CNC精密机加。ISO 9001认证中。服务机器人、医疗器械、自动化等行业，专啃硬骨头。">
+<BaseLayout
+  title="关于我们 – 深圳精密CNC加工厂 | 鑫永恒"
+  description="鑫永恒（深圳）精密实业有限公司——宝安自有工厂，23年制造经验、15年CNC精密加工，30台设备含五轴，±0.005mm精度。铝合金/不锈钢/钛合金/工程塑料小批量快打样，2小时出报价。"
+  schema={[
+    {
+      '@context': 'https://schema.org',
+      '@type': 'AboutPage',
+      name: '关于我们 – 鑫永恒（深圳）精密实业有限公司',
+      url: 'https://eternalcnc.com/zh/about',
+      description: '深圳宝安自有精密CNC加工工厂，23年制造行业经验、15年CNC精密加工，30台设备含五轴加工中心。',
+      inLanguage: 'zh-CN',
+      mainEntity: {
+        '@type': 'Organization',
+        name: '鑫永恒（深圳）精密实业有限公司',
+        alternateName: 'Eternal CNC Precision Machining',
+        legalName: 'Xinyongheng (Shenzhen) Precision Industrial Co., Ltd.',
+        url: 'https://eternalcnc.com',
+        foundingDate: '2024',
+        slogan: '精度不仅是规格，更是习惯。',
+        numberOfEmployees: { '@type': 'QuantitativeValue', value: 20 },
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: '深圳市宝安区松岗街道沙浦社区广进路33号综合楼101',
+          addressLocality: '深圳市',
+          addressRegion: '广东省',
+          addressCountry: 'CN',
+        },
+        telephone: '+86 181 2398 3352',
+        knowsAbout: ['CNC精密加工', '五轴铣削', 'CNC车削', '线切割', '精密磨削', 'DFM工艺评审', '表面处理'],
+      },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      inLanguage: 'zh-CN',
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    },
+  ]}
+>
 
   <!-- Hero: 米色全宽 + 左文右视频 + 三列 stats + 双 CTA（方案A） -->
   <AboutHero
     label="关于我们"
     titleHtml="我们是你的工程伙伴，<br/>而不只是加工厂。"
-    subtitle="23 年制造行业深耕 · 15 年 CNC 精密机加 · 图纸评估 → 工艺规划 → 打样验证 → 量产交付，自有工厂加工，工程师全程跟进。"
+    subtitle="23 年制造行业深耕 · 15 年 CNC 精密加工 · 图纸评估 → 工艺规划 → 打样验证 → 量产交付，自有工厂加工，工程师全程跟进。"
     heroVideoSrc="/videos/eternal-cnc-5axis-machining-in-action-01.mp4"
     stats={[
       { num: '23', unit: '年', label: '制造行业经验' },
@@ -111,6 +190,117 @@ import AboutHero from '../../../components/AboutHero.astro';
     </div>
   </section>
 
+  <!-- 能力矩阵：材料 × 工艺 × 典型应用（承接 SEO 长尾词，同时替代空洞的「为什么选我们」） -->
+  <section class="section-padding" style="background-color: var(--card-white);">
+    <div class="container-custom">
+      <div class="text-center mb-14">
+        <span class="red-line mx-auto"></span>
+        <h2 class="text-3xl font-bold" style="color: var(--brand-dark);">我们擅长的材料与工艺</h2>
+        <p class="mt-4 text-lg" style="color: var(--text-muted);">从铝合金到钛合金、从工程塑料到合金钢，按零件工况选材，而不是按库存凑合。</p>
+      </div>
+      <div class="max-w-5xl mx-auto overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--border-color);">
+              <th class="py-4 pr-4 text-sm font-semibold whitespace-nowrap" style="color: var(--brand-red);">材料类别</th>
+              <th class="py-4 pr-4 text-sm font-semibold whitespace-nowrap" style="color: var(--brand-red);">常用牌号</th>
+              <th class="py-4 pr-4 text-sm font-semibold" style="color: var(--brand-red);">典型加工工艺</th>
+              <th class="py-4 text-sm font-semibold" style="color: var(--brand-red);">常见应用</th>
+            </tr>
+          </thead>
+          <tbody>
+            {capabilityMatrix.map((row) => (
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td class="py-5 pr-4 font-semibold align-top whitespace-nowrap" style="color: var(--brand-dark);">{row.material}</td>
+                <td class="py-5 pr-4 align-top text-[15px]" style="color: var(--text-body);">{row.grades}</td>
+                <td class="py-5 pr-4 align-top text-[15px]" style="color: var(--text-body);">{row.process}</td>
+                <td class="py-5 align-top text-[15px]" style="color: var(--text-body);">{row.use}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-8 text-center text-[15px]" style="color: var(--text-muted);">
+        没找到你的材料牌号？<a href="/zh/contact/get-a-quote" class="font-semibold" style="color: var(--brand-red);">把图纸发过来</a>，工程师会给出选材建议与替代方案。
+      </p>
+    </div>
+  </section>
+
+  <!-- 服务流程：六步（复用首页同款叙事，关于页承担「怎么合作」的解释责任） -->
+  <section class="section-padding" style="background-color: var(--page-bg);">
+    <div class="container-custom">
+      <div class="text-center mb-14">
+        <span class="red-line mx-auto"></span>
+        <h2 class="text-3xl font-bold" style="color: var(--brand-dark);">从图纸到成品的六步流程</h2>
+        <p class="mt-4 text-lg" style="color: var(--text-muted);">每一步都有明确交付物，你能随时知道零件走到哪儿了。</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        {[
+          { num: '01', title: '图纸上传', desc: '支持 STEP / IGS / DWG / PDF 格式，图纸保密处理，可先签 NDA。' },
+          { num: '02', title: 'DFM 工艺评审', desc: '工程师在 2 小时内完成可制造性分析，指出潜在风险与降本空间。' },
+          { num: '03', title: '报价与交期确认', desc: '给出材料、工艺、表面处理的完整报价，同步承诺最快交期。' },
+          { num: '04', title: '编程与精密加工', desc: '多台设备并行排产，加工过程全参数管控，首件必检。' },
+          { num: '05', title: '质检与出货', desc: '关键尺寸逐项检测，附检测报告，支持快递/空运/海运多渠道。' },
+          { num: '06', title: '售后保障', desc: '质量全流程可追溯，制造问题主动返工或重做，不让客户承担。' },
+        ].map((s) => (
+          <div class="flex gap-5">
+            <span class="flex-shrink-0 font-bold leading-none" style="font-size: 34px; color: var(--brand-red); font-family: var(--font-heading);">{s.num}</span>
+            <div>
+              <h3 class="font-semibold mb-2 text-base" style="color: var(--brand-dark);">{s.title}</h3>
+              <p class="text-[14px] leading-relaxed" style="color: var(--text-body);">{s.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 为什么选我们：用可核验的差异点替代「服务好质量高」这类空话 -->
+  <section class="section-padding" style="background-color: var(--card-white);">
+    <div class="container-custom">
+      <div class="text-center mb-14">
+        <span class="red-line mx-auto"></span>
+        <h2 class="text-3xl font-bold" style="color: var(--brand-dark);">客户为什么选择我们</h2>
+        <p class="mt-4 text-lg" style="color: var(--text-muted);">不谈虚的，只讲你能验证的四件事。</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        {[
+          { title: '自有工厂，不是中间商', desc: '深圳宝安自有车间，30 台 CNC 设备含 DMU400 五轴加工中心。加工、质检、出货全部在厂内闭环，出问题能追到机台和批次。' },
+          { title: '工程师直接对接，不是客服转单', desc: '报价和工艺问题由工程师回答，不是销售复述。图纸阶段就能告诉你哪里会难加工、哪里能省钱。' },
+          { title: '小批量不挑单，1 件也做', desc: '打样、中试、小批量量产是我们的主战场。1 件起做无需开模，几百件也按同一套标准执行。' },
+          { title: '报价快，交期说得准', desc: '图纸发给工程师，2 小时内回复工艺方案与报价。定下交期就按节点推进，不用反复催问进度。' },
+        ].map((c) => (
+          <div class="p-7 rounded-industrial" style="background-color: var(--page-bg); border: 1px solid var(--border-color);">
+            <h3 class="font-bold text-lg mb-3" style="color: var(--brand-dark);">{c.title}</h3>
+            <p class="text-[15px] leading-relaxed" style="color: var(--text-body);">{c.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 常见问题：FAQ 是长尾词最密集的载体，同时直接回答采购决策前的疑虑 -->
+  <section class="section-padding" style="background-color: var(--page-bg);">
+    <div class="container-custom">
+      <div class="text-center mb-14">
+        <span class="red-line mx-auto"></span>
+        <h2 class="text-3xl font-bold" style="color: var(--brand-dark);">常见问题</h2>
+        <p class="mt-4 text-lg" style="color: var(--text-muted);">下单前客户最常问的六件事。</p>
+      </div>
+      <div class="max-w-3xl mx-auto space-y-4">
+        {faqs.map((f) => (
+          <details class="rounded-industrial overflow-hidden" style="background-color: var(--card-white); border: 1px solid var(--border-color);">
+            <summary class="cursor-pointer px-6 py-5 font-semibold text-base flex items-center justify-between gap-4" style="color: var(--brand-dark);">
+              <span>{f.q}</span>
+              <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[15px] leading-relaxed" style="color: var(--text-body);">{f.a}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- 车间画廊 -->
   <section class="section-padding" style="background-color: var(--card-white);">
     <div class="container-custom">
@@ -144,6 +334,19 @@ import AboutHero from '../../../components/AboutHero.astro';
         <div class="rounded-industrial overflow-hidden aspect-square">
           <img src="/images/equipment/gallery/cnc-workshop-greato-vertical-machining-center-lineup-01.webp" alt="台群T-V系列钻铣加工中心" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
         </div>
+      </div>
+
+      <!-- 图为纯视觉，补一段文字让车间信息可被索引 -->
+      <div class="max-w-4xl mx-auto mt-12 space-y-5 text-[15px] leading-relaxed" style="color: var(--text-body);">
+        <p>
+          车间现有 <strong style="color: var(--brand-dark);">30 台 CNC 加工设备</strong>，涵盖三轴、四轴与五轴机型：包括 SUNRISE DMU400 五轴加工中心、创世纪 V650R 立式加工中心、台群精机 T-V856S 立式加工中心等主力机型，可覆盖从单件打样到数百件小批量量产的排产需求。
+        </p>
+        <p>
+          加工能力上，我们常年处理 <strong style="color: var(--brand-dark);">铝合金（6061/7075）、不锈钢（304/316L/17-4PH）、钛合金（TC4）、工程塑料（PEEK/POM/Nylon/PTFE）以及碳钢与合金钢</strong>；工艺组合包括五轴联动铣削、车铣复合、慢走丝与快走丝线切割、精密磨削，并可配套阳极氧化、电镀、钝化、喷砂等表面处理。
+        </p>
+        <p>
+          常规加工公差 <strong style="color: var(--brand-dark);">±0.05 mm（ISO 2768-m）</strong>，关键尺寸可稳定达到 <strong style="color: var(--brand-dark);">±0.005 mm</strong>。所有出货零件均经过尺寸检测，附检测报告，质量全流程可追溯到机台与批次。
+        </p>
       </div>
     </div>
   </section>

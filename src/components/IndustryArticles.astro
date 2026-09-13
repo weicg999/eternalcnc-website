@@ -1,0 +1,87 @@
+---
+// 行业体系文章聚合块
+// 用法：<IndustryArticles system="robotics" collection="blog" heading="..." />
+// 渲染两类：① 本行业专属文章（system 命中）② 通用链文章（system = general）
+// 一篇文章都没匹配到时整块不渲染，避免留下空 section
+import { getCollection } from 'astro:content';
+
+interface Props {
+  system: string;
+  collection?: 'blog' | 'zhBlog';
+  basePath?: string;
+  eyebrow?: string;
+  heading?: string;
+  fallbackHeading?: string;
+  intro?: string;
+  generalHeading?: string;
+  generalTag?: string;
+  locale?: string;
+  emptyHint?: boolean;
+}
+
+const {
+  system,
+  collection = 'blog',
+  basePath = '/knowledge/tech-blog',
+  eyebrow = 'In-depth guides',
+  heading = 'Guides for this industry',
+  fallbackHeading,
+  intro = '',
+  generalHeading = 'General foundation',
+  generalTag = 'General',
+  locale = 'en-US',
+} = Astro.props;
+
+const all = collection === 'zhBlog' ? await getCollection('zhBlog') : await getCollection('blog');
+const live = all
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const specific = live.filter((p) => p.data.system === system);
+const genericCode = collection === 'zhBlog' ? '通用' : 'general';
+const generalPosts = live.filter((p) => p.data.system === genericCode);
+const posts = specific.length > 0 ? specific : generalPosts;
+const showGeneral = specific.length > 0 && generalPosts.length > 0;
+const sectionTitle = specific.length > 0 ? heading : fallbackHeading || heading;
+
+const fmt = (d: Date | string) =>
+  new Date(d).toLocaleDateString(locale, { year: 'numeric', month: 'short', day: 'numeric' });
+---
+
+{posts.length > 0 && (
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">{eyebrow}</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">{sectionTitle}</h2>
+      {intro && <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">{intro}</p>}
+      <div class={`grid gap-6 ${posts.length === 1 ? 'md:grid-cols-2' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
+        {posts.map((p) => (
+          <a href={`${basePath}/${p.slug}/`} class="block p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-[11px] px-2 py-0.5 rounded" style="background-color: var(--page-bg); color: var(--text-muted);">{p.data.category}</span>
+              {p.data.readingTime && <span class="text-[11px]" style="color: var(--text-muted);">{p.data.readingTime}</span>}
+            </div>
+            <h3 class="font-semibold mb-2 leading-snug" style="color: var(--brand-dark);">{p.data.title}</h3>
+            <p class="text-sm leading-relaxed" style="color: var(--text-body);">{p.data.description}</p>
+            <p class="text-xs mt-4" style="color: var(--brand-red);">{fmt(p.data.pubDate)} →</p>
+          </a>
+        ))}
+      </div>
+
+      {showGeneral && (
+        <div class="mt-14">
+          <h3 class="text-xl font-bold mb-2" style="color: var(--brand-dark);">{generalHeading}</h3>
+          <p class="mb-6 text-sm" style="color: var(--text-muted);">{generalTag}</p>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {generalPosts.map((p) => (
+              <a href={`${basePath}/${p.slug}/`} class="block p-5 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+                <h4 class="text-sm font-semibold mb-1.5 leading-snug" style="color: var(--brand-dark);">{p.data.title}</h4>
+                <p class="text-xs leading-relaxed" style="color: var(--text-body);">{p.data.description}</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+)}

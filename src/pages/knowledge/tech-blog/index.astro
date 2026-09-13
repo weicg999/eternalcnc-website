@@ -1,4 +1,5 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 
 const breadcrumbs = [
@@ -6,39 +7,28 @@ const breadcrumbs = [
   { label: 'Tech Blog' },
 ];
 
-const capabilities = [
-  {
-    title: 'Machining Tips',
-    items: ['How to optimize tool paths and reduce air cuts', 'Thin-wall part anti-deformation fixturing techniques', 'Deep hole machining chip evacuation solutions', 'Aluminum high-gloss surface machining parameter settings'],
-    tolerance: 'Continuously updated',
-    materials: 'Practical experience from frontline engineers',
-  },
-  {
-    title: 'Material Selection Guide',
-    items: ['Aluminum vs steel for structural components', 'Material selection guide for corrosive environments', 'Material comparison for high-temperature applications', 'Material alternatives for cost-sensitive parts'],
-    tolerance: 'Covers 20+ common materials',
-    materials: 'Helping you choose the most suitable material',
-  },
-  {
-    title: 'Process Optimization Cases',
-    items: ['Aluminum housing reduced from 8 operations to 5', 'Stainless steel part cycle time cut by 40%', 'Yield improvement from 85% to 98% — the full journey', 'How we reduced batch part cost by 25%'],
-    tolerance: 'Every case backed by data',
-    materials: 'From the shop floor, for the shop floor',
-  },
-  {
-    title: 'Industry Insights',
-    items: ['The growing adoption of 5-axis simultaneous machining', 'Smart manufacturing and digital factories', 'AI applications in machining parameter optimization', 'New demands from EV manufacturing on precision machining'],
-    tolerance: 'Focused on the technology frontier',
-    materials: 'Insights into industry development direction',
-  },
-];
+// 从内容集合拉取全部已发布文章（按 pubDate 降序）
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
 
-const standards = [
-  { label: 'Practical Knowledge', desc: 'All technical articles are based on real project experience — no empty theory.' },
-  { label: 'Data-Driven', desc: 'Optimization cases include detailed data comparisons — verifiable and reproducible.' },
-  { label: 'Consistent Updates', desc: '1-2 new articles published every week — technical content keeps growing.' },
-  { label: 'Reader Interaction', desc: 'Leave questions in comments — our engineering team replies regularly.' },
-];
+const CATEGORY_META: Record<string, { desc: string }> = {
+  'Machining Tips': { desc: 'Tool paths, fixturing, deep-hole machining and high-gloss surface parameters — practical experience from the shop floor.' },
+  'Material Selection': { desc: 'Which alloy or plastic for which job — comparisons that actually help you decide.' },
+  'Process Optimization': { desc: 'Real projects, real numbers: how we cut operations, cycle time and cost.' },
+  'Industry Insights': { desc: '5-axis adoption, smart manufacturing and what EV and robotics demand from precision machining.' },
+};
+const categoryOrder = ['Machining Tips', 'Material Selection', 'Process Optimization', 'Industry Insights'];
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+
+const CAT_STYLE: Record<string, string> = {
+  'Machining Tips': 'background:#8B0000;color:#fff;',
+  'Material Selection': 'background:#1A1A1A;color:#fff;',
+  'Process Optimization': 'background:#4A4A4A;color:#fff;',
+  'Industry Insights': 'background:#6B0000;color:#fff;',
+};
 ---
 
 <BaseLayout
@@ -54,21 +44,54 @@ const standards = [
         CNC Machining Tech Blog
       </h1>
       <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
-        In-depth technical articles on machining tips, material selection, and process optimization
+        In-depth technical articles on machining tips, material selection, and process optimization — written by our engineers, from real projects.
       </p>
       <div class="flex flex-wrap gap-4 mt-8">
         <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
           Talk to an Engineer
         </a>
-        <a href="/knowledge" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
-          Browse All Articles →
+        <a href="#latest" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Browse Articles ↓
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Capabilities -->
-  <section style="background-color: var(--page-bg); padding: 80px 0;">
+  <!-- 最新文章 -->
+  <section id="latest" style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Latest Articles</p>
+      <h2 class="text-3xl font-bold mb-2" style="color: var(--brand-dark);">Fresh from the Shop Floor</h2>
+      <p class="mb-10 max-w-2xl" style="color: var(--text-muted);">
+        New articles published regularly. {allPosts.length} published so far — and counting.
+      </p>
+
+      {allPosts.length === 0 ? (
+        <div class="p-12 text-center border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+          <p class="font-medium" style="color: var(--brand-dark);">Articles coming soon.</p>
+          <p class="text-sm mt-1" style="color: var(--text-muted);">Our engineers are writing. Check back shortly.</p>
+        </div>
+      ) : (
+        <div class="grid sm:grid-cols-2 gap-6">
+          {allPosts.map((p) => (
+            <a href={`/knowledge/tech-blog/${p.slug}/`} class="group flex flex-col p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="px-2.5 py-0.5 text-xs font-semibold rounded-full" style={CAT_STYLE[p.data.category] || 'background:#8B0000;color:#fff;'}>{p.data.category}</span>
+                <span class="text-xs" style="color: var(--text-muted);">{fmt(p.data.pubDate)}</span>
+                {p.data.readingTime && <span class="text-xs" style="color: var(--text-muted);">· {p.data.readingTime}</span>}
+              </div>
+              <h3 class="text-xl font-bold leading-snug mb-2 group-hover:text-[#8B0000] transition-colors" style="color: var(--brand-dark);">{p.data.title}</h3>
+              <p class="text-sm leading-relaxed mb-4 flex-1" style="color: var(--text-body);">{p.data.description}</p>
+              <span class="text-sm font-semibold" style="color: #8B0000;">Read Article →</span>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- 内容分类 -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Content Categories</p>
       <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Four Technical Content Sections</h2>
@@ -76,44 +99,24 @@ const standards = [
         From practical tips to industry insights — comprehensive coverage of CNC machining technology.
       </p>
       <div class="grid md:grid-cols-2 gap-6">
-        {capabilities.map((cap) => (
-          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
-            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
-            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
-              {cap.items.map((item) => (
-                <li class="text-sm flex items-start">
-                  <span class="mr-2" style="color: var(--brand-red);">—</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <div class="pt-4 border-t" style="border-color: var(--border-color);">
-              <p class="text-xs mb-1" style="color: var(--text-muted);">Content Status</p>
-              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
-              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Content Feature</p>
-              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+        {categoryOrder.map((cat) => {
+          const count = allPosts.filter((p) => p.data.category === cat).length;
+          const firstSlug = allPosts.find((p) => p.data.category === cat)?.slug;
+          return (
+            <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+              <h3 class="text-lg font-bold mb-2" style="color: var(--brand-dark);">{cat}</h3>
+              <p class="text-sm mb-4 leading-relaxed" style="color: var(--text-body);">{CATEGORY_META[cat].desc}</p>
+              {count > 0 ? (
+                <span class="inline-block px-2.5 py-1 text-xs font-semibold rounded-full" style="background:#8B0000;color:#fff;">{count} article{count > 1 ? 's' : ''} published</span>
+              ) : (
+                <span class="text-xs font-medium" style="color: var(--text-muted);">Coming soon — our engineers are writing in this category.</span>
+              )}
+              {count > 0 && firstSlug && (
+                <a href={`/knowledge/tech-blog/${firstSlug}/`} class="block mt-4 text-sm font-semibold hover:underline" style="color: #8B0000;">Read the latest →</a>
+              )}
             </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Quality -->
-  <section style="background-color: var(--card-white); padding: 80px 0;">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Content Commitment</p>
-      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Our Content Principles</h2>
-      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
-        We deliver valuable, actionable technical content — no fluff, no copy-paste.
-      </p>
-      <div class="grid md:grid-cols-2 gap-6">
-        {standards.map((std) => (
-          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
-            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
-            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   </section>
@@ -130,7 +133,7 @@ const standards = [
           Talk to an Engineer
         </a>
         <a href="/knowledge" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
-          Browse All Articles →
+          Back to Knowledge Base →
         </a>
       </div>
     </div>

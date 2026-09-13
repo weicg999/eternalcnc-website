@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../../../../layouts/PageLayout.astro';
+import IndustryArticles from '../../../../components/IndustryArticles.astro';
 
 const breadcrumbs = [
   { label: '行业应用', href: '/zh/industries' },
@@ -148,6 +149,19 @@ const standards = [
       </div>
     </div>
   </section>
+
+  <IndustryArticles
+    system="机器人"
+    collection="zhBlog"
+    basePath="/zh/knowledge/tech-blog"
+    eyebrow="深度指南"
+    heading="机器人加工指南"
+    fallbackHeading="我们的加工技术文章"
+    intro="在定材料、定公差、定表面处理之前，值得先知道的几件事。"
+    generalHeading="通用基础"
+    generalTag="每个零件都要走的那条链：图纸 → DFM → 材料 → 机床 → 表面处理 → 报价。"
+    locale="zh-CN"
+  />
 
   <!-- CTA -->
   <section style="background-color: var(--brand-dark); padding: 80px 0;">

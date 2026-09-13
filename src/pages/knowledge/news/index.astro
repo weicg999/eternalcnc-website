@@ -6,130 +6,187 @@ const breadcrumbs = [
   { label: 'Industry News' },
 ];
 
-const capabilities = [
+const issue = {
+  label: 'Issue',
+  number: '01',
+  date: '11 September 2026',
+  blurb: 'Five things the shop floor noticed — and what they mean for the parts you send us.',
+};
+
+const kpis = [
+  { metric: '+28.0%', label: 'China industrial robot output YoY (H1 2026)', source: 'National Bureau of Statistics' },
+  { metric: '40,000+', label: 'Humanoid robots shipped in H1 2026 — about 97% of the world total', source: 'Industry estimates' },
+  { metric: '+110.8%', label: 'China machine-tool industry profit YoY (H1 2026)', source: 'CMTBA' },
+];
+
+const stories = [
   {
-    title: '2026 Precision Manufacturing Trends',
-    items: ['Smart factory integration', 'AI-driven process optimization', 'Sustainable manufacturing practices', 'Digital twin technology adoption'],
-    tolerance: 'Industry Trend',
-    materials: 'Cross-Industry',
-    download: { label: 'Download full report', file: '/downloads/reports/2026-precision-manufacturing-trends-en.html' },
+    tag: 'Robotics',
+    date: '2026-09-08',
+    title: "XPeng's IRON walks itself off the production line",
+    summary: "The first high-end general-purpose humanoid to come off an automated line built for it. 76 degrees of freedom, three Turing AI chips at 2,250 TOPS, line core-process automation above 80%.",
+    what_it_means: "XPeng is putting car-grade quality systems behind robot manufacturing. Expect the gap between prototype-grade and production-grade humanoid parts to close in 12 months — and the suppliers who can hold H7 fits in aluminium at 10-piece pilot quantity to start winning the next round of work.",
+    source: "Southern Finance / XPeng press, Sep 8 2026",
   },
   {
-    title: '5-Axis Localization',
-    items: ['Domestic machine tool advancement', 'Cost reduction in 5-axis adoption', 'Supply chain localization benefits', 'Technology maturity assessment'],
-    tolerance: 'Technology Trend',
-    materials: 'Multi-Axis CNC',
-    download: { label: 'Download full report', file: '/downloads/reports/5-axis-localization-en.html' },
+    tag: 'Robotics',
+    date: '2026-09-01',
+    title: 'Humanoid sector: 40,000 units, 104.1 B yuan in H1 funding',
+    summary: "Full-year humanoid output is now projected above 100,000. Domestic brands hold more than 90% of the global share. The money is concentrating in complete machines, dexterous hands, motion control, and embodied-AI models.",
+    what_it_means: "The market has decided this is real, not a story. That changes the question for a parts shop from 'is the customer funded?' to 'is the customer making parts this quarter?'. Two different BD conversations.",
+    source: 'QQ News / industry body estimates, Sep 1 2026',
   },
   {
-    title: 'EV Parts Demand',
-    items: ['Battery housing precision requirements', 'Motor component machining growth', 'Lightweight structural parts demand', 'Thermal management component trends'],
-    tolerance: 'Market Trend',
-    materials: 'Automotive EV',
-    download: { label: 'Download full report', file: '/downloads/reports/ev-parts-demand-en.html' },
+    tag: 'Robotics',
+    date: '2026-09-03',
+    title: 'Car makers are not just dipping in — they are building a second business',
+    summary: "GAC's Huilun has 50 robots deployed in seven projects, near 10M yuan in orders. Chery's Mojia has raised at a 2.5B yuan post-A valuation. BYD's 'Xiaodi' is in showroom pilots. NIO's head of autonomous driving has spun out an embodied-AI company, with NIO as a strategic shareholder.",
+    what_it_means: "Car-grade supply chain, car-grade fixtures, car-grade quality systems — all of it is now showing up in robotics. That's the same set of standards XPeng used to build its robot line. The supplier pool is being recomposed around the auto-tier ecosystem.",
+    source: "Xinhua Finance, Sep 3 2026",
   },
   {
-    title: 'ISO 9001 Update',
-    items: ['Quality management system changes', 'Risk-based thinking requirements', 'Supply chain quality integration', 'Continuous improvement mandates'],
-    tolerance: 'Compliance Update',
-    materials: 'Quality Standards',
-    download: { label: 'Download full report', file: '/downloads/reports/iso-9001-update-en.html' },
+    tag: 'Liquid cooling',
+    date: '2026-09-04',
+    title: 'Liquid cooling for AI servers moves from optional to standard',
+    summary: "The CMTBA H1 report names AI-server liquid cooling as one of three demand engines driving the machine-tool industry's 110.8% profit growth. Shenwan Hongyuan's research note says liquid cooling is no longer optional in data-centre design.",
+    what_it_means: "Cold plates, fluid quick-connectors and manifolds are the parts — and they all want 5-axis milling, tight flatness, and leak-free pressure testing. The work is precision, but it isn't exotic, and most of it is in the 10–500 piece range. Right band for us.",
+    source: 'CMTBA / Shenwan Hongyuan, Sep 4 2026',
+  },
+  {
+    tag: 'CNC industry',
+    date: '2026-09-04',
+    title: 'Machine-tool industry profits doubled — but the margin is still 3.7%',
+    summary: "CMTBA H1 data: 530.9B yuan revenue (+7.6%), 19.6B yuan profit (+110.8%). Average margin 3.7% — still below the 4.5% mechanical-industry average. Machine cutting tools: new orders +20.5%, backlog +19.1%, horizontal lathe sales +45.8%.",
+    what_it_means: "The industry is making more money, but it's not easy money. The gains are concentrated in shops that have moved up the value chain — five-axis, complex parts, liquid cooling, robotics. General three-axis work is in a price war. Our bet on five-axis and small-batch flexibility is the right side of this split.",
+    source: 'CMTBA H1 report, Sep 4 2026',
   },
 ];
 
-const standards = [
-  { label: 'Manufacturing Intelligence', desc: 'Latest developments in smart manufacturing, IoT integration, and data-driven quality control.' },
-  { label: 'Market Analysis', desc: 'Quarterly reports on CNC machining demand across automotive, medical, electronics, and high-reliability sectors.' },
-  { label: 'Technology Updates', desc: 'New machining processes, tool materials, and automation solutions transforming precision manufacturing.' },
-  { label: 'Regulatory Changes', desc: 'ISO standards updates, industry compliance requirements, and certification developments.' },
+const faqs = [
+  { q: 'How often is this page updated?', a: 'Weekly. We do not run a news ticker — we run a reading list, and we only include items that change what a buyer of CNC parts should do this quarter.' },
+  { q: 'Where do the numbers come from?', a: 'Primary sources only: National Bureau of Statistics, General Administration of Customs, China Machine Tool and Tool Builders\u2019 Association (CMTBA), company filings, and named press. We do not republish analyst notes as facts.' },
+  { q: 'Why an OEM\u2019s view and not a market report?', a: 'Because a market report tells you where the wind is blowing. A shop view tells you whether the work has actually landed. Every story here has a "what it means" line — that is the part we are responsible for.' },
+];
+
+const related = [
+  { label: 'From drawing to quote', href: '/knowledge/tech-blog/from-drawing-to-cost/' },
+  { label: 'Robot joint and flange parts', href: '/knowledge/tech-blog/robot-joint-and-flange-parts/' },
+  { label: 'How to choose a CNC supplier in China', href: '/knowledge/tech-blog/how-to-choose-cnc-supplier-in-china/' },
+  { label: 'Tech blog (all)', href: '/knowledge/tech-blog/' },
 ];
 ---
 
 <PageLayout
-  title="Industry News | CNC Manufacturing Trends | Eternal CNC"
-  description="CNC manufacturing trends, technology updates, and market insights. Stay informed with the latest industry news."
+  title="Industry News from the Shop Floor | Eternal CNC"
+  description="What the CNC shop floor noticed in September 2026: humanoid robotics crosses into production, liquid cooling becomes standard, machine-tool industry doubles its profit — and what each of those means for the parts you send."
   breadcrumbs={breadcrumbs}
 >
   <!-- Hero -->
   <section style="background-color: var(--card-white); padding: 80px 0;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Knowledge Base</p>
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Industry news — {issue.label} {issue.number}</p>
       <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
-        Industry News
+        In this issue: what the shop floor noticed
       </h1>
       <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
-        CNC manufacturing trends, technology updates, and market insights.
-        Stay informed with the latest developments in precision machining.
+        {issue.blurb} Filed by the engineers at Eternal CNC in Shenzhen. Issued {issue.date}.
       </p>
       <div class="flex flex-wrap gap-4 mt-8">
         <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
           Request a Quote
         </a>
-        <a href="/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
-          View Services →
+        <a href="/knowledge/tech-blog/" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Read the Tech Blog →
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Capabilities -->
-  <section style="background-color: var(--page-bg); padding: 80px 0;">
+  <!-- KPI strip -->
+  <section style="background-color: var(--page-bg); padding: 48px 0;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Latest Updates</p>
-      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Industry Highlights</h2>
-      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
-        Key trends and developments shaping the CNC machining industry in 2026 and beyond.
-      </p>
-      <div class="grid md:grid-cols-2 gap-6">
-        {capabilities.map((cap) => (
-          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
-            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
-            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
-              {cap.items.map((item) => (
-                <li class="text-sm flex items-start">
-                  <span class="mr-2" style="color: var(--brand-red);">—</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <div class="pt-4 border-t" style="border-color: var(--border-color);">
-              <p class="text-xs mb-1" style="color: var(--text-muted);">Category</p>
-              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
-              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Scope</p>
-              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
-              {cap.download && (
-                <a
-                  href={cap.download.file}
-                  download
-                  class="inline-flex items-center mt-4 text-sm font-semibold transition-colors hover:underline"
-                  style="color: var(--brand-red);"
-                >
-                  <span class="mr-2">↓</span>
-                  {cap.download.label}
-                </a>
-              )}
-            </div>
+      <p class="text-sm font-semibold uppercase tracking-wider mb-6" style="color: var(--brand-red);">Three numbers worth noting this issue</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        {kpis.map((k) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <p class="text-3xl md:text-4xl font-bold mb-2" style="color: var(--brand-dark);">{k.metric}</p>
+            <p class="text-sm mb-3" style="color: var(--text-body);">{k.label}</p>
+            <p class="text-xs" style="color: var(--text-muted);">Source: {k.source}</p>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- Quality -->
+  <!-- Stories -->
   <section style="background-color: var(--card-white); padding: 80px 0;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Quality Standards</p>
-      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Compliance & Standards</h2>
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Five stories</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">What happened, and what we think it means</h2>
       <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
-        Stay compliant with the latest industry standards and regulatory requirements.
+        News first, then the line that matters: what changes for a buyer sending parts to a CNC shop.
       </p>
-      <div class="grid md:grid-cols-2 gap-6">
-        {standards.map((std) => (
-          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
-            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
-            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+      <div class="space-y-6">
+        {stories.map((s) => (
+          <article class="p-8 border rounded-2xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+              <span class="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded" style="background-color: var(--page-bg); color: var(--brand-dark);">{s.tag}</span>
+              <span class="text-xs" style="color: var(--text-muted);">{s.date}</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-4 leading-snug" style="color: var(--brand-dark);">{s.title}</h3>
+            <p class="text-base leading-relaxed mb-4" style="color: var(--text-body);">{s.summary}</p>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">What it means for your parts</p>
+              <p class="text-sm leading-relaxed" style="color: var(--text-body);">{s.what_it_means}</p>
+            </div>
+            <p class="text-xs mt-4" style="color: var(--text-muted);">Source: {s.source}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Standards / FAQs -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">How we write this page</p>
+      <h2 class="text-3xl font-bold mb-12" style="color: var(--brand-dark);">Three questions we get</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        {faqs.map((f) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-3" style="color: var(--brand-dark);">{f.q}</h3>
+            <p class="text-sm leading-relaxed" style="color: var(--text-body);">{f.a}</p>
           </div>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Related + subscribe -->
+  <section style="background-color: var(--card-white); padding: 64px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Keep reading</p>
+          <h2 class="text-2xl font-bold mb-6" style="color: var(--brand-dark);">Related on the blog</h2>
+          <ul class="space-y-3">
+            {related.map((r) => (
+              <li>
+                <a href={r.href} class="text-sm font-medium hover:underline" style="color: var(--brand-red);">{r.label} →</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="p-8 border rounded-2xl" style="background-color: var(--page-bg); border-color: var(--border-color);">
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Next issue</p>
+          <h3 class="text-xl font-bold mb-3" style="color: var(--brand-dark);">18 September 2026</h3>
+          <p class="text-sm leading-relaxed mb-5" style="color: var(--text-body);">
+            Storylines we are following: how Tesla Optimus supplier audits are reshaping China's component suppliers, the first post-tariff shipment data from CNC shops in Shenzhen, and what the new ISO 9001:2026 transition looks like on the shop floor.
+          </p>
+          <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+            Send us your next drawing
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -137,16 +194,16 @@ const standards = [
   <!-- CTA -->
   <section style="background-color: var(--brand-dark); padding: 80px 0;">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-3xl font-bold text-white mb-5">Stay Informed</h2>
+      <h2 class="text-3xl font-bold text-white mb-5">Have a part in mind?</h2>
       <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
-        Upload your drawings — engineer feedback within 2h.
+        Send the STEP and the PDF. We will quote within 2 hours on a working day, and we will tell you whether your tolerances are what they should be.
       </p>
       <div class="flex flex-wrap justify-center gap-4">
         <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
           Request a Quote
         </a>
-        <a href="/knowledge" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
-          View All Resources →
+        <a href="/knowledge/tech-blog/" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Browse the Tech Blog →
         </a>
       </div>
     </div>

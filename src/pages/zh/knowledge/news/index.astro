@@ -6,129 +6,187 @@ const breadcrumbs = [
   { label: '行业新闻' },
 ];
 
-const capabilities = [
+const issue = {
+  label: '第',
+  number: '01',
+  date: '2026 年 9 月 11 日',
+  blurb: '这一期，厂里看到的五件事——以及它们对你送来的零件意味着什么。',
+};
+
+const kpis = [
+  { metric: '+28.0%', label: '上半年中国工业机器人产量同比增长', source: '国家统计局' },
+  { metric: '4 万台+', label: '上半年人形机器人整机产量，约占全球 97%', source: '行业测算' },
+  { metric: '+110.8%', label: '上半年中国机床工具行业利润总额同比', source: '中国机床工具工业协会' },
+];
+
+const stories = [
   {
-    title: '2026 精密制造趋势',
-    items: ['智能制造与数字化车间加速落地', '国产高端五轴机床市场份额持续提升', '新材料应用推动加工工艺升级'],
-    tolerance: '预计 2026 年市场规模突破 5000 亿元',
-    materials: '中国精密制造行业趋势报告，含政策解读与市场分析',
-    download: { label: '下载完整报告', file: '/downloads/reports/2026-precision-manufacturing-trends-cn.html' },
+    tag: '机器人',
+    date: '2026-09-08',
+    title: '小鹏 IRON 自己走下了产线',
+    summary: '全球首条高阶通用人形机器人自动化产线启用，76 个自由度，3 颗图灵 AI 芯片共 2250 TOPS，核心制程自动化率超 80%。',
+    what_it_means: '小鹏把汽车级的质量体系搬进了机器人产线。12 个月内，"样机级"和"量产级"人形机器人零件之间的差距会快速合拢——能在 10 件小批量上守住铝合金 H7 配合的供应商，会开始抢到下一轮订单。',
+    source: '南方财经 / 小鹏，2026 年 9 月 8 日',
   },
   {
-    title: '五轴机床国产化',
-    items: ['国产五轴精度接近进口水平', '关键功能部件（光栅尺、主轴）国产化加速', '价格优势明显，交期缩短 50%'],
-    tolerance: '定位精度已达 ±0.005mm 级别',
-    materials: '从进口替代到技术输出的进程分析',
-    download: { label: '下载完整报告', file: '/downloads/reports/5-axis-localization-cn.html' },
+    tag: '机器人',
+    date: '2026-09-01',
+    title: '人形机器人：上半年 4 万台，融资 1041 亿元',
+    summary: '全年整机产量预计突破 10 万台，国产品牌全球份额超 90%。资金集中在整机制造、灵巧手、运动控制和具身智能算法。',
+    what_it_means: '市场已经判定这件事是真的，不只是故事。这就把问题从"客户有没有钱"换成了"客户这个季度在不在造件"——两个完全不同的 BD 话题。',
+    source: '腾讯新闻 / 行业机构测算，2026 年 9 月 1 日',
   },
   {
-    title: '新能源汽车需求',
-    items: ['电驱系统壳体加工精度要求提升', '电池托盘大型化趋势明显', '轻量化材料（铝合金、碳纤维）需求增长'],
-    tolerance: '电驱壳体平面度 ≤0.05mm',
-    materials: '新能源汽车对精密零件加工的新需求分析',
-    download: { label: '下载完整报告', file: '/downloads/reports/ev-parts-demand-cn.html' },
+    tag: '机器人',
+    date: '2026-09-03',
+    title: '车企不只下场，是在养第二条业务线',
+    summary: '广汽慧仑在 7 个项目里部署了 50 台机器人，近千万元订单；奇瑞墨甲天使轮投后估值 25 亿；比亚迪"小迪"进展厅；蔚来智驾负责人独立创业做物理 AI，蔚来战略投资。',
+    what_it_means: '车规级供应链、车规级夹具、车规级质量体系——这些全都被搬进了机器人行业。这就是小鹏建那条产线时用的同一套标准。供应商圈子正在围绕汽车 tier 1 体系重组。',
+    source: '新华财经，2026 年 9 月 3 日',
   },
   {
-    title: 'ISO 9001 新版解读',
-    items: ['ISO 9001:2025 主要变化点', '基于风险的思维进一步强化', '数字化质量管理新要求'],
-    tolerance: '过渡期至 2028 年完成换证',
-    materials: 'ISO 9001:2025 新版质量管理体系变化解读',
-    download: { label: '下载完整报告', file: '/downloads/reports/iso-9001-update-cn.html' },
+    tag: '液冷',
+    date: '2026-09-04',
+    title: 'AI 服务器液冷：从可选变成了标配',
+    summary: '机床协会半年报把 AI 服务器液冷列为拉动行业利润 +110.8% 的三大引擎之一。申万宏源研报说，数据中心设计里液冷已经不再是"可选项"。',
+    what_it_means: '冷板、流体快插接头、流体分配单元——这些零件都要 5 轴铣、面形度严、还要保压不漏。精度不玄学，量级正好落在 10–500 件。这就是我们那条线。',
+    source: '机床协会 / 申万宏源，2026 年 9 月 4 日',
+  },
+  {
+    tag: '机床业',
+    date: '2026-09-04',
+    title: '行业利润翻倍，但利润率只有 3.7%',
+    summary: '机床协会半年报：营收 5309 亿（+7.6%），利润 196 亿（+110.8%），平均利润率 3.7%——还是低于机械工业 4.5% 的平均线。金属切削机床新增订单 +20.5%，在手订单 +19.1%，卧式车床销量 +45.8%。',
+    what_it_means: '行业赚得多了，但赚得不轻松。利润集中在往价值链上爬的那批厂——五轴、复杂件、液冷、机器人。通用三轴那边在打价格战。我们押五轴 + 小批量灵活产线，赌对了一边。',
+    source: '机床协会半年报，2026 年 9 月 4 日',
   },
 ];
 
-const standards = [
-  { label: '行业洞察', desc: '持续关注精密制造行业动态，定期发布趋势分析。' },
-  { label: '技术前沿', desc: '跟踪新材料、新工艺、新设备的发展与应用。' },
-  { label: '政策解读', desc: '及时解读影响制造业的产业政策与标准变化。' },
-  { label: '市场数据', desc: '基于公开数据和企业调研，提供客观的市场分析。' },
+const faqs = [
+  { q: '这个页多久更新一次？', a: '每周更新一次。不做新闻刷屏——只放那些会改变你本季度该往哪投零件的条目。' },
+  { q: '这些数据从哪来？', a: '只用一手来源：国家统计局、海关总署、中国机床工具工业协会、企业公告、有署名的报道。不把券商观点当事实搬。' },
+  { q: '为什么要写"厂里看到的事"，不是市场报告？', a: '因为市场报告告诉你风往哪边吹。厂里视角告诉你活到底有没有真的落地。每条新闻我们都附一句"对零件意味着什么"——这一句是我们负责的。' },
+];
+
+const related = [
+  { label: '从图纸到报价', href: '/zh/knowledge/tech-blog/from-drawing-to-cost/' },
+  { label: '机器人的关节与法兰', href: '/zh/knowledge/tech-blog/robot-joint-and-flange-parts/' },
+  { label: '在中国怎么挑 CNC 供应商', href: '/zh/knowledge/tech-blog/how-to-choose-cnc-supplier-in-china/' },
+  { label: '技术博客（全部）', href: '/zh/knowledge/tech-blog/' },
 ];
 ---
 
 <PageLayout
-  title="CNC行业新闻 | 精密制造趋势·五轴国产化·政策解读 | Eternal CNC"
-  description="Eternal CNC 行业新闻——2026 精密制造趋势报告、五轴机床国产化进程、新能源汽车零件需求、ISO 9001:2025 新版解读。"
+  title="行业新闻·厂里视角 | Eternal CNC"
+  description="鑫永恒工程师看到的 2026 年 9 月：人形机器人量产、液冷从可选变标配、机床行业利润翻倍——每一条都附「对零件意味着什么」那一句。"
   breadcrumbs={breadcrumbs}
 >
   <!-- Hero -->
   <section style="background-color: var(--card-white); padding: 80px 0;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">知识库</p>
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">行业新闻 — {issue.label} {issue.number} 期</p>
       <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
-        行业新闻
+        这一期，厂里看到的几件事
       </h1>
       <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
-        CNC 制造行业动态、技术趋势与市场洞察
+        {issue.blurb} 鑫永恒（深圳）的工程师执笔，{issue.date} 发布。
       </p>
       <div class="flex flex-wrap gap-4 mt-8">
         <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
           获取报价
         </a>
-        <a href="/zh/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
-          查看加工服务 →
+        <a href="/zh/knowledge/tech-blog/" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          去技术博客 →
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Capabilities -->
-  <section style="background-color: var(--page-bg); padding: 80px 0;">
+  <!-- KPI strip -->
+  <section style="background-color: var(--page-bg); padding: 48px 0;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">行业动态</p>
-      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">最新资讯</h2>
-      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
-        覆盖行业趋势、技术前沿、政策变化及市场分析。
-      </p>
-      <div class="grid md:grid-cols-2 gap-6">
-        {capabilities.map((cap) => (
-          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
-            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
-            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
-              {cap.items.map((item) => (
-                <li class="text-sm flex items-start">
-                  <span class="mr-2" style="color: var(--brand-red);">—</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <div class="pt-4 border-t" style="border-color: var(--border-color);">
-              <p class="text-xs mb-1" style="color: var(--text-muted);">关键数据</p>
-              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
-              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">核心内容</p>
-              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
-              {cap.download && (
-                <a
-                  href={cap.download.file}
-                  download
-                  class="inline-flex items-center mt-4 text-sm font-semibold transition-colors hover:underline"
-                  style="color: var(--brand-red);"
-                >
-                  <span class="mr-2">↓</span>
-                  {cap.download.label}
-                </a>
-              )}
-            </div>
+      <p class="text-sm font-semibold uppercase tracking-wider mb-6" style="color: var(--brand-red);">这一期值得记的三个数</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        {kpis.map((k) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <p class="text-3xl md:text-4xl font-bold mb-2" style="color: var(--brand-dark);">{k.metric}</p>
+            <p class="text-sm mb-3" style="color: var(--text-body);">{k.label}</p>
+            <p class="text-xs" style="color: var(--text-muted);">来源：{k.source}</p>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- Quality -->
+  <!-- Stories -->
   <section style="background-color: var(--card-white); padding: 80px 0;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">质量管控</p>
-      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">内容编制标准</h2>
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">五件事</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">发生了什么，我们觉得它意味着什么</h2>
       <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
-        确保每篇行业报道的数据准确、观点客观。
+        先讲新闻，再讲那一句要紧的——它对送件给机加厂的客户意味着什么。
       </p>
-      <div class="grid md:grid-cols-2 gap-6">
-        {standards.map((std) => (
-          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
-            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
-            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+      <div class="space-y-6">
+        {stories.map((s) => (
+          <article class="p-8 border rounded-2xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+              <span class="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded" style="background-color: var(--page-bg); color: var(--brand-dark);">{s.tag}</span>
+              <span class="text-xs" style="color: var(--text-muted);">{s.date}</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-4 leading-snug" style="color: var(--brand-dark);">{s.title}</h3>
+            <p class="text-base leading-relaxed mb-4" style="color: var(--text-body);">{s.summary}</p>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">对零件意味着什么</p>
+              <p class="text-sm leading-relaxed" style="color: var(--text-body);">{s.what_it_means}</p>
+            </div>
+            <p class="text-xs mt-4" style="color: var(--text-muted);">来源：{s.source}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Standards / FAQs -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">我们怎么写</p>
+      <h2 class="text-3xl font-bold mb-12" style="color: var(--brand-dark);">常被问到的三件事</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        {faqs.map((f) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-3" style="color: var(--brand-dark);">{f.q}</h3>
+            <p class="text-sm leading-relaxed" style="color: var(--text-body);">{f.a}</p>
           </div>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Related + subscribe -->
+  <section style="background-color: var(--card-white); padding: 64px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">顺手读读</p>
+          <h2 class="text-2xl font-bold mb-6" style="color: var(--brand-dark);">博客上相关的几篇</h2>
+          <ul class="space-y-3">
+            {related.map((r) => (
+              <li>
+                <a href={r.href} class="text-sm font-medium hover:underline" style="color: var(--brand-red);">{r.label} →</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="p-8 border rounded-2xl" style="background-color: var(--page-bg); border-color: var(--border-color);">
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">下一期</p>
+          <h3 class="text-xl font-bold mb-3" style="color: var(--brand-dark);">2026 年 9 月 18 日</h3>
+          <p class="text-sm leading-relaxed mb-5" style="color: var(--text-body);">
+            正在跟进的线索：特斯拉 Optimus 的供应商审核怎么在重塑中国零部件供应链；关税之后第一批深圳机加厂的出货数据；新版 ISO 9001:2026 在厂里到底要改什么。
+          </p>
+          <a href="/zh/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+            把你的下个零件发过来
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -136,16 +194,16 @@ const standards = [
   <!-- CTA -->
   <section style="background-color: var(--brand-dark); padding: 80px 0;">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-3xl font-bold text-white mb-5">关注精密制造最新动态</h2>
+      <h2 class="text-3xl font-bold text-white mb-5">手上有个零件？</h2>
       <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
-        联系我们的团队，获取行业报告及技术支持。
+        STEP 和 PDF 发过来，工作日 2 小时内报价；公差合不合理，我们也直说。
       </p>
       <div class="flex flex-wrap justify-center gap-4">
         <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
           免费获取报价
         </a>
-        <a href="/zh/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
-          免费DFM图纸评审 →
+        <a href="/zh/knowledge/tech-blog/" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          浏览技术博客 →
         </a>
       </div>
     </div>

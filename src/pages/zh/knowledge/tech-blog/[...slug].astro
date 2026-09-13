@@ -1,0 +1,266 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import { SYSTEMS_ZH } from '../../../../data/systems';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('zhBlog', ({ data }) => !data.draft)).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  );
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post, posts },
+  }));
+}
+
+const { post, posts } = Astro.props;
+const { Content } = await render(post);
+const { title, description, pubDate, category, tags, readingTime, author, cover } = post.data;
+
+const idx = posts.findIndex((p) => p.slug === post.slug);
+const newer = idx > 0 ? posts[idx - 1] : null;
+const older = idx < posts.length - 1 ? posts[idx + 1] : null;
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+
+const CAT_STYLE: Record<string, string> = {
+  加工技巧: 'background:#8B0000;color:#fff;',
+  选材指南: 'background:#1A1A1A;color:#fff;',
+  工艺案例: 'background:#4A4A4A;color:#fff;',
+  行业洞察: 'background:#6B0000;color:#fff;',
+};
+const catStyle = CAT_STYLE[category] || 'background:#8B0000;color:#fff;';
+
+// 相关阅读：同分类优先 + 标签重合度排序，取前 3（含全部文章，排除当前篇）
+const related = posts
+  .filter((p) => p.slug !== post.slug)
+  .map((p) => ({
+    p,
+    score: (p.data.category === category ? 2 : 0) + p.data.tags.filter((t) => tags.includes(t)).length,
+  }))
+  .sort((a, b) => b.score - a.score || b.p.data.pubDate.valueOf() - a.p.data.pubDate.valueOf())
+  .slice(0, 3)
+  .map((x) => x.p);
+
+// 所属内容体系（可选）：有落地页就渲染成可点徽章，没有就只显示标签
+const sys = post.data.system ? SYSTEMS_ZH[post.data.system] : null;
+
+const shareUrl = Astro.url.href;
+const shareTitle = title;
+---
+
+<BaseLayout
+  title={`${title} | 鑫永恒`}
+  description={description}
+>
+  <!-- 文章头部 -->
+  <section style="background-color: var(--page-bg); padding: 48px 0 0;">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-wrap items-center gap-3 mb-5">
+        <a href="/zh/knowledge/tech-blog" class="text-sm font-medium hover:underline" style="color: #8B0000;">← 返回博客</a>
+        <span class="inline-block px-2.5 py-0.5 text-xs font-semibold rounded-full" style={catStyle}>{category}</span>
+        {sys && (sys.href ? (
+          <a href={sys.href} class="inline-block px-2.5 py-0.5 text-xs font-semibold rounded-full border transition-colors hover:border-[#8B0000] hover:text-[#8B0000]" style="border-color: var(--border-color); color: var(--text-muted);">{sys.label} →</a>
+        ) : (
+          <span class="inline-block px-2.5 py-0.5 text-xs font-semibold rounded-full border" style="border-color: var(--border-color); color: var(--text-muted);">{sys.label}</span>
+        ))}
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold leading-tight mb-4" style="color: var(--brand-dark);">{title}</h1>
+      <p class="text-lg leading-relaxed mb-5" style="color: var(--text-body);">{description}</p>
+      <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm pb-6 border-b mb-8" style="color: var(--text-muted); border-color: var(--border-color);">
+        <span>{author}</span>
+        <span>·</span>
+        <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
+        {readingTime && <><span>·</span><span>{readingTime}</span></>}
+      </div>
+    </div>
+  </section>
+
+  <!-- 封面（可选） -->
+  {cover && (
+    <section style="background-color: var(--page-bg);">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <img src={cover} alt={title} class="w-full rounded-xl border mb-2" style="border-color: var(--border-color); aspect-ratio: 16/9; object-fit: cover;" loading="eager" />
+      </div>
+    </section>
+  )}
+
+  <!-- 正文 -->
+  <section style="background-color: var(--page-bg); padding: 0 0 32px;">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <article class="post-body-zh">
+        <Content />
+      </article>
+    </div>
+  </section>
+
+  <!-- 问工程师 + 分享 -->
+  <section style="background-color: var(--page-bg); padding-bottom: 28px;">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-wrap items-center justify-between gap-4 p-5 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+        <div>
+          <p class="text-sm font-semibold" style="color: var(--brand-dark);">对这篇文章里的工艺或材料有疑问？</p>
+          <a href="/zh/contact/get-a-quote" class="text-sm underline transition-colors hover:text-[#6B0000]" style="color:#8B0000;">直接问工程师 →</a>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="text-xs" style="color: var(--text-muted);">分享</span>
+          <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`} target="_blank" rel="noopener" class="px-3 py-1.5 text-xs font-medium border rounded-lg transition-colors hover:border-[#8B0000] hover:text-[#8B0000]" style="border-color: var(--border-color); color: var(--text-muted);">LinkedIn</a>
+          <a href={`mailto:?subject=${encodeURIComponent(shareTitle)}&body=${encodeURIComponent(shareUrl)}`} class="px-3 py-1.5 text-xs font-medium border rounded-lg transition-colors hover:border-[#8B0000] hover:text-[#8B0000]" style="border-color: var(--border-color); color: var(--text-muted);">邮件</a>
+          <button id="copy-link-btn" data-url={shareUrl} class="px-3 py-1.5 text-xs font-medium border rounded-lg transition-colors hover:border-[#8B0000] hover:text-[#8B0000]" style="border-color: var(--border-color); color: var(--text-muted);">复制链接</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const copyBtn = document.getElementById('copy-link-btn');
+    copyBtn?.addEventListener('click', async () => {
+      const url = copyBtn.getAttribute('data-url') || '';
+      try {
+        await navigator.clipboard.writeText(url);
+        copyBtn.textContent = '已复制';
+      } catch {
+        copyBtn.textContent = '请按 Ctrl+C';
+      }
+      setTimeout(() => { copyBtn.textContent = '复制链接'; }, 2000);
+    });
+  </script>
+
+  <!-- 标签 -->
+  {tags.length > 0 && (
+    <section style="background-color: var(--page-bg); padding-bottom: 40px;">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap gap-2">
+        {tags.map((t) => (
+          <span class="px-3 py-1 text-xs rounded-full border" style="border-color: var(--border-color); color: var(--text-muted);">#{t}</span>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- 相关阅读 -->
+  {related.length > 0 && (
+    <section style="background-color: var(--page-bg); padding-bottom: 40px;">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">相关阅读</h2>
+        <div class="grid sm:grid-cols-3 gap-4">
+          {related.map((r) => (
+            <a href={`/zh/knowledge/tech-blog/${r.slug}/`} class="group block p-4 border rounded-xl transition-all duration-200 hover:border-[#8B0000] hover:shadow-md" style="background-color: var(--card-white); border-color: var(--border-color);">
+              <span class="text-xs" style="color: var(--text-muted);">{r.data.category}</span>
+              <span class="block mt-1.5 text-sm font-semibold leading-snug group-hover:text-[#8B0000] transition-colors" style="color: var(--brand-dark);">{r.data.title}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- 上一篇 / 下一篇 -->
+  <section style="background-color: var(--page-bg); padding-bottom: 56px;">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 grid sm:grid-cols-2 gap-4">
+      {newer ? (
+        <a href={`/zh/knowledge/tech-blog/${newer.slug}/`} class="group block p-5 border rounded-xl transition-all duration-200 hover:border-[#8B0000] hover:shadow-md" style="background-color: var(--card-white); border-color: var(--border-color);">
+          <span class="text-xs uppercase tracking-wider" style="color: var(--text-muted);">← 较新</span>
+          <span class="block mt-1.5 font-semibold leading-snug group-hover:text-[#8B0000] transition-colors" style="color: var(--brand-dark);">{newer.data.title}</span>
+        </a>
+      ) : <div />}
+      {older ? (
+        <a href={`/zh/knowledge/tech-blog/${older.slug}/`} class="group block p-5 border rounded-xl text-right transition-all duration-200 hover:border-[#8B0000] hover:shadow-md" style="background-color: var(--card-white); border-color: var(--border-color);">
+          <span class="text-xs uppercase tracking-wider" style="color: var(--text-muted);">较旧 →</span>
+          <span class="block mt-1.5 font-semibold leading-snug group-hover:text-[#8B0000] transition-colors" style="color: var(--brand-dark);">{older.data.title}</span>
+        </a>
+      ) : <div />}
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 64px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">有零件要加工？聊聊看</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        把 STEP 或图纸发给我们，2 小时内给你免费的 DFM 评审和报价。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded-lg transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">免费获取报价 →</a>
+        <a href="/zh/knowledge/tech-blog" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-lg transition-all duration-300 hover:bg-white hover:text-[#8B0000]">更多文章</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  /* 中文文章正文排版 */
+  .post-body-zh {
+    color: var(--text-body);
+    font-size: 1.0625rem;
+    line-height: 1.9;
+  }
+  .post-body-zh h2 {
+    color: var(--brand-dark);
+    font-size: 1.55rem;
+    font-weight: 700;
+    margin: 2.2em 0 0.8em;
+    line-height: 1.4;
+  }
+  .post-body-zh h3 {
+    color: var(--brand-dark);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 1.8em 0 0.6em;
+  }
+  .post-body-zh p { margin: 0 0 1.2em; }
+  .post-body-zh ul, .post-body-zh ol { margin: 0 0 1.4em; padding-left: 1.4em; }
+  .post-body-zh ul { list-style: disc; }
+  .post-body-zh ol { list-style: decimal; }
+  .post-body-zh li { margin-bottom: 0.45em; }
+  .post-body-zh a { color: #8B0000; text-decoration: underline; text-underline-offset: 3px; }
+  .post-body-zh a:hover { color: #6B0000; }
+  .post-body-zh strong { color: var(--brand-dark); font-weight: 600; }
+  .post-body-zh table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.6em 0 2em;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  .post-body-zh th {
+    text-align: left;
+    padding: 10px 14px;
+    font-weight: 600;
+    color: var(--brand-dark);
+    border-bottom: 2px solid #E5E7EB;
+  }
+  .post-body-zh td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #F3F4F6;
+    vertical-align: top;
+  }
+  .post-body-zh tr:hover td { background: #FAFAFA; }
+  .post-body-zh blockquote {
+    border-left: 3px solid #8B0000;
+    background: #FAF6F6;
+    padding: 14px 20px;
+    margin: 1.6em 0;
+    border-radius: 0 8px 8px 0;
+  }
+  .post-body-zh blockquote p { margin: 0; font-weight: 500; color: var(--brand-dark); }
+  .post-body-zh code {
+    background: #F3F4F6;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #8B0000;
+  }
+  .post-body-zh pre {
+    background: #1A1A1A;
+    color: #E5E7EB;
+    padding: 16px 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1.6em 0;
+    font-size: 0.9rem;
+  }
+  .post-body-zh pre code { background: transparent; color: inherit; padding: 0; }
+  .post-body-zh hr { border: none; border-top: 1px solid var(--border-color); margin: 2em 0; }
+  .post-body-zh img { border-radius: 10px; margin: 1.2em 0; }
+</style>
