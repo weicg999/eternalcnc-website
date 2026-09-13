@@ -1,9 +1,89 @@
 ﻿---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import AboutHero from '../../components/AboutHero.astro';
+
+// ── Capability matrix: material × typical process (data drawn from this site's
+//    materials / capabilities pages — nothing invented) ──
+const capabilityMatrix = [
+  { material: 'Aluminum Alloys', grades: 'AL-6061 / AL-7075', process: '3-axis, 4-axis & 5-axis milling, turning', use: 'Robot structural parts, heat-sink housings, automation fixtures' },
+  { material: 'Stainless Steel', grades: 'SS304 / SS316L / 17-4PH', process: 'Turn-mill, precision grinding, wire EDM', use: 'Medical components, vacuum chambers, connector housings' },
+  { material: 'Titanium', grades: 'Ti-6Al-4V (TC4)', process: '5-axis simultaneous machining, slow-wire EDM, fine finishing', use: 'Lightweight structural parts, medical-grade tooling' },
+  { material: 'Engineering Plastics', grades: 'PEEK / Delrin (POM) / Nylon / PTFE / UHMW-PE / PC', process: 'High-speed milling, fine turning, deburring', use: 'Insulators, wear bushings, cleanroom parts' },
+  { material: 'Carbon & Alloy Steel', grades: '45# / Q235 / H13 / S136', process: 'Turning, milling, heat-treatment coordination, surface finishing', use: 'Mold inserts, heavy-duty structures, transmission parts' },
+];
+
+// ── FAQ (the FAQPage schema below reuses this same data source) ──
+const faqs = [
+  {
+    q: 'Are you a factory or a trading company?',
+    a: 'We are a precision machining factory with our own workshop in Bao\'an District, Shenzhen — not a trading intermediary. Drawing review, process planning, programming, machining, and inspection are all completed in-house, with engineers following every step. That means shorter communication chains and faster problem-solving.',
+  },
+  {
+    q: 'Can you handle small-batch prototyping? What is the minimum order?',
+    a: 'Prototyping and small-to-medium batches are exactly our home turf. We start from 1 piece, with no tooling required. From a single validation part to a few hundred units, we run the same process standards.',
+  },
+  {
+    q: 'How fast is the quote? What do you need from me?',
+    a: 'Just provide STEP / IGS / DWG / PDF drawings. Our engineers complete a DFM (design-for-manufacturing) review and return a quote with the fastest available lead time within 2 hours. Batch or complex parts usually receive a response within 1 business day.',
+  },
+  {
+    q: 'What tolerances can you hold?',
+    a: 'Standard machining tolerance is ±0.05 mm (ISO 2768-m). With 5-axis simultaneous machining and precision grinding, critical dimensions are consistently held to ±0.005 mm, and down to ±0.003 mm where required. Standard surface roughness is Ra 1.6, with finer finishes available on request.',
+  },
+  {
+    q: 'How do warranty and after-sales work?',
+    a: 'Full process traceability, with a dimensional inspection report shipped alongside every order. If a dimensional or cosmetic issue is confirmed to result from our manufacturing, we proactively rework or remake it at our own cost.',
+  },
+  {
+    q: 'Which surface finishes do you support?',
+    a: 'We offer anodizing, hard anodizing, electroplating, passivation, bead blasting, brushing, powder coating, and black oxide, among others. We can also coordinate customer-specified processes with external partners and ship after unified inspection.',
+  },
+];
 ---
 
-<BaseLayout title="About Us – Eternal CNC" description="Precision CNC machining factory with 23 years in manufacturing and 15 years in CNC precision machining. ISO 9001 certification in progress. Serving robotics, medical, and automation industries worldwide.">
+<BaseLayout
+  title="About Us – Precision CNC Machining Factory in Shenzhen | Eternal CNC"
+  description="Eternal CNC (Xin Yongheng) — our own factory in Bao'an, Shenzhen. 23 years in manufacturing, 15 years in CNC precision machining, 30 machines including 5-axis, ±0.005mm tolerance. Small-batch prototyping in aluminum, stainless steel, titanium, and engineering plastics. Quotes within 2 hours."
+  schema={[
+    {
+      '@context': 'https://schema.org',
+      '@type': 'AboutPage',
+      name: 'About Us – Xin Yongheng (Shenzhen) Precision Industry Co., Ltd.',
+      url: 'https://eternalcnc.com/about',
+      description: 'Precision CNC machining factory in Bao\'an, Shenzhen with 23 years of manufacturing experience, 15 years of CNC precision machining, and 30 machines including a 5-axis machining center.',
+      inLanguage: 'en',
+      mainEntity: {
+        '@type': 'Organization',
+        name: 'Xin Yongheng (Shenzhen) Precision Industry Co., Ltd.',
+        alternateName: 'Eternal CNC Precision Machining',
+        legalName: 'Xin Yongheng (Shenzhen) Precision Industry Co., Ltd.',
+        url: 'https://eternalcnc.com',
+        foundingDate: '2024',
+        slogan: 'Precision is not just a specification, but a habit.',
+        numberOfEmployees: { '@type': 'QuantitativeValue', value: 20 },
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: 'No. 33 Guangjin Road, Shapu Community, Songgang Street, Bao\'an District',
+          addressLocality: 'Shenzhen',
+          addressRegion: 'Guangdong',
+          addressCountry: 'CN',
+        },
+        telephone: '+86 181 2398 3352',
+        knowsAbout: ['CNC precision machining', '5-axis milling', 'CNC turning', 'wire EDM', 'precision grinding', 'DFM review', 'surface finishing'],
+      },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      inLanguage: 'en',
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    },
+  ]}
+>
   
   <!-- Hero: Beige full-width + Left text + Right video + 3 stats + 2 CTAs (Plan A) -->
   <AboutHero
@@ -115,6 +195,117 @@ import AboutHero from '../../components/AboutHero.astro';
     </div>
   </section>
 
+  <!-- Capability matrix: material × process × typical application -->
+  <section class="section-padding" style="background-color: var(--card-white);">
+    <div class="container-custom">
+      <div class="text-center mb-14">
+        <span class="red-line mx-auto"></span>
+        <h2 class="text-3xl font-bold" style="color: var(--brand-dark);">Materials &amp; Processes We Excel At</h2>
+        <p class="mt-4 text-lg" style="color: var(--text-muted);">From aluminum to titanium, engineering plastics to alloy steel — we select the material for your part's working conditions, not for what happens to be in stock.</p>
+      </div>
+      <div class="max-w-5xl mx-auto overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--border-color);">
+              <th class="py-4 pr-4 text-sm font-semibold whitespace-nowrap" style="color: var(--brand-red);">Material</th>
+              <th class="py-4 pr-4 text-sm font-semibold whitespace-nowrap" style="color: var(--brand-red);">Common Grades</th>
+              <th class="py-4 pr-4 text-sm font-semibold" style="color: var(--brand-red);">Typical Processes</th>
+              <th class="py-4 text-sm font-semibold" style="color: var(--brand-red);">Common Applications</th>
+            </tr>
+          </thead>
+          <tbody>
+            {capabilityMatrix.map((row) => (
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td class="py-5 pr-4 font-semibold align-top whitespace-nowrap" style="color: var(--brand-dark);">{row.material}</td>
+                <td class="py-5 pr-4 align-top text-[15px]" style="color: var(--text-body);">{row.grades}</td>
+                <td class="py-5 pr-4 align-top text-[15px]" style="color: var(--text-body);">{row.process}</td>
+                <td class="py-5 align-top text-[15px]" style="color: var(--text-body);">{row.use}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-8 text-center text-[15px]" style="color: var(--text-muted);">
+        Don't see your material grade? <a href="/contact/get-a-quote" class="font-semibold" style="color: var(--brand-red);">Send us the drawing</a> and our engineers will advise on material selection and alternatives.
+      </p>
+    </div>
+  </section>
+
+  <!-- Six-step process -->
+  <section class="section-padding" style="background-color: var(--page-bg);">
+    <div class="container-custom">
+      <div class="text-center mb-14">
+        <span class="red-line mx-auto"></span>
+        <h2 class="text-3xl font-bold" style="color: var(--brand-dark);">From Drawing to Finished Part in Six Steps</h2>
+        <p class="mt-4 text-lg" style="color: var(--text-muted);">Every step has a defined deliverable — so you always know exactly where your part is.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        {[
+          { num: '01', title: 'Drawing Upload', desc: 'STEP / IGS / DWG / PDF accepted. Drawings handled confidentially; an NDA can be signed before you send.' },
+          { num: '02', title: 'DFM Review', desc: 'Engineers complete a manufacturability analysis within 2 hours, flagging potential risks and cost-saving opportunities.' },
+          { num: '03', title: 'Quote & Lead Time', desc: 'A complete quote covering material, process, and surface finish — together with the fastest committed lead time.' },
+          { num: '04', title: 'Programming & Machining', desc: 'Multiple machines scheduled in parallel, with full parameter control and first-article inspection on every run.' },
+          { num: '05', title: 'Inspection & Shipping', desc: 'Critical dimensions checked item by item with an inspection report. Express, air, and sea freight all available.' },
+          { num: '06', title: 'After-Sales Support', desc: 'Full process traceability. Manufacturing issues are reworked or remade proactively, never pushed onto the customer.' },
+        ].map((s) => (
+          <div class="flex gap-5">
+            <span class="flex-shrink-0 font-bold leading-none" style="font-size: 34px; color: var(--brand-red); font-family: var(--font-heading);">{s.num}</span>
+            <div>
+              <h3 class="font-semibold mb-2 text-base" style="color: var(--brand-dark);">{s.title}</h3>
+              <p class="text-[14px] leading-relaxed" style="color: var(--text-body);">{s.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Why clients choose us: verifiable differentiators instead of platitudes -->
+  <section class="section-padding" style="background-color: var(--card-white);">
+    <div class="container-custom">
+      <div class="text-center mb-14">
+        <span class="red-line mx-auto"></span>
+        <h2 class="text-3xl font-bold" style="color: var(--brand-dark);">Why Clients Choose Us</h2>
+        <p class="mt-4 text-lg" style="color: var(--text-muted);">No vague claims — just four things you can verify.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        {[
+          { title: 'Own factory, not a middleman', desc: 'Our own workshop in Bao\'an, Shenzhen, with 30 CNC machines including a DMU400 5-axis machining center. Machining, inspection, and shipping all close the loop in-house, so any issue can be traced back to the machine and batch.' },
+          { title: 'Engineers you speak to directly, not a sales relay', desc: 'Quotes and process questions are answered by engineers, not repeated by sales. At the drawing stage we can already tell you what will be hard to machine and where you can save cost.' },
+          { title: 'Small batches welcome — one piece or hundreds', desc: 'Prototyping, pilot runs, and small-batch production are our main battleground. From 1 piece with no tooling, to several hundred units run to the same standard.' },
+          { title: 'Fast quotes, realistic lead times', desc: 'Send drawings to an engineer and get a process plan and quote within 2 hours. Once a lead time is committed, we run to that schedule — no chasing for updates.' },
+        ].map((c) => (
+          <div class="p-7 rounded-industrial" style="background-color: var(--page-bg); border: 1px solid var(--border-color);">
+            <h3 class="font-bold text-lg mb-3" style="color: var(--brand-dark);">{c.title}</h3>
+            <p class="text-[15px] leading-relaxed" style="color: var(--text-body);">{c.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section-padding" style="background-color: var(--page-bg);">
+    <div class="container-custom">
+      <div class="text-center mb-14">
+        <span class="red-line mx-auto"></span>
+        <h2 class="text-3xl font-bold" style="color: var(--brand-dark);">Frequently Asked Questions</h2>
+        <p class="mt-4 text-lg" style="color: var(--text-muted);">The six questions buyers ask most before placing an order.</p>
+      </div>
+      <div class="max-w-3xl mx-auto space-y-4">
+        {faqs.map((f) => (
+          <details class="rounded-industrial overflow-hidden" style="background-color: var(--card-white); border: 1px solid var(--border-color);">
+            <summary class="cursor-pointer px-6 py-5 font-semibold text-base flex items-center justify-between gap-4" style="color: var(--brand-dark);">
+              <span>{f.q}</span>
+              <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[15px] leading-relaxed" style="color: var(--text-body);">{f.a}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- Factory Gallery -->
   <section class="section-padding" style="background-color: var(--card-white);">
     <div class="container-custom">
@@ -148,6 +339,19 @@ import AboutHero from '../../components/AboutHero.astro';
         <div class="rounded-industrial overflow-hidden aspect-square">
           <img src="/images/equipment/gallery/cnc-workshop-greato-vertical-machining-center-lineup-01.webp" alt="Taikan T-V series drill-mill machining center" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
         </div>
+      </div>
+
+      <!-- Images are purely visual; this text makes the workshop info indexable -->
+      <div class="max-w-4xl mx-auto mt-12 space-y-5 text-[15px] leading-relaxed" style="color: var(--text-body);">
+        <p>
+          Our workshop operates <strong style="color: var(--brand-dark);">30 CNC machines</strong> covering 3-axis, 4-axis, and 5-axis models — including the SUNRISE DMU400 5-axis machining center, Create Century V650R vertical machining center, and Taikan T-V856S vertical machining center. This covers scheduling needs from single-piece prototyping to small-batch runs of several hundred units.
+        </p>
+        <p>
+          On capability: we routinely machine <strong style="color: var(--brand-dark);">aluminum alloys (6061/7075), stainless steel (304/316L/17-4PH), titanium (TC4), engineering plastics (PEEK/POM/Nylon/PTFE), plus carbon and alloy steels</strong>. Process combinations include 5-axis simultaneous milling, turn-mill, slow-wire and fast-wire EDM, and precision grinding, with surface finishing such as anodizing, electroplating, passivation, and bead blasting available alongside.
+        </p>
+        <p>
+          Standard machining tolerance is <strong style="color: var(--brand-dark);">±0.05 mm (ISO 2768-m)</strong>, and critical dimensions are consistently held to <strong style="color: var(--brand-dark);">±0.005 mm</strong>. Every shipped part is dimensionally inspected with a report, fully traceable to the machine and batch.
+        </p>
       </div>
     </div>
   </section>
