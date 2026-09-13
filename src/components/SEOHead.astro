@@ -63,8 +63,15 @@ const zhPath = isZh ? np : ('/zh' + (np === '/' ? '' : np));
 const counterPath = norm(LANG_MAP[np] || (isZh ? enPath : zhPath));
 const counterExists = routes.has(counterPath);
 
-const enUrl = new URL(isZh ? counterPath : np, Astro.site).href;
-const zhUrl = new URL(isZh ? np : counterPath, Astro.site).href;
+// hreflang 目标必须与 canonical 完全一致，即「带尾斜杠的规范地址」。
+// 注意：np/counterPath 是去尾斜杠的内部形式（用于匹配 routes 集合），
+// 不能直接拿去当 hreflang —— 无尾斜杠地址在 Cloudflare Pages 上会 308 跳转，
+// 搜索引擎视「hreflang 指向重定向」为无效标注，整个语言集群会被忽略，
+// 中英版本随即被判为重复内容，只保留其一（表现为只收录中文）。
+const toCanonical = (p: string) => (p === '/' || p.endsWith('/') ? p : p + '/');
+
+const enUrl = new URL(toCanonical(isZh ? counterPath : np), Astro.site).href;
+const zhUrl = new URL(toCanonical(isZh ? np : counterPath), Astro.site).href;
 ---
 
 <!-- SEO Meta Tags -->
