@@ -76,7 +76,7 @@ Add the three together and this is no longer one dimension. It brings a machine,
 
 It explains something else too: **why work like this keeps changing suppliers even when the volume is there.** It is not a negotiation that fails. It is that the tolerance cannot be held — and the larger the volume, the more parts have to be held, so a small wobble in yield turns into a scrapped batch. Parts that cannot be made lose money at any unit price.
 
-(Which features those two dimensions sit on, and what the quotes actually came out at, we will add once you confirm them. The mechanism belongs here first.)
+So the useful question is not whether the tolerance can be held, but which feature it sits on and how it will be verified. The same ±0.002 gets a very different answer depending on those two.
 
 ## 4. Every drawing has three kinds of dimensions
 
