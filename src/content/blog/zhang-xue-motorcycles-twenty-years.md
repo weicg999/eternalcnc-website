@@ -50,9 +50,9 @@ In 2006, aged 19, he wanted a chance to show his riding on television. So he rod
 
 > "I'm not afraid of hardship. I'm just afraid you won't give me a chance."
 
-He went on to race professionally, then moved into building motorcycles after an injury. In 2013 he went to Chongqing with 20,000 yuan to start a company. In 2017 he co-founded another motorcycle brand and led a team to the finish of the Dakar Rally — the first Chinese motorcycle manufacturer ever to complete it.
+He went on to race professionally, then moved into building motorcycles after an injury. In 2013 he went to Chongqing with 20,000 yuan to start a company. In 2017 he co-founded Kove, a Chongqing motorcycle brand, and later led a team to the finish of the Dakar Rally — the first Chinese motorcycle manufacturer ever to complete it.
 
-In 2024 he walked away from all his equity in that company, took nothing with him, said "I'm going to chase my stars" and started again. In March 2026, he stood on top of the world championship podium.
+In 2024 he walked away from all his equity in Kove, took nothing with him, said "I'm going to chase my stars" and started again. In March 2026, he stood on top of the world championship podium.
 
 **Between the teenager chasing a car through the rain and that trophy: twenty years.**
 

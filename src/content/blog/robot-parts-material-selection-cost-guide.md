@@ -19,7 +19,7 @@ The honest answer, after machining parts for robot builders across the industry,
 | Component group | Recommended material | Why |
 |---|---|---|
 | Structural frames, bases, arms | **6061-T6 aluminum** | Best strength-to-cost balance, easy to machine, welds well |
-| High-stress joints, flanges | **7075-T6** or **17-4PH steel** | Where 6061 genuinely is not strong enough |
+| High-stress joints, flanges | **7075-T6** or **17-4PH stainless** | Where 6061 genuinely is not strong enough |
 | Precision transmission interfaces | **4140/4340 steel**, precision-ground | Stiffness, wear resistance, thermal stability |
 | End effectors, grippers | **6061**, or **PEEK / Delrin** | Light tips = better dynamics; plastics cut cost fast |
 | Housings, covers, cabinets | **5052 sheet aluminum** or **PC** | Sheet metal forming, not billet machining |

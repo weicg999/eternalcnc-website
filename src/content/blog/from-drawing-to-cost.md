@@ -13,7 +13,7 @@ readingTime: "13 min read"
 
 You have a part on your screen and somebody has asked you to get it made.
 
-Maybe you are a hardware founder who has never stood next to a machining centre. Maybe you are an engineer who just inherited purchasing. Maybe you are a buyer who has three quotes for the same drawing and they differ by a factor of three.
+Maybe you are a hardware founder who has never stood next to a machining center. Maybe you are an engineer who just inherited purchasing. Maybe you are a buyer who has three quotes for the same drawing and they differ by a factor of three.
 
 Most articles about machining are written for people who already know machining. This one is not. It walks the whole path a part travels — from the file you send to the number on the quote — and at the end it opens the quote up and shows you what each line is paying for.
 
@@ -31,7 +31,7 @@ Every machined part, no matter how simple, passes through these ten stations. So
 | 4 | Process | Which machine, how many setups | Hourly rate and cycle time |
 | 5 | Programming | CAM, toolpaths, fixturing | A fixed cost you amortise |
 | 6 | Machining | Metal becomes chips | The visible part of the price |
-| 7 | Finishing | Anodising, plating, heat treat | Appearance, hardness — and schedule |
+| 7 | Finishing | Anodizing, plating, heat treat | Appearance, hardness — and schedule |
 | 8 | Inspection | Measuring against the print | Confidence, and paperwork |
 | 9 | Packing | Rust protection, crating, docs | Whether it arrives usable |
 | 10 | Quote | All of the above, added up | The number you are looking at |
@@ -46,7 +46,7 @@ The 3D gives us geometry. The 2D gives us intent — tolerances, thread callouts
 
 **The five things people forget:**
 
-1. **Material grade.** "Aluminium" is not a grade. 6061-T6 and 7075-T6 are different metals with different prices, different strengths and different anodising results.
+1. **Material grade.** "Aluminum" is not a grade. 6061-T6 and 7075-T6 are different metals with different prices, different strengths and different anodizing results.
 2. **Quantity — including the next order.** "10 now, maybe 200 in March" is a completely different job from "10, once". It changes fixturing and process.
 3. **Surface finish.** If it matters cosmetically, say which faces. If it does not, say so, and save money.
 4. **Which tolerances are real.** A drawing where every dimension carries ±0.01 mm is not a precise drawing. It is an expensive one.
@@ -68,7 +68,7 @@ Four things quietly multiply a price:
 
 **3. Tight tolerance everywhere.** Machining holds ±0.05 mm comfortably. Getting to ±0.01 mm means light finishing passes, more measurements, and a slower cycle. Below ±0.005 mm you are usually looking at grinding, not milling. Mark the three faces that actually mate with something. Let the rest be ordinary.
 
-**4. Thin walls.** Aluminium under about 1 mm will move away from the cutter and ring. Holding it flat takes reduced parameters, extra passes, sometimes a temporary rib that has to be removed afterwards.
+**4. Thin walls.** Aluminum under about 1 mm will move away from the cutter and ring. Holding it flat takes reduced parameters, extra passes, sometimes a temporary rib that has to be removed afterwards.
 
 > The drawing is the cheapest place to change a part and the most expensive place to get it wrong. A ten-minute DFM conversation can remove 30% from a quote. Nothing else in this chain can.
 
@@ -82,7 +82,7 @@ Take a housing that ends up 120 × 80 × 25 mm. We do not buy that shape. We buy
 
 So the rule of thumb: **material cost is roughly twice the cost of the metal actually in the finished part.** This is also why a part that is 5 mm larger in one direction can cost noticeably more — you just moved into a bigger standard blank.
 
-If you are choosing between grades, we wrote about that separately: [6061 vs 7075 aluminium](/knowledge/tech-blog/6061-vs-7075-aluminum-choose/).
+If you are choosing between grades, we wrote about that separately: [6061 vs 7075 aluminum](/knowledge/tech-blog/6061-vs-7075-aluminum-choose/).
 
 ## Station 4 — Process and machine
 
@@ -112,11 +112,11 @@ There is also a first-article proving-out: the first part off the machine gets m
 
 ## Station 7 — Surface treatment — the lead-time black box
 
-Bare machined aluminium is not usually the finished product. Common options:
+Bare machined aluminum is not usually the finished product. Common options:
 
-- **Anodising (Type II)** — a controlled oxide layer, typically 5–25 µm. Corrosion resistance, and it takes dye, which is where black, red and blue parts come from.
-- **Hard anodising (Type III)** — 25–100 µm, much harder, used on wear surfaces.
-- **Bead blasting** — a uniform matte texture, often before anodising.
+- **Anodizing (Type II)** — a controlled oxide layer, typically 5–25 µm. Corrosion resistance, and it takes dye, which is where black, red and blue parts come from.
+- **Hard anodizing (Type III)** — 25–100 µm, much harder, used on wear surfaces.
+- **Bead blasting** — a uniform matte texture, often before anodizing.
 - **Electroless nickel plating** — for wear, solderability, or uniform coverage in blind features.
 - **Passivation** — for stainless steel, removing free iron so it resists rust.
 - **Heat treatment** — solution treating, ageing, hardening; changes the material, not the surface.
@@ -140,7 +140,7 @@ Then there is the paperwork. A **first article inspection report** records what 
 
 ## Station 9 — Packing and shipping
 
-Aluminium survives shipping well. Steel does not — it will flash-rust in a humid container if it ships bare. So steel parts get oiled or wrapped, everything gets separated so parts do not knock against each other, and anything heavy or precision-finished goes in a crate rather than a carton.
+Aluminum survives shipping well. Steel does not — it will flash-rust in a humid container if it ships bare. So steel parts get oiled or wrapped, everything gets separated so parts do not knock against each other, and anything heavy or precision-finished goes in a crate rather than a carton.
 
 For export there is paperwork: commercial invoice, packing list, HS code, sometimes a certificate of origin. Getting the HS code wrong is a delay at customs, not at the factory — but your customer will blame the factory.
 
@@ -148,7 +148,7 @@ For export there is paperwork: commercial invoice, packing list, HS code, someti
 
 This is the station everybody actually wants to see. So let's open one up.
 
-**The example part:** a 6061-T6 aluminium housing, roughly 120 × 80 × 25 mm, two pockets, eight tapped holes, a few counterbores, bead blasted and black anodised. Quantity: 10.
+**The example part:** a 6061-T6 aluminum housing, roughly 120 × 80 × 25 mm, two pockets, eight tapped holes, a few counterbores, bead blasted and black anodized. Quantity: 10.
 
 Here is how the money typically splits on a part like that:
 
@@ -158,7 +158,7 @@ Here is how the money typically splits on a part like that:
 | Machine time | 30% | Cutting, at the 3-axis hourly rate |
 | Programming + setup | 15% | CAM, fixturing, first-article proving out |
 | Tooling and consumables | 4% | Cutters, coolant, workholding |
-| Outsourced anodising | 10% | The finishing vendor's charge, plus the freight to them |
+| Outsourced anodizing | 10% | The finishing vendor's charge, plus the freight to them |
 | Inspection | 5% | Measuring and the report |
 | Packing and shipping | 4% | Materials, crate, documentation |
 | Overhead and margin | 17% | Everything else, and the reason the shop exists |
@@ -172,7 +172,7 @@ Now the part that explains almost every pricing surprise in small-batch machinin
 | Programming and setup, per part | 100 | 20 | 5 |
 | **Unit price index** | **100** | **≈ 60** | **≈ 45** |
 
-*(Indexed to the 10-piece unit price. Machine time improves modestly at volume because of better nesting and optimised toolpaths — not because anyone works faster.)*
+*(Indexed to the 10-piece unit price. Machine time improves modestly at volume because of better nesting and optimized toolpaths — not because anyone works faster.)*
 
 That is the whole story of why ten pieces cost so much more per piece than two hundred. The metal is the same. The cutting is nearly the same. What changes is how many parts the one-off engineering cost is divided across.
 
@@ -216,7 +216,7 @@ If the part is genuinely novel, yes — and any serious shop will sign one witho
 
 ## Where we fit
 
-We run 30 CNC machines in Shenzhen, including true 5-axis, alongside turning and the finishing network that surrounds them — anodising, plating, heat treatment, grinding, wire EDM.
+We run 30 CNC machines in Shenzhen, including true 5-axis, alongside turning and the finishing network that surrounds them — anodizing, plating, heat treatment, grinding, wire EDM.
 
 But the reason we wrote this guide is not the machine list. It is that we would rather you arrive already knowing which questions to ask. A customer who understands the chain asks better questions, sends better files, and gets parts that fit the first time. That is worth more to both of us than a fast yes.
 

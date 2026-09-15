@@ -59,7 +59,7 @@ And what is creation, at bottom? **It is connecting two things that weren't prev
 
 **Connecting is exactly what yuanshen is for.** So saying creativity is rooted in yuanshen isn't a stretch — **yuanshen supplies the capacity to connect; shishen supplies the technique to make the connection real.**
 
-Apply that frame to AI agents and it fits neatly: **agents excel at classic "shishen-type work"** — calculating, optimising, brute-forcing, repeating, chasing efficiency. They don't tire. They have no moods. They can "accomplish things" to an extraordinary degree.
+Apply that frame to AI agents and it fits neatly: **agents excel at classic "shishen-type work"** — calculating, optimizing, brute-forcing, repeating, chasing efficiency. They don't tire. They have no moods. They can "accomplish things" to an extraordinary degree.
 
 What they **cannot** do is the other category: **judging by instinct when information is incomplete, weighing trade-offs by experience when constraints conflict, choosing by taste when there is no right answer on the page.**
 
@@ -132,7 +132,7 @@ So my definition of "building internal capability" looks like this:
 
 **That last row matters most.** Holding ±0.005 mm on one part — plenty of shops can do that. Holding it across five thousand parts in a row is a different trade. The first comes from skill. The second comes from **a system**: process data, SPC, and material that can be traced back to the heat number on every batch.
 
-**An agent can optimise a process. It cannot take responsibility for a batch's stability on your behalf.**
+**An agent can optimize a process. It cannot take responsibility for a batch's stability on your behalf.**
 
 ---
 
@@ -165,7 +165,7 @@ We are a precision parts shop. 23 years in manufacturing, 15 years in CNC precis
 
 The question this era is asking us:
 
-**As vehicles multiply, as creators pour in, as agents take over calculation and optimisation — what value does a machine shop have left?**
+**As vehicles multiply, as creators pour in, as agents take over calculation and optimization — what value does a machine shop have left?**
 
 My answer is plain:
 

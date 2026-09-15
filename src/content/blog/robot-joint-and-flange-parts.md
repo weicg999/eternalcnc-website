@@ -20,7 +20,7 @@ This article is a tour of those parts, and more importantly, of the four require
 | **Joint module** | Harmonic reducer planet carrier, bearing seat, output flange, cable routing ring | Bearing bore concentricity, thin walls, tight bolt circles | 7075-T6, 4140 steel, Ti-6Al-4V |
 | **Reducer** | RV reducer housing, cycloidal disc, input/output shafts, mounting plate | Gear seat true position, sealing face flatness | 20CrMnTi, 40Cr, 6061-T6 |
 | **End effector** | Gripper base, suction cup manifold, tool changer adapter, finger mounts | Light weight, complex mounting pattern, no burrs | 6061-T6, POM, 303 stainless |
-| **Link / arm** | Structural link, forearm casting substitute, wrist body | Long thin geometry, weight reduction pockets, distortion control | 6061-T6, 7075-T6, carbon-filled alternatives |
+| **Link / arm** | Structural link, forearm casting substitute, wrist body | Long thin geometry, weight reduction pockets, distortion control | 6061-T6, 7075-T6 |
 | **Sensor bracket** | Encoder mount, vision camera bracket, force sensor adapter | Positional accuracy relative to a datum, stiffness | 6061-T6, brass, engineering plastics |
 | **Mobile base (AGV/AMR)** | Chassis plate, motor mount, wheel hub, sensor tower | Large flat faces, many hole patterns, flatness over a big area | 6061-T6, 5052, steel plate |
 
@@ -74,7 +74,7 @@ If you want the general version of this argument, it's Station 2 of [From Drawin
 
 Robotics work is typically **high mix, low volume**: many part numbers, ten or twenty of each, revised constantly. That has a specific consequence that surprises people coming from consumer hardware.
 
-The dominant cost is often not cutting time. It is **changeover** — new program, new fixture, new first article, every time the part number changes. Twenty parts across five numbers costs meaningfully more than twenty parts of one number, even if the total metal removed is identical.
+The dominant cost is often not cutting time. It is **changeover** — new program, new fixture, new first article, every time the part number changes. A hundred parts spread across five numbers costs meaningfully more than a hundred parts of one number, even if the total metal removed is identical.
 
 What helps, in order:
 
@@ -84,13 +84,13 @@ What helps, in order:
 
 ## Frequently asked questions
 
-**Why is a thin-walled aluminium link so much more expensive than it looks?**
+**Why is a thin-walled aluminum link so much more expensive than it looks?**
 
 Because thin walls fight the cutter. Holding 1 mm walls flat requires reduced parameters, extra passes, and sometimes temporary ribs that get removed in a later operation. A 2 mm wall is dramatically cheaper than a 1 mm wall. If the design can take it, that's the single cheapest change available.
 
 **Do robot parts need heat treatment?**
 
-Gear and shaft parts in steel, yes. Aluminium structural parts usually rely on the T6 temper of the raw stock — but heavy material removal can relieve stress and cause movement, which is why stress relief before finishing is common on precision parts.
+Gear and shaft parts in steel, yes. Aluminum structural parts usually rely on the T6 temper of the raw stock — but heavy material removal can relieve stress and cause movement, which is why stress relief before finishing is common on precision parts.
 
 **How tight do tolerances really need to be?**
 

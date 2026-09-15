@@ -30,10 +30,10 @@ Take a typical rotary joint module. Roughly, it stacks up like this:
 | Harmonic drive flexspline | Elastic deformation transmits motion | 20CrMnTi / 40Cr carburising steel | Fatigue life, tooth accuracy |
 | Circular spline | Fixed internal gear meshing with the flexspline | 40Cr / 42CrMo quenched and tempered | Tooth hardness, wear resistance |
 | Planetary roller screw (linear joints) | Rotation to linear thrust | GCr15 / 38CrMoAl nitriding steel | Axial stiffness, lead accuracy |
-| Joint housing | Load path, heat path, datum | 7075-T6 / 6061-T6 aluminium | Wall thickness, concentricity |
-| Output flange | Connects the link, transmits torque | Aluminium / alloy steel | Face runout, bolt hole position |
+| Joint housing | Load path, heat path, datum | 7075-T6 / 6061-T6 aluminum | Wall thickness, concentricity |
+| Output flange | Connects the link, transmits torque | Aluminum / alloy steel | Face runout, bolt hole position |
 | Crossed roller bearing | Combined loading | GCr15 bearing steel | Clearance, raceway roughness |
-| Encoder disc bracket | Holds the reading accuracy | Aluminium / PEEK | Dimensional thermal stability |
+| Encoder disc bracket | Holds the reading accuracy | Aluminum / PEEK | Dimensional thermal stability |
 
 **Look at that last row.** An unremarkable little bracket. If its coefficient of thermal expansion differs enough from the housing, a 30°C rise will make the reading drift — and a great many "joint control accuracy" problems turn out to be a bracket deforming, not an algorithm failing.
 
@@ -61,8 +61,8 @@ The one most often skipped, and the most lethal. Material datasheets describe th
 
 | Material | Density g/cm³ | Tensile strength MPa (typical) | Specific strength | Conductivity W/(m·K) | Machinability | Relative cost |
 | --- | --- | --- | --- | --- | --- | --- |
-| 6061-T6 aluminium | 2.7 | 310 | 115 | 167 | Excellent | Low |
-| 7075-T6 aluminium | 2.7 | 570 | 211 | 130 | Good | Medium |
+| 6061-T6 aluminum | 2.7 | 310 | 115 | 167 | Excellent | Low |
+| 7075-T6 aluminum | 2.7 | 570 | 211 | 130 | Good | Medium |
 | AZ31B magnesium | 1.8 | 250 | 139 | 96 | Good (fire precautions) | Medium-high |
 | TC4 titanium | 4.5 | 895 | 199 | **7** | Poor | High |
 | 42CrMo steel, Q&T | 7.85 | ~1000 | 127 | 44 | Fair | Low |
@@ -72,11 +72,11 @@ The one most often skipped, and the most lethal. Material datasheets describe th
 
 **And here is the counter-intuitive conclusion, which deserves its own line.**
 
-Aluminium, magnesium, titanium and steel all have **almost the same specific stiffness** — Young's modulus divided by density. All of them land inside a narrow band around 24 to 26. Which means:
+Aluminum, magnesium, titanium and steel all have **almost the same specific stiffness** — Young's modulus divided by density. All of them land inside a narrow band around 24 to 26. Which means:
 
-> **Where stiffness is the limit, swapping aluminium for titanium buys you far less weight saving than you expect.**
+> **Where stiffness is the limit, swapping aluminum for titanium buys you far less weight saving than you expect.**
 
-Real weight reduction comes from structural design: topology optimisation, thin walls with ribs, deeper sections, hollow forms. **Material solves strength problems. Structure solves stiffness problems.** Confusing the two is how people spend titanium money and get psychological comfort in return.
+Real weight reduction comes from structural design: topology optimization, thin walls with ribs, deeper sections, hollow forms. **Material solves strength problems. Structure solves stiffness problems.** Confusing the two is how people spend titanium money and get psychological comfort in return.
 
 ## 5. Five high-frequency parts, and the logic behind each
 
@@ -98,7 +98,7 @@ Usually GCr15 or nitriding steel 38CrMoAl. A nitrided case is hard with very lit
 
 Specific strength of 211, close to titanium, plus 130 W/(m·K) which handles the heat path, plus workable machinability. For most load-bearing joint housings it's the realistic answer.
 
-For surface treatment we recommend **hard anodising**, with a film hardness above HV400 — wear resistant and electrically insulating. Micro-arc oxidation if you need more corrosion resistance. But watch what film thickness does to your fits: critical seats like bearing bores need masking or coating-thickness compensation decided in advance. We wrote that up in [Anodising robot parts: the dimension trap nobody draws](/knowledge/tech-blog/robotics-anodizing-dimension-control/).
+For surface treatment we recommend **hard anodizing**, with a film hardness above HV400 — wear resistant and electrically insulating. Micro-arc oxidation if you need more corrosion resistance. But watch what film thickness does to your fits: critical seats like bearing bores need masking or coating-thickness compensation decided in advance. We wrote that up in [Anodizing robot parts: the dimension trap nobody draws](/knowledge/tech-blog/robotics-anodizing-dimension-control/).
 
 7075 has two temperaments to work with. First, **weldability is poor** — don't design it as a welded assembly. Second, **stress corrosion sensitivity is higher than 6061**, so humid or salt-laden environments need a proper assessment.
 
@@ -118,7 +118,7 @@ This is the section where a machining company should be talking. The same 7075-T
 
 **Batch consistency.** Producing one good part during prototyping, and producing five thousand good parts in a row, are entirely different trades. The second one runs on SPC and CPK, not on a skilled operator's hands. We took that apart in [From 10 to 1,000](/knowledge/tech-blog/robot-parts-prototype-to-production/).
 
-**Inspection capability.** CMMs, gear measurement centres, profilometers and roughness testers are not decoration. Without inspection data, "in tolerance" only means nobody has found the problem yet.
+**Inspection capability.** CMMs, gear measurement centers, profilometers and roughness testers are not decoration. Without inspection data, "in tolerance" only means nobody has found the problem yet.
 
 ## 7. The three traps
 
@@ -126,7 +126,7 @@ This is the section where a machining company should be talking. The same 7075-T
 A robot is a cyclic-load machine. A static safety factor of 3 will not stop a fatigue failure. Before you choose a material, ask: how many cycles is the design life?
 
 **Trap two: ignoring thermal expansion mismatch.**
-Aluminium 23.6×10⁻⁶/K, magnesium 26×10⁻⁶/K, titanium 8.6×10⁻⁶/K, steel 11.7×10⁻⁶/K, PEEK 47×10⁻⁶/K. Bolt a PEEK bracket straight onto an aluminium housing and the mismatch at operating temperature is enough to destroy your encoder accuracy.
+Aluminum 23.6×10⁻⁶/K, magnesium 26×10⁻⁶/K, titanium 8.6×10⁻⁶/K, steel 11.7×10⁻⁶/K, PEEK 47×10⁻⁶/K. Bolt a PEEK bracket straight onto an aluminum housing and the mismatch at operating temperature is enough to destroy your encoder accuracy.
 
 **Trap three: using prototype standards for production.**
 Prototyping lets you pick the good stock, run slow, and hand-finish. Production has to assume the worst material, the fastest cycle, and the least operator attention. **Treating CPK 1.33 as the tolerance floor at design stage is far cheaper than firefighting it later.**
@@ -141,7 +141,7 @@ Get those two in the right order and the rest goes much more smoothly.
 
 **Xin Yongheng (Shenzhen) Precision Industry Co., Ltd.** machines and prototypes precision parts for robot joints, covering everything from a single prototype to low-volume production runs.
 
-**Capability in brief:** 23 years in the manufacturing industry, 15 years in CNC precision machining, 30 CNC machines. Milling to **±0.005 mm**, turning to **±0.01 mm**. 5-axis machining centres, vertical machining centres up to 1,270 mm of travel, mill-turn and precision grinding. Aluminium, stainless steel, copper, titanium and engineering plastics. Mill-turn single-setup forming, thin-wall distortion control, precision grinding of carburising steels. EN 10204 3.1 material certificates available on request, with heat-number traceability end to end.
+**Capability in brief:** 23 years in the manufacturing industry, 15 years in CNC precision machining, 30 CNC machines. Milling to **±0.005 mm**, turning to **±0.01 mm**. 5-axis machining centers, vertical machining centers up to 1,270 mm of travel, mill-turn and precision grinding. Aluminum, stainless steel, copper, titanium and engineering plastics. Mill-turn single-setup forming, thin-wall distortion control, precision grinding of carburising steels. EN 10204 3.1 material certificates available on request, with heat-number traceability end to end.
 
 If you have a part that's giving you trouble, send it over. Our engineers run a DFM review first and **come back with a quote within 2 hours**. Prototypes in 3–7 days, production in 15–30 days, no minimum order quantity.
 

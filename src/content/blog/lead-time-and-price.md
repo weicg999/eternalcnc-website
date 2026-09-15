@@ -21,7 +21,7 @@ So you call the cheap one. He seems straight. The shop looks like a real shop. T
 
 **Then you start chasing.**
 
-You ask in week three. You ask again in week four. In week five he says the material just arrived. Week six, the anodising is outsourced and the queue is tight. Week seven the parts land — twenty days later than you planned. Your assembly line sat idle for two weeks, and you've already apologised to your own customer twice.
+You ask in week three. You ask again in week four. In week five he says the material just arrived. Week six, the anodizing is outsourced and the queue is tight. Week seven the parts land — twenty days later than you planned. Your assembly line sat idle for two weeks, and you've already apologised to your own customer twice.
 
 **And now you look back at the expensive shop and it doesn't seem so expensive after all.**
 

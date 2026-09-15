@@ -47,7 +47,7 @@ This is the technical reason behind the advice in [Which CNC machine does your p
 
 Nobody cuts a part to final size in one pass, for two physical reasons:
 
-1. **Heat and stress.** Heavy cutting puts heat and force into the part. Aluminium especially will move as internal stress relieves. Leave a small amount of stock, let it settle, then finish.
+1. **Heat and stress.** Heavy cutting puts heat and force into the part. Aluminum especially will move as internal stress relieves. Leave a small amount of stock, let it settle, then finish.
 2. **Tool deflection.** A cutter under load bends slightly. A heavy roughing pass is accurate to maybe 0.1 mm. A light finishing pass, taking 0.2–0.5 mm, holds the tolerance you actually paid for.
 
 The usual sequence: rough leaving 0.5–1 mm, semi-finish leaving 0.2–0.3 mm, finish to size. On tight-tolerance features there may be a spring pass — the cutter retraces the same path with no additional depth, just to clean up whatever the tool bent away from.
@@ -56,7 +56,7 @@ The usual sequence: rough leaving 0.5–1 mm, semi-finish leaving 0.2–0.3 mm, 
 
 If you only learn three terms, learn these:
 
-- **Vc** — cutting speed, in metres per minute. How fast the cutting edge moves through the material.
+- **Vc** — cutting speed, in meters per minute. How fast the cutting edge moves through the material.
 - **fz** — feed per tooth, in millimetres. How big a bite each cutting edge takes.
 - **ap / ae** — depth and width of cut. How much of the cutter is engaged.
 
@@ -72,7 +72,7 @@ And from fz, spindle speed and the number of teeth you get the feed rate:
 F (mm/min) = S × fz × Z
 ```
 
-That is the whole chain: **material sets Vc, Vc sets rpm, rpm plus chip load sets feed.** Every "why is my part taking so long" question eventually lands on one of these numbers. Aluminium lets you run Vc high — several hundred m/min with carbide. Stainless forces it down dramatically, work-hardens if you linger, and that alone can triple the cycle time on an otherwise identical part.
+That is the whole chain: **material sets Vc, Vc sets rpm, rpm plus chip load sets feed.** Every "why is my part taking so long" question eventually lands on one of these numbers. Aluminum lets you run Vc high — several hundred m/min with carbide. Stainless forces it down dramatically, work-hardens if you linger, and that alone can triple the cycle time on an otherwise identical part.
 
 ### Chatter: when the part sings
 
@@ -86,24 +86,24 @@ The first part off the machine is never the first part you ship. It gets measure
 
 ## Part 2 — Surface finishing
 
-Machined parts leave the machine bare. Bare aluminium oxidises on its own, badly and unevenly. Bare steel rusts. Most parts need a deliberate surface, for one of these reasons: corrosion resistance, wear resistance, appearance, electrical behaviour, or a dimensional change.
+Machined parts leave the machine bare. Bare aluminum oxidises on its own, badly and unevenly. Bare steel rusts. Most parts need a deliberate surface, for one of these reasons: corrosion resistance, wear resistance, appearance, electrical behavior, or a dimensional change.
 
-### Aluminium: anodising
+### Aluminum: anodizing
 
-Anodising is not a coating. It grows an oxide layer *out of* the aluminium, so it cannot peel or flake.
+Anodizing is not a coating. It grows an oxide layer *out of* the aluminum, so it cannot peel or flake.
 
-- **Type II** — 5–25 µm. Standard decorative and protective anodising. Porous, so it accepts dye. This is where black, red and blue parts come from.
-- **Type III (hard anodise)** — 25–100 µm. Much harder, used on wear surfaces. Naturally darker and harder to dye evenly.
+- **Type II** — 5–25 µm. Standard decorative and protective anodizing. Porous, so it accepts dye. This is where black, red and blue parts come from.
+- **Type III (hard anodize)** — 25–100 µm. Much harder, used on wear surfaces. Naturally darker and harder to dye evenly.
 
-**The trap nobody warns you about:** the layer grows both inward and outward, roughly half and half. A 20 µm anodic layer changes dimensions by around 10 µm per side. On a sliding fit or a threaded hole, that matters. Options are to machine to a pre-anodise size, mask critical features, or re-tap threads afterwards. Tell your supplier which features are critical *before* the first part is cut, not after.
+**The trap nobody warns you about:** the layer grows both inward and outward, roughly half and half. A 20 µm anodic layer changes dimensions by around 10 µm per side. On a sliding fit or a threaded hole, that matters. Options are to machine to a pre-anodize size, mask critical features, or re-tap threads afterwards. Tell your supplier which features are critical *before* the first part is cut, not after.
 
-**The second trap:** anodising does not hide anything. It amplifies. Tool marks, scratches and handling dings are all still there afterwards, and a dyed finish makes them more visible, not less. Cosmetic parts get bead blasted or brushed first, and even then, **colour varies between batches** — for a production run, approve a sealed sample.
+**The second trap:** anodizing does not hide anything. It amplifies. Tool marks, scratches and handling dings are all still there afterwards, and a dyed finish makes them more visible, not less. Cosmetic parts get bead blasted or brushed first, and even then, **color varies between batches** — for a production run, approve a sealed sample.
 
-Not all aluminium anodises equally. 6061 gives a clean, even colour. 7075 has more alloying content, tends to go slightly yellow, and is harder to colour-match. If a part is cosmetic and structural, that trade-off is worth reading about: [6061 vs 7075 aluminium](/knowledge/tech-blog/6061-vs-7075-aluminum-choose/).
+Not all aluminum anodizes equally. 6061 gives a clean, even color. 7075 has more alloying content, tends to go slightly yellow, and is harder to color-match. If a part is cosmetic and structural, that trade-off is worth reading about: [6061 vs 7075 aluminum](/knowledge/tech-blog/6061-vs-7075-aluminum-choose/).
 
-### Aluminium: mechanical finishes
+### Aluminum: mechanical finishes
 
-- **Bead blasting** — uniform matte, hides minor marks, standard before anodising.
+- **Bead blasting** — uniform matte, hides minor marks, standard before anodizing.
 - **Brushing / grain finishing** — directional satin lines, common on consumer product housings.
 - **Polishing** — mechanical or chemical; mirror finishes need fine grits and careful handling afterwards.
 
@@ -115,7 +115,7 @@ Not all aluminium anodises equally. 6061 gives a clean, even colour. 7075 has mo
 | Zinc plating | 5–25 µm | Sacrificial corrosion protection on steel | Hydrogen embrittlement risk on hardened parts |
 | Electroless nickel | 5–50 µm, very uniform | Wear, solderability, covers blind holes | More expensive; thickness is uniform by nature |
 | Phosphate | 2–15 µm | Paint base, break-in wear layer | Not a finish on its own |
-| QPQ / nitrocarburising | diffusion layer | Wear and corrosion on steel | Changes dimensions slightly; black in colour |
+| QPQ / nitrocarburising | diffusion layer | Wear and corrosion on steel | Changes dimensions slightly; black in color |
 | Passivation (stainless) | no measurable build | Removes free iron so stainless won't rust | It's a cleaning step, not a coating |
 | Electropolishing (stainless) | removes a few µm | Smooth, cleanable, burr-free | Removes metal — account for it in tolerances |
 
@@ -148,22 +148,22 @@ In the example we broke down in [From Drawing to Cost](/knowledge/tech-blog/from
 
 If you want to shorten delivery, this is where the leverage is:
 
-- **Drop a finishing operation you don't need.** An internal bracket rarely needs anodising.
-- **Standardise the colour.** A custom colour match adds a setup at the anodiser.
-- **Ask whether a mechanical finish will do.** Bead blast is faster than blast-plus-anodise.
+- **Drop a finishing operation you don't need.** An internal bracket rarely needs anodizing.
+- **Standardise the color.** A custom color match adds a setup at the anodiser.
+- **Ask whether a mechanical finish will do.** Bead blast is faster than blast-plus-anodize.
 - **Decide early.** Finishing booked at quotation time is a reservation. Finishing booked after the parts are cut is a queue number.
 
 ## Frequently asked questions
 
-**Can I anodise a part after it's been assembled with other metals?**
+**Can I anodize a part after it's been assembled with other metals?**
 
-Not usually. Anodising is a bath process — anything on the part sees the chemicals. Press-fit inserts, bushings and fasteners go in afterwards, or the features get masked (which costs time and can leak).
+Not usually. Anodizing is a bath process — anything on the part sees the chemicals. Press-fit inserts, bushings and fasteners go in afterwards, or the features get masked (which costs time and can leak).
 
-**Why are my black anodised parts slightly different from the last batch?**
+**Why are my black anodized parts slightly different from the last batch?**
 
-Dye uptake varies with alloy composition, bath temperature, time and the surface condition before anodising. Even within one alloy, different heats can shift slightly. For production work, approve a sealed reference sample and specify it.
+Dye uptake varies with alloy composition, bath temperature, time and the surface condition before anodizing. Even within one alloy, different heats can shift slightly. For production work, approve a sealed reference sample and specify it.
 
-**Will anodising fix a scratched surface?**
+**Will anodizing fix a scratched surface?**
 
 No, it makes scratches more visible. Scratches have to be removed mechanically first — and removing them changes dimensions.
 
@@ -177,7 +177,7 @@ Not economically with normal cutters. Once steel is hardened you are looking at 
 
 ## Where we fit
 
-We run 30 CNC machines in Shenzhen, including true 5-axis, alongside turning and the finishing network around them — anodising, plating, heat treatment, grinding, wire EDM.
+We run 30 CNC machines in Shenzhen, including true 5-axis, alongside turning and the finishing network around them — anodizing, plating, heat treatment, grinding, wire EDM.
 
 The useful thing we can do for you is not to promise that finishing is fast. It is to tell you, when you send the drawing, which operations are in-house and which are outside, and what the outside queue looks like that week. A realistic date beats a fast one that slips.
 
