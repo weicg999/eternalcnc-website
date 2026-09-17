@@ -7,7 +7,7 @@ import { getCollection } from 'astro:content';
 
 interface Props {
   system: string;
-  collection?: 'blog' | 'zhBlog';
+  collection?: 'blog' | 'zhBlog' | 'ruBlog';
   basePath?: string;
   eyebrow?: string;
   heading?: string;
@@ -16,6 +16,7 @@ interface Props {
   generalHeading?: string;
   generalTag?: string;
   locale?: string;
+  categoryLabels?: Record<string, string>;
   emptyHint?: boolean;
 }
 
@@ -30,6 +31,7 @@ const {
   generalHeading = 'General foundation',
   generalTag = 'General',
   locale = 'en-US',
+  categoryLabels = {},
 } = Astro.props;
 
 const all = collection === 'zhBlog' ? await getCollection('zhBlog') : await getCollection('blog');
@@ -58,7 +60,7 @@ const fmt = (d: Date | string) =>
         {posts.map((p) => (
           <a href={`${basePath}/${p.slug}/`} class="block p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
             <div class="flex items-center gap-2 mb-3">
-              <span class="text-[11px] px-2 py-0.5 rounded" style="background-color: var(--page-bg); color: var(--text-muted);">{p.data.category}</span>
+              <span class="text-[11px] px-2 py-0.5 rounded" style="background-color: var(--page-bg); color: var(--text-muted);">{(categoryLabels[p.data.category]) || p.data.category}</span>
               {p.data.readingTime && <span class="text-[11px]" style="color: var(--text-muted);">{p.data.readingTime}</span>}
             </div>
             <h3 class="font-semibold mb-2 leading-snug" style="color: var(--brand-dark);">{p.data.title}</h3>

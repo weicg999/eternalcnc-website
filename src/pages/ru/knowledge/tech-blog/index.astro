@@ -8,7 +8,7 @@ const breadcrumbs = [
 ];
 
 // 从内容集合拉取全部已发布文章（按 pubDate 降序）
-const allPosts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+const allPosts = (await getCollection('ruBlog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 

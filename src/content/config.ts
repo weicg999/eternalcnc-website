@@ -73,4 +73,40 @@ const zhBlog = defineCollection({
   }),
 });
 
-export const collections = { blog, zhBlog };
+// 俄语文章库——与英文 blog 同构（category/system 沿用英文枚举值，便于 RU 路由复用
+// CAT_LABEL_RU / SYSTEMS_RU 映射）。路由挂在 /ru/knowledge/tech-blog/ 下。
+const ruBlog = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDate: z.coerce.date(),
+    updatedDate: z.coerce.date().optional(),
+    category: z.enum([
+      'Machining Tips',
+      'Material Selection',
+      'Process Optimization',
+      'Industry Insights',
+    ]),
+    tags: z.array(z.string()).default([]),
+    system: z
+      .enum([
+        'general',
+        'robotics',
+        'computing',
+        'energy',
+        'medical',
+        'automotive',
+        'electronics',
+        'automation-equipment',
+        'communications-satellite',
+      ])
+      .optional(),
+    cover: z.string().optional(),
+    draft: z.boolean().default(false),
+    author: z.string().default('Eternal CNC Engineering Team'),
+    readingTime: z.string().optional(),
+  }),
+});
+
+export const collections = { blog, zhBlog, ruBlog };
