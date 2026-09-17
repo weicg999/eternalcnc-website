@@ -13,6 +13,7 @@ interface Props {
   ogImage?: string;
   schema?: object | object[];
   noindex?: boolean;
+  keywords?: string;
 }
 
 const {
@@ -22,6 +23,7 @@ const {
   ogImage = '/images/og-default.webp',
   schema,
   noindex = false,
+  keywords,
 } = Astro.props;
 
 const canonical = canonicalUrl || new URL(Astro.url.pathname, Astro.site).href;
@@ -101,6 +103,7 @@ const ruUrl = new URL(toCanonical(ruPath), Astro.site).href;
 <meta name="yandex-verification" content="25beec4d68e39549" />
 <meta name="naver-site-verification" content="51b42cbfe715ad5ba1a16545202c868d9bfb559a" />
 <meta name="description" content={description} />
+    {keywords && <meta name="keywords" content={keywords} />}
     <link rel="canonical" href={canonical} />
 
     <!-- hreflang: 仅当存在其他语言的真实对页时发出（避免悬空标注） -->
