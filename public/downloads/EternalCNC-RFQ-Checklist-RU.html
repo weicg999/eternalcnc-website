@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Eternal CNC — Чек-лист оформления запроса (RFQ)</title>
+  <meta name="description" content="Чек-лист оформления запроса (RFQ) для расчёта стоимости ЧПУ обработки: формат чертежа, допуски, материал, количество, финишная обработка и требования по срокам для быстрого получения точной сметы.">
+<style>
+  :root { --brand-red:#8B0000; --brand-dark:#1A1A1A; --brand-silver:#6B7280; --line:#E5E7EB; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: "Helvetica Neue", Arial, "Segoe UI", "Microsoft YaHei", sans-serif; color:var(--brand-dark); line-height:1.6; }
+  .page { max-width: 800px; margin: 0 auto; padding: 24px 28px; }
+  header.cover { border-bottom: 3px solid var(--brand-red); padding-bottom: 16px; margin-bottom: 20px; }
+  .brand { font-size: 24px; font-weight: 800; color: var(--brand-red); }
+  .brand small { display:block; font-size:12px; font-weight:500; color:var(--brand-silver); letter-spacing:2px; text-transform:uppercase; margin-top:2px; }
+  h2 { font-size: 16px; color: var(--brand-red); border-left: 4px solid var(--brand-red); padding-left: 10px; margin: 24px 0 10px; }
+  p, li { font-size: 13px; color:#222; }
+  .check { list-style:none; padding:0; margin:10px 0; }
+  .check li { padding:9px 12px; border:1px solid var(--line); border-radius:8px; margin-bottom:8px; display:flex; gap:10px; align-items:flex-start; }
+  .box { width:18px; height:18px; border:2px solid var(--brand-red); border-radius:4px; flex:0 0 auto; margin-top:2px; }
+  .check li b { color:var(--brand-dark); }
+  .req { color:var(--brand-red); font-size:11px; font-weight:700; }
+  .opt { color:var(--brand-silver); font-size:11px; font-weight:700; }
+  .tip { font-size:12px; color:var(--brand-silver); background:#FAFAFA; border-left:3px solid var(--brand-red); padding:8px 12px; border-radius:0 6px 6px 0; margin-top:10px; }
+  footer { margin-top: 26px; border-top:1px solid var(--line); padding-top:12px; font-size:11px; color:var(--brand-silver); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+  @media print { @page { size: A4; margin: 16mm; } .page { padding:0; max-width:none; } li { page-break-inside: avoid; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="cover">
+    <div class="brand">Eternal CNC<small>Чек-лист оформления запроса (RFQ)</small></div>
+  </header>
+
+  <p>Приложите следующее при отправке чертежа. Полный пакет документов позволяет нам подготовить подробную смету в течение <b>2 часов</b>. Также можно отправить запрос онлайн по адресу <b>/contact/get-a-quote</b> — мастер соберёт те же пункты в 3 шага.</p>
+
+  <h2>Обязательно (требуется)</h2>
+  <ul class="check">
+    <li><span class="box"></span><div><b>Файл чертежа</b> <span class="req">ОБЯЗАТЕЛЬНО</span><br/>STEP / IGES / DWG / PDF / SAT. Предпочтителен 3D-файл; 2D PDF допустим при наличии проставленных размеров.</div></li>
+    <li><span class="box"></span><div><b>Количество</b> <span class="req">ОБЯЗАТЕЛЬНО</span><br/>Целевое количество на заказ или диапазон (напр. 50 / 200 / 1 000+). Укажите, разовое это изделие или серийное производство.</div></li>
+    <li><span class="box"></span><div><b>Контактный e-mail</b> <span class="req">ОБЯЗАТЕЛЬНО</span><br/>Чтобы мы могли отправить смету и замечания по DFM.</div></li>
+    <li><span class="box"></span><div><b>Материал</b> <span class="req">ОБЯЗАТЕЛЬНО (или «по чертежу»)</span><br/>Отметьте «по чертежу», если материал указан в файле, либо укажите марку (напр. 6061-T6, 304 SS, 7075).</div></li>
+  </ul>
+
+  <h2>Полезно (ускоряет расчёт)</h2>
+  <ul class="check">
+    <li><span class="box"></span><div><b>Критические допуски</b> <span class="opt">НЕОБЯЗАТЕЛЬНО</span><br/>Отметьте элементы, требующие жёстких допусков (посадочные поверхности, отверстия, базы). Стандарт — ISO 2768-f.</div></li>
+    <li><span class="box"></span><div><b>Отделка / обработка поверхности</b> <span class="opt">НЕОБЯЗАТЕЛЬНО</span><br/>Анодирование, пассивация, гальваника, порошковая окраска, значение Ra и т.д.</div></li>
+    <li><span class="box"></span><div><b>Требуемый срок</b> <span class="opt">НЕОБЯЗАТЕЛЬНО</span><br/>Желаемая дата отгрузки или просто «ASAP». Возможна срочная обработка (3–5 дней).</div></li>
+    <li><span class="box"></span><div><b>Применение / отрасль</b> <span class="opt">НЕОБЯЗАТЕЛЬНО</span><br/>Авиакосмос, медицина, робототехника, автомобилестроение… помогает подобрать нужный процесс и сертификаты.</div></li>
+    <li><span class="box"></span><div><b>Особые требования</b> <span class="opt">НЕОБЯЗАТЕЛЬНО</span><br/>Сертификаты (EN 10204 3.1), 100% контроль, упаковка, маркировка, RoHS и т.д.</div></li>
+  </ul>
+
+  <div class="tip">Совет: чем больше «полезных» пунктов вы укажете, тем точнее смета и сроки. Если поле не заполнено, наши инженеры предложат вариант при проверке DFM — не задерживайте отправку запроса.</div>
+
+  <footer>
+    <span>Eternal CNC Precision Machining · sales@eternalcnc.com</span>
+    <span>eternalcnc.com/contact/get-a-quote</span>
+  </footer>
+</div>
+</body>
+</html>
