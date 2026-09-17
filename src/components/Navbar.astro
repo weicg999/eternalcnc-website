@@ -110,7 +110,7 @@ const navItems: {
       { l: 'Automation Equipment', lzh: '自动化设备', lru: 'Оборудование автоматизации', h: '/industries/automation-equipment' },
     ] },
   ] },
-  { l: 'Cases', lzh: '案例展示', lru: 'Примеры работ', href: '/cases', groups: [
+  { l: 'Cases', lzh: '案例展示', lru: 'Кейсы', href: '/cases', groups: [
     { g: 'By Industry', gzh: '按行业', gru: 'По отраслям', items: [
       { l: 'Automotive Cases', lzh: '汽车零部件案例', lru: 'Кейсы: автомобили', h: '/cases/automotive' },
       { l: 'Medical Cases', lzh: '医疗器械案例', lru: 'Кейсы: медицина', h: '/cases/medical' },
@@ -157,7 +157,7 @@ const navItems: {
             <img src="/images/logo/home-logo-brand-mark.webp" alt="Eternal CNC" class="w-auto" style="height: 56px;" />
           </a>
           {navItems.map((item) => (
-            <div class="relative group hidden lg:flex">
+            <div class={lang === 'ru' ? 'relative group hidden xl:flex' : 'relative group hidden lg:flex'}>
               <a href={S(item.href)} class="nav-primary-item py-2 text-sm font-medium transition-colors whitespace-nowrap flex items-center gap-1" style="color: #1A1A1A;">
                 {t(item.l, item.lzh, item.lru)}
                 <svg class="w-3 h-3 transition-colors" style="color: inherit;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
@@ -180,8 +180,8 @@ const navItems: {
           ))}
         </div>
         <!-- Right: Get a Quote + Language -->
-        <div class="hidden lg:flex items-center gap-3">
-          <a href={S('/contact/get-a-quote')} class="inline-flex items-center justify-center font-semibold text-white text-sm px-6 py-2.5 bg-[#8B0000] rounded-lg transition-all duration-200 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+        <div class={lang === 'ru' ? 'hidden xl:flex items-center gap-3' : 'hidden lg:flex items-center gap-3'}>
+          <a href={S('/contact/get-a-quote')} class="inline-flex items-center justify-center whitespace-nowrap font-semibold text-white text-sm px-6 py-2.5 bg-[#8B0000] rounded-lg transition-all duration-200 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
             {t('Get a Quote', '获取报价', 'Запросить расчёт')}
           </a>
           <div class="relative group hidden lg:flex">
@@ -200,7 +200,7 @@ const navItems: {
           </div>
         </div>
         <!-- Mobile Menu Button -->
-        <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-lg hover:bg-gray-50" aria-label="Toggle menu">
+        <button id="mobile-menu-btn" class={lang === 'ru' ? 'xl:hidden p-2 rounded-lg hover:bg-gray-50' : 'lg:hidden p-2 rounded-lg hover:bg-gray-50'} aria-label="Toggle menu">
           <svg class="w-6 h-6" style="color: var(--brand-dark);" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
@@ -209,7 +209,7 @@ const navItems: {
     </div>
   </div>
   <!-- Mobile Slide-out Menu -->
-  <div id="mobile-menu" class="lg:hidden hidden fixed inset-0 z-50">
+  <div id="mobile-menu" class={lang === 'ru' ? 'xl:hidden hidden fixed inset-0 z-50' : 'lg:hidden hidden fixed inset-0 z-50'}>
     <div id="mobile-menu-overlay" class="absolute inset-0 bg-black/50"></div>
     <div id="mobile-menu-panel" class="absolute right-0 top-0 h-full w-[300px] bg-white shadow-xl overflow-y-auto">
       <div class="flex items-center justify-between p-4 border-b" style="border-color: var(--border-color);">
