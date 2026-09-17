@@ -89,7 +89,7 @@ const CAT_STYLE: Record<string, string> = {
       ) : (
         <div class="grid sm:grid-cols-2 gap-6">
           {allPosts.map((p) => (
-            <a href={`/knowledge/tech-blog/${p.slug}/`} class="group flex flex-col p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <a href={`/ru/knowledge/tech-blog/${p.slug}/`} class="group flex flex-col p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
               <div class="flex items-center gap-2 mb-3">
                 <span class="px-2.5 py-0.5 text-xs font-semibold rounded-full" style={CAT_STYLE[p.data.category] || 'background:#8B0000;color:#fff;'}>{CAT_LABEL_RU[p.data.category] || p.data.category}</span>
                 <span class="text-xs" style="color: var(--text-muted);">{fmt(p.data.pubDate)}</span>
@@ -127,7 +127,7 @@ const CAT_STYLE: Record<string, string> = {
                 <span class="text-xs font-medium" style="color: var(--text-muted);">Скоро — наши инженеры пишут в этой рубрике.</span>
               )}
               {count > 0 && firstSlug && (
-                <a href={`/knowledge/tech-blog/${firstSlug}/`} class="block mt-4 text-sm font-semibold hover:underline" style="color: #8B0000;">Читать последнее →</a>
+                <a href={`/ru/knowledge/tech-blog/${firstSlug}/`} class="block mt-4 text-sm font-semibold hover:underline" style="color: #8B0000;">Читать последнее →</a>
               )}
             </div>
           );
