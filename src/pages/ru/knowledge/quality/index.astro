@@ -1,0 +1,138 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+
+const breadcrumbs = [
+  { label: 'База знаний', href: '/ru/knowledge' },
+  { label: 'Сертификация качества' },
+];
+
+const capabilities = [
+  {
+    title: 'Система менеджмента качества',
+    items: ['IQC (входной) → IPQC (межоперационный) → FQC (финальный) → OQC (на отгрузке)', 'Общефирменная система ответственности за качество', 'Процесс прослеживаемости несоответствующей продукции', 'Цикл непрерывного улучшения PDCA'],
+    tolerance: 'Полная прослеживаемость процесса',
+    materials: 'Каждая деталь полностью задокументирована и прослеживается',
+  },
+  {
+    title: 'Контрольное оборудование и возможности',
+    items: ['Мостовая КИМ (через общий метрологический центр группы по запросу, 2,5 мкм, не входит в стандарт цеха)', 'Система оптических измерений (2D)', 'Измеритель шероховатости поверхности', 'Твердомер и анализ микроструктуры'],
+    tolerance: 'Контрольное оборудование регулярно калибруется и прослеживается',
+    materials: 'Критические размеры проверяются на 100%',
+  },
+  {
+    title: 'Ход сертификации ISO 9001',
+    items: ['Руководство по качеству и процедурные документы завершены', 'Обучение внутренних аудиторов завершено', 'Пилотный прогон и внутренние аудиты в процессе', 'Целевое завершение сертификации: 2026'],
+    tolerance: 'Система сертификации финализируется',
+    materials: 'Сертификация ISO 9001 в процессе (2026)',
+  },
+  {
+    title: 'Межоперационный контроль качества',
+    items: ['Первичная приёмка (FAI) до серийного производства', 'Межоперационный контроль на критических операциях', 'Первая и последняя деталь сохраняются по партии', 'Отчёт 8D в течение 2 часов при аномалии'],
+    tolerance: 'CPK критического размера ≥ 1,33',
+    materials: 'Предотвращение прежде всего, непрерывное улучшение',
+  },
+];
+
+const standards = [
+  { label: 'Ориентация на клиента', desc: 'Цели качества определяются вокруг потребностей и удовлетворённости клиента.' },
+  { label: 'Процессный подход', desc: 'Управляйте деятельностью и ресурсами как процессами для эффективного достижения результатов.' },
+  { label: 'Непрерывное улучшение', desc: 'Улучшение качества — вечная цель; решения основаны на данных.' },
+  { label: 'Вовлечение людей', desc: 'Качество — ответственность не только отдела ОТК, оно принадлежит каждому.' },
+];
+---
+
+<BaseLayout
+  title="Система качества и сертификация | Контроль ЧПУ | Eternal CNC"
+  description="Система менеджмента качества Eternal CNC: сквозной контроль, прецизионное оборудование, подготовка ISO 9001 и межоперационный контроль деталей ЧПУ."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">База знаний</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Система качества и сертификация
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Подготовка системы менеджмента качества ISO 9001 и рабочий процесс контроля качества
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Связаться с нами
+        </a>
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Запросить документацию
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Система качества</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Четыре модуля контроля качества</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        От построения системы до контроля процесса — комплексное обеспечение стабильного и надёжного качества продукции.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Ключевая возможность</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Обязательство качества</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Принципы качества</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Принципы менеджмента качества</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Руководствуясь принципами менеджмента качества ISO 9001, мы непрерывно улучшаем качество продукции и услуг.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Хотите узнать больше о контроле качества?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Свяжитесь с нами для полной документации по контролю качества и образцов отчётов проверки.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Связаться с нами
+        </a>
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Запросить документацию
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

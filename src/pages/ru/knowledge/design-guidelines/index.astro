@@ -1,0 +1,138 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+
+const breadcrumbs = [
+  { label: 'База знаний', href: '/ru/knowledge' },
+  { label: 'Принципы проектирования' },
+];
+
+const capabilities = [
+  {
+    title: 'Проектирование толщины стенок',
+    items: ['Мин. толщина стенки из алюминиевого сплава ≥ 0.8 мм', 'Мин. толщина стенки из нержавеющей стали ≥ 1.0 мм', 'Мин. толщина стенки из конструкционного пластика ≥ 1.2 мм', 'Рекомендуемое соотношение высоты к диаметру в пределах 4:1'],
+    tolerance: 'Рекомендуемая толщина стенки: 1.5–3 мм (оптимально)',
+    materials: 'Слишком тонкая = риск деформации; слишком толстая = рост стоимости материала',
+  },
+  {
+    title: 'Внутренний радиус и галтель',
+    items: ['Внутренний радиус ≥ радиус инструмента × 1,2', 'Нижний радиус рекомендуется больше бокового', 'Галтель требует дополнительных операций и повышает стоимость', 'Используйте крупные радиусы для снижения сложности обработки'],
+    tolerance: 'Рекомендуемый внутренний R ≥ R0,5 мм',
+    materials: 'Слишком малый внутренний радиус требует микроинструмента — низкая эффективность',
+  },
+  {
+    title: 'Параметры проектирования отверстий',
+    items: ['Стандартное отношение глубины к диаметру сверления ≤ 5:1', 'Глубокие отверстия требуют пушечного сверления (≤10:1)', 'Используйте стандартные диаметры: φ1/2/3/4/5/6 мм', 'Шаг отверстий ≥ диаметр отверстия × 1,5'],
+    tolerance: 'Оставляйте припуск 0.5 мм на дне глухих отверстий',
+    materials: 'Нестандартные диаметры требуют специнструмента — больший срок',
+  },
+  {
+    title: 'Проектирование резьбы',
+    items: ['Таблица свёрл под метрическую резьбу', 'Глубина резьбы ≤ диаметр отверстия × 2,5 (глухие отверстия)', 'Сквозная резьба предпочтительнее глухой', 'Избегайте нарезания резьбы в тонкостенных деталях'],
+    tolerance: 'Рекомендуемый класс точности 6H/6g',
+    materials: 'Слишком глубокая резьба — риск поломки метчика и брака',
+  },
+];
+
+const standards = [
+  { label: 'Принцип симметрии', desc: 'Проектируйте детали симметрично, где возможно, чтобы сократить переустановки и ошибки базирования.' },
+  { label: 'Единая база', desc: 'Совмещайте конструкторскую базу с технологической, чтобы снизить ошибки пересчёта размерных цепей.' },
+  { label: 'Избегайте острых углов', desc: 'Внутренние острые углы вызывают концентрацию напряжений и не обрабатываются — всегда используйте радиусные переходы.' },
+  { label: 'Упрощайте геометрию', desc: 'Используйте простейшую форму, реализующую функцию — избегайте сложных поверхностей, когда они не нужны.' },
+];
+---
+
+<BaseLayout
+  title="Принципы проектирования ЧПУ | EternalCNC"
+  description="Принципы проектирования ЧПУ EternalCNC: толщина стенок, внутренние радиусы, отверстия и резьба — для технологичных и экономичных деталей."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">База знаний</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Лучшие практики проектирования для ЧПУ обработки
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Инженерные рекомендации по толщине стенок, внутренним углам, отверстиям, резьбе и другим ключевым элементам конструкции
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Связаться с инженером →
+        </a>
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Бесплатный расчёт
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Элементы конструкции</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Четыре ключевых элемента конструкции</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Освойте эти четыре ключевых элемента, чтобы детали были технологичнее, дешевле и стабильнее по качеству.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Рекомендуемое значение</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Примечание по проектированию</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Принципы проектирования</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Четыре принципа хорошего проектирования</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Соблюдайте эти принципы, чтобы снизить сложность и стоимость обработки уже на этапе проектирования.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Нужна инженерная поддержка при проектировании?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Наша инженерная команда может провести оценку технологичности и дать рекомендации по оптимизации ваших конструкций.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Связаться с инженером →
+        </a>
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Бесплатный расчёт
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

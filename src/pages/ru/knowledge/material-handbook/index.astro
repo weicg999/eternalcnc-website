@@ -1,0 +1,182 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'База знаний', href: '/ru/knowledge' },
+  { label: 'Руководство по выбору материала' },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: 'Руководство по выбору материала для ЧПУ обработки',
+  description: 'Какой сплав выбрать и почему — скорость резания, стойкость инструмента, качество поверхности и относительная стоимость 7распространённых материалов ЧПУ с цеховыми советами.',
+  author: { '@type': 'Organization', name: 'Eternal CNC Precision Machining' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Eternal CNC Precision Machining',
+    logo: { '@type': 'ImageObject', url: 'https://eternalcnc.com/images/og-default.webp' },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': Astro.url.href },
+  inLanguage: 'ru',
+};
+---
+
+<PageLayout
+  title="Руководство по выбору материала | Сплавы ЧПУ | Eternal CNC"
+  description="Какой материал ЧПУ выбрать: скорость резания, стойкость инструмента и стоимость алюминия, нержавейки, латуни, титана, PEEK — советы цеха."
+  breadcrumbs={breadcrumbs}
+  schema={articleSchema}
+>
+  <style>
+    .mat-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 14px; }
+    .mat-table th, .mat-table td { border: 1px solid var(--border-color); padding: 10px 12px; text-align: left; vertical-align: top; }
+    .mat-table th { background: var(--page-bg); color: var(--brand-dark); font-weight: 600; }
+    .mat-table tr:nth-child(even) { background: #FAFAFA; }
+    .mat-box { background: #FFF8F8; border: 1px solid #F0D0D0; border-left: 4px solid var(--brand-red); padding: 14px 16px; border-radius: 0 6px 6px 0; }
+    .mat-box strong { color: var(--brand-red); }
+    .mat-tip { background: var(--page-bg); border: 1px solid var(--border-color); border-left: 4px solid var(--brand-red); padding: 14px 18px; border-radius: 0 6px 6px 0; }
+  </style>
+
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">База знаний</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Руководство по выбору материала
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Написать на чертеже «алюминий» вместо «6061-T6» может изменить расчёт в несколько раз.
+        Материал определяет три вещи: можно ли его обработать, сколько это займёт и во что обойдётся.
+        Это наши цеховые заметки — какие материалы режутся легко, какие дороже и почему, и что выбрать под какую задачу.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/downloads/EternalCNC-Material-Selection-Guide-EN.html" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Скачать руководство для печати ↓
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7-material table -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Кратко</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Семьраспространённых материалов</h2>
+      <p class="mb-6 max-w-3xl" style="color: var(--text-muted);">
+        «Относительная стоимость» отсчитана от 1× для алюминия 6061-T6 и уже включает износ инструмента, время цикла и процент брака.
+        Это диапазоны из долгого цехового опыта, а не абсолютные значения.
+      </p>
+      <table class="mat-table">
+        <thead>
+          <tr><th>Материал</th><th>Скорость резания (ориентир)</th><th>Стойкость инструмента</th><th>Качество поверхности</th><th>Относит. стоимость</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Алюминий 6061-T6</strong></td><td>Быстро (300–500 м/мин)</td><td>Высокая</td><td>Хорошая (Ra 0,8 легко)</td><td>1×</td></tr>
+          <tr><td><strong>Алюминий 7075-T6</strong></td><td>Довольно быстро (250–400 м/мин)</td><td>Средняя</td><td>Хорошая</td><td>1,2×</td></tr>
+          <tr><td><strong>Латунь C360</strong></td><td>Очень быстро (400–600 м/мин)</td><td>Очень высокая</td><td>Отличная</td><td>1,1×</td></tr>
+          <tr><td><strong>Нержавеющая 304</strong></td><td>Медленно (80–150 м/мин)</td><td>Низкая (наклёп)</td><td>Плохая (многопроходная)</td><td>3–4×</td></tr>
+          <tr><td><strong>Нержавеющая 316L</strong></td><td>Очень медленно (60–120 м/мин)</td><td>Очень низкая</td><td>Плохая</td><td>4–5×</td></tr>
+          <tr><td><strong>Титан Ti-6Al-4V</strong></td><td>Очень медленно (30–60 м/мин)</td><td>Очень низкая (горит/стружка)</td><td>Средняя</td><td>5–8×</td></tr>
+          <tr><td><strong>PEEK (констр. пластик)</strong></td><td>Средне (200–300 м/мин)</td><td>Средняя</td><td>Хорошая</td><td>1,5×</td></tr>
+        </tbody>
+      </table>
+      <p class="mat-tip" style="color: var(--text-body);">
+        Углеродистая сталь (напр. 45#, Q235) тожераспространена — дешевле нержавеющей, но ржавеет. Избегайте для наружного или влажного применения без покрытия.
+      </p>
+    </div>
+  </section>
+
+  <!-- per-material notes -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">По материалам</p>
+      <h2 class="text-3xl font-bold mb-8" style="color: var(--brand-dark);">Честный разговор</h2>
+      <div class="space-y-5">
+        <div class="mat-box" style="color: var(--text-body);">
+          <strong>Алюминий 6061-T6 — король цены, выбирайте по умолчанию.</strong>
+          Для большинства несущих деталей, корпусов и кронштейнов 6061-T6 достаточно. Режется быстро, щадит инструмент, даёт хорошую поверхность — Ra 0,8 легко. Если функция позволяет, это наша первая рекомендация.
+        </div>
+        <div class="mat-box" style="color: var(--text-body);">
+          <strong>Алюминий 7075-T6 — высокая прочность, но жуётся тяжелее, чем 6061.</strong>
+          7075 намного прочнее 6061, применяется в ответственных и несущих деталях. Но он вязче, наращивает нарост на кромке и быстрее изнашивает инструмент — 1,2× это лишь дельта материала; реальная стоимость чуть выше с учётом обработки. Не невозможно, просто «дорого обоснованно».
+        </div>
+        <div class="mat-box" style="color: var(--text-body);">
+          <strong>Латунь C360 — чемпион обрабатываемости.</strong>
+          Режется очень быстро, инструмент служит вечно, поверхность выходит блестящей. Отлично для прецизионных мелких деталей, фитингов, декора. Лишь чуть дороже алюминия, но вид заметно лучше.
+        </div>
+        <div class="mat-box" style="color: var(--text-body);">
+          <strong>Нержавеющая 304 / 316L — стойкая к коррозии, но «медленность» убивает.</strong>
+          Настоящий враг — <strong>наклёп</strong>: тупой инструмент упрочняет её, и чем больше режешь, тем тверже. Нужно работать острым свежим инструментом на достаточной скорости. Поэтому короткая стойкость и длинный цикл — норма. Два замечания: ① сроки на 30–50% дольше, чем по алюминию; ② ослабьте допуск на ступень, потолок разумной шероховатости — Ra 1,6, не настаивайте на Ra 0,8. 316L лучше сопротивляется хлоридам (побережье, химия), но медленнее и дороже.
+        </div>
+        <div class="mat-box" style="color: var(--text-body);">
+          <strong>Титан Ti-6Al-4V — только еслинеобходимо.</strong>
+          Стоимость обработки титана съедает маржу: очень медленно, инструмент легко крошится, и он горит. Оставьте для биосовместимых / высокотемпературных деталей. Если 316L или 7075 справятся функционально — переключитесь, экономия немалая.
+        </div>
+        <div class="mat-box" style="color: var(--text-body);">
+          <strong>PEEK — только для высокотемпературных / изоляционных задач.</strong>
+          PEEK держит жар, изолирует, самосмазывается — выбор для полупроводников и медицины. Около 1,5× по стоимости, режется не медленно, но следите за закреплением (оно отпускает и пружинит). Для невысокотемпературных нужд обычный нейлон или ABS намного дешевле.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- scenario table -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Быстрый подбор</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Что выбрать под что</h2>
+      <table class="mat-table">
+        <thead><tr><th>Ваша потребность</th><th>Первый выбор</th><th>Замечание</th></tr></thead>
+        <tbody>
+          <tr><td>Общая несущая, корпус, кронштейн</td><td>6061-T6</td><td>Лучшая цена</td></tr>
+          <tr><td>Несущая, ответственная / высокопрочная</td><td>7075-T6</td><td>Примите чуть большую стоимость</td></tr>
+          <tr><td>Прецизионные мелкие детали, латунные фитинги, декор</td><td>Латунь C360</td><td>Блестящая поверхность, лёгкая резка</td></tr>
+          <tr><td>Пища / медицина / побережье / химия</td><td>304 / 316L</td><td>+30–50% сроки, допуск шире.</td></tr>
+          <tr><td>Биосовместимость / высокая температура</td><td>Титан</td><td>Только если функционально необходимо</td></tr>
+          <tr><td>Высокотемп. изоляция / полупроводники</td><td>PEEK</td><td>Иначе нейлон/ABS</td></tr>
+          <tr><td>Внутри, сухая несущая, хочется сэкономить</td><td>Углеродистая сталь + покрытие</td><td>Ржавеет; полагайтесь на гальванику</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- old-hand tips -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Напоминания бывалых</p>
+      <h2 class="text-3xl font-bold mb-6" style="color: var(--brand-dark);">Сэкономьте половину переделок</h2>
+      <ul class="space-y-3" style="color: var(--text-body);">
+        <li><strong>Пишите полную марку, а не семейство.</strong> «Алюминий» ≠ «6061-T6»; «нержавейка» ≠ «304». Просто пишите марку — <code>6061-T6</code>, <code>304 SS</code>, <code>7075</code> — и мы сделаем за один шаг.</li>
+        <li><strong>Без устных «гарантий по материалу».</strong> Сертификаты материала (MTC, прослеживаемость по плавке) доступны по запросу — пол цеха настоящего завода и то, что стоит спросить при аудите поставщика.</li>
+        <li><strong>Избегайте вторичного алюминия для ответственных деталей.</strong> Дешёвый вторичный прокат несёт больше примесей и внутренних напряжений — легко коробится, нестабильная прочность. Для ключевых деталей берите первичную заготовку.</li>
+        <li><strong>Хотите стойкость к ржавчине и сэкономить? Используйте покрытие.</strong> Углеродистая сталь с порошковой окраской / цинкованием или анодированный алюминий часто дешевле прямой нержавейки и даёт схожую стойкость к коррозии.</li>
+        <li><strong>Нет материала на чертеже? Отметьте «по чертежу» или укажите марку.</strong> В нашей форме запроса материал по умолчанию «по чертежу» — мы следуем тому, что на чертеже; чтобы сменить или указать, достаточно одной строки.</li>
+      </ul>
+      <p class="mat-tip mt-6" style="color: var(--text-body);">
+        Одна строка на память: <strong>если функция позволяет, берите 6061-T6; для стойкости к коррозии — 304; для прочности — 7075; титан и PEEK оставьте для случаев, когда они действительно необходимы.</strong>
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Нужна консультация по материалу?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите чертежи — наши инженеры порекомендуют лучший материал для вашей задачи и дадут расчёт в течение 2 часов.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/knowledge" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Все материалы →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

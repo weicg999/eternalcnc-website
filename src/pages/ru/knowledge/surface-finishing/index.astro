@@ -1,0 +1,138 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+
+const breadcrumbs = [
+  { label: 'База знаний', href: '/ru/knowledge' },
+  { label: 'Финишная обработка поверхности' },
+];
+
+const capabilities = [
+  {
+    title: 'Анодирование',
+    items: ['Натуральное анодирование (серебристо-серое, износо- и коррозионностойкое)', 'Чёрное твёрдое анодирование (высокая твёрдость, абразивостойкое)', 'Цветное анодирование (декоративное, несколько цветов)', 'Хроматирование (токопроводящее, подходит для заземления)'],
+    tolerance: 'Толщина плёнки: 5–25 мкм',
+    materials: 'Применимо только к алюминию и его сплавам',
+  },
+  {
+    title: 'Пассивация',
+    items: ['Пассивация нержавеющей стали (коррозионная стойкость выше в 3–5 раз)', 'Пассивация цинкового покрытия (цветное / голубовато-белое / чёрное)', 'Бесхромовая пассивация (экологичная)', 'Готово к сборке сразу после пассивации'],
+    tolerance: 'Практически без изменения размеров (<1 мкм)',
+    materials: 'Применимо к нержавеющей стали и оцинкованным деталям',
+  },
+  {
+    title: 'Гальваническое покрытие',
+    items: ['Никелирование (износо- и коррозионностойкое, блестящая поверхность)', 'Хромирование (высокая твёрдость и износостойкость, зеркальная поверхность)', 'Цинкование (экономичная защита, белый / цветной цинк)', 'Меднение (подслой или токопроводящие применения)'],
+    tolerance: 'Толщина покрытия: 5–20 мкм',
+    materials: 'Учитывайте влияние покрытия на допуски',
+  },
+  {
+    title: 'Напыление покрытия',
+    items: ['Порошковая окраска (толстая плёнка, ударопрочная, экологичная)', 'Жидкая краска (гладкая поверхность, богатый выбор цветов)', 'Пластиковое напыление (абразиво- и погодостойкое, идеально для корпусов)', 'Фторуглеродное покрытие (сверхатмосферостойкое, 20+ лет на улице)'],
+    tolerance: 'Толщина плёнки: 40–120 мкм',
+    materials: 'Требуется предварительная обработка поверхности перед напылением',
+  },
+];
+
+const standards = [
+  { label: 'Сначала подготовка', desc: 'Правильное обезжиривание, удаление ржавчины и активация обязательны перед любой поверхностной обработкой.' },
+  { label: 'Допуск на размер', desc: 'Для процессов с толщиной плёнки (гальваника, напыление) заложите допуск в конструкции.' },
+  { label: 'Совместимость материала', desc: 'Разные основы поддерживают разные виды обработки — проверяйте заранее.' },
+  { label: 'Соответствие среде', desc: 'Выбирайте класс обработки по условиям эксплуатации (внутри / снаружи / агрессивная среда).' },
+];
+---
+
+<BaseLayout
+  title="Финишная обработка ЧПУ | Анодирование | Eternal CNC"
+  description="Финишная обработка деталей ЧПУ: анодирование, пассивация, гальваника, напыление. Особенности, материалы и толщина плёнки — руководство по выбору покрытия."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">База знаний</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Руководство по финишной обработке деталей ЧПУ
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Подробный обзор 7распространённых процессов, включая анодирование, пассивацию, гальваническое покрытие и напыление
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Техническая консультация
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Типы процессов</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Четыре основных процесса финишной обработки</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Поймите характеристики, применимые материалы и параметры толщины плёнки распространённых видов обработки, чтобы выбрать лучшее решение для ваших деталей.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Толщина плёнки</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Применимые материалы</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Принципы выбора</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Принципы выбора поверхностной обработки</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Выберите правильный процесс обработки, чтобы сбалансировать защитный эффект, требования к внешнему виду и контроль стоимости.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Не уверены, какую финишную обработку выбрать?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Опишите условия применения и материал — мы порекомендуем наиболее подходящее решение поверхностной обработки.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Техническая консультация
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

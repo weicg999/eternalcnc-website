@@ -1,0 +1,156 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+
+const breadcrumbs = [
+  { label: 'База знаний', href: '/ru/knowledge' },
+  { label: 'Технический блог' },
+];
+
+// 从内容集合拉取全部已发布文章（按 pubDate 降序）
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const CATEGORY_META: Record<string, { desc: string }> = {
+  'Machining Tips': { desc: 'Траектории инструмента, оснастка, глубокое сверление и параметры высокоглянцевой поверхности — практика прямо с цехового пола.' },
+  'Material Selection': { desc: 'Какой сплав или пластик для какой задачи — сравнения, которые реально помогают выбрать.' },
+  'Process Optimization': { desc: 'Реальные проекты, реальные цифры: как мы сокращаем операции, время цикла и затраты.' },
+  'Industry Insights': { desc: 'Внедрение 5-осевой обработки, умное производство и что электромобили и робототехника требуют от прецизионной обработки.' },
+};
+const categoryOrder = ['Machining Tips', 'Material Selection', 'Process Optimization', 'Industry Insights'];
+
+// Отображаемые (RU) названия рубрик — ключи совпадают с категориями из контента (EN)
+const CAT_LABEL_RU: Record<string, string> = {
+  'Machining Tips': 'Приёмы обработки',
+  'Material Selection': 'Выбор материалов',
+  'Process Optimization': 'Оптимизация процессов',
+  'Industry Insights': 'Отраслевая аналитика',
+};
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('ru-RU', { year: 'numeric', month: 'short', day: 'numeric' });
+
+const pluralArticles = (n: number) => {
+  const n10 = n % 10, n100 = n % 100;
+  if (n10 === 1 && n100 !== 11) return `${n} статья`;
+  if (n10 >= 2 && n10 <= 4 && (n100 < 10 || n100 >= 20)) return `${n} статьи`;
+  return `${n} статей`;
+};
+
+const CAT_STYLE: Record<string, string> = {
+  'Machining Tips': 'background:#8B0000;color:#fff;',
+  'Material Selection': 'background:#1A1A1A;color:#fff;',
+  'Process Optimization': 'background:#4A4A4A;color:#fff;',
+  'Industry Insights': 'background:#6B0000;color:#fff;',
+};
+---
+
+<BaseLayout
+  title="Технический блог по ЧПУ: советы, материалы, оптимизация | EternalCNC"
+  description="Технический блог EternalCNC: советы по ЧПУ обработке, выбор материалов, оптимизация процессов и отраслевая аналитика от инженеров с производства."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">База знаний</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Технический блог по ЧПУ обработке
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Глубокие технические статьи о приёмах обработки, выборе материалов и оптимизации процессов — написаны нашими инженерами на основе реальных проектов.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Связаться с инженером
+        </a>
+        <a href="#latest" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Смотреть статьи ↓
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 最新文章 -->
+  <section id="latest" style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Последние статьи</p>
+      <h2 class="text-3xl font-bold mb-2" style="color: var(--brand-dark);">Прямо из цеха</h2>
+      <p class="mb-10 max-w-2xl" style="color: var(--text-muted);">
+        Новые статьи выходят регулярно. Опубликовано {allPosts.length} — и это не предел.
+      </p>
+
+      {allPosts.length === 0 ? (
+        <div class="p-12 text-center border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+          <p class="font-medium" style="color: var(--brand-dark);">Статьи скоро появятся.</p>
+          <p class="text-sm mt-1" style="color: var(--text-muted);">Наши инженеры работают над ними. Загляните позже.</p>
+        </div>
+      ) : (
+        <div class="grid sm:grid-cols-2 gap-6">
+          {allPosts.map((p) => (
+            <a href={`/knowledge/tech-blog/${p.slug}/`} class="group flex flex-col p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="px-2.5 py-0.5 text-xs font-semibold rounded-full" style={CAT_STYLE[p.data.category] || 'background:#8B0000;color:#fff;'}>{CAT_LABEL_RU[p.data.category] || p.data.category}</span>
+                <span class="text-xs" style="color: var(--text-muted);">{fmt(p.data.pubDate)}</span>
+                {p.data.readingTime && <span class="text-xs" style="color: var(--text-muted);">· {p.data.readingTime}</span>}
+              </div>
+              <h3 class="text-xl font-bold leading-snug mb-2 group-hover:text-[#8B0000] transition-colors" style="color: var(--brand-dark);">{p.data.title}</h3>
+              <p class="text-sm leading-relaxed mb-4 flex-1" style="color: var(--text-body);">{p.data.description}</p>
+              <span class="text-sm font-semibold" style="color: #8B0000;">Читать статью →</span>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- 内容分类 -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Рубрики</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Четыре технические рубрики</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        От практических советов до отраслевой аналитики — полное освещение технологий ЧПУ обработки.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {categoryOrder.map((cat) => {
+          const count = allPosts.filter((p) => p.data.category === cat).length;
+          const firstSlug = allPosts.find((p) => p.data.category === cat)?.slug;
+          return (
+            <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+              <h3 class="text-lg font-bold mb-2" style="color: var(--brand-dark);">{CAT_LABEL_RU[cat] || cat}</h3>
+              <p class="text-sm mb-4 leading-relaxed" style="color: var(--text-body);">{CATEGORY_META[cat].desc}</p>
+              {count > 0 ? (
+                <span class="inline-block px-2.5 py-1 text-xs font-semibold rounded-full" style="background:#8B0000;color:#fff;">{pluralArticles(count)} опубликовано</span>
+              ) : (
+                <span class="text-xs font-medium" style="color: var(--text-muted);">Скоро — наши инженеры пишут в этой рубрике.</span>
+              )}
+              {count > 0 && firstSlug && (
+                <a href={`/knowledge/tech-blog/${firstSlug}/`} class="block mt-4 text-sm font-semibold hover:underline" style="color: #8B0000;">Читать последнее →</a>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Хотите разобрать какую-то техническую тему?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Сообщите, какие темы вас интересуют — мы осветим их в отдельных статьях или ответим напрямую.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Связаться с инженером
+        </a>
+        <a href="/ru/knowledge" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Назад в Базу знаний →
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

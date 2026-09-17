@@ -1,0 +1,198 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'База знаний', href: '/ru/knowledge' },
+  { label: 'Руководство по DFM: экономия' },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: 'Руководство по DFM для ЧПУ обработки (Часть 1)',
+  description: 'Пять геометрических принципов проектирования, которые определяют 80% стоимости заказа на ЧПУ: толщина стенок, соотношение глубины отверстия, форма, радиус внутреннего угла и допуски — с цеховыми данными по себестоимости.',
+  author: { '@type': 'Organization', name: 'Eternal CNC Precision Machining' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Eternal CNC Precision Machining',
+    logo: { '@type': 'ImageObject', url: 'https://eternalcnc.com/images/og-default.webp' },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': Astro.url.href },
+  inLanguage: 'ru',
+};
+---
+
+<PageLayout
+  title="Руководство по DFM (Часть 1) | Правила проектирования ЧПУ"
+  description="Пять геометрических принципов DFM, определяющих 80% стоимости заказа ЧПУ: толщина стенок, глубина отверстий, форма, радиус угла и допуски — с цеховыми данными."
+  breadcrumbs={breadcrumbs}
+  schema={articleSchema}
+>
+  <style>
+    .dfm-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+    .dfm-table th, .dfm-table td { border: 1px solid var(--border-color); padding: 10px 12px; text-align: left; vertical-align: top; }
+    .dfm-table th { background: var(--page-bg); color: var(--brand-dark); font-weight: 600; }
+    .dfm-table tr:nth-child(even) { background: #FAFAFA; }
+    .dfm-box { background: #FFF8F8; border: 1px solid #F0D0D0; border-left: 4px solid var(--brand-red); padding: 14px 16px; border-radius: 0 6px 6px 0; color: var(--text-body); }
+    .dfm-box strong { color: var(--brand-red); }
+  </style>
+
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">База знаний</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Руководство по DFM: экономия (Часть 1)
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Пять геометрических принципов проектирования, которые определяют 80% стоимости заказа на ЧПУ. Не из учебника —
+        выводы из расчёта, планирования и переделок реальных заказов. Проблема редко в точности станка; она в «мелких числах» на чертеже.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/downloads/EternalCNC-DFM-Design-Guide-Part1-EN.html" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Скачать руководство для печати ↓
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1 Wall thickness -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">1. Толщина стенки — тоньше не значит лучше</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">При ЧПУ резец давит на материал. Слишком тонкие стенки вибрируют, дребезжат и деформируются — в итоге размеры уходят за допуск или появляется «рыбья чешуя» на поверхности. Дороже обходится не материал, а сам процесс и процент брака.</p>
+      <table class="dfm-table">
+        <thead><tr><th>Материал</th><th>Комфортная стенка (мелкая фаска)</th><th>Большая плоскость / тонкая стенка</th><th>Риск</th></tr></thead>
+        <tbody>
+          <tr><td>Алюминий 6061/7075</td><td>≥ 1,0 мм</td><td>≥ 2,0 мм</td><td>Дребезг, коробление</td></tr>
+          <tr><td>Углеродистая / легированная сталь</td><td>≥ 1,5 мм</td><td>≥ 2,5 мм</td><td>Вибрация</td></tr>
+          <tr><td>Нержавеющая 304/316</td><td>≥ 2,0 мм</td><td>≥ 3,0 мм</td><td>Упрочнение + коробление</td></tr>
+          <tr><td>Титан</td><td>≥ 2,0 мм</td><td>≥ 3,5 мм</td><td>Пружинение, дребезг</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">Подвохи:</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>Высокие тонкие стенки глубокого кармана раскачиваются при резании — держите стенку ≥ 1/20 от глубины кармана (карман 50 мм требует стенку ≥ 2,5 мм).</li>
+        <li>Изолированные тонкие стойки хлещут как удочка — добавьте рёбра или сделайте отдельной деталью и соберите.</li>
+        <li>Резкая смена толщины ведёт к короблению тонкой части — используйте галтели / плавные переходы.</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>Совет DFM:</strong> алюминий ≥ 1 мм, сталь ≥ 1,5 мм, нержавейка ≥ 2 мм. Для не несущих крышек используйте рёбра или бобышки вместо утолщения всей детали.</div>
+    </div>
+  </section>
+
+  <!-- 2 Hole depth -->
+  <section style="background-color: var(--card-white); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">2. Соотношение глубины отверстия — сверлить глубоко не всегда можно</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">Длинное сверло не означает глубокие отверстия. Соотношение длины к диаметру (глубина ÷ диаметр) определяет, обычным сверлом работать или глубоким сверлением.</p>
+      <table class="dfm-table">
+        <thead><tr><th>Соотношение L/D</th><th>Процесс</th><th>Влияние на стоимость</th></tr></thead>
+        <tbody>
+          <tr><td>≤ 3×D</td><td>Стандартное сверло, за один проход</td><td>Базовая</td></tr>
+          <tr><td>3×D – 5×D</td><td>Стандартное сверло, отвод для вывода стружки</td><td>+20 – 30%</td></tr>
+          <tr><td>5×D – 10×D</td><td>Глубокое / пушечное сверление</td><td>+50 – 100%</td></tr>
+          <tr><td>＞ 10×D</td><td>Станок глубокого сверления (BTA / пушечное)</td><td>+200% или переделка</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">Подвохи:</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>Мелкие глубокие отверстия (φ1 мм × 10 мм, L/D=10) легко ломаются и уводят — избегайте, если можно.</li>
+        <li>Стружка в глухом отверстии греет и ломает сверло — сквозные отверстия выводят стружку намного лучше.</li>
+        <li>Ступенчатые отверстия выгоднее глубоких глухих — дешевле, чем сверлить глубоко, а потом нарезать резьбу.</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>Совет DFM:</strong> держите отверстия в пределах 5×D; свыше 10×D согласуйте процесс с цехом. Сквозные отверстия лучше глухих.</div>
+    </div>
+  </section>
+
+  <!-- 3 Shape -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">3. Форма — прямоугольник всегда дешевле затейливого</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">ЧПУ любит плоские грани, прямые углы, карманы с плоским дном, единые радиусы. Добавьте сферы, свободные поверхности, подрезы или наклонные стенки — и нужны сферические фрезы, 5 осей или электроэрозия (WEDM); время растёт экспоненциально.</p>
+      <table class="dfm-table">
+        <thead><tr><th>Геометрия</th><th>Рекомендация</th><th>Коэффициент стоимости</th></tr></thead>
+        <tbody>
+          <tr><td>Блок / правильный контур</td><td>★★★★★</td><td>1×</td></tr>
+          <tr><td>Вертикальные стенки + карман с плоским дном</td><td>★★★★★</td><td>1×</td></tr>
+          <tr><td>Сферическая / криволинейная поверхность</td><td>★★★☆☆</td><td>1,5 – 3×</td></tr>
+          <tr><td>Подрез / боковая выточка</td><td>★★☆☆☆</td><td>3 – 10×</td></tr>
+          <tr><td>Глубокий узкий паз</td><td>★★☆☆☆</td><td>2 – 5×</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">Подвохи:</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>Квадрат лучше круга — квадратный карман дешевле круглого (торцевая фреза доходит до дна за проход).</li>
+        <li>Подрезы — бомба стоимости: 3-осевой инструмент не достанет внутреннюю выточку. Уберите их, и расчёт подешевеет на ступень.</li>
+        <li>Унифицируйте радиусы и диаметры отверстий — R0,5/R1/R2/R3 заставляют менять десяток инструментов; сведите к R2/R3.</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>Совет DFM:</strong> предпочитайте правильную геометрию; плоские грани + прямые углы; плоское дно + единые радиусы; избегайте подрезов. Пусть 3-осевая фреза доработает за одну установку.</div>
+    </div>
+  </section>
+
+  <!-- 4 Inside radius -->
+  <section style="background-color: var(--card-white); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">4. Радиус внутреннего угла — скрытый порог выбора инструмента</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">Радиус внутреннего угла должен быть ≥ радиуса фрезы. Чтобы получить угол R0,5, нужна фреза φ1 — а в стали это очень высокий риск поломки, лишь на экстремально низкой скорости и с ростом времени цикла.</p>
+      <table class="dfm-table">
+        <thead><tr><th>Внутренний радиус</th><th>Нужный инструмент</th><th>Влияние на стоимость</th></tr></thead>
+        <tbody>
+          <tr><td>R3+</td><td>Торцевая фреза φ6</td><td>Базовая</td></tr>
+          <tr><td>R1 – R2</td><td>Торцевая фреза φ2 – φ4</td><td>+10 – 20%</td></tr>
+          <tr><td>R0,5 – R1</td><td>Торцевая фреза φ1 – φ2</td><td>+50 – 100%</td></tr>
+          <tr><td>＜ R0,5</td><td>φ0,5 – φ1 или электроэрозия</td><td>+200% или переделка</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2" style="color: var(--text-body);">Правило большого пальца: внутренний радиус ≥ 1 мм (фреза φ2) — экономичная зона; ≥ 2 мм (фреза φ4) — самый комфорт; &lt; 0,5 мм по сути требует электроэрозии.</p>
+      <div class="dfm-box mt-4"><strong>Совет DFM:</strong> используйте R2, а не R0,5. Если вид требует малого радиуса, обработайте большой карман с R2, затем электроэрозией — локально малый R дешевле, чем фрезеровать всё мелким инструментом.</div>
+    </div>
+  </section>
+
+  <!-- 5 Tolerance -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">5. «Экономичная зона» допусков — на ступень жёстче, вдвое дороже</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">Чем жёстче допуск, тем плотнее измерения и привередливее оснастка — стоимость умножается. Затягивайте только то, что функционально нужно.</p>
+      <table class="dfm-table">
+        <thead><tr><th>Допуск</th><th>Нормальная возможность 3 осей</th><th>Коэффициент стоимости</th></tr></thead>
+        <tbody>
+          <tr><td>±0,1 мм</td><td>Один проход</td><td>1×</td></tr>
+          <tr><td>±0,05 мм</td><td>Обычная чистовая фреза</td><td>1×</td></tr>
+          <tr><td>±0,02 мм</td><td>Чистовая фреза + измерение</td><td>1,2×</td></tr>
+          <tr><td>±0,01 мм</td><td>+ первичная / межоперационная проверка</td><td>1,5 – 2×</td></tr>
+          <tr><td>±0,005 мм</td><td>Термостат / тонкое шлифование</td><td>3 – 5×</td></tr>
+          <tr><td>±0,002 мм</td><td>Шлифовальный станок / координатно-шлифовальный</td><td>10×+</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">Подвохи:</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>Затягивайте только посадочные поверхности (подшипниковые посадки, штифтовые отверстия, уплотнения); ослабьте наружный контур до ±0,05 / ±0,1.</li>
+        <li>GD&T дороже размерного допуска — плоскостность 0,02 мм сложнее, чем размер ±0,01 мм.</li>
+        <li>Не пересpecифицируйте необработанные размеры — косметическая грань при ±0,1 в порядке.</li>
+        <li>Материал имеет значение: ±0,01 легко в алюминии, шатко в нержавейке, труднее в титане.</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>Совет DFM:</strong> затяните посадочные поверхности, ослабьте остальное; пишите GD&T с осторожностью; оставьте ±0,1 для необработанных размеров. На ступень жёстче — вдвое дороже.</div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Нужна бесплатная проверка DFM?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите чертёж — наши инженеры дадут расчёт и замечания по DFM в течение 2 часов.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Получить бесплатный расчёт
+        </a>
+        <a href="/ru/knowledge" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Все материалы →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>
