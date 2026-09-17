@@ -241,6 +241,13 @@ const shareTitle = title;
     font-size: 0.95rem;
     line-height: 1.5;
   }
+  /* 窄屏：宽表格在容器内横向滚动，避免撑破版面（桌面端不受影响） */
+  @media (max-width: 767px) {
+    .post-body table {
+      display: block;
+      overflow-x: auto;
+    }
+  }
   .post-body th {
     text-align: left;
     padding: 10px 14px;
