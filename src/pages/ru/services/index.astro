@@ -1,0 +1,162 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Услуги' },
+];
+
+const services = [
+  {
+    title: 'Фрезерование ЧПУ',
+    items: ['Обработка сложных поверхностей', 'Высокоточное фрезерование', 'Многокоординатная интерполяция', 'Детали пресс-форм и штампов'],
+    tolerance: '±0,005 мм',
+    materials: 'Алюминий, нержавеющая сталь, конструкционные пластики',
+  },
+  {
+    title: 'Токарная обработка ЧПУ',
+    items: ['Валы', 'Втулки', 'Диски', 'Высокая соосность'],
+    tolerance: '±0,01 мм',
+    materials: 'Сталь, алюминий, латунь',
+  },
+  {
+    title: 'Финишная обработка поверхности',
+    items: ['Анодирование', 'Никелирование / хромирование', 'Покрытие Dacromet', 'Пескоструйная обработка'],
+    tolerance: 'По стандарту',
+    materials: 'Алюминий, сталь, медные сплавы',
+  },
+  {
+    title: 'Прецизионное шлифование',
+    items: ['Высокая чистота поверхности', 'Жёсткие допуски', 'Зеркальная полировка', 'Плоское шлифование'],
+    tolerance: '±0,01 мм',
+    materials: 'Закалённая сталь, твёрдый сплав',
+  },
+  {
+    title: 'Электроэрозионная резка (EDM)',
+    items: ['Сверхтвёрдые материалы', 'Сложные профили', 'Чистовая проволочная резка', 'Микрорезка'],
+    tolerance: '±0,01 мм',
+    materials: 'Твёрдый сплав, закалённая сталь',
+  },
+  {
+    title: 'DFM-анализ',
+    items: ['Проверка чертежей', 'Рекомендации по снижению стоимости', 'Оценка рисков', 'Оптимизация процесса'],
+    tolerance: '-',
+    materials: 'Все материалы',
+  },
+  {
+    title: 'Подбор материала',
+    items: ['Сравнение металлов', 'Конструкционные пластики', 'Рекомендация марки', 'Подбор под требования'],
+    tolerance: '-',
+    materials: 'Полный ассортимент',
+  },
+  {
+    title: 'Контроль качества',
+    items: ['Координатные измерения по запросу', 'Контроль размеров', 'Отчёты по запросу', 'Контроль процесса'],
+    tolerance: 'По чертежу',
+    materials: '-',
+  },
+];
+
+const promises = [
+  { label: 'Расчёт за 2 часа', desc: 'Получите расчёт с DFM-анализом в течение 2 часов после отправки чертежей.' },
+  { label: 'Одобрение первой детали', desc: 'Контроль первой детали перед серийным производством для снижения рисков.' },
+  { label: 'Полная прослеживаемость', desc: 'Сертификаты на материалы и отчёты о контроле доступны по запросу; обеспечивается полная прослеживаемость партий.' },
+  { label: 'Срочные заказы', desc: 'Поставка за 3–5 дней для срочных заказов в соответствии со сжатыми сроками проекта.' },
+];
+---
+
+<PageLayout
+  title="Точная ЧПУ обработка | фрезерование · токарная · шлифование · финишная обработка | Eternal CNC"
+  description="Услуги точной ЧПУ обработки: фрезерование, токарная обработка, шлифование, проволочная электроэрозия (EDM) — выполняются в собственном цехе. Финишная и термическая обработка координируются с проверенными партнёрами под нашим контролем качества. От DFM-анализа до финального контроля."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Услуги</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Точное производство начинается с вашего чертежа
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Фрезерование ЧПУ · Токарная обработка ЧПУ · Финишная обработка поверхности · Прецизионное шлифование · Электроэрозионная резка (EDM)
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/capabilities/equipment" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Смотреть список оборудования →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Grid -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Наши услуги</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Восемь ключевых видов ЧПУ обработки</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        От сырья до готовой детали — обеспечиваем полный цикл прецизионной обработки сложных компонентов.
+      </p>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {services.map((svc) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{svc.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {svc.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Точность</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{svc.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Требует прецизионной доводки и контроля. С учётом проверки чертежа.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Материалы</p>
+              <p class="text-sm" style="color: var(--text-body);">{svc.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Promises -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Наши обязательства</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Стандарты обслуживания</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Ориентированные на клиента, эффективные, прозрачные и полностью прослеживаемые услуги обработки.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {promises.map((p) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{p.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{p.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Нужна обработка деталей?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Получите расчёт с DFM-анализом в течение 2 часов.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Бесплатный расчёт
+        </a>
+        <a href="/ru/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Бесплатный DFM-анализ →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

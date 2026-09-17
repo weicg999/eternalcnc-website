@@ -167,16 +167,94 @@ const texts = {
     copied: '已复制',
     mailto_hint: '如果邮件客户端未自动打开，请复制上方信息，手动新建邮件发给 sales@eternalcnc.com。',
     email_preview: '邮件内容'
+  },
+  ru: {
+    title: 'Загрузите ваши чертежи',
+    formats: 'Поддерживаемые форматы: STEP, IGES, STL, PDF, DXF, DWG (до 50 МБ на файл)',
+    formats_small: 'STEP, IGES, STL, PDF, DXF до 50 МБ',
+    drag: 'Перетащите файлы сюда или ',
+    browse: 'выберите',
+    partName: 'Название детали / № чертежа (необязательно)',
+    partNamePh: 'напр. Impeller HX-206 / DWG-001',
+    title2: 'Материал и количество',
+    subtitle2: 'Расскажите, что нужно — остальное уточним мы',
+    material_label: 'Материал',
+    material_aluminum: 'Алюминий',
+    material_aluminum_desc: '6061-T6, 7075-T6, 5052-H32...',
+    material_steel: 'Сталь',
+    material_steel_desc: '1018, 4140, 304 SS...',
+    material_titanium: 'Титан',
+    material_titanium_desc: 'Grade 2, Grade 5',
+    material_copper: 'Медь / Латунь',
+    material_copper_desc: 'C110, C360, фосфористая бронза',
+    material_plastics: 'Конструкционные пластики',
+    material_plastics_desc: 'Delrin, нейлон, PEEK',
+    material_other: 'Другое / Не уверен',
+    material_other_desc: 'Поможем подобрать',
+    material_per_drawing: 'Материал по чертежу (по умолчанию)',
+    material_per_drawing_desc: 'Считываем из ваших файлов',
+    material_specify: 'Указать материал / марку',
+    material_detail_ph: 'напр. 6061-T6, 7075-T6, 304 SS, PEEK...',
+    material_detail_hint: 'Оставьте пустым, если совпадает с чертежом',
+    material_quick_hint: 'Или выберите распространённую марку ниже',
+    material_chip_per_drawing: 'По чертежу (по умолчанию)',
+    material_chip_304: '304 SS',
+    material_chip_316: '316 SS',
+    material_chip_steel: 'Углеродистая сталь',
+    material_chip_brass: 'Латунь / Медь',
+    material_chip_titanium: 'Титан',
+    material_chip_plastic: 'Конструкционный пластик',
+    material_chip_other: 'Другое…',
+    material_cat_aluminum: 'Алюминий',
+    material_cat_stainless: 'Нержавеющая',
+    material_cat_steel: 'Сталь',
+    material_cat_copper: 'Медь',
+    material_cat_titanium: 'Титан',
+    material_cat_plastic: 'Пластик',
+    material_cat_others: 'Другое',
+    qty_label: 'Количество',
+    qty_1_10: '1 – 10 шт',
+    qty_11_50: '11 – 50 шт',
+    qty_51_200: '51 – 200 шт',
+    qty_201_500: '201 – 500 шт',
+    qty_501_1000: '501 – 1 000 шт',
+    qty_1000_5000: '1 000 – 5 000 шт',
+    qty_5000_plus: '5 000+ шт',
+    qty_ongoing: 'Серийное производство',
+    tolerance_label: 'Допуск (необязательно)',
+    tolerance_ph: 'напр. ±0,01 мм',
+    title3: 'Ваши контактные данные',
+    subtitle3: 'Чтобы мы могли выслать расчёт',
+    contact_name: 'Имя',
+    contact_company: 'Компания',
+    contact_email: 'Эл. почта',
+    contact_phone: 'Телефон',
+    contact_notes: 'Дополнительные примечания',
+    name_placeholder: 'Иван Иванов',
+    company_placeholder: 'Ваша компания ООО',
+    email_placeholder: 'ivan@company.com',
+    phone_placeholder: '150 1234 5678',
+    notes_placeholder: 'Адрес доставки, особые требования...',
+    success: 'Ваш запрос получен — ответим в течение 2 часов.',
+    back: '← Назад',
+    next: 'Далее →',
+    submit: 'Отправить запрос на расчёт',
+    open_email: 'Скопировать письмо и открыть почту',
+    copy_email: 'Скопировать только текст письма',
+    copied: 'Скопировано!',
+    mailto_hint: 'Если почтовый клиент не откроется автоматически, скопируйте информацию выше и вставьте в новое письмо на sales@eternalcnc.com.',
+    email_preview: 'Содержимое письма'
   }
 };
 const isZh = lang === 'zh';
+const isRu = lang === 'ru';
 ---
 
 <div id="quote-form" data-lang={lang} data-back={texts[lang].back} data-next={texts[lang].next} data-submit={texts[lang].submit} class="w-full max-w-3xl mx-auto">
   <!-- Progress bar -->
   <div class="mb-8">
     <div class="flex items-center justify-between mb-2">
-      <span class="text-sm font-medium text-brand-text" id="step-label">{isZh ? '第 1 步，共 3 步' : 'Step 1 of 3'}</span>
+      <span class="text-sm font-medium text-brand-text" id="step-label">{isRu ? 'Шаг 1 из 3' : isZh ? '第 1 步，共 3 步' : 'Step 1 of 3'}</span>
       <span class="text-sm text-brand-silver" id="step-percent">33%</span>
     </div>
     <div class="w-full bg-gray-200 rounded-full h-1.5">
@@ -377,6 +455,10 @@ const isZh = lang === 'zh';
       <p style="font-size:0.75rem;color:#888;margin-top:1rem;line-height:1.5;">
         提交即表示您同意我们的 <a href="/zh/privacy-policy" style="color:#8B0000;text-decoration:underline;">隐私政策</a>。
       </p>
+    ) : lang === 'ru' ? (
+      <p style="font-size:0.75rem;color:#888;margin-top:1rem;line-height:1.5;">
+        Отправляя, вы соглашаетесь с нашей <a href="/ru/privacy-policy" style="color:#8B0000;text-decoration:underline;">Политикой приватности</a>.
+      </p>
     ) : (
       <p style="font-size:0.75rem;color:#888;margin-top:1rem;line-height:1.5;">
         By submitting, you agree to our <a href="/privacy-policy" style="color:#8B0000;text-decoration:underline;">Privacy Policy</a>.
@@ -477,6 +559,8 @@ const isZh = lang === 'zh';
     const texts = formEl ? { back: formEl.dataset.back, next: formEl.dataset.next, submit: formEl.dataset.submit } : { back: 'Back', next: 'Next', submit: 'Submit' };
     const uploadedFiles = [];
     const isZh = formEl && formEl.dataset.lang === 'zh';
+    const isRu = formEl && formEl.dataset.lang === 'ru';
+    const T = (zh, en, ru) => (isRu ? ru : isZh ? zh : en);
 
     function updateUI() {
       steps.forEach(function(s) {
@@ -484,7 +568,7 @@ const isZh = lang === 'zh';
       });
       const pct = Math.round((currentStep / totalSteps) * 100);
       if (progressBar) progressBar.style.width = pct + '%';
-      if (stepLabel) stepLabel.textContent = isZh ? '第 ' + currentStep + ' 步，共 ' + totalSteps + ' 步' : 'Step ' + currentStep + ' of ' + totalSteps;
+      if (stepLabel) stepLabel.textContent = T('第 ' + currentStep + ' 步，共 ' + totalSteps + ' 步', 'Step ' + currentStep + ' of ' + totalSteps, 'Шаг ' + currentStep + ' из ' + totalSteps);
       if (stepPercent) stepPercent.textContent = pct + '%';
       renderActions();
     }
@@ -567,7 +651,7 @@ const isZh = lang === 'zh';
       : '';                        // 生产：与官网同域
     function setSubmitting(on) {
       const sb = document.getElementById('submitBtn');
-      if (sb) { sb.disabled = on; sb.style.opacity = on ? '0.6' : '1'; sb.textContent = on ? (isZh ? '提交中…' : 'Submitting…') : texts.submit; }
+      if (sb) { sb.disabled = on; sb.style.opacity = on ? '0.6' : '1'; sb.textContent = on ? T('提交中…', 'Submitting…', 'Отправка…') : texts.submit; }
     }
     function showResult(msg, isError, keepMailto) {
       const ok = document.getElementById('qf-success');
@@ -615,29 +699,31 @@ const isZh = lang === 'zh';
           const part = (data.get('partName') || '').toString().trim();
 
           const bodyLines = [
-            isZh ? '【EternalCNC 在线报价请求】' : '[EternalCNC Online Quote Request]',
+            T('【EternalCNC 在线报价请求】', '[EternalCNC Online Quote Request]', '【Запрос на расчёт EternalCNC】'),
             '',
-            isZh ? '姓名：' : 'Name: ', name,
-            isZh ? '公司：' : 'Company: ', (data.get('company') || '').toString().trim(),
-            isZh ? '邮箱：' : 'Email: ', mail,
-            isZh ? '电话：' : 'Phone: ', (cc && phone ? cc + ' ' + phone : phone || 'N/A'),
+            T('姓名：', 'Name: ', 'Имя: '), name,
+            T('公司：', 'Company: ', 'Компания: '), (data.get('company') || '').toString().trim(),
+            T('邮箱：', 'Email: ', 'Email: '), mail,
+            T('电话：', 'Phone: ', 'Телефон: '), (cc && phone ? cc + ' ' + phone : phone || 'N/A'),
             '',
-            isZh ? '零件名/图号：' : 'Part Name / Drawing No.: ', part || 'N/A',
-            isZh ? '材料：' : 'Material: ', (mat === 'per-drawing' ? (isZh ? '按图纸标注' : 'As per drawing') : (matDetail || mat || 'N/A')),
-            isZh ? '数量：' : 'Quantity: ', qty || 'N/A',
-            isZh ? '公差：' : 'Tolerance: ', tol || 'N/A',
+            T('零件名/图号：', 'Part Name / Drawing No.: ', 'Название детали / № чертежа: '), part || 'N/A',
+            T('材料：', 'Material: ', 'Материал: '), (mat === 'per-drawing' ? T('按图纸标注', 'As per drawing', 'По чертежу') : (matDetail || mat || 'N/A')),
+            T('数量：', 'Quantity: ', 'Количество: '), qty || 'N/A',
+            T('公差：', 'Tolerance: ', 'Допуск: '), tol || 'N/A',
             '',
-            isZh ? '补充说明：' : 'Additional Notes:',
-            notes || (isZh ? '无' : 'None'),
+            T('补充说明：', 'Additional Notes:', 'Дополнительно:'),
+            notes || T('无', 'None', 'Нет'),
             '',
             '---',
-            isZh ? '【请手动附上图纸文件（STEP / PDF / DXF 等）再发送此邮件】' : '[Please manually attach your drawing files (STEP / PDF / DXF) before sending this email.]',
+            T('【请手动附上图纸文件（STEP / PDF / DXF 等）再发送此邮件】', '[Please manually attach your drawing files (STEP / PDF / DXF) before sending this email.]', '【Пожалуйста, вручную прикрепите файлы чертежей (STEP / PDF / DXF) перед отправкой】'),
             '',
-            isZh ? '发送成功后，我们将在 2 小时内回复。' : 'We will reply within 2 hours after receiving.'
+            T('发送成功后，我们将在 2 小时内回复。', 'We will reply within 2 hours after receiving.', 'Мы ответим в течение 2 часов после получения.')
           ];
           const subject = isZh
             ? ('【报价请求】' + (part || name) + ' — EternalCNC')
-            : ('[Quote Request] ' + (part || name) + ' — EternalCNC');
+            : isRu
+              ? ('[Запрос расчёта] ' + (part || name) + ' — EternalCNC')
+              : ('[Quote Request] ' + (part || name) + ' — EternalCNC');
           const mailto = 'mailto:sales@eternalcnc.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(bodyLines.join('\n'));
 
           // 先在页面上显示可点击的链接 + 可复制的内容（保底）
@@ -646,10 +732,10 @@ const isZh = lang === 'zh';
           const mailtoActions = document.getElementById('qf-mailto-actions');
           const copyBtn = document.getElementById('qf-copy-btn');
           const fullCopyText = [
-            isZh ? '收件人：' : 'To: ', 'sales@eternalcnc.com',
-            isZh ? '主题：' : 'Subject: ', subject,
+            T('收件人：', 'To: ', 'Кому: '), 'sales@eternalcnc.com',
+            T('主题：', 'Subject: ', 'Тема: '), subject,
             '',
-            isZh ? '正文：' : 'Body:',
+            T('正文：', 'Body:', 'Тело:'),
             bodyLines.join('\n')
           ].join('\n');
           if (mailtoLink) {
@@ -693,14 +779,16 @@ const isZh = lang === 'zh';
 
           showResult(isZh
             ? '已为您生成邮件草稿，请确认邮件内容并附上图纸后发送。'
-            : 'An email draft has been prepared for you. Please review, attach your drawings, and send.', false, true);
+            : isRu
+              ? 'Для вас подготовлен черновик письма. Проверьте содержимое, прикрепите чертежи и отправьте.'
+              : 'An email draft has been prepared for you. Please review, attach your drawings, and send.', false, true);
         }
 
         fetch(API_BASE + '/api/quote', { method: 'POST', body: fd })
           .then(async r => {
             const j = await r.json().catch(() => ({}));
             if (r.ok && j.ok) {
-              showResult(isZh ? '已收到您的询盘与图纸，我们将在 2 小时内回复。' : 'Quote request and drawings received — we will reply within 2 hours.', false);
+              showResult(isZh ? '已收到您的询盘与图纸，我们将在 2 小时内回复。' : isRu ? 'Запрос и чертежи получены — ответим в течение 2 часов.' : 'Quote request and drawings received — we will reply within 2 hours.', false);
               form.reset();
               if (fileList) fileList.innerHTML = '';
               uploadedFiles.length = 0;
@@ -708,7 +796,7 @@ const isZh = lang === 'zh';
               // 后端接口未部署或返回错误 → 降级 mailto
               fallbackToMailto();
             } else {
-              showResult(isZh ? ('提交失败：' + (j.error || '请稍后重试，或直接发邮件到 sales@eternalcnc.com')) : ('Submission failed: ' + (j.error || 'Please retry later or email sales@eternalcnc.com directly.')), true);
+              showResult(isZh ? ('提交失败：' + (j.error || '请稍后重试，或直接发邮件到 sales@eternalcnc.com')) : isRu ? ('Ошибка отправки: ' + (j.error || 'Повторите попытку позже или напишите на sales@eternalcnc.com.')) : ('Submission failed: ' + (j.error || 'Please retry later or email sales@eternalcnc.com directly.')), true);
             }
           })
           .catch(() => {

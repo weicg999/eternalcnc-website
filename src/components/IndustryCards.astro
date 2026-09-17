@@ -1,16 +1,22 @@
 ---
 const isZh = Astro.url.pathname.startsWith('/zh');
+const isRu = Astro.url.pathname.startsWith('/ru');
 
-const heading = isZh ? '行业应用' : 'Industry Applications';
-const subheading = isZh ? '为最苛刻的行业提供精密零件' : 'Precision parts for the most demanding industries';
-const viewAllText = isZh ? '查看全部行业' : 'View All Industries';
-const viewAllHref = isZh ? '/zh/industries' : '/industries';
+const heading = isZh ? '行业应用' : isRu ? 'Отрасли' : 'Industry Applications';
+const subheading = isZh ? '为最苛刻的行业提供精密零件' : isRu ? 'Прецизионные детали для самых требовательных отраслей' : 'Precision parts for the most demanding industries';
+const viewAllText = isZh ? '查看全部行业' : isRu ? 'Все отрасли' : 'View All Industries';
+const viewAllHref = isZh ? '/zh/industries' : isRu ? '/ru/industries' : '/industries';
 
 const industries = isZh ? [
   { name: '医疗设备', href: '/zh/industries/medical', image: '/images/industries/cnc-industry-medical-robotic-surgery-01.webp' },
   { name: '机器人', href: '/zh/industries/robotics', image: '/images/industries/cnc-industry-robotics-humanoid-01.webp' },
   { name: '通信与卫星设备', href: '/zh/industries/communications-satellite', image: '/images/industries/cnc-industry-aerospace-communication-satellite-01.webp' },
   { name: '能源设备', href: '/zh/industries/energy', image: '/images/industries/cnc-industry-energy-fusion-reactor-01.webp' },
+] : isRu ? [
+  { name: 'Медицинское оборудование', href: '/ru/industries/medical', image: '/images/industries/cnc-industry-medical-robotic-surgery-01.webp' },
+  { name: 'Робототехника', href: '/ru/industries/robotics', image: '/images/industries/cnc-industry-robotics-humanoid-01.webp' },
+  { name: 'Связь и спутниковое оборудование', href: '/ru/industries/communications-satellite', image: '/images/industries/cnc-industry-aerospace-communication-satellite-01.webp' },
+  { name: 'Энергетическое оборудование', href: '/ru/industries/energy', image: '/images/industries/cnc-industry-energy-fusion-reactor-01.webp' },
 ] : [
   { name: 'Medical Devices', href: '/industries/medical', image: '/images/industries/cnc-industry-medical-robotic-surgery-01.webp' },
   { name: 'Robotics', href: '/industries/robotics', image: '/images/industries/cnc-industry-robotics-humanoid-01.webp' },

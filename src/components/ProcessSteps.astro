@@ -1,9 +1,22 @@
 ---
 const isZh = Astro.url.pathname.startsWith('/zh');
+const isRu = Astro.url.pathname.startsWith('/ru');
+const t = (en: string, zh: string, ru: string) => (isRu ? ru : isZh ? zh : en);
 
-const heading = isZh ? '从图纸到成品，标准化精密制造流程' : 'From Drawing to Product, Standardized Precision Manufacturing';
+const heading = t(
+  'From Drawing to Product, Standardized Precision Manufacturing',
+  '从图纸到成品，标准化精密制造流程',
+  'От чертежа к изделию: стандартизированное прецизионное производство'
+);
 
-const steps = isZh ? [
+const steps = isRu ? [
+  { num: '01', title: 'Загрузите чертёж', desc: 'Поддержка форматов STEP / IGS / DWG, принимаем чертежи заказчика' },
+  { num: '02', title: 'Получите расчёт', desc: 'Инженерный DFM-анализ, детальная смета за 2 часа' },
+  { num: '03', title: 'Подтверждение инженером', desc: 'Финальное согласование процесса, материала и финишного покрытия (включая постобработку)' },
+  { num: '04', title: 'Прецизионная обработка', desc: 'Параллельная работа нескольких ЧПУ-станков, контроль точности на всём протяжении' },
+  { num: '05', title: 'Контроль и отгрузка', desc: 'Проверка размеров, многоканальная логистика' },
+  { num: '06', title: 'Сервис и поддержка', desc: 'Полная прослеживаемость; оперативная переработка или замена при производственных вопросах' },
+] : isZh ? [
   { num: '01', title: '上传图纸', desc: '支持 STEP / IGS / DWG 格式，接收客户加工图纸' },
   { num: '02', title: '获取报价', desc: '工程师 DFM 工艺评审，2h 出具详细方案报价' },
   { num: '03', title: '工程确认', desc: '最终确认加工工艺、材料及表面处理（含后处理）细节。' },

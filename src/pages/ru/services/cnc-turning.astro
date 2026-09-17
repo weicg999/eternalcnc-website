@@ -1,0 +1,139 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Услуги', href: '/ru/services' },
+  { label: 'Токарная обработка ЧПУ' },
+];
+
+const capabilities = [
+  {
+    title: 'Токарная обработка с одним шпинделем',
+    items: ['Валы и втулки', 'Пальцы и плунжеры', 'Прокладки и дистанционные втулки', 'Резьбовые вставки'],
+    tolerance: '±0,01 мм',
+    materials: 'Сталь 1045/4140, латунь C360, алюминий 2011-T3 (легкообрабатываемый)',
+  },
+  {
+    title: 'Токарно-фрезерная обработка',
+    items: ['Валы с перекрёстным сверлением', 'Внецентренные лыски', 'Винтовые элементы', 'Многооперационные детали'],
+    tolerance: '±0,005 мм',
+    materials: 'Нержавеющая 303/304, титан TC4, Inconel 718',
+  },
+  {
+    title: 'Автомат продольного точения (швейцарский тип)',
+    items: ['Микровалы Ø0,5–3 мм', 'Прецизионные пальцы', 'Компоненты медицинских изделий', 'Контакты разъёмов'],
+    tolerance: '±0,005 мм',
+    materials: 'Латунь C360, нержавеющая 303, алюминий 2011-T3 (легкообрабатываемый)',
+  },
+  {
+    title: 'Токарная обработка с несколькими шпинделями',
+    items: ['Валы крупными партиями', 'Серийно точёные фитинги', 'Прототипы крепежа', 'Серийное производство от 500 шт'],
+    tolerance: '±0,01 мм',
+    materials: 'Сталь 1045, латунь C360, нейлон (PA6/PA66)',
+  },
+];
+
+const standards = [
+  { label: 'Контроль размеров', desc: 'Строгие допуски ISO 2768-m и стандарты выборочного контроля AQL 2.5. Рутинные размеры проверяются на 100% прецизионными приборами; критические размеры и первые детали (FAI) верифицируются в собственном цехе оптическим контролем 2.5D и прецизионными приборами, с проверкой на КИМ через общий метрологический центр нашей группы по запросу; резьбовые элементы контролируются калибрами проход/не проход.' },
+  { label: 'Шероховатость поверхности', desc: 'Стандартно Ra 0,8–3,2 мкм; зеркальная полировка, анодирование, пассивация и другие покрытия доступны по запросу.' },
+  { label: 'Прослеживаемость материалов', desc: 'Полные сертификаты на материалы доступны по запросу; для каждого заказа обеспечивается отслеживание партии.' },
+  { label: 'Документация процесса', desc: 'Отчёты о контроле, данные по качеству и PPAP доступны по запросу.' },
+];
+---
+
+<PageLayout
+  title="Услуги токарной обработки ЧПУ | прецизионные валы и вращающиеся детали | Eternal CNC"
+  description="Токарная обработка ЧПУ на одношпиндельных, токарно-фрезерных и швейцарского типа станках. Высокоточные вращающиеся детали от прототипа до серийного производства."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Услуги</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Услуги токарной обработки ЧПУ
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Одношпиндельные, токарно-фрезерные и автоматы продольного точения — высокоточная обработка вращающихся деталей.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/services/dfm-analysis" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Бесплатный DFM-анализ →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Возможности</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">По видам токарной обработки</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Мы обрабатываем вращающиеся детали по четырём токарным процессам. Критические размеры могут быть верифицированы на КИМ через общий метрологический центр нашей группы по запросу.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Точность</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Требует прецизионной доводки и контроля. С учётом проверки чертежа.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Распространённые материалы</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Контроль качества</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Стандарты качества</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Каждый заказ проходит наш полный процесс контроля качества.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Нужны точёные детали?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите свои чертежи. Наши инженеры предоставят расчёт и DFM-анализ в течение 2 часов.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Бесплатный расчёт
+        </a>
+        <a href="/ru/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Бесплатный DFM-анализ →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

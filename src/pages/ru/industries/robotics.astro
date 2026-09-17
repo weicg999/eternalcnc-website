@@ -1,0 +1,183 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import IndustryArticles from '../../../components/IndustryArticles.astro';
+
+const breadcrumbs = [
+  { label: 'Отрасли', href: '/ru/industries' },
+  { label: 'Робототехника и автоматизация' },
+];
+
+const capabilities = [
+  {
+    title: 'Шарнирные модули',
+    items: ['Водила гармонических редукторов', 'Посадочные места подшипников', 'Высокоточные вращающиеся детали', 'Каналы прокладки кабелей'],
+    tolerance: '±0.005mm',
+    materials: 'Алюминий 7075, сталь 4140, титан',
+  },
+  {
+    title: 'Детали редукторов',
+    items: ['Корпуса RV-редукторов', 'Циклоидальные шестерни', 'Входные/выходные валы', 'Монтажные плиты редукторов'],
+    tolerance: '±0.01mm',
+    materials: 'Сталь 20CrMnTi, 40Cr, алюминий 6061-T6',
+  },
+  {
+    title: 'Исполнительные органы',
+    items: ['Основания захватов', 'Крепления присосок', 'Приспособления конечной оснастки', 'Адаптеры смены инструмента'],
+    tolerance: '±0.005mm',
+    materials: 'Алюминий 6061, ПОМ, нержавеющая сталь 303',
+  },
+  {
+    title: 'Кронштейны датчиков',
+    items: ['Крепления энкодеров', 'Корпуса сбора сигналов', 'Кронштейны технического зрения', 'Приспособления конечных выключателей'],
+    tolerance: '±0.01mm',
+    materials: 'Алюминий, латунь, конструкционные пластики',
+  },
+];
+
+const standards = [
+  { label: 'Тестирование повторяемости', desc: 'Детали проверяются в нескольких партиях на повторяемость ±0,005 мм. Данные по качеству доступны для критических размеров.' },
+  { label: 'Контроль шероховатости поверхности', desc: 'Поверхности подшипников обработаны до Ra 0,4–0,8. Сопрягаемые поверхности подобраны для оптимальной посадки и движения.' },
+  { label: 'Отчёт о термообработке', desc: 'Термообработка шестерён и валов задокументирована с результатами испытаний на твёрдость. Полная прослеживаемость процесса по каждой партии.' },
+  { label: 'Проверка стабильности размеров', desc: 'Снятие внутренних напряжений перед финишной обработкой. Детали измеряются при контролируемой температуре для точности.' },
+];
+---
+
+<PageLayout
+  title="ЧПУ обработка деталей робототехники и автоматизации | Шарниры · редукторы · исполнительные органы | Eternal CNC"
+  description="Точная ЧПУ обработка для робототехники — шарнирные модули, корпуса редукторов, исполнительные органы, кронштейны датчиков. Высокоточные компоненты управления движением. Робототехника, поставщик ЧПУ Китай."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Отрасли</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Детали робототехники и автоматизации
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Шарнирные детали · Корпуса редукторов · Высокоточное управление движением.
+        Заказные ЧПУ детали для роботизированных рук, AGV и автоматизированных производственных линий.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded-md transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/industries" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Все отрасли →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Возможности</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Категории компонентов робототехники</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Мы поставляем прецизионные детали для каждого этапа роботизированных систем.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Точность допуска</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Требуется прецизионная финишная обработка и контроль. Подлежит проверке чертежа.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Распространённые материалы</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Showcase -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Примеры продукции</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Галерея деталей робототехники</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Заказные ЧПУ обработанные кронштейны, крепления и конструкционные детали для систем робототехники и автоматизации. Визуализации продукции предназначены только для демонстрации процесса. Наглядное представление возможностей обработки. Изображения приведены только для справки в связи с NDA.
+      </p>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/robotics/cnc-robotics-custom-aluminum-bracket-01.webp" alt="Заказные ЧПУ обработанные алюминиевые кронштейны для робототехники" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Заказные кронштейны</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/robotics/cnc-robotics-aluminum-mounting-bracket-02.webp" alt="Алюминиевые монтажные кронштейны ЧПУ обработки" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Монтажные кронштейны</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/robotics/cnc-robotics-aluminum-structural-component-03.webp" alt="Прецизионные алюминиевые конструкционные детали для роботов" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Конструкционные детали</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/robotics/cnc-robotics-precision-motion-control-component-04.webp" alt="Прецизионные алюминиевые компоненты для управления движением" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Прецизионные компоненты</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Контроль качества</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Стандарты качества робототехники</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Компоненты управления движением требуют самых жёстких допусков и качества поверхности.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <IndustryArticles
+    system="robotics"
+    collection="blog"
+    basePath="/knowledge/tech-blog"
+    eyebrow="Подробные руководства"
+    heading="Руководства по обработке в робототехнике"
+    fallbackHeading="Руководства по обработке из нашего технического блога"
+    intro="Что нужно знать, прежде чем задавать материалы, допуски и покрытия для деталей управления движением."
+    generalHeading="Общая база"
+    generalTag="Цепочка, через которую проходит каждая деталь — чертёж, DFM, материал, станок, финишная обработка, расчёт."
+    locale="en-US"
+  />
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Нужна обработка деталей робототехники?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите свои чертежи — обратная связь от инженера в течение 2 часов.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold rounded-lg bg-[#8B0000] text-white transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/industries" class="inline-block px-8 py-3.5 text-sm font-semibold border rounded-lg border border-white/30 text-white transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Все отрасли →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

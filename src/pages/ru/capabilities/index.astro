@@ -1,0 +1,142 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Возможности' },
+];
+
+const capabilities = [
+  {
+    title: 'Список оборудования',
+    items: ['Полная линейка брендов и моделей', '30 станков в сети предприятий', 'Полные технические характеристики опубликованы', 'Доступны фотографии цеха'],
+    detail: 'Подробнее',
+    link: '/ru/capabilities/equipment',
+  },
+  {
+    title: 'Стандарты допусков',
+    items: ['Фрезерование ±0,005 мм', 'Токарная обработка ±0,01 мм', 'Шлифование ±0,01 мм', 'Электроэрозионная резка (EDM) ±0,01 мм'],
+    detail: 'Подробнее',
+    link: '/ru/capabilities/tolerance',
+  },
+  {
+    title: 'Линейка материалов',
+    items: ['Алюминий 6061/7075', 'Нержавеющая сталь 304/316/4340', 'Медный сплав C360', 'Конструкционные пластики POM/PEEK'],
+    detail: 'Подробнее',
+    link: '/ru/capabilities/materials',
+  },
+  {
+    title: 'Диапазон размеров',
+    items: ['Макс. ход по оси X 1270 мм', 'Макс. диаметр точения 400 мм', '5-осевая одновременная обработка', 'Крупные детали — по согласованию'],
+    detail: 'Подробнее',
+    link: '/ru/capabilities/size-range',
+  },
+  {
+    title: 'Сроки изготовления',
+    items: ['Прототипирование 3–7 дней', 'Серийное производство 15–30 дней', 'Срочные заказы — по согласованию', 'Прозрачный контроль прогресса'],
+    detail: 'Подробнее',
+    link: '/ru/capabilities/lead-time',
+  },
+];
+
+const advantages = [
+  { label: 'Полная прозрачность процесса', desc: 'От расчёта до поставки каждый этап виден — никаких «чёрных ящиков».' },
+  { label: 'Работа напрямую с инженерами', desc: 'Наша команда инженеров с опытом 15+ лет ведёт ваши проекты напрямую — без коммуникационных барьеров.' },
+  { label: 'Строгий контроль качества', desc: 'Сертификация ISO 9001 в процессе (цель — 2026 г.). Отчёты о контроле доступны по запросу для ключевых характеристик.' },
+  { label: 'Единый центр координации', desc: 'От DFM-анализа до финишной обработки — вы работаете с одной командой; специализированные процессы (термообработка, анодирование, гальваника, КИМ) выполняют проверенные партнёры / наш метрологический центр группы под единым контролем качества.' },
+];
+---
+
+<PageLayout
+  title="Производственные возможности | Оборудование · Допуски · Материалы · Размеры · Сроки | Eternal CNC"
+  description="Прозрачные возможности точной ЧПУ обработки: 30 станков ЧПУ, допуск ±0,005 мм, полная линейка металлов, ход до 1270 мм. Материалы для ЧПУ, нержавеющая сталь ЧПУ, прототипирование за 3–7 дней. Поставщик ЧПУ Китай — заказать детали ЧПУ."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Возможности</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Прозрачные возможности, видимое доверие
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Оборудование · Допуски · Материалы · Диапазон размеров · Сроки — всё прозрачно и проверяемо
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/capabilities/equipment" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Список оборудования →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities Grid -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Список возможностей</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Пять ключевых направлений возможностей</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Мы считаем, что прозрачность — основа доверия. Вот пять направлений, которые волнуют клиентов больше всего.
+      </p>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <a href={cap.link} class="text-sm font-medium text-[#8B0000] transition-all duration-300 hover:text-[#6B0000] hover:translate-x-0.5">
+                {cap.detail} →
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Advantages -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Ключевые преимущества</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Почему мы</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        15 лет опыта точной ЧПУ обработки, обслуживаем клиентов по всему миру с экспертизой и прозрачностью.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {advantages.map((adv) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{adv.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{adv.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Полный список возможностей</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите чертёж для профессиональной оценки и расчёта.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Бесплатный расчёт
+        </a>
+        <a href="/ru/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Бесплатный DFM-анализ →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

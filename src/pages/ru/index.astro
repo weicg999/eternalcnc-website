@@ -1,0 +1,136 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import TrustBar from '../../components/TrustBar.astro';
+import CapabilitiesSection from '../../components/CapabilitiesSection.astro';
+import ProcessSteps from '../../components/ProcessSteps.astro';
+import IndustryCards from '../../components/IndustryCards.astro';
+import QuoteCTA from '../../components/QuoteCTA.astro';
+---
+
+<BaseLayout title="Eternal CNC – точная ЧПУ обработка" description="23 года в производстве, 15 лет в прецизионной ЧПУ обработке. 30 станков, допуск ±0,005 мм. Пришлите чертёж — получите расчёт за 2 часа. Фрезерование ЧПУ, токарная обработка, 5-осевая обработка, прототипирование и мелкосерийное производство. Завод ЧПУ Китай.">
+
+  <!-- 1. HERO -->
+  <Hero
+    title="Больше, чем механический цех. Ваш инженерный партнёр."
+    subtitle="Проверка чертежей → Планирование процесса → Валидация образца → Серийное производство. Основная обработка — внутри компании; специализированные процессы (финишная обработка, термообработка, КИМ) — через проверенных партнёров под нашим контролем качества."
+    helperText="Нестандартные детали на заказ · 5-осевая одновременная обработка · 23 года в производстве, 15 лет в прецизионной ЧПУ обработке"
+    ctaPrimaryText="Запросить расчёт"
+    ctaPrimaryHref="/ru/contact/get-a-quote"
+    ctaSecondaryText="Смотреть возможности"
+    ctaSecondaryHref="/ru/services/cnc-machining"
+    heroVideoSrc="/videos/eternal-cnc-5axis-machining-in-action-01.mp4"
+  />
+
+  <!-- 2. TRUST BAR -->
+  <TrustBar />
+
+  <!-- 3. CORE CAPABILITIES -->
+  <CapabilitiesSection />
+
+  <!-- 4. PROCESS STEPS -->
+  <ProcessSteps />
+
+  <!-- 4.5 TRUST PROMISE BAND (replaces image gallery) -->
+  <section class="py-16 md:py-24" style="background-color: var(--page-bg);">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-12">
+        <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Почему Eternal CNC</p>
+        <h2 class="text-2xl md:text-3xl font-bold" style="color: var(--brand-dark); font-family: var(--font-heading);">Сделано, чтобы доверять</h2>
+        <p class="mt-3 text-[17px] max-w-2xl mx-auto" style="color: var(--text-body);">Четыре обязательства, превращающие чертёж в деталь, на которую можно положиться.</p>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="p-6 rounded-xl border transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:border-[#8B0000]" style="background-color: var(--card-white); border-color: var(--border-color);">
+          <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-4" style="background-color: rgba(139,0,0,0.1); color: var(--brand-red);">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          </div>
+          <h3 class="text-lg font-bold mb-2" style="color: var(--brand-dark);">Прослеживаемость материалов</h3>
+          <p class="text-sm leading-relaxed" style="color: var(--text-body);">Сертификаты завода-изготовителя EN 10204 3.1 — по запросу, с привязкой к номеру плавки и полной прослеживаемостью.</p>
+        </div>
+        <div class="p-6 rounded-xl border transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:border-[#8B0000]" style="background-color: var(--card-white); border-color: var(--border-color);">
+          <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-4" style="background-color: rgba(139,0,0,0.1); color: var(--brand-red);">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+          </div>
+          <h3 class="text-lg font-bold mb-2" style="color: var(--brand-dark);">Без минимальной партии</h3>
+          <p class="text-sm leading-relaxed" style="color: var(--text-body);">Прототипы и мелкие партии приветствуются — без минимального объёма заказа.</p>
+        </div>
+        <div class="p-6 rounded-xl border transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:border-[#8B0000]" style="background-color: var(--card-white); border-color: var(--border-color);">
+          <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-4" style="background-color: rgba(139,0,0,0.1); color: var(--brand-red);">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4" /></svg>
+          </div>
+          <h3 class="text-lg font-bold mb-2" style="color: var(--brand-dark);">Напрямую с завода</h3>
+          <p class="text-sm leading-relaxed" style="color: var(--text-body);">30 станков с ЧПУ в нашей группе компаний, без посредников, прозрачные цены.</p>
+        </div>
+        <div class="p-6 rounded-xl border transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:border-[#8B0000]" style="background-color: var(--card-white); border-color: var(--border-color);">
+          <div class="w-11 h-11 rounded-lg flex items-center justify-center mb-4" style="background-color: rgba(139,0,0,0.1); color: var(--brand-red);">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+          </div>
+          <h3 class="text-lg font-bold mb-2" style="color: var(--brand-dark);">Бесплатный DFM-анализ</h3>
+          <p class="text-sm leading-relaxed" style="color: var(--text-body);">Инженеры проверяют ваш чертёж и предоставляют расчёт в течение 2 часов.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4.6 MID-PAGE CTA -->
+  <section class="py-12 md:py-16" style="background-color: var(--card-white);">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4" style="color: var(--brand-dark); font-family: var(--font-heading);">Готовы обработать ваши детали?</h2>
+      <p class="text-[17px] mb-8" style="color: var(--text-body);">Пришлите чертёж и получите подробный расчёт в течение 2 часов.</p>
+      <a href="/ru/contact/get-a-quote" class="inline-flex items-center gap-2.5 px-8 py-3.5 text-[15px] font-semibold text-white bg-[#8B0000] rounded-lg transition-all duration-200 hover:bg-[#6B0000] hover:text-white hover:shadow-lg hover:-translate-y-0.5">
+        Запросить расчёт
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="color: rgb(255, 255, 255);"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- 5. INDUSTRY APPLICATIONS -->
+  <IndustryCards />
+
+  <!-- 6. KNOWLEDGE BASE -->
+  <section class="py-16 md:py-24" style="background-color: var(--card-white);">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-12">
+        <h2 class="text-2xl md:text-3xl font-bold" style="color: var(--brand-dark); font-family: var(--font-heading);">База знаний</h2>
+        <p class="mt-3 text-[17px]" style="color: var(--text-body);">Технические руководства, отраслевая аналитика и новости компании.</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <a href="/ru/knowledge/tech-blog" class="group block p-6 rounded-xl border transition-all duration-200 hover:border-[#8B0000] hover:-translate-y-1 hover:shadow-lg" style="background-color: var(--card-white); border-color: var(--border-color);">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style="background-color: rgba(139,0,0,0.1);">
+            <svg class="w-5 h-5" style="color: var(--brand-red);" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
+          </div>
+          <h3 class="text-lg font-bold mb-2" style="color: var(--brand-dark);">Технический блог</h3>
+          <p class="text-sm leading-relaxed" style="color: var(--text-body);">Процессы ЧПУ обработки, выбор материалов, лучшие практики DFM и инженерные статьи.</p>
+        </a>
+
+        <a href="/ru/knowledge/news" class="group block p-6 rounded-xl border transition-all duration-200 hover:border-[#8B0000] hover:-translate-y-1 hover:shadow-lg" style="background-color: var(--card-white); border-color: var(--border-color);">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style="background-color: rgba(139,0,0,0.1);">
+            <svg class="w-5 h-5" style="color: var(--brand-red);" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
+          </div>
+          <h3 class="text-lg font-bold mb-2" style="color: var(--brand-dark);">Отрасль и новости</h3>
+          <p class="text-sm leading-relaxed" style="color: var(--text-body);">Вехи компании, выставки, обновления оборудования и отраслевые новости.</p>
+        </a>
+
+        <a href="/ru/knowledge/dfm-analysis" class="group block p-6 rounded-xl border transition-all duration-200 hover:border-[#8B0000] hover:-translate-y-1 hover:shadow-lg" style="background-color: var(--card-white); border-color: var(--border-color);">
+          <div class="w-10 h-10 rounded-lg flex items-center justify-center mb-4" style="background-color: rgba(139,0,0,0.1);">
+            <svg class="w-5 h-5" style="color: var(--brand-red);" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+          </div>
+          <h3 class="text-lg font-bold mb-2" style="color: var(--brand-dark);">Руководство по DFM-анализу</h3>
+          <p class="text-sm leading-relaxed" style="color: var(--text-body);">Стандарты допусков, сравнение шероховатости поверхности, свойства материалов и правила проектирования для ЧПУ.</p>
+        </a>
+      </div>
+
+      <div class="text-center">
+        <a href="/ru/knowledge/" class="inline-flex items-center gap-2 px-6 py-2.5 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-lg transition-all duration-200 hover:bg-[#8B0000] hover:text-white">
+          Смотреть все статьи
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. QUOTE CTA -->
+  <QuoteCTA />
+
+</BaseLayout>

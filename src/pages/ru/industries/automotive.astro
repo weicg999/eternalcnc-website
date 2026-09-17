@@ -1,0 +1,183 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import IndustryArticles from '../../../components/IndustryArticles.astro';
+
+const breadcrumbs = [
+  { label: 'Отрасли', href: '/ru/industries' },
+  { label: 'Автомобилестроение' },
+];
+
+const capabilities = [
+  {
+    title: 'Двигатель и трансмиссия',
+    items: ['Прототипы головок цилиндров', 'Зубчатые валы и шлицевые соединения', 'Кронштейны корпусов', 'Корпуса клапанов'],
+    tolerance: '±0.01mm',
+    materials: 'Алюминий 6061/7075, сталь 4140, чугун',
+  },
+  {
+    title: 'Шасси и подвеска',
+    items: ['Кронштейны рычагов управления', 'Детали рулевой колонки', 'Поршни амортизаторов', 'Монтажные плиты'],
+    tolerance: '±0.01mm',
+    materials: 'Сталь 1045, 4340, алюминий 6061-T6',
+  },
+  {
+    title: 'Электроника и датчики',
+    items: ['Корпуса датчиков', 'Корпуса разъёмов', 'Приспособления для тестирования ЭБУ', 'Кондукторы жгутов проводов'],
+    tolerance: '±0.005mm',
+    materials: 'Алюминий, латунь C360, ПОМ (ацеталь)',
+  },
+  {
+    title: 'Салон и кузов',
+    items: ['Кронштейны приборной панели', 'Точки крепления отделки', 'Прототипы корпусов фар', 'Детали решётки радиатора'],
+    tolerance: '±0.025mm',
+    materials: 'Алюминий 6061, ацеталь (аналог ABS), поликарбонат',
+  },
+];
+
+const standards = [
+  { label: 'Контроль размеров', desc: 'Первичный образец и выборочный контроль могут быть проверены КИМ (CMM) в общем метрологическом центре нашей группы по запросу в соответствии со стандартами AQL 2,5.' },
+  { label: 'Контроль поверхностной обработки', desc: 'Шероховатость измеряется профилометром. Пассивация, анодирование и порошковая окраска доступны как последующая обработка.' },
+  { label: 'Прослеживаемость материалов', desc: 'Сертификаты материалов EN 10204 3.1 доступны по запросу; полная прослеживаемость от заготовки до готовой детали.' },
+  { label: 'Документация PPAP', desc: 'Полная документация процесса одобрения производственных деталей (PPAP) доступна для заказов серийного производства.' },
+];
+---
+
+<PageLayout
+  title="Точная ЧПУ обработка для автомобилестроения | Двигатель · шасси · корпуса датчиков | Eternal CNC"
+  description="Точная ЧПУ обработка для автопроизводителей и поставщиков первого уровня — детали двигателя, кронштейны шасси, корпуса датчиков, сборочные приспособления. От прототипа до серийного производства. Автомобилестроение, поставщик ЧПУ Китай."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Отрасли</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Автомобилестроение
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Детали двигателя · Шасси · Прецизионная обработка трансмиссии.
+        От валидации прототипа до серийного производства для автопроизводителей и поставщиков первого уровня.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded-md transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Смотреть услуги →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Возможности</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">По системам автомобиля</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Мы обрабатываем детали для четырёх основных систем автомобиля. Критические размеры могут быть проверены КИМ (CMM) через общий метрологический центр нашей группы по запросу.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Точность допуска</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Требуется прецизионная финишная обработка и контроль. Подлежит проверке чертежа.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Распространённые материалы</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Showcase -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Примеры продукции</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Галерея деталей автомобилестроения</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Визуализации продукции предназначены только для демонстрации процесса. Наглядное представление возможностей обработки. Изображения приведены только для справки в связи с NDA.
+      </p>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/automotive/cnc-automotive-complex-aluminum-housing-01.webp" alt="Сложные ЧПУ обработанные алюминиевые корпуса для автомобилестроения" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Сложные алюминиевые корпуса</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/automotive/cnc-automotive-aluminum-housing-multi-angle-02.webp" alt="Алюминиевые корпуса ЧПУ обработки под разными углами" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Вид корпуса сбоку</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/automotive/cnc-automotive-precision-parts-batch-03.webp" alt="Прецизионные алюминиевые детали автомобилестроения партией" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Партия деталей автомобилестроения</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/automotive/cnc-automotive-cast-part-cnc-machining-04.webp" alt="Сложные литые детали ЧПУ обработки для автомобилестроения" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Литые детали</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Контроль качества</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Стандарты качества автомобилестроения</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Каждый заказ выполняется в соответствии с процедурами контроля качества автомобильного уровня.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <IndustryArticles
+    system="automotive"
+    collection="blog"
+    basePath="/knowledge/tech-blog"
+    eyebrow="Подробные руководства"
+    heading="Руководства по обработке для автомобилестроения"
+    fallbackHeading="Руководства по обработке из нашего технического блога"
+    intro="Заметки о материалах, допусках и финишной обработке для автомобильных деталей."
+    generalHeading="Общая база"
+    generalTag="Цепочка, через которую проходит каждая деталь — чертёж, DFM, материал, станок, финишная обработка, расчёт."
+    locale="en-US"
+  />
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Нужна обработка деталей автомобилестроения?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите чертёж, и наши инженеры предоставят расчёт и обратную связь по DFM в течение 2 часов.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold rounded-lg bg-[#8B0000] text-white transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Получить бесплатный расчёт
+        </a>
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold border rounded-lg border border-white/30 text-white transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Бесплатная проверка DFM →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

@@ -14,7 +14,7 @@ interface Props {
 }
 
 const { title, description, schema, lang } = Astro.props;
-const pageLang = lang || (Astro.url.pathname.startsWith('/zh') ? 'zh' : 'en');
+const pageLang = lang || (Astro.url.pathname.startsWith('/ru') ? 'ru' : Astro.url.pathname.startsWith('/zh') ? 'zh' : 'en');
 
 // Site-wide Organization structured data (helps search engines / AI engines
 // identify a real, registered Shenzhen business and disambiguate from unrelated

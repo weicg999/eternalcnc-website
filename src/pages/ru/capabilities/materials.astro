@@ -1,0 +1,138 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Возможности', href: '/ru/capabilities' },
+  { label: 'Линейка материалов' },
+];
+
+const capabilities = [
+  {
+    title: 'Алюминий 6061-T6 (аналог АД33 / 6082) / 7075-T6 (аналог В95)',
+    items: ['Отличное соотношение прочности к весу', 'Хорошая обрабатываемость и качество поверхности', 'Идеален для ответственных узлов и автомобилестроения', 'Совместим с анодированием'],
+    tolerance: '±0,005 мм',
+    materials: '6061-T6 (аналог АД33 / 6082), 7075-T6 (аналог В95), 5052-H32, 2024-T3',
+  },
+  {
+    title: 'Нержавеющая сталь 304 (аналог 08Х18Н10 / 12Х18Н10Т) / 316 (аналог 03Х17Н14М2) / 4340',
+    items: ['Превосходная коррозионная стойкость (316)', 'Высокая прочность на растяжение (4340)', 'Медицинское и пищевое исполнение', 'Готовность к пассивации и электрополировке'],
+    tolerance: '±0,01 мм',
+    materials: '304 (аналог 08Х18Н10 / 12Х18Н10Т), 316L (аналог 03Х17Н14М2), 303, 4340, 17-4 PH (аналог 07Х16Н6)',
+  },
+  {
+    title: 'Медные и латунные сплавы',
+    items: ['Отличная электро- и теплопроводность', 'Декоративное и функциональное применение', 'Хорошая коррозионная стойкость', 'Идеально для разъёмов и корпусов'],
+    tolerance: '±0,005 мм',
+    materials: 'C110 (медь ETP), C360 (латунь), C172 (бериллиевая бронза)',
+  },
+  {
+    title: 'Конструкционные пластики (POM / PEEK (ПЭЭК))',
+    items: ['Лёгкая альтернатива металлу', 'Химическая стойкость и износостойкость', 'Электроизоляционные свойства', 'Биосовместимые варианты (PEEK)'],
+    tolerance: '±0,05 мм',
+    materials: 'POM (Delrin), PEEK (ПЭЭК), Nylon (PA6/PA66), PTFE, ABS',
+  },
+];
+
+const standards = [
+  { label: 'Сертификация материалов', desc: 'Сертификаты материалов EN 10204 3.1 доступны по запросу; полная прослеживаемость от заготовки до готовой детали.' },
+  { label: 'Наличие на складе', desc: 'Распространённые сплавы есть на складе для быстрого запуска. Спецзаказы обычно прибывают за 3–5 рабочих дней.' },
+  { label: 'Помощь с выбором материала', desc: 'Наши инженеры подберут оптимальный материал для вашего применения — баланс характеристик, стоимости и сроков.' },
+  { label: 'Переработка и устойчивость', desc: 'Металлическую стружку и отходы сортируют по сплавам и перерабатывают. Мы снижаем отходы за счёт эффективной раскладки и оптимизации процессов.' },
+];
+---
+
+<PageLayout
+  title="Линейка материалов – Алюминий, нержавеющая сталь, медь, титан и пластики | Eternal CNC"
+  description="ЧПУ обработка алюминия 6061-T6 (аналог АД33 / 6082) / 7075-T6 (аналог В95), нержавеющей стали 304 (аналог 08Х18Н10 / 12Х18Н10Т) / 316L (аналог 03Х17Н14М2) / 4340, медных сплавов, титана и конструкционных пластиков, включая POM и PEEK (ПЭЭК). Материалы для ЧПУ, нержавеющая сталь ЧПУ — поставщик ЧПУ Китай."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Возможности</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Линейка материалов
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Алюминий, нержавеющая сталь, медные сплавы, титан и конструкционные пластики.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/services/material-selection" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Руководство по материалам →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Категории материалов</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Материалы, которые мы обрабатываем</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Мы работаем с широким спектром металлов и пластиков. Ниже — самые востребованные материалы.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Допуск обработки</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Доступные марки</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Обеспечение качества</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Стандарты материалов</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Каждая партия материала проверяется и документируется для полной прослеживаемости.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Нужна рекомендация по материалу?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Наши инженеры помогут выбрать подходящий материал для вашего применения.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Бесплатный расчёт
+        </a>
+        <a href="/ru/knowledge/material-handbook" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Справочник по материалам →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

@@ -1,0 +1,139 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Услуги', href: '/ru/services' },
+  { label: 'Электроэрозионная резка (EDM)' },
+];
+
+const capabilities = [
+  {
+    title: 'Медленная проволочная резка (EDM)',
+    items: ['Микропазы и узкие резы', 'Профили пресс-форм для экструзии', 'Текстуры литьевых форм', 'Прецизионные штампы'],
+    tolerance: '±0,01 мм',
+    materials: 'Вольфрамокарбид, инструментальная сталь D2/H13, нержавеющая 304/316',
+  },
+  {
+    title: 'Среднескоростная проволочная резка (EDM)',
+    items: ['Прототипные плиты', 'Шестерни и шлицы', 'Кулачковые профили', 'Универсальная оснастка'],
+    tolerance: '±0,01 мм',
+    materials: 'Сталь 4140/4340, алюминий 6061/7075, латунь',
+  },
+  {
+    title: 'Микропроволочная резка (EDM)',
+    items: ['Микроэлементы ≤0,05 мм', 'Медицинские микродетали', 'Микропины разъёмов', 'Тонкостенные конструкции'],
+    tolerance: '±0,01 мм',
+    materials: 'Титан TC4, Inconel 718, нержавеющая 316L',
+  },
+  {
+    title: 'Нарезание резьбы проволочной резкой (EDM)',
+    items: ['Нарезание внутренней резьбы', 'Микроотверстия Ø0,3 мм+', 'Сопловые отверстия', 'Отверстия в фильтрующих плитах'],
+    tolerance: '±0,01 мм',
+    materials: 'Закалённая сталь, твёрдый сплав, керамические подложки',
+  },
+];
+
+const standards = [
+  { label: 'Целостность поверхности', desc: 'Перенанесённый слой после проволочной резки контролируется ≤0,01 мм. Многопроходная доводка для критических поверхностей.' },
+  { label: 'Точность размеров', desc: 'Критические размеры верифицируются на КИМ с точностью ±0,002 мм по запросу, с опорой на метрологические ресурсы нашей группы. Компенсация проволоки автоматически оптимизируется под материал.' },
+  { label: 'Точность углов', desc: 'Минимальный радиус внутреннего угла 0,05 мм (медленная проволока). Адаптивное управление мощностью для острых углов.' },
+  { label: 'Сертификация материала', desc: 'Обеспечивается полная прослеживаемость материалов; сертификаты EN 10204 3.1 доступны по запросу.' },
+];
+---
+
+<PageLayout
+  title="Услуги проволочной электроэрозионной резки | прецизионная резка | Eternal CNC"
+  description="Медленная и среднескоростная электроэрозионная резка (EDM) для сложных контуров, микроэлементов и закалённых материалов. Типичная точность ±0,01 мм."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Услуги</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Проволочная электроэрозионная резка (EDM)
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Прецизионная обработка медленной и среднескоростной проволокой — идеальное решение для сложных контуров и микроструктур.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/services/dfm-analysis" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Бесплатный DFM-анализ →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Возможности</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">По видам резки</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Мы предлагаем четыре процесса электроэрозионной резки для самых требовательных задач резки.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Точность</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Требует прецизионной доводки и контроля. С учётом проверки чертежа.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Распространённые материалы</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Контроль качества</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Стандарты качества</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Каждая деталь электроэрозионной резки проверяется на целостность поверхности, точность размеров и точность углов.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Нужны детали проволочной резки (EDM)?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите свои чертежи. Наши инженеры предоставят расчёт и DFM-анализ в течение 2 часов.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Бесплатный расчёт
+        </a>
+        <a href="/ru/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Бесплатный DFM-анализ →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

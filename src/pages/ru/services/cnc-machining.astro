@@ -1,0 +1,213 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Услуги', href: '/ru/services' },
+  { label: 'ЧПУ обработка' },
+];
+
+const capabilities = [
+  {
+    title: 'Фрезерование по 3 осям',
+    items: ['Прототипы и штучные детали', 'Базы и плиты пресс-форм', 'Детали приспособлений и кондукторов', 'Кронштейны и корпуса'],
+    tolerance: '±0,01 мм',
+    materials: 'Алюминий 6061/7075, сталь 1045/4140, нержавеющая 304/316',
+  },
+  {
+    title: 'Фрезерование по 4 осям и высокоскоростное',
+    items: ['Кулачковые профили', 'Косозубые шестерни и шлицы', 'Наклонные элементы', 'Детали с обработкой нескольких граней'],
+    tolerance: '±0,01 мм',
+    materials: 'Алюминий 6061-T6, сталь P20/H13, Delrin (POM)',
+  },
+  {
+    title: '5-осевое одновременное фрезерование',
+    items: ['Сложные криволинейные поверхности', 'Рабочие колёса и турбины', 'Сложные полости', 'Конструкционные детали для спутников'],
+    tolerance: '±0,005 мм',
+    materials: 'Титан TC4, Inconel 718, алюминий 7075',
+  },
+  {
+    title: 'Токарная обработка ЧПУ',
+    items: ['Валы и втулки', 'Поршни и пальцы', 'Фланцы и буртики', 'Резьбовые детали'],
+    tolerance: '±0,01 мм',
+    materials: 'Сталь 1045/4140, латунь C360, алюминий 2011-T3 / 6061-T6',
+  },
+  {
+    title: 'Токарно-фрезерная обработка',
+    items: ['Сложные вращающиеся детали', 'Внецентренные элементы', 'Перекрёстное сверление', 'Комплексные многооперационные детали'],
+    tolerance: '±0,005 мм',
+    materials: 'Нержавеющая 303/304, титан TC4, Inconel 718',
+  },
+  {
+    title: 'Сверление и нарезание резьбы',
+    items: ['Плиты с множеством отверстий', 'Группы резьбовых отверстий', 'Глубокое сверление', 'Нарезание резьбы'],
+    tolerance: '±0,01 мм',
+    materials: 'Все металлы и конструкционные пластики',
+  },
+  {
+    title: 'Дообработка и финишная обработка поверхности',
+    items: ['Анодирование (пескоструйное/полированное)', 'Пассивация и гальваника', 'Термообработка (закалка/цементация)', 'Покраска и трафаретная печать'],
+    processes: 'Анодирование, пассивация, гальваника, термообработка, покраска, трафаретная печать',
+    value: 'Повышенная коррозионная и износостойкость, а также товарный внешний вид для поставки «под ключ»',
+  },
+];
+
+const standards = [
+  { label: 'Контроль шероховатости поверхности', desc: 'Шероховатость измеряется профилометром. Доступны анодирование, пассивация, гальваника и покраска.' },
+  { label: 'Контроль размеров', desc: 'Первая деталь и выборочный контроль верифицируются координатно-измерительной машиной (КИМ, через общий метрологический центр нашей группы по запросу) в соответствии со стандартами ISO 2768-m и выборочным контролем AQL 2.5.' },
+  { label: 'Прослеживаемость материалов', desc: 'Сертификаты на материалы EN 10204 3.1 доступны по запросу; обеспечивается полная прослеживаемость партий.' },
+  { label: 'Документация по качеству', desc: 'Отчёты PPAP, FAI и полные записи контроля доступны для серийных заказов.' },
+];
+---
+
+<PageLayout
+  title="Услуги ЧПУ обработки | точное фрезерование и токарная обработка | Eternal CNC"
+  description="Услуги прецизионной ЧПУ обработки — фрезерование по 3, 4 и 5 осям, а также высокоскоростное фрезерование. От прототипа до серийного производства."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Услуги</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Услуги ЧПУ обработки
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Фрезерование по 3, 4 и 5 осям, а также высокоскоростное — комплексная ЧПУ обработка от прототипа до серийного производства.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/services/dfm-analysis" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Бесплатный DFM-анализ →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Возможности</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">По видам обработки</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Мы обрабатываем детали по шести ключевым процессам. Критические размеры проверяются в собственном цехе прецизионными измерительными приборами и оптическим контролем 2.5D; полное измерение на КИМ доступно через общий метрологический центр нашей группы по запросу.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              {cap.processes ? (
+                <>
+                  <p class="text-xs mb-1" style="color: var(--text-muted);">Ключевые процессы</p>
+                  <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.processes}</p>
+                  <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Ценность</p>
+                  <p class="text-sm" style="color: var(--text-body);">{cap.value}</p>
+                </>
+              ) : (
+                <>
+                  <p class="text-xs mb-1" style="color: var(--text-muted);">Точность</p>
+                  <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Требует прецизионной доводки и контроля. С учётом проверки чертежа.</p>
+                  <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Распространённые материалы</p>
+                  <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+                </>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Machining Process Showcase -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">В работе</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Галерея процессов обработки</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Реальные сцены обработки и готовые детали с нашего производственного участка.
+      </p>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/process/cnc-machining-milling-process-worm-shaft-coolant-01.webp" alt="ЧПУ обработка в действии: фрезерование с подачей СОЖ" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Фрезерование ЧПУ в действии</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/process/cnc-machining-coolant-spray-aluminum-housing-milling-01.webp" alt="Фрезерование ЧПУ с разбрызгиванием СОЖ по цилиндрической детали" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Фрезерование с подачей СОЖ</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/machines/cnc-5axis-machining-center-coolant-cutting-hero-01.webp" alt="5-осевой фрезерный центр ЧПУ для сложных деталей" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">5-осевой обрабатывающий центр</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/process/cnc-workshop-milling-complex-aluminum-part-coolant-01.png" alt="Фрезерный центр ЧПУ обрабатывает сложный алюминиевый профиль с подачей СОЖ" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Сложные алюминиевые корпуса</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/process/cnc-workshop-precision-spindle-machining-closeup-01.png" alt="Крупный план прецизионного шпинделя и инструментального держателя ЧПУ" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Прецизионные компоненты</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/process/cnc-workshop-coolant-flush-aluminum-housing-01.png" alt="Фрезерный центр ЧПУ обрабатывает сложный алюминиевый корпус с промывкой СОЖ" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Обработка сложных полостей</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/screws-batch/cnc-machined-screw-batch-showcase.webp" alt="Образец детали, обработанной на 5-осевом станке" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Образец 5-осевой обработки</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/process/cnc-workshop-multi-tool-aluminum-bracket-coolant-01.png" alt="Фрезерный центр ЧПУ многозаходным инструментом обрабатывает алюминиевый кронштейн с подачей СОЖ" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Индивидуальные кронштейны</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Контроль качества</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Стандарты качества</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Каждый заказ проходит наш полный процесс контроля качества.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Нужны детали ЧПУ обработки?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите свои чертежи. Наши инженеры предоставят расчёт и DFM-анализ в течение 2 часов.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Бесплатный расчёт
+        </a>
+        <a href="/ru/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Бесплатный DFM-анализ →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

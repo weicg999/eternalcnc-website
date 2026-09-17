@@ -1,0 +1,139 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Услуги', href: '/ru/services' },
+  { label: 'Прецизионное шлифование' },
+];
+
+const capabilities = [
+  {
+    title: 'Плоское шлифование',
+    items: ['Плоские плиты пресс-форм', 'Вставки пресс-форм', 'Калибровочные блоки', 'Параллельные плиты'],
+    tolerance: '±0,01 мм',
+    materials: 'Инструментальная сталь D2/H13, нержавеющая 440C, керамические подложки',
+  },
+  {
+    title: 'Круглое шлифование',
+    items: ['Прецизионные валы', 'Пуансоны и колонки штампов', 'Гидравлические штоки', 'Шейки шпинделей'],
+    tolerance: '±0,01 мм',
+    materials: 'Сталь 4140/4340, нержавеющая 304/316, вольфрамокарбид',
+  },
+  {
+    title: 'Внутреннее шлифование',
+    items: ['Доводка отверстий', 'Расточка гидроцилиндров', 'Посадочные места подшипников', 'Сопловые отверстия'],
+    tolerance: '±0,01 мм',
+    materials: 'Сталь H13/S136, нержавеющая 303, алюминий 7075',
+  },
+  {
+    title: 'Бесцентровое шлифование',
+    items: ['Пальцы крупными партиями', 'Игольчатые ролики', 'Поршневые пальцы', 'Направляющие штоки'],
+    tolerance: '±0,01 мм',
+    materials: 'Подшипниковая сталь GCr15, сталь 1045, нержавеющая 303',
+  },
+];
+
+const standards = [
+  { label: 'Шероховатость поверхности', desc: 'Достижимо Ra 0,1–0,4 мкм. Измеряется профилометром на каждой критической поверхности.' },
+  { label: 'Круглость и плоскостность', desc: 'Круглость ≤0,001 мм, плоскостность ≤0,002 мм. Проверяется кругломером и оптической плитой.' },
+  { label: 'Целостность материала', desc: 'Гарантировано отсутствие термического повреждения. Травление азотной кислотой (Nital etch) доступно для закалённых сталей.' },
+  { label: 'Отчёт по размерам', desc: 'Полные отчёты о контроле (FAI) и данные КИМ (через общий метрологический центр нашей группы по запросу) доступны для каждой партии. Строго соблюдаются допуски ISO 2768-m и выборочный контроль AQL 2.5, чтобы гарантировать точность и прослеживаемость критических размеров.' },
+];
+---
+
+<PageLayout
+  title="Услуги прецизионного шлифования | субмикронная доводка | Eternal CNC"
+  description="Плоское, круглое, внутреннее и бесцентровое шлифование. Субмикронная точность для оснастки, валов и высокоизнашиваемых компонентов."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Услуги</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Прецизионное шлифование
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Плоское, круглое, внутреннее и бесцентровое шлифование — обработка субмикронной точности.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/services/dfm-analysis" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Бесплатный DFM-анализ →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Возможности</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">По видам шлифования</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Мы предлагаем четыре процесса шлифования для субмикронной прецизионной доводки.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Точность</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Требует прецизионной доводки и контроля. С учётом проверки чертежа.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Распространённые материалы</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Контроль качества</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Стандарты качества</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Каждая шлифованная деталь проходит строгий контроль целостности поверхности и точности размеров.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Нужны шлифованные детали?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите свои чертежи. Наши инженеры предоставят расчёт и DFM-анализ в течение 2 часов.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Бесплатный расчёт
+        </a>
+        <a href="/ru/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Бесплатный DFM-анализ →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

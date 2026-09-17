@@ -1,0 +1,380 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import AboutHero from '../../../components/AboutHero.astro';
+
+// ── Capability matrix: material × typical process (data drawn from this site's
+//    materials / capabilities pages — nothing invented) ──
+const capabilityMatrix = [
+  { material: 'Алюминиевые сплавы', grades: 'AL-6061 / AL-7075', process: 'Фрезерование 3-, 4- и 5-осевое, токарная обработка', use: 'Конструкционные детали роботов, корпуса радиаторов, оснастка автоматизации' },
+  { material: 'Нержавеющая сталь', grades: 'SS304 / SS316L / 17-4PH', process: 'Токарно-фрезерная обработка, прецизионное шлифование, проволочная электроэрозия', use: 'Медицинские компоненты, вакуумные камеры, корпуса разъёмов' },
+  { material: 'Титан', grades: 'Ti-6Al-4V (TC4)', process: '5-осевая одновременная обработка, медленная проволочная электроэрозия, тонкая финишная обработка', use: 'Лёгкие конструкционные детали, медицинская оснастка' },
+  { material: 'Конструкционные пластики', grades: 'PEEK / Delrin (POM) / Nylon / PTFE / UHMW-PE / PC', process: 'Высокоскоростное фрезерование, тонкая токарная обработка, снятие заусенцев', use: 'Изоляторы, антифрикционные втулки, детали чистых помещений' },
+  { material: 'Углеродистая и легированная сталь', grades: '45# / Q235 / H13 / S136', process: 'Токарная обработка, фрезерование, координация термообработки, финишная обработка поверхности', use: 'Вставки пресс-форм, силовые конструкции, детали трансмиссии' },
+];
+
+// ── FAQ (the FAQPage schema below reuses this same data source) ──
+const faqs = [
+  {
+    q: 'Вы завод или торговая компания?',
+    a: 'Мы — завод прецизионной обработки с собственным цехом в районе Баоань, Шэньчжэнь, а не торговый посредник. Проверка чертежей, планирование процесса, программирование, обработка и контроль качества выполняются полностью внутри компании, а инженеры сопровождают каждый этап. Это означает более короткие цепочки коммуникации и быстрое решение проблем.',
+  },
+  {
+    q: 'Можете ли вы выполнять прототипирование мелкими партиями? Каков минимальный заказ?',
+    a: 'Прототипирование и партии от малых до средних — как раз наша специализация. Мы начинаем с 1 детали, без необходимости в оснастке. От единичной контрольной детали до нескольких сотен штук мы применяем одни и те же стандарты процесса.',
+  },
+  {
+    q: 'Насколько быстро готов расчёт? Что вам нужно от меня?',
+    a: 'Просто предоставьте чертежи в формате STEP / IGS / DWG / PDF. Наши инженеры проводят DFM-анализ (проектирование для производства) и возвращают расчёт с минимально возможным сроком изготовления в течение 2 часов. Партии или сложные детали обычно получают ответ в течение 1 рабочего дня.',
+  },
+  {
+    q: 'Какие допуски вы можете обеспечить?',
+    a: 'Стандартный допуск обработки — ±0,05 мм (ISO 2768-m). При 5-осевой одновременной обработке и прецизионном шлифовании критические размеры стабильно выдерживаются в пределах ±0,005 мм, а при необходимости — до ±0,003 мм. Стандартная шероховатость поверхности — Ra 1,6, более тонкие финиши — по запросу.',
+  },
+  {
+    q: 'Как работают гарантия и послепродажное обслуживание?',
+    a: 'Полная прослеживаемость процесса: отчёт о контроле размеров поставляется вместе с каждым заказом. Если размерная или внешняя проблема подтверждённо возникла из-за нашего производства, мы по собственной инициативе дорабатываем или изготавливаем деталь заново за свой счёт.',
+  },
+  {
+    q: 'Какие виды финишной обработки поверхности вы предлагаете?',
+    a: 'Мы предлагаем анодирование, твёрдое анодирование, гальваническое покрытие, пассивацию, пескоструйную обработку, полировку щёткой, порошковую окраску и чёрное оксидирование, среди прочего. Мы также можем согласовать процессы по указанию заказчика с внешними партнёрами и отправить после единого контроля качества.',
+  },
+];
+---
+
+<BaseLayout
+  title="О компании – завод прецизионной ЧПУ обработки в Шэньчжэне | Eternal CNC"
+  description="Eternal CNC (Синьонхэн) — наш собственный завод в Баоань, Шэньчжэнь. 23 года в производстве, 15 лет в прецизионной ЧПУ обработке, 30 станков, включая 5-осевые, допуск ±0,005 мм. Прототипирование мелкими партиями из алюминия, нержавеющей стали, титана и конструкционных пластиков. Расчёт в течение 2 часов."
+  schema={[
+    {
+      '@context': 'https://schema.org',
+      '@type': 'AboutPage',
+      name: 'О компании – Синьонхэн (Шэньчжэнь) Прецизионная Промышленная Компания, ООО',
+      url: 'https://eternalcnc.com/ru/about',
+      description: 'Завод прецизионной ЧПУ обработки в Баоань, Шэньчжэнь: 23 года опыта в производстве, 15 лет прецизионной ЧПУ обработки и 30 станков, включая 5-осевой обрабатывающий центр.',
+      inLanguage: 'ru',
+      mainEntity: {
+        '@type': 'Organization',
+        name: 'Синьонхэн (Шэньчжэнь) Прецизионная Промышленная Компания, ООО',
+        alternateName: 'Eternal CNC Precision Machining',
+        legalName: 'Синьонхэн (Шэньчжэнь) Прецизионная Промышленная Компания, ООО',
+        url: 'https://eternalcnc.com',
+        foundingDate: '2024',
+        slogan: 'Точность — это не просто спецификация, а привычка.',
+        numberOfEmployees: { '@type': 'QuantitativeValue', value: 20 },
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: 'No. 33 Guangjin Road, Shapu Community, Songgang Street, Bao\'an District',
+          addressLocality: 'Shenzhen',
+          addressRegion: 'Guangdong',
+          addressCountry: 'CN',
+        },
+        telephone: '+86 181 2398 3352',
+        knowsAbout: ['прецизионная ЧПУ обработка', '5-осевое фрезерование', 'токарная обработка ЧПУ', 'проволочная электроэрозия', 'прецизионное шлифование', 'DFM-анализ', 'финишная обработка поверхности'],
+      },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      inLanguage: 'ru',
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    },
+  ]}
+>
+
+  <!-- Hero: Beige full-width + Left text + Right video + 3 stats + 2 CTAs (Plan A) -->
+  <AboutHero
+    label="О компании"
+    titleHtml="Больше, чем механический цех.<br/>Ваш инженерный партнёр."
+    subtitle="23 года в производстве · 15 лет в прецизионной ЧПУ обработке · Проверка чертежей → Планирование процесса → Валидация образца → Серийное производство — внутри нашего собственного цеха, с инженерами на каждом этапе."
+    heroVideoSrc="/videos/eternal-cnc-5axis-machining-in-action-01.mp4"
+    stats={[
+      { num: '23', unit: 'yrs', label: 'В производстве' },
+      { num: '30', unit: '+', label: 'Станков ЧПУ' },
+      { num: '24', unit: 'h', label: 'Срок расчёта' },
+    ]}
+    ctaPrimaryText="Смотреть возможности"
+    ctaPrimaryHref="/ru/capabilities/equipment"
+    ctaSecondaryText="Запросить расчёт"
+    ctaSecondaryHref="/ru/contact/get-a-quote"
+  />
+
+  <!-- Who We Are -->
+  <section class="section-padding" style="background-color: var(--card-white);">
+    <div class="container-custom max-w-3xl">
+      <span class="red-line"></span>
+      <h2 class="text-3xl font-bold mb-8" style="color: var(--brand-dark);">Кто мы</h2>
+      <div class="space-y-6 text-lg leading-relaxed" style="color: var(--text-body);">
+        <p><strong style="color: var(--brand-dark);">Синьонхэн (Шэньчжэнь) Прецизионная Промышленная Компания, ООО</strong> — специализированный завод прецизионной ЧПУ обработки, а не торговая компания. Имея 23 года в производственной отрасли и 15 лет, посвящённых прецизионной ЧПУ обработке, мы изготавливаем высокоточные компоненты для автоматизации, робототехники, медицинского оборудования и промышленного оборудования.</p>
+        <p>Наши инженеры привносят практический опыт тысяч завершённых проектов. Они способны выявлять и устранять потенциальные производственные проблемы прямо по вашим чертежам — ещё до начала обработки.</p>
+        <p>Мы не тратим средства на рекламу. Возможности нашего цеха и рекомендации довольных клиентов — наши главные активы.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Founder's Quote -->
+  <section class="py-20" style="background-color: var(--page-bg);">
+    <div class="container-custom">
+      <div class="max-w-3xl mx-auto text-center">
+        <div class="w-16 h-16 rounded-full mx-auto mb-6 flex items-center justify-center" style="background-color: var(--brand-dark);">
+          <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/></svg>
+        </div>
+        <p class="text-2xl md:text-3xl italic leading-relaxed mb-6" style="color: var(--brand-dark);">
+          "Мы — не просто инженеры; мы ветераны производства с более чем 20-летним глубоким опытом в процессах. За каждым чертежом стоят десятилетия практического опыта."
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Team: image left, text right (alternating layout) -->
+  <section class="section-padding" style="background-color: var(--card-white);">
+    <div class="container-custom">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <!-- Image on left -->
+        <div class="order-2 lg:order-1 rounded-industrial overflow-hidden">
+          <img src="/images/company/cnc-workshop-interior-machining-centers-01.webp" alt="Опытные станочники ЧПУ за прецизионным оборудованием" class="w-full h-64 md:h-72 lg:h-80 object-cover" loading="lazy" width="800" height="320" />
+        </div>
+        <!-- Text on right -->
+        <div class="order-1 lg:order-2">
+          <span class="red-line"></span>
+          <h2 class="text-3xl font-bold mb-8" style="color: var(--brand-dark);">Наша команда</h2>
+          <p class="text-lg mb-6" style="color: var(--text-muted);">Больше, чем сотрудники — мы ремесленники.</p>
+          <div class="space-y-6 text-lg leading-relaxed" style="color: var(--text-body);">
+            <p>Наша основная команда состоит из опытных станочников с более чем 15-летним практическим опытом работы за пультом ЧПУ.</p>
+            <p>Они наблюдали, как отрасль развивалась от 3-осевой к 5-осевой обработке, но неизменно сохраняют мастерство и интуитивное «чутьё», которое не способна воспроизвести никакая автоматизация.</p>
+            <p>Для нас настоящие активы — это не дорогие станки, а прецизионные детали, сформированные умелыми руками и накопленным опытом.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section class="section-padding" style="background-color: var(--page-bg);">
+    <div class="container-custom">
+      <div class="text-center mb-14">
+        <span class="red-line mx-auto"></span>
+        <h2 class="text-3xl font-bold" style="color: var(--brand-dark);">Наш путь</h2>
+      </div>
+      <div class="max-w-3xl mx-auto">
+        <div class="relative">
+          <div class="absolute left-6 top-0 bottom-0 w-px" style="background-color: var(--border-color);"></div>
+
+          <div class="relative pl-16 pb-12">
+            <div class="absolute left-4 top-1 w-5 h-5 rounded-full border-4 border-white" style="background-color: var(--brand-red);"></div>
+            <div class="text-sm font-medium mb-1" style="color: var(--brand-red);">2003</div>
+            <h3 class="text-xl font-bold mb-2" style="color: var(--brand-dark);">Приход в отрасль</h3>
+            <p style="color: var(--text-body);">Начали с изготовления прототипов и моделей, заложив прочный фундамент в прецизионном производстве. Перешли к инженерии ЧПУ-программирования к 2005 году.</p>
+          </div>
+
+          <div class="relative pl-16 pb-12">
+            <div class="absolute left-4 top-1 w-5 h-5 rounded-full border-4 border-white" style="background-color: var(--brand-red);"></div>
+            <div class="text-sm font-medium mb-1" style="color: var(--brand-red);">2015</div>
+            <h3 class="text-xl font-bold mb-2" style="color: var(--brand-dark);">Самостоятельность</h3>
+            <p style="color: var(--text-body);">Открыли независимый бизнес по ЧПУ обработке как индивидуальный предприниматель, обслуживая клиентов в сферах автоматизации, робототехники и промышленного оборудования.</p>
+          </div>
+
+          <div class="relative pl-16 pb-12">
+            <div class="absolute left-4 top-1 w-5 h-5 rounded-full border-4 border-white" style="background-color: var(--brand-red);"></div>
+            <div class="text-sm font-medium mb-1" style="color: var(--brand-red);">2024</div>
+            <h3 class="text-xl font-bold mb-2" style="color: var(--brand-dark);">Компания основана</h3>
+            <p style="color: var(--text-body);">Синьонхэн (Шэньчжэнь) Прецизионная Промышленная Компания, ООО официально зарегистрирована. Эксплуатировала 30 станков ЧПУ с полными возможностями 3-, 4- и 5-осевой обработки.</p>
+          </div>
+
+          <div class="relative pl-16">
+            <div class="absolute left-4 top-1 w-5 h-5 rounded-full border-4 border-white" style="background-color: var(--brand-red);"></div>
+            <div class="text-sm font-medium mb-1" style="color: var(--brand-red);">2026</div>
+            <h3 class="text-xl font-bold mb-2" style="color: var(--brand-dark);">Глобальная экспансия</h3>
+            <p style="color: var(--text-body);">Создан отдел международной торговли. Сертификация по ISO 9001:2015 в процессе. Обслуживаем глобальных клиентов в робототехнике, медицинском оборудовании и заводской автоматизации.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capability matrix: material × process × typical application -->
+  <section class="section-padding" style="background-color: var(--card-white);">
+    <div class="container-custom">
+      <div class="text-center mb-14">
+        <span class="red-line mx-auto"></span>
+        <h2 class="text-3xl font-bold" style="color: var(--brand-dark);">Материалы &amp; процессы, в которых мы сильны</h2>
+        <p class="mt-4 text-lg" style="color: var(--text-muted);">От алюминия до титана, от конструкционных пластиков до легированной стали — мы подбираем материал под условия работы вашей детали, а не по тому, что оказалось на складе.</p>
+      </div>
+      <div class="max-w-5xl mx-auto overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--border-color);">
+              <th class="py-4 pr-4 text-sm font-semibold whitespace-nowrap" style="color: var(--brand-red);">Материал</th>
+              <th class="py-4 pr-4 text-sm font-semibold whitespace-nowrap" style="color: var(--brand-red);">Распространённые марки</th>
+              <th class="py-4 pr-4 text-sm font-semibold" style="color: var(--brand-red);">Типичные процессы</th>
+              <th class="py-4 text-sm font-semibold" style="color: var(--brand-red);">Типичные применения</th>
+            </tr>
+          </thead>
+          <tbody>
+            {capabilityMatrix.map((row) => (
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td class="py-5 pr-4 font-semibold align-top whitespace-nowrap" style="color: var(--brand-dark);">{row.material}</td>
+                <td class="py-5 pr-4 align-top text-[15px]" style="color: var(--text-body);">{row.grades}</td>
+                <td class="py-5 pr-4 align-top text-[15px]" style="color: var(--text-body);">{row.process}</td>
+                <td class="py-5 align-top text-[15px]" style="color: var(--text-body);">{row.use}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-8 text-center text-[15px]" style="color: var(--text-muted);">
+        Не видите свою марку материала? <a href="/ru/contact/get-a-quote" class="font-semibold" style="color: var(--brand-red);">Пришлите нам чертёж</a> и наши инженеры проконсультируют по выбору материала и альтернативам.
+      </p>
+    </div>
+  </section>
+
+  <!-- Six-step process -->
+  <section class="section-padding" style="background-color: var(--page-bg);">
+    <div class="container-custom">
+      <div class="text-center mb-14">
+        <span class="red-line mx-auto"></span>
+        <h2 class="text-3xl font-bold" style="color: var(--brand-dark);">От чертежа до готовой детали за шесть шагов</h2>
+        <p class="mt-4 text-lg" style="color: var(--text-muted);">У каждого этапа есть чёткий результат — поэтому вы всегда точно знаете, на какой стадии ваша деталь.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        {[
+          { num: '01', title: 'Загрузка чертежа', desc: 'Принимаем STEP / IGS / DWG / PDF. Чертёж обрабатывается конфиденциально; NDA можно подписать до отправки.' },
+          { num: '02', title: 'DFM-анализ', desc: 'Инженеры проводят анализ технологичности в течение 2 часов, отмечая потенциальные риски и возможности для экономии.' },
+          { num: '03', title: 'Расчёт и срок', desc: 'Полный расчёт, охватывающий материал, процесс и финишную обработку поверхности, вместе с минимальным подтверждённым сроком.' },
+          { num: '04', title: 'Программирование и обработка', desc: 'Несколько станков запускаются параллельно, с полным контролем параметров и контролем первой детали при каждом запуске.' },
+          { num: '05', title: 'Контроль и отгрузка', desc: 'Критические размеры проверяются поштучно с отчётом о контроле. Доступны экспресс-, авиа- и морские перевозки.' },
+          { num: '06', title: 'Послепродажная поддержка', desc: 'Полная прослеживаемость процесса. Производственные проблемы дорабатываются или переделываются по собственной инициативе — никогда не перекладываются на заказчика.' },
+        ].map((s) => (
+          <div class="flex gap-5">
+            <span class="flex-shrink-0 font-bold leading-none" style="font-size: 34px; color: var(--brand-red); font-family: var(--font-heading);">{s.num}</span>
+            <div>
+              <h3 class="font-semibold mb-2 text-base" style="color: var(--brand-dark);">{s.title}</h3>
+              <p class="text-[14px] leading-relaxed" style="color: var(--text-body);">{s.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Why clients choose us: verifiable differentiators instead of platitudes -->
+  <section class="section-padding" style="background-color: var(--card-white);">
+    <div class="container-custom">
+      <div class="text-center mb-14">
+        <span class="red-line mx-auto"></span>
+        <h2 class="text-3xl font-bold" style="color: var(--brand-dark);">Почему клиенты выбирают нас</h2>
+        <p class="mt-4 text-lg" style="color: var(--text-muted);">Никаких расплывчатых заявлений — лишь четыре вещи, которые вы можете проверить.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        {[
+          { title: 'Свой завод, а не посредник', desc: 'Наш собственный цех в Баоань, Шэньчжэнь, с 30 станками ЧПУ, включая 5-осевой обрабатывающий центр DMU400. Обработка, контроль и отгрузка замыкаются внутри компании, поэтому любую проблему можно проследить до станка и партии.' },
+          { title: 'Инженеры, с которыми вы общаетесь напрямую, а не торговые посредники', desc: 'На расчёты и вопросы по процессу отвечают инженеры, а не пересказывают менеджеры по продажам. Уже на этапе чертежа мы можем сказать, что будет сложно обработать и где можно сэкономить.' },
+          { title: 'Мелкие партии приветствуются — от одной детали до сотен', desc: 'Прототипирование, опытные партии и мелкосерийное производство — наша главная сфера. От 1 детали без оснастки до нескольких сотен штук, выполненных по одному стандарту.' },
+          { title: 'Быстрые расчёты, реалистичные сроки', desc: 'Отправьте чертежи инженеру и получите план процесса и расчёт в течение 2 часов. Как только срок подтверждён, мы работаем по нему — без необходимости уточнять статус.' },
+        ].map((c) => (
+          <div class="p-7 rounded-industrial" style="background-color: var(--page-bg); border: 1px solid var(--border-color);">
+            <h3 class="font-bold text-lg mb-3" style="color: var(--brand-dark);">{c.title}</h3>
+            <p class="text-[15px] leading-relaxed" style="color: var(--text-body);">{c.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section-padding" style="background-color: var(--page-bg);">
+    <div class="container-custom">
+      <div class="text-center mb-14">
+        <span class="red-line mx-auto"></span>
+        <h2 class="text-3xl font-bold" style="color: var(--brand-dark);">Часто задаваемые вопросы</h2>
+        <p class="mt-4 text-lg" style="color: var(--text-muted);">Шесть вопросов, которые покупатели задают чаще всего перед заказом.</p>
+      </div>
+      <div class="max-w-3xl mx-auto space-y-4">
+        {faqs.map((f) => (
+          <details class="rounded-industrial overflow-hidden" style="background-color: var(--card-white); border: 1px solid var(--border-color);">
+            <summary class="cursor-pointer px-6 py-5 font-semibold text-base flex items-center justify-between gap-4" style="color: var(--brand-dark);">
+              <span>{f.q}</span>
+              <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <div class="px-6 pb-5 text-[15px] leading-relaxed" style="color: var(--text-body);">{f.a}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Factory Gallery -->
+  <section class="section-padding" style="background-color: var(--card-white);">
+    <div class="container-custom">
+      <div class="text-center mb-14">
+        <span class="red-line mx-auto"></span>
+        <h2 class="text-3xl font-bold" style="color: var(--brand-dark);">Внутри нашего цеха</h2>
+        <p class="mt-4 text-lg" style="color: var(--text-muted);">30 станков ЧПУ. 5-осевые возможности. Реальный производственный цех.</p>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/company/cnc-workshop-interior-machining-centers-01.webp" alt="Ряды станков ЧПУ на производственном участке" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/parts/cnc-workshop-create-century-v650r-vmc-lineup-01.webp" alt="Вертикальный обрабатывающий центр Create Century V650R в цехе" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/parts/cnc-workshop-sunrise-dmu-400-five-axis-side-01.webp" alt="5-осевой обрабатывающий центр ЧПУ SUNRISE DMU400" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/parts/cnc-workshop-sunrise-vmc-lineup-floor-01.webp" alt="Ряды вертикальных обрабатывающих центров SUNRISE на заводском участке" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/quality/cnc-quality-micrometer-inspection-02.webp" alt="Прецизионный контроль микрометром" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-workshop-taikan-vertical-machining-center-lineup-01.webp" alt="Вертикальный обрабатывающий центр Taikan T-V856S" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-vertical-machining-center-taikan-tv856s-workshop-01.webp" alt="Вертикальный обрабатывающий центр Taikan T-V856S в цехе Eternal CNC" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+        <div class="rounded-industrial overflow-hidden aspect-square">
+          <img src="/images/equipment/gallery/cnc-workshop-greato-vertical-machining-center-lineup-01.webp" alt="Сверлильно-фрезерный обрабатывающий центр серии Taikan T-V" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="400" />
+        </div>
+      </div>
+
+      <!-- Images are purely visual; this text makes the workshop info indexable -->
+      <div class="max-w-4xl mx-auto mt-12 space-y-5 text-[15px] leading-relaxed" style="color: var(--text-body);">
+        <p>
+          В нашем цехе работают <strong style="color: var(--brand-dark);">30 станков ЧПУ</strong>, охватывающих 3-, 4- и 5-осевые модели, — включая 5-осевой обрабатывающий центр SUNRISE DMU400, вертикальный обрабатывающий центр Create Century V650R и вертикальный обрабатывающий центр Taikan T-V856S. Это покрывает потребности планирования от прототипирования единичных деталей до мелкосерийных партий в несколько сотен штук.
+        </p>
+        <p>
+          По возможностям: мы регулярно обрабатываем <strong style="color: var(--brand-dark);">алюминиевые сплавы (6061/7075), нержавеющую сталь (304/316L/17-4PH), титан (TC4), конструкционные пластики (ПЭЭК/POM/нейлон/PTFE), а также углеродистую и легированную сталь</strong>. Комбинации процессов включают 5-осевое одновременное фрезерование, токарно-фрезерную обработку, медленную и быструю проволочную электроэрозию и прецизионное шлифование, а также финишную обработку поверхности, такую как анодирование, гальваника, пассивация и пескоструйная обработка.
+        </p>
+        <p>
+          Стандартный допуск обработки — <strong style="color: var(--brand-dark);">±0,05 мм (ISO 2768-m)</strong>, а критические размеры стабильно выдерживаются в пределах <strong style="color: var(--brand-dark);">±0,005 мм</strong>. Каждая отгружаемая деталь проходит размерный контроль с отчётом, полностью прослеживаемым до станка и партии.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ISO -->
+  <section class="py-16" style="background-color: var(--card-white);">
+    <div class="container-custom">
+      <div class="rounded-industrial p-8 md:p-10 text-center" style="background-color: var(--brand-dark);">
+        <h2 class="text-xl font-medium text-white mb-3">ISO 9001:2015 — сертификация в процессе</h2>
+        <p class="text-gray-400 max-w-xl mx-auto text-sm">Наша сертификация по системе менеджмента качества ISO 9001:2015 в настоящее время находится в процессе. Мы стремимся соответствовать международным стандартам качества во всех процессах производства и контроля.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20" style="background-color: var(--page-bg);">
+    <div class="container-custom text-center">
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Готовы с нами поработать?</h2>
+      <p class="text-lg mb-8" style="color: var(--text-body);">Пришлите свой чертёж. Мы ответим в течение 2 часов.</p>
+      <a href="/ru/contact/get-a-quote" class="btn-primary text-base px-10 py-4 inline-flex items-center gap-2 group" style="color:#fff">
+        Запросить расчёт
+        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+    </div>
+  </section>
+</BaseLayout>

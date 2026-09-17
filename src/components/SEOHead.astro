@@ -53,25 +53,46 @@ const norm = (p: string) => (p.length > 1 ? p.replace(/\/$/, '') : p);
 const pathname = Astro.url.pathname;
 const np = norm(pathname);
 const isZh = np.startsWith('/zh');
-const ogLocale = isZh ? 'zh_CN' : 'en_US';
-const ogSiteName = isZh ? '永恒精密数控加工' : 'Eternal CNC Precision Machining';
+const isRu = np.startsWith('/ru');
+const lang = isRu ? 'ru' : isZh ? 'zh' : 'en';
+const ogLocale = isRu ? 'ru_RU' : isZh ? 'zh_CN' : 'en_US';
+const ogSiteName = isRu ? 'Eternal CNC — Точная ЧПУ обработка' : isZh ? '永恒精密数控加工' : 'Eternal CNC Precision Machining';
 
-const enPath = isZh ? (np.replace(/^\/zh/, '') || '/') : np;
-const zhPath = isZh ? np : ('/zh' + (np === '/' ? '' : np));
+// 语言无关路径片段（rest）：去掉 /ru、/zh 前缀
+const rest = (() => {
+  if (isRu) return np.slice(3) || '/';
+  if (isZh) return np.slice(3) || '/';
+  return np;
+})();
 
-// 对页路径：先按前缀互换，再用映射表修正非对称命名
-const counterPath = norm(LANG_MAP[np] || (isZh ? enPath : zhPath));
-const counterExists = routes.has(counterPath);
+// 给某语言拼回带前缀的路径（en 无前缀）；ru 镜像 en slug，无需映射
+const withPrefix = (l: 'en' | 'zh' | 'ru', r: string) =>
+  l === 'en' ? (r === '/' ? '/' : r) : `/${l}${r === '/' ? '' : r}`;
+
+// 命名不对称的页（仅 en↔zh 的几对知识页）；ru 对称，无需修正
+const counterFor = (l: 'en' | 'zh' | 'ru') => {
+  let p = withPrefix(l, rest);
+  if (LANG_MAP[p]) p = LANG_MAP[p];
+  return norm(p);
+};
+
+const enPath = counterFor('en');
+const zhPath = counterFor('zh');
+const ruPath = counterFor('ru');
+
+const enExists = routes.has(enPath);
+const zhExists = routes.has(zhPath);
+const ruExists = routes.has(ruPath);
 
 // hreflang 目标必须与 canonical 完全一致，即「带尾斜杠的规范地址」。
 // 注意：np/counterPath 是去尾斜杠的内部形式（用于匹配 routes 集合），
 // 不能直接拿去当 hreflang —— 无尾斜杠地址在 Cloudflare Pages 上会 308 跳转，
-// 搜索引擎视「hreflang 指向重定向」为无效标注，整个语言集群会被忽略，
-// 中英版本随即被判为重复内容，只保留其一（表现为只收录中文）。
+// 搜索引擎视「hreflang 指向重定向」为无效标注，整个语言集群会被忽略。
 const toCanonical = (p: string) => (p === '/' || p.endsWith('/') ? p : p + '/');
 
-const enUrl = new URL(toCanonical(isZh ? counterPath : np), Astro.site).href;
-const zhUrl = new URL(toCanonical(isZh ? np : counterPath), Astro.site).href;
+const enUrl = new URL(toCanonical(enPath), Astro.site).href;
+const zhUrl = new URL(toCanonical(zhPath), Astro.site).href;
+const ruUrl = new URL(toCanonical(ruPath), Astro.site).href;
 ---
 
 <!-- SEO Meta Tags -->
@@ -82,11 +103,12 @@ const zhUrl = new URL(toCanonical(isZh ? np : counterPath), Astro.site).href;
 <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
 
-    <!-- hreflang: 仅当对页真实存在时发出（避免悬空标注） -->
-    {counterExists && (
+    <!-- hreflang: 仅当存在其他语言的真实对页时发出（避免悬空标注） -->
+    {((lang !== 'en' && enExists) || (lang !== 'zh' && zhExists) || (lang !== 'ru' && ruExists)) && (
       <>
-        <link rel="alternate" hreflang="en" href={enUrl} />
-        <link rel="alternate" hreflang="zh-CN" href={zhUrl} />
+        {enExists && <link rel="alternate" hreflang="en" href={enUrl} />}
+        {zhExists && <link rel="alternate" hreflang="zh-CN" href={zhUrl} />}
+        {ruExists && <link rel="alternate" hreflang="ru" href={ruUrl} />}
         <link rel="alternate" hreflang="x-default" href={enUrl} />
       </>
     )}
