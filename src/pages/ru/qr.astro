@@ -1,0 +1,170 @@
+---
+/*
+ * qr.astro — временная посадочная страница для динамических QR-кодов
+ * (Temporary landing page for dynamic QR codes)
+ *
+ * Назначение:
+ *   Динамический QR-код на печатных материалах / визитках / стендах указывает на эту
+ *   страницу (или перенаправляется сюда через сервис коротких ссылок).
+ *   После официального запуска сайта переключить можно двумя способами без переиздания:
+ *     1) изменить TARGET_URL ниже на официальный сайт и выполнить build/деплой;
+ *     2) либо в панели коротких ссылок сменить цель с /qr на https://eternalcnc.com
+ *        (рекомендуется — не нужен даже деплой).
+ *
+ * Примечание: страница не содержит заявлений о качестве/сертификации — только
+ * привлечение трафика и бренд-плейсхолдер, во избежание риска ложной рекламы.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// ===== Настройка цели перенаправления (единственное, что нужно менять) =====
+// После готовности сайта измените на 'https://eternalcnc.com' и выполните деплой,
+// либо оставьте страницу как есть и измените только цель в панели коротких ссылок.
+const TARGET_URL = 'https://eternalcnc.com';
+const REDIRECT_DELAY_MS = 4000; // автопереход через 4 сек; 0 — отключить
+// ===========================================================================
+
+const pageTitle = 'Eternal CNC — Сайт скоро запустится';
+const pageDesc = 'Наш новый сайт на подходе. А пока свяжитесь с нашей командой напрямую для расчёта КП и инженерной поддержки.';
+---
+
+<BaseLayout title={pageTitle} description={pageDesc}>
+  <section class="qr-landing">
+    <div class="qr-card">
+      <div class="qr-badge">ETERNAL CNC</div>
+      <h1>Наш новый сайт уже в пути</h1>
+      <p class="qr-sub">
+        Прецизионная ЧПУ обработка · 5-осевое фрезерование · токарная обработка · проволочная электроэрозия.<br />
+        Вы будете автоматически перенаправлены на наш основной сайт.
+      </p>
+
+      <div class="qr-actions">
+        <a class="qr-btn qr-btn-primary" href={TARGET_URL}>Войти на сайт сейчас</a>
+        <a class="qr-btn qr-btn-ghost" href="/ru/contact/get-a-quote">Получить КП</a>
+      </div>
+
+      <ul class="qr-contact">
+        <li><span>Сайт</span><a href={TARGET_URL}>eternalcnc.com</a></li>
+        <li><span>Запрос КП</span><a href="/ru/contact/get-a-quote">Пришлите чертёж — КП за 2 часа</a></li>
+      </ul>
+
+      <p class="qr-note">
+        Отсканировано с наших печатных материалов? Эта страница — временная посадочная площадка:
+        QR-код уже указывает сюда и продолжит работать после запуска.
+      </p>
+    </div>
+  </section>
+
+  <script is:inline define:vars={{ TARGET_URL, REDIRECT_DELAY_MS }}>
+    if (REDIRECT_DELAY_MS > 0) {
+      // Только привлечение трафика-плейсхолдер, без разрушающего перехода;
+      // пользователь в любой момент может нажать кнопку или вернуться назад.
+      window.setTimeout(function () {
+        window.location.replace(TARGET_URL);
+      }, REDIRECT_DELAY_MS);
+    }
+  </script>
+</BaseLayout>
+
+<style>
+  .qr-landing {
+    min-height: calc(100vh - 160px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 20px;
+    background:
+      radial-gradient(1200px 600px at 50% -10%, rgba(139, 0, 0, 0.06), transparent 60%),
+      var(--page-bg);
+  }
+  .qr-card {
+    width: 100%;
+    max-width: 520px;
+    background: #fff;
+    border: 1px solid rgba(26, 26, 26, 0.08);
+    border-radius: 18px;
+    padding: 40px 36px;
+    text-align: center;
+    box-shadow: 0 18px 50px rgba(26, 26, 26, 0.08);
+  }
+  .qr-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--brand-red);
+    border: 1px solid var(--brand-red);
+    border-radius: 999px;
+    padding: 6px 14px;
+    margin-bottom: 22px;
+  }
+  .qr-card h1 {
+    font-family: var(--font-heading);
+    font-size: 26px;
+    color: var(--brand-dark);
+    margin: 0 0 14px;
+    line-height: 1.25;
+  }
+  .qr-sub {
+    color: var(--text-body);
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0 0 28px;
+  }
+  .qr-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .qr-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    transition: transform 0.12s ease, opacity 0.12s ease;
+  }
+  .qr-btn:hover { transform: translateY(-1px); opacity: 0.94; }
+  .qr-btn-primary { background: var(--brand-red); color: #fff; }
+  .qr-btn-ghost {
+    background: transparent;
+    color: var(--brand-dark);
+    border: 1px solid var(--brand-dark);
+  }
+  .qr-contact {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+    text-align: left;
+    border-top: 1px solid rgba(26, 26, 26, 0.08);
+    padding-top: 20px;
+  }
+  .qr-contact li {
+    display: flex;
+    gap: 14px;
+    padding: 7px 0;
+    font-size: 14px;
+    color: var(--text-body);
+  }
+  .qr-contact span {
+    flex: 0 0 52px;
+    font-weight: 700;
+    color: var(--brand-dark);
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    padding-top: 1px;
+  }
+  .qr-contact a { color: var(--brand-red); text-decoration: none; }
+  .qr-contact a:hover { text-decoration: underline; }
+  .qr-note {
+    font-size: 12.5px;
+    color: var(--brand-silver);
+    line-height: 1.55;
+    margin: 0;
+  }
+</style>

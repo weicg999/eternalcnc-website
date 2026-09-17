@@ -1,0 +1,326 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Материалы', href: '#' },
+];
+
+interface Grade {
+  grade: string;
+  density: string;
+  tensile: string;
+  hardness: string;
+  features: string;
+  applications: string;
+  tags?: string[];
+  image?: string;
+}
+
+interface MetalCategory {
+  name: string;
+  id: string;
+  icon: string;
+  grades: Grade[];
+}
+
+const metalCategories: MetalCategory[] = [
+  {
+    name: 'Алюминиевые сплавы (Aluminum Alloys)',
+    id: 'aluminum',
+    icon: '🔵',
+    grades: [
+      { grade: '6061-T6', density: '2.70 g/cm³', tensile: '310 MPa', hardness: '95 HB', features: 'Отличная обрабатываемость, хорошее соотношение прочность/вес', applications: 'высоконадёжные приспособления, радиаторы, корпуса', tags: ['lightweight', 'general'] },
+      { grade: '7075-T6', density: '2.81 g/cm³', tensile: '572 MPa', hardness: '150 HB', features: 'Самый прочный алюминиевый сплав, высокая прочность', applications: 'высоконадёжные несущие детали, оснастка пресс-форм', tags: ['high-strength', 'lightweight'] },
+      { grade: '2024-T3', density: '2.78 g/cm³', tensile: '476 MPa', hardness: '120 HB', features: 'Высокая усталостная прочность, хорошая стойкость к повреждениям', applications: 'Несущие элементы, лёгкие каркасы', tags: ['high-strength'] },
+      { grade: '5052-H32', density: '2.68 g/cm³', tensile: '228 MPa', hardness: '60 HB', features: 'Отличная коррозионная стойкость, морская серия', applications: 'Морские детали, химическая обработка', tags: ['corrosion-resistant', 'lightweight'] },
+    ]
+  },
+  {
+    name: 'Нержавеющая сталь (Stainless Steel)',
+    id: 'stainless-steel',
+    icon: '⚪',
+    grades: [
+      { grade: '303', density: '7.90 g/cm³', tensile: '620 MPa', hardness: '228 HB', features: 'Автоматная сталь, отличная обрабатываемость', applications: 'Валы, шестерни, крепёж', tags: ['general'] },
+      { grade: '304', density: '7.93 g/cm³', tensile: '515 MPa', hardness: '201 HB', features: 'Общего назначения, отличная коррозионная стойкость', applications: 'Пищевая промышленность, химия, архитектура', tags: ['corrosion-resistant'] },
+      { grade: '316L', density: '7.99 g/cm³', tensile: '485 MPa', hardness: '217 HB', features: 'Медицинский класс, превосходная стойкость к хлоридам', applications: 'медицина (без имплантов), морская среда, фармацевтика', tags: ['corrosion-resistant', 'high-temp'] },
+      { grade: '17-4 PH', density: '7.78 g/cm³', tensile: '930 MPa', hardness: '44 HRC', features: 'Дисперсионно-твердеющая, высокая прочность', applications: 'высоконадёжные детали, химическая обработка', tags: ['high-strength', 'high-temp'] },
+    ]
+  },
+  {
+    name: 'Медь и латунь (Copper & Brass)',
+    id: 'copper',
+    icon: '🟡',
+    grades: [
+      { grade: 'C360 Brass', density: '8.49 g/cm³', tensile: '400 MPa', hardness: '90 HRB', features: 'Отличная обрабатываемость, декоративная поверхность', applications: 'Фитинги, клапаны, декоративная фурнитура', tags: ['general'] },
+      { grade: 'C110 Copper', density: '8.94 g/cm³', tensile: '220 MPa', hardness: '70 HRB', features: 'Наивысшая электропроводность', applications: 'Электрические контакты, шины, теплообменники', tags: ['general'] },
+      { grade: 'C172 Beryllium Copper', density: '8.25 g/cm³', tensile: '1,100 MPa', hardness: '40 HRC', features: 'Пружинные свойства, искробезопасность', applications: 'Пружины, разъёмы, искробезопасный инструмент', tags: ['high-strength'] },
+    ]
+  },
+  {
+    name: 'Титановые сплавы (Titanium Alloys)',
+    id: 'titanium',
+    icon: '🔘',
+    grades: [
+      { grade: 'Grade 2 (CP)', density: '4.51 g/cm³', tensile: '345 MPa', hardness: '20 HRC', features: 'Чистый титан, отличная коррозионная стойкость', applications: 'Химическая обработка, медицина, морская среда', tags: ['corrosion-resistant', 'lightweight'] },
+      { grade: 'Grade 5 (Ti-6Al-4V)', density: '4.43 g/cm³', tensile: '950 MPa', hardness: '36 HRC', features: 'Самый распространённый Ti-сплав, высокая прочность', applications: 'высоконадёжные детали, медицина (без имплантов), автоспорт', tags: ['high-strength', 'high-temp', 'lightweight'] },
+      { grade: 'Grade 9', density: '4.51 g/cm³', tensile: '725 MPa', hardness: '30 HRC', features: 'Отличная свариваемость, средняя прочность', applications: 'Гидравлические системы, велосипедные рамы', tags: ['high-strength'] },
+    ]
+  },
+  {
+    name: 'Углеродистая сталь (Carbon Steel)',
+    id: 'carbon-steel',
+    icon: '⚫',
+    grades: [
+      { grade: '1018', density: '7.87 g/cm³', tensile: '440 MPa', hardness: '126 HB', features: 'Хорошая обрабатываемость, низкая стоимость', applications: 'Валы, шпиндели, приспособления', tags: ['general'] },
+      { grade: '1045', density: '7.87 g/cm³', tensile: '570 MPa', hardness: '170 HB', features: 'Среднеуглеродистая, термообрабатываемая', applications: 'Шестерни, оси, коленвалы', tags: ['high-strength'] },
+      { grade: '4140', density: '7.85 g/cm³', tensile: '655 MPa', hardness: '197 HB', features: 'Легированная сталь, отличная вязкость', applications: 'Базы пресс-форм, оснастка, высоконагруженные детали', tags: ['high-strength'] },
+      { grade: '4340', density: '7.85 g/cm³', tensile: '980 MPa', hardness: '30 HRC', features: 'Сверхвысокая прочность, никель-хромовый сплав', applications: 'Шасси, приводные валы', tags: ['high-strength', 'high-temp'] },
+    ]
+  },
+];
+
+const plasticGrades: Grade[] = [
+  { grade: 'Delrin (POM)', density: '1.41 g/cm³', tensile: '70 MPa', hardness: '120 HRM', features: 'Низкое трение, отличная размерная стабильность', applications: 'Шестерни, подшипники, втулки', tags: ['lightweight'], image: '/images/materials/materials-delrin-stock-01.webp' },
+  { grade: 'Nylon (PA6)', density: '1.14 g/cm³', tensile: '85 MPa', hardness: '118 HRM', features: 'Износостойкий, ударопрочный', applications: 'Накладки, ролики, несущие детали', tags: ['lightweight'], image: '/images/materials/materials-nylon-stock-01.webp' },
+  { grade: 'PEEK', density: '1.32 g/cm³', tensile: '100 MPa', hardness: '25 HRM', features: 'Высокая температура (250°C), химическая стойкость', applications: 'медицина (без имплантов), полупроводники, высоконадёжные детали', tags: ['high-temp', 'corrosion-resistant', 'lightweight'], image: '/images/materials/materials-peek-stock-01.webp' },
+  { grade: 'PTFE (Teflon)', density: '2.15 g/cm³', tensile: '21 MPa', hardness: 'Shore D 55', features: 'Наименьший коэффициент трения, химически инертен', applications: 'Уплотнения, прокладки, изоляторы', tags: ['corrosion-resistant'], image: '/images/materials/materials-ptfe-stock-01.webp' },
+  { grade: 'UHMW-PE', density: '0.93 g/cm³', tensile: '48 MPa', hardness: 'Shore D 67', features: 'Экстремальная ударопрочность, пищевой класс', applications: 'Пищевая обработка, конвейеры, медицина', tags: ['lightweight', 'corrosion-resistant'], image: '/images/materials/materials-uhmw-pe-stock-01.webp' },
+  { grade: 'PC (Polycarbonate)', density: '1.20 g/cm³', tensile: '70 MPa', hardness: '120 HRM', features: 'Высокая ударопрочность, оптическая прозрачность', applications: 'Прозрачные корпуса, линзы, ограждения', tags: ['lightweight'], image: '/images/materials/materials-pc-stock-01.webp' },
+];
+
+const useFilters = [
+  { label: 'Высокая прочность', key: 'high-strength' },
+  { label: 'Лёгкий вес', key: 'lightweight' },
+  { label: 'Коррозионная стойкость', key: 'corrosion-resistant' },
+  { label: 'Высокая температура', key: 'high-temp' },
+];
+---
+
+<BaseLayout
+  title="Каталог материалов ЧПУ – EternalCNC"
+  description="Прецизионная металлообработка: алюминий, нержавеющая сталь, титан, медь и инженерные пластики. Подбор материала для деталей ЧПУ."
+  keywords="материалы ЧПУ, прецизионная металлообработка, алюминий нержавеющая сталь титан"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section class="py-16" style="background-color: var(--bg-dark);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-5">Справочник материалов</h1>
+      <p class="text-lg max-w-3xl" style="color: var(--text-helper);">Мы обрабатываем более 30 видов металлов и инженерных пластиков. Выберите категорию материала ниже, чтобы изучить свойства, марки и типовые применения.</p>
+      <div class="flex flex-wrap gap-3 mt-8">
+        <a href="#metals" class="px-5 py-2.5 bg-white/10 rounded-full text-white text-sm font-medium border border-white/20 hover:bg-white/20 transition-colors">🔩 Металлы</a>
+        <a href="#plastics" class="px-5 py-2.5 bg-white/10 rounded-full text-white text-sm font-medium border border-white/20 hover:bg-white/20 transition-colors">🧪 Инженерные пластики</a>
+        <a href="#comparison" class="px-5 py-2.5 bg-white/10 rounded-full text-white text-sm font-medium border border-white/20 hover:bg-white/20 transition-colors">📊 Сравнение</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Use Case Filters -->
+  <section class="py-10 border-b border-gray-100" style="background-color: var(--page-bg);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-base font-medium text-brand-text mb-4">Подбор по назначению</h2>
+      <div class="flex flex-wrap gap-2" id="use-filters">
+        <button data-filter="all" class="filter-btn active px-4 py-2 rounded-lg text-sm font-medium border transition-colors bg-brand-dark text-white border-brand-dark">
+          Все материалы
+        </button>
+        {useFilters.map((f) => (
+          <button data-filter={f.key} class="filter-btn px-4 py-2 rounded-lg text-sm font-medium border transition-colors bg-white text-brand-secondary border-gray-200 hover:border-brand-text hover:text-brand-text">
+            {f.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Metals Section -->
+  <section id="metals" class="py-20" style="background-color: var(--page-bg);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-16">
+        <h2 class="text-3xl md:text-4xl text-brand-text mb-4">Металлические материалы</h2>
+        <p class="text-brand-secondary max-w-2xl text-lg">От лёгкого алюминия до высоконадёжного титана — выберите подходящий металл для вашей задачи.</p>
+      </div>
+
+      {metalCategories.map((cat) => (
+        <div class="mb-16 last:mb-0" data-category={cat.id}>
+          <!-- Category Header -->
+          <div class="flex items-center gap-3 mb-8">
+            <span class="text-xl">{cat.icon}</span>
+            <h3 class="text-2xl font-bold text-brand-text">{cat.name}</h3>
+            <img src={`/images/materials/materials-${cat.id}-stock-01.webp`} alt={`${cat.name} raw material stock`} class="ml-auto h-20 w-32 object-cover rounded-lg border border-gray-100 hidden sm:block" loading="lazy" />
+          </div>
+
+          <!-- Grade Cards -->
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+            {cat.grades.map((g) => (
+              <div class="grade-card group rounded-xl border border-gray-100 p-6 hover:border-brand-silver hover:shadow-md transition-all duration-300" style="background-color: var(--card-white);" data-tags={g.tags?.join(',')}>
+                <h4 class="text-lg font-bold text-brand-text mb-3">{g.grade}</h4>
+                <div class="space-y-2 text-sm">
+                  <div class="flex justify-between"><span class="text-brand-silver">Плотность</span><span class="font-medium text-brand-text">{g.density}</span></div>
+                  <div class="flex justify-between"><span class="text-brand-silver">Предел прочности</span><span class="font-medium text-brand-text">{g.tensile}</span></div>
+                  <div class="flex justify-between"><span class="text-brand-silver">Твёрдость</span><span class="font-medium text-brand-text">{g.hardness}</span></div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-gray-50">
+                  <p class="text-xs text-brand-secondary leading-relaxed mb-1"><span class="font-semibold text-brand-text">Ключевое:</span> {g.features}</p>
+                  <p class="text-xs text-brand-silver"><span class="font-medium">Применение:</span> {g.applications}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Plastics Section -->
+  <section id="plastics" class="py-20" style="background-color: var(--page-bg);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12">
+        <h2 class="text-3xl md:text-4xl text-brand-text mb-4">Инженерные пластики</h2>
+        <p class="text-brand-secondary max-w-2xl text-lg">Высокопроизводительные пластики для изоляции, низкого трения, химической стойкости и лёгких конструкций.</p>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+        {plasticGrades.map((g) => (
+          <div class="grade-card group rounded-xl border border-gray-100 p-6 hover:border-brand-silver hover:shadow-md transition-all duration-300" style="background-color: var(--card-white);" data-tags={g.tags?.join(',')}>
+            {g.image && (
+              <img src={g.image} alt={`${g.grade} raw material stock`} class="w-full h-32 object-cover rounded-lg mb-4 border border-gray-100" loading="lazy" />
+            )}
+            <h4 class="text-lg font-bold text-brand-text mb-3">{g.grade}</h4>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between"><span class="text-brand-silver">Плотность</span><span class="font-medium text-brand-text">{g.density}</span></div>
+              <div class="flex justify-between"><span class="text-brand-silver">Предел прочности</span><span class="font-medium text-brand-text">{g.tensile}</span></div>
+              <div class="flex justify-between"><span class="text-brand-silver">Твёрдость</span><span class="font-medium text-brand-text">{g.hardness}</span></div>
+            </div>
+            <div class="mt-4 pt-4 border-t border-gray-50">
+              <p class="text-xs text-brand-secondary leading-relaxed mb-1"><span class="font-semibold text-brand-text">Ключевое:</span> {g.features}</p>
+              <p class="text-xs text-brand-silver"><span class="font-medium">Применение:</span> {g.applications}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Full Comparison Table -->
+  <section id="comparison" class="py-20" style="background-color: var(--page-bg);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-12 text-center">
+        <h2 class="text-3xl md:text-4xl text-brand-text mb-4">Сравнение материалов</h2>
+        <p class="text-brand-secondary max-w-2xl mx-auto text-lg">Ключевые свойства одним взглядом.</p>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b-2 border-gray-100">
+              <th class="text-left py-4 px-4 font-medium text-brand-text">Материал</th>
+              <th class="text-left py-4 px-4 font-medium text-brand-text">Плотность</th>
+              <th class="text-left py-4 px-4 font-medium text-brand-text">Предел прочности</th>
+              <th class="text-left py-4 px-4 font-medium text-brand-text">Твёрдость</th>
+              <th class="text-left py-4 px-4 font-medium text-brand-text">Ключевое свойство</th>
+              <th class="text-left py-4 px-4 font-medium text-brand-text">Типовое применение</th>
+            </tr>
+          </thead>
+          <tbody>
+            {metalCategories.map((cat) => cat.grades.map((g) => (
+              <tr class="border-b border-gray-50 hover:bg-brand-bgAlt transition-colors">
+                <td class="py-3 px-4"><span class="font-semibold text-brand-text">{g.grade}</span><span class="text-xs text-brand-silver ml-2">({cat.name})</span></td>
+                <td class="py-3 px-4 text-brand-secondary">{g.density}</td>
+                <td class="py-3 px-4 text-brand-secondary">{g.tensile}</td>
+                <td class="py-3 px-4 text-brand-secondary">{g.hardness}</td>
+                <td class="py-3 px-4 text-brand-secondary">{g.features}</td>
+                <td class="py-3 px-4 text-brand-secondary">{g.applications}</td>
+              </tr>
+            )))}
+            {plasticGrades.map((g) => (
+              <tr class="border-b border-gray-50 hover:bg-brand-bgAlt transition-colors">
+                <td class="py-3 px-4"><span class="font-semibold text-brand-text">{g.grade}</span><span class="text-xs text-brand-silver ml-2">(Пластик)</span></td>
+                <td class="py-3 px-4 text-brand-secondary">{g.density}</td>
+                <td class="py-3 px-4 text-brand-secondary">{g.tensile}</td>
+                <td class="py-3 px-4 text-brand-secondary">{g.hardness}</td>
+                <td class="py-3 px-4 text-brand-secondary">{g.features}</td>
+                <td class="py-3 px-4 text-brand-secondary">{g.applications}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-16" style="background-color: var(--bg-dark);">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-2xl font-bold text-white mb-4">Не уверены, какой материал выбрать?</h2>
+      <p class="mb-8" style="color: var(--text-helper);">Наши инженеры подберут лучший материал для вашей задачи.</p>
+      <a href="/ru/contact/get-a-quote" class="inline-flex items-center px-8 py-3.5 bg-white text-brand-dark font-medium rounded-lg hover:bg-gray-100 transition-colors">
+        Получить рекомендацию по материалу →
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Materials filtering functionality
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const gradeCards = document.querySelectorAll('.grade-card');
+  const categorySections = document.querySelectorAll('[data-category]');
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.getAttribute('data-filter');
+      
+      // Update button styles
+      filterButtons.forEach(b => {
+        b.classList.remove('bg-brand-dark', 'text-white', 'border-brand-dark');
+        b.classList.add('bg-white', 'text-brand-secondary', 'border-gray-200');
+      });
+      btn.classList.remove('bg-white', 'text-brand-secondary', 'border-gray-200');
+      btn.classList.add('bg-brand-dark', 'text-white', 'border-brand-dark');
+
+      if (filter === 'all') {
+        // Show all
+        gradeCards.forEach(card => {
+          card.style.display = '';
+          card.closest('[data-category]')!.style.display = '';
+        });
+        // Show plastic cards too
+        document.querySelectorAll('#plastics .grade-card').forEach(card => {
+          card.style.display = '';
+        });
+        document.getElementById('plastics')!.closest('section')!.style.display = '';
+        return;
+      }
+
+      // Filter logic
+      gradeCards.forEach(card => {
+        const tags = (card.getAttribute('data-tags') || '').split(',');
+        if (tags.includes(filter)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Hide categories that have no visible cards
+      categorySections.forEach(section => {
+        const visibleCards = section.querySelectorAll('.grade-card:not([style*="display: none"])');
+        if (visibleCards.length === 0) {
+          section.style.display = 'none';
+        } else {
+          section.style.display = '';
+        }
+      });
+
+      // Check plastics section
+      const plasticsSection = document.getElementById('plastics');
+      if (plasticsSection) {
+        const section = plasticsSection.closest('section')!;
+        const visiblePlastics = section.querySelectorAll('.grade-card:not([style*="display: none"])');
+        if (visiblePlastics.length === 0) {
+          section.style.display = 'none';
+        } else {
+          section.style.display = '';
+        }
+      }
+    });
+  });
+</script>

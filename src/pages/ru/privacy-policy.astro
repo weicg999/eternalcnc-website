@@ -1,0 +1,164 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Главная', href: '/ru/' },
+  { label: 'Политика конфиденциальности' },
+];
+---
+
+<PageLayout
+  title="Политика конфиденциальности | Eternal CNC"
+  description="Как Eternal CNC (Синьонхэн, Шэньчжэнь) собирает, использует и защищает ваши персональные данные — формы КП и Google Analytics 4 — по GDPR ЕС и PIPL Китая."
+  breadcrumbs={breadcrumbs}
+>
+  <section style="background-color: var(--card-white); padding: 56px 0 80px;">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Правовая информация</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-4" style="color: var(--brand-dark);">Политика конфиденциальности</h1>
+      <p class="text-sm mb-10" style="color: var(--text-muted);">Последнее обновление: 23 августа 2026 г.</p>
+
+      <article class="space-y-10">
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">1. Контролёр данных</h2>
+          <p class="leading-relaxed" style="color: var(--text-body);">
+            Этим сайтом управляет <strong>Eternal CNC / Синьонхэн (Шэньчжэнь) Прецизионная Промышленная Компания, ООО</strong>
+            (далее — «мы», «нас», «Eternal CNC»). По любым вопросам об этой политике или ваших персональных данных обращайтесь по адресу
+            <a href="mailto:sales@eternalcnc.com" class="transition-all duration-300 hover:text-[#8B0000]">sales@eternalcnc.com</a>.
+          </p>
+          <p class="leading-relaxed mt-3" style="color: var(--text-body);">
+            Юридический адрес: Room 101, Comprehensive Building, No. 33 Guangjin Road, Shapu Community, Songgang Subdistrict, Bao'an District, Shenzhen, Guangdong, China.<br />
+            Регистрационный номер (Единый социальный кредитный код): 91440300MADJHK052.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">2. Какие данные мы собираем</h2>
+          <p class="leading-relaxed mb-3" style="color: var(--text-body);"><strong>Данные, которые вы предоставляете напрямую</strong> — когда вы отправляете запрос КП через нашу контактную форму, мы собираем:</p>
+          <ul class="list-disc pl-6 space-y-1 leading-relaxed" style="color: var(--text-body);">
+            <li>Имя и название компании</li>
+            <li>Адрес эл. почты и номер телефона</li>
+            <li>Прикреплённые файлы чертежей / спецификаций, которые вы загружаете</li>
+            <li>Любые сообщения или детали проекта, которые вы указываете</li>
+          </ul>
+          <p class="leading-relaxed mt-3" style="color: var(--text-body);">
+            Файлы чертежей и спецификаций передаются по зашифрованному соединению (HTTPS) и хранятся на нашем защищённом сервере / в хранилище Cloudflare R2. Доступ к файлам имеют только уполномоченные сотрудники в целях подготовки расчёта.
+          </p>
+          <p class="leading-relaxed mt-3 mb-3" style="color: var(--text-body);"><strong>Данные, собираемые автоматически</strong> — при посещении сайта мы и наш поставщик аналитики собираем:</p>
+          <ul class="list-disc pl-6 space-y-1 leading-relaxed" style="color: var(--text-body);">
+            <li>IP-адрес, тип браузера и устройства, операционная система</li>
+            <li>Просмотренные страницы, время на сайте, referrer-URL и приблизительное местоположение</li>
+            <li>Идентификаторы файлов cookie (см. Раздел 4)</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">3. Как и зачем мы используем данные (правовые основания)</h2>
+          <ul class="list-disc pl-6 space-y-2 leading-relaxed" style="color: var(--text-body);">
+            <li><strong>Для ответа на ваш запрос КП</strong> — совершение преддоговорных шагов / исполнение договора (GDPR ст. 6(1)(b)).</li>
+            <li><strong>Для защиты сайта и предотвращения злоупотреблений</strong> — наш законный интерес (GDPR ст. 6(1)(f)).</li>
+            <li><strong>Для понимания использования сайта и улучшения контента</strong> — ваше согласие на необязательные аналитические cookie (GDPR ст. 6(1)(a)).</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">4. Файлы cookie и аналитика (Google Analytics 4)</h2>
+          <p class="leading-relaxed mb-3" style="color: var(--text-body);">
+            Мы используем <strong>Google Analytics 4 (GA4)</strong> для измерения анонимного, агрегированного трафика сайта. GA4 устанавливает cookie, такие как
+            <code>_ga</code> и <code>_ga_*</code> (типичный срок жизни ~24 месяца). Мы <strong>не</strong> загружаем GA4, пока вы не дадите
+            согласие через наш баннер cookie; вы можете отозвать или изменить свой выбор в любой момент.
+          </p>
+          <p class="leading-relaxed" style="color: var(--text-body);">
+            Обязательные cookie, необходимые для работы сайта, освобождены от согласия. Все остальные cookie устанавливаются только после явного согласия.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">5. Сторонние поставщики услуг</h2>
+          <ul class="list-disc pl-6 space-y-1 leading-relaxed" style="color: var(--text-body);">
+            <li><strong>Google LLC</strong> — предоставляет Google Analytics 4 (данные обрабатываются в США / глобальных регионах).</li>
+            <li><strong>Cloudflare, Inc.</strong> — предоставляет хостинг, CDN и безопасность (глобальная edge-сеть).</li>
+            <li>Наш поставщик эл. почты / CRM — используется для получения и обработки запросов КП.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">6. Международная передача данных</h2>
+          <p class="leading-relaxed" style="color: var(--text-body);">
+            Поскольку мы используем Google и Cloudflare, ваши данные могут передаваться за пределы страны их сбора. Для передачи из
+            Европейской экономической зоны (ЕЭЗ) мы опираемся на <strong>Стандартные договорные положения (SCCs)</strong> и сертифицированные гарантии Google.
+            Для данных, регулируемых PIPL Китая, трансграничная передача осуществляется по механизмам, требуемым китайским законодательством. Мы применяем надлежащие
+            технические и организационные меры для защиты данных при передаче и хранении.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">7. Хранение данных</h2>
+          <ul class="list-disc pl-6 space-y-1 leading-relaxed" style="color: var(--text-body);">
+            <li>Данные запросов КП: хранятся до <strong>3 лет</strong> после последнего контакта, затем удаляются или анонимизируются.</li>
+            <li>Данные Google Analytics: хранятся согласно настройкам GA4 по умолчанию (обычно 14 месяцев), затем удаляются автоматически.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">8. Ваши права</h2>
+          <p class="leading-relaxed mb-3" style="color: var(--text-body);">С учётом применимого законодательства вы имеете право:</p>
+          <ul class="list-disc pl-6 space-y-1 leading-relaxed" style="color: var(--text-body);">
+            <li>Получить доступ, исправить или удалить ваши персональные данные</li>
+            <li>Ограничить или возразить против обработки</li>
+            <li>На переносимость данных</li>
+            <li>Отозвать согласие в любое время (без ущерба для ранее правомерной обработки)</li>
+          </ul>
+          <p class="leading-relaxed mt-3" style="color: var(--text-body);">
+            Мы ответим на ваш запрос в течение 30 дней. Запрос должен содержать достаточно информации для подтверждения вашей личности.
+          </p>
+          <p class="leading-relaxed mt-3" style="color: var(--text-body);">
+            Чтобы воспользоваться любым правом, пишите на <a href="mailto:sales@eternalcnc.com" class="transition-all duration-300 hover:text-[#8B0000]">sales@eternalcnc.com</a>.
+            Пользователи из ЕС также могут подать жалобу в местный орган по защите данных; пользователи в Китае могут обратиться в компетентное управление по делам киберпространства.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">9. Конфиденциальность детей</h2>
+          <p class="leading-relaxed" style="color: var(--text-body);">
+            Этот сайт не предназначен для детей до 16 лет, и мы не собираем их персональные данные осознанно.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">10. Изменения в этой политике</h2>
+          <p class="leading-relaxed" style="color: var(--text-body);">
+            Мы можем обновлять эту политику время от времени. Существенные изменения отражаются в дате «Последнее обновление» выше.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">11. Контакты</h2>
+          <p class="leading-relaxed" style="color: var(--text-body);">
+            Eternal CNC / Синьонхэн (Шэньчжэнь) Прецизионная Промышленная Компания, ООО<br />
+            Room 101, Comprehensive Building, No. 33 Guangjin Road, Shapu Community, Songgang Subdistrict, Bao'an District, Shenzhen, Guangdong, China<br />
+            Единый социальный кредитный код: 91440300MADJHK052<br />
+            Эл. почта: <a href="mailto:sales@eternalcnc.com" class="transition-all duration-300 hover:text-[#8B0000]">sales@eternalcnc.com</a>
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">12. Ссылки на сторонние сайты</h2>
+          <p class="leading-relaxed" style="color: var(--text-body);">
+            Этот сайт может содержать ссылки на сторонние сайты (например, Google Maps, WhatsApp и почтовые клиенты). Мы не несём ответственности за их практику конфиденциальности.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-2xl font-bold mb-3" style="color: var(--brand-dark);">13. Управление настройками cookie</h2>
+          <p class="leading-relaxed mb-4" style="color: var(--text-body);">
+            Вы можете изменить или отозвать согласие на cookie в любое время. Нажмите кнопку ниже, чтобы снова открыть настройки cookie.
+          </p>
+          <button type="button" onclick="if(window.openCookieSettings)window.openCookieSettings();" class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-[#8B0000] rounded-lg transition-all duration-200 hover:bg-[#6B0000] hover:text-white">
+            Управление настройками cookie
+          </button>
+        </section>
+      </article>
+    </div>
+  </section>
+</PageLayout>
