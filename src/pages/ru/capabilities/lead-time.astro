@@ -1,0 +1,139 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Возможности', href: '/ru/capabilities' },
+  { label: 'Срок изготовления' },
+];
+
+const capabilities = [
+  {
+    title: 'Срочный прототип (3–5 дней)',
+    items: ['Единичные срочные заказы', 'Упрощённая оснастка', 'Приоритетное выделение станка', 'Доступна срочная доставка'],
+    tolerance: '±0,01 мм',
+    materials: 'Алюминий 6061, сталь 1045, POM',
+  },
+  {
+    title: 'Стандартные образцы (7 дней)',
+    items: ['Комплекты многодетальных образцов', 'Полная маршрутизация процессов', 'Контроль первого образца', 'Включён размерный отчёт'],
+    tolerance: '±0,005 мм',
+    materials: 'Алюминий 7075, нержавеющая 303/316, латунь C360',
+  },
+  {
+    title: 'Мелкая серия (10–15 дней)',
+    items: ['Партия 10–50 шт.', 'Выделенный план качества', 'Прослеживаемость материала партии', 'Выборочный контроль'],
+    tolerance: '±0,005 мм',
+    materials: 'Все стандартные металлы и конструкционные пластики',
+  },
+  {
+    title: 'Серийное производство (15–30 дней)',
+    items: ['Стабильный выпуск от 50 шт.', 'Полный межоперационный контроль качества', 'Выделенная производственная линия', 'Документация PPAP по запросу'],
+    tolerance: '±0,01 мм',
+    materials: 'Алюминий, нержавеющая сталь, титан, спецсплавы',
+  },
+];
+
+const standards = [
+  { label: 'Расчёт за 24 часа', desc: 'Загружайте чертежи в любое время. Наши инженеры проверяют DFM и возвращают подробную смету в течение 2 часов.' },
+  { label: 'Отслеживание прогресса', desc: 'Обновление статуса заказа в реальном времени на каждом этапе — от обработки до контроля качества и отгрузки.' },
+  { label: 'Возможность срочных заказов', desc: 'Экстренные заказы могут быть ускорены за счёт выделенного времени станков и ночной доставки.' },
+  { label: 'Варианты логистики', desc: 'Срочная (3–5 дней), стандартная (7–15 дней) и экономичная доставка. Доставка по всему миру через DHL, FedEx и грузоперевозки.' },
+];
+---
+
+<PageLayout
+  title="Срок изготовления – прототипы за 3–7 дней | серия 15–30 дней | Eternal CNC"
+  description="Срочные прототипы за 3–5 дней, стандартные образцы за 7 дней, мелкая серия 10–15 дней, серийное производство 15–30 дней. Срочные заказы обсуждаются."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Возможности</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Срок изготовления
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Прототипы за 3–7 дней · Серийное производство 15–30 дней · Срочные заказы обсуждаются.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Смотреть услуги →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">График поставки</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Сроки по объёму заказа</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        От быстрых прототипов до серийного производства мы предлагаем гибкое планирование под ваши сроки.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Точность допуска</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Требует прецизионной доводки и контроля. Зависит от проверки чертежа.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Доступные материалы</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Стандарты сервиса</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Как мы соблюдаем сроки</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Наш оптимизированный рабочий процесс обеспечивает быструю оборачиваемость без ущерба качеству.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Нужны детали срочно?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите чертёж и получите расчёт в течение 2 часов с замечаниями по DFM.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Бесплатный расчёт
+        </a>
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Бесплатный DFM-анализ →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

@@ -1,0 +1,176 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Услуги', href: '/ru/services' },
+  { label: 'Финишная обработка' },
+];
+
+const capabilities = [
+  {
+    title: 'Анодирование',
+    items: ['Тип II — стандартное декоративное', 'Тип III — твёрдое износостойкое', 'Цветное анодирование (чёрное, красное, синее)', 'Анодирование с маскированием выборочных зон'],
+    tolerance: 'Толщина покрытия 5–25 мкм',
+    materials: 'Алюминиевые сплавы (6061, 7075, 2024)',
+  },
+  {
+    title: 'Гальваника',
+    items: ['Никелирование (химическое и электролитическое)', 'Цинкование для защиты от коррозии', 'Хромирование для твёрдости', 'Золочение/серебрение для проводимости'],
+    tolerance: 'Толщина покрытия 3–50 мкм',
+    materials: 'Сталь, латунь, медные основания',
+  },
+  {
+    title: 'Пассивация и конверсионные покрытия',
+    items: ['Пассивация нержавеющей стали', 'Хроматная конверсия (Alodine)', 'Фосфатирование', 'Оксидирование (чёрное)'],
+    tolerance: 'По ASTM A967 / AMS2700',
+    materials: 'Нержавеющая сталь, алюминий, сталь',
+  },
+  {
+    title: 'Окраска и обработка абразивом',
+    items: ['Порошковая окраска (цвета RAL)', 'Мокрое распыление', 'Обработка стеклянными шариками', 'Пескоструйная обработка и матовая отделка'],
+    tolerance: 'Профиль поверхности по спец.',
+    materials: 'Все металлы, некоторые пластики',
+  },
+];
+
+const standards = [
+  { label: 'Испытание на адгезию', desc: 'Испытание на адгезию методом решётчатых надрезов (ISO 2409) проводится для каждой партии. Требуется минимум класс 4B.' },
+  { label: 'Проверка толщины', desc: 'Толщина покрытия измеряется вихретоковым методом или рентгенофлуоресцентным. Многоточечный отбор.' },
+  { label: 'Солевой туман', desc: 'Доступно по запросу. Нейтральный солевой туман (ASTM B117) для проверки коррозионной стойкости.' },
+  { label: 'Стандарты внешнего вида', desc: 'Визуальный контроль при освещении D65. Подбор цвета спектрофотометром для нестандартных цветов.' },
+];
+---
+
+<PageLayout
+  title="Финишная обработка ЧПУ | анодирование и покрытия | Eternal CNC"
+  description="Финишная обработка: анодирование, гальваника, пассивация, порошковая окраска и пескоструйная обработка для эстетики и защиты."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Услуги</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Финишная обработка
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Анодирование, гальваника, пассивация, окраска и пескоструйная обработка — различные процессы для удовлетворения ваших эстетических и функциональных требований.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/knowledge/surface-finishing" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Гид по финишной обработке →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Возможности</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">По виду обработки</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Мы предлагаем четыре категории финишной обработки для разнообразных эстетических и функциональных задач.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Точность</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Требует прецизионной доводки и контроля. С учётом проверки чертежа.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Распространённые материалы</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Surface Treatment Gallery -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Покрытия</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Галерея финишной обработки</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Ниже представлены 3D-рендеры, иллюстрирующие типичный вид каждой финишной обработки. Реальные фотографии образцов будут добавляться со временем.
+      </p>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/surface-treatment/surface-treatment-anodizing-render-01.webp" alt="3D-рендер анодированного алюминиевого корпуса с матовым чёрным покрытием" width="400" height="400" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Анодирование · Матовый чёрный</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/surface-treatment/surface-treatment-electroplating-render-01.webp" alt="3D-рендер хромированного нержавеющего кронштейна, зеркальное отражающее покрытие" width="400" height="400" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Гальваника · Зеркальный хром</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/surface-treatment/surface-treatment-black-oxide-render-01.webp" alt="3D-рендер стальной детали с чёрным оксидированием, тёмное матовое покрытие" width="400" height="400" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Чёрное оксидирование · Ганметал</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/surface-treatment/surface-treatment-powder-coating-render-01.webp" alt="3D-рендер алюминиевого корпуса с порошковым покрытием, матовый синий RAL" width="400" height="400" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Порошковая окраска · RAL синий</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/surface-treatment/surface-treatment-bead-blasting-render-01.webp" alt="3D-рендер пескоструйной нержавеющей детали, сатиновая матовая фактура" width="400" height="400" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Пескоструйная обработка · Сатин</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/surface-treatment/surface-treatment-mirror-polish-render-01.webp" alt="3D-рендер зеркально полированного латунного фитинга, высокоотражающее золотистое покрытие" width="400" height="400" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Зеркальная полировка · Латунь</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Контроль качества</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Стандарты качества</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Каждая финишная обработка проходит строгую проверку качества перед отгрузкой.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Нужна финишная обработка?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите свои чертежи. Наши инженеры предоставят расчёт и обратную связь по DFM в течение 2 часов.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Бесплатный расчёт
+        </a>
+        <a href="/ru/knowledge/surface-finishing" class="inline-block px-8 py-3.5 text-sm font-semibold border border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Гид по финишной обработке →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

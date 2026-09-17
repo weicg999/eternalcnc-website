@@ -1,0 +1,183 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import IndustryArticles from '../../../components/IndustryArticles.astro';
+
+const breadcrumbs = [
+  { label: 'Отрасли', href: '/ru/industries' },
+  { label: 'Энергетическое оборудование' },
+];
+
+const capabilities = [
+  {
+    title: 'Корпуса клапанов',
+    items: ['Корпуса клапанов под давлением', 'Задвижки и шаровые краны', 'Обработка по стандартам API/ASTM', 'Поверхность уплотнения до Ra 0,8'],
+    tolerance: '±0.01mm',
+    materials: 'Нержавеющая сталь 316/316L, углеродистая сталь WCB',
+  },
+  {
+    title: 'Корпуса насосов',
+    items: ['Корпуса центробежных и объёмных насосов', 'Герметичные соединения, проверка на течь', 'Камеры рабочих колёс с малым зазором', 'Плоскости фланцев шлифуются'],
+    tolerance: '±0.01mm',
+    materials: 'Нержавеющая сталь 304/316, дуплекс 2205',
+  },
+  {
+    title: 'Фланцевые соединители',
+    items: ['Фланцы ASME B16.5', 'Плоскости прокладок шлифуются', 'Прецизионное растачивание отверстий под болты', 'Чистота поверхности по ТУ'],
+    tolerance: '±0.025mm',
+    materials: 'Углеродистая сталь, нержавеющая сталь, сплав 20',
+  },
+  {
+    title: 'Приспособления для турбин',
+    items: ['Кронштейны крепления ветро- и газотурбин', 'Установочные приспособления для сборки', 'Возможность обработки крупногабаритных деталей', 'Подготовка к динамической балансировке'],
+    tolerance: '±0.05mm',
+    materials: 'Сталь 4340, алюминий 7075, нержавеющая сталь 17-4 PH',
+  },
+];
+
+const standards = [
+  { label: 'Испытания давлением', desc: 'Гидростатическая и пневматическая проверка давлением каждой детали, рассчитанной на давление.' },
+  { label: 'Коррозионные испытания', desc: 'Солевой туман, погружение и ускоренное старение по ASTM B117.' },
+  { label: 'Ударная вязкость', desc: 'Испытания на удар по Шарпи с V-надрезом для деталей низкотемпературной службы.' },
+  { label: 'Сертификация материалов', desc: 'Заводские сертификаты, прослеживаемость материалов, полный химический анализ по запросу.' },
+];
+---
+
+<PageLayout
+  title="ЧПУ обработка энергооборудования | клапаны · насосы · турбины | Eternal CNC"
+  description="Точная ЧПУ обработка энергооборудования — корпуса клапанов, корпуса насосов, фланцевые соединители и приспособления для турбин. Рассчитанные на давление, коррозионностойкие, с полной прослеживаемостью."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Отрасли</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Производство энергетического оборудования
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Высокая нагрузка · Коррозионная стойкость · Длительный срок службы.
+        Точные детали для оборудования нефтегаза, ветроэнергетики и солнечной энергетики.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium rounded-lg bg-[#8B0000] text-white transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/industries" class="inline-block px-6 py-3 text-sm font-medium rounded-lg transition-all duration-200 border" style="border-color: var(--brand-red); color: var(--brand-red);">
+          Смотреть отрасли →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Возможности</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Ключевые компоненты</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Мы обрабатываем критические компоненты для энергетического оборудования. Критические размеры могут быть проверены на КИМ через общий метрологический центр нашей группы по запросу, с полной прослеживаемостью материалов.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Точность допуска</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Требуется прецизионная финишная обработка и контроль. Подлежит проверке чертежа.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Распространённые материалы</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Showcase -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Примеры продукции</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Галерея энергетических деталей</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Алюминиевые корпуса и прецизионные компоненты для энергетических и силовых систем. Визуализации продукции предназначены только для демонстрации процесса. Наглядное представление возможностей обработки. Изображения приведены только для справки в связи с NDA.
+      </p>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/energy/cnc-energy-solar-mount-bracket-01.webp" alt="Детали механических соединений" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Детали механических соединений</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/energy/cnc-energy-wind-gearbox-housing-02.webp" alt="Сложная фрезеровка полостей для энергетики" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Сложная фрезеровка полостей</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/energy/cnc-energy-battery-enclosure-03.webp" alt="Корпус из алюминиевого экструдированного профиля ЧПУ" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Корпус из алюминиевого экструдированного профиля</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/energy/cnc-energy-pipe-flange-fitting-04.webp" alt="Сложные обработанные детали для энергетических применений" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Сложные детали</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Контроль качества</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Стандарты качества для энергетики</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Каждый заказ выполняется по процедурам контроля качества энергетической отрасли с полной документацией.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <IndustryArticles
+    system="energy"
+    collection="blog"
+    basePath="/knowledge/tech-blog"
+    eyebrow="Подробные руководства"
+    heading="Руководства по обработке для энергетики"
+    fallbackHeading="Руководства по обработке из нашего технического блога"
+    intro="Что нужно знать о материалах, допусках и финишной обработке для энергетики, накопителей и сетевого оборудования."
+    generalHeading="Общая база"
+    generalTag="Цепочка, через которую проходит каждая деталь — чертёж, DFM, материал, станок, финишная обработка, расчёт."
+    locale="en-US"
+  />
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Энергетические детали, рассчитанные на долгий срок</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Пришлите нам свои чертежи — обратная связь от инженера в течение 2 часов.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold rounded-lg bg-[#8B0000] text-white transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт →
+        </a>
+        <a href="/ru/industries" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-lg transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Все отрасли →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

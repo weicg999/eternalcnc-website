@@ -1,0 +1,142 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Услуги', href: '/ru/services' },
+  { label: 'Контроль качества' },
+];
+
+const capabilities = [
+  {
+    title: 'Измерения на КИМ (по запросу)',
+    items: ['3D-сканирование координат', 'Проверка сложной геометрии', 'Допуски формы и расположения', 'Данные для реверс-инжиниринга'],
+    tolerance: '±0,001 мм',
+    materials: 'Все металлы и инженерные пластики',
+  },
+  {
+    title: 'Поверхность и шероховатость',
+    items: ['Контактная профилометрия', 'Параметры Ra/Rz/Rt', 'Измерение высоты уступа', 'Анализ волнистости'],
+    tolerance: 'Разрешение Ra 0,025 мкм',
+    materials: 'Все обработанные поверхности',
+  },
+  {
+    title: 'Оптический контроль',
+    items: ['Проекция 2D-профиля', 'Измерение микроэлементов', 'Контроль резьбовыми калибрами', 'Контроль контактных площадок и дорожек ПП'],
+    tolerance: '±0,003 мм',
+    materials: 'Все материалы, включая прозрачные и отражающие',
+  },
+  {
+    title: 'Анализ материалов',
+    items: ['Испытания на твёрдость (HRC/HB/HV)', 'Рентгенофлуоресцентный анализ состава (XRF)', 'Металлографическое исследование', 'Измерение толщины покрытия'],
+    tolerance: 'По стандартам ASTM/ISO',
+    materials: 'Все металлы и сплавы',
+  },
+];
+
+const standards = [
+  { label: 'Калибровка', desc: 'Все приборы регулярно калибруются и имеют прослеживаемость к национальным стандартам. Сертификаты калибровки доступны по запросу.' },
+  { label: 'Отчёты о контроле и ПИ', desc: 'Отчёты ПИ (FAI) с полными размерными данными, межоперационный контроль и анализ GD&T доступны по запросу. Сертификаты на материалы (EN 10204 3.1) доступны по запросу; отчёты о размерном контроле доступны по запросу.' },
+  { label: 'Выборочный контроль AQL', desc: 'Стандартный контроль по ISO 2859-1 (AQL 2.5). Контроль 100% доступен для критических размеров.' },
+  { label: 'Прослеживаемость', desc: 'Поддерживается полная партионная и поштучная прослеживаемость. Каждую деталь или партию можно проследить до партии, станка, оператора и данных контроля.' },
+];
+---
+
+<PageLayout
+  title="Контроль качества ЧПУ | КИМ и измерения | Eternal CNC"
+  description="Контроль качества: измерения на КИМ (по запросу), профилометрия, оптический контроль и анализ материалов. Полный контроль на всех этапах."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Услуги</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Контроль качества
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Измерения на КИМ доступны по запросу через общий метрологический центр нашей группы, неразрушающий контроль и анализ материалов — контроль качества на всех этапах.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/services/dfm-analysis" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Бесплатный DFM-анализ →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Возможности</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">По методу контроля</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Мы предлагаем четыре категории контроля, чтобы каждая деталь соответствовала вашим требованиям.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Точность</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Требует прецизионной доводки и контроля. С учётом проверки чертежа.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Распространённые материалы</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Контроль качества</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Стандарты качества</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Наша лаборатория контроля работает по строгим протоколам калибровки и прослеживаемости.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+      <p class="mt-8 text-xs leading-relaxed" style="color: #9CA3AF;">
+        <strong style="color: var(--text-muted);">Примечание по расширенным процессам:</strong> Некоторые специализированные процессы (напр., электроэрозионная резка проволокой, шлифование, финишная обработка поверхности) выполняются нашей проверенной сетью партнёров / предприятиями группы, а не на стандартном внутреннем оборудовании. Все детали повторно контролируются внутри цеха с помощью оптической измерительной системы 2.5D и прецизионных калибров перед отгрузкой. Полная верификация на КИМ (ISO 2768-m) доступна по запросу через общий метрологический центр нашей группы.
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Нужны услуги контроля качества?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите свои чертежи. Наши инженеры предоставят расчёт и обратную связь по DFM в течение 2 часов.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Бесплатный расчёт
+        </a>
+        <a href="/ru/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Бесплатный DFM-анализ →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

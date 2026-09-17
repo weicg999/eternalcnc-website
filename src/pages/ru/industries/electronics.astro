@@ -1,0 +1,181 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import IndustryArticles from '../../../components/IndustryArticles.astro';
+
+const breadcrumbs = [
+  { label: 'Отрасли', href: '/ru/industries' },
+  { label: 'Электроника' },
+];
+
+const capabilities = [
+  {
+    title: 'Корпуса РЧ-оборудования',
+    items: ['Корпуса антенных блоков', 'Экранирующие колпаки РЧ', 'Корпуса фильтров', 'Волноводные компоненты'],
+    tolerance: '±0.05mm',
+    materials: 'Алюминий 6061, латунь C360, медь C110',
+  },
+  {
+    title: 'Радиаторы',
+    items: ['Радиаторы из экструдированных профилей', 'Индивидуальные наборы рёбер', 'Холодные плиты', 'Теплоотводящие подложки светодиодов'],
+    tolerance: '±0.025mm',
+    materials: 'Алюминий 6063/6061, медь C110',
+  },
+  {
+    title: 'Разъёмы',
+    items: ['Корпуса круглых разъёмов', 'Детали юстировки волоконной оптики', 'Штыревые колодки и гнёзда', 'Корпуса коаксиальных разъёмов'],
+    tolerance: '±0.005mm',
+    materials: 'Латунь C360, PEEK, ПОМ, нержавеющая сталь 303',
+  },
+  {
+    title: 'Экраны ЭМП',
+    items: ['Рамки экранов уровня платы', 'Пазы под уплотнения', 'Апертурные плиты', 'Токопроводящие вставки корпусов'],
+    tolerance: '±0.01mm',
+    materials: 'Алюминий, латунь, бериллиевая медь',
+  },
+];
+
+const standards = [
+  { label: 'Контроль качества процесса', desc: 'Внутрипроцессный контроль качества при серийном производстве разъёмов и радиаторов. Cpk ≥ 1,33 по критическим размерам.' },
+  { label: 'Тестирование проводимости', desc: 'Проверка поверхностной проводимости для деталей экранов ЭМП/РЧ. Сопротивление контакта измеряется по ТУ заказчика.' },
+  { label: 'Толщина покрытия', desc: 'Толщина анодирования, никелирования и золочения проверяется рентгенофлуоресцентным методом. Доступны покрытия по военным стандартам.' },
+  { label: 'Стабильность размеров', desc: 'Системы оптического контроля для серийных партий. Доступна автоматическая сортировка и упаковка.' },
+];
+---
+
+<PageLayout
+  title="ЧПУ обработка электроники | РЧ · радиаторы · разъёмы | Eternal CNC"
+  description="Точная ЧПУ обработка для электроники — корпуса РЧ, радиаторы, корпуса разъёмов, экраны ЭМП. Миниатюрные конструкции с жёсткими допусками, поставщик ЧПУ Китай."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Отрасли</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Электроника и связь
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Миниатюрные конструкции · Радиаторы · Корпуса разъёмов.
+        Высокоточные ЧПУ детали для бытовой электроники, телекома и промышленной электроники.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded-md transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Смотреть услуги →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Возможности</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Категории компонентов электроники</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        От РЧ-экранирования до управления теплом — прецизионные детали для каждой электронной системы.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Точность допуска</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Требуется прецизионная финишная обработка и контроль. Подлежит проверке чертежа.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Распространённые материалы</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Контроль качества</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Стандарты качества для электроники</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Серийное производство электроники требует стабильности и качества финишной поверхности.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Showcase -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Примеры продукции</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Галерея компонентов электроники и телекома</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">Прецизионные электронные компоненты — радиаторы, экранированные корпуса, РЧ-разъёмы. Визуализации продукции предназначены только для демонстрации процесса. Наглядное представление возможностей обработки. Изображения приведены только для справки в связи с NDA.</p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/electronics/cnc-electronics-aluminum-heat-sink-01.webp" alt="ЧПУ обработанный алюминиевый радиатор" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">ЧПУ обработанный алюминиевый радиатор</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/electronics/cnc-electronics-rf-shielded-enclosure-02.webp" alt="Экранированный РЧ-корпус телекоммуникационного оборудования" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Экранированный РЧ-корпус телеком-оборудования</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/electronics/cnc-electronics-rf-connector-03.webp" alt="Прецизионный РЧ-разъём" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Прецизионный РЧ-разъём</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/electronics/cnc-electronics-pcb-mount-bracket-04.webp" alt="Кронштейн крепления печатной платы" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Кронштейн крепления печатной платы</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <IndustryArticles
+    system="electronics"
+    collection="blog"
+    basePath="/knowledge/tech-blog"
+    eyebrow="Подробные руководства"
+    heading="Руководства по обработке для электроники"
+    fallbackHeading="Руководства по обработке из нашего технического блога"
+    intro="Что нужно знать о корпусах, теплоотводах и тепловой аппаратуре."
+    generalHeading="Общая база"
+    generalTag="Цепочка, через которую проходит каждая деталь — чертёж, DFM, материал, станок, финишная обработка, расчёт."
+    locale="en-US"
+  />
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Нужна обработка электронных компонентов?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите свой чертёж и получите расчёт в течение 2 часов с замечаниями по DFM.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold rounded-lg bg-[#8B0000] text-white transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Получить бесплатный расчёт
+        </a>
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold border rounded-lg border border-white/30 text-white transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Бесплатный DFM-анализ →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

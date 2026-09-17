@@ -1,0 +1,165 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Отрасли' },
+];
+
+const industries = [
+  {
+    title: 'Автомобилестроение',
+    href: '/ru/industries/automotive',
+    items: ['Детали двигателя', 'Несущие элементы шасси', 'Точная обработка трансмиссии', 'Поставщики OEM и Tier-1'],
+    tolerance: '±0.01mm',
+    materials: 'Алюминий, сталь 4140, чугун',
+  },
+  {
+    title: 'Робототехника',
+    href: '/ru/industries/robotics',
+    items: ['Шарнирные детали', 'Корпуса редукторов', 'Высокоточные детали управления движением', 'Интеграция автоматизации'],
+    tolerance: '±0.005mm',
+    materials: 'Алюминий, сталь, конструкционные пластики',
+  },
+  {
+    title: 'Медицинское оборудование',
+    href: '/ru/industries/medical',
+    items: ['Корпуса', 'Кронштейны', 'Детали диагностического оборудования', 'Строгий контроль качества'],
+    tolerance: '±0.01mm',
+    materials: 'Нержавеющая сталь 316L, титановый сплав',
+  },
+  {
+    title: 'Электроника',
+    href: '/ru/industries/electronics',
+    items: ['Миниатюрные конструкции', 'Радиаторы', 'Корпуса разъёмов', 'Высокочастотные сигнальные детали'],
+    tolerance: '±0.005mm',
+    materials: 'Алюминий, латунь, ПОМ',
+  },
+  {
+    title: 'Связь и спутниковое оборудование',
+    href: '/ru/industries/communications-satellite',
+    items: ['Спутниковые кронштейны', 'Корпуса антенн', 'Корпуса сервоприводов', 'Несущие рамы'],
+    tolerance: '±0.005mm',
+    materials: 'Титановый сплав, Inconel 718, алюминий',
+  },
+  {
+    title: 'Энергетическое оборудование',
+    href: '/ru/industries/energy',
+    items: ['Высокая несущая способность', 'Коррозионная стойкость', 'Длительный срок службы', 'Корпуса клапанов и насосов'],
+    tolerance: '±0.01mm',
+    materials: 'Нержавеющая сталь, легированная сталь',
+  },
+  {
+    title: 'Оборудование автоматизации',
+    href: '/ru/industries/automation-equipment',
+    items: ['Конвейерные системы', 'Роботы Pick-and-place', 'Приспособления ЧПУ', 'Индивидуальная сборка'],
+    tolerance: '±0.01mm',
+    materials: 'Алюминий, сталь, конструкционные пластики',
+  },
+];
+
+const certifications = [
+  { label: 'Прослеживаемость материалов', desc: 'Сертификаты материалов EN 10204 3.1 предоставляются по запросу — полная прослеживаемость.' },
+  { label: 'Сертификация ISO 9001 в процессе', desc: 'Сертификация системы менеджмента качества в процессе (2026). Стандартизированный контроль всего процесса.' },
+  { label: 'Контроль качества процесса', desc: 'Внутрипроцессный контроль качества обеспечивает стабильность от партии к партии.' },
+  { label: 'Отчёты о контроле по запросу', desc: 'Отчёты о первой детали и ключевых размерах предоставляются по запросу — данные о качестве прозрачны и проверяемы.' },
+];
+---
+
+<PageLayout
+  title="Отрасли ЧПУ обработки | авто · робототехника · медицина · энергетика | Eternal CNC"
+  description="Точная ЧПУ обработка для автомобилестроения, робототехники, медицины, электроники, связи и спутников, энергетики и оборудования автоматизации. Поставщик ЧПУ Китай, 5-осевая фрезеровка."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Отрасли</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Точная обработка для разных отраслей
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Точные решения ЧПУ обработки для самых разных отраслей промышленности
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/cases/automotive" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Смотреть примеры →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Industries Grid -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Секторы</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Семь ключевых отраслей</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        15 лет опыта в прецизионной обработке, обслуживаем заказчиков в разных отраслях по всему миру.
+      </p>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {industries.map((ind) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">
+              <a href={ind.href} class="hover:text-[#8B0000] transition-colors">{ind.title}</a>
+            </h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {ind.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Точность допуска</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{ind.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Требуется прецизионная финишная обработка и контроль. Подлежит проверке чертежа.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Материалы</p>
+              <p class="text-sm" style="color: var(--text-body);">{ind.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Certifications -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Контроль качества</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Отраслевые стандарты и сертификация</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Строгое соблюдение отраслевых стандартов качества — каждая поставка соответствует требованиям.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {certifications.map((cert) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{cert.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{cert.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Найдите решение для вашей отрасли</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите свой чертёж для расчёта, адаптированного под вашу отрасль.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Получить бесплатный расчёт
+        </a>
+        <a href="/ru/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Бесплатный DFM-анализ →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

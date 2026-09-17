@@ -1,0 +1,159 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Услуги', href: '/ru/services' },
+  { label: 'Подбор материалов' },
+];
+
+const capabilities = [
+  {
+    title: 'Алюминиевые сплавы',
+    items: [
+      { grade: '6061-T6', desc: 'общего назначения (аналог АД33/6082)' },
+      { grade: '7075-T6', desc: 'высокая прочность (аналог В95)' },
+      { grade: '2011-T3', desc: 'автоматная (пруток для токарных автоматов)' },
+      { grade: '5052', desc: 'коррозионностойкий' },
+    ],
+    tolerance: 'Зависит от сплава',
+    materials: 'Малый вес, отличная обрабатываемость, хорошее соотношение прочности к весу',
+  },
+  {
+    title: 'Сталь и нержавеющая',
+    items: [
+      { grade: '1045', desc: 'среднеуглеродистая' },
+      { grade: '4140', desc: 'хромомолибденовая' },
+      { grade: '303/304', desc: 'аустенитная нержавеющая (304 — аналог 08Х18Н10/12Х18Н10Т)' },
+      { grade: '17-4 PH', desc: 'дисперсионно-твердеющая (аналог 07Х16Н6)' },
+    ],
+    tolerance: 'Зависит от марки',
+    materials: 'Высокая прочность, износостойкость, защита от коррозии',
+  },
+  {
+    title: 'Медь и латунь',
+    items: [
+      { grade: 'C360', desc: 'автоматная латунь' },
+      { grade: 'C110', desc: 'электролитическая медь' },
+      { grade: 'silicon bronze', desc: '' },
+      { grade: 'phosphor bronze', desc: '' },
+    ],
+    tolerance: 'Отличная обрабатываемость',
+    materials: 'Электропроводность, теплоотвод, декоративный вид',
+  },
+  {
+    title: 'Инженерные пластики',
+    items: [
+      { grade: 'POM (Delrin)', desc: 'жёсткий и гладкий' },
+      { grade: 'Nylon (PA6/PA66)', desc: 'ударопрочный' },
+      { grade: 'PEEK', desc: 'высокотемпературный (ПЭЭК)' },
+      { grade: 'PTFE', desc: 'химически инертный' },
+    ],
+    tolerance: 'Низкая теплопроводность',
+    materials: 'Электроизоляция, малый вес, химическая стойкость',
+  },
+];
+
+const standards = [
+  { label: 'Подбор под применение', desc: 'Мы подбираем свойства материала под ваши функциональные требования — прочность, вес, температуру и среду.' },
+  { label: 'Сравнение стоимости', desc: 'Сравнительный анализ стоимости по вариантам материалов, включая влияние времени обработки и потребность в доработке.' },
+  { label: 'Поддержка сертификации', desc: 'Сертификаты на материалы (EN 10204 3.1) доступны по запросу. Соответствие RoHS и REACH.' },
+  { label: 'Прототип и ПИ (первый образец)', desc: 'Мы выполняем мелкосерийные пробные партии и прототипную обработку. Полный отчёт ПИ (FAI) с размерными данными предоставляется до серийного производства, чтобы деталь соответствовала всем требованиям.' },
+];
+---
+
+<PageLayout
+  title="Подбор материалов для ЧПУ | Eternal CNC"
+  description="Подбор материалов для ЧПУ обработки — алюминий, сталь, нержавеющая, латунь, титан и инженерные пластики. Подберём оптимальный материал под задачу."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Услуги</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Подбор материалов
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Металлы, пластики и специальные материалы — мы помогаем выбрать оптимальный материал для вашей задачи.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/materials" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Открыть базу материалов →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Возможности</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Категории услуг</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Мы охватываем четыре основных семейства материалов с полной рекомендацией по выбору для каждого.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  <span translate="no">{item.grade}</span>{item.desc && ` — ${item.desc}`}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Точность</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Требует прецизионной доводки и контроля. С учётом проверки чертежа.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Распространённые материалы</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Почему мы</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Стандарты услуги</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Наша услуга подбора материалов гарантирует обоснованные решения, подкреплённые данными и опытом.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Нужна помощь с выбором материалов?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите свои чертежи. Наши инженеры предоставят расчёт и обратную связь по DFM в течение 2 часов.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Бесплатный расчёт
+        </a>
+        <a href="/ru/materials" class="inline-block px-8 py-3.5 text-sm font-semibold border border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Смотреть материалы →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

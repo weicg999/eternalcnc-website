@@ -1,0 +1,181 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import IndustryArticles from '../../../components/IndustryArticles.astro';
+
+const breadcrumbs = [
+  { label: 'Отрасли', href: '/ru/industries' },
+  { label: 'Связь и спутниковое оборудование' },
+];
+
+const capabilities = [
+  {
+    title: 'Спутниковые кронштейны',
+    items: ['Кронштейны спутниковых платформ', 'Крепления солнечных панелей', 'Стрелы антенн', 'Конструкционные фитинги'],
+    tolerance: '±0.005mm',
+    materials: 'Inconel 718, титан Ti-6Al-4V, нержавеющая сталь 17-4 PH',
+  },
+  {
+    title: 'Корпуса сервоприводов',
+    items: ['Корпуса приводов', 'Кронштейны карданов', 'Детали торсионных звеньев', 'Адаптеры втулок'],
+    tolerance: '±0.01mm',
+    materials: 'Сталь 4340, 300M, титан Ti-6Al-4V',
+  },
+  {
+    title: 'Корпуса антенн',
+    items: ['РЧ-корпуса', 'Крепления GPS-антенн', 'Кронштейны коммуникационных стоек', 'Плиты интеграции датчиков'],
+    tolerance: '±0.025mm',
+    materials: 'Алюминий 6061/7075, магний AZ31',
+  },
+  {
+    title: 'Несущие рамы',
+    items: ['Соединители рам', 'Фитинги панелей', 'Волноводные коллекторы', 'Быстроразъёмные муфты'],
+    tolerance: '±0.01mm',
+    materials: 'Нержавеющая сталь 316, титан, алюминий 2024',
+  },
+];
+
+const standards = [
+  { label: 'Сертификация материалов', desc: 'Сертификаты материалов EN 10204 3.1 и ASTM предоставляются по запросу. Специальные сплавы (Inconel, Ti) полностью задокументированы.' },
+  { label: 'Партионная прослеживаемость', desc: 'Отслеживание плавочных партий от сырья до финального контроля. Каждая деталь прослеживается до источника.' },
+  { label: 'Отчёты НК', desc: 'Неразрушающий контроль доступен — цветная дефектоскопия, ультразвук и рентген по требованиям заказчика.' },
+  { label: 'Контроль критических деталей', desc: '100% контроль критических деталей системы доступен по запросу. Полные отчёты по размерам предоставляются по соглашению.' },
+];
+---
+
+<PageLayout
+  title="ЧПУ обработка связи и спутников | кронштейны · антенны · сервоприводы | Eternal CNC"
+  description="Точная ЧПУ обработка для связи и спутников — спутниковые кронштейны, корпуса антенн, корпуса сервоприводов, несущие рамы. Прослеживаемые материалы, поставщик ЧПУ Китай."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Отрасли</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Производство оборудования связи и спутников
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Сложные условия эксплуатации · Прослеживаемые материалы · Строгие стандарты качества.
+        Точные ЧПУ детали для коммерческих спутниковых и коммуникационных программ.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded-md transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Смотреть услуги →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Возможности</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Категории компонентов</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        От спутниковых конструкций до коммуникационного оборудования — мы обрабатываем критические детали для систем высокой надёжности.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Точность допуска</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Требуется прецизионная финишная обработка и контроль. Подлежит проверке чертежа.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Распространённые материалы</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Контроль качества</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Стандарты качества</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Детали высокой надёжности требуют самого высокого уровня прослеживаемости и контроля.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Showcase -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Примеры продукции</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Галерея компонентов</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">Детали высокой надёжности — спутниковые конструкции, корпуса сервоприводов, несущие рамы. Визуализации продукции предназначены только для демонстрации процесса. Наглядное представление возможностей обработки. Изображения приведены только для справки в связи с NDA.</p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/aerospace/cnc-aerospace-satellite-bracket-01.webp" alt="ЧПУ обработанный алюминиевый спутниковый кронштейн" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">ЧПУ обработанный алюминиевый спутниковый кронштейн</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/aerospace/cnc-aerospace-servo-actuator-housing-02.webp" alt="Прецизионный корпус сервопривода" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Прецизионный корпус сервопривода</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/aerospace/cnc-aerospace-turbine-blade-03.webp" alt="Прецизионная обработанная лопаточная деталь" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Прецизионная обработанная лопаточная деталь</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/aerospace/cnc-aerospace-antenna-housing-04.webp" alt="Корпус антенны ЧПУ обработки" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Корпус антенны ЧПУ обработки</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <IndustryArticles
+    system="communications-satellite"
+    collection="blog"
+    basePath="/knowledge/tech-blog"
+    eyebrow="Подробные руководства"
+    heading="Руководства по обработке для связи и спутников"
+    fallbackHeading="Руководства по обработке из нашего технического блога"
+    intro="Что нужно знать о корпусах РЧ, волноводах и лёгких конструкционных деталях."
+    generalHeading="Общая база"
+    generalTag="Цепочка, через которую проходит каждая деталь — чертёж, DFM, материал, станок, финишная обработка, расчёт."
+    locale="en-US"
+  />
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Нужны детали для спутников и связи?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите свой чертёж — наши инженеры подтвердят применимость материала и процесса в течение 2 часов.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold rounded-lg bg-[#8B0000] text-white transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Получить бесплатный расчёт
+        </a>
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold border rounded-lg border border-white/30 text-white transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Бесплатный DFM-анализ →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>
