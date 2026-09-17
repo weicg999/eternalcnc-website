@@ -1,0 +1,149 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Кейсы', href: '/ru/cases' },
+  { label: 'Автомобилестроение' },
+];
+
+const capabilities = [
+  { title: 'Головка блока цилиндров', material: 'Алюминий 7075', process: '5-осевое фрезерование', spec: 'Плоскостность 0,02 мм' },
+  { title: 'Рычаг подвески', material: 'Сталь 4340', process: '3-осевое фрезерование + сверление', spec: 'Солевой туман 72 ч — пройдено' },
+  { title: 'Корпус датчика', material: 'Алюминий 6061 + анодирование', process: 'Прецизионное фрезерование', spec: 'Допуск ±0,01 мм' },
+  { title: 'Кронштейн приборной панели', material: 'Алюминий 6061', process: 'Многоустановочное фрезерование', spec: 'Тонкая стенка 1,2 мм' },
+];
+
+const standards = [
+  { label: 'Контроль размеров', desc: "Первая деталь и выборочный контроль могут быть проверены на КИМ в общем метрологическом центре нашей группы по запросу. Отчёты предоставляются по запросу для каждой партии." },
+  { label: 'Обработка поверхности', desc: 'Анодирование, пассивация и порошковая окраска — через сертифицированную сеть партнёров. Толщина покрытия проверяется.' },
+  { label: 'Прослеживаемость материалов', desc: 'Сертификаты EN 10204 3.1 доступны по запросу; полная прослеживаемость от заготовки до готовой детали.' },
+  { label: 'Документация PPAP', desc: 'Документация процесса одобрения серийных деталей (PPAP) доступна — планы управления, PFMEA, исследования воспроизводимости.' },
+];
+---
+
+<PageLayout
+  title="Кейсы автомобильных деталей | двигатель, шасси, датчик | Eternal CNC"
+  description="Реальные кейсы ЧПУ обработки автодеталей — головки блока, рычаги подвески, корпуса датчиков, кронштейны панели."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Кейсы</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Кейсы автомобильных деталей
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Кейсы прецизионной обработки двигателя, шасси, трансмиссии и электроники.
+        Подтверждённый опыт поставки деталей точно по ТУ для автопроизводителей и поставщиков 1-го уровня.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/cases" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Все кейсы →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Примеры проектов</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Избранные кейсы автомобильной отрасли</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Отобранные проекты, демонстрирующие наши возможности обработки для автомобилестроения.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-4">
+              <li class="text-sm flex items-start"><span class="mr-2" style="color: var(--brand-red);">—</span><span style="color: var(--text-body);">Материал: {cap.material}</span></li>
+              <li class="text-sm flex items-start"><span class="mr-2" style="color: var(--brand-red);">—</span><span style="color: var(--text-body);">Процесс: {cap.process}</span></li>
+              <li class="text-sm flex items-start"><span class="mr-2" style="color: var(--brand-red);">—</span><span style="color: var(--text-body);">{cap.spec}</span></li>
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Product Renders -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Галерея изделий</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Избранные визуализации изделий</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">Типовые визуализации изделий — материал, процесс и детали поверхности.</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/automotive/cnc-auto-part-cylinder-head-7075-render-01.webp" alt="Прототип головки блока цилиндров из алюминия 7075, 5-осевая фрезеровка" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Головка блока цилиндров</p>
+            <p class="text-xs" style="color: var(--text-muted);">Алюминий 7075 · 5-осевое фрезерование</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/automotive/cnc-auto-part-control-arm-steel-4340-render-01.webp" alt="Рычаг подвески шасси из стали 4340, 3-осевая фрезеровка" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Рычаг подвески</p>
+            <p class="text-xs" style="color: var(--text-muted);">Сталь 4340 · 3-осевое фрезерование + сверление</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/automotive/cnc-auto-part-sensor-housing-6061-anodized-render-01.webp" alt="Корпус датчика прецизионной фрезеровки из алюминия 6061 с анодированием II типа" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Корпус датчика</p>
+            <p class="text-xs" style="color: var(--text-muted);">Алюминий 6061 + анодирование II типа</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/automotive/cnc-auto-part-dashboard-bracket-6061-render-01.webp" alt="Облегчённый кронштейн приборной панели из алюминия 6061, многоустановочная фрезеровка" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Кронштейн приборной панели</p>
+            <p class="text-xs" style="color: var(--text-muted);">Алюминий 6061 · многоустановочное фрезерование · стенки 1,2 мм</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Контроль качества</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Стандарты качества для автомобилестроения</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Каждый заказ для автомобилестроения проходит строгие процедуры контроля качества.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Есть похожий проект?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите чертёж — наши инженеры предоставят расчёт и DFM-анализ в течение 2 часов.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/cases" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Все кейсы →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

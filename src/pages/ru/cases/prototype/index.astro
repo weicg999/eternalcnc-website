@@ -1,0 +1,171 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Кейсы', href: '/ru/cases' },
+  { label: 'Быстрое прототипирование' },
+];
+
+const capabilities = [
+  {
+    title: 'Образец первой детали',
+    items: ['От чертежа до детали за 3 дня', '5-осевая обработка из заготовки', 'Полный размерный контроль', 'Прототип кронштейна из алюминия 6061'],
+    tolerance: '±0,01 мм',
+    materials: 'Алюминий 6061',
+  },
+  {
+    title: 'Функциональная испытательная деталь',
+    items: ['Соответствие серийному материалу', 'Шероховатость по серийному ТУ', 'Проверка функциональной посадки', 'Прототип клапана из нержавеющей 316L'],
+    tolerance: '±0,005 мм',
+    materials: 'Нержавеющая 316L',
+  },
+  {
+    title: 'Сборочный фиксатор',
+    items: ['Многодетальный фиксатор за 5 дней', 'Точность установочных штифтов ±0,005 мм', 'Твёрдое анодирование износостойкой поверхности', 'Плита основания из ПОМ с металлическими вставками'],
+    tolerance: '±0,005 мм',
+    materials: 'ПОМ + алюминий',
+  },
+  {
+    title: 'Деталь кондуктора',
+    items: ['Сварочный кондуктор по CAD за 7 дней', 'Сила зажима проверена 500 циклами', 'Конструкция со сменными износостойкими деталями', 'Закалённые компоненты из стали 1045'],
+    tolerance: '±0,025 мм',
+    materials: 'Сталь 1045',
+  },
+];
+
+const standards = [
+  { label: 'Контроль первой детали (FAI)', desc: "Размерный контроль каждого прототипа прецизионными калибрами и оптическим контролем 2,5D; отчёт КИМ из общего метрологического центра нашей группы доступен по запросу." },
+  { label: 'Межоперационный контроль', desc: 'Проверка критических элементов в процессе обработки. Корректировки до финишного прохода.' },
+  { label: 'Финальный контроль качества', desc: 'Визуальный контроль, снятие заусенцев, проверка шероховатости и упаковки перед отправкой.' },
+  { label: 'Контроль отгрузки', desc: 'Защитная упаковка, проверка маркировки и точность транспортных документов перед каждой отправкой.' },
+];
+---
+
+<PageLayout
+  title="Кейсы быстрого прототипирования | 1-50 шт, 3-7 дней | Eternal CNC"
+  description="Реальные кейсы быстрого прототипирования — образцы первых деталей, функциональные испытательные детали, фиксаторы, детали кондукторов. Готовность за 3-7 дней."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Кейсы</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Кейсы быстрого прототипирования
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        1–50 шт., первая деталь за 3–7 дней.
+        Скорость без компромиссов — прототипы уровня серийного качества.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/cases" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Все кейсы →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Примеры проектов</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Избранные кейсы прототипирования</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Отобранные проекты, демонстрирующие скорость и качество нашего прототипирования.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Достигнутый допуск</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Материал</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Product Renders -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Галерея изделий</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Избранные визуализации изделий</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">Типовые визуализации изделий — материал, процесс и детали поверхности.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/prototype/cnc-prototype-aluminum-part-render-01.webp" alt="Быстрый прототип алюминиевой детали" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Быстрый алюминиевый прототип</p>
+            <p class="text-xs" style="color: var(--text-muted);">Алюминий 6061 · готовность за 3 дня · ±0,02 мм</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/prototype/cnc-prototype-peek-part-render-01.webp" alt="Прототип из конструкционного пластика ПЭЭК" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Прототип из пластика ПЭЭК</p>
+            <p class="text-xs" style="color: var(--text-muted);">ПЭЭК · неметаллическая точность · стойкость 260 °C</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/prototype/cnc-prototype-fixture-aluminum-render-01.webp" alt="Мелкосерийный алюминиевый фиксатор" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Мелкосерийный фиксатор</p>
+            <p class="text-xs" style="color: var(--text-muted);">Алюминий 6061 · установочные штифты H7 · готов к прототипированию</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Контроль качества</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Стандарты качества прототипирования</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Быстрая отработка не означает экономию на качестве.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Нужен быстрый прототип?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите чертёж и получите расчёт в течение 2 часов. Первые детали за 3–7 дней.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/cases" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Все кейсы →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

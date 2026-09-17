@@ -1,0 +1,115 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Ресурсы' },
+];
+
+const downloads = [
+  {
+    title: 'Взаимное NDA (соглашение о неразглашении)',
+    desc: 'Стандартное взаимное соглашение о неразглашении для обмена чертежами и техническими условиями. Доступно на английском и китайском языках.',
+    file: '/downloads/EternalCNC-Mutual-NDA-ENCN.pdf',
+    name: 'EternalCNC-Mutual-NDA-ENCN.pdf',
+  },
+  {
+    title: 'Профиль компании (CN)',
+    desc: 'Введение в компанию Eternal CNC / 鑫永恒, обзор возможностей и сертификатов.',
+    file: '/downloads/EternalCNC-Company-Profile-CN.html',
+    name: 'EternalCNC-Company-Profile-CN.html',
+  },
+  {
+    title: 'Профиль компании (EN)',
+    desc: 'Англоязычное введение в компанию — перечень оборудования, возможности и система качества.',
+    file: '/downloads/EternalCNC-Company-Profile-EN.html',
+    name: 'EternalCNC-Company-Profile-EN.html',
+  },
+  {
+    title: 'Обзор возможностей',
+    desc: 'Градация оборудования (S/A/B), диапазон обработки, перечень материалов и процесс контроля качества.',
+    file: '/downloads/EternalCNC-Capabilities-Overview.html',
+    name: 'EternalCNC-Capabilities-Overview.html',
+  },
+  {
+    title: 'Чек-лист для заказа расчёта (RFQ)',
+    desc: 'Что приложить при отправке чертежей — подробный расчёт в течение 2 часов.',
+    file: '/downloads/EternalCNC-RFQ-Checklist.html',
+    name: 'EternalCNC-RFQ-Checklist.html',
+  },
+];
+---
+
+<PageLayout
+  title="Ресурсы – NDA и документы компании | Eternal CNC"
+  description="Скачайте наш шаблон взаимного NDA и профиль компании. Подтверждённые возможности, оборудование с проверкой по табличке и процедуры качества по ИСО."
+  breadcrumbs={breadcrumbs}
+>
+  <section style="background-color: var(--card-white); padding: 72px 0 48px;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Доверие и ресурсы</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">Ресурсы</h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Конфиденциальность — основа нашего сотрудничества. Скачайте наше взаимное NDA перед передачей чертежей и изучите профиль компании, чтобы понять наши возможности и систему качества.
+      </p>
+    </div>
+  </section>
+
+  <section style="background-color: var(--page-bg); padding: 48px 0 64px;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-6">
+        {downloads.map((d) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl bg-white" style="border-color: var(--border-color);">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style="background-color: rgba(139,0,0,0.08);">
+                <svg class="w-6 h-6" style="color: var(--brand-red);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 10v6m0 0l-3-3m3 3l3-3M4 17V5a2 2 0 012-2h8l6 6v8a2 2 0 01-2 2H6a2 2 0 01-2-2z" />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-lg font-bold mb-1" style="color: var(--brand-dark);">{d.title}</h3>
+                <p class="text-sm mb-4" style="color: var(--text-body);">{d.desc}</p>
+                <a href={d.file} download title={d.name}
+                  class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold bg-[#8B0000] text-white rounded-lg transition-all duration-300 hover:bg-[#6B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+                  Скачать
+                  <span class="text-xs opacity-80">{d.name}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section style="background-color: var(--card-white); padding: 48px 0 80px;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Почему зарубежные заказчики нам доверяют</h2>
+      <div class="grid md:grid-cols-3 gap-6 mt-8">
+        <div class="p-6 border rounded-xl" style="border-color: var(--border-color); background-color: var(--page-bg);">
+          <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">Оборудование с проверкой по табличке</h3>
+          <p class="text-sm" style="color: var(--text-body);">Модель каждого станка подтверждается по заводской табличке — никаких догадок, никаких несоответствий в характеристиках.</p>
+        </div>
+        <div class="p-6 border rounded-xl" style="border-color: var(--border-color); background-color: var(--page-bg);">
+          <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">Качество по стандартам ИСО</h3>
+          <p class="text-sm" style="color: var(--text-body);">Процессы соответствуют процедурам ИСО 9001; сертификация в процессе. Калибровка — ежеквартально.</p>
+        </div>
+        <div class="p-6 border rounded-xl" style="border-color: var(--border-color); background-color: var(--page-bg);">
+          <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">Конфиденциальность прежде всего</h3>
+          <p class="text-sm" style="color: var(--text-body);">Доступно взаимное NDA; чертежи деталей заказчика никогда не используются повторно и не раскрываются без согласия.</p>
+        </div>
+        <div class="p-6 border rounded-xl" style="border-color: var(--border-color); background-color: var(--page-bg);">
+          <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">Семейное предприятие, быстрый отклик</h3>
+          <p class="text-sm" style="color: var(--text-body);">Как семейное предприятие, решения принимаются напрямую владельцем — без промежуточных звеньев и очередей заявок. Большинство запросов получают реальный ответ в течение 2 часов, с гораздо меньшим числом уточнений.</p>
+        </div>
+        <div class="p-6 border rounded-xl" style="border-color: var(--border-color); background-color: var(--page-bg);">
+          <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">Цены напрямую от завода</h3>
+          <p class="text-sm" style="color: var(--text-body);">Вы работаете с производителем, а не с торговой компанией. Без наценки посредника — только прозрачные поштучные расчёты прямо из цеха.</p>
+        </div>
+        <div class="p-6 border rounded-xl" style="border-color: var(--border-color); background-color: var(--page-bg);">
+          <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">Удобно для прототипов и малых партий</h3>
+          <p class="text-sm" style="color: var(--text-body);">От единичного прототипа до серийного производства — без минимального объёма заказа. Начните с 1–10 деталей, чтобы проверить посадку и функционал до масштабирования.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</PageLayout>

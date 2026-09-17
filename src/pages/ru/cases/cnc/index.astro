@@ -1,0 +1,171 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Кейсы', href: '/ru/cases' },
+  { label: 'ЧПУ обработка' },
+];
+
+const capabilities = [
+  {
+    title: '5-осевое рабочее колесо',
+    items: ['Непрерывная 5-осевая траектория', 'Точность профиля лопатки ±0,01 мм', 'Сбалансированная поверхность Ra 0,8', 'Материал: титан Ti-6Al-4V'],
+    tolerance: '±0,01 мм',
+    materials: 'Титан Ti-6Al-4V',
+  },
+  {
+    title: 'Сложная полость',
+    items: ['Глубокое фрезерование карманов глубиной 150 мм', 'Подрезные элементы через 5-осевую обработку', 'Чистовая обработка радиусом R0,5', 'Жаропрочный сплав Inconel 718'],
+    tolerance: '±0,005 мм',
+    materials: 'Inconel 718',
+  },
+  {
+    title: 'Прецизионная плита со сверлением',
+    items: ['324 отверстия, позиция ±0,01 мм', 'Сквозные отверстия, поверхность Ra 0,4', 'Снятие заусенцев по всем отверстиям', 'Плита из нержавеющей 316L, 20 мм'],
+    tolerance: '±0,01 мм',
+    materials: 'Нержавеющая 316L',
+  },
+  {
+    title: 'Вставка пресс-формы',
+    items: ['Зеркальная поверхность Ra 0,2', 'Совмещение пуансона и матрицы', 'Подготовка поверхности под электроэрозию', 'Закалённая инструментальная сталь P20'],
+    tolerance: '±0,005 мм',
+    materials: 'Инструментальная сталь P20',
+  },
+];
+
+const standards = [
+  { label: "Контроль на КИМ (через общий метрологический центр нашей группы, по запросу)", desc: "Контроль координатно-измерительной машиной (в общем метрологическом центре нашей группы) для сложной геометрии по запросу. Полные размерные отчёты доступны по запросу." },
+  { label: 'Шероховатость поверхности Ra', desc: 'Шероховатость поверхности, проверяемая профилометром, от Ra 0,2 до Ra 3,2 по требованию чертежа.' },
+  { label: 'Соблюдение допусков', desc: 'Все размеры проверяются по стандарту ISO 2768-m. Указания GD&T подтверждаются.' },
+  { label: 'Финальный контроль качества', desc: '100% визуальный контроль, функциональная калибровка и проверка упаковки перед отгрузкой.' },
+];
+---
+
+<PageLayout
+  title="Кейсы ЧПУ обработки | фрезерование, сверление | Eternal CNC"
+  description="Реальные кейсы ЧПУ обработки — 5-осевые рабочие колёса, сложные полости, прецизионные плиты, вставки пресс-форм. Сложная геометрия с точностью."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Кейсы</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Кейсы ЧПУ обработки
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Кейсы прецизионной обработки фрезерованием, сверлением и нарезанием резьбы сложной геометрии.
+        Наши самые требовательные проекты фрезеровки ЧПУ в разных материалах и отраслях.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/cases" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Все кейсы →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Примеры проектов</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Избранные кейсы ЧПУ обработки</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Отобранные проекты, демонстрирующие возможности обработки сложной геометрии.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Достигнутый допуск</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Материал</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Product Renders -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Галерея изделий</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Избранные визуализации изделий</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">Типовые визуализации изделий — материал, процесс и детали поверхности.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/cnc/cnc-general-flange-stainless-render-01.webp" alt="Прецизионный фланец из нержавеющей стали" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Прецизионный фланец</p>
+            <p class="text-xs" style="color: var(--text-muted);">Нержавеющая 316L · токарная ЧПУ · Ra 1,6</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/cnc/cnc-general-bracket-aluminum-render-01.webp" alt="Индивидуальный монтажный кронштейн из алюминия" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Индивидуальный монтажный кронштейн</p>
+            <p class="text-xs" style="color: var(--text-muted);">Алюминий 6061 · многостороннее фрезерование · анодирование с пескоструем</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/cnc/cnc-general-valve-body-brass-render-01.webp" alt="Латунный корпус клапана" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Латунный корпус клапана</p>
+            <p class="text-xs" style="color: var(--text-muted);">Латунь C360 · токарно-фрезерная · проверка на герметичность</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Контроль качества</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Стандарты качества ЧПУ обработки</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Сложная геометрия требует строгого контроля на каждом этапе.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Есть похожий проект?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите чертёж — наши инженеры предоставят расчёт и DFM-анализ в течение 2 часов.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/cases" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Все кейсы →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

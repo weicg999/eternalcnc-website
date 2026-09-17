@@ -1,0 +1,229 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Кейсы' },
+];
+
+const cases = [
+  {
+    title: 'Примеры ЧПУ обработки',
+    items: ['Фрезерование', 'Сверление и нарезание резьбы', 'Сложные поверхности', 'Обработка за одну установку'],
+    tolerance: '±0,005 мм',
+    materials: 'Алюминий, нержавеющая сталь, конструкционные пластики',
+  },
+  {
+    title: 'Примеры токарной обработки',
+    items: ['Валы', 'Втулки', 'Диски', 'Гарантированная соосность'],
+    tolerance: '±0,01 мм',
+    materials: 'Сталь, алюминий, латунь',
+  },
+  {
+    title: 'Примеры 5-осевой обработки',
+    items: ['Обработка 5 граней за одну установку', 'Сложная геометрия', 'Накопленная погрешность отсутствует', 'Свободные поверхности'],
+    tolerance: '±0,005 мм',
+    materials: 'Алюминий, титан, нержавеющая сталь',
+  },
+  {
+    title: 'Примеры автомобильных деталей',
+    items: ['Детали двигателя', 'Кронштейны шасси', 'Детали трансмиссии', 'Электронные системы'],
+    tolerance: '±0,01 мм',
+    materials: 'Алюминий, сталь 4140, чугун',
+  },
+  {
+    title: 'Примеры медицинских изделий',
+    items: ['Корпуса оборудования', 'Прецизионные кронштейны', 'Диагностические компоненты', 'Строгий контроль качества'],
+    tolerance: '±0,01 мм',
+    materials: 'Нержавеющая сталь 316L, титановый сплав',
+  },
+  {
+    title: 'Примеры электронных деталей',
+    items: ['Миниатюрные конструкции', 'Высокоточные корпуса', 'Компоненты теплоотвода', 'Разъёмы'],
+    tolerance: '±0,005 мм',
+    materials: 'Алюминий, латунь, ПОМ (POM)',
+  },
+  {
+    title: 'Примеры деталей робототехники',
+    items: ['Компоненты сочленений', 'Корпуса редукторов', 'Детали управления движением', 'Прецизионная сборка'],
+    tolerance: '±0,005 мм',
+    materials: 'Алюминий, сталь, конструкционные пластики',
+  },
+  {
+    title: 'Мелкосерийное прототипирование',
+    items: ['Оперативная отработка 1–50 шт.', 'Первая деталь за 3–7 дней', 'Контроль всего процесса', 'Быстрая итерация'],
+    tolerance: 'По чертежу',
+    materials: 'Все материалы',
+  },
+  {
+    title: 'Серийное производство',
+    items: ['Стабильное производство от 50 шт.', 'Полный межоперационный контроль', 'Стабильное качество', 'Поставка в срок'],
+    tolerance: 'По чертежу',
+    materials: 'Все материалы',
+  },
+];
+
+const highlights = [
+  { label: 'Обзоры реальных проектов', desc: 'Каждый кейс взят из реального проекта обработки — от анализа чертежа и выбора процесса до маршрута обработки и финального результата.' },
+  { label: 'Полная прозрачность процесса', desc: 'От закупки сырья до финального контроля — каждый этап задокументирован и доступен для отслеживания клиентом.' },
+  { label: 'Охват нескольких отраслей', desc: 'Кейсы автомобилестроения, медицины, электроники, робототехники и других сфер — демонстрация межотраслевых возможностей обработки.' },
+  { label: 'Постоянное улучшение', desc: 'Разбор каждого заказа после выполнения для непрерывной оптимизации процессов и повышения качества и эффективности.' },
+];
+---
+
+<PageLayout
+  title="Кейсы ЧПУ обработки | примеры проектов | Eternal CNC"
+  description="Примеры работ ЧПУ обработки, токарной обработки, 5-осевой фрезеровки, автомобильной, медицинской, электронной и робототехники — от чертежа до готовой детали."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Примеры работ</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Реальные проекты, подтверждённые возможности
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Обзоры реальных проектов обработки — от чертежа до готовой детали, полный маршрут изготовления
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/industries/automotive" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Отрасли →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cases Grid -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Проекты</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Девять категорий кейсов</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Сгруппированы по процессу, отрасли и объёму производства — демонстрация возможностей обработки в разных сценариях.
+      </p>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {cases.map((c) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{c.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {c.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Точность допуска</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{c.tolerance}</p>
+              <p class="text-[11px] mt-1.5 leading-snug" style="color: var(--text-muted);">Требует прецизионной доводки и контроля. С учётом проверки чертежа.</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Материалы</p>
+              <p class="text-sm" style="color: var(--text-body);">{c.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Photo Gallery -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Визуализации изделий</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Типовые визуализации изделий</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Демонстрация материала, процесса и поверхности — 3D-визуализации типовой геометрии, допусков и покрытий, а не фото реальных деталей цеха.
+      </p>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/index-gallery/cnc-rendered-sensor-housing-01.webp" alt="Визуализация анодированного алюминиевого корпуса датчика" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Визуализация анодированного корпуса датчика</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/index-gallery/cnc-rendered-stainless-flange-01.webp" alt="Визуализация фланца из нержавеющей стали" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Визуализация фланца из нержавеющей стали</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/index-gallery/cnc-rendered-aluminum-bracket-01.webp" alt="Визуализация алюминиевого кронштейна" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Визуализация алюминиевого кронштейна</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/index-gallery/cnc-rendered-robotic-bracket-01.webp" alt="Визуализация кронштейна робота" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Визуализация кронштейна робота</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/index-gallery/cnc-rendered-rf-enclosure-01.webp" alt="Визуализация алюминиевого ВЧ-экранированного корпуса" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Визуализация ВЧ-корпуса</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/index-gallery/cnc-rendered-steel-pin-batch-01.webp" alt="Визуализация партии стальных установочных штифтов" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Визуализация стального штифта</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/index-gallery/cnc-rendered-brass-connector-01.webp" alt="Визуализация латунного коаксиального разъёма" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Визуализация латунного разъёма</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/index-gallery/cnc-rendered-aluminum-housing-01.webp" alt="Визуализация алюминиевого электронного корпуса" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Визуализация алюминиевого корпуса</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/index-gallery/cnc-rendered-medical-shell-01.webp" alt="Визуализация алюминиевого корпуса медицинского прибора" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Визуализация корпуса медицинского прибора</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/index-gallery/cnc-rendered-prototype-aluminum-01.webp" alt="Визуализация прототипа алюминиевой детали" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Визуализация прототипа алюминиевой детали</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/index-gallery/cnc-rendered-5axis-bracket-01.webp" alt="Визуализация алюминиевого 5-осевого аэрокосмического кронштейна" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Визуализация 5-осевого кронштейна</p></div>
+        </div>
+        <div class="group overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/index-gallery/cnc-rendered-rotary-joint-01.webp" alt="Визуализация алюминиевого поворотного сочленения робота" width="400" height="300" loading="lazy" class="w-full h-48 object-cover" />
+          <div class="p-3"><p class="text-xs font-medium" style="color: var(--brand-dark);">Визуализация поворотного сочленения</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Highlights -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Почему это важно</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Чем полезен разбор этих кейсов</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Каждый кейс — полная запись реального проекта, помогающая оценить наши возможности до размещения заказа.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {highlights.map((h) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{h.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{h.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Смотреть кейсы вашей отрасли</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите чертёж для расчёта по вашей отрасли и примеров работ.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Бесплатный расчёт
+        </a>
+        <a href="/ru/services/dfm-analysis" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Бесплатный DFM-анализ →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

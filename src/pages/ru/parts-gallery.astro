@@ -1,0 +1,121 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Resources', href: '/knowledge' },
+  { label: 'Галерея деталей' },
+];
+
+const items = [
+  {
+    src: '/images/parts-gallery/aluminum-parts-collection.jpg',
+    title: 'Коллекция деталей ЧПУ из алюминия',
+    caption: 'Фланцы, корпуса клапанов, насосные корпуса и кронштейны — срез деталей, которые мы обрабатываем из алюминиевого сплава.',
+  },
+  {
+    src: '/images/parts-gallery/multi-port-air-manifold.jpg',
+    title: 'Многопортовый воздушный коллектор',
+    caption: 'Фрезерованный на ЧПУ алюминиевый многопортовый распределитель для подачи жидкости / воздуха.',
+  },
+  {
+    src: '/images/parts-gallery/black-anodized-bracket.jpg',
+    title: 'Кронштейн с чёрным анодированием',
+    caption: 'Боковой кронштейн из алюминия с чёрным анодированным покрытием.',
+  },
+  {
+    src: '/images/parts-gallery/die-cast-heatsink-flange.jpg',
+    title: 'Литой под давлением фланец-радиатор',
+    caption: 'Литой под давлением алюминиевый корпус-радиатор с финишной обработкой на ЧПУ.',
+  },
+  {
+    src: '/images/parts-gallery/wheel-hub-bearing-seats.jpg',
+    title: 'Посадочные места подшипников ступицы колеса',
+    caption: 'Кронштейны ступицы колеса / посадочных мест подшипников из алюминия для электроприводных систем.',
+  },
+  {
+    src: '/images/parts-gallery/aluminum-impeller.jpg',
+    title: 'Алюминиевое рабочее колесо',
+    caption: 'Фрезерованное на ЧПУ алюминиевое рабочее колесо для систем охлаждения / насосов.',
+  },
+  {
+    src: '/images/parts-gallery/l-shaped-mounting-bracket.jpg',
+    title: 'L-образный монтажный кронштейн',
+    caption: 'Специальный L-образный алюминиевый кронштейн для автоматизированного оборудования.',
+  },
+  {
+    src: '/images/parts-gallery/vacuum-tee-fitting.jpg',
+    title: 'Вакуумный тройник',
+    caption: 'Прецизионно обработанный алюминиевый вакуумный тройник-соединитель.',
+  },
+  {
+    src: '/images/parts-gallery/cooling-pump-components.jpg',
+    title: 'Набор компонентов системы насосного охлаждения',
+    caption: 'Реальный групповой снимок алюминиевых рабочих колёс, насосных корпусов, фланцев и ступиц, применяемых в системах охлаждения / насосах.',
+  },
+];
+---
+
+<PageLayout
+  title="Галерея деталей | Реальные детали ЧПУ из алюминия | Eternal CNC"
+  description="Подборка реальных алюминиевых деталей ЧПУ, которые мы изготовили, — фланцы, коллекторы, кронштейны, рабочие колёса, корпуса и другие изделия."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Реальные детали</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Галерея деталей
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Бóльшая часть наших работ покрыта соглашениями о неразглашении (NDA), поэтому мы не можем показывать имена заказчиков, логотипы или конкретные допуски.
+        Детали ниже взяты из проектов без ограничений конфиденциальности — они дают реальное представление о том, что мы производим.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/knowledge/faq" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Читать FAQ →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Grid -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {items.map((item) => (
+          <div class="group border rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <a href={item.src} target="_blank" rel="noopener noreferrer" class="block aspect-[4/3] overflow-hidden bg-gray-100">
+              <img src={item.src} alt={item.title} class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+            </a>
+            <div class="p-6">
+              <h3 class="text-lg font-bold mb-2" style="color: var(--brand-dark);">{item.title}</h3>
+              <p class="text-sm leading-relaxed" style="color: var(--text-body);">{item.caption}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Есть деталь на примете?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите чертёж, и мы пришлём расчёт в течение 2 часов.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/services/cnc-machining" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Смотреть услуги →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

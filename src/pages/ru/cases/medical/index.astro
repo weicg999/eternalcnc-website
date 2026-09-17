@@ -1,0 +1,177 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Кейсы', href: '/ru/cases' },
+  { label: 'Медицинское оборудование' },
+];
+
+const capabilities = [
+  {
+    title: 'Корпус монитора',
+    items: ['Крупноформатное фрезерование ЧПУ', 'Многогофровая обработка карманов', 'Массивы вентиляционных прорезей', 'Порошковое покрытие'],
+    tolerance: '±0,025 мм',
+    materials: 'Алюминий 6061',
+  },
+  {
+    title: 'Хирургический фиксатор',
+    items: ['Биосовместимый материал ПЭЭК', 'Жёсткий допуск отверстия ±0,005 мм', 'Зеркальная поверхность Ra 0,4', 'Поставка в чистой упаковке'],
+    tolerance: '±0,005 мм',
+    materials: 'ПЭЭК',
+  },
+  {
+    title: 'Деталь диагностического зонда',
+    items: ['Миниатюрная 5-осевая обработка', 'Сложные внутренние каналы', 'Нержавеющая 316L с электрополировкой', 'Полный размерный отчёт'],
+    tolerance: '±0,01 мм',
+    materials: 'Нержавеющая 316L',
+  },
+  {
+    title: 'Корпус прибора',
+    items: ['Тонкостенный корпус 1,5 мм', 'Паз ЭМС-экранирования', 'Точность портов разъёмов', 'Партия 100 шт.'],
+    tolerance: '±0,01 мм',
+    materials: 'Алюминий 6061',
+  },
+];
+
+const standards = [
+  { label: 'Биосовместимость', desc: 'Материалы подбираются по ISO 10993. ПЭЭК, титан и нержавеющая 316L доступны для неимплантируемых медицинских изделий.' },
+  { label: 'Сборка в чистом помещении', desc: 'По желанию — сборка и упаковка в чистом помещении для деталей с требованиями к уровню загрязнений.' },
+  { label: 'Полная прослеживаемость', desc: 'Партионная прослеживаемость от сертификата сырья до финального контроля; сертификаты материалов доступны по запросу.' },
+  { label: 'Стерилизация', desc: 'Детали рассчитаны на выдерживание циклов стерилизации автоклавом, оксидом этилена и гамма-излучением без деградации.' },
+];
+---
+
+<PageLayout
+  title="Кейсы медицинских изделий | корпуса, фиксаторы | Eternal CNC"
+  description="Реальные кейсы ЧПУ обработки медицинских изделий — корпуса мониторов, хирургические фиксаторы, детали зондов, корпуса приборов."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Кейсы</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Кейсы медицинских изделий
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Кейсы прецизионной обработки корпусов, кронштейнов и диагностических деталей.
+        Подтверждённый опыт поставки медицинских деталей с полной прослеживаемостью.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/cases" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Все кейсы →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Примеры проектов</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Избранные кейсы медицины</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Отобранные проекты, демонстрирующие наши возможности обработки медицинских изделий.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Достигнутый допуск</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Материал</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Renders -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Визуализации изделий</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Избранные визуализации изделий</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">Типовые 3D-визуализации, показывающие материалы, покрытия и детали геометрии</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/medical/cnc-medical-monitor-enclosure-6061-render-01.webp" alt="Корпус монитора из алюминия 6061 с вентиляционными прорезями, фрезеровка ЧПУ" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Корпус монитора</p>
+            <p class="text-xs" style="color: var(--text-muted);">Алюминий 6061 · фрезерование ЧПУ · ±0,025 мм</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/medical/cnc-medical-surgical-fixture-peek-render-01.webp" alt="Биосовместимый хирургический фиксатор из ПЭЭК с зеркальной поверхностью" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Хирургический фиксатор</p>
+            <p class="text-xs" style="color: var(--text-muted);">ПЭЭК · биосовместимый · ±0,005 мм · Ra 0,4</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/medical/cnc-medical-diagnostic-probe-stainless-316l-render-01.webp" alt="Деталь диагностического зонда из нержавеющей 316L с электрополировкой" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Деталь диагностического зонда</p>
+            <p class="text-xs" style="color: var(--text-muted);">Нержавеющая 316L · 5-осевая · электрополировка · ±0,01 мм</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/medical/cnc-medical-instrument-shell-6061-render-01.webp" alt="Тонкостенный корпус прибора из алюминия 6061 с портами разъёмов" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Корпус прибора</p>
+            <p class="text-xs" style="color: var(--text-muted);">Алюминий 6061 · тонкостенный · паз ЭМС · ±0,01 мм</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Контроль качества</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Стандарты качества медицины</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Медицинские применения требуют максимальной документированности и целостности материалов.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Есть похожий проект?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите чертёж — наши инженеры предоставят расчёт и DFM-анализ в течение 2 часов.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/cases" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Все кейсы →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

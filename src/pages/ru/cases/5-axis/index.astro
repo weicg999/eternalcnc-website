@@ -1,0 +1,170 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Кейсы', href: '/ru/cases' },
+  { label: '5-осевая обработка' },
+];
+
+const capabilities = [
+  {
+    title: 'Лопатка рабочего колеса',
+    items: ['Непрерывная 5-осевая обработка', 'Точность профиля лопатки ±0,005 мм', 'Сбалансированная поверхность Ra 0,4', 'Материал: нержавеющая 17-4 PH'],
+    tolerance: '±0,005 мм',
+    materials: 'Нержавеющая 17-4 PH',
+  },
+  {
+    title: 'Корпус турбины',
+    items: ['Сложная внутренняя обработка контура', 'Пересечения отверстий под разными углами', 'Плоскостность уплотняющей поверхности 0,01 мм', 'Жаропрочный сплав Inconel 625'],
+    tolerance: '±0,01 мм',
+    materials: 'Inconel 625',
+  },
+  {
+    title: 'Криволинейный кронштейн',
+    items: ['Финишная обработка 3D-поверхности', 'Позиционный допуск монтажных отверстий ±0,02 мм', 'Облегчённая кармановая конструкция', 'Материал: титан Ti-6Al-4V'],
+    tolerance: '±0,025 мм',
+    materials: 'Титан Ti-6Al-4V',
+  },
+  {
+    title: 'Фитинг для спутника',
+    items: ['Обработка 5 граней за одну установку', 'Минимизация накопленной погрешности по элементам', 'Полное соответствие GD&T', 'Прослеживаемый сертификат материала по запросу'],
+    tolerance: '±0,005 мм',
+    materials: 'Алюминий 7075-T6',
+  },
+];
+
+const standards = [
+  { label: "Контроль на КИМ (через общий метрологический центр нашей группы, по запросу)", desc: "Ключевые геометрические допуски 5-осевых деталей могут быть проверены на КИМ в общем метрологическом центре нашей группы по запросу. Полные отчёты 3D-сканирования доступны по запросу." },
+  { label: 'Шероховатость поверхности Ra', desc: 'Проверяется профилометром от Ra 0,2 до Ra 3,2 по требованию. Полировка доступна для ответственных поверхностей.' },
+  { label: 'Соблюдение допусков', desc: 'Применяются ISO 2768-m (точный) и ASME Y14.5 GD&T; ключевые размеры проверяются и отчитываются по запросу.' },
+  { label: 'Финальный контроль качества', desc: 'Для ответственных высоконадёжных деталей — 100% контроль критических размеров с проверкой размеров, внешнего вида и сертификата материала перед отгрузкой (по запросу).' },
+];
+---
+
+<PageLayout
+  title="Кейсы 5-осевой обработки | рабочие колёса, турбины | Eternal CNC"
+  description="Реальные кейсы 5-осевой ЧПУ обработки — лопатки рабочих колёс, корпуса турбин, криволинейные кронштейны. Обработка 5 граней за одну установку."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Кейсы</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Кейсы 5-осевой обработки
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Обработка 5 граней за одну установку минимизирует накопленную погрешность по элементам.
+        Наши самые сложные 5-осевые проекты в сфере спутников, энергетики и промышленности.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/cases" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Все кейсы →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Примеры проектов</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Избранные кейсы 5-осевой обработки</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Отобранные проекты, демонстрирующие точность нашей 5-осевой обработки.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Достигнутый допуск</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Материал</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Product Renders -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Галерея изделий</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Избранные визуализации изделий</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">Типовые визуализации изделий — материал, процесс и детали поверхности.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/5-axis/cnc-5axis-impeller-titanium-render-01.webp" alt="Титановое 5-осевое рабочее колесо" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">5-осевое титановое рабочее колесо</p>
+            <p class="text-xs" style="color: var(--text-muted);">Титан · одновременная 5-осевая · профиль лопатки 0,05 мм</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/5-axis/cnc-5axis-turbo-housing-aluminum-render-01.webp" alt="Алюминиевая 5-осевая турбинная улитка" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Корпус турбинного улитка</p>
+            <p class="text-xs" style="color: var(--text-muted);">Алюминий · 5-осевое контурное фрезерование · радиус R0,5</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/5-axis/cnc-5axis-aerospace-bracket-aluminum-render-01.webp" alt="Алюминиевый 5-осевой кронштейн спутника" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">5-осевой кронштейн спутника</p>
+            <p class="text-xs" style="color: var(--text-muted);">Алюминий 7075 · многосторонняя 5-осевая · ±0,02 мм</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Контроль качества</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Стандарты качества 5-осевой обработки</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        5-осевые детали требуют самых строгих методов контроля.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Есть похожий проект?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите чертёж — наши инженеры предоставят расчёт и DFM-анализ в течение 2 часов.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/cases" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Все кейсы →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

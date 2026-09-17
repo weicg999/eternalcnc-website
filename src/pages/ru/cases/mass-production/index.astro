@@ -1,0 +1,170 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Кейсы', href: '/ru/cases' },
+  { label: 'Серийное производство' },
+];
+
+const capabilities = [
+  {
+    title: 'Серийный вал',
+    items: ['Ежемесячная партия 1 000+ шт.', 'Токарная ЧПУ + шлифование', 'Контролируемые критические размеры', 'Закалённые валы из стали 4140'],
+    tolerance: '±0,005 мм',
+    materials: 'Сталь 4140',
+  },
+  {
+    title: 'Крупная партия корпусов',
+    items: ['Стабильный выпуск 500 шт./мес', 'Стратегия фрезерования 3+1 оси', 'Учёт стойкости инструмента на деталь', 'Анодированные корпуса из алюминия 6061'],
+    tolerance: '±0,01 мм',
+    materials: 'Алюминий 6061',
+  },
+  {
+    title: 'Серийный разъём',
+    items: ['Стабильный выпуск 3 000+ шт./мес', 'Токарная ЧПУ с оснасткой', 'Межоперационный контроль каждой 50-й', 'Латунь C360 с никелированием'],
+    tolerance: '±0,005 мм',
+    materials: 'Латунь C360',
+  },
+  {
+    title: 'Партия кронштейнов',
+    items: ['Поставка партиями по 200 шт. еженедельно', 'Повторяемая оснастка', 'Полный размерный отчёт на партию', 'Пассивированные кронштейны из нержавеющей 304'],
+    tolerance: '±0,025 мм',
+    materials: 'Нержавеющая 304',
+  },
+];
+
+const standards = [
+  { label: 'Контроль первой детали (FAI)', desc: "FAI с полным отчётом КИМ доступен по запросу из общего метрологического центра нашей группы до запуска партии. Документация PPAP доступна для автомобильных заказов." },
+  { label: 'Межоперационный контроль', desc: 'Контролируемое производство с контрольными картами. Автоматическое измерение на станке для проверки в цикле.' },
+  { label: 'Финальный контроль качества', desc: 'Выборочный контроль по стандарту AQL 2.5. 100% контроль доступен для критических деталей безопасности.' },
+  { label: 'Контроль отгрузки', desc: 'Упаковка, маркировка и транспортные документы проверяются перед каждой отправкой. Ведутся записи прослеживаемости.' },
+];
+---
+
+<PageLayout
+  title="Кейсы серийного производства | 50+ шт, стабильный выпуск | Eternal CNC"
+  description="Реальные кейсы серийного производства — валы, корпуса, разъёмы, кронштейны. Стабильный выпуск от 50 шт. с полным межоперационным контролем."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Кейсы</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Кейсы серийного производства
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Стабильный выпуск от 50 шт., полный межоперационный контроль качества.
+        Подтверждённые возможности серийного производства — стабильное качество в больших объёмах.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/cases" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Все кейсы →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Примеры проектов</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Избранные кейсы серийного производства</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Отобранные проекты, демонстрирующие наши возможности серийного производства.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Достигнутый допуск</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Материал</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Product Renders -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Галерея изделий</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Избранные визуализации изделий</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">Типовые визуализации изделий — материал, процесс и детали поверхности.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/mass-production/cnc-massprod-steel-pin-render-01.webp" alt="Серийные стальные установочные штифты" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Серийные штифты</p>
+            <p class="text-xs" style="color: var(--text-muted);">Сталь 45# · токарная ЧПУ · 50 000 шт./мес</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/mass-production/cnc-massprod-aluminum-housing-render-01.webp" alt="Корпуса алюминиевые крупной серии" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Корпус крупной серии</p>
+            <p class="text-xs" style="color: var(--text-muted);">Алюминий 6061 · многопозиционная оснастка · Cpk ≥ 1,33</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/cases/mass-production/cnc-massprod-bracket-aluminum-render-01.webp" alt="Серийные алюминиевые кронштейны" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Кронштейн автоматической линии</p>
+            <p class="text-xs" style="color: var(--text-muted);">Алюминий 6061 · автоматизированная партия · ±0,03 мм</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Контроль качества</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Стандарты качества серийного производства</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Крупносерийное производство требует строгого межоперационного контроля качества.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Нужна поддержка серийного производства?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите чертёж — наши инженеры предоставят расчёт на объём с планом контроля качества в течение 2 часов.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/cases" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Все кейсы →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

@@ -1,0 +1,191 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Кейсы', href: '/ru/cases' },
+  { label: 'Токарная обработка' },
+];
+
+const capabilities = [
+  {
+    title: 'Ступенчатый вал',
+    items: ['Токарная обработка нескольких диаметров ±0,005 мм', 'Шлифованные шейки подшипников Ra 0,4', 'Фрезерование шпоночного паза по оси C', 'Длина 320 мм, наиб. диаметр 65 мм'],
+    tolerance: '±0,005 мм',
+    materials: 'Сталь 4140',
+  },
+  {
+    title: 'Прецизионная втулка',
+    items: ['Соосность внутр./наруж. Ø 0,005 мм', 'Расточка по допуску H7', 'Токарная канавка под масло', 'Пруток из латуни C360'],
+    tolerance: '±0,01 мм',
+    materials: 'Латунь C360',
+  },
+  {
+    title: 'Фланец',
+    items: ['Чистота торца Ra 0,8', 'Сверление болтового окружности ±0,02 мм', 'Токарная канавка уплотняющей кромки', 'Пруток из алюминия 6061'],
+    tolerance: '±0,025 мм',
+    materials: 'Алюминий 6061',
+  },
+  {
+    title: 'Резьбовой буртик',
+    items: ['Прецизионная резьба M42×1,5', 'Биение торца 0,01 мм', 'Равномерная накатка', 'Пруток из нержавеющей 303'],
+    tolerance: '±0,01 мм',
+    materials: 'Нержавеющая 303',
+  },
+];
+
+const standards = [
+  { label: "Контроль на КИМ (через общий метрологический центр нашей группы, по запросу)", desc: "Критические размеры точёных деталей могут быть проверены на КИМ через общий метрологический центр нашей группы по запросу. Полные отчёты включаются при запросе контроля на КИМ." },
+  { label: 'Шероховатость поверхности Ra', desc: 'Шлифованные и полированные поверхности проверяются профилометром. На цилиндрических поверхностях достижимо Ra 0,2–1,6.' },
+  { label: 'Соблюдение допусков', desc: 'Применяются стандарты допусков ISO 2768-m. Указания GD&T подтверждаются при контроле первой детали (FAI) по запросу.' },
+  { label: 'Финальный контроль качества', desc: 'Контроль резьбовыми калибрами, проверка шероховатости и визуальный контроль перед отгрузкой.' },
+];
+---
+
+<PageLayout
+  title="Кейсы токарной обработки ЧПУ | валы, втулки, фланцы | Eternal CNC"
+  description="Реальные кейсы токарной обработки ЧПУ — ступенчатые валы, прецизионные втулки, фланцы, резьбовые буртики. Точёные детали с высокой соосностью."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Кейсы</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Кейсы токарной обработки ЧПУ
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        Кейсы прецизионной токарной обработки валов, втулок и фланцев с высокой соосностью.
+        Подтверждённый опыт поставки точёных деталей в разных отраслях.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/cases" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Все кейсы →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Примеры проектов</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Избранные кейсы токарной обработки</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Отобранные проекты, демонстрирующие точность нашей токарной обработки ЧПУ.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {capabilities.map((cap) => (
+          <div class="p-8 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="text-lg font-bold mb-4" style="color: var(--brand-dark);">{cap.title}</h3>
+            <ul class="space-y-2 mb-6" style="color: var(--text-body);">
+              {cap.items.map((item) => (
+                <li class="text-sm flex items-start">
+                  <span class="mr-2" style="color: var(--brand-red);">—</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs mb-1" style="color: var(--text-muted);">Достигнутый допуск</p>
+              <p class="text-sm font-semibold" style="color: var(--brand-dark);">{cap.tolerance}</p>
+              <p class="text-xs mt-2 mb-1" style="color: var(--text-muted);">Материал</p>
+              <p class="text-sm" style="color: var(--text-body);">{cap.materials}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quality -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Контроль качества</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Стандарты качества токарной обработки</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Точёные детали требуют соосности и точности шероховатости поверхности на каждом этапе.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        {standards.map((std) => (
+          <div class="p-6 border rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30" style="background-color: var(--page-bg); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-2" style="color: var(--brand-dark);">{std.label}</h3>
+            <p class="text-sm" style="color: var(--text-body);">{std.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  <!-- Featured Product Renders -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Галерея изделий</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Избранные визуализации изделий</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">Типовые визуализации изделий — материал, процесс и детали поверхности.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/parts/cnc-turning-stepped-shaft-4140-render-01.webp" alt="Ступенчатый вал из стали 4140, токарная ЧПУ" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Ступенчатый вал</p>
+            <p class="text-xs" style="color: var(--text-muted);">Сталь 4140 · токарная + шлифование · биение 0,005 мм</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/parts/cnc-turning-precision-bushing-c360-render-01.webp" alt="Прецизионная втулка из латуни C360, токарная ЧПУ" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Прецизионная втулка</p>
+            <p class="text-xs" style="color: var(--text-muted);">Латунь C360 · токарная + расточка · внутр. Ø H7</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/parts/cnc-turning-flange-6061-render-01.webp" alt="Фланец из алюминия 6061, токарная ЧПУ" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Фланец</p>
+            <p class="text-xs" style="color: var(--text-muted);">Алюминий 6061 · токарная + сверление · биение 0,01 мм</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/parts/cnc-turning-threaded-collar-303-render-01.webp" alt="Резьбовой буртик M42 из нержавеющей 303" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Резьбовой буртик</p>
+            <p class="text-xs" style="color: var(--text-muted);">Нержавеющая 303 · точёная резьба · M42</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/parts/cnc-turning-pump-shaft-316l-render-01.webp" alt="Насосный вал из нержавеющей 316L, токарная ЧПУ" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Насосный вал</p>
+            <p class="text-xs" style="color: var(--text-muted);">Нержавеющая 316L · прецизионная токарная</p>
+          </figcaption>
+        </figure>
+        <figure class="overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style="border-color: var(--border-color);">
+          <img src="/images/parts/cnc-turning-parts-collection-render-01.webp" alt="Подборка прецизионных точёных деталей ЧПУ" loading="lazy" width="800" height="533" class="w-full aspect-[3/2] object-cover" />
+          <figcaption class="p-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--brand-dark);">Подборка точёных деталей</p>
+            <p class="text-xs" style="color: var(--text-muted);">Разные материалы · разные процессы · высокая стабильность</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Есть похожий проект?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Загрузите чертёж — наши инженеры предоставят расчёт и DFM-анализ в течение 2 часов.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/cases" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5">
+          Все кейсы →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>
