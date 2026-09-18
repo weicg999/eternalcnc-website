@@ -31,11 +31,11 @@ That is what “service” means. It is not a polite word after the sale. It is 
 
 Here is the unavoidable flip: you cannot give what you do not have.
 
-Whether a factory can give a customer “calm, stability, trust, dignity, warmth” does not depend on the slogan on the wall. It depends on the person at the machine, with the drawing, on the phone — whether he himself feels those things.
+Whether a factory can give a customer “steadiness, trust, calm, dignity, warmth, freedom, happiness, and ease of life” does not depend on the slogan on the wall. It depends on the person at the machine, with the drawing, on the phone — whether he himself feels those things.
 
 If your people are chased by KPIs every day, afraid of errors, afraid of being held accountable, afraid of being pulled in for rework at midnight, what they hand the customer is only tension and defensiveness. Expecting someone who cannot catch his own breath to pass calm and warmth to a customer is not realistic.
 
-So whether employees are happy, stable, dignified, free to live at ease — that is not a soft HR metric. It is the upstream source of the customer experience.
+So whether employees feel steady, trusted, calm, dignified, warm, free, happy, and at ease — that is not a soft HR metric. It is the upstream source of the customer experience.
 
 ## 4. The Daoists said it first: you can give only when your own energy is enough
 
