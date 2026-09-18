@@ -1,0 +1,211 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'База знаний', href: '/ru/knowledge' },
+  { label: 'Новости отрасли' },
+];
+
+const issue = {
+  label: 'Выпуск',
+  number: '01',
+  date: '11 сентября 2026',
+  blurb: 'Пять вещей, которые заметил цех — и что они значат для деталей, которые вы нам присылаете.',
+};
+
+const kpis = [
+  { metric: '+28,0%', label: 'Выпуск промышленных роботов в Китае, г/г (H1 2026)', source: 'Национальное бюро статистики' },
+  { metric: '40 000+', label: 'Гуманоидных роботов отгружено в H1 2026 — около 97% мирового объёма', source: 'Отраслевые оценки' },
+  { metric: '+110,8%', label: 'Прибыль станкостроительной отрасли Китая, г/г (H1 2026)', source: 'CMTBA' },
+];
+
+const stories = [
+  {
+    tag: 'Робототехника',
+    date: '2026-09-08',
+    title: 'Гуманоид XPeng IRON сам сошёл с конвейера',
+    summary: 'Первый высококлассный универсальный гуманоид, сошедший с автоматизированной линии, построенной под него. 76 степеней подвижности, три ИИ-чипа Turing суммарно на 2 250 TOPS, уровень автоматизации ключевых процессов линии выше 80%.',
+    what_it_means: 'XPeng ставит за производство роботов автомобильные системы качества. Ждите, что за 12 месяцев разрыв между деталями уровня прототипа и уровня серии у гуманоидов сомкнётся — и поставщики, способные держать посадку H7 в алюминии на мелкой партии в 10 штук, начнут забирать следующий раунд заказов.',
+    source: 'Southern Finance / пресс-служба XPeng, 8 сен 2026',
+  },
+  {
+    tag: 'Робототехника',
+    date: '2026-09-01',
+    title: 'Сектор гуманоидов: 40 000 штук, 104,1 млрд юаней инвестиций в H1',
+    summary: 'Годовой выпуск гуманоидов теперь прогнозируется выше 100 000. Отечественные бренды держат более 90% мировой доли. Деньги концентрируются в готовых машинах, ловких манипуляторах, управлении движением и моделях воплощённого ИИ.',
+    what_it_means: 'Рынок решил, что это реально, а не история. Это меняет вопрос для цеха с «у клиента есть деньги?» на «клиент делает детали в этом квартале?». Два разных разговора о продажах.',
+    source: 'QQ News / отраслевые оценки, 1 сен 2026',
+  },
+  {
+    tag: 'Робототехника',
+    date: '2026-09-03',
+    title: 'Автопроизводители не просто заходят — они строят второй бизнес',
+    summary: 'У GAC Huilun развёрнуто 50 роботов в семи проектах, близко к 10 млн юаней заказов. Chery Mojia привлекла оценку 2,5 млрд юаней post-A. «Xiaodi» от BYD — в шоурумных пилотах. Глава автопилота NIO выделил воплощённый ИИ в отдельную компанию, NIO — стратегический акционер.',
+    what_it_means: 'Автомобильная цепочка поставок, автомобильные приспособления, автомобильные системы качества — всё это теперь приходит в робототехнику. Это тот же набор стандартов, что XPeng использовала для своей роболинии. Круг поставщиков пересобирается вокруг экосистемы автомобильных tier-1.',
+    source: 'Xinhua Finance, 3 сен 2026',
+  },
+  {
+    tag: 'Жидкостное охлаждение',
+    date: '2026-09-04',
+    title: 'Жидкостное охлаждение для ИИ-серверов: от опции к стандарту',
+    summary: 'В полугодовом отчёте CMTBA ИИ-серверное жидкостное охлаждение названо одним из трёх двигателей спроса, тянущих рост прибыли станкостроения на 110,8%. Обзор Shenwan Hongyuan говорит, что в проектировании ЦОД жидкостное охлаждение уже не опция.',
+    what_it_means: 'Холодные плиты, быстроразъёмные фитинги и коллекторы — это детали, и всем им нужны пятиосевая фрезеровка, жёсткая плоскостность и опрессовка без течи. Работа прецизионная, но не экзотическая, и большей частью это партии 10–500 штук. Наш диапазон.',
+    source: 'CMTBA / Shenwan Hongyuan, 4 сен 2026',
+  },
+  {
+    tag: 'Отрасль ЧПУ',
+    date: '2026-09-04',
+    title: 'Прибыль станкостроения удвоилась — но маржа всё ещё 3,7%',
+    summary: 'Данные CMTBA за H1: выручка 530,9 млрд юаней (+7,6%), прибыль 19,6 млрд юаней (+110,8%). Средняя маржа 3,7% — всё ещё ниже среднеотраслевых 4,5% по машиностроению. Металлорежущие станки: новые заказы +20,5%, портфель заказов +19,1%, продажи токарных станков +45,8%.',
+    what_it_means: 'Отрасль зарабатывает больше, но деньги не лёгкие. Рост сосредоточен в цехах, поднявшихся по цепочке ценности, — пятиосевая обработка, сложные детали, жидкостное охлаждение, робототехника. Обычная трёхосевая работа в ценовой войне. Наша ставка на пятиосевую и гибкость мелких партий — верная сторона этого раскола.',
+    source: 'Полугодовой отчёт CMTBA, 4 сен 2026',
+  },
+];
+
+const faqs = [
+  { q: 'Как часто обновляется эта страница?', a: 'Еженедельно. Мы не ведём бегущую строку новостей — мы ведём список для чтения и включаем только то, что меняет действия покупателя деталей ЧПУ в этом квартале.' },
+  { q: 'Откуда берутся цифры?', a: 'Только первоисточники: Национальное бюро статистики, Главное таможенное управление, Китайская ассоциация станкостроителей и инструментальщиков (CMTBA), отчётность компаний и именная пресса. Мы не перепечатываем аналитические заметки как факты.' },
+  { q: 'Почему взгляд OEM, а не рыночный отчёт?', a: 'Потому что рыночный отчёт говорит, куда дует ветер. Взгляд цеха говорит, приземлилась ли работа на самом деле. У каждой новости здесь есть строка «что это значит» — за неё мы и отвечаем.' },
+];
+
+const related = [
+  { label: 'От чертежа к расчёту', href: '/ru/knowledge/tech-blog/from-drawing-to-cost/' },
+  { label: 'Детали шарниров и фланцев роботов', href: '/ru/knowledge/tech-blog/robot-joint-and-flange-parts/' },
+  { label: 'Как выбрать поставщика ЧПУ в Китае', href: '/ru/knowledge/tech-blog/how-to-choose-cnc-supplier-in-china/' },
+  { label: 'Техблог (все)', href: '/ru/knowledge/tech-blog/' },
+];
+---
+
+<PageLayout
+  title="Новости отрасли с цеха | Eternal CNC"
+  description="Что заметил цех ЧПУ в сентябре 2026: гуманоиды переходят в серию, жидкостное охлаждение становится стандартом, прибыль станкостроения удвоилась — и что это значит для ваших деталей."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Новости отрасли — {issue.label} {issue.number}</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        В этом выпуске: что заметил цех
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        {issue.blurb} Подготовлено стратегической консультативной группой Eternal CNC. Выпущено {issue.date}.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/knowledge/tech-blog/" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Читать техблог →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPI strip -->
+  <section style="background-color: var(--page-bg); padding: 48px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-6" style="color: var(--brand-red);">Три цифры, достойные внимания в этом выпуске</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        {kpis.map((k) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <p class="text-3xl md:text-4xl font-bold mb-2" style="color: var(--brand-dark);">{k.metric}</p>
+            <p class="text-sm mb-3" style="color: var(--text-body);">{k.label}</p>
+            <p class="text-xs" style="color: var(--text-muted);">Источник: {k.source}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Stories -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Пять историй</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Что случилось и что, по нашему мнению, это значит</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        Сначала новость, затем строка, которая важна: что меняется для покупателя, отправляющего детали в цех ЧПУ.
+      </p>
+      <div class="space-y-6">
+        {stories.map((s) => (
+          <article class="p-8 border rounded-2xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+              <span class="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded" style="background-color: var(--page-bg); color: var(--brand-dark);">{s.tag}</span>
+              <span class="text-xs" style="color: var(--text-muted);">{s.date}</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-4 leading-snug" style="color: var(--brand-dark);">{s.title}</h3>
+            <p class="text-base leading-relaxed mb-4" style="color: var(--text-body);">{s.summary}</p>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Что это значит для ваших деталей</p>
+              <p class="text-sm leading-relaxed" style="color: var(--text-body);">{s.what_it_means}</p>
+            </div>
+            <p class="text-xs mt-4" style="color: var(--text-muted);">Источник: {s.source}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Standards / FAQs -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Как мы пишем эту страницу</p>
+      <h2 class="text-3xl font-bold mb-12" style="color: var(--brand-dark);">Три частых вопроса</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        {faqs.map((f) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-3" style="color: var(--brand-dark);">{f.q}</h3>
+            <p class="text-sm leading-relaxed" style="color: var(--text-body);">{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Related + subscribe -->
+  <section style="background-color: var(--card-white); padding: 64px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Читать дальше</p>
+          <h2 class="text-2xl font-bold mb-6" style="color: var(--brand-dark);">Похожее в блоге</h2>
+          <ul class="space-y-3">
+            {related.map((r) => (
+              <li>
+                <a href={r.href} class="text-sm font-medium hover:underline" style="color: var(--brand-red);">{r.label} →</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="p-8 border rounded-2xl" style="background-color: var(--page-bg); border-color: var(--border-color);">
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Следующий выпуск</p>
+          <h3 class="text-xl font-bold mb-3" style="color: var(--brand-dark);">18 сентября 2026 — уже опубликован</h3>
+          <p class="text-sm leading-relaxed mb-5" style="color: var(--text-body);">
+            Выпуск 02 уже вышел: промышленные роботы +34,6% при отстающих редукторах, завод UBTECH на 10 000 единиц, первый национальный стандарт по жидкостному охлаждению и серийные заказы, уже приземлившиеся на уровень компонентов.
+          </p>
+          <a href="/ru/knowledge/news/issue-02/" class="inline-block px-6 py-3 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+            Читать выпуск 02 →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Есть деталь на примете?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Пришлите STEP и PDF. Мы дадим расчёт в течение 2 часов в рабочий день и скажем, соответствуют ли ваши допуски тому, чем должны быть.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/knowledge/tech-blog/" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Смотреть техблог →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>
