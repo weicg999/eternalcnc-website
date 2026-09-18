@@ -4,7 +4,7 @@ description: "There is a Chinese word for people who will not move with the time
 pubDate: 2026-09-14
 category: "Industry Insights"
 tags: ["long-termism", "industry observation", "manufacturing philosophy", "AI in manufacturing", "precision machining"]
-author: "Eternal CNC Engineering Team"
+author: Strategy Advisory Team
 readingTime: "11 min read"
 ---
 

@@ -4,7 +4,7 @@ description: "“老登”这个词这两年出现得越来越频繁。它骂的
 pubDate: 2026-09-14
 category: "行业洞察"
 tags: ["长期主义", "行业观察", "制造哲学", "AI 与制造", "精密加工", "守与变"]
-author: "鑫永恒工程团队"
+author: 战略顾问团队
 readingTime: "12 分钟"
 ---
 

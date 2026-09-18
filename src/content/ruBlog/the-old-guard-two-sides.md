@@ -4,7 +4,7 @@ description: "В китайском есть слово для людей, ко�
 pubDate: 2026-09-14
 category: "Industry Insights"
 tags: ["long-termism", "industry observation", "manufacturing philosophy", "AI in manufacturing", "precision machining"]
-author: "Eternal CNC Engineering Team"
+author: Стратегическая группа советников
 readingTime: "11 мин чтения"
 ---
 

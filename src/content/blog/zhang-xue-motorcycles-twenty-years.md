@@ -4,7 +4,7 @@ description: "A brand founded in 2024 is now third in the WorldSSP manufacturers
 pubDate: 2026-09-11
 category: "Industry Insights"
 tags: ["Chinese manufacturing", "long-term thinking", "Zhang Xue Motorcycles", "industry analysis", "batch consistency", "precision machining"]
-author: "Eternal CNC Engineering Team"
+author: Strategy Advisory Team
 readingTime: "12 min read"
 ---
 

@@ -3,7 +3,7 @@ title: "Materials Are No Longer Scarce: the Real Moat Lives in the People"
 description: "A culture video about Pang Donglai made one thing clear: when AI flattens “can make it,” materials stop being scarce, and the real moat becomes the people. These are Eternal CNC’s thoughts on culture as the moat."
 category: Industry Insights
 pubDate: 2026-09-18
-author: Eternal CNC Engineering Team
+author: Strategy Advisory Team
 readingTime: 7 min read
 ---
 

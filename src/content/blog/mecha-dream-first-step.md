@@ -5,7 +5,7 @@ pubDate: 2026-09-15
 category: "Industry Insights"
 tags: ["robotics", "mecha", "joint module", "open-source hardware", "guide for non-engineers", "getting started"]
 system: "robotics"
-author: "Eternal CNC Engineering Team"
+author: Strategy Advisory Team
 readingTime: "12 min read"
 ---
 

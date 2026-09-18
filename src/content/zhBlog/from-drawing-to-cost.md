@@ -5,7 +5,7 @@ pubDate: 2026-09-10
 category: "行业洞察"
 system: "通用"
 tags: ["CNC加工", "成本构成", "DFM", "加工流程", "入门指南", "报价", "交期"]
-author: "鑫永恒工程团队"
+author: 战略顾问团队
 readingTime: "13 分钟"
 ---
 

@@ -5,7 +5,7 @@ pubDate: 2026-09-15
 category: "行业洞察"
 tags: ["机器人", "机甲", "关节模组", "开源硬件", "非工程师指南", "入门路径"]
 system: "机器人"
-author: "鑫永恒工程团队"
+author: 战略顾问团队
 readingTime: "13 分钟"
 ---
 

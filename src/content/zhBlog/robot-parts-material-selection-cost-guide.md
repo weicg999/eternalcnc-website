@@ -6,7 +6,7 @@ category: "选材指南"
 system: "机器人"
 tags: ["机器人", "机器人零部件", "材料选择", "降本", "CNC加工", "6061铝合金"]
 cover: "/images/industries/cnc-industry-robotics-collaborative-arms-02.webp"
-author: "鑫永恒工程团队"
+author: 采购部
 readingTime: "8 分钟"
 ---
 

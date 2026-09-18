@@ -4,7 +4,7 @@ description: "Бренд, основанный в 2024 году, теперь т
 pubDate: 2026-09-11
 category: "Industry Insights"
 tags: ["Chinese manufacturing", "long-term thinking", "Zhang Xue Motorcycles", "industry analysis", "batch consistency", "precision machining"]
-author: "Eternal CNC Engineering Team"
+author: Стратегическая группа советников
 readingTime: "12 мин чтения"
 ---
 

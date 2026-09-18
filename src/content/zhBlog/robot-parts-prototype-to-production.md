@@ -4,7 +4,7 @@ description: "做一件好零件容易，让第 200 件跟第 1 件一样才叫�
 pubDate: 2026-09-10
 category: "行业洞察"
 tags: ["机器人", "打样", "小批量生产", "夹具", "工艺控制", "成本结构"]
-author: "鑫永恒工程团队"
+author: 战略顾问团队
 readingTime: "9 分钟"
 system: "机器人"
 ---

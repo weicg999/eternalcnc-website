@@ -5,7 +5,7 @@ pubDate: 2026-09-10
 category: "Industry Insights"
 system: "general"
 tags: ["CNC machining", "cost breakdown", "DFM", "manufacturing process", "beginner guide", "quoting", "lead time"]
-author: "Eternal CNC Engineering Team"
+author: Стратегическая группа советников
 readingTime: "13 мин чтения"
 ---
 

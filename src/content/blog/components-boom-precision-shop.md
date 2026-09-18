@@ -4,7 +4,7 @@ description: "Humanoid robots, commercial space and embodied AI are all pulling 
 pubDate: 2026-09-12
 category: "Industry Insights"
 tags: ["industry analysis", "humanoid robots", "embodied AI", "prototyping", "judgment", "CNC machining"]
-author: "Eternal CNC Engineering Team"
+author: Strategy Advisory Team
 readingTime: "11 min read"
 ---
 

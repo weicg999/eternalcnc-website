@@ -5,7 +5,7 @@ pubDate: 2026-09-12
 category: "Industry Insights"
 system: "general"
 tags: ["lead time", "supply chain", "prototyping", "batch consistency", "supplier selection", "time to market"]
-author: "Eternal CNC Engineering Team"
+author: Strategy Advisory Team
 readingTime: "12 min read"
 ---
 

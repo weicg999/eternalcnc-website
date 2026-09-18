@@ -5,7 +5,7 @@ pubDate: 2026-09-11
 category: "Material Selection"
 system: "robotics"
 tags: ["robotics", "robot joints", "material selection", "harmonic drive", "specific stiffness", "thin-wall machining", "production consistency"]
-author: "Eternal CNC Engineering Team"
+author: Отдел закупок
 readingTime: "10 мин чтения"
 ---
 

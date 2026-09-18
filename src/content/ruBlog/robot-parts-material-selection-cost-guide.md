@@ -6,7 +6,7 @@ category: "Material Selection"
 system: "robotics"
 tags: ["robotics", "robot parts", "material selection", "cost reduction", "CNC machining", "6061 aluminum"]
 cover: "/images/industries/cnc-industry-robotics-collaborative-arms-02.webp"
-author: "Eternal CNC Engineering Team"
+author: Отдел закупок
 readingTime: "8 мин чтения"
 ---
 

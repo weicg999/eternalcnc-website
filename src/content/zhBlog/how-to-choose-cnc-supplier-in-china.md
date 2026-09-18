@@ -5,7 +5,7 @@ pubDate: 2026-09-09
 category: "行业洞察"
 system: "通用"
 tags: ["CNC加工", "供应商选择", "交期", "质量控制", "采购", "供应链"]
-author: "鑫永恒工程团队"
+author: 战略顾问团队
 readingTime: "12 分钟"
 ---
 

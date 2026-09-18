@@ -4,7 +4,7 @@ description: "Сделать одну хорошую деталь легко. С
 pubDate: 2026-09-10
 category: "Industry Insights"
 tags: ["robotics", "prototyping", "low-volume production", "fixtures", "process control", "cost structure"]
-author: "Eternal CNC Engineering Team"
+author: Стратегическая группа советников
 readingTime: "9 мин чтения"
 system: "robotics"
 ---

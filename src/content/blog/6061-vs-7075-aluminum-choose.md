@@ -6,7 +6,7 @@ category: "Material Selection"
 system: "general"
 tags: ["aluminum", "6061", "7075", "material selection", "CNC machining"]
 cover: "/images/materials/materials-aluminum-stock-01.webp"
-author: "Eternal CNC Engineering Team"
+author: Procurement Department
 readingTime: "6 min read"
 ---
 

@@ -5,7 +5,7 @@ pubDate: 2026-09-09
 category: "Industry Insights"
 system: "general"
 tags: ["CNC machining", "China supplier", "lead time", "supplier selection", "quality control", "procurement", "sourcing"]
-author: "Eternal CNC Engineering Team"
+author: Стратегическая группа советников
 readingTime: "12 мин чтения"
 ---
 

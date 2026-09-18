@@ -6,7 +6,7 @@ category: "选材指南"
 system: "通用"
 tags: ["铝合金", "6061", "7075", "材料选择", "CNC加工", "阳极氧化"]
 cover: "/images/materials/materials-aluminum-stock-01.webp"
-author: "鑫永恒工程团队"
+author: 采购部
 readingTime: "6 分钟"
 ---
 

@@ -4,7 +4,7 @@ description: "Гуманоидные роботы, коммерческий ко
 pubDate: 2026-09-12
 category: "Industry Insights"
 tags: ["industry analysis", "humanoid robots", "embodied AI", "prototyping", "judgment", "CNC machining"]
-author: "Eternal CNC Engineering Team"
+author: Стратегическая группа советников
 readingTime: "11 мин чтения"
 ---
 

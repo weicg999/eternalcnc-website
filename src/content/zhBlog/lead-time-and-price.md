@@ -5,7 +5,7 @@ pubDate: 2026-09-12
 category: "行业洞察"
 system: "通用"
 tags: ["交期", "供应链", "小批量打样", "量产一致性", "供应商选择", "上市节奏"]
-author: "鑫永恒工程团队"
+author: 战略顾问团队
 readingTime: "12 分钟"
 ---
 
