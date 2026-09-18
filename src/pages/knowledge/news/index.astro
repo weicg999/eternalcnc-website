@@ -8,57 +8,57 @@ const breadcrumbs = [
 
 const issue = {
   label: 'Issue',
-  number: '01',
-  date: '11 September 2026',
+  number: '02',
+  date: '18 September 2026',
   blurb: 'Five things the shop floor noticed — and what they mean for the parts you send us.',
 };
 
 const kpis = [
-  { metric: '+28.0%', label: 'China industrial robot output YoY (H1 2026)', source: 'National Bureau of Statistics' },
-  { metric: '40,000+', label: 'Humanoid robots shipped in H1 2026 — about 97% of the world total', source: 'Industry estimates' },
-  { metric: '+110.8%', label: 'China machine-tool industry profit YoY (H1 2026)', source: 'CMTBA' },
+  { metric: '+34.6%', label: 'China industrial robot output YoY, August 2026 (robot reducers: only +11.4%)', source: 'National Bureau of Statistics, Sep 15 2026' },
+  { metric: '860,000 pcs', label: 'Humanoid robot precision components delivered by Everwin Precision in H1 2026 — already above all of 2025 (690,000)', source: 'Everwin Precision investor relations, Sep 5 2026' },
+  { metric: '$262.31 bn', label: 'China mechanical and electrical product exports, August 2026 — a record single month', source: 'General Administration of Customs, Sep 2026' },
 ];
 
 const stories = [
   {
     tag: 'Robotics',
-    date: '2026-09-08',
-    title: "XPeng's IRON walks itself off the production line",
-    summary: "The first high-end general-purpose humanoid to come off an automated line built for it. 76 degrees of freedom, three Turing AI chips at 2,250 TOPS, line core-process automation above 80%.",
-    what_it_means: "XPeng is putting car-grade quality systems behind robot manufacturing. Expect the gap between prototype-grade and production-grade humanoid parts to close in 12 months — and the suppliers who can hold H7 fits in aluminum at 10-piece pilot quantity to start winning the next round of work.",
-    source: "Southern Finance / XPeng press, Sep 8 2026",
+    date: '2026-09-15',
+    title: 'Industrial robots up 34.6% in August — but the real signal is in the reducers',
+    summary: 'The National Bureau of Statistics released August industrial production data on September 15: industrial robot output rose 34.6% YoY, while robot reducer output rose 11.4%. Those two lines used to move together — reducer output grew 63.9% in 2025 and 57.3% in H1 2026, both well ahead of the 28.0% recorded for industrial robots over the same period. In July and August, however, reducer growth fell to 22.7% and then 11.4%, while complete-machine growth rose from 30.2% to 34.6%. The NBS also reported that China\u2019s share of global humanoid robot shipments has risen to 97%.',
+    what_it_means: 'A reducer is the one precision assembly in a joint that has to ship as a matched set — housing, flexspline, circular spline, output flange. Four parts; if any one drifts dimensionally, the set will not assemble. Its output growth falling behind means machine builders are working through inventory this cycle, not pulling new reducers. For anyone sending us parts, that cuts two ways: if your parts feed a reducer maker, expect a looser schedule next quarter than in H1. If your parts go directly into robot structure — skeletons, housings, flanges — the work gets tighter, not looser. Knowing which side of that line you sit on matters more than knowing whether the industry is good.',
+    source: 'National Bureau of Statistics, Aug 2026 industrial production data and interpretation, Sep 15 2026',
   },
   {
     tag: 'Robotics',
-    date: '2026-09-01',
-    title: 'Humanoid sector: 40,000 units, 104.1 B yuan in H1 funding',
-    summary: "Full-year humanoid output is now projected above 100,000. Domestic brands hold more than 90% of the global share. The money is concentrating in complete machines, dexterous hands, motion control, and embodied-AI models.",
-    what_it_means: "The market has decided this is real, not a story. That changes the question for a parts shop from 'is the customer funded?' to 'is the customer making parts this quarter?'. Two different BD conversations.",
-    source: 'QQ News / industry body estimates, Sep 1 2026',
-  },
-  {
-    tag: 'Robotics',
-    date: '2026-09-03',
-    title: 'Car makers are not just dipping in — they are building a second business',
-    summary: "GAC's Huilun has 50 robots deployed in seven projects, near 10M yuan in orders. Chery's Mojia has raised at a 2.5B yuan post-A valuation. BYD's 'Xiaodi' is in showroom pilots. NIO's head of autonomous driving has spun out an embodied-AI company, with NIO as a strategic shareholder.",
-    what_it_means: "Car-grade supply chain, car-grade fixtures, car-grade quality systems — all of it is now showing up in robotics. That's the same set of standards XPeng used to build its robot line. The supplier pool is being recomposed around the auto-tier ecosystem.",
-    source: "Xinhua Finance, Sep 3 2026",
-  },
-  {
-    tag: 'Liquid cooling',
-    date: '2026-09-04',
-    title: 'Liquid cooling for AI servers moves from optional to standard',
-    summary: "The CMTBA H1 report names AI-server liquid cooling as one of three demand engines driving the machine-tool industry's 110.8% profit growth. Shenwan Hongyuan's research note says liquid cooling is no longer optional in data-center design.",
-    what_it_means: "Cold plates, fluid quick-connectors and manifolds are the parts — and they all want 5-axis milling, tight flatness, and leak-free pressure testing. The work is precision, but it isn't exotic, and most of it is in the 10–500 piece range. Right band for us.",
-    source: 'CMTBA / Shenwan Hongyuan, Sep 4 2026',
+    date: '2026-09-12',
+    title: 'UBTECH\u2019s Liuzhou 10,000-unit plant goes live: one robot every 10 minutes',
+    summary: 'On September 12, UBTECH\u2019s industrial humanoid super factory in Liuzhou, Guangxi, officially began production — positioned as the world\u2019s first humanoid manufacturing flagship built for 10,000-unit-class capacity. The plant covers 14,000 m\u00b2 across a 13.8 m building, produces the Walker S and Cruzr series, runs a designed takt of one robot every 10 minutes, and is planned for over 10,000 units a year. It was built jointly with Siemens on a co-developed Yanshee MOM manufacturing operations system, with a unique SN per robot enabling item-level traceability. Two numbers matter most to a machinist: each humanoid carries more than 2,000 screws in over 50 specifications, and each unit\u2019s final test runs over 4 hours.',
+    what_it_means: 'One every 10 minutes is the takt — but a takt only holds if incoming parts are identical. 2,000 screws, 50-plus specs, 4 hours of testing: that stack imposes automotive-grade batch consistency on everything entering the plant. In other words, this cycle a customer will not award you work because your first article was beautiful. They will award it because article 200 measures like article 1. If your drawing specifies tolerances on key dimensions and leaves everything else to general tolerance per GB/T 1804-m, that is precisely the region where an assembly line fails.',
+    source: 'Economic Daily, Sep 2026; Shenzhen Special Zone Daily, Sep 14 2026; People\u2019s Daily Online Guangxi, Sep 13 2026',
   },
   {
     tag: 'CNC industry',
-    date: '2026-09-04',
-    title: 'Machine-tool industry profits doubled — but the margin is still 3.7%',
-    summary: "CMTBA H1 data: 530.9B yuan revenue (+7.6%), 19.6B yuan profit (+110.8%). Average margin 3.7% — still below the 4.5% mechanical-industry average. Machine cutting tools: new orders +20.5%, backlog +19.1%, horizontal lathe sales +45.8%.",
-    what_it_means: "The industry is making more money, but it's not easy money. The gains are concentrated in shops that have moved up the value chain — five-axis, complex parts, liquid cooling, robotics. General three-axis work is in a price war. Our bet on five-axis and small-batch flexibility is the right side of this split.",
-    source: 'CMTBA H1 report, Sep 4 2026',
+    date: '2026-09-15',
+    title: 'CNC machine tool output up 18.2% — the machines that make parts are being bought',
+    summary: 'NBS August product data shows mid- and high-end equipment advancing steadily: output of railway locomotives, civilian steel ships, gas turbines and CNC metal-cutting machine tools rose 133.3%, 38.0%, 36.5% and 18.2% respectively. Equipment manufacturing value-added rose 12.1% YoY, reaching 38.3% of above-scale industry — up 2.2 percentage points. On the export side, August above-scale industrial export delivery value reached 1.4 trillion yuan, up 11.1% YoY, while January\u2013August mechanical and electrical product exports totaled 12.91 trillion yuan, up 21.9% (General Administration of Customs).',
+    what_it_means: 'Machine tool output growing near 20% means downstream is expanding capacity — but the capacity being added handles complex parts, not general three-axis work. The inference is blunt: when every competitor is buying five-axis, the room to win on multi-setup three-axis pricing keeps shrinking, and tolerance capability and lead time become the pricing power again. For anyone sending us parts: this year, I will do it 10% cheaper is getting harder to sell, while I can pull the lead time from three weeks to ten days, and article 10 measures like article 1 is getting more valuable.',
+    source: 'National Bureau of Statistics, Aug 2026 industrial production interpretation, Sep 15 2026',
+  },
+  {
+    tag: 'Liquid cooling',
+    date: '2026-09-15',
+    title: 'China\u2019s first liquid-cooling national standard lands — cold plates and quick connectors finally get one ruler',
+    summary: 'The recommended national standard GB/T 48023-2026, Technical Specification for Cold Plate Liquid Cooling Systems in Data Centers, was issued on July 30, 2026 and takes effect February 1, 2027. A second standard, GB/T 48097-2026, General Specification for Cold Plate Liquid Cooling Racks in Data Centers, was issued August 28, 2026 and takes effect March 1, 2027. Both were drafted jointly by more than 80 industry, academic and research organizations. The standards set drawing-checkable targets for machined parts: for cold plates of the same specification at rated flow, flow-resistance variation must be within \u00b110%; pressure testing must show pressure drop within 2% with no deformation; quick connectors of the same specification from different manufacturers should be interchangeable; manifold branch flow spread must be within 10% of the arithmetic mean.',
+    what_it_means: 'This is the most concrete item this issue for a machine shop. Once interchangeability is written into a national standard, cold plates and quick connectors stop competing on who can make it and start competing on who can make it the same, every time — flow resistance within \u00b110% across batches is not won by sculpting one perfect part; it is won by fixtures, tool-life management and in-process inspection. For anyone sending us parts: stop treating liquid-cooling parts as ordinary aluminum. Put the flow-resistance or flow-rate requirement, and the pressure-test condition, on the drawing — because from February 2027 your customers will measure you with this ruler.',
+    source: 'GB/T 48023-2026 and GB/T 48097-2026 issue announcements, Sep 2026',
+  },
+  {
+    tag: 'Robotics',
+    date: '2026-09-11',
+    title: 'Upstream is getting paid: 860,000 parts, 1,000,000 motors — mass-production orders have landed',
+    summary: 'Two sets of first-party numbers from listed-company disclosures are harder evidence than any conference speech. Everwin Precision, a Tier 1 supplier to Tesla\u2019s Optimus program, told investors it delivered roughly 690,000 humanoid robot components in all of 2025 — and roughly 860,000 in H1 2026 alone. Its embodied-AI and emerging-tech hardware segment posted 243 million yuan in H1 revenue, up 537.64% YoY. Leadshine Technology\u2019s H1 2026 report disclosed more than 1,000,000 frameless torque motors on order, with planetary and harmonic joint modules and high-DOF dexterous hands ordered by nearly a hundred mainstream robot customers. Separately, UBTECH disclosed H1 2026 sales of 921 full-size embodied humanoid robots and 590 million yuan in revenue.',
+    what_it_means: 'Put robot units beside part counts and this issue\u2019s key conclusion falls out: the unit numbers are still small (921), and the part numbers are already large (860,000). A humanoid carries several hundred machined parts, so 921 units implies hundreds of thousands of pieces — which is why the component layer got paid first. For anyone sending us parts: if you are still waiting for the unit ramp before you start prototyping, you are six months late; the orders already happened one layer down. Conversely, if your part is a robot structure, joint housing, flange or bracket, what this window rewards is not your quote — it is whether you can hold consistency at 10\u201350 pieces.',
+    source: 'Everwin Precision investor relations, Sep 5 2026; Leadshine Technology H1 2026 report; UBTECH interim results, Aug 28 2026',
   },
 ];
 
@@ -78,7 +78,7 @@ const related = [
 
 <PageLayout
   title="Industry News from the Shop Floor | Eternal CNC"
-  description="What the CNC shop floor noticed in September 2026: humanoid robotics crosses into production, liquid cooling becomes standard, machine-tool industry doubles its profit — and what each of those means for the parts you send."
+  description="What the CNC shop floor noticed in September 2026: industrial robots up 34.6% while reducers lag, UBTECH's 10,000-unit plant, the first liquid-cooling national standard — and what each of those means for the parts you send."
   breadcrumbs={breadcrumbs}
 >
   <!-- Hero -->
@@ -179,9 +179,9 @@ const related = [
         </div>
         <div class="p-8 border rounded-2xl" style="background-color: var(--page-bg); border-color: var(--border-color);">
           <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Next issue</p>
-          <h3 class="text-xl font-bold mb-3" style="color: var(--brand-dark);">18 September 2026</h3>
+          <h3 class="text-xl font-bold mb-3" style="color: var(--brand-dark);">25 September 2026</h3>
           <p class="text-sm leading-relaxed mb-5" style="color: var(--text-body);">
-            Storylines we are following: how Tesla Optimus supplier audits are reshaping China's component suppliers, the first post-tariff shipment data from CNC shops in Shenzhen, and what the new ISO 9001:2026 transition looks like on the shop floor.
+            Storylines we are following: whether reducer output recovers in the September data, how cold-plate shops are preparing for the February 2027 liquid-cooling standard, and the first shipment figures from plants that went live this quarter.
           </p>
           <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
             Send us your next drawing
