@@ -382,6 +382,135 @@ function stripEmailIfNotAllowed(userMessage, replyContent) {
   return { text: cleaned, stripped: true, tooShort: gutted };
 }
 
+// ========== NDA 在线即时签署护栏（2026-09-18 新增） ==========
+// 背景：R17 印尼场景实测 bot 直接答「Tentu bisa, kami bisa menandatangani NDA」（当然可以，
+// 我们可以签 NDA）——NDA 是正式法务文件，客服无权在聊天窗口内即时完成签署。
+// 该承诺一旦给出，客户会认为"已经签了"，法务风险高于口径错误，故单列护栏。
+// 根因两条：① Coze prompt 无 NDA 条款（已在 coze-system-prompt.md 补，需后台发布）；
+//          ② 网站侧 FAQ 意图 'nda' 只覆盖 zh/en（matchFaq 第 1183 行直接 return null），
+//             印尼语等语种全落到 LLM，无任何本地兜底。
+// 策略同邮箱护栏：**本地改写**而非判不合格重试 —— 重试会串行再跑一次 LLM，把耗时翻倍。
+//   层1（先手）：用户消息命中"签 NDA"请求 → 直接秒答正确口径，不进 LLM（0.5s，语言无关）。
+//   层2（后卫）：bot 回复命中"在线即时签 NDA"承诺 → 删掉违规句，补正确话术。
+// ⚠️ 正确话术刻意**不含我方邮箱**：NDA 场景不属于"问价/发图"，露出邮箱会被
+//    stripEmailIfNotAllowed 删掉，删完还可能触发 tooShort 兜底、答非所问。
+//    改为索取客户企业邮箱——既合规，又接住转化链路⑥行动引导（留资）。
+
+// 层2：bot 回复中的"在线即时签 NDA"承诺。
+// 结构 = 肯定词（可/当然/yes/tentu…）+ 签署动词 + NDA/保密协议，
+// 且整句后 80 字内**没有**出现流程类词（正式/法务/sales@/process/formal…）。
+// 两个否定先行断言：前者排除"我们不能在线签"的正确否认，后者放行"可以签，但要走流程"的正确表述。
+// 拆词表拼接而成，便于增补语种与单测。语序必须**双向**：
+// 德/日/韩等 SOV 语言动词在后（"eine NDA unterschreiben" / "NDA に署名できます"），
+// 只写「动词→NDA」单向会整类漏检（实测 de/ja 违规句 100% 漏）。
+// ⚠️ 肯定词刻意不含 can / können / podemos / pouvez：这类"能愿动词"太泛，
+//    会把「we can sign an NDA, but it must go through legal」的正确表述一并打死。
+const NDA_POSITIVE_WORDS = '(?:yes|sure|certainly|of\\s+course|absolutely|tentu|bisa|boleh|dapat|iya|ya|sí|si|claro|por\\s+supuesto|oui|bien\\s+s[uú]r|ja|nat[uú]rlich|gerne|sim|はい|ええ|可以|當然|当然|沒問題|没问题|行)';
+const NDA_SIGN_WORDS = '(?:sign|signing|signed|tanda\\s*tangan|tandatangani|menandatangani|firmar|firma|signer|unterschreiben|assinar|assina|署名|サイン|できます|簽|签|签署|簽署)';
+const NDA_TERM_WORDS = '(?:NDA|保密协议|保密協議|confidentiality\\s+agreement|perjanjian\\s+kerahasiaan|accord\\s+de\\s+confidentialit[ée]|acuerdo\\s+de\\s+confidencialidad|秘密保持契約|機密保持契約)';
+const NDA_NEG_WORDS = '(?:不|沒|没|無|无|(?:^|[^a-zA-Z])(?:tidak|bukan|belum|not|cannot|niet|nicht|ne|pas|non)(?![a-zA-Z])|n\'t)';
+const NDA_PROCESS_WORDS = '(?:流程|正式|銷售|销售|團隊|团队|法務|法务|sales@|process|formal|procedure|legal|team|department|proses\\s+formal|hukum|tim\\s+sales|departemen|bagian\\s+hukum)';
+const NDA_ONLINE_SIGN_RE = new RegExp(
+  NDA_POSITIVE_WORDS +
+  '(?![^。.!?\\n]{0,20}' + NDA_NEG_WORDS + ')' +                      // 排除"我们不能在线签"的正确否认
+  '[^。.!?\\n]{0,30}' +
+  '(?:' +
+  NDA_SIGN_WORDS + '[^。.!?\\n]{0,30}' + NDA_TERM_WORDS +             // 动词在前：中 / 英 / 印尼 / 西…
+  '|' +
+  NDA_TERM_WORDS + '[^。.!?\\n]{0,30}' + NDA_SIGN_WORDS +             // 名词在前：德 / 日 / 韩…
+  ')' +
+  '(?![^。.!?\\n]{0,80}' + NDA_PROCESS_WORDS + ')',                   // 放行"可以签，但要走正式流程"
+  'i'
+);
+// ⚠️ 豁免窗口用 [^。.!?\n] —— **不跨句号**。所以正确话术必须把澄清词写进**同一句**
+//    （"，但需走正式签署流程"），写成"可以签署 NDA。需说明：…"会因句号阻断而自伤。
+
+// 层1：用户消息中的"签 NDA"请求（双向：签署动词在前 / NDA 在前，各语种语序不同）
+const NDA_REQUEST_PATTERNS = [
+  /(?:签|簽|签署|簽署|sign|signing|tanda\s*tangan|menandatangani|firmar|firma|signer|unterschreiben|assinar|署名)[^。.!?\n]{0,30}(?:NDA|保密协议|保密協議|confidentiality\s+agreement|perjanjian\s+kerahasiaan|accord\s+de\s+confidentialit[ée]|acuerdo\s+de\s+confidencialidad|秘密保持契約|機密保持契約)/i,
+  /(?:NDA|保密协议|保密協議|confidentiality\s+agreement|perjanjian\s+kerahasiaan|accord\s+de\s+confidentialit[ée]|acuerdo\s+de\s+confidencialidad|秘密保持契約|機密保持契約)[^。.!?\n]{0,30}(?:签|簽|签署|簽署|sign|signed|tanda\s*tangan|menandatangani|firmar|signer|unterschreiben|assinar|署名)/i,
+];
+
+// 正确口径：三段式 ①保密是底线、可签正式 NDA ②但需正式签署流程、我方出具文本、聊天内无法即时完成
+// ③索取企业邮箱，由销售/法务对接。语种键与 FALLBACK_REPLY 对齐，缺失语种回落 en。
+const NDA_CORRECT_REPLY = {
+  yue: '你放心，保密係我哋嘅底線。正式保密協議（NDA）我哋可以簽，但佢係正式法務文件，要走正式簽署流程、由我哋出具正式文本，客服無辦法喺傾計視窗入面即時簽到。方便留低貴司企業郵箱？我會安排銷售／法務團隊同你對接，傳正式 NDA 文本過嚟。',
+  zh: '请放心，保密是我们的底线。正式保密协议（NDA）我们可以签，但它属正式法务文件，需走正式签署流程、由我方出具正式文本，客服无法在聊天窗口内即时完成签署。方便留下贵司企业邮箱吗？我会安排销售／法务团队与您对接，发送正式 NDA 文本。',
+  'zh-tw': '請放心，保密是我們的底線。正式保密協議（NDA）我們可以簽，但它屬正式法務文件，需走正式簽署流程、由我方出具正式文本，客服無法在聊天視窗內即時完成簽署。方便留下貴司企業郵箱嗎？我會安排銷售／法務團隊與您對接，發送正式 NDA 文本。',
+  ja: 'ご安心ください。保密は私どもの基本方針であり、正式な秘密保持契約（NDA）の締結は可能です。ただし NDA は正式な法務文書のため、正式な署名手続きを経て当社が正式文書を発行する必要があり、チャット窓口で即時に署名を完了することはできません。貴社の会社用メールアドレスをいただけますでしょうか。営業・法務チームより正式な NDA 文書をお送りします。',
+  ko: '안심하셔도 됩니다. 보안은 저희의 기본 원칙이며 정식 비밀유지계약(NDA) 체결이 가능합니다. 다만 NDA는 정식 법무 문서이므로 정식 서명 절차를 거쳐 저희가 정식 문서를 발행해야 하며, 채팅 창에서 즉시 서명을 완료할 수는 없습니다. 귀사의 회사 이메일 주소를 남겨주시겠습니까? 영업/법무팀이 정식 NDA 문서를 보내드리겠습니다.',
+  hi: 'चिंता न करें — गोपनीयता हमारी बुनियादी नीति है और हम औपचारिक NDA पर हस्ताक्षर कर सकते हैं। एक स्पष्टीकरण: NDA एक औपचारिक कानूनी दस्तावेज़ है, जिसे औपचारिक हस्ताक्षर प्रक्रिया से गुज़रना होता है और आधिकारिक पाठ हमारी ओर से जारी किया जाता है — चैट विंडो में तुरंत हस्ताक्षर पूरे नहीं किए जा सकते। कृपया अपनी कंपनी का ईमेल साझा करें; हमारी सेल्स/लीगल टीम औपचारिक NDA पाठ भेजेगी।',
+  th: 'ขอให้วางใจ — การรักษาความลับคือหลักการพื้นฐานของเรา และเราสามารถลงนาม NDA อย่างเป็นทางการได้ สิ่งที่ต้องชี้แจง: NDA เป็นเอกสารทางกฎหมายอย่างเป็นทางการ ต้องผ่านขั้นตอนการลงนามอย่างเป็นทางการและออกเอกสารโดยเรา — เจ้าหน้าที่แชทไม่สามารถดำเนินการลงนามให้เสร็จในหน้าต่างแชทได้ ขอทราบอีเมลบริษัทของคุณได้ไหมครับ ทีมขาย/กฎหมายจะส่งข้อความ NDA อย่างเป็นทางการให้',
+  ar: 'لا تقلق — السرية أساس عملنا ويمكننا توقيع اتفاقية سرية رسمية (NDA). توضيح مهم: اتفاقية NDA وثيقة قانونية رسمية تتطلب إجراء توقيع رسمي وإصدار النص الرسمي من جانبنا، ولا يمكن إتمام التوقيع داخل نافذة المحادثة. هل يمكنك مشاركة البريد الإلكتروني لشركتك؟ سيتولى فريق المبيعات/الشؤون القانونية إرسال نص اتفاقية NDA الرسمي.',
+  he: 'אל דאגה — סודיות היא בסיס אצלנו ונוכל לחתום על NDA רשמי. הבהרה אחת: NDA הוא מסמך משפטי רשמי הדורש הליך חתימה מסודר והנפקת הנוסח הרשמי על ידינו — לא ניתן להשלים חתימה בתוך חלון הצ\'אט. תוכל לשתף את המייל העסקי של החברה? צוות המכירות/משפטי ישלח את נוסח ה-NDA הרשמי.',
+  el: 'Μην ανησυχείτε — η εμπιστευτικότητα είναι βασική αρχή μας και μπορούμε να υπογράψουμε επίσημη NDA. Μία διευκρίνιση: η NDA είναι επίσημο νομικό έγγραφο, απαιτεί επίσημη διαδικασία υπογραφής και έκδοση του επίσημου κειμένου από εμάς — δεν μπορεί να ολοκληρωθεί μέσα στο παράθυρο συνομιλίας. Θα μπορούσατε να μοιραστείτε το εταιρικό σας email; Η ομάδα πωλήσεων/νομικού θα στείλει το επίσημο κείμενο NDA.',
+  ru: 'Не беспокойтесь — конфиденциальность для нас принципиальна, и мы можем подписать официальное соглашение о неразглашении (NDA). Важное уточнение: NDA — официальный юридический документ, который требует официальной процедуры подписания и выпуска официального текста с нашей стороны; подписание не может быть завершено прямо в окне чата. Не могли бы вы оставить корпоративный email вашей компании? Наша команда продаж и юристы направят вам официальный текст NDA.',
+  de: 'Keine Sorge — Vertraulichkeit ist bei uns eine Grundvoraussetzung, und wir können eine formelle Geheimhaltungsvereinbarung (NDA) unterzeichnen. Ein wichtiger Hinweis: Eine NDA ist ein formelles Rechtsdokument, das ein formelles Unterzeichnungsverfahren erfordert und dessen offizieller Text von uns ausgestellt wird — im Chat-Fenster kann die Unterzeichnung nicht sofort abgeschlossen werden. Könnten Sie uns Ihre Firmen-E-Mail-Adresse nennen? Unser Vertriebs-/Rechtsteam sendet Ihnen dann den offiziellen NDA-Text zu.',
+  fr: 'Soyez rassuré — la confidentialité est une règle de base chez nous et nous pouvons signer un accord de confidentialité (NDA) formel. Une précision importante : un NDA est un document juridique formel qui exige une procédure de signature officielle et l’émission du texte officiel par nos soins — la signature ne peut pas être finalisée dans cette fenêtre de chat. Pourriez-vous partager l’e-mail professionnel de votre entreprise ? Notre équipe commerciale/juridique vous enverra le texte officiel du NDA.',
+  es: 'No se preocupe — la confidencialidad es una norma básica para nosotros y podemos firmar un acuerdo de confidencialidad (NDA) formal. Una aclaración importante: el NDA es un documento legal formal que requiere un proceso de firma oficial y la emisión del texto oficial por nuestra parte; la firma no puede completarse dentro de esta ventana de chat. ¿Podría compartir el correo corporativo de su empresa? Nuestro equipo comercial/legal le enviará el texto oficial del NDA.',
+  pt: 'Não se preocupe — a confidencialidade é uma regra básica para nós e podemos assinar um acordo de confidencialidade (NDA) formal. Um esclarecimento importante: o NDA é um documento jurídico formal que exige um processo de assinatura oficial e a emissão do texto oficial por nossa parte; a assinatura não pode ser concluída nesta janela de chat. Poderia compartilhar o e-mail corporativo da sua empresa? A nossa equipa comercial/jurídica enviará o texto oficial do NDA.',
+  it: 'Nessun problema — la riservatezza è una regola di base per noi e possiamo firmare un accordo di riservatezza (NDA) formale. Un chiarimento importante: l’NDA è un documento legale formale che richiede una procedura di firma ufficiale e l’emissione del testo ufficiale da parte nostra; la firma non può essere completata in questa finestra di chat. Potrebbe condividere l’email aziendale della vostra ditta? Il nostro team commerciale/legale invierà il testo ufficiale dell’NDA.',
+  nl: 'Geen zorgen — vertrouwelijkheid is bij ons een basisregel en we kunnen een formele geheimhoudingsovereenkomst (NDA) ondertekenen. Eén belangrijke verduidelijking: een NDA is een formeel juridisch document dat een officiële ondertekeningsprocedure vereist en waarvan de officiële tekst door ons wordt uitgegeven — ondertekening kan niet in dit chatvenster worden voltooid. Zou u het zakelijke e-mailadres van uw bedrijf kunnen delen? Ons sales-/juridische team stuurt u dan de officiële NDA-tekst.',
+  pl: 'Proszę się nie martwić — poufność jest u nas zasadą podstawową i możemy podpisać formalną umowę o zachowaniu poufności (NDA). Ważne wyjaśnienie: NDA to formalny dokument prawny wymagający oficjalnej procedury podpisania i wydania oficjalnego tekstu przez nas — podpisanie nie może zostać zakończone w oknie czatu. Czy może Pan/Pani podać firmowy adres e-mail? Nasz zespół sprzedaży/prawny prześle oficjalny tekst NDA.',
+  tr: 'Endişelenmeyin — gizlilik bizim için temel bir ilkedir ve resmî bir gizlilik sözleşmesi (NDA) imzalayabiliriz. Önemli bir açıklama: NDA resmî bir hukuk belgesidir, resmî bir imza süreci gerektirir ve resmî metnin tarafımızdan düzenlenmesi gerekir; imza bu sohbet penceresinde tamamlanamaz. Şirketinizin kurumsal e-posta adresini paylaşabilir misiniz? Satış/hukuk ekibimiz resmî NDA metnini gönderecektir.',
+  vi: 'Xin yên tâm — bảo mật là nguyên tắc cơ bản của chúng tôi và chúng tôi có thể ký thỏa thuận bảo mật (NDA) chính thức. Một điểm cần làm rõ: NDA là văn bản pháp lý chính thức, cần quy trình ký chính thức và do chúng tôi ban hành văn bản chính thức — không thể hoàn tất việc ký ngay trong cửa sổ chat. Bạn có thể cho biết email công ty không? Đội ngũ kinh doanh/pháp chế sẽ gửi văn bản NDA chính thức.',
+  id: 'Jangan khawatir — kerahasiaan adalah prinsip dasar kami. NDA resmi bisa kami tandatangani, tetapi harus melalui proses penandatanganan formal dan teks resminya diterbitkan oleh kami — penandatanganan tidak dapat diselesaikan di dalam jendela chat ini. Bolehkah Anda membagikan email perusahaan Anda? Tim sales/legal kami akan mengirimkan teks NDA resmi.',
+  ms: 'Jangan risau — kerahsiaan ialah prinsip asas kami. NDA rasmi boleh kami tandatangani, tetapi perlu melalui proses tandatangan formal dan teks rasmi dikeluarkan oleh kami — tandatangan tidak dapat diselesaikan dalam tetingkap chat ini. Bolehkah anda kongsi emel korporat syarikat anda? Pasukan sales/undang-undang kami akan menghantar teks NDA rasmi.',
+  sv: 'Oroa er inte — sekretess är en grundregel för oss och vi kan underteckna ett formellt sekretessavtal (NDA). En viktig förklaring: ett NDA är ett formellt juridiskt dokument som kräver en officiell underteckningsprocess och att den officiella texten utfärdas av oss — undertecknandet kan inte slutföras i detta chattfönster. Kan ni dela företagets e-postadress? Vårt sälj-/juridikteam skickar den officiella NDA-texten.',
+  cs: 'Nemějte obavy — důvěrnost je u nás základním pravidlem a můžeme podepsat formální dohodu o mlčenlivosti (NDA). Jedno důležité vysvětlení: NDA je formální právní dokument, který vyžaduje oficiální proces podpisu a vydání oficiálního textu z naší strany — podpis nelze dokončit v okně chatu. Můžete sdělit firemní e-mail? Náš obchodní/právní tým zašle oficiální text NDA.',
+  ro: 'Nu vă faceți griji — confidențialitatea este o regulă de bază pentru noi și putem semna un acord de confidențialitate (NDA) formal. O clarificare importantă: NDA este un document juridic formal care necesită o procedură oficială de semnare și emiterea textului oficial de către noi — semnarea nu poate fi finalizată în fereastra de chat. Puteți furniza adresa de e-mail a companiei? Echipa noastră de vânzări/juridică va trimite textul oficial al NDA.',
+  uk: 'Не хвилюйтеся — конфіденційність є базовим правилом для нас, і ми можемо підписати офіційну угоду про нерозголошення (NDA). Важливе уточнення: NDA — офіційний юридичний документ, який потребує офіційної процедури підписання та випуску офіційного тексту з нашого боку; підписання не може бути завершене у вікні чату. Чи могли б ви надати корпоративну пошту компанії? Наша команда продажів/юристи надішле офіційний текст NDA.',
+  fa: 'نگران نباشید — محرمانگی یک اصل پایه برای ماست و می‌توانیم توافق‌نامه محرمانگی (NDA) رسمی امضا کنیم. یک نکته مهم: NDA یک سند حقوقی رسمی است که نیازمند فرایند امضای رسمی و صدور متن رسمی از سوی ماست — امضا نمی‌تواند در همین پنجره گفت‌وگو تکمیل شود. لطفاً ایمیل شرکتی خود را در اختیار ما قرار دهید؛ تیم فروش/حقوقی متن رسمی NDA را ارسال خواهد کرد.',
+  en: 'Confidentiality is a baseline for us and we can sign a formal NDA. One thing to clarify: an NDA is a formal legal document that must go through a formal signing process with the official text issued by us — our chat agent cannot complete the signing inside this window. Could you share your corporate email? Our sales/legal team will then send you the official NDA text.',
+};
+
+// 语种选择逻辑与 getFallbackReply 一致：粤语信号优先 → 精确匹配 → 主码 → userLang → en
+function getNdaReply(visitorLangRaw, userLang) {
+  const raw = String(visitorLangRaw || '').toLowerCase();
+  if (raw === 'yue' || raw === 'zh-hk' || raw === 'zh-mo') return NDA_CORRECT_REPLY.yue;
+  if (raw === 'zh-tw') return NDA_CORRECT_REPLY['zh-tw'];
+  if (NDA_CORRECT_REPLY[raw]) return NDA_CORRECT_REPLY[raw];
+  const base = raw.split('-')[0];
+  if (NDA_CORRECT_REPLY[base]) return NDA_CORRECT_REPLY[base];
+  if (NDA_CORRECT_REPLY[userLang]) return NDA_CORRECT_REPLY[userLang];
+  return NDA_CORRECT_REPLY.en;
+}
+
+// 层1：用户消息是否"请求签 NDA"。命中则走秒答，不进 LLM（不受 matchFaq 的 zh/en 语种限制）。
+function matchNdaRequest(message, visitorLangRaw, userLang) {
+  const raw = String(message || '').trim();
+  if (raw.length < 3 || raw.length > 300) return null;
+  for (const re of NDA_REQUEST_PATTERNS) {
+    if (re.test(raw)) {
+      return { id: 'nda_sign', answer: getNdaReply(visitorLangRaw, userLang) };
+    }
+  }
+  return null;
+}
+
+// 层2：bot 回复改写。删掉违规承诺句，把正确话术补在前面。
+// 逐句判定而非整段替换 —— 只删命中 NDA_ONLINE_SIGN_RE 的句子，保留回复中其余有效内容
+// （客户可能同时问了交期/材料，整段替换会把有用信息一起抹掉）。
+const NDA_SENTENCE_SPLIT_RE = /[^。.！？!?\n]+[。.！？!?]?/g;
+
+function fixNdaOnlineSign(replyContent, visitorLangRaw, userLang) {
+  const text = String(replyContent || '');
+  if (!text || !NDA_ONLINE_SIGN_RE.test(text)) return { text, fixed: false };
+  const correct = getNdaReply(visitorLangRaw, userLang);
+  const kept = [];
+  const rx = new RegExp(NDA_SENTENCE_SPLIT_RE.source, 'g');
+  let m;
+  while ((m = rx.exec(text)) !== null) {
+    const s = m[0];
+    if (NDA_ONLINE_SIGN_RE.test(s)) continue; // 违规句：整句丢弃
+    if (kept.join('').includes(correct.slice(0, 12))) continue; // 已含正确话术，避免重复
+    kept.push(s);
+    if (m.index === rx.lastIndex) rx.lastIndex++;
+  }
+  const rest = kept.join('').trim();
+  return { text: rest ? correct + '\n' + rest : correct, fixed: true };
+}
+
 function validateReply(userMessage, replyContent, visitorLang) {
   if (!replyContent || replyContent.trim().length < 2) {
     return { valid: false, reason: 'empty_reply' };
@@ -1331,7 +1460,11 @@ export async function onRequestPost(context) {
   // ===== FAQ 秒答拦截层 =====
   // 高频问题（询价/公差/MOQ/五轴/CMM/ISO…）命中即流式直答，不进 LLM。
   // 0.5s 内响应（对比 LLM 路径 8-15s），且预写口径 100% 准确。
-  const faqHit = matchFaq(message, userLang, visitorLangRaw);
+  // NDA 签署请求先手拦截：必须放在 matchFaq **之前** —— matchFaq 只对 zh/en 生效
+  // （内部直接 return null），印尼语/西语等语种的"签 NDA"请求会原样漏给 LLM，
+  // R17 的违规回复就是这样产生的。语言无关层先接住，命中即正确口径秒答，不进 LLM。
+  const faqHit = matchNdaRequest(message, visitorLangRaw, userLang)
+    || matchFaq(message, userLang, visitorLangRaw);
   if (faqHit) {
     console.log('FAQ fast answer [' + faqHit.id + ']:', message.slice(0, 60));
 
@@ -1411,6 +1544,14 @@ export async function onRequestPost(context) {
         }
         console.log('Email stripped from reply (non-quote scenario)');
         result.content = emailFix.text;
+      }
+
+      // 后置改写：bot 承诺"在聊天里即时签 NDA" → 删掉违规句、补正确口径。
+      // 同样走本地改写而非判不合格重试（理由同邮箱护栏：重试 = 再跑一次 LLM，耗时翻倍）。
+      const ndaFix = fixNdaOnlineSign(result.content, visitorLangRaw, userLang);
+      if (ndaFix.fixed) {
+        console.log('NDA online-sign promise rewritten:', visitorLangRaw || userLang);
+        result.content = ndaFix.text;
       }
 
       const validation = validateReply(message, result.content, userLang);
