@@ -34,7 +34,7 @@ await run('非法 user_id（无前缀）', { userId: 'attacker-injected' }, 400)
 await run('非法 Origin（其他网站）', { origin: 'https://evil.example.com' }, 403);
 
 // 4) 通过 Referer 的合法来源
-await run('合法 Referer', { origin: '', referer: 'https://eternalcnc.com/page' }, 200);
+await run('合法 Referer', { origin: '', referer: 'https://www.eternalcnc.com/page' }, 200);
 
 // 5) 频率限制：同一 IP 连续 22 次
 console.log('--- 频率限制测试（同 IP 连发 22 次） ---');

@@ -13,7 +13,7 @@
 // 允许的来源域名
 const ALLOWED_ORIGINS = [
   'https://www.eternalcnc.com',
-  'https://eternalcnc.com',
+  'https://www.eternalcnc.com',
   // 本地测试用（上线后可删除）
   'http://localhost:4321',
   'http://localhost:4325',

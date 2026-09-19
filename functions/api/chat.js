@@ -77,7 +77,7 @@ function isPersonalEmail(email) {
 }
 
 const ALLOWED_ORIGINS = [
-  'https://eternalcnc.com',
+  'https://www.eternalcnc.com',
   'https://www.eternalcnc.com',
   'https://eternalcnc-website.pages.dev',
 ];

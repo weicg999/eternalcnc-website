@@ -6,7 +6,7 @@
 
 const ALLOWED_ORIGINS = [
   'https://www.eternalcnc.com',
-  'https://eternalcnc.com',
+  'https://www.eternalcnc.com',
   // 本地测试（上线后可删除）
   'http://localhost:4325',
   'http://localhost:8099',
