@@ -6,8 +6,8 @@ const breadcrumbs = [
   { label: '设备矩阵' },
 ];
 
-// 设备台账（家族集团合并产能）：13 类机型，30 台，以台群为主。
-// 含家族关联企业车间设备，共同组成一个整体承接海外订单。
+// 设备台账（厂内产能）：13 类机型，30 台，以台群为主。
+// 厂内全部设备共同承接海外订单。
 const equipment = [
   { brand: '森氏精密 (Sun King)', brandEn: 'Sun King', model: 'CNC-5AX1S (DMU 400)', type: '五轴加工中心', cat: '5-Axis', qty: 1, image: '/images/equipment/equipment-sunrise-dmu400-5axis-hero.webp' },
   { brand: '台群 (Taikan)', brandEn: 'Taikan', model: 'T-V1270S（重型）', type: '立式加工中心', cat: 'VMC', qty: 2, image: '/images/equipment/equipment-taikan-tv1270s-hero.webp' },
@@ -33,7 +33,7 @@ const machineTypes = equipment.length;
 
 <PageLayout
   title="设备矩阵 – 13 类机型 · 30 台 | 鑫永恒"
-  description="鑫永恒集团合并产能总览：13 类机型、30 台（含家族关联企业车间），以台群为主（19 台），涵盖五轴、立式加工中心、钻铣加工中心、模具雕铣及 2.5次元检测。"
+  description="鑫永恒厂内产能总览：13 类机型、30 台，以台群为主（19 台），涵盖五轴、立式加工中心、钻铣加工中心、模具雕铣及 2.5次元检测。"
   breadcrumbs={breadcrumbs}
 >
   <section style="background-color: var(--card-white); padding: 72px 0 48px;">
@@ -41,7 +41,7 @@ const machineTypes = equipment.length;
       <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">工艺能力</p>
       <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">设备矩阵</h1>
       <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
-        集团合并产能一览：共 <strong>{machineTypes} 类机型</strong>、<strong>{totalUnits} 台</strong>，含家族关联企业车间设备，共同组成一个整体。
+        厂内产能一览：共 <strong>{machineTypes} 类机型</strong>、<strong>{totalUnits} 台</strong>，共同组成一个整体。
         机群<strong style="color: var(--brand-red);">以台群为主 —— {taikanUnits} / {totalUnits} 台（{taikanPct}%）</strong>为台群(Taikan)加工中心，辅以 1 台五轴机与 2.5次元检测。
       </p>
 
@@ -112,7 +112,7 @@ const machineTypes = equipment.length;
 
       <p class="text-sm mt-4" style="color: var(--text-muted);">
         台群(Taikan)机群：T-V1270S ×2、T-V856S ×3、T-700SE ×2、T-500S ×12，合计 <strong style="color: var(--brand-red);">{taikanUnits} 台</strong>。
-        数据涵盖鑫永恒与家族关联企业车间的合并产能（总计 30 台），共同作为一个整体承接海外订单。
+        数据涵盖鑫永恒厂内全部产能（总计 30 台），承接海外订单。
       </p>
 
       <div class="flex flex-wrap gap-4 mt-8">
