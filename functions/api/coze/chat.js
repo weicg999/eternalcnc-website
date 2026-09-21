@@ -5,7 +5,7 @@
 // PAT / bot_id 仅存在于服务端环境变量，永不进前端源码。
 
 const ALLOWED_ORIGINS = [
-  'https://www.eternalcnc.com',
+  'https://eternalcnc.com',
   'https://www.eternalcnc.com',
   // 本地测试（上线后可删除）
   'http://localhost:4325',
