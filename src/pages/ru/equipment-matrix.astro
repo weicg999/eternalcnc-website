@@ -6,8 +6,8 @@ const breadcrumbs = [
   { label: 'Матрица оборудования' },
 ];
 
-// Fleet inventory (family-group combined capacity): 13 machine types, 30 units, Taikan-dominant.
-// Включает станки смежных цехов семейной группы, работающих как одна команда для зарубежных заказов.
+// Fleet inventory (in-house capacity): 13 machine types, 30 units, Taikan-dominant.
+// Все станки размещены в нашем собственном цехе и работают как одна команда для зарубежных заказов.
 const equipment = [
   { brand: 'Sun King (森氏精密)', brandEn: 'Sun King', model: 'CNC-5AX1S (DMU 400)', type: '5-осевой обрабатывающий центр', cat: '5-Axis', qty: 1, image: '/images/equipment/equipment-sunrise-dmu400-5axis-hero.webp' },
   { brand: 'Taikan (台群)', brandEn: 'Taikan', model: 'T-V1270S (Heavy)', type: 'Вертикальный обрабатывающий центр', cat: 'VMC', qty: 2, image: '/images/equipment/equipment-taikan-tv1270s-hero.webp' },
@@ -41,7 +41,7 @@ const machineTypes = equipment.length;
       <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Возможности</p>
       <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">Матрица оборудования</h1>
       <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
-        Единая сводка совокупных мощностей нашего цеха: <strong>{machineTypes} типа станков</strong> и <strong>{totalUnits} единиц</strong> — включая цеха нашей семейной группы, работающие как одна команда.
+        Единая сводка совокупных мощностей нашего цеха: <strong>{machineTypes} типа станков</strong> и <strong>{totalUnits} единиц</strong> — все в нашем собственном цехе, работают как одна команда.
         Парк <strong style="color: var(--brand-red);">преимущественно Taikan — {taikanUnits} из {totalUnits} единиц ({taikanPct}%)</strong> составляют обрабатывающие центры Taikan (台群), дополненные 5-осевым станком и контролем 2,5D.
       </p>
 
@@ -112,7 +112,7 @@ const machineTypes = equipment.length;
 
       <p class="text-sm mt-4" style="color: var(--text-muted);">
         Парк Taikan (台群): T-V1270S ×2, T-V856S ×3, T-700SE ×2, T-500S ×12 = <strong style="color: var(--brand-red);">{taikanUnits} единиц</strong>.
-        Цифры охватывают совокупные мощности Eternal CNC и цехов нашей семейной группы (всего 30 единиц), работающих как одна команда для зарубежных заказов.
+        Цифры охватывают совокупные мощности собственного цеха Eternal CNC (всего 30 единиц), работающего как одна команда для зарубежных заказов.
       </p>
 
       <div class="flex flex-wrap gap-4 mt-8">

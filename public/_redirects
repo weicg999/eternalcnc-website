@@ -1,8 +1,25 @@
-# Cloudflare Pages _redirects — relative paths only.
-# 规范域名（canonical）已于 2026-09-03 统一为裸域 eternalcnc.com，见 astro.config.mjs 的 site。
-# 裸域与 www 目前均直接 200、无 301 互跳（Cloudflare "Custom domains" 未启用 apex→www 重定向）。
-# 注：本文件不允许写绝对 URL，重定向规则只能在 Cloudflare 后台配。
+# Cloudflare Pages _redirects
+# ---------------------------------------------------------------------------
+# 语法限制（官方文档 pages/configuration/redirects）：
+#   * source 只能是「路径」，**不支持域名级跳转**（裸域 <-> www 在本文件里做不到），
+#     必须在 Cloudflare 后台 Rules -> Redirect Rules / Bulk Redirects（或遗留 Page Rules）配。
+#   * 带斜杠与不带斜杠是**两条不同的规则**（官方示例 `/trailing /trailing/ 301`），
+#     所以 /about-us 与 /about-us/ 必须各写一行，否则带斜杠的那个会 404。
+#   * 本文件的规则**不作用于 Pages Functions 的请求**（本仓库有 functions/chat-token.js，路径不重叠）。
+#
+# 域名规范现状（2026-09-21 实测）
+#   全站规范域 = https://www.eternalcnc.com
+#     来源：astro.config.mjs 的 site / 页面 canonical / og:url / hreflang /
+#           sitemap(304 条) / scripts/indexnow-push.mjs 的 HOST / baidu_push.py 的 SITE
+#   但云侧实际行为是【www -> 301 -> 裸域】，与规范相反。
+#     实测该 301 由 Cloudflare 边缘产生：响应里既没有本目录 _headers 的头部，
+#     也没有 cf-cache-status，说明在 Pages 之前就跳了，代码层（含 functions/ 中间件）拦不住。
+#   正确状态：Cloudflare 侧必须是【裸域 -> 301 -> www】。
+#     修好之前，IndexNow / 百度主动推送提交的 www URL 一进门就被 301 掉，提交效率被抵消。
+# ---------------------------------------------------------------------------
 
-# SEO: old /about-us to new /about/
-/about-us  /about/  301
-/zh/about-us  /zh/about/  301
+# SEO: 旧路径 /about-us -> /about/（带斜杠变体必须单独写一行）
+/about-us      /about/      301
+/about-us/     /about/      301
+/zh/about-us   /zh/about/   301
+/zh/about-us/  /zh/about/   301

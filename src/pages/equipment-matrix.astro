@@ -6,8 +6,8 @@ const breadcrumbs = [
   { label: 'Equipment Matrix' },
 ];
 
-// Fleet inventory (family-group combined capacity): 13 machine types, 30 units, Taikan-dominant.
-// Includes machines from the family group's affiliated workshops operating as one team for overseas orders.
+// Fleet inventory (in-house capacity): 13 machine types, 30 units, Taikan-dominant.
+// All machines are housed in our own shop, operating as one in-house team for overseas orders.
 const equipment = [
   { brand: 'Sun King (森氏精密)', brandEn: 'Sun King', model: 'CNC-5AX1S (DMU 400)', type: '5-Axis Machining Center', cat: '5-Axis', qty: 1, image: '/images/equipment/equipment-sunrise-dmu400-5axis-hero.webp' },
   { brand: 'Taikan (台群)', brandEn: 'Taikan', model: 'T-V1270S (Heavy)', type: 'Vertical Machining Center', cat: 'VMC', qty: 2, image: '/images/equipment/equipment-taikan-tv1270s-hero.webp' },
@@ -41,8 +41,8 @@ const machineTypes = equipment.length;
       <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Capabilities</p>
       <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">Equipment Matrix</h1>
       <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
-        A single overview of our combined shop-floor capacity: <strong>{machineTypes} machine types</strong> and <strong>{totalUnits} units</strong> — including the family group's affiliated workshops operating as one team.
-        The fleet is <strong style="color: var(--brand-red);">Taikan-dominant — {taikanUnits} of {totalUnits} units ({taikanPct}%)</strong> are Taikan (台群) machining centers, backed by a 5-axis machine and 2.5D inspection.
+        A single overview of our combined shop-floor capacity: <strong>{machineTypes} machine types</strong> and <strong>{totalUnits} units</strong> — all operating as one in-house team.
+        The fleet is <strong style="color: var(--brand-red);">Taikan-dominant — {taikanUnits} of {totalUnits} units ({taikanPct}%)</strong> are Taikan machining centers, backed by a 5-axis machine and 2.5D inspection.
       </p>
 
       {/* Stat bar */}
@@ -111,8 +111,8 @@ const machineTypes = equipment.length;
       </div>
 
       <p class="text-sm mt-4" style="color: var(--text-muted);">
-        Taikan (台群) fleet: T-V1270S ×2, T-V856S ×3, T-700SE ×2, T-500S ×12 = <strong style="color: var(--brand-red);">{taikanUnits} units</strong>.
-        Figures cover the combined capacity of Eternal CNC and the family group's affiliated workshops (30 units total), operating as one team for overseas orders.
+        Taikan fleet: T-V1270S ×2, T-V856S ×3, T-700SE ×2, T-500S ×12 = <strong style="color: var(--brand-red);">{taikanUnits} units</strong>.
+        Figures cover the combined in-house capacity of Eternal CNC (30 units total).
       </p>
 
       <div class="flex flex-wrap gap-4 mt-8">
