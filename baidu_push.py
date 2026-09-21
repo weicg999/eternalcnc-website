@@ -8,7 +8,7 @@ import sys
 import urllib.request
 import urllib.error
 
-SITE = "https://www.eternalcnc.com"
+SITE = "https://eternalcnc.com"
 URLS_FILE = "baidu-push-urls.txt"
 API = "http://data.zz.baidu.com/urls?site=" + SITE + "&token="
 

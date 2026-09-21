@@ -3,7 +3,7 @@
  * 用法（本地）：
  *   C:\Users\Administrator\.workbuddy\binaries\node\versions\22.22.2\node.exe scripts/demine_coze_kb.cjs
  * 用法（线上）：
- *   set BASE_URL=https://www.eternalcnc.com && node scripts/demine_coze_kb.cjs
+ *   set BASE_URL=https://eternalcnc.com && node scripts/demine_coze_kb.cjs
  *
  * 它会向 /api/coze/conversation 创建会话，再向 /api/coze/chat 发送高风险问题，
  * 并检查回答中是否出现禁用词、是否包含必须词。
@@ -203,7 +203,7 @@ async function run() {
     console.log(`Conversation: ${conversationId}\n`);
   } catch (e) {
     console.error('Failed to create conversation:', e.message);
-    console.error('Tip: start dev server or set BASE_URL=https://www.eternalcnc.com');
+    console.error('Tip: start dev server or set BASE_URL=https://eternalcnc.com');
     process.exit(1);
   }
 

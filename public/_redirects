@@ -7,15 +7,16 @@
 #     所以 /about-us 与 /about-us/ 必须各写一行，否则带斜杠的那个会 404。
 #   * 本文件的规则**不作用于 Pages Functions 的请求**（本仓库有 functions/chat-token.js，路径不重叠）。
 #
-# 域名规范现状（2026-09-21 实测）
-#   全站规范域 = https://www.eternalcnc.com
-#     来源：astro.config.mjs 的 site / 页面 canonical / og:url / hreflang /
-#           sitemap(304 条) / scripts/indexnow-push.mjs 的 HOST / baidu_push.py 的 SITE
-#   但云侧实际行为是【www -> 301 -> 裸域】，与规范相反。
-#     实测该 301 由 Cloudflare 边缘产生：响应里既没有本目录 _headers 的头部，
-#     也没有 cf-cache-status，说明在 Pages 之前就跳了，代码层（含 functions/ 中间件）拦不住。
-#   正确状态：Cloudflare 侧必须是【裸域 -> 301 -> www】。
-#     修好之前，IndexNow / 百度主动推送提交的 www URL 一进门就被 301 掉，提交效率被抵消。
+# 域名规范现状（2026-09-21 定稿）
+#   全站规范域 = https://eternalcnc.com（裸域）；Cloudflare 侧为【www -> 301 -> 裸域】，两者一致。
+#   规范域信号来源（已全部统一为裸域）：
+#     astro.config.mjs 的 site / 页面 canonical / og:url / hreflang /
+#     sitemap 与 sitemap-index / robots.txt 的 Sitemap 声明 /
+#     JSON-LD 中的 url | logo | image /
+#     scripts/indexnow-push.mjs 的 HOST / baidu_push.py 的 SITE / baidu-push-urls.txt
+#   ⚠️ 不要再把 Cloudflare 的跳转规则改成【裸域 -> www】——那会把方向反过来，
+#      重新制造「canonical 与服务器行为打架」的闭环矛盾。
+#   ⚠️ functions/ 的 CORS 白名单同时保留裸域与 www（防御性），不要只留一个。
 # ---------------------------------------------------------------------------
 
 # SEO: 旧路径 /about-us -> /about/（带斜杠变体必须单独写一行）

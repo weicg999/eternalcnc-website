@@ -14,7 +14,7 @@ const REDIRECT_STUBS = new Set([
 ]);
 
 export default defineConfig({
-  site: 'https://www.eternalcnc.com',
+  site: 'https://eternalcnc.com',
   integrations: [
     tailwind(),
     sitemap({

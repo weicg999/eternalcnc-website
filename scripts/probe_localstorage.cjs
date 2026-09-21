@@ -13,7 +13,7 @@ const { chromium } = require('playwright-core');
   page.on('console', m => logs.push('CONSOLE: ' + m.text()));
   page.on('pageerror', e => logs.push('PAGEERROR: ' + e.message));
 
-  await page.goto('https://www.eternalcnc.com/', { waitUntil: 'networkidle', timeout: 30000 });
+  await page.goto('https://eternalcnc.com/', { waitUntil: 'networkidle', timeout: 30000 });
   // 等待 SDK 加载
   await page.waitForTimeout(4000);
 

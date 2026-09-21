@@ -10,7 +10,7 @@ const { chromium } = require('playwright-core');
   page.on('console', msg => logs.push(`${msg.type()}: ${msg.text()}`));
   page.on('pageerror', err => logs.push(`PAGEERROR: ${err.message}`));
 
-  await page.goto('https://www.eternalcnc.com/contact/get-a-quote', { waitUntil: 'networkidle' });
+  await page.goto('https://eternalcnc.com/contact/get-a-quote', { waitUntil: 'networkidle' });
 
   // Step 1: upload a dummy file
   const fileInput = await page.locator('#file-input');

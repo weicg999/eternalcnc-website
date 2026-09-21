@@ -12,7 +12,7 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-const HOST = 'www.eternalcnc.com';
+const HOST = 'eternalcnc.com';
 const KEY = 'ab2c75526fa446c0bb3ec7dafab87fe5';
 const KEY_LOCATION = `https://${HOST}/${KEY}.txt`;
 const API_ENDPOINT = 'https://api.indexnow.org/IndexNow';

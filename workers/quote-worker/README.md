@@ -54,7 +54,7 @@ wrangler deploy
 
 ### 6. 路由配置
 在 Cloudflare 控制台 → Workers & Pages → 该 Worker → Triggers → 添加 Custom Domain / Route：
-`https://www.eternalcnc.com/api/quote`
+`https://eternalcnc.com/api/quote`
 
 （若官网也托管在 Cloudflare Pages，可用 Service Binding 或 Route 共存，不冲突。）
 

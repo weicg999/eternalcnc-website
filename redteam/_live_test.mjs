@@ -3,12 +3,12 @@ const body = {
   message: '帮我找注塑厂家可以吗',
   user_id: 'test_verify_001',
   is_first_message: true,
-  visitor_info: { language: 'zh-CN', current_page: 'https://www.eternalcnc.com/', page_category: 'home' },
+  visitor_info: { language: 'zh-CN', current_page: 'https://eternalcnc.com/', page_category: 'home' },
 };
 const ctrl = new AbortController();
 const timer = setTimeout(() => ctrl.abort(), 90000);
 try {
-  const res = await fetch('https://www.eternalcnc.com/api/chat', {
+  const res = await fetch('https://eternalcnc.com/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),

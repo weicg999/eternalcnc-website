@@ -1,7 +1,7 @@
 // 实测 Coze 客服跨访客隔离：用两个不同 user ID 各开会话，
 // A 发专属暗号，检查 B 的回复是否泄露 A 的暗号。
-const BASE = 'https://www.eternalcnc.com';
-const ORIGIN = 'https://www.eternalcnc.com';
+const BASE = 'https://eternalcnc.com';
+const ORIGIN = 'https://eternalcnc.com';
 const SECRET = '西瓜芝麻开门-ALPHA-7722';
 
 async function newConv() {

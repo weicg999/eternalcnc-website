@@ -115,7 +115,7 @@ CN_REPORTS = [
 
     <div class="cta">
       需要针对 2026 年精密制造趋势制定加工方案？联系 Eternal CNC 工程团队获取报价与技术评审。<br>
-      <a href="https://www.eternalcnc.com/zh/contact/get-a-quote">获取报价</a>
+      <a href="https://eternalcnc.com/zh/contact/get-a-quote">获取报价</a>
     </div>
 
     <div class="footer">
@@ -238,7 +238,7 @@ CN_REPORTS = [
 
     <div class="cta">
       需要评估五轴加工工艺方案或国产设备适配性？联系 Eternal CNC 工程团队获取报价与技术评审。<br>
-      <a href="https://www.eternalcnc.com/zh/contact/get-a-quote">获取报价</a>
+      <a href="https://eternalcnc.com/zh/contact/get-a-quote">获取报价</a>
     </div>
 
     <div class="footer">
@@ -363,7 +363,7 @@ CN_REPORTS = [
 
     <div class="cta">
       有新能源汽车电机壳体、电池托盘或电控壳体加工需求？联系 Eternal CNC 工程团队获取 DFM 评审与报价。<br>
-      <a href="https://www.eternalcnc.com/zh/contact/get-a-quote">获取报价</a>
+      <a href="https://eternalcnc.com/zh/contact/get-a-quote">获取报价</a>
     </div>
 
     <div class="footer">
@@ -483,7 +483,7 @@ CN_REPORTS = [
 
     <div class="cta">
       需要 ISO 9001:2025 换证准备或质量管理体系升级支持？联系 Eternal CNC 工程与质量团队。<br>
-      <a href="https://www.eternalcnc.com/zh/contact/get-a-quote">联系团队</a>
+      <a href="https://eternalcnc.com/zh/contact/get-a-quote">联系团队</a>
     </div>
 
     <div class="footer">
@@ -603,7 +603,7 @@ EN_REPORTS = [
 
     <div class="cta">
       Need a machining strategy aligned with 2026 precision manufacturing trends? Contact the Eternal CNC engineering team for a quote and technical review.<br>
-      <a href="https://www.eternalcnc.com/contact/get-a-quote">Request a Quote</a>
+      <a href="https://eternalcnc.com/contact/get-a-quote">Request a Quote</a>
     </div>
 
     <div class="footer">
@@ -725,7 +725,7 @@ EN_REPORTS = [
 
     <div class="cta">
       Need help evaluating 5-axis machining solutions or domestic-machine suitability? Contact the Eternal CNC engineering team.<br>
-      <a href="https://www.eternalcnc.com/contact/get-a-quote">Request a Quote</a>
+      <a href="https://eternalcnc.com/contact/get-a-quote">Request a Quote</a>
     </div>
 
     <div class="footer">
@@ -849,7 +849,7 @@ EN_REPORTS = [
 
     <div class="cta">
       Have NEV motor housings, battery trays, or inverter housings to machine? Contact the Eternal CNC engineering team for DFM review and quotation.<br>
-      <a href="https://www.eternalcnc.com/contact/get-a-quote">Request a Quote</a>
+      <a href="https://eternalcnc.com/contact/get-a-quote">Request a Quote</a>
     </div>
 
     <div class="footer">
@@ -968,7 +968,7 @@ EN_REPORTS = [
 
     <div class="cta">
       Need support preparing for ISO 9001:2025 transition or upgrading your quality management system? Contact the Eternal CNC engineering and quality team.<br>
-      <a href="https://www.eternalcnc.com/contact/get-a-quote">Contact the Team</a>
+      <a href="https://eternalcnc.com/contact/get-a-quote">Contact the Team</a>
     </div>
 
     <div class="footer">

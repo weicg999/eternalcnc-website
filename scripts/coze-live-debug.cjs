@@ -22,7 +22,7 @@ const { chromium } = require('playwright-core');
     }
   });
 
-  await page.goto('https://www.eternalcnc.com/', { waitUntil: 'load', timeout: 60000 });
+  await page.goto('https://eternalcnc.com/', { waitUntil: 'load', timeout: 60000 });
   await page.waitForTimeout(6000); // 等 SDK 加载 + bootstrap
 
   // ① 扫 position:fixed 元素（找 cookie banner / z-index 冲突）
