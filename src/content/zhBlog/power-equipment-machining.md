@@ -19,31 +19,31 @@ readingTime: "11 分钟"
 
 <figure style="margin:1.8em 0;">
 <svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="电力设备机加工零件地图" style="width:100%;height:auto;display:block;border:1px solid #E5E7EB;border-radius:10px;background:#FFFFFF;">
-<text x="340" y="28" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="14" font-weight="700" fill="#1A1A1A">电力设备整机：开关柜 · GIS · 变压器 · 储能变流器</text>
-<rect x="30" y="52" width="190" height="220" rx="8" fill="#FAFAFA" stroke="#D9D9D9"/>
-<rect x="30" y="52" width="190" height="36" rx="8" fill="#8B0000"/>
-<rect x="30" y="74" width="190" height="14" fill="#8B0000"/>
-<text x="125" y="76" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="13" font-weight="700" fill="#FFFFFF">导电回路</text>
-<text x="48" y="122" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" fill="#1A1A1A">铜排 / 母排</text>
-<text x="48" y="152" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" fill="#1A1A1A">搭接面 · 镀锡镀银</text>
-<text x="48" y="182" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" fill="#1A1A1A">软连接 · 接头夹件</text>
-<text x="48" y="228" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#8B0000">→ 决定：接触电阻</text>
-<rect x="245" y="52" width="190" height="220" rx="8" fill="#FAFAFA" stroke="#D9D9D9"/>
-<rect x="245" y="52" width="190" height="36" rx="8" fill="#8B0000"/>
-<rect x="245" y="74" width="190" height="14" fill="#8B0000"/>
-<text x="340" y="76" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="13" font-weight="700" fill="#FFFFFF">密封与壳体</text>
-<text x="263" y="122" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" fill="#1A1A1A">GIS / 开关柜壳体</text>
-<text x="263" y="152" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" fill="#1A1A1A">法兰 · 密封槽</text>
-<text x="263" y="182" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" fill="#1A1A1A">盖板 · O 圈配合面</text>
-<text x="263" y="228" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#8B0000">→ 决定：泄漏率</text>
-<rect x="460" y="52" width="190" height="220" rx="8" fill="#FAFAFA" stroke="#D9D9D9"/>
-<rect x="460" y="52" width="190" height="36" rx="8" fill="#8B0000"/>
-<rect x="460" y="74" width="190" height="14" fill="#8B0000"/>
-<text x="555" y="76" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="13" font-weight="700" fill="#FFFFFF">承载与绝缘</text>
-<text x="478" y="122" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" fill="#1A1A1A">绝缘支撑件</text>
-<text x="478" y="152" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" fill="#1A1A1A">母线夹 · 支架</text>
-<text x="478" y="182" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" fill="#1A1A1A">散热 / 液冷板</text>
-<text x="478" y="228" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#8B0000">→ 决定：装配与寿命</text>
+<text x="340" y="28" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="14" font-weight="700" style="fill:#1A1A1A">电力设备整机：开关柜 · GIS · 变压器 · 储能变流器</text>
+<rect x="30" y="52" width="190" height="220" rx="8" style="fill:#FAFAFA;stroke:#D9D9D9"/>
+<rect x="30" y="52" width="190" height="36" rx="8" style="fill:#8B0000"/>
+<rect x="30" y="74" width="190" height="14" style="fill:#8B0000"/>
+<text x="125" y="76" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="13" font-weight="700" style="fill:#FFFFFF">导电回路</text>
+<text x="48" y="122" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" style="fill:#1A1A1A">铜排 / 母排</text>
+<text x="48" y="152" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" style="fill:#1A1A1A">搭接面 · 镀锡镀银</text>
+<text x="48" y="182" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" style="fill:#1A1A1A">软连接 · 接头夹件</text>
+<text x="48" y="228" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11.5" style="fill:#8B0000">→ 决定：接触电阻</text>
+<rect x="245" y="52" width="190" height="220" rx="8" style="fill:#FAFAFA;stroke:#D9D9D9"/>
+<rect x="245" y="52" width="190" height="36" rx="8" style="fill:#8B0000"/>
+<rect x="245" y="74" width="190" height="14" style="fill:#8B0000"/>
+<text x="340" y="76" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="13" font-weight="700" style="fill:#FFFFFF">密封与壳体</text>
+<text x="263" y="122" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" style="fill:#1A1A1A">GIS / 开关柜壳体</text>
+<text x="263" y="152" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" style="fill:#1A1A1A">法兰 · 密封槽</text>
+<text x="263" y="182" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" style="fill:#1A1A1A">盖板 · O 圈配合面</text>
+<text x="263" y="228" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11.5" style="fill:#8B0000">→ 决定：泄漏率</text>
+<rect x="460" y="52" width="190" height="220" rx="8" style="fill:#FAFAFA;stroke:#D9D9D9"/>
+<rect x="460" y="52" width="190" height="36" rx="8" style="fill:#8B0000"/>
+<rect x="460" y="74" width="190" height="14" style="fill:#8B0000"/>
+<text x="555" y="76" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="13" font-weight="700" style="fill:#FFFFFF">承载与绝缘</text>
+<text x="478" y="122" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" style="fill:#1A1A1A">绝缘支撑件</text>
+<text x="478" y="152" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" style="fill:#1A1A1A">母线夹 · 支架</text>
+<text x="478" y="182" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" style="fill:#1A1A1A">散热 / 液冷板</text>
+<text x="478" y="228" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11.5" style="fill:#8B0000">→ 决定：装配与寿命</text>
 </svg>
 <figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">图 1 · 电力设备落到机加工上的零件，按“功能面”分成三类</figcaption>
 </figure>
@@ -61,26 +61,26 @@ readingTime: "11 分钟"
 <figure style="margin:1.8em 0;">
 <svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="铜排搭接面三个参数" style="width:100%;height:auto;display:block;border:1px solid #E5E7EB;border-radius:10px;background:#FFFFFF;">
 <defs>
-<marker id="pf2arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#8B0000"/></marker>
+<marker id="pf2arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" style="fill:#8B0000"/></marker>
 </defs>
-<text x="340" y="28" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="14" font-weight="700" fill="#1A1A1A">搭接面：三个参数，最后都换算成同一个数</text>
-<text x="40" y="98" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" fill="#8B0000">① 平面度 · 贴合率</text>
-<line x1="150" y1="104" x2="205" y2="120" stroke="#8B0000" stroke-width="1.2"/>
-<text x="470" y="98" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" fill="#8B0000">② 镀层：镀锡 / 镀银</text>
-<line x1="470" y1="104" x2="400" y2="120" stroke="#8B0000" stroke-width="1.2"/>
-<text x="64" y="114" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280">铜排 A</text>
-<text x="470" y="114" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280">铜排 B</text>
-<rect x="50" y="124" width="300" height="34" fill="#C77B3A" stroke="#8A5324" stroke-width="1.2"/>
-<rect x="230" y="124" width="310" height="34" fill="#D89A5C" stroke="#8A5324" stroke-width="1.2"/>
-<rect x="230" y="124" width="120" height="34" fill="#E8C09A" stroke="#8A5324" stroke-width="1.5" stroke-dasharray="5 3"/>
-<line x1="290" y1="116" x2="290" y2="166" stroke="#222222" stroke-width="2"/>
-<circle cx="290" cy="141" r="9" fill="#4A4A4A" stroke="#222222" stroke-width="1.5"/>
-<text x="40" y="204" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" fill="#8B0000">③ 去毛刺 · 倒圆角</text>
-<line x1="150" y1="196" x2="190" y2="160" stroke="#8B0000" stroke-width="1.2"/>
-<line x1="290" y1="172" x2="290" y2="198" stroke="#8B0000" stroke-width="2" marker-end="url(#pf2arrow)"/>
-<rect x="80" y="204" width="520" height="56" rx="8" fill="#FAF0F0" stroke="#8B0000"/>
-<text x="340" y="228" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="13" font-weight="700" fill="#8B0000">接触电阻 ↑ → 局部发热 ↑ → 氧化加剧 → 接触电阻再 ↑</text>
-<text x="340" y="248" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#6B7280">1000 A 下，20 微欧对应约 20 W；100 微欧就是 100 W</text>
+<text x="340" y="28" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="14" font-weight="700" style="fill:#1A1A1A">搭接面：三个参数，最后都换算成同一个数</text>
+<text x="40" y="98" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" style="fill:#8B0000">① 平面度 · 贴合率</text>
+<line x1="150" y1="104" x2="205" y2="120" stroke-width="1.2" style="stroke:#8B0000"/>
+<text x="470" y="98" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" style="fill:#8B0000">② 镀层：镀锡 / 镀银</text>
+<line x1="470" y1="104" x2="400" y2="120" stroke-width="1.2" style="stroke:#8B0000"/>
+<text x="64" y="114" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11.5" style="fill:#6B7280">铜排 A</text>
+<text x="470" y="114" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11.5" style="fill:#6B7280">铜排 B</text>
+<rect x="50" y="124" width="300" height="34" stroke-width="1.2" style="fill:#C77B3A;stroke:#8A5324"/>
+<rect x="230" y="124" width="310" height="34" stroke-width="1.2" style="fill:#D89A5C;stroke:#8A5324"/>
+<rect x="230" y="124" width="120" height="34" stroke-width="1.5" stroke-dasharray="5 3" style="fill:#E8C09A;stroke:#8A5324"/>
+<line x1="290" y1="116" x2="290" y2="166" stroke-width="2" style="stroke:#222222"/>
+<circle cx="290" cy="141" r="9" stroke-width="1.5" style="fill:#4A4A4A;stroke:#222222"/>
+<text x="40" y="204" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" style="fill:#8B0000">③ 去毛刺 · 倒圆角</text>
+<line x1="150" y1="196" x2="190" y2="160" stroke-width="1.2" style="stroke:#8B0000"/>
+<line x1="290" y1="172" x2="290" y2="198" stroke-width="2" marker-end="url(#pf2arrow)" style="stroke:#8B0000"/>
+<rect x="80" y="204" width="520" height="56" rx="8" style="fill:#FAF0F0;stroke:#8B0000"/>
+<text x="340" y="228" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="13" font-weight="700" style="fill:#8B0000">接触电阻 ↑ → 局部发热 ↑ → 氧化加剧 → 接触电阻再 ↑</text>
+<text x="340" y="248" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11.5" style="fill:#6B7280">1000 A 下，20 微欧对应约 20 W；100 微欧就是 100 W</text>
 </svg>
 <figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">图 2 · 平直度、镀层、毛刺，最终都换算成搭接面的接触电阻</figcaption>
 </figure>
@@ -106,23 +106,23 @@ readingTime: "11 分钟"
 
 <figure style="margin:1.8em 0;">
 <svg viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="壳体密封面与泄漏率" style="width:100%;height:auto;display:block;border:1px solid #E5E7EB;border-radius:10px;background:#FFFFFF;">
-<text x="340" y="26" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="14" font-weight="700" fill="#1A1A1A">壳体的密封：泄漏率不是一个数，是每道密封面累加出来的</text>
-<text x="28" y="70" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" fill="#8B0000">① 密封槽平面度 / 深度</text>
-<line x1="150" y1="76" x2="306" y2="122" stroke="#8B0000" stroke-width="1.2"/>
-<text x="470" y="70" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" fill="#8B0000">② O 圈压缩率</text>
-<line x1="500" y1="76" x2="364" y2="124" stroke="#8B0000" stroke-width="1.2"/>
-<rect x="110" y="86" width="460" height="50" fill="#DCDCDC" stroke="#B0B0B0" stroke-width="1.2"/>
-<rect x="110" y="136" width="460" height="50" fill="#DCDCDC" stroke="#B0B0B0" stroke-width="1.2"/>
-<rect x="308" y="122" width="64" height="28" rx="4" fill="#FFFFFF" stroke="#B0B0B0" stroke-width="1.2"/>
-<ellipse cx="340" cy="136" rx="20" ry="11" fill="none" stroke="#8B0000" stroke-width="3"/>
-<circle cx="150" cy="136" r="8" fill="#9A9A9A" stroke="#777777" stroke-width="1.2"/>
-<circle cx="530" cy="136" r="8" fill="#9A9A9A" stroke="#777777" stroke-width="1.2"/>
-<text x="28" y="208" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" fill="#8B0000">③ 密封面粗糙度 · 焊后变形</text>
-<line x1="160" y1="200" x2="250" y2="186" stroke="#8B0000" stroke-width="1.2"/>
-<rect x="80" y="226" width="520" height="76" rx="8" fill="#FAFAFA" stroke="#D9D9D9"/>
-<text x="100" y="250" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" fill="#1A1A1A">GB/T 7674-2020：每个隔室年泄漏率 ≤ 0.5%</text>
-<text x="100" y="271" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" fill="#1A1A1A">25 年寿命内，所有隔室气体损耗平均宜 &lt; 15%</text>
-<text x="100" y="292" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" fill="#1A1A1A">现场包扎法：24 小时内每个包扎腔 SF₆ ≤ 30 ppm</text>
+<text x="340" y="26" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="14" font-weight="700" style="fill:#1A1A1A">壳体的密封：泄漏率不是一个数，是每道密封面累加出来的</text>
+<text x="28" y="70" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" style="fill:#8B0000">① 密封槽平面度 / 深度</text>
+<line x1="150" y1="76" x2="306" y2="122" stroke-width="1.2" style="stroke:#8B0000"/>
+<text x="470" y="70" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" style="fill:#8B0000">② O 圈压缩率</text>
+<line x1="500" y1="76" x2="364" y2="124" stroke-width="1.2" style="stroke:#8B0000"/>
+<rect x="110" y="86" width="460" height="50" stroke-width="1.2" style="fill:#DCDCDC;stroke:#B0B0B0"/>
+<rect x="110" y="136" width="460" height="50" stroke-width="1.2" style="fill:#DCDCDC;stroke:#B0B0B0"/>
+<rect x="308" y="122" width="64" height="28" rx="4" stroke-width="1.2" style="fill:#FFFFFF;stroke:#B0B0B0"/>
+<ellipse cx="340" cy="136" rx="20" ry="11" stroke-width="3" style="fill:none;stroke:#8B0000"/>
+<circle cx="150" cy="136" r="8" stroke-width="1.2" style="fill:#9A9A9A;stroke:#777777"/>
+<circle cx="530" cy="136" r="8" stroke-width="1.2" style="fill:#9A9A9A;stroke:#777777"/>
+<text x="28" y="208" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" style="fill:#8B0000">③ 密封面粗糙度 · 焊后变形</text>
+<line x1="160" y1="200" x2="250" y2="186" stroke-width="1.2" style="stroke:#8B0000"/>
+<rect x="80" y="226" width="520" height="76" rx="8" style="fill:#FAFAFA;stroke:#D9D9D9"/>
+<text x="100" y="250" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" style="fill:#1A1A1A">GB/T 7674-2020：每个隔室年泄漏率 ≤ 0.5%</text>
+<text x="100" y="271" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" style="fill:#1A1A1A">25 年寿命内，所有隔室气体损耗平均宜 &lt; 15%</text>
+<text x="100" y="292" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" style="fill:#1A1A1A">现场包扎法：24 小时内每个包扎腔 SF₆ ≤ 30 ppm</text>
 </svg>
 <figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">图 3 · 密封面的平面度与粗糙度，最终累加成整机的年泄漏率</figcaption>
 </figure>
@@ -142,30 +142,30 @@ GB/T 7674-2020《额定电压 72.5kV 及以上气体绝缘金属封闭开关设�
 <figure style="margin:1.8em 0;">
 <svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="表面处理对尺寸的影响方向" style="width:100%;height:auto;display:block;border:1px solid #E5E7EB;border-radius:10px;background:#FFFFFF;">
 <defs>
-<marker id="pf4arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#8B0000"/></marker>
+<marker id="pf4arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" style="fill:#8B0000"/></marker>
 </defs>
-<text x="340" y="26" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="14" font-weight="700" fill="#1A1A1A">表面处理之后，尺寸往哪边走</text>
-<line x1="340" y1="48" x2="340" y2="264" stroke="#8B0000" stroke-width="1.2" stroke-dasharray="4 4"/>
-<text x="340" y="44" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11.5" fill="#8B0000">图纸名义尺寸</text>
-<text x="40" y="76" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="13" fill="#1A1A1A">阳极氧化</text>
-<rect x="300" y="62" width="80" height="16" fill="#EDEDED" stroke="#C0C0C0" stroke-width="1.2"/>
-<line x1="300" y1="70" x2="278" y2="70" stroke="#8B0000" stroke-width="2" marker-end="url(#pf4arrow)"/>
-<line x1="380" y1="70" x2="402" y2="70" stroke="#8B0000" stroke-width="2" marker-end="url(#pf4arrow)"/>
-<text x="424" y="76" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280">直径变化 ≈ 1× 膜厚，按膜厚预留</text>
-<text x="40" y="136" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="13" fill="#1A1A1A">电镀 镀锡 / 镀银</text>
-<rect x="300" y="122" width="80" height="16" fill="#EDEDED" stroke="#C0C0C0" stroke-width="1.2"/>
-<line x1="300" y1="130" x2="264" y2="130" stroke="#8B0000" stroke-width="2" marker-end="url(#pf4arrow)"/>
-<line x1="380" y1="130" x2="416" y2="130" stroke="#8B0000" stroke-width="2" marker-end="url(#pf4arrow)"/>
-<text x="424" y="136" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280">每面加一个膜厚，双向共 +2×</text>
-<text x="40" y="196" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="13" fill="#1A1A1A">电解抛光</text>
-<rect x="300" y="182" width="80" height="16" fill="#EDEDED" stroke="#C0C0C0" stroke-width="1.2"/>
-<line x1="264" y1="190" x2="300" y2="190" stroke="#8B0000" stroke-width="2" marker-end="url(#pf4arrow)"/>
-<line x1="416" y1="190" x2="380" y2="190" stroke="#8B0000" stroke-width="2" marker-end="url(#pf4arrow)"/>
-<text x="424" y="196" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280">减材料，尺寸变小</text>
-<text x="40" y="256" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="13" fill="#1A1A1A">热处理</text>
-<rect x="300" y="242" width="80" height="16" fill="#EDEDED" stroke="#C0C0C0" stroke-width="1.2"/>
-<path d="M300 250 q10 -9 20 0 q10 9 20 0 q10 -9 20 0 q10 9 20 0" fill="none" stroke="#8B0000" stroke-width="1.6"/>
-<text x="424" y="256" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" fill="#6B7280">变形方向与量不可预测，只能靠余量兜</text>
+<text x="340" y="26" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="14" font-weight="700" style="fill:#1A1A1A">表面处理之后，尺寸往哪边走</text>
+<line x1="340" y1="48" x2="340" y2="264" stroke-width="1.2" stroke-dasharray="4 4" style="stroke:#8B0000"/>
+<text x="340" y="44" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11.5" style="fill:#8B0000">图纸名义尺寸</text>
+<text x="40" y="76" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="13" style="fill:#1A1A1A">阳极氧化</text>
+<rect x="300" y="62" width="80" height="16" stroke-width="1.2" style="fill:#EDEDED;stroke:#C0C0C0"/>
+<line x1="300" y1="70" x2="278" y2="70" stroke-width="2" marker-end="url(#pf4arrow)" style="stroke:#8B0000"/>
+<line x1="380" y1="70" x2="402" y2="70" stroke-width="2" marker-end="url(#pf4arrow)" style="stroke:#8B0000"/>
+<text x="424" y="76" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" style="fill:#6B7280">直径变化 ≈ 1× 膜厚，按膜厚预留</text>
+<text x="40" y="136" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="13" style="fill:#1A1A1A">电镀 镀锡 / 镀银</text>
+<rect x="300" y="122" width="80" height="16" stroke-width="1.2" style="fill:#EDEDED;stroke:#C0C0C0"/>
+<line x1="300" y1="130" x2="264" y2="130" stroke-width="2" marker-end="url(#pf4arrow)" style="stroke:#8B0000"/>
+<line x1="380" y1="130" x2="416" y2="130" stroke-width="2" marker-end="url(#pf4arrow)" style="stroke:#8B0000"/>
+<text x="424" y="136" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" style="fill:#6B7280">每面加一个膜厚，双向共 +2×</text>
+<text x="40" y="196" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="13" style="fill:#1A1A1A">电解抛光</text>
+<rect x="300" y="182" width="80" height="16" stroke-width="1.2" style="fill:#EDEDED;stroke:#C0C0C0"/>
+<line x1="264" y1="190" x2="300" y2="190" stroke-width="2" marker-end="url(#pf4arrow)" style="stroke:#8B0000"/>
+<line x1="416" y1="190" x2="380" y2="190" stroke-width="2" marker-end="url(#pf4arrow)" style="stroke:#8B0000"/>
+<text x="424" y="196" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" style="fill:#6B7280">减材料，尺寸变小</text>
+<text x="40" y="256" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="13" style="fill:#1A1A1A">热处理</text>
+<rect x="300" y="242" width="80" height="16" stroke-width="1.2" style="fill:#EDEDED;stroke:#C0C0C0"/>
+<path d="M300 250 q10 -9 20 0 q10 9 20 0 q10 -9 20 0 q10 9 20 0" stroke-width="1.6" style="fill:none;stroke:#8B0000"/>
+<text x="424" y="256" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" style="fill:#6B7280">变形方向与量不可预测，只能靠余量兜</text>
 </svg>
 <figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">图 4 · 不同表面处理对尺寸的作用方向不一样，图纸要写清镀前还是镀后</figcaption>
 </figure>

@@ -19,31 +19,31 @@ readingTime: "11 мин чтения"
 
 <figure style="margin:1.8em 0;">
 <svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Карта деталей энергооборудования на станке" style="width:100%;height:auto;display:block;border:1px solid #E5E7EB;border-radius:10px;background:#FFFFFF;">
-<text x="340" y="28" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#1A1A1A">Энергооборудование: шкаф · GIS · трансформатор · ПЧ</text>
-<rect x="30" y="52" width="190" height="220" rx="8" fill="#FAFAFA" stroke="#D9D9D9"/>
-<rect x="30" y="52" width="190" height="36" rx="8" fill="#8B0000"/>
-<rect x="30" y="74" width="190" height="14" fill="#8B0000"/>
-<text x="125" y="76" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#FFFFFF">Токоведущие</text>
-<text x="48" y="122" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" fill="#1A1A1A">Шины</text>
-<text x="48" y="152" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" fill="#1A1A1A">Стыки · лужение, серебрение</text>
-<text x="48" y="182" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" fill="#1A1A1A">Гибкие связи · зажимы</text>
-<text x="48" y="228" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11.5" fill="#8B0000">→ определяет: переходное R</text>
-<rect x="245" y="52" width="190" height="220" rx="8" fill="#FAFAFA" stroke="#D9D9D9"/>
-<rect x="245" y="52" width="190" height="36" rx="8" fill="#8B0000"/>
-<rect x="245" y="74" width="190" height="14" fill="#8B0000"/>
-<text x="340" y="76" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#FFFFFF">Уплотнение, корпус</text>
-<text x="263" y="122" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" fill="#1A1A1A">Корпуса GIS / шкафов</text>
-<text x="263" y="152" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" fill="#1A1A1A">Фланцы · канавки</text>
-<text x="263" y="182" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" fill="#1A1A1A">Крышки · посадка O-кольца</text>
-<text x="263" y="228" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11.5" fill="#8B0000">→ определяет: утечку</text>
-<rect x="460" y="52" width="190" height="220" rx="8" fill="#FAFAFA" stroke="#D9D9D9"/>
-<rect x="460" y="52" width="190" height="36" rx="8" fill="#8B0000"/>
-<rect x="460" y="74" width="190" height="14" fill="#8B0000"/>
-<text x="555" y="76" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#FFFFFF">Несущие, изоляция</text>
-<text x="478" y="122" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" fill="#1A1A1A">Изоляционные опоры</text>
-<text x="478" y="152" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" fill="#1A1A1A">Зажимы шин · кронштейны</text>
-<text x="478" y="182" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" fill="#1A1A1A">Холодные плиты · охлаждение</text>
-<text x="478" y="228" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11.5" fill="#8B0000">→ определяет: сборку, ресурс</text>
+<text x="340" y="28" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="14" font-weight="700" style="fill:#1A1A1A">Энергооборудование: шкаф · GIS · трансформатор · ПЧ</text>
+<rect x="30" y="52" width="190" height="220" rx="8" style="fill:#FAFAFA;stroke:#D9D9D9"/>
+<rect x="30" y="52" width="190" height="36" rx="8" style="fill:#8B0000"/>
+<rect x="30" y="74" width="190" height="14" style="fill:#8B0000"/>
+<text x="125" y="76" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" font-weight="700" style="fill:#FFFFFF">Токоведущие</text>
+<text x="48" y="122" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" style="fill:#1A1A1A">Шины</text>
+<text x="48" y="152" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" style="fill:#1A1A1A">Стыки · лужение, серебрение</text>
+<text x="48" y="182" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" style="fill:#1A1A1A">Гибкие связи · зажимы</text>
+<text x="48" y="228" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11.5" style="fill:#8B0000">→ определяет: переходное R</text>
+<rect x="245" y="52" width="190" height="220" rx="8" style="fill:#FAFAFA;stroke:#D9D9D9"/>
+<rect x="245" y="52" width="190" height="36" rx="8" style="fill:#8B0000"/>
+<rect x="245" y="74" width="190" height="14" style="fill:#8B0000"/>
+<text x="340" y="76" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" font-weight="700" style="fill:#FFFFFF">Уплотнение, корпус</text>
+<text x="263" y="122" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" style="fill:#1A1A1A">Корпуса GIS / шкафов</text>
+<text x="263" y="152" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" style="fill:#1A1A1A">Фланцы · канавки</text>
+<text x="263" y="182" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" style="fill:#1A1A1A">Крышки · посадка O-кольца</text>
+<text x="263" y="228" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11.5" style="fill:#8B0000">→ определяет: утечку</text>
+<rect x="460" y="52" width="190" height="220" rx="8" style="fill:#FAFAFA;stroke:#D9D9D9"/>
+<rect x="460" y="52" width="190" height="36" rx="8" style="fill:#8B0000"/>
+<rect x="460" y="74" width="190" height="14" style="fill:#8B0000"/>
+<text x="555" y="76" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" font-weight="700" style="fill:#FFFFFF">Несущие, изоляция</text>
+<text x="478" y="122" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" style="fill:#1A1A1A">Изоляционные опоры</text>
+<text x="478" y="152" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" style="fill:#1A1A1A">Зажимы шин · кронштейны</text>
+<text x="478" y="182" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" style="fill:#1A1A1A">Холодные плиты · охлаждение</text>
+<text x="478" y="228" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11.5" style="fill:#8B0000">→ определяет: сборку, ресурс</text>
 </svg>
 <figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">Рис. 1 · Детали энергооборудования на станке с ЧПУ, сгруппированные по несущей функции поверхности</figcaption>
 </figure>
@@ -61,26 +61,26 @@ readingTime: "11 мин чтения"
 <figure style="margin:1.8em 0;">
 <svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Три параметра стыка шин" style="width:100%;height:auto;display:block;border:1px solid #E5E7EB;border-radius:10px;background:#FFFFFF;">
 <defs>
-<marker id="pf2arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#8B0000"/></marker>
+<marker id="pf2arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" style="fill:#8B0000"/></marker>
 </defs>
-<text x="340" y="28" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#1A1A1A">Стык шин: три параметра, одно число</text>
-<text x="40" y="98" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" fill="#8B0000">① Плоскостность · прилегание</text>
-<line x1="150" y1="104" x2="205" y2="120" stroke="#8B0000" stroke-width="1.2"/>
-<text x="470" y="98" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" fill="#8B0000">② Покрытие: лужение, серебрение</text>
-<line x1="470" y1="104" x2="400" y2="120" stroke="#8B0000" stroke-width="1.2"/>
-<text x="64" y="114" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11.5" fill="#6B7280">Шина A</text>
-<text x="470" y="114" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11.5" fill="#6B7280">Шина B</text>
-<rect x="50" y="124" width="300" height="34" fill="#C77B3A" stroke="#8A5324" stroke-width="1.2"/>
-<rect x="230" y="124" width="310" height="34" fill="#D89A5C" stroke="#8A5324" stroke-width="1.2"/>
-<rect x="230" y="124" width="120" height="34" fill="#E8C09A" stroke="#8A5324" stroke-width="1.5" stroke-dasharray="5 3"/>
-<line x1="290" y1="116" x2="290" y2="166" stroke="#222222" stroke-width="2"/>
-<circle cx="290" cy="141" r="9" fill="#4A4A4A" stroke="#222222" stroke-width="1.5"/>
-<text x="40" y="204" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" fill="#8B0000">③ Заусенцы · радиус кромки</text>
-<line x1="150" y1="196" x2="190" y2="160" stroke="#8B0000" stroke-width="1.2"/>
-<line x1="290" y1="172" x2="290" y2="198" stroke="#8B0000" stroke-width="2" marker-end="url(#pf2arrow)"/>
-<rect x="80" y="204" width="520" height="56" rx="8" fill="#FAF0F0" stroke="#8B0000"/>
-<text x="340" y="228" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#8B0000">Переходное R ↑ → нагрев ↑ → окисление ↑ → R ↑ снова</text>
-<text x="340" y="248" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11.5" fill="#6B7280">При 1000 А: 20 мкОм ≈ 20 Вт; 100 мкОм — уже 100 Вт</text>
+<text x="340" y="28" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="14" font-weight="700" style="fill:#1A1A1A">Стык шин: три параметра, одно число</text>
+<text x="40" y="98" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" style="fill:#8B0000">① Плоскостность · прилегание</text>
+<line x1="150" y1="104" x2="205" y2="120" stroke-width="1.2" style="stroke:#8B0000"/>
+<text x="470" y="98" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" style="fill:#8B0000">② Покрытие: лужение, серебрение</text>
+<line x1="470" y1="104" x2="400" y2="120" stroke-width="1.2" style="stroke:#8B0000"/>
+<text x="64" y="114" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11.5" style="fill:#6B7280">Шина A</text>
+<text x="470" y="114" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11.5" style="fill:#6B7280">Шина B</text>
+<rect x="50" y="124" width="300" height="34" stroke-width="1.2" style="fill:#C77B3A;stroke:#8A5324"/>
+<rect x="230" y="124" width="310" height="34" stroke-width="1.2" style="fill:#D89A5C;stroke:#8A5324"/>
+<rect x="230" y="124" width="120" height="34" stroke-width="1.5" stroke-dasharray="5 3" style="fill:#E8C09A;stroke:#8A5324"/>
+<line x1="290" y1="116" x2="290" y2="166" stroke-width="2" style="stroke:#222222"/>
+<circle cx="290" cy="141" r="9" stroke-width="1.5" style="fill:#4A4A4A;stroke:#222222"/>
+<text x="40" y="204" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" style="fill:#8B0000">③ Заусенцы · радиус кромки</text>
+<line x1="150" y1="196" x2="190" y2="160" stroke-width="1.2" style="stroke:#8B0000"/>
+<line x1="290" y1="172" x2="290" y2="198" stroke-width="2" marker-end="url(#pf2arrow)" style="stroke:#8B0000"/>
+<rect x="80" y="204" width="520" height="56" rx="8" style="fill:#FAF0F0;stroke:#8B0000"/>
+<text x="340" y="228" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" font-weight="700" style="fill:#8B0000">Переходное R ↑ → нагрев ↑ → окисление ↑ → R ↑ снова</text>
+<text x="340" y="248" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11.5" style="fill:#6B7280">При 1000 А: 20 мкОм ≈ 20 Вт; 100 мкОм — уже 100 Вт</text>
 </svg>
 <figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">Рис. 2 · Плоскостность, покрытие и заусенцы сводятся в одно число стыка — переходное сопротивление</figcaption>
 </figure>
@@ -106,23 +106,23 @@ readingTime: "11 мин чтения"
 
 <figure style="margin:1.8em 0;">
 <svg viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Уплотнительные поверхности корпуса и утечка" style="width:100%;height:auto;display:block;border:1px solid #E5E7EB;border-radius:10px;background:#FFFFFF;">
-<text x="340" y="26" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#1A1A1A">Уплотнение корпуса: утечка — это сумма, а не одно число</text>
-<text x="28" y="70" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" fill="#8B0000">① Плоскостность / глубина канавки</text>
-<line x1="150" y1="76" x2="306" y2="122" stroke="#8B0000" stroke-width="1.2"/>
-<text x="470" y="70" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" fill="#8B0000">② Сжатие O-кольца</text>
-<line x1="500" y1="76" x2="364" y2="124" stroke="#8B0000" stroke-width="1.2"/>
-<rect x="110" y="86" width="460" height="50" fill="#DCDCDC" stroke="#B0B0B0" stroke-width="1.2"/>
-<rect x="110" y="136" width="460" height="50" fill="#DCDCDC" stroke="#B0B0B0" stroke-width="1.2"/>
-<rect x="308" y="122" width="64" height="28" rx="4" fill="#FFFFFF" stroke="#B0B0B0" stroke-width="1.2"/>
-<ellipse cx="340" cy="136" rx="20" ry="11" fill="none" stroke="#8B0000" stroke-width="3"/>
-<circle cx="150" cy="136" r="8" fill="#9A9A9A" stroke="#777777" stroke-width="1.2"/>
-<circle cx="530" cy="136" r="8" fill="#9A9A9A" stroke="#777777" stroke-width="1.2"/>
-<text x="28" y="208" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" fill="#8B0000">③ Шероховатость · поводки после сварки</text>
-<line x1="160" y1="200" x2="250" y2="186" stroke="#8B0000" stroke-width="1.2"/>
-<rect x="80" y="226" width="520" height="76" rx="8" fill="#FAFAFA" stroke="#D9D9D9"/>
-<text x="100" y="250" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" fill="#1A1A1A">GB/T 7674-2020: утечка ≤ 0,5 % на отсек в год</text>
-<text x="100" y="271" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" fill="#1A1A1A">За 25 лет средние потери по всем отсекам &lt; 15 %</text>
-<text x="100" y="292" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" fill="#1A1A1A">Пакетирование: через 24 ч SF₆ ≤ 30 ppm в пакете</text>
+<text x="340" y="26" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="14" font-weight="700" style="fill:#1A1A1A">Уплотнение корпуса: утечка — это сумма, а не одно число</text>
+<text x="28" y="70" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" style="fill:#8B0000">① Плоскостность / глубина канавки</text>
+<line x1="150" y1="76" x2="306" y2="122" stroke-width="1.2" style="stroke:#8B0000"/>
+<text x="470" y="70" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" style="fill:#8B0000">② Сжатие O-кольца</text>
+<line x1="500" y1="76" x2="364" y2="124" stroke-width="1.2" style="stroke:#8B0000"/>
+<rect x="110" y="86" width="460" height="50" stroke-width="1.2" style="fill:#DCDCDC;stroke:#B0B0B0"/>
+<rect x="110" y="136" width="460" height="50" stroke-width="1.2" style="fill:#DCDCDC;stroke:#B0B0B0"/>
+<rect x="308" y="122" width="64" height="28" rx="4" stroke-width="1.2" style="fill:#FFFFFF;stroke:#B0B0B0"/>
+<ellipse cx="340" cy="136" rx="20" ry="11" stroke-width="3" style="fill:none;stroke:#8B0000"/>
+<circle cx="150" cy="136" r="8" stroke-width="1.2" style="fill:#9A9A9A;stroke:#777777"/>
+<circle cx="530" cy="136" r="8" stroke-width="1.2" style="fill:#9A9A9A;stroke:#777777"/>
+<text x="28" y="208" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" style="fill:#8B0000">③ Шероховатость · поводки после сварки</text>
+<line x1="160" y1="200" x2="250" y2="186" stroke-width="1.2" style="stroke:#8B0000"/>
+<rect x="80" y="226" width="520" height="76" rx="8" style="fill:#FAFAFA;stroke:#D9D9D9"/>
+<text x="100" y="250" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" style="fill:#1A1A1A">GB/T 7674-2020: утечка ≤ 0,5 % на отсек в год</text>
+<text x="100" y="271" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" style="fill:#1A1A1A">За 25 лет средние потери по всем отсекам &lt; 15 %</text>
+<text x="100" y="292" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12.5" style="fill:#1A1A1A">Пакетирование: через 24 ч SF₆ ≤ 30 ppm в пакете</text>
 </svg>
 <figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">Рис. 3 · Плоскостность канавки и шероховатость поверхности складываются в утечку всего аппарата</figcaption>
 </figure>
@@ -142,30 +142,30 @@ GB/T 7674-2020 «Газоизолированные металлические �
 <figure style="margin:1.8em 0;">
 <svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Как отделка смещает размер" style="width:100%;height:auto;display:block;border:1px solid #E5E7EB;border-radius:10px;background:#FFFFFF;">
 <defs>
-<marker id="pf4arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#8B0000"/></marker>
+<marker id="pf4arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" style="fill:#8B0000"/></marker>
 </defs>
-<text x="340" y="26" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#1A1A1A">После отделки размер уходит в какую сторону</text>
-<line x1="340" y1="48" x2="340" y2="264" stroke="#8B0000" stroke-width="1.2" stroke-dasharray="4 4"/>
-<text x="340" y="44" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11.5" fill="#8B0000">номинал по чертежу</text>
-<text x="40" y="76" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" fill="#1A1A1A">Анодирование</text>
-<rect x="300" y="62" width="80" height="16" fill="#EDEDED" stroke="#C0C0C0" stroke-width="1.2"/>
-<line x1="300" y1="70" x2="278" y2="70" stroke="#8B0000" stroke-width="2" marker-end="url(#pf4arrow)"/>
-<line x1="380" y1="70" x2="402" y2="70" stroke="#8B0000" stroke-width="2" marker-end="url(#pf4arrow)"/>
-<text x="424" y="76" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" fill="#6B7280">Диаметр ≈ 1× плёнки; заложить припуск</text>
-<text x="40" y="136" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" fill="#1A1A1A">Лужение, серебрение</text>
-<rect x="300" y="122" width="80" height="16" fill="#EDEDED" stroke="#C0C0C0" stroke-width="1.2"/>
-<line x1="300" y1="130" x2="264" y2="130" stroke="#8B0000" stroke-width="2" marker-end="url(#pf4arrow)"/>
-<line x1="380" y1="130" x2="416" y2="130" stroke="#8B0000" stroke-width="2" marker-end="url(#pf4arrow)"/>
-<text x="424" y="136" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" fill="#6B7280">С каждой стороны по плёнке: всего +2×</text>
-<text x="40" y="196" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" fill="#1A1A1A">Электрополирование</text>
-<rect x="300" y="182" width="80" height="16" fill="#EDEDED" stroke="#C0C0C0" stroke-width="1.2"/>
-<line x1="264" y1="190" x2="300" y2="190" stroke="#8B0000" stroke-width="2" marker-end="url(#pf4arrow)"/>
-<line x1="416" y1="190" x2="380" y2="190" stroke="#8B0000" stroke-width="2" marker-end="url(#pf4arrow)"/>
-<text x="424" y="196" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" fill="#6B7280">Съём материала; размер уменьшается</text>
-<text x="40" y="256" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" fill="#1A1A1A">Термообработка</text>
-<rect x="300" y="242" width="80" height="16" fill="#EDEDED" stroke="#C0C0C0" stroke-width="1.2"/>
-<path d="M300 250 q10 -9 20 0 q10 9 20 0 q10 -9 20 0 q10 9 20 0" fill="none" stroke="#8B0000" stroke-width="1.6"/>
-<text x="424" y="256" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" fill="#6B7280">Направление и величина непредсказуемы; спасает припуск</text>
+<text x="340" y="26" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="14" font-weight="700" style="fill:#1A1A1A">После отделки размер уходит в какую сторону</text>
+<line x1="340" y1="48" x2="340" y2="264" stroke-width="1.2" stroke-dasharray="4 4" style="stroke:#8B0000"/>
+<text x="340" y="44" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11.5" style="fill:#8B0000">номинал по чертежу</text>
+<text x="40" y="76" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" style="fill:#1A1A1A">Анодирование</text>
+<rect x="300" y="62" width="80" height="16" stroke-width="1.2" style="fill:#EDEDED;stroke:#C0C0C0"/>
+<line x1="300" y1="70" x2="278" y2="70" stroke-width="2" marker-end="url(#pf4arrow)" style="stroke:#8B0000"/>
+<line x1="380" y1="70" x2="402" y2="70" stroke-width="2" marker-end="url(#pf4arrow)" style="stroke:#8B0000"/>
+<text x="424" y="76" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" style="fill:#6B7280">Диаметр ≈ 1× плёнки; заложить припуск</text>
+<text x="40" y="136" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" style="fill:#1A1A1A">Лужение, серебрение</text>
+<rect x="300" y="122" width="80" height="16" stroke-width="1.2" style="fill:#EDEDED;stroke:#C0C0C0"/>
+<line x1="300" y1="130" x2="264" y2="130" stroke-width="2" marker-end="url(#pf4arrow)" style="stroke:#8B0000"/>
+<line x1="380" y1="130" x2="416" y2="130" stroke-width="2" marker-end="url(#pf4arrow)" style="stroke:#8B0000"/>
+<text x="424" y="136" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" style="fill:#6B7280">С каждой стороны по плёнке: всего +2×</text>
+<text x="40" y="196" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" style="fill:#1A1A1A">Электрополирование</text>
+<rect x="300" y="182" width="80" height="16" stroke-width="1.2" style="fill:#EDEDED;stroke:#C0C0C0"/>
+<line x1="264" y1="190" x2="300" y2="190" stroke-width="2" marker-end="url(#pf4arrow)" style="stroke:#8B0000"/>
+<line x1="416" y1="190" x2="380" y2="190" stroke-width="2" marker-end="url(#pf4arrow)" style="stroke:#8B0000"/>
+<text x="424" y="196" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" style="fill:#6B7280">Съём материала; размер уменьшается</text>
+<text x="40" y="256" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" style="fill:#1A1A1A">Термообработка</text>
+<rect x="300" y="242" width="80" height="16" stroke-width="1.2" style="fill:#EDEDED;stroke:#C0C0C0"/>
+<path d="M300 250 q10 -9 20 0 q10 9 20 0 q10 -9 20 0 q10 9 20 0" stroke-width="1.6" style="fill:none;stroke:#8B0000"/>
+<text x="424" y="256" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" style="fill:#6B7280">Направление и величина непредсказуемы; спасает припуск</text>
 </svg>
 <figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">Рис. 4 · Разные виды отделки смещают размер в разные стороны — на чертеже нужно указать, до покрытия или после</figcaption>
 </figure>
