@@ -1,11 +1,22 @@
 ---
 /**
- * SEOHead 组件 - TDK + Schema.org 结构化数据 + Open Graph + hreflang 双语互链
+ * SEOHead 组件 - TDK + Schema.org 结构化数据 + Open Graph + hreflang 三语互链
  *
  * hreflang 采用 import.meta.glob 枚举 src/pages 下真实存在的路由，
  * 不再依赖 fs.existsSync + import.meta.url（静态构建下该探测恒失效）。
  * 命名不对称的双语页（知识页）用 LANG_MAP 显式映射。
+ *
+ * alternates：显式声明本站页面的三语对页（站内路径或绝对 URL，带不带尾斜杠都行）。
+ * 必须显式传的场景 —— 动态路由（如 /knowledge/tech-blog/[...slug]/）：
+ * 它的键在 import.meta.glob 枚举集合里是模板 '../pages/.../[...slug].astro'，
+ * 永远不等于某篇文章的具体路径，routes.has() 恒为 false，自动推断必然落空。
  */
+interface Alternates {
+  en?: string;
+  zh?: string;
+  ru?: string;
+}
+
 interface Props {
   title: string;
   description: string;
@@ -14,6 +25,7 @@ interface Props {
   schema?: object | object[];
   noindex?: boolean;
   keywords?: string;
+  alternates?: Alternates;
 }
 
 const {
@@ -24,6 +36,7 @@ const {
   schema,
   noindex = false,
   keywords,
+  alternates,
 } = Astro.props;
 
 const canonical = canonicalUrl || new URL(Astro.url.pathname, Astro.site).href;
@@ -56,7 +69,6 @@ const pathname = Astro.url.pathname;
 const np = norm(pathname);
 const isZh = np.startsWith('/zh');
 const isRu = np.startsWith('/ru');
-const lang = isRu ? 'ru' : isZh ? 'zh' : 'en';
 const ogLocale = isRu ? 'ru_RU' : isZh ? 'zh_CN' : 'en_US';
 const ogSiteName = isRu ? 'Eternal CNC — Точная ЧПУ обработка' : isZh ? '永恒精密数控加工' : 'Eternal CNC Precision Machining';
 
@@ -71,30 +83,58 @@ const rest = (() => {
 const withPrefix = (l: 'en' | 'zh' | 'ru', r: string) =>
   l === 'en' ? (r === '/' ? '/' : r) : `/${l}${r === '/' ? '' : r}`;
 
-// 命名不对称的页（仅 en↔zh 的几对知识页）；ru 对称，无需修正
+// 命名不对称的页（仅 en↔zh 的几对知识页）；ru 对称，无需修正。
+//
+// ⚠️ LANG_MAP 是「双向」表（en→zh 与 zh→en 成对），不能无差别套用：
+// 算英文版地址时，英文路径 '/knowledge/dfm-guide' 也在表里、会被映射回
+// '/zh/knowledge/dfm-guides'，于是 hreflang="en" 和 x-default 双双指向中文页。
+// 只有当「映射结果确实属于目标语言」时才采纳，否则保留原路径。
+//
+// 注：这 4 组知识页如今在 /zh/ 下都有「同名同内容」的对页（如
+// /zh/knowledge/dfm-guide/），而本表指向的是另一批无对应译文的旧落地页，
+// 故在「同语言才采纳」规则下本表已不再生效；保留是为将来真出现
+// 「slug 不对称」的成对页面时可直接填表。规则不变：映射必须同语言。
+const langOfPath = (p: string): 'en' | 'zh' | 'ru' =>
+  p === '/zh' || p.startsWith('/zh/') ? 'zh' : p === '/ru' || p.startsWith('/ru/') ? 'ru' : 'en';
+
 const counterFor = (l: 'en' | 'zh' | 'ru') => {
   let p = withPrefix(l, rest);
-  if (LANG_MAP[p]) p = LANG_MAP[p];
+  const mapped = LANG_MAP[p];
+  if (mapped && langOfPath(mapped) === l) p = mapped;
   return norm(p);
 };
 
-const enPath = counterFor('en');
-const zhPath = counterFor('zh');
-const ruPath = counterFor('ru');
-
-const enExists = routes.has(enPath);
-const zhExists = routes.has(zhPath);
-const ruExists = routes.has(ruPath);
-
 // hreflang 目标必须与 canonical 完全一致，即「带尾斜杠的规范地址」。
-// 注意：np/counterPath 是去尾斜杠的内部形式（用于匹配 routes 集合），
+// 注意：np/counterFor 结果是去尾斜杠的内部形式（用于匹配 routes 集合），
 // 不能直接拿去当 hreflang —— 无尾斜杠地址在 Cloudflare Pages 上会 308 跳转，
 // 搜索引擎视「hreflang 指向重定向」为无效标注，整个语言集群会被忽略。
 const toCanonical = (p: string) => (p === '/' || p.endsWith('/') ? p : p + '/');
 
-const enUrl = new URL(toCanonical(enPath), Astro.site).href;
-const zhUrl = new URL(toCanonical(zhPath), Astro.site).href;
-const ruUrl = new URL(toCanonical(ruPath), Astro.site).href;
+// 对页地址可能是站内路径也可能是绝对 URL，统一归到 Astro.site 下的规范地址
+const asUrl = (p: string) => {
+  const path = /^https?:\/\//i.test(p) ? new URL(p).pathname : p;
+  return new URL(toCanonical(norm(path)), Astro.site).href;
+};
+
+const hasExplicitAlt = !!alternates && (!!alternates.en || !!alternates.zh || !!alternates.ru);
+
+// 未显式传 alternates 时，退回「路由集合推断」：只认真实存在的对页，避免悬空标注
+const inferredUrl = (l: 'en' | 'zh' | 'ru') => {
+  const path = counterFor(l);
+  return routes.has(path) ? asUrl(path) : undefined;
+};
+
+const enUrl = hasExplicitAlt ? (alternates!.en ? asUrl(alternates!.en) : undefined) : inferredUrl('en');
+const zhUrl = hasExplicitAlt ? (alternates!.zh ? asUrl(alternates!.zh) : undefined) : inferredUrl('zh');
+const ruUrl = hasExplicitAlt ? (alternates!.ru ? asUrl(alternates!.ru) : undefined) : inferredUrl('ru');
+
+// 参与互链的语言数：至少 2 个（含本页自身）才发 hreflang，纯单语页不发
+const altCount = [enUrl, zhUrl, ruUrl].filter(Boolean).length;
+const emitHreflang = altCount >= 2;
+
+// x-default 优先英文版；英文版不存在时退到实际存在的语言，
+// 绝不可指向不存在的地址（悬空 x-default 同样会让 Google 忽略整组标注）
+const xDefault = enUrl || zhUrl || ruUrl;
 ---
 
 <!-- SEO Meta Tags -->
@@ -107,12 +147,12 @@ const ruUrl = new URL(toCanonical(ruPath), Astro.site).href;
     <link rel="canonical" href={canonical} />
 
     <!-- hreflang: 仅当存在其他语言的真实对页时发出（避免悬空标注） -->
-    {((lang !== 'en' && enExists) || (lang !== 'zh' && zhExists) || (lang !== 'ru' && ruExists)) && (
+    {emitHreflang && (
       <>
-        {enExists && <link rel="alternate" hreflang="en" href={enUrl} />}
-        {zhExists && <link rel="alternate" hreflang="zh-CN" href={zhUrl} />}
-        {ruExists && <link rel="alternate" hreflang="ru" href={ruUrl} />}
-        <link rel="alternate" hreflang="x-default" href={enUrl} />
+        {enUrl && <link rel="alternate" hreflang="en" href={enUrl} />}
+        {zhUrl && <link rel="alternate" hreflang="zh-CN" href={zhUrl} />}
+        {ruUrl && <link rel="alternate" hreflang="ru" href={ruUrl} />}
+        {xDefault && <link rel="alternate" hreflang="x-default" href={xDefault} />}
       </>
     )}
 

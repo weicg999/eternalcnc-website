@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import { getBlogSlugSets, blogAlternates } from '../../../../data/blogAlternates';
 
 export async function getStaticPaths() {
   const posts = (await getCollection('ruBlog', ({ data }) => !data.draft)).sort(
@@ -15,6 +16,9 @@ export async function getStaticPaths() {
 const { post, posts } = Astro.props;
 const { Content } = await render(post);
 const { title, description, pubDate, category, tags, readingTime, author, cover } = post.data;
+
+// 三语对页：动态路由无法被 SEOHead 的 import.meta.glob 路由枚举覆盖，必须显式给
+const alternates = blogAlternates(post.slug, await getBlogSlugSets());
 
 // 上一篇 / 下一篇（按 pubDate 降序的相邻文章）
 const idx = posts.findIndex((p) => p.slug === post.slug);
@@ -71,6 +75,7 @@ const shareTitle = title;
 <BaseLayout
   title={`${title} | Eternal CNC`}
   description={description}
+  alternates={alternates}
 >
   <!-- 文章头部 -->
   <section style="background-color: var(--page-bg); padding: 48px 0 0;">
