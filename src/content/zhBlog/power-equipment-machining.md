@@ -75,10 +75,10 @@ readingTime: "11 分钟"
 <rect x="230" y="124" width="120" height="34" stroke-width="1.5" stroke-dasharray="5 3" style="fill:#E8C09A;stroke:#8A5324"/>
 <line x1="290" y1="116" x2="290" y2="166" stroke-width="2" style="stroke:#222222"/>
 <circle cx="290" cy="141" r="9" stroke-width="1.5" style="fill:#4A4A4A;stroke:#222222"/>
-<text x="40" y="204" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" style="fill:#8B0000">③ 去毛刺 · 倒圆角</text>
-<line x1="150" y1="196" x2="190" y2="160" stroke-width="1.2" style="stroke:#8B0000"/>
-<line x1="290" y1="172" x2="290" y2="198" stroke-width="2" marker-end="url(#pf2arrow)" style="stroke:#8B0000"/>
-<rect x="80" y="204" width="520" height="56" rx="8" style="fill:#FAF0F0;stroke:#8B0000"/>
+<text x="40" y="190" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" style="fill:#8B0000">③ 去毛刺 · 倒圆角</text>
+<line x1="145" y1="183" x2="272" y2="160" stroke-width="1.2" style="stroke:#8B0000"/>
+<line x1="290" y1="172" x2="290" y2="200" stroke-width="2" marker-end="url(#pf2arrow)" style="stroke:#8B0000"/>
+<rect x="80" y="208" width="520" height="56" rx="8" style="fill:#FAF0F0;stroke:#8B0000"/>
 <text x="340" y="228" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="13" font-weight="700" style="fill:#8B0000">接触电阻 ↑ → 局部发热 ↑ → 氧化加剧 → 接触电阻再 ↑</text>
 <text x="340" y="248" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11.5" style="fill:#6B7280">1000 A 下，20 微欧对应约 20 W；100 微欧就是 100 W</text>
 </svg>
@@ -118,7 +118,7 @@ readingTime: "11 分钟"
 <circle cx="150" cy="136" r="8" stroke-width="1.2" style="fill:#9A9A9A;stroke:#777777"/>
 <circle cx="530" cy="136" r="8" stroke-width="1.2" style="fill:#9A9A9A;stroke:#777777"/>
 <text x="28" y="208" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" style="fill:#8B0000">③ 密封面粗糙度 · 焊后变形</text>
-<line x1="160" y1="200" x2="250" y2="186" stroke-width="1.2" style="stroke:#8B0000"/>
+<line x1="182" y1="199" x2="300" y2="184" stroke-width="1.2" style="stroke:#8B0000"/>
 <rect x="80" y="226" width="520" height="76" rx="8" style="fill:#FAFAFA;stroke:#D9D9D9"/>
 <text x="100" y="250" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" style="fill:#1A1A1A">GB/T 7674-2020：每个隔室年泄漏率 ≤ 0.5%</text>
 <text x="100" y="271" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12.5" style="fill:#1A1A1A">25 年寿命内，所有隔室气体损耗平均宜 &lt; 15%</text>
@@ -165,7 +165,7 @@ GB/T 7674-2020《额定电压 72.5kV 及以上气体绝缘金属封闭开关设�
 <text x="40" y="256" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="13" style="fill:#1A1A1A">热处理</text>
 <rect x="300" y="242" width="80" height="16" stroke-width="1.2" style="fill:#EDEDED;stroke:#C0C0C0"/>
 <path d="M300 250 q10 -9 20 0 q10 9 20 0 q10 -9 20 0 q10 9 20 0" stroke-width="1.6" style="fill:none;stroke:#8B0000"/>
-<text x="424" y="256" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" style="fill:#6B7280">变形方向与量不可预测，只能靠余量兜</text>
+<text x="424" y="256" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" style="fill:#6B7280">变形方向与量不可预测，只能靠余量兜住</text>
 </svg>
 <figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">图 4 · 不同表面处理对尺寸的作用方向不一样，图纸要写清镀前还是镀后</figcaption>
 </figure>
