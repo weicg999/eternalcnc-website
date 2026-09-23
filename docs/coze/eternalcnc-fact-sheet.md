@@ -10,7 +10,7 @@
 
 | 项目 | 内容 |
 |------|------|
-| 法定名称 Legal Name | 鑫永恒（深圳）精密实业有限公司 / Xin Yongheng (Shenzhen) Precision Industry Co., Ltd. |
+| 法定名称 Legal Name | 鑫永恒（深圳）精密实业有限公司 / Xinyongheng (Shenzhen) Precision Industrial Co., Ltd. |
 | 外贸品牌 Brand | EternalCNC |
 | 公司性质 | 自营精密 CNC 加工厂，**不是贸易公司**（a dedicated precision CNC machining factory — not a trading company） |
 | 工厂地址 Address | **中国广东省深圳市宝安区松岗街道** / Songgang, Bao'an District, Shenzhen, Guangdong Province, China |
@@ -20,7 +20,7 @@
 | 团队 | 核心团队为 15+ 年经验的资深技师 |
 
 **English:**
-- Legal name: Xin Yongheng (Shenzhen) Precision Industry Co., Ltd.
+- Legal name: Xinyongheng (Shenzhen) Precision Industrial Co., Ltd.
 - Brand: EternalCNC
 - We are a dedicated precision CNC machining factory, not a trading company.
 - Factory address: Songgang, Bao'an District, Shenzhen, Guangdong Province, China

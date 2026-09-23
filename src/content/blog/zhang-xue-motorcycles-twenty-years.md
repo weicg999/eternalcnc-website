@@ -211,7 +211,7 @@ Race results and standings: Xinhua, CCTV Sports, China News Service (6–7 Septe
 
 ## About Eternal CNC
 
-**Xin Yongheng (Shenzhen) Precision Industry Co., Ltd.** sits on the same supply chain. 23 years in the manufacturing industry, 15 years in CNC precision machining, 30 CNC machines, milling to **±0.005 mm** — our work is also about pushing parts from "we can make it" to "we can make it consistently".
+**Xinyongheng (Shenzhen) Precision Industrial Co., Ltd.** sits on the same supply chain. 23 years in the manufacturing industry, 15 years in CNC precision machining, 30 CNC machines, milling to **±0.005 mm** — our work is also about pushing parts from "we can make it" to "we can make it consistently".
 
 In robotics, we machine and prototype precision parts for joint modules, reducer components, end effectors and sensor brackets, from single prototypes to low-volume production runs.
 

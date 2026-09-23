@@ -9,19 +9,19 @@ const breadcrumbs = [
 // Fleet inventory (in-house capacity): 13 machine types, 30 units, Taikan-dominant.
 // Все станки размещены в нашем собственном цехе и работают как одна команда для зарубежных заказов.
 const equipment = [
-  { brand: 'Sun King (森氏精密)', brandEn: 'Sun King', model: 'CNC-5AX1S (DMU 400)', type: '5-осевой обрабатывающий центр', cat: '5-Axis', qty: 1, image: '/images/equipment/equipment-sunrise-dmu400-5axis-hero.webp' },
-  { brand: 'Taikan (台群)', brandEn: 'Taikan', model: 'T-V1270S (Heavy)', type: 'Вертикальный обрабатывающий центр', cat: 'VMC', qty: 2, image: '/images/equipment/equipment-taikan-tv1270s-hero.webp' },
-  { brand: 'Taikan (台群)', brandEn: 'Taikan', model: 'T-V856S', type: 'Вертикальный обрабатывающий центр', cat: 'VMC', qty: 3, image: '/images/equipment/equipment-taikan-tv856s-hero.webp' },
-  { brand: 'Taikan (台群)', brandEn: 'Taikan', model: 'T-700SE', type: 'Сверлильно-фрезерный центр', cat: 'Drill-Mill', qty: 2, image: '/images/equipment/equipment-taikan-t700se-hero.webp' },
-  { brand: 'JIAFU (佳富)', brandEn: 'JIAFU', model: 'JF-600', type: 'Сверлильно-резьбонарезной центр', cat: 'Drill-Mill', qty: 3, image: '/images/equipment/equipment-jiafu-jf600-hero.webp' },
-  { brand: 'Taikan (台群)', brandEn: 'Taikan', model: 'T-500S', type: 'Сверлильно-фрезерный центр', cat: 'Drill-Mill', qty: 12, image: '/images/equipment/equipment-taikan-t500s-hero.webp' },
-  { brand: '2.5D Measuring (2.5次元)', brandEn: '2.5D CMM', model: '2.5D Measurement', type: 'Контрольно-измерительное оборудование', cat: 'Inspection', qty: 1, image: '/images/equipment/gallery/cnc-measurement-equipment-2d-optical-comparator-01.webp' },
-  { brand: 'CATO (巨冈)', brandEn: 'CATO', model: 'CT-80', type: 'Вертикальный обрабатывающий центр', cat: 'VMC', qty: 1, image: '/images/equipment/cnc-machine-cato-ct80-vertical-machining-center-01.webp' },
-  { brand: 'JIAFU (佳富)', brandEn: 'JIAFU', model: 'JF-500', type: 'Сверлильно-резьбонарезной центр', cat: 'Drill-Mill', qty: 1, image: '/images/equipment/cnc-machine-jiafu-jf500-drill-tap-machining-center-01.webp' },
-  { brand: 'HONG JIN SHUN (鸿金顺)', brandEn: 'HONG JIN SHUN', model: 'HJS-T5', type: 'Сверлильно-резьбонарезной центр', cat: 'Drill-Mill', qty: 1, image: '/images/equipment/cnc-machine-hongjinshun-hjs-t5-drill-tap-machining-center-01.webp' },
-  { brand: 'QIAO HONG (乔鸿)', brandEn: 'QIAO HONG', model: 'QH-T6', type: 'Высокоскоростной сверлильно-резьбонарезной станок', cat: 'Drill-Mill', qty: 1, image: '/images/equipment/cnc-machine-qiaohong-qh-t6-high-speed-drill-tap-01.webp' },
-  { brand: 'XINTENGHUI CNC (鑫腾辉数控)', brandEn: 'XINTENGHUI CNC', model: 'XTH-T540', type: 'Гравировальный станок', cat: 'Engraving', qty: 1, image: '/images/equipment/cnc-machine-xintenghui-xth-t540-mold-engraving-machining-center-01.webp' },
-  { brand: 'WANGHUI Machinery (望辉机械)', brandEn: 'WANGHUI Machinery', model: 'XH-540', type: 'Гравировальный станок', cat: 'Engraving', qty: 1, image: '/images/equipment/cnc-machine-wanghui-xh540-mold-engraving-machining-center-01.webp' },
+  { brand: 'Sun King', brandEn: 'Sun King', model: 'CNC-5AX1S (DMU 400)', type: '5-осевой обрабатывающий центр', cat: '5-Axis', qty: 1, image: '/images/equipment/equipment-sunrise-dmu400-5axis-hero.webp' },
+  { brand: 'Taikan', brandEn: 'Taikan', model: 'T-V1270S (Heavy)', type: 'Вертикальный обрабатывающий центр', cat: 'VMC', qty: 2, image: '/images/equipment/equipment-taikan-tv1270s-hero.webp' },
+  { brand: 'Taikan', brandEn: 'Taikan', model: 'T-V856S', type: 'Вертикальный обрабатывающий центр', cat: 'VMC', qty: 3, image: '/images/equipment/equipment-taikan-tv856s-hero.webp' },
+  { brand: 'Taikan', brandEn: 'Taikan', model: 'T-700SE', type: 'Сверлильно-фрезерный центр', cat: 'Drill-Mill', qty: 2, image: '/images/equipment/equipment-taikan-t700se-hero.webp' },
+  { brand: 'JIAFU', brandEn: 'JIAFU', model: 'JF-600', type: 'Сверлильно-резьбонарезной центр', cat: 'Drill-Mill', qty: 3, image: '/images/equipment/equipment-jiafu-jf600-hero.webp' },
+  { brand: 'Taikan', brandEn: 'Taikan', model: 'T-500S', type: 'Сверлильно-фрезерный центр', cat: 'Drill-Mill', qty: 12, image: '/images/equipment/equipment-taikan-t500s-hero.webp' },
+  { brand: '2.5D Measuring', brandEn: '2.5D CMM', model: '2.5D Measurement', type: 'Контрольно-измерительное оборудование', cat: 'Inspection', qty: 1, image: '/images/equipment/gallery/cnc-measurement-equipment-2d-optical-comparator-01.webp' },
+  { brand: 'CATO', brandEn: 'CATO', model: 'CT-80', type: 'Вертикальный обрабатывающий центр', cat: 'VMC', qty: 1, image: '/images/equipment/cnc-machine-cato-ct80-vertical-machining-center-01.webp' },
+  { brand: 'JIAFU', brandEn: 'JIAFU', model: 'JF-500', type: 'Сверлильно-резьбонарезной центр', cat: 'Drill-Mill', qty: 1, image: '/images/equipment/cnc-machine-jiafu-jf500-drill-tap-machining-center-01.webp' },
+  { brand: 'HONG JIN SHUN', brandEn: 'HONG JIN SHUN', model: 'HJS-T5', type: 'Сверлильно-резьбонарезной центр', cat: 'Drill-Mill', qty: 1, image: '/images/equipment/cnc-machine-hongjinshun-hjs-t5-drill-tap-machining-center-01.webp' },
+  { brand: 'QIAO HONG', brandEn: 'QIAO HONG', model: 'QH-T6', type: 'Высокоскоростной сверлильно-резьбонарезной станок', cat: 'Drill-Mill', qty: 1, image: '/images/equipment/cnc-machine-qiaohong-qh-t6-high-speed-drill-tap-01.webp' },
+  { brand: 'XINTENGHUI CNC', brandEn: 'XINTENGHUI CNC', model: 'XTH-T540', type: 'Гравировальный станок', cat: 'Engraving', qty: 1, image: '/images/equipment/cnc-machine-xintenghui-xth-t540-mold-engraving-machining-center-01.webp' },
+  { brand: 'WANGHUI Machinery', brandEn: 'WANGHUI Machinery', model: 'XH-540', type: 'Гравировальный станок', cat: 'Engraving', qty: 1, image: '/images/equipment/cnc-machine-wanghui-xh540-mold-engraving-machining-center-01.webp' },
 ];
 
 const catColor = { '5-Axis': '#8B0000', 'VMC': '#1a1a1a', 'Drill-Mill': '#2563eb', 'Inspection': '#6b7280', 'Engraving': '#059669' };
@@ -42,7 +42,7 @@ const machineTypes = equipment.length;
       <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">Матрица оборудования</h1>
       <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
         Единая сводка совокупных мощностей нашего цеха: <strong>{machineTypes} типа станков</strong> и <strong>{totalUnits} единиц</strong> — все в нашем собственном цехе, работают как одна команда.
-        Парк <strong style="color: var(--brand-red);">преимущественно Taikan — {taikanUnits} из {totalUnits} единиц ({taikanPct}%)</strong> составляют обрабатывающие центры Taikan (台群), дополненные 5-осевым станком и контролем 2,5D.
+        Парк <strong style="color: var(--brand-red);">преимущественно Taikan — {taikanUnits} из {totalUnits} единиц ({taikanPct}%)</strong> составляют обрабатывающие центры Taikan, дополненные 5-осевым станком и контролем 2,5D.
       </p>
 
       {/* Stat bar */}
@@ -57,7 +57,7 @@ const machineTypes = equipment.length;
         </div>
         <div class="p-5 rounded-xl border" style="background-color: var(--page-bg); border-color: var(--border-color);">
           <p class="text-3xl font-bold" style="color: var(--brand-red);">{taikanUnits}</p>
-          <p class="text-xs mt-1" style="color: var(--text-muted);">Станки Taikan (台群)</p>
+          <p class="text-xs mt-1" style="color: var(--text-muted);">Станки Taikan</p>
         </div>
         <div class="p-5 rounded-xl border" style="background-color: var(--page-bg); border-color: var(--border-color);">
           <p class="text-3xl font-bold" style="color: var(--brand-dark);">{taikanPct}%</p>
@@ -111,7 +111,7 @@ const machineTypes = equipment.length;
       </div>
 
       <p class="text-sm mt-4" style="color: var(--text-muted);">
-        Парк Taikan (台群): T-V1270S ×2, T-V856S ×3, T-700SE ×2, T-500S ×12 = <strong style="color: var(--brand-red);">{taikanUnits} единиц</strong>.
+        Парк Taikan: T-V1270S ×2, T-V856S ×3, T-700SE ×2, T-500S ×12 = <strong style="color: var(--brand-red);">{taikanUnits} единиц</strong>.
         Цифры охватывают совокупные мощности собственного цеха Eternal CNC (всего 30 единиц), работающего как одна команда для зарубежных заказов.
       </p>
 

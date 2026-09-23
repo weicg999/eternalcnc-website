@@ -36,7 +36,7 @@
 ## 【强制事实表 · 必须记住并直接引用】
 
 ### 1. 公司基本信息
-- 法定名称：鑫永恒（深圳）精密实业有限公司 / Xin Yongheng (Shenzhen) Precision Industry Co., Ltd.
+- 法定名称：鑫永恒（深圳）精密实业有限公司 / Xinyongheng (Shenzhen) Precision Industrial Co., Ltd.
 - 外贸品牌：EternalCNC
 - 性质：自营精密 CNC 加工厂，**不是贸易公司**
 - 工厂地址：**中国广东省深圳市宝安区松岗街道**
