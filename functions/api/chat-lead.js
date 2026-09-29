@@ -20,12 +20,56 @@
  *   - FEEDBACK_WEBHOOK_URL: 企微群机器人 webhook 地址（https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=xxx）
  */
 
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Access-Control-Max-Age': '86400',
-};
+// ========== 安全加固（2026-09-29）==========
+// 背景：本端点原为 `Access-Control-Allow-Origin: '*'` 且无任何来源校验与限流，
+// 上线后实测 POST 空体 {} 即返回 200 并写入 KV；type=human/down 还会触发企微群推送
+// ⇒ 可被任意第三方页面 / 脚本无限量灌水，并刷屏企业微信群。
+// 加固三项：① CORS 收窄为白名单 ② Origin 校验（非白名单 403）③ KV 持久化限流。
+// 与 chat.js 的 ALLOWED_ORIGINS 保持一致。
+const ALLOWED_ORIGINS = [
+  'https://eternalcnc.com',
+  'https://www.eternalcnc.com',
+  'https://eternalcnc-website.pages.dev',
+];
+
+const ALLOWED_LOCAL = /^http:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0):\d+$/;
+
+// 限流：同一 IP 在窗口内最多提交次数（防灌水 + 防企微刷屏）
+// 说明：chat.js 用的是进程内 Map，但在 Cloudflare 多边缘节点下各节点独立计数、
+// 且实例随时回收，防护很弱。本端点已有 KV 绑定，故改用 KV 做跨节点持久化计数。
+const RATE_LIMIT_MAX = 5;                       // 每窗口最多 5 次
+const RATE_LIMIT_WINDOW_SECONDS = 60;           // 窗口 60 秒
+const RATE_KEY_PREFIX = 'rl:fb:';
+
+function isOriginAllowed(origin) {
+  if (!origin) return false;
+  if (ALLOWED_LOCAL.test(origin)) return true;
+  return ALLOWED_ORIGINS.includes(origin);
+}
+
+function getClientIp(request) {
+  return request.headers.get('cf-connecting-ip')
+    || request.headers.get('x-forwarded-for')?.split(',')[0].trim()
+    || 'unknown';
+}
+
+/** KV 持久化限流：返回 true 表示允许本次请求 */
+async function checkRateLimit(kv, ip) {
+  if (!kv) return true; // 未绑定 KV 时不阻断（降级，避免误伤正常访客）
+  const key = RATE_KEY_PREFIX + ip;
+  try {
+    const raw = await kv.get(key);
+    const count = raw ? parseInt(raw, 10) || 0 : 0;
+    if (count >= RATE_LIMIT_MAX) return false;
+    // 计数 +1，保留剩余窗口时长；KV 无原子自增，高并发下可能有少量计数偏差，
+    // 但足以挡住灌水/刷屏这类批量攻击。
+    await kv.put(key, String(count + 1), { expirationTtl: RATE_LIMIT_WINDOW_SECONDS });
+    return true;
+  } catch (e) {
+    console.warn('chat-lead rate limit check failed:', e.message);
+    return true; // KV 异常时不阻断正常业务
+  }
+}
 
 const KV_PREFIX = 'fb:';
 const TTL_SECONDS = 90 * 24 * 60 * 60; // 与 chat.js 客户档案 TTL 一致
@@ -87,13 +131,52 @@ async function notifyWecom(webhook, record, typeLabel) {
   }
 }
 
-export async function onRequestOptions() {
-  return new Response(null, { status: 204, headers: CORS_HEADERS });
+export async function onRequestOptions(context) {
+  const origin = context.request.headers.get('Origin') || '';
+  if (!isOriginAllowed(origin)) {
+    return new Response(null, { status: 403 });
+  }
+  return new Response(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': origin,
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Max-Age': '86400',
+      'Vary': 'Origin',
+    },
+  });
 }
 
 export async function onRequestPost(context) {
   const { request, env } = context;
-  const headers = { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS };
+  const origin = request.headers.get('Origin') || '';
+
+  // ① 来源校验：浏览器跨站调用直接拒绝（curl 等非浏览器请求可省略 Origin，用 ② 兜底）
+  if (origin && !isOriginAllowed(origin)) {
+    return new Response(JSON.stringify({ ok: false, msg: 'Origin not allowed' }), {
+      status: 403,
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    });
+  }
+
+  // ② 限流：按客户端 IP 计数，防灌水与企微刷屏
+  const clientIp = getClientIp(request);
+  if (!(await checkRateLimit(env.CUSTOMER_MEMORY || null, clientIp))) {
+    return new Response(JSON.stringify({ ok: false, msg: 'Rate limit exceeded' }), {
+      status: 429,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Retry-After': String(RATE_LIMIT_WINDOW_SECONDS),
+        ...(origin ? { 'Access-Control-Allow-Origin': origin } : {}),
+      },
+    });
+  }
+
+  const headers = {
+    'Content-Type': 'application/json; charset=utf-8',
+    ...(origin ? { 'Access-Control-Allow-Origin': isOriginAllowed(origin) ? origin : ALLOWED_ORIGINS[0], 'Vary': 'Origin' } : {}),
+  };
 
   // 解析请求体（容错：非法 JSON 也照常返回 ok，不打断前端）
   let payload = {};
