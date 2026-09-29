@@ -52,6 +52,12 @@ const orgSchema = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- 神马验证改用根目录文件 /shenma-site-verification.txt（public/ 直出），meta 方式已废弃 -->
     <meta name="sogou_site_verification" content="pMUajSopW3" />
+    <!-- Google 站点验证：改用 head 内 meta 方式。
+         public/googleac7098c299dddb44.html 在线上被 Cloudflare Pages 的「.html 去扩展名」
+         规则 308 到 /googleac7098c299dddb44，而 Google 的 HTML 文件验证要求该 URL 精确 200，
+         重定向会导致重新验证失败。meta 随页面渲染，不受该规则影响。
+         与 Cloudflare DNS TXT 记录构成双保险（2026-09-29）。 -->
+    <meta name="google-site-verification" content="ac7098c299dddb44" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />

@@ -61,6 +61,27 @@ const shareTitle = title;
   description={description}
   alternates={alternates}
 >
+  <!-- BlogPosting 结构化数据（GEO）：给 AI 搜索引擎提供发布日期与出处，
+       这两个字段是「内容是否值得引用」的关键信号（2026-09-29 加） -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: title,
+    description,
+    datePublished: pubDate.toISOString(),
+    dateModified: (post.data.updatedDate ?? pubDate).toISOString(),
+    author: { '@type': 'Organization', name: author },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Xinyongheng (Shenzhen) Precision Industrial Co., Ltd.',
+      url: 'https://eternalcnc.com',
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': Astro.url.href },
+    inLanguage: 'en',
+    image: cover
+      ? (cover.startsWith('http') ? cover : 'https://eternalcnc.com' + cover)
+      : 'https://eternalcnc.com/images/og-default.webp',
+  })} />
   <!-- 文章头部 -->
   <section style="background-color: var(--page-bg); padding: 48px 0 0;">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
