@@ -52,12 +52,14 @@ const orgSchema = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- 神马验证改用根目录文件 /shenma-site-verification.txt（public/ 直出），meta 方式已废弃 -->
     <meta name="sogou_site_verification" content="pMUajSopW3" />
-    <!-- Google 站点验证：改用 head 内 meta 方式。
-         public/googleac7098c299dddb44.html 在线上被 Cloudflare Pages 的「.html 去扩展名」
-         规则 308 到 /googleac7098c299dddb44，而 Google 的 HTML 文件验证要求该 URL 精确 200，
-         重定向会导致重新验证失败。meta 随页面渲染，不受该规则影响。
-         与 Cloudflare DNS TXT 记录构成双保险（2026-09-29）。 -->
-    <meta name="google-site-verification" content="ac7098c299dddb44" />
+    <!-- Google 站点验证走【域名提供商 / DNS TXT】方式，不需要 head 内 meta。
+         2026-09-29 经 GSC 后台确认：属性 https://eternalcnc.com/ 显示「您是经过验证的
+         所有者」，使用的验证方法 = 域名提供商，状态「已成功通过验证」。
+         ⚠️ 此前根据 public/googleac7098c299dddb44.html 被 Cloudflare Pages 的
+         「.html 去扩展名」规则 308 一事所作的推断（"验证文件失效会导致掉验证"）
+         已作废 —— 那个文件从来不是本属性的验证方式。
+         如需增加第二种验证方式，请从 GSC「所有权验证 → HTML 标记」复制官方原文，
+         不要从验证文件名反推 token。 -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
