@@ -1,0 +1,211 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Knowledge Base', href: '/knowledge' },
+  { label: 'Industry News' },
+];
+
+const issue = {
+  label: 'Issue',
+  number: '03',
+  date: '29 September 2026',
+  blurb: 'Five things the shop floor noticed — and what they mean for the parts you send us.',
+};
+
+const kpis = [
+  { metric: '+29.9%', label: 'China 3D-printing equipment output YoY, August 2026 (vs industrial robots +34.6%, Li-ion cells +57.2%)', source: 'National Bureau of Statistics, Sep 15 2026' },
+  { metric: '¥2.782 billion', label: 'Value of a liquid-cooling equipment supply agreement signed by Shenling on Sep 16 (≈$415M, ~66% of its 2025 revenue)', source: 'Shenling filing / Shanghai Securities News, Sep 28 2026' },
+  { metric: '60%–70%', label: 'China\'s humanoid harmonic-reducer localization rate in Q1 2026 (domestic price 40%–60% of Japanese)', source: 'CAICT (China Academy of Information and Communications Technology), Q1 2026' },
+];
+
+const stories = [
+  {
+    tag: 'Robotics / Screws',
+    date: '2026-09',
+    title: 'Planetary roller screws: the "tendons" of humanoid robots enter mass production',
+    summary: '2026 is widely called the "mass-production year" for humanoid robots, and the part closest to a machine shop — the planetary roller screw — is moving from prototype validation to scaled output. Capacity plans are landing fast: ZW Precision (Wuzhou Xinchun) expects 980,000 planetary roller screws + 2.1 million micro ball screws in annualized capacity by end-2026; Shuanglin\'s phase-1 100,000 reverse planetary roller screw line began production in June 2026 and is delivering samples to top OEMs; Xinjian Transmission\'s 1,000,000-unit/year planetary roller screw project has cleared land approval; Beite Technology is investing ¥1.85 billion in an R&D and production base and won a ¥330M BOI project in Thailand for roller screws. The harder technical anchor is Jinwo: its in-house internal-thread process holds 1-micron accuracy at large length-to-diameter ratios, above the best publicly known figure (3 microns); it already supports 50,000 humanoid robots\' worth of screw parts a year, with a plan to reach 100,000 by end-2026, 200,000 in 2027 and 1,000,000 long-term, plus a Thailand plant in 2027. Hengli Hydraulics passed Tesla Optimus Gen3 audit in December 2025, makes screws to C3 accuracy (<12 µm error over 300 mm), and brings a Thailand plant online in 2026 sized for 80,000 robots\' worth of screws. The capacity build-out is also pulling upstream equipment: Huachen secured an order for 100 thread-grinding machines, while Sijin Intelligent\'s high-end rolling machines and Xinzuobiao\'s internal-thread rollers ride the same wave.',
+    what_it_means: 'The screw is the most "machinist-shaped" part of this cycle: the screw shaft is bearing-steel (GCr15-class) finish-turning + grinding, gated by cumulative lead error; the nut is a high aspect-ratio internal thread — thin-walled, prone to chatter, hard to keep tooth-form consistent. The line that matters most for anyone sending us parts: if your shop can finish-turn + finish-machine a C3-class screw shaft, or hold internal threads on nuts with a length-to-diameter ratio above 10:1, this round of orders finds you first. But don\'t ship a screw as an ordinary shaft — lead error, thread pitch diameter and thread-flank roughness (which directly set transmission efficiency and life) are three hard gates. On volume, the climb from samples to "1,000,000 units a year" is long, and that is exactly the small-batch rapid-prototyping window — before mass production, someone has to make the samples stable first.',
+    source: 'All-weather Tech "Planetary Roller Screws: the Joint Lifeline of Humanoids", 2026; Huaxin Securities "2026 Planetary Roller Screw Capacity Build-out"; Sina Finance humanoid supply-chain roundup, 2026; Jinwo investor transcript (via third-party knowledge base), 2026.',
+  },
+  {
+    tag: 'Compute / Liquid cooling',
+    date: '2026-09-28',
+    title: 'Liquid-cooling orders booked into 2027: quick connectors and manifolds are the real bottleneck',
+    summary: 'Issue 02 gave liquid cooling its "ruler" (GB/T 48023 / 48097). This issue is the other end of that ruler — demand has exploded. Economic Daily (via United Daily News) reported on Sep 7 that liquid-cooling chain makers are disclosing bulk orders, with several firms booked through year-end and lines running two shifts. Shanghai Securities News on Sep 28 confirmed "booked into 2027": JinFu\'s orders run to 2027, with staff working overtime through the Mid-Autumn and National Day holidays; on Sep 16 Shenling signed a $415M (≈¥2.782 billion) cooling-equipment supply deal with an overseas customer — about 66% of its 2025 revenue — and H1 new orders in its data-service segment were ~2.3× the prior year, with ~¥1.8 billion liquid-cooling-related. Xingrui\'s AI-server hardware revenue hit ¥60.5M, +221% YoY in H1, with nearly ¥1 billion in new orders YTD. The worst supply-demand mismatch is at the UQD quick connector — highest reliability barrier, few qualified suppliers, expansion lagging data-center delivery; manifolds and high-end pumps/valves are also tight on engineering precision. CICC estimates the 2026 global liquid-cooling market for smart computing centers at about ¥114.7 billion, +273% YoY.',
+    what_it_means: 'This is the "implementation" chapter of Issue 02\'s standard. The standard wrote ±10% flow resistance and interchangeability into the rules; demand has now written the capacity gap into reality — the tightest piece isn\'t the cold plate (Taiwanese makers are already at million-plates-a-month) but the UQD quick connector and the manifold. For anyone sending us parts: it\'s no longer "should I make liquid-cooling parts," it\'s "capacity can\'t keep up and the big players are fighting over stable suppliers." If your connector body / manifold holds ±10% flow resistance batch to batch and stays interchangeable, that is exactly the class being fought over. On the drawing: cold-plate substrates / lids (flatness, flow channels), manifolds (cavities, ports) and UQD bodies (turning + seal faces) are 5-axis milling + pressure-leak-test work, typically 10–500 pieces — marking seal-face roughness, leak rate and flow resistance before you send the drawing matters more than anything.',
+    source: 'Economic Daily (via United Daily News) "Liquid-cooling makers booked through year-end, two shifts", Sep 7 2026; Shanghai Securities News "Booked into 2027! Liquid cooling is hot", Sep 28 2026; Cailian Press liquid-cooling chain coverage, Sep 2026; CICC smart-computing liquid-cooling market estimate, 2026.',
+  },
+  {
+    tag: 'CNC industry',
+    date: '2026-09-15',
+    title: 'Machine-tool H1 report, re-read: cutting-tool exports +23% beat the machines; domestic five-axis is taking import\'s ground',
+    summary: 'The China Machine Tool & Tool Builders\' Association (CMTBA) first-half figures (disclosed via World Metals on Sep 15) deserve a closer look: industry revenue ¥530.9 billion, +7.6%; metal-cutting machine tool output 432,000 units, +6.9% (NBS); import-export total $17.2 billion, +5.9%, with a $6.49 billion trade surplus. Splitting "machines" from "consumables" is the interesting part — Sina Finance\'s monthly high-end-manufacturing export report (Jan–Aug 2026) shows machine tool exports at $3.95 billion, -3%, but cutting-tool exports at $2.32 billion, +23% (Asia 40% / Europe 37% / North America 13%). While whole-machine exports are still grinding, precision tools are taking overseas market share. On imports, metal-working machine tool imports were $2.61 billion, -2.6% — the import decline exceeds the export decline, meaning import substitution on high-end machines is accelerating.',
+    what_it_means: 'Two inferences that hit you directly: (1) cutting-tool exports +23% means fiercer competition among domestic precision toolmakers, so your consumable cost is coming down — the same end mill is cheaper this year than last, and that saving lands in your per-piece cost. (2) machine imports falling while domestic five-axis takes share means more downstream shops are running domestic five-axis — shops like ours that can both program domestic five-axis and manage fixtures become more attractive. The "profit doubled but margin only 3.7%" note from Issue 01 is still the footnote here: if the machine builders themselves barely make money, the price war isn\'t over, and CNC jobbing can\'t win on price hikes — pricing power still lives in "consistency + lead time + small batch."',
+    source: 'CMTBA 2026 H1 operating data, via World Metals, Sep 15 2026; NBS metal-cutting machine tool output; GACC / Sina Finance "High-end Manufacturing Customs Export Monthly (Jan–Aug 2026)".',
+  },
+  {
+    tag: 'Robotics / Reducers',
+    date: '2026',
+    title: 'Domestic precision reducers hit "ten-thousand-unit monthly delivery": joint cores move from chokepoint to substitution',
+    summary: 'CAICT\'s Q1 2026 industry monitor shows China\'s humanoid harmonic-reducer localization rate has reached 60%–70%, with domestic product priced at 40%–60% of Japanese imports, cutting whole joint transmission cost by 30%–50% and pulling domestic humanoid unit cost down to the ¥100,000 class. On capacity, leaders have fully switched from "sample delivery" to "annual-framework bulk supply": GreenHarmony\'s humanoid-lightweight P-series harmonic hits 5 arc-seconds (matching Harmonic Drive\'s high end), is the sole domestic Tier-1 harmonic supplier to Tesla Optimus, and its 5,000,000-unit humanoid-dedicated line went fully online in July 2026 with orders booked through end-2027; Shuanghuan\'s subsidiary Huandong holds RV reducer orders exceeding ¥23 billion, deliverable to 2028; Giant Wheel\'s XT cycloidal reducer passed 3,000-hour endurance testing and is 50% lighter; Quanzhibo and Laifu Harmonic run automated integrated-joint lines at 90 seconds per set, >96% yield. Industry data shows leading makers\' monthly shipments have cleared 10,000 sets.',
+    what_it_means: 'The "invisible but most expensive" reducer parts — the flexspline (thin-walled cup, easy to distort, hard to turn and mill), the circular spline (internal gear), the flexible-bearing ring, the output flange — are all precision machined parts. Rising localization plus ten-thousand-unit monthly delivery means their bulk machining demand is moving from "samples" to "annual frameworks." For anyone sending us parts: reducer makers are hunting stable suppliers for flexsplines / circular splines / bearing rings; if your thin-walled parts don\'t distort and your internal gear form is consistent, that is a steadier, longer contract than robot structure work. But remember Issue 02 story 1 — a reducer ships as a four-part set (flexspline / circular spline / bearing / flange); one dimension drift scraps the set, so tolerances are extreme and what\'s competed on is batch consistency, not a pretty single part.',
+    source: 'CAICT (China Academy of Information and Communications Technology) Q1 2026 industry monitor; Hangzhou International Humanoid Robot Exhibition / AndroidShow industry coverage, 2026; Sina Finance core-component roundup, 2026.',
+  },
+  {
+    tag: 'Process',
+    date: '2026-09-15',
+    title: '3D-printing equipment +29.9%: additive isn\'t taking CNC\'s work, it\'s backfilling it',
+    summary: 'In the NBS August industrial data, one item gets upstaged by robots and Li-ion cells: 3D-printing equipment output rose +29.9% YoY (vs Li-ion +57.2%, industrial robots +34.6%, high-tech manufacturing value-added +16.7%). Metal additive equipment also shows a small export line (~$8M in August). Behind the growth are parts with conformal cooling, lightweight lattices and complex internal cavities — the "subtractive can\'t do, or can\'t do cheaply" class — and they overlap heavily with this issue\'s story 2, the liquid-cooling cold plate (conformal channels).',
+    what_it_means: 'One clarification: additive doesn\'t replace CNC, it backfills CNC. Complex cavities, conformal cooling and lattice light-weighting form fast by printing, but almost every printed part then goes back to turn / mill to create datums, threads and assembly features — printing owns "forming," CNC owns "fits, seals and measures." For anyone sending us parts: if your part has conformal cooling or a deep cavity, we can evaluate a "3D printing + follow-up CNC finish" hybrid route, which is often faster and cheaper than pure five-axis roughing. Not a gimmick — one more option to pull your lead time down.',
+    source: 'NBS "Main Industrial Production Data, August 2026", Sep 15 2026 (Xinhua, CCTV News coverage); GACC / Sina Finance high-end manufacturing export monthly (metal 3D-printing equipment), Jan–Aug 2026.',
+  },
+];
+
+const faqs = [
+  { q: 'How often is this page updated?', a: 'Weekly. We do not run a news ticker — we run a reading list, and we only include items that change what a buyer of CNC parts should do this quarter.' },
+  { q: 'Where do the numbers come from?', a: 'Primary sources only: National Bureau of Statistics, General Administration of Customs, CMTBA, CAICT, company filings, and named press. We do not republish analyst notes as facts.' },
+  { q: 'Why a shop-floor view and not a market report?', a: 'Because a market report tells you where the wind is blowing. A shop view tells you whether the work has actually landed. Every story here has a "what it means" line — that is the part we are responsible for.' },
+];
+
+const related = [
+  { label: 'Robot joints and flange parts', href: '/knowledge/tech-blog/robot-joint-and-flange-parts/' },
+  { label: 'Robot parts on five-axis, one setup', href: '/knowledge/tech-blog/robotics-5-axis-one-setup/' },
+  { label: 'Machining and surface finishing', href: '/knowledge/tech-blog/machining-and-surface-finishing/' },
+  { label: 'Lead time and price', href: '/knowledge/tech-blog/lead-time-and-price/' },
+];
+---
+
+<PageLayout
+  title="Industry News from the Shop Floor | Eternal CNC"
+  description="What the CNC shop floor noticed in late September 2026: planetary roller screws enter mass production, liquid-cooling orders booked into 2027, cutting-tool exports up 23% while machines lag, and reducers reach ten-thousand-unit monthly delivery."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Industry news — {issue.label} {issue.number}</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        In this issue: what the shop floor noticed
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        {issue.blurb} From the Eternal CNC Strategic Advisory Group. Issued {issue.date}.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/knowledge/tech-blog/" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Read the Tech Blog →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPI strip -->
+  <section style="background-color: var(--page-bg); padding: 48px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-6" style="color: var(--brand-red);">Three numbers worth noting this issue</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        {kpis.map((k) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <p class="text-3xl md:text-4xl font-bold mb-2" style="color: var(--brand-dark);">{k.metric}</p>
+            <p class="text-sm mb-3" style="color: var(--text-body);">{k.label}</p>
+            <p class="text-xs" style="color: var(--text-muted);">Source: {k.source}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Stories -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Five stories</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">What happened, and what we think it means</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        News first, then the line that matters: what changes for a buyer sending parts to a CNC shop.
+      </p>
+      <div class="space-y-6">
+        {stories.map((s) => (
+          <article class="p-8 border rounded-2xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+              <span class="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded" style="background-color: var(--page-bg); color: var(--brand-dark);">{s.tag}</span>
+              <span class="text-xs" style="color: var(--text-muted);">{s.date}</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-4 leading-snug" style="color: var(--brand-dark);">{s.title}</h3>
+            <p class="text-base leading-relaxed mb-4" style="color: var(--text-body);">{s.summary}</p>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">What it means for your parts</p>
+              <p class="text-sm leading-relaxed" style="color: var(--text-body);">{s.what_it_means}</p>
+            </div>
+            <p class="text-xs mt-4" style="color: var(--text-muted);">Source: {s.source}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Standards / FAQs -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">How we write this page</p>
+      <h2 class="text-3xl font-bold mb-12" style="color: var(--brand-dark);">Three questions we get</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        {faqs.map((f) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-3" style="color: var(--brand-dark);">{f.q}</h3>
+            <p class="text-sm leading-relaxed" style="color: var(--text-body);">{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Related + subscribe -->
+  <section style="background-color: var(--card-white); padding: 64px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Keep reading</p>
+          <h2 class="text-2xl font-bold mb-6" style="color: var(--brand-dark);">Related on the blog</h2>
+          <ul class="space-y-3">
+            {related.map((r) => (
+              <li>
+                <a href={r.href} class="text-sm font-medium hover:underline" style="color: var(--brand-red);">{r.label} →</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="p-8 border rounded-2xl" style="background-color: var(--page-bg); border-color: var(--border-color);">
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Next issue</p>
+          <h3 class="text-xl font-bold mb-3" style="color: var(--brand-dark);">2 October 2026</h3>
+          <p class="text-sm leading-relaxed mb-5" style="color: var(--text-body);">
+Storylines we are following: who delivers small-batch screw samples first as the ramp accelerates; whether customer drawings are ready for the liquid-cooling standard taking effect in February 2027; and whether cutting-tool exports can hold +23% when the full-year machine-tool report lands.
+          </p>
+          <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+            Send us your next drawing
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Have a part in mind?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Send the STEP and the PDF. We will quote within 2 hours on a working day, and we will tell you whether your tolerances are what they should be.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/knowledge/tech-blog/" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Browse the Tech Blog →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>
