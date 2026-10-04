@@ -4,6 +4,7 @@ import Footer from '../components/Footer.astro';
 import SEOHead from '../components/SEOHead.astro';
 import EternalChat from '../components/EternalChat.astro';
 import CookieConsent from '../components/CookieConsent.astro';
+import { buildBreadcrumbs, breadcrumbSchema, schemaFromPageBreadcrumbs } from '../data/breadcrumbs';
 import '../styles/global.css';
 
 interface Props {
@@ -14,9 +15,16 @@ interface Props {
   keywords?: string;
   /** 三语对页（动态路由必须显式传，见 SEOHead 注释） */
   alternates?: { en?: string; zh?: string; ru?: string };
+  /** 面包屑末级自定义名（动态路由如博客文章用它显示文章标题，优于 slug 兜底） */
+  breadcrumbTitle?: string;
+  /**
+   * 页面自带的可见面包屑（PageLayout 传入）。有它就以它为准生成 BreadcrumbList，
+   * 保证 schema 与用户看到的导航逐字一致；没有才回落到按 URL 推导。
+   */
+  breadcrumbItems?: { label: string; href?: string }[];
 }
 
-const { title, description, schema, lang, keywords, alternates } = Astro.props;
+const { title, description, schema, lang, keywords, alternates, breadcrumbTitle, breadcrumbItems } = Astro.props;
 const pageLang = lang || (Astro.url.pathname.startsWith('/ru') ? 'ru' : Astro.url.pathname.startsWith('/zh') ? 'zh' : 'en');
 
 // Site-wide Organization structured data (helps search engines / AI engines
@@ -43,6 +51,14 @@ const orgSchema = {
   },
   telephone: '+86 181 2398 3352',
 };
+
+// BreadcrumbList：优先用页面自带的可见面包屑（PageLayout 传入），
+// 没有才按 URL 路径推导（设备详情页等直接用 BaseLayout 的页面）。
+// 首页 / 404 自动不发；跳板页（/contact/ 用 Astro.redirect(301)、/equipment/ 是空文件）
+// 都不经过本布局，因此不会误加面包屑。
+const breadcrumb =
+  schemaFromPageBreadcrumbs(breadcrumbItems, Astro.url.pathname, Astro.site) ??
+  breadcrumbSchema(buildBreadcrumbs(Astro.url.pathname, Astro.site, breadcrumbTitle));
 ---
 
 <!DOCTYPE html>
@@ -68,6 +84,7 @@ const orgSchema = {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet" />
     <SEOHead {title} {description} {keywords} schema={schema} alternates={alternates} />
     <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+    {breadcrumb && <script type="application/ld+json" set:html={JSON.stringify(breadcrumb)} />}
   </head>
   <body>
     <Navbar />

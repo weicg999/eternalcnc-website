@@ -4,21 +4,35 @@
 > machining of aluminium, stainless steel, titanium and engineering plastics.
 > 30 in-house CNC machines including 5-axis. Quote within 2 hours. MOQ 1 piece.
 
+Eternal CNC (legal name: Xinyongheng (Shenzhen) Precision Industrial Co., Ltd.) is a
+contract CNC machining manufacturer in Bao'an District, Shenzhen, China. It machines
+aluminium, stainless steel, titanium and engineering plastics for engineers who need
+small batches and prototypes, in aluminium 6061/7075, stainless 304/316, Ti-6Al-4V,
+17-4PH, POM and PP. The factory holds 30 CNC machines including 5-axis milling,
+3-axis and 4-axis vertical machining centres, CNC turning, wire EDM and precision
+surface grinding. Typical milling tolerance is ±0.005 mm and turning ±0.01 mm.
+Minimum order quantity is 1 piece. Standard quotes are returned within 2 hours.
+Slogan: "Precision CNC Machining for Global Engineers".
+
 ## Company
 
 - Legal name: Xinyongheng (Shenzhen) Precision Industrial Co., Ltd.
+- Brand: Eternal CNC
 - Location: Bao'an District, Shenzhen, Guangdong, China
+- Address: 101, Comprehensive Building, No. 33 Guangjin Road, Shapu Community, Songgang Street, Bao'an District
 - Email: sales@eternalcnc.com
 - Phone / WhatsApp: +86 181 2398 3352
 - Website: https://eternalcnc.com
+- Slogan: Precision CNC Machining for Global Engineers
 
 ## Capabilities
 
-- 5-axis simultaneous machining
+- 5-axis simultaneous milling
 - 3-axis and 4-axis vertical machining centres
 - CNC turning
 - Wire EDM
 - Precision surface grinding
+- DFM analysis and material selection support
 - Surface finishing (performed by qualified subcontractors)
 - CMM dimensional inspection (group-shared metrology centre)
 
@@ -29,10 +43,27 @@ Aluminium AL-6061 / AL-7075, stainless steel SS304 / SS316, titanium Ti-6Al-4V,
 
 ## Service parameters
 
-- Tolerance: typically +/-0.005 mm on critical features
+- Milling tolerance: ±0.005 mm on critical features
+- Turning tolerance: ±0.01 mm
+- Angular tolerance: ±0.01°; surface roughness Ra 0.4; GD&T per ISO 2768-f
 - Quotation: within 2 hours (standard), 1 working day (complex), 2 working days (special)
 - Prototype lead time: 3-5 days after drawing confirmation
 - Minimum order quantity: 1 piece
+
+## Equipment
+
+12 machines have individual detail pages; the full in-house fleet numbers 30.
+
+- CNC machining centres: CATO CT-80, Jiafu JF-500, Jiafu JF-600, Taikan T-V856S,
+  Taikan T-500S, Taikan T-700SE, Taikan T-V1270S, WANGHUI XH-540, XINTENGHUI XTH-T540
+- 5-axis: SUNRISE DMU-400 (gantry-type, direct-drive rotary table)
+- CMM: Hexagon INSPECTOR CLASSIC
+- Turned / wire-EDM / grinding equipment: see the equipment list page below
+
+## Industries served
+
+Automotive, medical devices, electronics, industrial robotics,
+communications & satellite equipment, energy equipment, automation equipment.
 
 ## Key pages
 
@@ -43,6 +74,7 @@ Aluminium AL-6061 / AL-7075, stainless steel SS304 / SS316, titanium Ti-6Al-4V,
 - Materials: https://eternalcnc.com/capabilities/materials/
 - Lead time: https://eternalcnc.com/capabilities/lead-time/
 - Size range: https://eternalcnc.com/capabilities/size-range/
+- Services: https://eternalcnc.com/services/
 - Industries: https://eternalcnc.com/industries/
 - Case studies: https://eternalcnc.com/cases/
 - Knowledge base: https://eternalcnc.com/knowledge/
