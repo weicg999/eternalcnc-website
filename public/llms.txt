@@ -29,7 +29,7 @@ Slogan: "Precision CNC Machining for Global Engineers".
 
 - 5-axis simultaneous milling
 - 3-axis and 4-axis vertical machining centres
-- CNC turning
+- CNC turning (on our own group machines)
 - Wire EDM
 - Precision surface grinding
 - DFM analysis and material selection support
@@ -45,6 +45,7 @@ Aluminium AL-6061 / AL-7075, stainless steel SS304 / SS316, titanium Ti-6Al-4V,
 
 - Milling tolerance: ±0.005 mm on critical features
 - Turning tolerance: ±0.01 mm
+- Turning capacity: max swing diameter 400 mm, max turning length 700 mm, bar feed up to 65 mm (our own group machines)
 - Angular tolerance: ±0.01°; surface roughness Ra 0.4; GD&T per ISO 2768-f
 - Quotation: within 2 hours (standard), 1 working day (complex), 2 working days (special)
 - Prototype lead time: 3-5 days after drawing confirmation
