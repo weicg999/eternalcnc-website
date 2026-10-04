@@ -32,6 +32,15 @@ const capabilities = [
     materials: 'Steel, Stainless, Brass, Aluminum',
   },
   {
+    // 5-axis card added 2026-10-04: previously only the Chinese page had one, and its
+    // figures were wrong (500mm was the X travel, not the table diameter). Values now
+    // mirror the SUNRISE DMU-400 equipment spec page so the two can be cross-checked.
+    title: '5-Axis Machining Range',
+    items: ['Rotary table Ø400 mm', 'X / Y / Z travel 500 / 450 / 400 mm', 'A-axis swing -120° ~ +30° · C-axis 360° continuous', 'Max workpiece height ≈200 mm (practical) / 250–300 mm (limit)'],
+    tolerance: '5-sided machining in one setup',
+    materials: 'Impellers, turbine parts and complex curved surfaces',
+  },
+  {
     title: 'Small & Micro Parts',
     items: ['Minimum feature size: 0.1mm', 'Micro drill down to 0.3mm', 'Thin-wall machining to 0.5mm', 'Ideal for connectors & medical pins'],
     tolerance: '±0.005mm',

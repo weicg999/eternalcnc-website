@@ -6,7 +6,7 @@ import { serviceSchema } from '../../../../data/serviceSchema';
 // provider 用 @id 引用 BaseLayout 输出的 Organization，两者连成同一实体。
 const svc = serviceSchema({
   name: 'CNC 加工尺寸范围',
-  description: 'Eternal CNC 加工尺寸范围：铣削最大行程 X1270mm，车削最大回转直径 320mm，五轴工作台直径 500mm。',
+  description: 'Eternal CNC 加工尺寸范围：铣削最大行程 X1270mm，车削最大回转直径 320mm，五轴工作台直径 Ø400mm。',
   serviceType: '数控铣削与车削',
   url: new URL('/zh/capabilities/size-range/', Astro.site).href,
   lang: 'zh',
@@ -33,7 +33,12 @@ const capabilities = [
   },
   {
     title: '五轴加工范围',
-    items: ['工作台直径 500mm', '最大工件高度 400mm', 'A/C 轴摆动范围 ±110°'],
+    // 2026-10-04 按 SUNRISE DMU-400 设备页实测参数纠正：
+    // 原写「工作台直径 500mm / 最大工件高度 400mm / A/C 轴 ±110°」三处均错——
+    //   ① 500 是 X 轴行程，台面实为 Ø400（原文把行程当台面直径，超能力宣称）
+    //   ② 40 0 与 Z 行程数值巧合，但「工件高度」≠「Z 行程」，且真值约 200mm
+    //   ③ A 轴实为 -120°~+30°（非对称），C 轴为 360° 连续，原「±110°」两边都不对
+    items: ['工作台直径 Ø400mm 回转台', 'X/Y/Z 行程 500 / 450 / 400 mm', 'A 轴摆动 -120°~+30° · C 轴 360° 连续', '最大工件高度 ≈200mm（实际）/ 250–300mm（极限）'],
     tolerance: '一次装夹五面加工',
     materials: '适合叶轮、涡轮及复杂曲面零件',
   },
@@ -55,7 +60,7 @@ const standards = [
 
 <PageLayout
   title="CNC加工尺寸范围 | 最大行程1270mm·回转直径320mm | Eternal CNC"
-  description="Eternal CNC 加工尺寸范围：铣削最大行程 X1270mm，车削最大回转直径 320mm，五轴工作台直径 500mm。"
+  description="Eternal CNC 加工尺寸范围：铣削最大行程 X1270mm，车削最大回转直径 320mm，五轴工作台直径 Ø400mm。"
   schema={svc}
   breadcrumbs={breadcrumbs}
 >
