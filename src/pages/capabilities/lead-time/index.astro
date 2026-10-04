@@ -1,5 +1,17 @@
 ﻿---
 import PageLayout from '../../../layouts/PageLayout.astro';
+import { serviceSchema } from '../../../data/serviceSchema';
+
+// Service 结构化数据：能力页卖的是「加工服务」而非商品，故用 Service 而非 Product；
+// provider 用 @id 引用 BaseLayout 输出的 Organization，两者连成同一实体。
+const svc = serviceSchema({
+  name: 'Lead Time',
+  description: 'Prototype rush orders in 3–5 days, standard samples in 7 days, small batches 10–15 days, mass production 15–30 days. Rush orders negotiable.',
+  serviceType: 'Rapid Prototyping and Small-Batch Production',
+  url: new URL('/capabilities/lead-time/', Astro.site).href,
+  lang: 'en',
+});
+
 
 const breadcrumbs = [
   { label: 'Capabilities', href: '/capabilities' },
@@ -44,6 +56,7 @@ const standards = [
 <PageLayout
   title="Lead Time – Prototypes in 3–7 Days | Mass Production 15–30 Days | Eternal CNC"
   description="Prototype rush orders in 3–5 days, standard samples in 7 days, small batches 10–15 days, mass production 15–30 days. Rush orders negotiable."
+  schema={svc}
   breadcrumbs={breadcrumbs}
 >
   <!-- Hero -->

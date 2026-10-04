@@ -1,5 +1,17 @@
 ﻿---
 import PageLayout from '../../../layouts/PageLayout.astro';
+import { serviceSchema } from '../../../data/serviceSchema';
+
+// Service 结构化数据：能力页卖的是「加工服务」而非商品，故用 Service 而非 Product；
+// provider 用 @id 引用 BaseLayout 输出的 Organization，两者连成同一实体。
+const svc = serviceSchema({
+  name: 'Precision Standards',
+  description: 'CNC machining precision: linear tolerance ±0.005mm, angular ±0.01°, surface roughness Ra 0.4, full GD&T verification per ISO 2768-f.',
+  serviceType: 'Precision CNC Machining',
+  url: new URL('/capabilities/tolerance/', Astro.site).href,
+  lang: 'en',
+});
+
 
 const breadcrumbs = [
   { label: 'Capabilities', href: '/capabilities' },
@@ -44,6 +56,7 @@ const standards = [
 <PageLayout
   title="Precision Standards – Milling ±0.005mm | Turning ±0.01mm | ISO 2768 | Eternal CNC"
   description="CNC machining precision: linear tolerance ±0.005mm, angular ±0.01°, surface roughness Ra 0.4, full GD&T verification per ISO 2768-f."
+  schema={svc}
   breadcrumbs={breadcrumbs}
 >
   <!-- Hero -->

@@ -1,5 +1,17 @@
 ﻿---
 import PageLayout from '../../../layouts/PageLayout.astro';
+import { serviceSchema } from '../../../data/serviceSchema';
+
+// Service 结构化数据：能力页卖的是「加工服务」而非商品，故用 Service 而非 Product；
+// provider 用 @id 引用 BaseLayout 输出的 Organization，两者连成同一实体。
+const svc = serviceSchema({
+  name: 'Machining Size Range',
+  description: 'CNC machining size range: max X-axis 1270mm, Y-axis 700mm, Z-axis 700mm, max swing diameter 400mm. Micro parts to large housings.',
+  serviceType: 'CNC Milling and Turning',
+  url: new URL('/capabilities/size-range/', Astro.site).href,
+  lang: 'en',
+});
+
 
 const breadcrumbs = [
   { label: 'Capabilities', href: '/capabilities' },
@@ -44,6 +56,7 @@ const standards = [
 <PageLayout
   title="Machining Size Range – Max 1270mm Travel | 400mm Swing | Eternal CNC"
   description="CNC machining size range: max X-axis 1270mm, Y-axis 700mm, Z-axis 700mm, max swing diameter 400mm. Micro parts to large housings."
+  schema={svc}
   breadcrumbs={breadcrumbs}
 >
   <!-- Hero -->

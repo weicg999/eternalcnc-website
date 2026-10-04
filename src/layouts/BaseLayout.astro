@@ -33,6 +33,9 @@ const pageLang = lang || (Astro.url.pathname.startsWith('/ru') ? 'ru' : Astro.ur
 const orgSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
+  // @id 让页面级 schema（Service / BreadcrumbList / Product 等）能用 "@id" 引用本实体，
+  // 把「机构」与「它提供的服务」在知识图谱里连成同一实体，而不是两段孤立文本。
+  '@id': 'https://eternalcnc.com/#organization',
   name: 'Eternal CNC Precision Machining',
   legalName: 'Xinyongheng (Shenzhen) Precision Industrial Co., Ltd.',
   url: 'https://eternalcnc.com',

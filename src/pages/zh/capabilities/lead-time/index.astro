@@ -1,5 +1,17 @@
 ﻿---
 import PageLayout from '../../../../layouts/PageLayout.astro';
+import { serviceSchema } from '../../../../data/serviceSchema';
+
+// Service 结构化数据：能力页卖的是「加工服务」而非商品，故用 Service 而非 Product；
+// provider 用 @id 引用 BaseLayout 输出的 Organization，两者连成同一实体。
+const svc = serviceSchema({
+  name: 'CNC 加工交期说明',
+  description: 'Eternal CNC 加工交期：打样 3-7 天，量产 15-30 天，支持加急服务。全程透明排产，准时交付率 98.5%。',
+  serviceType: '快速打样与小批量生产',
+  url: new URL('/zh/capabilities/lead-time/', Astro.site).href,
+  lang: 'zh',
+});
+
 
 const breadcrumbs = [
   { label: '工艺能力', href: '/zh/capabilities' },
@@ -44,6 +56,7 @@ const standards = [
 <PageLayout
   title="CNC加工交期说明 | 打样3-7天·量产15-30天 | Eternal CNC"
   description="Eternal CNC 加工交期：打样 3-7 天，量产 15-30 天，支持加急服务。全程透明排产，准时交付率 98.5%。"
+  schema={svc}
   breadcrumbs={breadcrumbs}
 >
   <!-- Hero -->

@@ -1,5 +1,17 @@
 ---
 import PageLayout from '../../../layouts/PageLayout.astro';
+import { serviceSchema } from '../../../data/serviceSchema';
+
+// Service 结构化数据：能力页卖的是「加工服务」而非商品，故用 Service 而非 Product；
+// provider 用 @id 引用 BaseLayout 输出的 Organization，两者连成同一实体。
+const svc = serviceSchema({
+  name: 'Диапазон размеров обработки',
+  description: 'Диапазон размеров ЧПУ: макс. ход по X 1270 мм, по Y 700 мм, по Z 700 мм, макс. диаметр обработки 400 мм. От микродеталей до крупных корпусов.',
+  serviceType: 'Фрезерование и токарная обработка ЧПУ',
+  url: new URL('/ru/capabilities/size-range/', Astro.site).href,
+  lang: 'ru',
+});
+
 
 const breadcrumbs = [
   { label: 'Возможности', href: '/ru/capabilities' },
@@ -44,6 +56,7 @@ const standards = [
 <PageLayout
   title="Диапазон размеров обработки – ход до 1270 мм | ⌀ 400 мм | Eternal CNC"
   description="Диапазон размеров ЧПУ: макс. ход по X 1270 мм, по Y 700 мм, по Z 700 мм, макс. диаметр обработки 400 мм. От микродеталей до крупных корпусов."
+  schema={svc}
   breadcrumbs={breadcrumbs}
 >
   <!-- Hero -->

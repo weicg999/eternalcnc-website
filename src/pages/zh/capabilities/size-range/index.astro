@@ -1,5 +1,17 @@
 ﻿---
 import PageLayout from '../../../../layouts/PageLayout.astro';
+import { serviceSchema } from '../../../../data/serviceSchema';
+
+// Service 结构化数据：能力页卖的是「加工服务」而非商品，故用 Service 而非 Product；
+// provider 用 @id 引用 BaseLayout 输出的 Organization，两者连成同一实体。
+const svc = serviceSchema({
+  name: 'CNC 加工尺寸范围',
+  description: 'Eternal CNC 加工尺寸范围：铣削最大行程 X1270mm，车削最大回转直径 320mm，五轴工作台直径 500mm。',
+  serviceType: '数控铣削与车削',
+  url: new URL('/zh/capabilities/size-range/', Astro.site).href,
+  lang: 'zh',
+});
+
 
 const breadcrumbs = [
   { label: '工艺能力', href: '/zh/capabilities' },
@@ -44,6 +56,7 @@ const standards = [
 <PageLayout
   title="CNC加工尺寸范围 | 最大行程1270mm·回转直径320mm | Eternal CNC"
   description="Eternal CNC 加工尺寸范围：铣削最大行程 X1270mm，车削最大回转直径 320mm，五轴工作台直径 500mm。"
+  schema={svc}
   breadcrumbs={breadcrumbs}
 >
   <!-- Hero -->

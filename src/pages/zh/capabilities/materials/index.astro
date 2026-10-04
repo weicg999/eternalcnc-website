@@ -1,5 +1,17 @@
 ﻿---
 import PageLayout from '../../../../layouts/PageLayout.astro';
+import { serviceSchema } from '../../../../data/serviceSchema';
+
+// Service 结构化数据：能力页卖的是「加工服务」而非商品，故用 Service 而非 Product；
+// provider 用 @id 引用 BaseLayout 输出的 Organization，两者连成同一实体。
+const svc = serviceSchema({
+  name: 'CNC 加工材料范围',
+  description: 'Eternal CNC 支持加工铝合金、不锈钢、铜合金、钛合金及工程塑料，覆盖从纯铝到高可靠性级钛合金全系列。',
+  serviceType: '材料数控加工',
+  url: new URL('/zh/capabilities/materials/', Astro.site).href,
+  lang: 'zh',
+});
+
 
 const breadcrumbs = [
   { label: '工艺能力', href: '/zh/capabilities' },
@@ -44,6 +56,7 @@ const standards = [
 <PageLayout
   title="CNC加工材料范围 | 铝合金·不锈钢·铜合金·钛合金·工程塑料 | Eternal CNC"
   description="Eternal CNC 支持加工铝合金、不锈钢、铜合金、钛合金及工程塑料，覆盖从纯铝到高可靠性级钛合金全系列。"
+  schema={svc}
   breadcrumbs={breadcrumbs}
 >
   <!-- Hero -->
