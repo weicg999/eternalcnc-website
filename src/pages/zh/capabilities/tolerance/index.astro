@@ -17,7 +17,10 @@ const capabilities = [
   },
   {
     title: '车削精度',
-    items: ['标准车削 ±0.01mm', '精密车削 ±0.005mm', '同心度 ≤0.003mm'],
+    // 2026-10-04 按用户裁决：车削统一为 ±0.01mm，与英文页 /capabilities/tolerance/
+    // 的 "Turning ±0.01mm" 对齐；删除原「精密车削 ±0.005mm」的超能力宣称。
+    // 合并「标准/精密」两行为一条，避免统一后两行数字重复。
+    items: ['车削公差 ±0.01mm', '同心度 ≤0.003mm'],
     tolerance: 'ISO 2768-f',
     materials: '圆度仪 + 粗糙度仪逐件检测',
   },
