@@ -42,7 +42,10 @@ const capabilities = [
   },
   {
     title: 'Small & Micro Parts',
-    items: ['Minimum feature size: 0.1mm', 'Micro drill down to 0.3mm', 'Thin-wall machining to 0.5mm', 'Ideal for connectors & medical pins'],
+    // 2026-10-05 三语统一：采用中文页的数值与结构（最小刀具直径 / 最小特征尺寸分列）。
+    // 原文 EN 写 "Minimum feature size: 0.1mm" —— 把刀具直径当成了加工能力，
+    // 且与中文页的 0.15mm 冲突。按中文口径统一，并取更保守的 0.15mm 作特征尺寸。
+    items: ['Minimum tool diameter: 0.1mm', 'Minimum feature size: 0.15mm', 'Micro drill down to 0.3mm', 'Thin-wall machining to 0.5mm', 'Ideal for connectors & medical pins'],
     tolerance: '±0.005mm',
     materials: 'Brass C360, POM, PEEK, Stainless 303',
   },
