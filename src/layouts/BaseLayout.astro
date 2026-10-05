@@ -57,11 +57,15 @@ const orgSchema = {
   // AI 引擎（ChatGPT / Perplexity / Gemini）回答"这家 CNC 公司靠谱吗"时，
   // 靠跨平台一致的标识来消歧——尤其是 eternalcnc.com 这类域名在历史目录站里
   // 存在同名不同实体的情况。缺 sameAs 时，官网与社媒是两段互不关联的文本。
-  // ⚠️ 2026-10-05：以下 URL 由站长提供，本机无法直连 X / YouTube 验证。
-  //    Instagram 尚未开通，拿到 handle 后补第三条。改这里时Footer.astro 的图标要同步。
+  // ⚠️ 2026-10-05：以下 URL 由站长提供，本机无法直连 X / YouTube / Instagram 验证。
+  //    改这里时 Footer.astro 的图标要同步。
+  // ⚠️ 三个 handle 字面各不相同（XinYonghengcnc / @eternalcnc / XYH6061），
+  //    sameAs 只要求「URL 指向同一真实实体」，不要求同名，故按现状保留；
+  //    若日后统一 handle，此数组与 Footer 图标必须一起改。
   sameAs: [
     'https://x.com/XinYonghengcnc',
     'https://www.youtube.com/@eternalcnc',
+    'https://www.instagram.com/XYH6061',
   ],
 };
 
