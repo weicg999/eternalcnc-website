@@ -24,3 +24,10 @@
 /about-us/     /about/      301
 /zh/about-us   /zh/about/   301
 /zh/about-us/  /zh/about/   301
+
+# ---------------------------------------------------------------------------
+# SEO: /sitemap.xml 兼容入口（2026-10-05）
+# 站点用 @astrojs/sitemap，产物是 sitemap-index.xml + sitemap-0.xml，
+# 而 /sitemap.xml 是搜索引擎的默认约定路径，缺省会返回 404。
+# 这里用 301 指到索引文件，保留单一权威来源（不复制一份 sitemap 出来，避免两处内容漂移）。
+/sitemap.xml    /sitemap-index.xml    301

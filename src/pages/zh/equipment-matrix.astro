@@ -45,6 +45,9 @@ const machineTypes = equipment.length;
         机群<strong style="color: var(--brand-red);">以台群为主 —— {taikanUnits} / {totalUnits} 台（{taikanPct}%）</strong>为台群(Taikan)加工中心，辅以 1 台五轴机与 2.5次元检测。
       </p>
 
+      {/* H2 分组（2026-10-05）：此前本页只有 H1 后直接进表格，标题层级跳级 */}
+      <h2 class="text-3xl font-bold mt-10 mb-4" style="color: var(--brand-dark);">机群总览</h2>
+
       {/* 概览条 */}
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
         <div class="p-5 rounded-xl border" style="background-color: var(--page-bg); border-color: var(--border-color);">
@@ -69,6 +72,7 @@ const machineTypes = equipment.length;
 
   <section style="background-color: var(--page-bg); padding: 48px 0 80px;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">机型与台数明细</h2>
       <div class="overflow-x-auto border rounded-xl" style="border-color: var(--border-color); background-color: var(--card-white);">
         <table class="w-full text-sm">
           <thead>
