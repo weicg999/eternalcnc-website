@@ -108,7 +108,7 @@ const breadcrumbs = [
 <script>
   // Force page content SVG icons to brand dark red (exclude footer)
   document.querySelectorAll('main svg, section svg, .quote-hero svg').forEach(svg => {
-    if (svg.closest('footer')) return;
+    if (svg.closest('footer') || svg.closest('figure')) return;
     svg.style.color = '#8B0000';
     svg.querySelectorAll('[stroke]').forEach(el => {
       el.setAttribute('stroke', '#8B0000');
