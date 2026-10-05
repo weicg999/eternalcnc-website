@@ -67,4 +67,4 @@ Self-lubricating **Delrin (POM)** and **UHMW-PE** replace bronze bushings and st
 
 We machine structural and precision parts for robot builders daily — aluminum, steel, titanium and engineering plastics, from one-off prototypes to production batches. Send your STEP files or drawings and our engineers will flag where you are over-specifying material and where you can safely save.
 
-[Get a free DFM review and quote](/contact/get-a-quote) · [See our robotics case studies](/cases/robotics) · [Browse the full materials guide](/materials) · [Aluminum vs steel, the longer version](/knowledge/tech-blog/6061-vs-7075-aluminum-choose/)
+[Get a free DFM review and quote](/contact/get-a-quote/) · [See our robotics case studies](/cases/robotics/) · [Browse the full materials guide](/materials/) · [Aluminum vs steel, the longer version](/knowledge/tech-blog/6061-vs-7075-aluminum-choose/)

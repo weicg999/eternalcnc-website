@@ -118,4 +118,4 @@ system: "机器人"
 
 STEP、PDF，还有——如果你知道的话——**未来一年你大概要多少件**。最后这个数字对工艺的影响，比图纸还大。
 
-[免费 DFM 审查和报价](/zh/contact/get-a-quote)
+[免费 DFM 审查和报价](/zh/contact/get-a-quote/)

@@ -200,4 +200,4 @@ We do not loosen what should be tight, either. On a mating face we would rather 
 
 So if you have a drawing with a batch of dimensions you are not sure about, send it over. We will pick out the few that are worth paying for, let the rest ride on the general tolerance, and then tell you what that saves.
 
-[Free DFM review and quote](/contact/get-a-quote)
+[Free DFM review and quote](/contact/get-a-quote/)

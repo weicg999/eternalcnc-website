@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 
 const breadcrumbs = [
-  { label: 'Knowledge Base', href: '/knowledge' },
+  { label: 'Knowledge Base', href: '/knowledge/' },
   { label: 'Tech Blog' },
 ];
 
@@ -47,7 +47,7 @@ const CAT_STYLE: Record<string, string> = {
         In-depth technical articles on machining tips, material selection, and process optimization — written by our engineers, from real projects.
       </p>
       <div class="flex flex-wrap gap-4 mt-8">
-        <a href="/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+        <a href="/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
           Talk to an Engineer
         </a>
         <a href="#latest" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
@@ -129,10 +129,10 @@ const CAT_STYLE: Record<string, string> = {
         Let us know what topics interest you — we will cover them in dedicated articles or answer them directly.
       </p>
       <div class="flex flex-wrap justify-center gap-4">
-        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+        <a href="/contact/get-a-quote/" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
           Talk to an Engineer
         </a>
-        <a href="/knowledge" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+        <a href="/knowledge/" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
           Back to Knowledge Base →
         </a>
       </div>

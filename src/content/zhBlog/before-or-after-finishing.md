@@ -179,4 +179,4 @@ k6 只有 13 µm 的带宽，容不下任何一层有波动的膜。与其在算
 
 STEP 和 PDF 发过来。图纸上有表面处理备注的，报价之前我们先告诉你它对你的配合做了什么。
 
-[免费 DFM 审查和报价](/zh/contact/get-a-quote)
+[免费 DFM 审查和报价](/zh/contact/get-a-quote/)

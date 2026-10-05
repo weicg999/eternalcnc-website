@@ -121,4 +121,4 @@ system: "机器人"
 
 STEP 和 PDF 发过来。图纸上有阳极备注的，报价之前我们先告诉你它对你的配合做了什么。
 
-[免费 DFM 审查和报价](/zh/contact/get-a-quote)
+[免费 DFM 审查和报价](/zh/contact/get-a-quote/)

@@ -13,9 +13,9 @@
  *     heroVideoSrc="/videos/eternal-cnc-5axis-machining-in-action-01.mp4"
  *     stats={[{num:'23', unit:'yrs', label:'In manufacturing'}, ...]}
  *     ctaPrimaryText="View Capabilities"
- *     ctaPrimaryHref="/services/cnc-machining"
+ *     ctaPrimaryHref="/services/cnc-machining/"
  *     ctaSecondaryText="Get a Quote"
- *     ctaSecondaryHref="/contact/get-a-quote"
+ *     ctaSecondaryHref="/contact/get-a-quote/"
  *   />
  */
 import { Image } from 'astro:assets';
@@ -57,7 +57,7 @@ const {
   label = '关于我们',
   titleHtml = '我们是你的工程伙伴，<br/>而不只是加工厂。',
   subtitle = '23 年制造行业深耕 · 15 年 CNC 精密加工 · 图纸评估 → 工艺规划 → 打样验证 → 量产交付，自有工厂加工，工程师全程跟进。',
-  heroVideoSrc = '/videos/eternal-cnc-5axis-machining-in-action-01.mp4',
+  heroVideoSrc = '/videos/eternal-cnc-5axis-machining-in-action-01.mp4/',
   heroVideoAlt = '五轴 CNC 实景加工产品演示',
   stats = [
     { num: '23', unit: '年', label: '制造行业经验' },
@@ -65,9 +65,9 @@ const {
     { num: '2', unit: 'h', label: '图纸报价' },
   ],
   ctaPrimaryText = '了解加工能力',
-  ctaPrimaryHref = '/zh/capabilities/equipment',
+  ctaPrimaryHref = '/zh/capabilities/equipment/',
   ctaSecondaryText = '获取报价',
-  ctaSecondaryHref = '/zh/contact/get-a-quote',
+  ctaSecondaryHref = '/zh/contact/get-a-quote/',
 } = Astro.props;
 ---
 

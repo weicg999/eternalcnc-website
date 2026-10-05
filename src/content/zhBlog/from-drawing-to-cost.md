@@ -222,6 +222,6 @@ DFM 是 design for manufacture 的缩写，翻成人话就是：**这个零件�
 
 把 STEP 和 PDF 发过来。我们告诉你这零件该上哪台机、钱花在哪，以及——如果有更省的做法——该改哪里。
 
-[免费 DFM 审查和报价](/zh/contact/get-a-quote)
+[免费 DFM 审查和报价](/zh/contact/get-a-quote/)
 
 *相关阅读：[在中国如何挑选 CNC 工厂](/zh/knowledge/tech-blog/how-to-choose-cnc-supplier-in-china/) · [机器人零件的选材与成本](/zh/knowledge/tech-blog/robot-parts-material-selection-cost-guide/)*

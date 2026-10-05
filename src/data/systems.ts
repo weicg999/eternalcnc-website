@@ -8,7 +8,7 @@ export interface SystemMeta {
 }
 
 export const SYSTEMS_EN: Record<string, SystemMeta> = {
-  general: { label: 'General chain', href: '/knowledge/tech-blog' },
+  general: { label: 'General chain', href: '/knowledge/tech-blog/' },
   robotics: { label: 'Robotics', href: '/industries/robotics/' },
   computing: { label: 'Computing & thermal', href: '' },
   energy: { label: 'Energy', href: '/industries/energy/' },
@@ -20,7 +20,7 @@ export const SYSTEMS_EN: Record<string, SystemMeta> = {
 };
 
 export const SYSTEMS_ZH: Record<string, SystemMeta> = {
-  通用: { label: '通用链', href: '/zh/knowledge/tech-blog' },
+  通用: { label: '通用链', href: '/zh/knowledge/tech-blog/' },
   机器人: { label: '机器人', href: '/zh/industries/robotics/' },
   算力与散热: { label: '算力与散热', href: '' },
   电力设备: { label: '电力设备', href: '/zh/industries/energy/' },

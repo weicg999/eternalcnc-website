@@ -145,4 +145,4 @@ And whichever form we land on, a robot's "bones" are the same family of parts �
 
 Whatever shape a robot ends up taking, the parts that decide its precision, weight, and life — joint housings, flanges, reducer seats, end effectors — are precision machined structures. Our work is to make that class of part accurate, stable, and scalable at the prototype-to-small-batch stage.
 
-If you have robot structural parts heading into prototyping, [send us the drawings for a free DFM review and quote](/contact/get-a-quote).
+If you have robot structural parts heading into prototyping, [send us the drawings for a free DFM review and quote](/contact/get-a-quote/).

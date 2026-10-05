@@ -81,4 +81,4 @@ We have made precision structural parts for twenty-three years, and the question
 
 In robotics, transmission, and load-bearing structures where “a little off and it fails,” we regularly take joint-module housings, reducer components, end-effectors, and sensor brackets, from single prototype to low-volume production. If you are moving from toy grade toward industrial grade, send us the drawing and we will build “predictable” into every piece.
 
-[Free DFM review and quote](/contact/get-a-quote)
+[Free DFM review and quote](/contact/get-a-quote/)

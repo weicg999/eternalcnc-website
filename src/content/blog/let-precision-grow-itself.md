@@ -111,4 +111,4 @@ Joint module housings, output flanges, sensor brackets: we make these every day,
 
 If you already have a joint drawing, even one joint, one piece, send it over and we will run a free DFM review. Which tolerances are genuinely necessary. Which can be opened up. Which dimensioning choices quietly double the price. It costs you a few days and may save your first version.
 
-[Free DFM review and quote](/contact/get-a-quote)
+[Free DFM review and quote](/contact/get-a-quote/)

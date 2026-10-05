@@ -166,8 +166,8 @@ function restPath(pathname: string): string {
 
 export function langOf(pathname: string): Lang {
   const p = norm(pathname);
-  if (p === '/zh' || p.startsWith('/zh/')) return 'zh';
-  if (p === '/ru' || p.startsWith('/ru/')) return 'ru';
+  if (p === '/zh' || p.startsWith('/zh')) return 'zh';
+  if (p === '/ru' || p.startsWith('/ru')) return 'ru';
   return 'en';
 }
 

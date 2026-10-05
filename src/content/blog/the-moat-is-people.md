@@ -65,4 +65,4 @@ We have made precision structural parts for twenty-three years. Among thirty mac
 
 We are also learning to hold “steadiness for people” and “certainty for parts” to the same standard. If a failure on your part is not an option, send us the drawing and we will get it right — and keep it steady.
 
-[Free DFM review and quote](/contact/get-a-quote)
+[Free DFM review and quote](/contact/get-a-quote/)

@@ -51,4 +51,4 @@ Skip it when:
 
 Datasheets tell you the numbers; a machinist tells you the reality. Send us your STEP or PDF and our engineers will recommend the right alloy for your application — often with a cost-saving suggestion you did not expect.
 
-[Get a free DFM review and quote](/contact/get-a-quote) · [Browse our full materials guide](/materials) · [Compare all metals we machine](/materials/#metals)
+[Get a free DFM review and quote](/contact/get-a-quote/) · [Browse our full materials guide](/materials/) · [Compare all metals we machine](/materials/#metals)

@@ -106,4 +106,4 @@ system: "机器人"
 
 把 STEP 和 PDF 发过来。我们告诉你哪些特征在推高你的成本、哪些公差在干实事、哪些只是在让这个零件变贵。
 
-[免费 DFM 审查和报价](/zh/contact/get-a-quote)
+[免费 DFM 审查和报价](/zh/contact/get-a-quote/)

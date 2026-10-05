@@ -118,4 +118,4 @@ We live in the 10-to-300 band, which is exactly where robot companies live. We'l
 
 Send the STEP, the PDF, and — if you know it — the quantity you think you'll actually need over the next year. That last number changes the process more than the drawing does.
 
-[Get a free DFM review and quote](/contact/get-a-quote)
+[Get a free DFM review and quote](/contact/get-a-quote/)

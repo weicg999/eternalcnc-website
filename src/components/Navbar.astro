@@ -35,6 +35,10 @@ const baseSlugFor = (p: string) => {
   return s;
 };
 const baseSlug = baseSlugFor(np);
+// 输出用：补尾斜杠。站内 canonical 一律带斜杠，Cloudflare Pages 对无斜杠路径会 308。
+// ⚠️ toLangHref() 的返回值**不能**加斜杠 —— 它要喂给下面的 routes.has()，
+//    而该集合由 import.meta.glob 枚举得到，是无尾斜杠形式，加了斜杠就全部匹配不上。
+const normOut = (p: string) => (p === '/' ? '/' : p.endsWith('/') ? p : p + '/');
 const toLangHref = (l: 'en' | 'zh' | 'ru') => {
   if (l === 'en') return baseSlug === '/' ? '/' : baseSlug;
   if (l === 'zh') {
@@ -43,20 +47,26 @@ const toLangHref = (l: 'en' | 'zh' | 'ru') => {
   }
   return '/ru' + (baseSlug === '/' ? '' : baseSlug);
 };
-const enHref = np === '/404' ? '/' : (routes.has(toLangHref('en')) ? toLangHref('en') : '/');
-const zhHref = np === '/404' ? '/zh/' : (routes.has(toLangHref('zh')) ? toLangHref('zh') : '/zh/');
-const ruHref = np === '/404' ? '/ru/' : (routes.has(toLangHref('ru')) ? toLangHref('ru') : '/ru/');
+const enHref = np === '/404' ? '/' : (routes.has(toLangHref('en')) ? normOut(toLangHref('en')) : '/');
+const zhHref = np === '/404' ? '/zh/' : (routes.has(toLangHref('zh')) ? normOut(toLangHref('zh')) : '/zh/');
+const ruHref = np === '/404' ? '/ru/' : (routes.has(toLangHref('ru')) ? normOut(toLangHref('ru')) : '/ru/');
 
 // 文案助手：en / zh / ru 三选一
 const t = (en: string, zh: string, ru: string) => (lang === 'ru' ? ru : lang === 'zh' ? zh : en);
 // 链接助手：en 风格 slug → 当前语言前缀路径（zh 走 LANG_MAP 修正非对称 slug）
+//
+// 2026-10-05：输出统一补尾斜杠。站内 canonical 一律带斜杠，而 Cloudflare Pages 对
+// 无尾斜杠路径会 308 跳转，导航/页脚链接出现在每一页上，一次跳转乘以全站页数。
+// ⚠️ 只规范化「输出」，不改 navItems 里的原始 slug —— rev[slug] 依赖原值查 LANG_MAP，
+//    若把数据也加上斜杠，中文侧的不对称 slug 映射会失效。
+const normSlash = (p: string) => (p === '/' ? '/' : p.endsWith('/') ? p : p + '/');
 const S = (slug: string) => {
-  if (lang === 'en') return slug === '/' ? '/' : slug;
+  if (lang === 'en') return normSlash(slug);
   if (lang === 'zh') {
     const rev: Record<string, string> = Object.fromEntries(Object.entries(LANG_MAP).map(([k, v]) => [v, k]));
-    return rev[slug] || ('/zh' + slug);
+    return normSlash(rev[slug] || ('/zh' + slug));
   }
-  return '/ru' + (slug === '/' ? '' : slug);
+  return '/ru' + normSlash(slug);
 };
 const tl = (o: { l: string; lzh: string; lru: string }) => t(o.l, o.lzh, o.lru);
 const tg = (o: { g: string; gzh: string; gru: string }) => t(o.g, o.gzh, o.gru);
@@ -154,7 +164,8 @@ const navItems: {
       <div class="flex items-center justify-between h-[72px] lg:h-[80px]">
         <div class={lang === 'ru' ? 'flex items-center gap-x-4' : 'flex items-center gap-x-5'}>
           <a href={S('/')} class="shrink-0 group mr-2 transition-all duration-200 hover:opacity-80 hover:scale-105">
-            <img src="/images/logo/home-logo-brand-mark.webp" alt="Eternal CNC" class="w-auto" style="height: 56px;" />
+            <!-- width/height 按渲染尺寸填（站点惯例），源图 1568×672，56px 高对应 131px 宽，比例一致 -->
+            <img src="/images/logo/home-logo-brand-mark.webp" alt="Eternal CNC" width="131" height="56" class="w-auto" style="height: 56px;" />
           </a>
           {navItems.map((item) => (
             <div class={lang === 'ru' ? 'relative group hidden xl:flex' : 'relative group hidden lg:flex'}>

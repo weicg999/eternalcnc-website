@@ -121,4 +121,4 @@ We machine the pre-anodize dimensions, run a masking plan off your drawing, and 
 
 Send the STEP and the PDF. If there's an anodize note on it, we'll tell you what it does to your fits before we quote.
 
-[Get a free DFM review and quote](/contact/get-a-quote)
+[Get a free DFM review and quote](/contact/get-a-quote/)

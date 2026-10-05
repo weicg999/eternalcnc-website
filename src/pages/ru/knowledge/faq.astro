@@ -2,7 +2,7 @@
 import PageLayout from '../../../layouts/PageLayout.astro';
 
 const breadcrumbs = [
-  { label: 'База знаний', href: '/ru/knowledge' },
+  { label: 'База знаний', href: '/ru/knowledge/' },
   { label: 'Часто задаваемые вопросы' },
 ];
 
@@ -61,7 +61,7 @@ const faqs = [
   },
   {
     q: 'Почему на вашем сайте нет примеров работ или логотипов клиентов?',
-    a: 'Честно говоря, этот пробел отражает то, как мы расставляли приоритеты в прошлом — мы сосредоточились на ремесле и недостаточно инвестировали в собственный бренд. Большая часть наших ранних заказов приходила через отечественные торговые компании, где мы выполняли прецизионную обработку «за кадром», а не строили бренд на переднем плане.\n\nНаше руководство имеет инженерное происхождение, и на протяжении многих лет мы направляли энергию на то, «как правильно изготовить деталь», а не на маркетинг и развитие бизнеса. Времена изменились, и мы осознали, что одного лишь мастерства недостаточно — нам также нужно доносить нашу ценность. Этот сайт — первый шаг в такой трансформации.\n\nТакже следует уточнить: большая часть того, что мы производим, — это нестандартные заказные изделия, и значительная доля таких деталей покрыта соглашениями о неразглашении (NDA). Согласно этим соглашениям, названия клиентов, чертежи и фотографии готовых деталей не могут быть опубликованы. Это не то, что мы уклоняемся от ответа — мы просто держим своё слово.\n\nТем не менее, среди заказных деталей, не попадающих под NDA, есть часть, которую мы можем показать. Мы подготовили подборку допустимых фотографий реальных деталей (<a href="/ru/parts-gallery">Галерея деталей</a>) с аннотациями по материалу, процессу и финишной обработке — без выдуманных названий клиентов и придуманных допусков. То, что вы видите, — настоящее.'
+    a: 'Честно говоря, этот пробел отражает то, как мы расставляли приоритеты в прошлом — мы сосредоточились на ремесле и недостаточно инвестировали в собственный бренд. Большая часть наших ранних заказов приходила через отечественные торговые компании, где мы выполняли прецизионную обработку «за кадром», а не строили бренд на переднем плане.\n\nНаше руководство имеет инженерное происхождение, и на протяжении многих лет мы направляли энергию на то, «как правильно изготовить деталь», а не на маркетинг и развитие бизнеса. Времена изменились, и мы осознали, что одного лишь мастерства недостаточно — нам также нужно доносить нашу ценность. Этот сайт — первый шаг в такой трансформации.\n\nТакже следует уточнить: большая часть того, что мы производим, — это нестандартные заказные изделия, и значительная доля таких деталей покрыта соглашениями о неразглашении (NDA). Согласно этим соглашениям, названия клиентов, чертежи и фотографии готовых деталей не могут быть опубликованы. Это не то, что мы уклоняемся от ответа — мы просто держим своё слово.\n\nТем не менее, среди заказных деталей, не попадающих под NDA, есть часть, которую мы можем показать. Мы подготовили подборку допустимых фотографий реальных деталей (<a href="/ru/parts-gallery/">Галерея деталей</a>) с аннотациями по материалу, процессу и финишной обработке — без выдуманных названий клиентов и придуманных допусков. То, что вы видите, — настоящее.'
   },
 ];
 
@@ -105,10 +105,10 @@ const faqSchema = {
         Ответы на частые вопросы о заказе, ценах, качестве и нашей компании.
       </p>
       <div class="flex flex-wrap gap-4 mt-8">
-        <a href="/ru/contact/get-a-quote" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+        <a href="/ru/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
           Запросить расчёт
         </a>
-        <a href="/ru/services/cnc-machining" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+        <a href="/ru/services/cnc-machining/" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
           Смотреть услуги →
         </a>
       </div>
@@ -161,10 +161,10 @@ const faqSchema = {
         Загрузите свои чертежи — наши инженеры готовы помочь в течение 2 часов.
       </p>
       <div class="flex flex-wrap justify-center gap-4">
-        <a href="/ru/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+        <a href="/ru/contact/get-a-quote/" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
           Запросить расчёт
         </a>
-        <a href="/ru/knowledge" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+        <a href="/ru/knowledge/" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
           Все материалы →
         </a>
       </div>

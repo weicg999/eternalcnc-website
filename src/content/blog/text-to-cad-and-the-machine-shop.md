@@ -71,4 +71,4 @@ We have made precision structural parts for twenty-three years, with thirty CNC 
 
 Where we can help is concrete: turning an AI-generated model into a drawing that can actually be machined (datums, critical tolerances, manufacturability), working out the tolerance stack and assembly clearance behind nominal geometry, and then cutting the small-batch prototype. If the part is stuck on “will not assemble” or “will not cut,” it is probably not the idea — it is the machining. Send us the file and we will get it right together.
 
-[Free DFM review and quote](/contact/get-a-quote)
+[Free DFM review and quote](/contact/get-a-quote/)

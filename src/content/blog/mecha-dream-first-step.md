@@ -192,4 +192,4 @@ Joint module housings, reducer planet carriers, output flanges, sensor brackets.
 
 If your joint drawing is far enough along to be quoted — one joint, one piece is enough — send it over and we will run a free DFM review. Which tolerances are genuinely necessary. Which can be opened up. Which dimensioning choices quietly double the price. It costs you a few days. It may save you your first version.
 
-[Free DFM review and quote](/contact/get-a-quote)
+[Free DFM review and quote](/contact/get-a-quote/)

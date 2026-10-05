@@ -109,4 +109,4 @@ system: "机器人"
 
 把 STEP 和 PDF 发过来，我们告诉你这零件真正需要什么。
 
-[免费 DFM 审查和报价](/zh/contact/get-a-quote)
+[免费 DFM 审查和报价](/zh/contact/get-a-quote/)

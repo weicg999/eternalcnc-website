@@ -67,4 +67,4 @@ readingTime: 8 分钟
 
 我们也在学怎么把“对人的安稳”和“对件的确定”用同一套标准守住。如果你手上的件输不起一次失误，把图纸发来，我们一起把它做对，也做稳。
 
-[免费 DFM 审查和报价](/zh/contact/get-a-quote)
+[免费 DFM 审查和报价](/zh/contact/get-a-quote/)

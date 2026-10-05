@@ -171,4 +171,4 @@ The one thing we try not to do is ship a batch that measures fine in our inspect
 
 Send us the STEP and the PDF. If the drawing carries a finish note, we'll tell you what it does to your fits before we quote.
 
-[Free DFM review and quote](/contact/get-a-quote)
+[Free DFM review and quote](/contact/get-a-quote/)

@@ -53,4 +53,4 @@ readingTime: "6 分钟"
 
 数据表告诉你数字，老师傅告诉你现实。把 STEP 或 PDF 发给我们，工程师会按你的工况推荐合适的铝——常常还能给出你没想到的省钱方案。
 
-[免费 DFM 审查和报价](/contact/get-a-quote) · [查看完整材料指南](/materials) · [对比我们加工的所有金属](/materials/#metals)
+[免费 DFM 审查和报价](/contact/get-a-quote/) · [查看完整材料指南](/materials/) · [对比我们加工的所有金属](/materials/#metals)

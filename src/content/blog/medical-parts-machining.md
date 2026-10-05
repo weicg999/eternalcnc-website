@@ -228,4 +228,4 @@ We have been making precision structural parts for twenty-three years, with thir
 
 Where we can help is concrete: sourcing to a named standard while retaining heat-number traceability, stable machining of 316L and titanium, deburring and passivation planning after machining, process control across cleaning and packing, and fast small-batch prototyping. If your medical part is stuck on material traceability, surface-treatment datums or cleanliness, send the drawing together with the requirements and we will start with a DFM review — the questions that need asking, we would rather ask before quoting.
 
-[Free DFM review and quote](/contact/get-a-quote)
+[Free DFM review and quote](/contact/get-a-quote/)

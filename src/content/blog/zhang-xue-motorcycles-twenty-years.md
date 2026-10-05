@@ -217,4 +217,4 @@ In robotics, we machine and prototype precision parts for joint modules, reducer
 
 If you have a part that's giving you trouble, send it over. Our engineers run a DFM review first and **come back with a quote within 2 hours**. Prototypes in 3–7 days, production in 15–30 days, no minimum order quantity.
 
-[Send a drawing, get a quote in 2 hours](/contact/get-a-quote)
+[Send a drawing, get a quote in 2 hours](/contact/get-a-quote/)

@@ -187,4 +187,4 @@ readingTime: "12 分钟"
 
 手上有一个还没成图的想法，或者一张自己也不太确定的图——发过来。我们帮你过一遍上面那份清单，再告诉你大概多少钱。
 
-[免费 DFM 审查和报价](/zh/contact/get-a-quote)
+[免费 DFM 审查和报价](/zh/contact/get-a-quote/)

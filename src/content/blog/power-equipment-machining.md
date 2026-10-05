@@ -194,4 +194,4 @@ We have made precision structural parts for twenty-three years, with thirty CNC 
 
 Where we can help is concrete: stable control of flatness and straightness, deburring before plating, machining of seal grooves and sealing faces, stock control for post-weld distortion, and small-batch rapid prototyping. If your power-equipment part is stuck on contact resistance, leak rate, or post-plating size, it is probably not a design problem — it is one of those surfaces not being right. Send us the drawing and we will get it right together.
 
-[Free DFM review and quote](/contact/get-a-quote)
+[Free DFM review and quote](/contact/get-a-quote/)

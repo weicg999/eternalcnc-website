@@ -88,4 +88,4 @@ We have seen plenty of work where “the report is green, assembly fails.” The
 
 If you have a batch to accept right now, or want “how to inspect” written into the next drawing, send us the drawing. **Free DFM review and quote** — we help you answer “will it work” with data before production, not after.
 
-[Free DFM review and quote](/contact/get-a-quote)
+[Free DFM review and quote](/contact/get-a-quote/)

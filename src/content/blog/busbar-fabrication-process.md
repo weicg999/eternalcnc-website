@@ -110,4 +110,4 @@ We have been making precision structural parts for twenty-three years, with thir
 
 The value of these parts is not in their shape but in **how the operations fit together**: get the temper and bend radius right first, then hold the hole pitch and contact face steady, and finally make sure the pre-plate preparation is clean. Many sections, small batches, and fast iteration — stacked together, that is exactly where CNC beats stamping.
 
-If you have a batch of busbars or conductors stuck on bending, hole pitch, or post-plating dimensions, [send us the drawings for a free DFM review and quote](/contact/get-a-quote).
+If you have a batch of busbars or conductors stuck on bending, hole pitch, or post-plating dimensions, [send us the drawings for a free DFM review and quote](/contact/get-a-quote/).

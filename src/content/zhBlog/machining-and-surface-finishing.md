@@ -183,4 +183,4 @@ F（毫米/分）= S × fz × Z
 
 把 STEP 和 PDF 发过来，我们告诉你这零件哪些处理真需要、哪些不需要，以及每一步真正要多久。
 
-[免费 DFM 审查和报价](/zh/contact/get-a-quote)
+[免费 DFM 审查和报价](/zh/contact/get-a-quote/)

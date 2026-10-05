@@ -13,7 +13,12 @@ const lang = isRu ? 'ru' : isZh ? 'zh' : 'en';
 // 文案助手：en / zh / ru
 const t = (en: string, zh: string, ru: string) => (lang === 'ru' ? ru : lang === 'zh' ? zh : en);
 // 链接助手：en 无前缀，zh / ru 加对应前缀
-const L = (slug: string) => (lang === 'en' ? slug : '/' + lang + slug);
+// 2026-10-05：输出统一补尾斜杠（与 Navbar 的 S() 同一理由 —— canonical 带斜杠，
+// 无斜杠会 308，而页脚链接出现在每一页上）。只规范化输出，不改传入的原始 slug。
+const L = (slug: string) => {
+  const s = slug === '/' ? '/' : slug.endsWith('/') ? slug : slug + '/';
+  return lang === 'en' ? s : '/' + lang + s;
+};
 ---
 
 <footer style="background-color: var(--footer-bg);">
@@ -21,7 +26,7 @@ const L = (slug: string) => (lang === 'en' ? slug : '/' + lang + slug);
   <div class="border-b" style="border-color: var(--border-color);">
     <div class="container-custom py-6">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <a href={L('/contact/get-a-quote')} class="flex items-center gap-3 p-3 rounded-lg hover:bg-white transition-all duration-300 group">
+        <a href={L('/contact/get-a-quote/')} class="flex items-center gap-3 p-3 rounded-lg hover:bg-white transition-all duration-300 group">
           <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-[#8B0000] text-white transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
           </div>
@@ -39,7 +44,7 @@ const L = (slug: string) => (lang === 'en' ? slug : '/' + lang + slug);
             <div class="text-xs break-all" style="color: var(--text-muted);">sales@eternalcnc.com</div>
           </div>
         </a>
-        <a href={L('/contact/get-a-quote')} class="flex items-center gap-3 p-3 rounded-lg hover:bg-white transition-all duration-300 group">
+        <a href={L('/contact/get-a-quote/')} class="flex items-center gap-3 p-3 rounded-lg hover:bg-white transition-all duration-300 group">
           <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-[#8B0000] text-white transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.26-.904 2.95l-.102.085"/></svg>
           </div>
@@ -72,23 +77,23 @@ const L = (slug: string) => (lang === 'en' ? slug : '/' + lang + slug);
         </h4>
         <ul class="space-y-3">
           {(lang === 'zh' ? [
-            { label: 'CNC 精密加工', href: '/zh/services/cnc-machining' },
-            { label: '数控车削', href: '/zh/services/cnc-turning' },
-            { label: '精密磨削', href: '/zh/services/precision-grinding' },
-            { label: '线切割 (EDM)', href: '/zh/services/wire-edm' },
-            { label: '质量检测', href: '/zh/services/quality-inspection' },
+            { label: 'CNC 精密加工', href: '/zh/services/cnc-machining/' },
+            { label: '数控车削', href: '/zh/services/cnc-turning/' },
+            { label: '精密磨削', href: '/zh/services/precision-grinding/' },
+            { label: '线切割 (EDM)', href: '/zh/services/wire-edm/' },
+            { label: '质量检测', href: '/zh/services/quality-inspection/' },
           ] : lang === 'ru' ? [
-            { label: 'Фрезерование ЧПУ', href: '/ru/services/cnc-machining' },
-            { label: 'Токарная обработка ЧПУ', href: '/ru/services/cnc-turning' },
-            { label: 'Прецизионное шлифование', href: '/ru/services/precision-grinding' },
-            { label: 'Электроэрозионная резка (EDM)', href: '/ru/services/wire-edm' },
-            { label: 'Контроль качества', href: '/ru/services/quality-inspection' },
+            { label: 'Фрезерование ЧПУ', href: '/ru/services/cnc-machining/' },
+            { label: 'Токарная обработка ЧПУ', href: '/ru/services/cnc-turning/' },
+            { label: 'Прецизионное шлифование', href: '/ru/services/precision-grinding/' },
+            { label: 'Электроэрозионная резка (EDM)', href: '/ru/services/wire-edm/' },
+            { label: 'Контроль качества', href: '/ru/services/quality-inspection/' },
           ] : [
-            { label: 'CNC Machining', href: '/services/cnc-machining' },
-            { label: 'CNC Turning', href: '/services/cnc-turning' },
-            { label: 'Precision Grinding', href: '/services/precision-grinding' },
-            { label: 'Wire EDM', href: '/services/wire-edm' },
-            { label: 'Quality Inspection', href: '/services/quality-inspection' },
+            { label: 'CNC Machining', href: '/services/cnc-machining/' },
+            { label: 'CNC Turning', href: '/services/cnc-turning/' },
+            { label: 'Precision Grinding', href: '/services/precision-grinding/' },
+            { label: 'Wire EDM', href: '/services/wire-edm/' },
+            { label: 'Quality Inspection', href: '/services/quality-inspection/' },
           ]).map((link) => (
             <li>
               <a href={link.href} class="text-sm text-gray-400 inline-block transition-all duration-300 hover:text-[#8B0000] hover:translate-x-0.5">{link.label}</a>
@@ -104,14 +109,14 @@ const L = (slug: string) => (lang === 'en' ? slug : '/' + lang + slug);
         </h4>
         <ul class="space-y-3">
           {(lang === 'zh' ? [
-            { label: '关于我们', href: '/zh/about' },
-            { label: '联系我们', href: '/zh/contact/get-a-quote' },
+            { label: '关于我们', href: '/zh/about/' },
+            { label: '联系我们', href: '/zh/contact/get-a-quote/' },
           ] : lang === 'ru' ? [
-            { label: 'О компании', href: '/ru/about' },
-            { label: 'Связаться с нами', href: '/ru/contact/get-a-quote' },
+            { label: 'О компании', href: '/ru/about/' },
+            { label: 'Связаться с нами', href: '/ru/contact/get-a-quote/' },
           ] : [
-            { label: 'About Us', href: '/about' },
-            { label: 'Contact Us', href: '/contact/get-a-quote' },
+            { label: 'About Us', href: '/about/' },
+            { label: 'Contact Us', href: '/contact/get-a-quote/' },
           ]).map((link) => (
             <li>
               <a href={link.href} class="text-sm text-gray-400 inline-block transition-all duration-300 hover:text-[#8B0000] hover:translate-x-0.5">{link.label}</a>
@@ -182,16 +187,17 @@ const L = (slug: string) => (lang === 'en' ? slug : '/' + lang + slug);
   <div class="border-t" style="border-color: var(--border-color);">
     <div class="container-custom py-5 flex flex-col md:flex-row items-center justify-between gap-3">
       <div class="flex items-center gap-3">
-        <img src="/images/logo/logo-full.png" alt="Eternal CNC" class="h-6 w-auto" />
+        <!-- width/height 按渲染尺寸填（h-6 = 24px 高），源图 300×129，比例一致 -->
+        <img src="/images/logo/logo-full.png" alt="Eternal CNC" width="56" height="24" class="h-6 w-auto" />
         <p class="text-xs" style="color: var(--text-muted);">
           &copy; {currentYear} {lang === 'ru' ? 'Eternal CNC' : lang === 'zh' ? '鑫永恒（深圳）精密实业有限公司' : 'Eternal CNC'}. {lang === 'ru' ? 'Все права защищены.' : lang === 'zh' ? '版权所有.' : 'All rights reserved.'}
         </p>
       </div>
       <div class="flex items-center gap-4">
-        <a href={L('/confidentiality')} class="text-xs text-gray-400 inline-block transition-all duration-300 hover:text-[#8B0000] hover:translate-x-0.5">
+        <a href={L('/confidentiality/')} class="text-xs text-gray-400 inline-block transition-all duration-300 hover:text-[#8B0000] hover:translate-x-0.5">
           {t('Confidentiality Policy', '保密政策', 'Политика конфиденциальности')}
         </a>
-        <a href={L('/privacy-policy')} class="text-xs text-gray-400 inline-block transition-all duration-300 hover:text-[#8B0000] hover:translate-x-0.5">
+        <a href={L('/privacy-policy/')} class="text-xs text-gray-400 inline-block transition-all duration-300 hover:text-[#8B0000] hover:translate-x-0.5">
           {t('Privacy Policy', '隐私政策', 'Политика приватности')}
         </a>
         <a href="#" onclick="if(window.openCookieSettings)window.openCookieSettings();return false;" class="text-xs text-gray-400 inline-block transition-all duration-300 hover:text-[#8B0000] hover:translate-x-0.5">

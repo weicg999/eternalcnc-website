@@ -67,4 +67,4 @@ readingTime: "8 分钟"
 
 机器人行业的结构件和精密件——铝、钢、钛、工程塑料，从单件打样到批量生产，我们每天都在做。把你的 STEP 或图纸发过来，我们的工程师会直接告诉你：**哪里材料用过头了，哪里还能再省**。
 
-[免费 DFM 评审与报价](/zh/contact/get-a-quote) · [看看我们的机器人行业案例](/zh/cases/robotics) · [浏览完整材料中心](/zh/materials/)
+[免费 DFM 评审与报价](/zh/contact/get-a-quote/) · [看看我们的机器人行业案例](/zh/cases/robotics/) · [浏览完整材料中心](/zh/materials/)

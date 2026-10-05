@@ -222,6 +222,6 @@ But the reason we wrote this guide is not the machine list. It is that we would 
 
 Send us the STEP and the PDF. We will tell you which machine your part should run on, where the money goes, and — if there is a cheaper way to make it — what to change.
 
-[Get a free DFM review and quote](/contact/get-a-quote)
+[Get a free DFM review and quote](/contact/get-a-quote/)
 
 *Related: [How to choose a CNC machining supplier in China](/knowledge/tech-blog/how-to-choose-cnc-supplier-in-china/) · [Material selection for robot parts](/knowledge/tech-blog/robot-parts-material-selection-cost-guide/)*

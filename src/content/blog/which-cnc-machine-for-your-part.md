@@ -171,4 +171,4 @@ The honest version of our job is not "run it on the best machine we have." It's 
 
 Send us the STEP or PDF and we'll tell you which machine your part should go on — and what it would cost on each. If the 3-axis can hold your tolerances, we'll say that, even though it's the cheaper quote.
 
-[Get a free DFM review and quote](/contact/get-a-quote)
+[Get a free DFM review and quote](/contact/get-a-quote/)

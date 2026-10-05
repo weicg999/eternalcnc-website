@@ -90,4 +90,4 @@ At Eternal CNC we have seen plenty of work where every single part is pretty but
 
 If you have a part stuck at assembly right now, or want fewer traps in the next batch of drawings, send us the drawing. **Free DFM review and quote** — we help you answer “will it fit” before production, not after.
 
-[Free DFM review and quote](/contact/get-a-quote)
+[Free DFM review and quote](/contact/get-a-quote/)

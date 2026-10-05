@@ -90,4 +90,4 @@ readingTime: 10 分钟
 
 如果你手上有正卡在装配上的件，或者想在下一批图纸里少踩坑，把图纸发我们。**免费 DFM 审查和报价**，我们帮你把“能不能装”这件事，在投产前就回答掉。
 
-[免费 DFM 审查和报价](/zh/contact/get-a-quote)
+[免费 DFM 审查和报价](/zh/contact/get-a-quote/)

@@ -87,7 +87,7 @@ const shareTitle = title;
   <section style="background-color: var(--page-bg); padding: 48px 0 0;">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-wrap items-center gap-3 mb-5">
-        <a href="/knowledge/tech-blog" class="text-sm font-medium hover:underline" style="color: #8B0000;">← Blog</a>
+        <a href="/knowledge/tech-blog/" class="text-sm font-medium hover:underline" style="color: #8B0000;">← Blog</a>
         <span class="inline-block px-2.5 py-0.5 text-xs font-semibold rounded-full" style={catStyle}>{category}</span>
         {sys && (sys.href ? (
           <a href={sys.href} class="inline-block px-2.5 py-0.5 text-xs font-semibold rounded-full border transition-colors hover:border-[#8B0000] hover:text-[#8B0000]" style="border-color: var(--border-color); color: var(--text-muted);">{sys.label} →</a>
@@ -130,7 +130,7 @@ const shareTitle = title;
       <div class="flex flex-wrap items-center justify-between gap-4 p-5 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
         <div>
           <p class="text-sm font-semibold" style="color: var(--brand-dark);">Got a question about anything in this article?</p>
-          <a href="/contact/get-a-quote" class="text-sm underline transition-colors hover:text-[#6B0000]" style="color:#8B0000;">Ask an engineer →</a>
+          <a href="/contact/get-a-quote/" class="text-sm underline transition-colors hover:text-[#6B0000]" style="color:#8B0000;">Ask an engineer →</a>
         </div>
         <div class="flex flex-wrap items-center gap-2">
           <span class="text-xs" style="color: var(--text-muted);">Share</span>
@@ -161,7 +161,7 @@ const shareTitle = title;
     <section style="background-color: var(--page-bg); padding-bottom: 40px;">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap gap-2">
         {tags.map((t) => (
-          <a href={`/knowledge/tech-blog?tag=${encodeURIComponent(t)}`} class="px-3 py-1 text-xs rounded-full border hover:border-[#8B0000] hover:text-[#8B0000] transition-colors" style="border-color: var(--border-color); color: var(--text-muted);">#{t}</a>
+          <a href={`/knowledge/tech-blog/?tag=${encodeURIComponent(t)}`} class="px-3 py-1 text-xs rounded-full border hover:border-[#8B0000] hover:text-[#8B0000] transition-colors" style="border-color: var(--border-color); color: var(--text-muted);">#{t}</a>
         ))}
       </div>
     </section>
@@ -210,8 +210,8 @@ const shareTitle = title;
         Send us your STEP or PDF and get a free DFM review and quote within 2 hours.
       </p>
       <div class="flex flex-wrap justify-center gap-4">
-        <a href="/contact/get-a-quote" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded-lg transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">Get a Free Quote →</a>
-        <a href="/knowledge/tech-blog" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-lg transition-all duration-300 hover:bg-white hover:text-[#8B0000]">More Articles</a>
+        <a href="/contact/get-a-quote/" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded-lg transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">Get a Free Quote →</a>
+        <a href="/knowledge/tech-blog/" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-lg transition-all duration-300 hover:bg-white hover:text-[#8B0000]">More Articles</a>
       </div>
     </div>
   </section>

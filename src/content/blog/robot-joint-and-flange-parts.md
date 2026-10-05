@@ -106,4 +106,4 @@ We machine robot parts in Shenzhen on 30 CNC machines including true 5-axis, wit
 
 Send the STEP and the PDF. We'll tell you which features are driving your cost, which tolerances are doing real work, and which ones are just making the part expensive.
 
-[Get a free DFM review and quote](/contact/get-a-quote)
+[Get a free DFM review and quote](/contact/get-a-quote/)

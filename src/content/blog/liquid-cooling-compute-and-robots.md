@@ -67,4 +67,4 @@ We have made precision structural parts for twenty-three years, with thirty CNC 
 
 Where we can help is concrete: stable control of flatness, thin walls, cavities, and hole-position accuracy; fit-surface flatness ahead of vacuum brazing; and small-batch rapid prototyping. If your thermal part is stuck on flow-resistance consistency or brazing yield, it is probably not a material problem — it is a machining problem. Send us the drawing and we will get it right together.
 
-[Free DFM review and quote](/contact/get-a-quote)
+[Free DFM review and quote](/contact/get-a-quote/)

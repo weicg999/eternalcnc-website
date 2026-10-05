@@ -180,6 +180,6 @@ We're not the cheapest shop in China, and we're not the biggest. We're the shop 
 
 ## The next step
 
-Send us your drawing through [the quote form on eternalcnc.com](/contact/get-a-quote). You'll have a real quote — with a real lead-time breakdown — within two hours.
+Send us your drawing through [the quote form on eternalcnc.com](/contact/get-a-quote/). You'll have a real quote — with a real lead-time breakdown — within two hours.
 
 And if we can't make your part well, we'll tell you that too, and point you to someone who can. Worst case, you learn something about your own part's manufacturability. Best case, you've found the vendor relationship you were hoping for.

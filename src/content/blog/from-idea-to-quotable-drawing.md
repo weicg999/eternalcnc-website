@@ -187,4 +187,4 @@ So we would rather say things up front: what is missing, what is toleranced but 
 
 If you have an idea that is not a drawing yet, or a drawing you are not sure about, send it over. We will run the checklist with you and then tell you roughly what it costs.
 
-[Free DFM review and quote](/contact/get-a-quote)
+[Free DFM review and quote](/contact/get-a-quote/)

@@ -166,4 +166,4 @@ We have machined precision structural parts for twenty-three years, with real 5-
 
 If your medical part is stuck on material selection, aging sequence, surface-treatment datum, or cleanliness, send the drawing and requirements together and we will run a DFM review first — we ask the right questions before the quote.
 
-[Free DFM review and quote](/contact/get-a-quote)
+[Free DFM review and quote](/contact/get-a-quote/)
