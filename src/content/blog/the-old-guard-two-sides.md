@@ -1,6 +1,6 @@
 ---
 title: "What We Keep, What We Drop"
-description: "There is a Chinese word for people who will not move with the times, and it is a very easy word to use — because it lets you throw away five good qualities in the same breath. What a traditional machine shop should keep, and what it should drop."
+description: "There's a Chinese word for people who won't move with the times, and it's easy to use — it lets you throw away five good qualities in the same breath."
 pubDate: 2026-09-14
 category: "Industry Insights"
 tags: ["long-termism", "industry observation", "manufacturing philosophy", "AI in manufacturing", "precision machining"]

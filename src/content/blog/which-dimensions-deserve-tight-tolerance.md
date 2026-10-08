@@ -1,6 +1,6 @@
 ---
 title: "Tighter Isn't Better: Which Dimensions Are Worth Paying For"
-description: "Treating tolerance as a precision score is the most expensive misunderstanding on a drawing. The standard itself recommends the medium class m for machined metal parts, and reminds you to weigh what the shop can actually hold. This piece explains where the money goes when you tighten one step, how four questions tell you which dimensions deserve it, and what the difference looks like on one flange."
+description: "Treating tolerance as a precision score is the most expensive mistake on a drawing. The standard says class m, and weigh what the shop can hold."
 pubDate: 2026-09-15
 category: "Machining Tips"
 system: "general"

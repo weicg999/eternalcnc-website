@@ -1,6 +1,6 @@
 ---
 title: "Before or After Finishing: The One Line Most Drawings Forget"
-description: "The easiest thing to leave off a finish spec isn't the thickness — it's the tolerance basis. Is that dimension before or after the coating? Leave it blank and the machine shop, the finisher and incoming inspection each assume something different. Here are the three ways to write it, which finishes move dimensions in which direction, and the arithmetic behind a post-finish callout."
+description: "Leave the basis blank and the shop, the finisher and inspection each assume something different. Three ways to write \"before or after coating\" so they can't."
 pubDate: 2026-09-13
 category: "Machining Tips"
 system: "general"

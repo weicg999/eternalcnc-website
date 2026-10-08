@@ -1,6 +1,6 @@
 ---
 title: "Why Lead Time Is Worth Paying For: A Million Quotes, Very Few Suppliers Who Can Actually Keep Up"
-description: "Send one drawing to three shops and the quotes come back three times apart. Customers often don't pick the cheapest one — because what they're really buying isn't machine time, it's not having to worry. Holding a date proves every link in the chain works, and it buys the customer a launch window."
+description: "Send one drawing to three shops and the quotes come back three times apart. What customers really buy isn't machine time — it's not having to worry."
 pubDate: 2026-09-12
 category: "Industry Insights"
 system: "general"

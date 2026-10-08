@@ -1,6 +1,6 @@
 ---
 title: "From Drawing to Cost: How a CNC Part Actually Gets Made"
-description: "A beginner's walk through the whole chain — drawing, DFM, material, machine, programming, finishing, inspection, shipping — ending with a line-by-line breakdown of where the money in a CNC quote actually goes."
+description: "A beginner's walk through the chain — drawing, DFM, material, machine, programming, finishing — and where the money in a CNC quote actually goes."
 pubDate: 2026-09-10
 category: "Industry Insights"
 system: "general"

@@ -1,6 +1,6 @@
 ---
 title: "From Idea to Quotable Drawing: The Minimum You Actually Need"
-description: "You have an idea, a photo, or a model an AI just generated. How does it become something a machine shop can quote? This is not about what to write on a drawing — it is about how a drawing comes into existence: what 3D and 2D each carry, what a datum is, and the smallest information set that gets you a price."
+description: "You have an idea, a photo, or an AI-generated model. How does it become something a shop can quote? Not what to write on a drawing — how one exists at all."
 pubDate: 2026-09-14
 category: "Machining Tips"
 system: "general"

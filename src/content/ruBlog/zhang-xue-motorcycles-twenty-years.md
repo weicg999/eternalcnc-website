@@ -1,6 +1,6 @@
 ---
 title: "Двадцать лет и 0,02 мм: китайский мотобренд, бросающий вызов Yamaha и Ducati"
-description: "Бренд, основанный в 2024 году, теперь третий в зачёте производителей WorldSSP. Но самое поучительное в нём не кубок — а то, что основатель открыто называет те 0,1% своего собственного мотоцикла, которые он всё ещё не может сделать."
+description: "Бренд, основанный в 2024 году, уже третий в зачёте производителей WorldSSP. Поучителен не кубок — а то, что основатель открыто называет, чего ещё не умеет."
 pubDate: 2026-09-11
 category: "Industry Insights"
 tags: ["Chinese manufacturing", "long-term thinking", "Zhang Xue Motorcycles", "industry analysis", "batch consistency", "precision machining"]

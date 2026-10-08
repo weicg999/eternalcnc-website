@@ -1,6 +1,6 @@
 ---
 title: "Twenty Years and 0.02 mm: The Chinese Motorcycle Brand Racing Yamaha and Ducati"
-description: "A brand founded in 2024 is now third in the WorldSSP manufacturers' standings. But the most instructive thing about it isn't the trophy — it's the founder openly naming the 0.1% of his own bike he still can't make."
+description: "A brand founded in 2024 now sits third in WorldSSP manufacturers. The instructive part isn't the trophy — it's the founder naming what he still can't make."
 pubDate: 2026-09-11
 category: "Industry Insights"
 tags: ["Chinese manufacturing", "long-term thinking", "Zhang Xue Motorcycles", "industry analysis", "batch consistency", "precision machining"]

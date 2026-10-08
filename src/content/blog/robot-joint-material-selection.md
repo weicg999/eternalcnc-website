@@ -1,6 +1,6 @@
 ---
 title: "How to Choose Materials for Robot Joints: Seven Decisions, from Load Spectrum to Batch Consistency"
-description: "Joints carry more than half the BOM cost of a robot. Pick the wrong material and you add 30% weight, halve fatigue life and double unit cost — often all three at once. This is not a 'best material' article. It's the order in which to make the decisions."
+description: "Joints carry over half a robot's BOM cost. The wrong material adds 30% weight, halves fatigue life and doubles unit cost — often all three at once."
 pubDate: 2026-09-11
 category: "Material Selection"
 system: "robotics"

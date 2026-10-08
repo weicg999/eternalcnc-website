@@ -1,6 +1,6 @@
 ---
 title: "Why Power Equipment Parts Are Hard to Make: Three Surfaces Decide Temperature Rise and Leak Rate"
-description: "In the last few months, more power-equipment drawings have landed on our shop floor. The parts look simple. What actually caps yield is three surfaces: busbar flatness, enclosure sealing faces, and the size left after plating. Straight from GB/T 5585.1-2018 and GB/T 7674-2020, here is how those three surfaces work."
+description: "Power-equipment drawings look simple. What caps yield is three surfaces: busbar flatness, sealing faces, and the size left after plating."
 pubDate: 2026-09-22
 category: "Industry Insights"
 system: "energy"

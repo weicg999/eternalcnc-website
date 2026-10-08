@@ -1,6 +1,6 @@
 ---
 title: "Implanted parts vs surgical instruments: two tracks on the same device"
-description: "Medical parts are often treated as one category, but they really split into two very different tracks — load-bearing implants that stay in the body for years, and surgical instruments that touch a surgeon's hand for a few minutes. From material selection and machining strategy to surface and inspection, the requirements diverge everywhere. This article breaks that line down and ties it to materials we actually machine, like 17-4PH / 630."
+description: "Medical parts split into two very different tracks — implants that stay in the body for years, and instruments that touch a surgeon's hand for minutes."
 pubDate: 2026-09-24
 category: "Industry Insights"
 system: "medical"

@@ -1,6 +1,6 @@
 ---
 title: "After the Component Boom: Where a Precision Machine Shop Fits"
-description: "Humanoid robots, commercial space and embodied AI are all pulling on precision parts at once. Many categories, small batches, fast revisions, tightening tolerances — four things happening together that a traditional shop is not built for."
+description: "Humanoid robots, commercial space and embodied AI are pulling on precision parts at once: many categories, small batches, fast revisions."
 pubDate: 2026-09-12
 category: "Industry Insights"
 tags: ["industry analysis", "humanoid robots", "embodied AI", "prototyping", "judgment", "CNC machining"]

@@ -1,6 +1,6 @@
 ---
 title: "One Prompt, One Robot Arm: After Text-to-CAD, Where Does the Machining Work Go?"
-description: "In 2026 text-to-CAD stopped drawing pictures and started writing code that emits real STEP files — a 7-DOF robot arm from a single prompt, a robot-arm assembly in a 35-minute run. That is genuine progress. But in its own benchmark parts, a bracket's reinforcement rib overlaps the bolt holes and the part cannot be assembled at all, and a 7-axis arm's joint limits were called a hallucination. The question was never whether AI can draw the part. It is whether the part goes together and can be made — and once geometry gets cheap, where the scarce step moves."
+description: "text-to-CAD now emits real STEP files — a robot arm from one prompt. But in its own benchmark parts, a rib overlaps bolt holes and the part won't assemble."
 pubDate: 2026-09-21
 category: "Industry Insights"
 tags: ["text-to-CAD", "AI design", "assembly", "tolerance stack", "manufacturability", "robot arm", "CNC machining"]

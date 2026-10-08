@@ -1,6 +1,6 @@
 ---
 title: "6061 vs 7075 Aluminum: How to Choose the Right Alloy for CNC Machining"
-description: "6061 and 7075 are the two most common aluminum alloys in CNC machining. Compare strength, machinability, corrosion resistance, cost, and typical applications to pick the right one for your part."
+description: "6061 or 7075? Compare strength, machinability, corrosion resistance, cost and typical applications to pick the right aluminum for your part."
 pubDate: 2026-09-08
 category: "Material Selection"
 system: "general"

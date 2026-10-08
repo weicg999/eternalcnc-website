@@ -1,6 +1,6 @@
 ---
 title: "Does a robot have to look human? Form, cost, and the line everyone skips"
-description: "Humanoid robots are hot, but outside the showroom there is a plainer question: why humanoid at all? This piece skips the well-worn cost math and turns 'what shape should this be' into a usable test — when a humanoid earns its price, when a purpose-built form is the honest choice, and why the cost fight always lands on manufacturing."
+description: "Why humanoid at all? When a purpose-built form is the honest choice — and why the cost argument always lands back on manufacturing."
 pubDate: 2026-09-29
 category: "Industry Insights"
 author: "Strategy Advisory Team"

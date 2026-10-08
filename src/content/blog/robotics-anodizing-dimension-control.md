@@ -1,6 +1,6 @@
 ---
 title: "Anodizing Robot Parts: The Dimension Trap Nobody Draws"
-description: "Anodizing is the one station where the part comes back a different size than it left. Film thickness versus fits, why internal threads seize, why batch two never matches batch one, and the exact note to put on your drawing."
+description: "Anodizing is where a part comes back a different size. Film thickness versus fits, why internal threads seize, and the note to add to the drawing."
 pubDate: 2026-09-10
 category: "Machining Tips"
 tags: ["robotics", "anodizing", "hard anodize", "surface finishing", "dimensional control", "robot parts"]

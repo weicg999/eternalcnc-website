@@ -1,6 +1,6 @@
 ---
 title: "Which CNC Machine Does Your Part Actually Need? (And a Short History of How We Got Here)"
-description: "3-axis, 4-axis, 5-axis, turning, mill-turn, wire EDM or grinding — which machine should make your part? Match your geometry to the right process, plus a 70-year tour from punched tape to AI."
+description: "3-axis, 4-axis, 5-axis, turning, mill-turn, wire EDM or grinding — which should make your part? Match geometry to process, from punched tape to AI."
 pubDate: 2026-09-10
 category: "Machining Tips"
 system: "general"

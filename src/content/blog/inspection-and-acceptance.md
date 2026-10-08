@@ -1,6 +1,6 @@
 ---
 title: "Inspection and Acceptance: What to Check When Parts Arrive"
-description: "The report came back green, then assembly failed. Good inspection is not fault-finding — it is answering “will it work” with data before you build. A practical read on which dimensions to measure, which reports to demand, and how to read a tolerance."
+description: "The report came back green, then assembly failed. Good inspection isn't fault-finding — it answers \"will it work\" with data before you build."
 category: Machining Tips
 system: general
 pubDate: 2026-09-17

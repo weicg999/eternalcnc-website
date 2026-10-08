@@ -1,6 +1,6 @@
 ---
 title: "Why Your Parts Won't Assemble: Fit, Accumulation, and Datum Transfer"
-description: "The drawing is right, machining is in tolerance, yet assembly jams. The cause is not the machine — it is three effects stacking at once: fit, tolerance accumulation, and datum transfer. A clear read on the three root causes of assembly failure."
+description: "The drawing is right, machining is in tolerance, yet assembly jams — three effects stacking at once: fit, tolerance accumulation, and datum transfer."
 category: Machining Tips
 system: general
 pubDate: 2026-09-16

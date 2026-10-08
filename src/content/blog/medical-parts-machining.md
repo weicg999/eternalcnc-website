@@ -1,6 +1,6 @@
 ---
 title: "Why Medical Parts Are Hard to Make: It's Not the Tolerance, It's Three Things You Can't See"
-description: "Medical drawings rarely look intimidating, and the tolerances are not the tightest we see. What actually stalls yield and audits is whether the material can be traced back to its heat, whether the surface is clean after machining, and whether the part got contaminated again between cleaning and packing. Here is how ASTM F136, ASTM F138, ASTM A967, ASTM B912 and ISO 19227 actually apply."
+description: "Medical drawings rarely look intimidating. What stalls yield and audits: tracing material to its heat, surface cleanliness, and recontamination after cleaning"
 pubDate: 2026-09-23
 category: "Industry Insights"
 system: "medical"

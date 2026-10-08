@@ -1,6 +1,6 @@
 ---
 title: "Cooling Is the Shared Lifeline of Compute and Robots: Why Liquid Cooling Went from Optional to Mandatory"
-description: "In six years a single AI chip's power draw nearly quintupled, and humanoid robot joints retired mid-marathon from overheating. Put compute cooling and robot cooling side by side: where the heat comes from, why air cooling hit its ceiling, what makes liquid cooling the successor, and why cold-plate machining tolerance decides whether the cooling actually works — GB/T 48023-2026 now writes cold-plate flow-resistance tolerance into a national standard."
+description: "AI chip power draw quintupled in six years, and humanoid joints overheated mid-marathon. Why air cooling stalled — and what cold-plate tolerance decides."
 pubDate: 2026-09-19
 category: "Industry Insights"
 system: "computing"

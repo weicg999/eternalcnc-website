@@ -1,6 +1,6 @@
 ---
 title: "Let Precision Grow Itself: Design Rules for Mecha Beginners"
-description: "The last piece covered which joint to build first. This one covers how to get that one joint made accurately. You do not need tolerance symbols yet. Three ideas — datum, one setup, spigot — solve most beginner assembly problems, and together they beat writing a page of 0.01s."
+description: "Last time: which joint to build first. This time: how to make it accurate — datum, one setup, spigot. You don't need tolerance symbols yet."
 pubDate: 2026-09-16
 category: "Machining Tips"
 tags: ["robotics", "mecha", "datum", "one setup", "spigot", "DFM", "getting started"]

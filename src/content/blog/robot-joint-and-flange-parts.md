@@ -1,6 +1,6 @@
 ---
 title: "Robot Joint and Flange Parts: What Actually Gets Machined (and What This Industry Really Cares About)"
-description: "A tour of the parts inside a robotic arm — joint modules, reducer housings, end effectors, links, AGV plates — and the four requirements that shape every one of them: weight, repeatability, fatigue life, and geometric tolerance."
+description: "The parts inside a robotic arm — joint modules, reducer housings, end effectors, links — and the four requirements that shape each one."
 pubDate: 2026-09-10
 category: "Machining Tips"
 tags: ["robotics", "robot parts", "joint module", "reducer housing", "end effector", "tolerance"]

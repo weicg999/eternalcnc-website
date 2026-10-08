@@ -1,6 +1,6 @@
 ---
 title: "Mecha Is Just Joints × N: The First Thing You Build Isn't a Mecha"
-description: "A mecha looks like thousands of parts. Take it apart and there are four things: joints, frame, brain, skin. And inside a joint, the only parts that get machined are the housing and the flange. This is not a piece telling you to build it, or to give up — it turns the mecha dream into a line-item bill of materials, then explains why step one is making a single joint stand up."
+description: "A mecha looks like thousands of parts. Take it apart: joints, frame, brain, skin. Inside a joint, only the housing and the flange get machined."
 pubDate: 2026-09-15
 category: "Industry Insights"
 tags: ["robotics", "mecha", "joint module", "open-source hardware", "guide for non-engineers", "getting started"]

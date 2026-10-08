@@ -1,6 +1,6 @@
 ---
 title: "AI Can Draw It. Can It Be Machined? DFM in the Age of AI"
-description: "Generative design and topology optimization can produce a 40% lighter part in seconds, but design for manufacturability (DFM) still needs a human. What AI optimizes and leaves out, which features double your machining cost, and three checks to run before you send a drawing out."
+description: "Generative design can cut 40% of a part's weight in seconds — but DFM still needs a human. What AI leaves out, and three checks before you send a drawing."
 pubDate: 2026-09-13
 category: "Machining Tips"
 system: "general"

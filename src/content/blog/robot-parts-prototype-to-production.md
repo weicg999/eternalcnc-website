@@ -1,6 +1,6 @@
 ---
 title: "From 10 to 1,000: What Actually Changes When a Robot Part Goes to Production"
-description: "Making one good part is easy. Making part 200 match part 1 is the whole job. Where the process changes at each quantity band, what the cost structure does, and why robotics often never justifies a hard fixture."
+description: "Making one good part is easy; making part 200 match part 1 is the job. Where the process changes with quantity, and why a hard fixture often never pays off."
 pubDate: 2026-09-10
 category: "Industry Insights"
 tags: ["robotics", "prototyping", "low-volume production", "fixtures", "process control", "cost structure"]

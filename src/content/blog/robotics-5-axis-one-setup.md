@@ -1,6 +1,6 @@
 ---
 title: "One-Setup 5-Axis Machining for Robot Parts: When It Pays, When It Doesn't"
-description: "Robot structural parts are full of features on different faces that must be true to each other. Here's when a single 5-axis setup genuinely saves money — and when it's just an expensive machine doing a 3-axis job."
+description: "When does a single 5-axis setup genuinely save money on robot structural parts — and when is it just an expensive machine doing a 3-axis job?"
 pubDate: 2026-09-10
 category: "Machining Tips"
 tags: ["robotics", "5-axis", "workholding", "one setup", "geometric tolerance", "robot parts"]

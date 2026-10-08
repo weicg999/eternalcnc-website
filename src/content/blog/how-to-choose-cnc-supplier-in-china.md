@@ -1,6 +1,6 @@
 ---
 title: "How to Choose a CNC Machining Supplier in China: A Practical Guide to Quality, Price and Lead Time"
-description: "Choosing a CNC supplier in China is about more than price. Learn the 7 checks that separate a real machine shop from a middleman, where lead time actually goes, and 4 questions that expose a weak delivery promise."
+description: "More than price: the 7 checks that separate a real machine shop from a middleman, and 4 questions that expose a weak delivery promise."
 pubDate: 2026-09-09
 category: "Industry Insights"
 system: "general"

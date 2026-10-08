@@ -1,6 +1,6 @@
 ---
 title: "Machining and Surface Finishing: Where Most of the Calendar Actually Goes"
-description: "A plain-language look at the two stations that eat the most time and money in a machined part — what happens on the machine, why finishing is outsourced, and the traps that catch first-time buyers."
+description: "The two stations that eat the most time and money: what happens on the machine, why finishing is outsourced, and the traps that catch first-time buyers."
 pubDate: 2026-09-10
 category: "Machining Tips"
 system: "general"

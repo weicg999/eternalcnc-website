@@ -1,6 +1,6 @@
 ---
 title: "Robot Parts Materials: What to Use for Every Component (and How to Cut Cost)"
-description: "A robot has dozens of machined parts with very different jobs. This guide breaks down what material each subsystem should use — structural frames, joints, end effectors, housings, wear parts — and the rules that cut part cost by 30–50%."
+description: "What material each robot subsystem should use — frames, joints, end effectors, housings, wear parts — and the rules that cut part cost by 30-50%."
 pubDate: 2026-09-08
 category: "Material Selection"
 system: "robotics"

@@ -1,6 +1,6 @@
 ---
 title: "Three Things I Tell My Customers, and Mean Every Word"
-description: "After more than a decade in machining, these are the three things I keep having to learn again: show me the parts you haven't decided yet, don't be surprised when I ask extra questions about a \"simple\" job, and when something goes wrong, come to me first. Not pleasantries — the cheapest lesson I know."
+description: "Three things I keep relearning: show me the parts you haven't decided yet, expect questions on a \"simple\" job, and come to me first when something breaks."
 pubDate: 2026-10-05
 category: "Industry Insights"
 tags: ["working with suppliers", "honesty", "DFM", "rework", "general tolerances", "ISO 2768", "machining experience"]

@@ -1,6 +1,6 @@
 ---
 title: "Busbar fabrication: where a copper bar gets scrapped between raw stock and inspection"
-description: "A copper bar looks like a simple part — cut it, drill it, bend it. But in practice the yield killers are a few unglamorous steps. This piece skips the flatness-and-temperature-rise story (that was the last article) and walks the fabrication chain instead: the hard-versus-soft temper trade-off, why hard-temper bending cracks, why hole pitch matters more than hole diameter, and why small mixed batches rarely justify a die."
+description: "A copper bar looks simple — cut, drill, bend. The yield killers are elsewhere: hard versus soft temper, bending cracks, and why hole pitch beats diameter."
 pubDate: 2026-10-04
 category: "Machining Tips"
 system: "energy"
