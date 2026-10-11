@@ -1,0 +1,234 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Knowledge Base', href: '/knowledge/' },
+  { label: 'DFM Cost-Saving Guide', href: '/knowledge/dfm-guide/' },
+  { label: 'Part 2' },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: 'DFM Cost-Saving Guide for CNC Machining (Part 2)',
+  description: 'Thread depth, counterbore tolerances, edge breaks and burrs — the small features that decide whether a part is cheap to machine.',
+  author: { '@type': 'Organization', name: 'Eternal CNC Precision Machining' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Eternal CNC Precision Machining',
+    logo: { '@type': 'ImageObject', url: 'https://eternalcnc.com/images/og-default.webp' },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': Astro.url.href },
+  inLanguage: 'en',
+};
+---
+
+<PageLayout
+  title="DFM Cost-Saving Guide (Part 2) | Threads, Counterbores, Edges | Eternal CNC"
+  description="Threads, counterbores, chamfers and burrs — the small features that quietly decide whether a part is cheap to machine. Part 2 of our DFM guide."
+  breadcrumbs={breadcrumbs}
+  schema={articleSchema}
+>
+  <style>
+    .dfm-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+    .dfm-table th, .dfm-table td { border: 1px solid var(--border-color); padding: 10px 12px; text-align: left; vertical-align: top; }
+    .dfm-table th { background: var(--page-bg); color: var(--brand-dark); font-weight: 600; }
+    .dfm-table tr:nth-child(even) { background: #FAFAFA; }
+    .dfm-box { background: #FFF8F8; border: 1px solid #F0D0D0; border-left: 4px solid var(--brand-red); padding: 14px 16px; border-radius: 0 6px 6px 0; color: var(--text-body); }
+    .dfm-box strong { color: var(--brand-red); }
+    .dfm-fig { margin: 20px 0; }
+    .dfm-fig svg { width: 100%; height: auto; display: block; }
+    .dfm-fig figcaption { font-size: 13px; margin-top: 10px; color: var(--text-muted); }
+  </style>
+
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Knowledge Base · Part 2 of 2</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        DFM Cost-Saving Guide (Part 2)
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        <a href="/knowledge/dfm-guide/" style="color: var(--brand-red); text-decoration: underline;">Part 1</a>
+        covered the shape of the part — walls, holes, corners, tolerances. Part 2 covers the small
+        features a drawing tends to treat as an afterthought: threads, counterbores, edge breaks
+        and burrs. They look minor. They are where small numbers turn into real money.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Quote
+        </a>
+        <a href="/knowledge/dfm-guide/" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Read Part 1 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1 Threads -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">1. Threads — "M6 × 15 deep" is not a specification</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">A tapped hole only carries load where the thread is <em>full</em>. At the bottom, the tap's lead-in cuts a tapering, incomplete thread profile. So "15 deep" can mean 15 mm of drilled hole and only 11 or 12 mm of thread that actually holds. On a part that vibrates, that gap is the difference between a joint that stays tight and one that strips.</p>
+
+      <figure class="dfm-fig">
+        <svg viewBox="0 0 680 300" role="img" aria-label="Cross-section of a blind tapped hole showing full thread, tap lead-in and clearance">
+          <title>Where the thread in a blind hole actually is</title>
+          <rect x="80" y="60" width="540" height="110" rx="4" fill="#E8E6DE" stroke="#B4B2A9" stroke-width="0.5"/>
+          <rect x="80" y="100" width="340" height="30" fill="#FFFFFF" stroke="#888780" stroke-width="0.5"/>
+          <rect x="80" y="100" width="220" height="30" fill="#9FE1CB"/>
+          <polygon points="300,100 300,130 360,115" fill="#FAC775"/>
+          <rect x="360" y="100" width="60" height="30" fill="#F1EFE8"/>
+          <line x1="120" y1="100" x2="120" y2="130" stroke="#0F6E56" stroke-width="0.5"/>
+          <line x1="160" y1="100" x2="160" y2="130" stroke="#0F6E56" stroke-width="0.5"/>
+          <line x1="200" y1="100" x2="200" y2="130" stroke="#0F6E56" stroke-width="0.5"/>
+          <line x1="240" y1="100" x2="240" y2="130" stroke="#0F6E56" stroke-width="0.5"/>
+          <line x1="280" y1="100" x2="280" y2="130" stroke="#0F6E56" stroke-width="0.5"/>
+          <text x="360" y="50" fill="#5F5E5A" style="font-family:var(--font-sans);font-size:12px" text-anchor="middle">part cross-section, hole drilled from the left</text>
+          <rect x="60" y="190" width="14" height="14" rx="3" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/>
+          <text x="84" y="197" fill="#2C2C2A" style="font-family:var(--font-sans);font-size:13px" dominant-baseline="central">Full thread — this is the only part the bolt can use</text>
+          <rect x="60" y="220" width="14" height="14" rx="3" fill="#FAC775" stroke="#BA7517" stroke-width="0.5"/>
+          <text x="84" y="227" fill="#2C2C2A" style="font-family:var(--font-sans);font-size:13px" dominant-baseline="central">Lead-in — the taper the tap cuts on its way in</text>
+          <rect x="60" y="250" width="14" height="14" rx="3" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+          <text x="84" y="257" fill="#2C2C2A" style="font-family:var(--font-sans);font-size:13px" dominant-baseline="central">Clearance — where chips and the tap tip need room</text>
+        </svg>
+        <figcaption>A blind tapped hole is three things, and only the first one holds. A drawing that says "M6 × 15" leaves the split to the shop.</figcaption>
+      </figure>
+
+      <table class="dfm-table">
+        <thead><tr><th>What the drawing says</th><th>What the shop does</th><th>What the bolt gets</th></tr></thead>
+        <tbody>
+          <tr><td>M6 × 15</td><td>drills 15, taps to depth</td><td>about 11–12 mm of usable thread — the rest is taper</td></tr>
+          <tr><td>M6, full thread 12 min</td><td>drills deeper, taps to leave 12 full</td><td>exactly what the joint needs</td></tr>
+          <tr><td>M6 through</td><td>drills through, taps through</td><td>no depth question at all</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2" style="color: var(--text-body);">For reference, the tap drill for a metric coarse thread is close to nominal minus pitch. Basic dimensions and pitch series are given in GB/T 196-2025 (current; it replaced GB/T 196-2003) and tolerances in GB/T 197-2018.</p>
+      <table class="dfm-table">
+        <thead><tr><th>Metric coarse</th><th>Pitch</th><th>Tap drill ≈</th></tr></thead>
+        <tbody>
+          <tr><td>M3</td><td>0.5</td><td>2.5 mm</td></tr>
+          <tr><td>M4</td><td>0.7</td><td>3.3 mm</td></tr>
+          <tr><td>M5</td><td>0.8</td><td>4.2 mm</td></tr>
+          <tr><td>M6</td><td>1.0</td><td>5.0 mm</td></tr>
+          <tr><td>M8</td><td>1.25</td><td>6.8 mm</td></tr>
+          <tr><td>M10</td><td>1.5</td><td>8.5 mm</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">Traps:</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>Fine pitch has a bigger tap drill and a shallower thread — use M8 × 1 only when you actually need adjustment or thin walls.</li>
+        <li>A threaded hole that bottoms out needs a bottoming tap. That is a second operation, not a deeper drill.</li>
+        <li>If the part is anodized after tapping, the coating grows the flanks of the thread and shifts the pitch diameter. Say so on the drawing — M4 and M5 in 6H go out of spec quickly.</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>DFM tip:</strong> write "full thread, 12 min" instead of a bare depth. A through-hole deletes the problem entirely — use one wherever the design allows.</div>
+    </div>
+  </section>
+
+  <!-- 2 Counterbores -->
+  <section style="background-color: var(--card-white); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">2. Counterbores — you probably do not need ±0.05 on the depth</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">A counterbore exists so a screw head sits at or below the surface. What matters is that the head does not stand proud, and that enough material is left under it. Neither of those needs a tight depth tolerance — but a tight depth tolerance is what gets drawn.</p>
+      <table class="dfm-table">
+        <thead><tr><th>What you write</th><th>What the shop does</th><th>Effect</th></tr></thead>
+        <tbody>
+          <tr><td>depth ±0.05</td><td>stop, measure, adjust — on every part</td><td>measuring cost added to a feature that does not need it</td></tr>
+          <tr><td>depth 6.0 min, 6.5 max</td><td>one pass, spot-check</td><td>the head is still clear, and nobody stops mid-cut</td></tr>
+          <tr><td>depth 6.0 min only</td><td>one pass, no measuring</td><td>cheapest, and usually correct</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2" style="color: var(--text-body);">Counterbore sizes are already tabulated against screw heads, so they do not need to be invented. GB/T 152.2-2014 covers countersinks for countersunk head screws; GB/T 152.4 covers counterbores for hex head bolts and nuts.</p>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">Traps:</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>A counterbore on a curved, cast or forged face needs a spotface first — an extra tool and an extra operation.</li>
+        <li>Measuring counterbore depth from a rough surface gives a number that means nothing. Measure from the machined face.</li>
+        <li>A small-diameter counterbore that is deep needs a long, thin tool that deflects. Keep depth under about 2 × diameter.</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>DFM tip:</strong> if the drawing says "±", the shop has to measure. If it says "min", it does not. On counterbore depth, "min" is almost always the honest answer.</div>
+    </div>
+  </section>
+
+  <!-- 3 Edges -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">3. Edges — "sharp" is the most expensive word on the drawing</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">Almost no drawing says what to do with the edges. In the shop, every edge gets broken anyway: a razor edge cuts whoever packs the part, and it is a stress riser in service. But if the drawing stays silent, the work is done by hand — and hand work is the one cost that does not fall when quantity rises.</p>
+      <table class="dfm-table">
+        <thead><tr><th>What the drawing says</th><th>How the edge gets done</th><th>How the cost behaves</th></tr></thead>
+        <tbody>
+          <tr><td>nothing</td><td>hand file or scraper, part by part</td><td>fixed cost per part — does not scale down</td></tr>
+          <tr><td>"break sharp edges 0.3 max"</td><td>chamfer tool, inside the program</td><td>almost nothing per part</td></tr>
+          <tr><td>chamfer or fillet dimensioned</td><td>same tool, already in the toolpath</td><td>almost nothing, and it is inspectable</td></tr>
+          <tr><td>sharp corner required by a seal or a datum</td><td>hand work, then inspection</td><td>most expensive of the four</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">Traps:</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>Edges on a curved or free-form surface cannot be followed by a chamfer tool — the hand work comes back.</li>
+        <li>A 0.1 mm chamfer on a large part is harder to hold than a 0.3 mm one. If the reason is appearance, 0.3 is enough.</li>
+        <li>Breaking the edge of a thread can damage the first turn. Chamfer the hole <em>before</em> tapping, not after.</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>DFM tip:</strong> one line — "break sharp edges 0.3 max" — turns a hand operation into a toolpath. It is the cheapest sentence you can add to a drawing.</div>
+    </div>
+  </section>
+
+  <!-- 4 Burrs -->
+  <section style="background-color: var(--card-white); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">4. Burrs — they live where one hole crosses another</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">A drill entering or leaving a surface raises a burr. On an outside face you can see it, and someone takes it off. The expensive ones are where a drill breaks into another hole: that burr ends up inside the part, where no file reaches. This is not a small point — flatness and freedom from burrs are written into standards for current-carrying parts, precisely because a loose burr inside an assembly is a failure waiting to happen.</p>
+      <table class="dfm-table">
+        <thead><tr><th>Situation</th><th>Where the burr lands</th><th>What it takes to remove</th></tr></thead>
+        <tbody>
+          <tr><td>drill exits a flat outer face</td><td>on a face you can reach</td><td>hand or tool deburr — cheap</td></tr>
+          <tr><td>drill breaks into a cross-hole</td><td>inside the cross-hole</td><td>reachable only if the cross-hole is wide enough for a tool; otherwise rework or redesign</td></tr>
+          <tr><td>drill exits a curved or angled surface</td><td>a ragged edge on the curve</td><td>reduce the exit angle, or add a flat pad for it to break through</td></tr>
+          <tr><td>slot milled in from the side</td><td>along the whole slot edge</td><td>tool deburr if the tool can reach the full length</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">Traps:</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>Two holes crossing near a wall leaves a burr in a cavity with one narrow opening. Specify the larger hole as the crossing one, so a tool can get in.</li>
+        <li>Blind holes collect burrs at the bottom, where nothing reaches. Where it matters, make it a through-hole.</li>
+        <li>Deburring adds an operation, and a second clamping. Budget for it on the drawing rather than discovering it in the quote.</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>DFM tip:</strong> every time a hole breaks into another feature, ask whether a tool can physically reach the burr. If the answer is no, the fix belongs in the design, not in the shop.</div>
+    </div>
+  </section>
+
+  <!-- 5 Checklist -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">5. Five things to check before you send the drawing</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">Part 1 gave five geometric rules. This is the companion list — all small, all cheap to fix on paper.</p>
+      <ol class="space-y-3 max-w-3xl" style="color: var(--text-body);">
+        <li><strong>Threads.</strong> Does the callout say how much <em>full</em> thread is needed, or only a depth? Could any of them be through-holes?</li>
+        <li><strong>Counterbores.</strong> Is the depth tolerance actually needed, or would a minimum do? Is any counterbore sitting on a rough or curved face?</li>
+        <li><strong>Edges.</strong> Is there one line telling the shop how to treat edges? If not, the work is being done by hand.</li>
+        <li><strong>Burrs.</strong> Does any hole break into another hole, or exit a curve? Can a tool reach the result?</li>
+        <li><strong>Coating.</strong> Does anything get anodized, plated or painted after machining? If so, the shop needs to know before it cuts threads or holds a tolerance.</li>
+      </ol>
+      <p class="mt-6 max-w-3xl" style="color: var(--text-body);">None of these five changes what the part does. All of them change what it costs. That is the whole point of a DFM review: the drawing should decide the price, not the shop's guess about what the drawing meant.</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Need a Free DFM Review?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Send the drawing. We go through the geometry and the small features together, and come back
+        with a quote and the points we would change — within 2 hours for a normal enquiry.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote/" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Get a Free Quote
+        </a>
+        <a href="/knowledge/dfm-guide/" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Read Part 1 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

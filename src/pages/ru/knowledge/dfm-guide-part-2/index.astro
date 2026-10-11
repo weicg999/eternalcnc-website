@@ -1,0 +1,234 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'База знаний', href: '/ru/knowledge/' },
+  { label: 'Руководство по DFM: экономия', href: '/ru/knowledge/dfm-guide/' },
+  { label: 'Часть 2' },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: 'Руководство по DFM для ЧПУ обработки (Часть 2)',
+  description: 'Глубина резьбы, допуски цековок, обработка кромок и заусенцы — мелкие элементы, которые решают, дешёвой будет деталь или нет.',
+  author: { '@type': 'Organization', name: 'Eternal CNC Precision Machining' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Eternal CNC Precision Machining',
+    logo: { '@type': 'ImageObject', url: 'https://eternalcnc.com/images/og-default.webp' },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': Astro.url.href },
+  inLanguage: 'ru',
+};
+---
+
+<PageLayout
+  title="Руководство по DFM (Часть 2) | Резьба, цековки, кромки"
+  description="Глубина резьбы, допуски цековок, кромки и заусенцы — мелкие элементы, которые решают, дешёвой будет деталь или нет. Часть 2."
+  breadcrumbs={breadcrumbs}
+  schema={articleSchema}
+>
+  <style>
+    .dfm-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+    .dfm-table th, .dfm-table td { border: 1px solid var(--border-color); padding: 10px 12px; text-align: left; vertical-align: top; }
+    .dfm-table th { background: var(--page-bg); color: var(--brand-dark); font-weight: 600; }
+    .dfm-table tr:nth-child(even) { background: #FAFAFA; }
+    .dfm-box { background: #FFF8F8; border: 1px solid #F0D0D0; border-left: 4px solid var(--brand-red); padding: 14px 16px; border-radius: 0 6px 6px 0; color: var(--text-body); }
+    .dfm-box strong { color: var(--brand-red); }
+    .dfm-fig { margin: 20px 0; }
+    .dfm-fig svg { width: 100%; height: auto; display: block; }
+    .dfm-fig figcaption { font-size: 13px; margin-top: 10px; color: var(--text-muted); }
+  </style>
+
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">База знаний · Часть 2</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        Руководство по DFM: экономия (Часть 2)
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        <a href="/ru/knowledge/dfm-guide/" style="color: var(--brand-red); text-decoration: underline;">Часть 1</a>
+        была о форме самой детали — стенки, отверстия, углы, допуски. Часть 2 — о том, что на чертеже
+        обычно пишут в последнюю очередь: резьба, цековки, кромки и заусенцы. Выглядит мелко.
+        Именно здесь мелкие числа превращаются в реальные деньги.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/ru/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Запросить расчёт
+        </a>
+        <a href="/ru/knowledge/dfm-guide/" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Читать часть 1 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1 Резьба -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">1. Резьба — «M6, глубина 15» это не задание</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">Внутренняя резьба несёт нагрузку только там, где профиль <em>полный</em>. Внизу отверстия метчик на входе прорезает конус — витки там неполные. Так что «глубина 15» может означать 15 мм просверленного отверстия и всего 11–12 мм резьбы, которая реально держит. Для детали, которая работает с вибрацией, эта разница — между соединением, которое остаётся затянутым, и тем, которое срывает.</p>
+
+      <figure class="dfm-fig">
+        <svg viewBox="0 0 680 300" role="img" aria-label="Разрез глухого резьбового отверстия: полный профиль, заходная часть метчика и место для стружки">
+          <title>Где в глухом отверстии находится резьба</title>
+          <rect x="80" y="60" width="540" height="110" rx="4" fill="#E8E6DE" stroke="#B4B2A9" stroke-width="0.5"/>
+          <rect x="80" y="100" width="340" height="30" fill="#FFFFFF" stroke="#888780" stroke-width="0.5"/>
+          <rect x="80" y="100" width="220" height="30" fill="#9FE1CB"/>
+          <polygon points="300,100 300,130 360,115" fill="#FAC775"/>
+          <rect x="360" y="100" width="60" height="30" fill="#F1EFE8"/>
+          <line x1="120" y1="100" x2="120" y2="130" stroke="#0F6E56" stroke-width="0.5"/>
+          <line x1="160" y1="100" x2="160" y2="130" stroke="#0F6E56" stroke-width="0.5"/>
+          <line x1="200" y1="100" x2="200" y2="130" stroke="#0F6E56" stroke-width="0.5"/>
+          <line x1="240" y1="100" x2="240" y2="130" stroke="#0F6E56" stroke-width="0.5"/>
+          <line x1="280" y1="100" x2="280" y2="130" stroke="#0F6E56" stroke-width="0.5"/>
+          <text x="360" y="50" fill="#5F5E5A" style="font-family:var(--font-sans);font-size:12px" text-anchor="middle">разрез детали, отверстие сверлится слева</text>
+          <rect x="60" y="190" width="14" height="14" rx="3" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/>
+          <text x="84" y="197" fill="#2C2C2A" style="font-family:var(--font-sans);font-size:13px" dominant-baseline="central">Полный профиль — только он держит болт</text>
+          <rect x="60" y="220" width="14" height="14" rx="3" fill="#FAC775" stroke="#BA7517" stroke-width="0.5"/>
+          <text x="84" y="227" fill="#2C2C2A" style="font-family:var(--font-sans);font-size:13px" dominant-baseline="central">Заходная часть метчика — конус, который он выбирает на входе</text>
+          <rect x="60" y="250" width="14" height="14" rx="3" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+          <text x="84" y="257" fill="#2C2C2A" style="font-family:var(--font-sans);font-size:13px" dominant-baseline="central">Место для стружки — куда уходят стружка и носик метчика</text>
+        </svg>
+        <figcaption>Глухое резьбовое отверстие — это три участка, и работает только первый. Запись «M6, глубина 15» оставляет это деление на усмотрение цеха.</figcaption>
+      </figure>
+
+      <table class="dfm-table">
+        <thead><tr><th>Что написано на чертеже</th><th>Что делает цех</th><th>Что получает болт</th></tr></thead>
+        <tbody>
+          <tr><td>M6, глубина 15</td><td>сверлит 15, нарезает до 15</td><td>около 11–12 мм рабочей резьбы, остальное — конус</td></tr>
+          <tr><td>M6, полный профиль не менее 12</td><td>сверлит глубже, нарезает так, чтобы осталось 12 полных</td><td>ровно то, что нужно соединению</td></tr>
+          <tr><td>M6 насквозь</td><td>сверлит и нарезает насквозь</td><td>вопроса о глубине не существует</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2" style="color: var(--text-body);">Для справки: диаметр сверла под метрическую резьбу с крупным шагом близок к номиналу минус шаг. Основные размеры и ряд шагов приведены в GB/T 196-2025 (действующая редакция, заменила GB/T 196-2003), допуски — в GB/T 197-2018.</p>
+      <table class="dfm-table">
+        <thead><tr><th>Метрическая, крупный шаг</th><th>Шаг</th><th>Сверло ≈</th></tr></thead>
+        <tbody>
+          <tr><td>M3</td><td>0,5</td><td>2,5 мм</td></tr>
+          <tr><td>M4</td><td>0,7</td><td>3,3 мм</td></tr>
+          <tr><td>M5</td><td>0,8</td><td>4,2 мм</td></tr>
+          <tr><td>M6</td><td>1,0</td><td>5,0 мм</td></tr>
+          <tr><td>M8</td><td>1,25</td><td>6,8 мм</td></tr>
+          <tr><td>M10</td><td>1,5</td><td>8,5 мм</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">Где обычно ошибаются:</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>Мелкий шаг даёт большее сверло и более мелкую резьбу — M8×1 стоит брать только когда действительно нужна регулировка или тонкая стенка.</li>
+        <li>Резьба до самого дна глухого отверстия требует метчика с полным забором. Это отдельная операция, а не «просверлить глубже».</li>
+        <li>Если деталь анодируют после нарезания резьбы, покрытие нарастает на боковых сторонах витка и смещает средний диаметр. Скажите об этом на чертеже — M4 и M5 в поле 6H быстро выходят за допуск.</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>Совет DFM:</strong> пишите «полный профиль, не менее 12», а не голую глубину. Сквозное отверстие снимает вопрос полностью — берите его везде, где позволяет конструкция.</div>
+    </div>
+  </section>
+
+  <!-- 2 Цековки -->
+  <section style="background-color: var(--card-white); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">2. Цековки — допуск ±0,05 по глубине вам, скорее всего, не нужен</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">Цековка существует ради одного: чтобы головка винта не выступала над поверхностью. Важно ровно две вещи — головка не торчит и под ней остаётся достаточно материала. Ни то, ни другое не требует жёсткого допуска по глубине. А на чертеже обычно стоит именно он.</p>
+      <table class="dfm-table">
+        <thead><tr><th>Что вы написали</th><th>Что делает цех</th><th>Результат</th></tr></thead>
+        <tbody>
+          <tr><td>глубина ±0,05</td><td>останавливается, измеряет, правит — на каждой детали</td><td>к элементу, которому точность не нужна, добавили контроль</td></tr>
+          <tr><td>глубина от 6,0 до 6,5</td><td>проход за один раз, выборочный контроль</td><td>головка по-прежнему утоплена, и никто не встаёт посреди резания</td></tr>
+          <tr><td>только «не менее 6,0»</td><td>проход за один раз, без измерений</td><td>самый дешёвый вариант и обычно правильный</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2" style="color: var(--text-body);">Размеры цековок уже сведены в таблицы под конкретные головки, изобретать их не нужно. Цековки под винты с потайной головкой — GB/T 152.2-2014; под головки болтов и гаек с шестигранником — GB/T 152.4.</p>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">Где обычно ошибаются:</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>Цековка на криволинейной, литой или кованой поверхности требует сначала снять площадку — лишний инструмент и лишняя операция.</li>
+        <li>Мерить глубину цековки от черновой поверхности бессмысленно: число ничего не значит. Мерить надо от обработанной базы.</li>
+        <li>Глубокая цековка малого диаметра требует длинного тонкого инструмента, который отжимается. Держите глубину в пределах примерно двух диаметров.</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>Совет DFM:</strong> если на чертеже стоит «±», цех обязан мерить. Если «не менее» — не обязан. Для глубины цековки «не менее» почти всегда честнее.</div>
+    </div>
+  </section>
+
+  <!-- 3 Кромки -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">3. Кромки — самое дорогое слово на чертеже это «острые»</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">Почти ни один чертёж не говорит, что делать с кромками. А в цехе каждую кромку всё равно притупляют: режущая кромка порежет того, кто упаковывает деталь, и в работе она же становится концентратором напряжений. Но если на чертеже пусто, работу делают руками — а ручная работа это ровно та статья, которая не дешевеет с ростом партии.</p>
+      <table class="dfm-table">
+        <thead><tr><th>Что написано на чертеже</th><th>Как делается кромка</th><th>Как ведёт себя стоимость</th></tr></thead>
+        <tbody>
+          <tr><td>ничего</td><td>напильник или шабер, деталь за деталью</td><td>фиксированная величина на деталь — с партией не падает</td></tr>
+          <tr><td>«притупить острые кромки, не более 0,3»</td><td>фаскосниматель, внутри программы</td><td>почти ничего на деталь</td></tr>
+          <tr><td>фаска или галтель с размером</td><td>тот же инструмент, уже в траектории</td><td>почти ничего, и это можно проконтролировать</td></tr>
+          <tr><td>острая кромка нужна под уплотнение или базу</td><td>ручная работа, затем контроль</td><td>самый дорогой из четырёх</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">Где обычно ошибаются:</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>Кромку на криволинейной или свободной поверхности фаскосниматель не обойдёт — ручная работа возвращается.</li>
+        <li>Фаску 0,1 мм на крупной детали удержать труднее, чем 0,3 мм. Если дело только во внешнем виде, 0,3 достаточно.</li>
+        <li>Притупление кромки резьбы может повредить первый виток. Фаску на отверстии снимают <b>до</b> нарезания, а не после.</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>Совет DFM:</strong> одна строка — «притупить острые кромки, не более 0,3» — превращает ручную операцию в траекторию инструмента. Это самое дешёвое предложение, которое можно дописать в чертёж.</div>
+    </div>
+  </section>
+
+  <!-- 4 Заусенцы -->
+  <section style="background-color: var(--card-white); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">4. Заусенцы — живут там, где одно отверстие пересекает другое</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">Сверло на входе и на выходе всегда поднимает заусенец. На наружной поверхности его видно, и его снимают. Дорогие — те, что остаются, когда сверло врезается в другое отверстие: заусенец оказывается внутри детали, куда напильник не достаёт. Это не придирка: в стандартах на токоведущие детали плоскостность и отсутствие заусенцев прописаны отдельно именно потому, что заусенец внутри сборки — это отложенный отказ.</p>
+      <table class="dfm-table">
+        <thead><tr><th>Ситуация</th><th>Где оказывается заусенец</th><th>Чем его снимать</th></tr></thead>
+        <tbody>
+          <tr><td>сверло выходит на наружную плоскость</td><td>на доступной поверхности</td><td>вручную или инструментом — дёшево</td></tr>
+          <tr><td>сверло врезается в поперечное отверстие</td><td>внутри этого отверстия</td><td>доступно, только если поперечное отверстие достаточно широкое для инструмента; иначе переделка или изменение конструкции</td></tr>
+          <tr><td>сверло выходит на криволинейную или наклонную поверхность</td><td>рваная кромка по кривой</td><td>уменьшить угол выхода или добавить плоскую площадку для выхода</td></tr>
+          <tr><td>паз, фрезерованный сбоку</td><td>по всей длине кромки паза</td><td>инструментом, если он достаёт по всей длине</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">Где обычно ошибаются:</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>Два отверстия пересекаются у самой стенки — заусенец попадает в полость с одним узким входом. Назначьте пересекающимся большее отверстие, чтобы инструмент мог войти.</li>
+        <li>В глухих отверстиях заусенцы собираются на дне, куда ничем не достать. Где это важно — делайте отверстие сквозным.</li>
+        <li>Снятие заусенцев это отдельная операция и повторное закрепление. Заложите её в чертёж, а не обнаруживайте в расчёте.</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>Совет DFM:</strong> каждый раз, когда отверстие врезается в другой элемент, спросите: инструмент физически достанет до заусенца? Если нет — решение в конструкции, а не в цехе.</div>
+    </div>
+  </section>
+
+  <!-- 5 Список -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">5. Пять проверок перед отправкой чертежа</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">Часть 1 дала пять геометрических правил. Это список к ней — всё мелкое, всё почти бесплатно исправляется на бумаге.</p>
+      <ol class="space-y-3 max-w-3xl" style="color: var(--text-body);">
+        <li><b>Резьба.</b> Указано ли, сколько нужно <b>полного</b> профиля, или только глубина? Нет ли среди них таких, что можно сделать сквозными?</li>
+        <li><b>Цековки.</b> Допуск по глубине действительно нужен, или хватит «не менее»? Нет ли цековки на черновой или криволинейной поверхности?</li>
+        <li><b>Кромки.</b> Есть ли на чертеже строка о том, что делать с кромками? Если нет — сейчас это делается вручную.</li>
+        <li><b>Заусенцы.</b> Не врезается ли какое-нибудь отверстие в другое или не выходит ли на кривую? Достанет ли инструмент до результата?</li>
+        <li><b>Покрытие.</b> Анодирование, гальваника или краска после механообработки? Если да, цех должен знать об этом <b>до</b> нарезания резьбы и выдерживания допуска.</li>
+      </ol>
+      <p class="mt-6 max-w-3xl" style="color: var(--text-body);">Ни один из этих пяти пунктов не меняет назначение детали. Каждый меняет её цену. В этом весь смысл DFM-анализа: цену должен определять чертёж, а не догадки цеха о том, что имел в виду конструктор.</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Нужен бесплатный DFM-анализ?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Пришлите чертёж. Мы вместе пройдём и по геометрии, и по мелким элементам, и вернёмся
+        с расчётом и списком того, что мы бы изменили — по обычному запросу в течение 2 часов.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/ru/contact/get-a-quote/" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Бесплатный расчёт
+        </a>
+        <a href="/ru/knowledge/dfm-guide/" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Читать часть 1 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

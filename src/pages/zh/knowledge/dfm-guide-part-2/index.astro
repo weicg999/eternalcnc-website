@@ -1,0 +1,233 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '知识库', href: '/zh/knowledge/' },
+  { label: 'DFM 省钱设计要点', href: '/zh/knowledge/dfm-guide/' },
+  { label: '下篇' },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: 'CNC DFM 省钱设计要点（下篇）',
+  description: '螺纹深度、沉孔公差、棱边处理和毛刺——决定零件好不好做的，常常不是大形状，而是图纸角落里那几笔。',
+  author: { '@type': 'Organization', name: 'Eternal CNC Precision Machining' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Eternal CNC Precision Machining',
+    logo: { '@type': 'ImageObject', url: 'https://eternalcnc.com/images/og-default.webp' },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': Astro.url.href },
+  inLanguage: 'zh-CN',
+};
+---
+
+<PageLayout
+  title="DFM 省钱设计要点（下篇） | 螺纹·沉孔·棱边 | 鑫永恒"
+  description="螺纹深度、沉孔公差、棱边、毛刺——决定零件好不好做的常常不是大形状，而是图纸角落里那几笔。DFM 省钱设计要点下篇。"
+  breadcrumbs={breadcrumbs}
+  schema={articleSchema}
+>
+  <style>
+    .dfm-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+    .dfm-table th, .dfm-table td { border: 1px solid var(--border-color); padding: 10px 12px; text-align: left; vertical-align: top; }
+    .dfm-table th { background: var(--page-bg); color: var(--brand-dark); font-weight: 600; }
+    .dfm-table tr:nth-child(even) { background: #FAFAFA; }
+    .dfm-box { background: #FFF8F8; border: 1px solid #F0D0D0; border-left: 4px solid var(--brand-red); padding: 14px 16px; border-radius: 0 6px 6px 0; color: var(--text-body); }
+    .dfm-box strong { color: var(--brand-red); }
+    .dfm-fig { margin: 20px 0; }
+    .dfm-fig svg { width: 100%; height: auto; display: block; }
+    .dfm-fig figcaption { font-size: 13px; margin-top: 10px; color: var(--text-muted); }
+  </style>
+
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">知识库 · 下篇</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        DFM 省钱设计要点（下篇）
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        <a href="/zh/knowledge/dfm-guide/" style="color: var(--brand-red); text-decoration: underline;">上篇</a>
+        讲的是零件本身的形状——壁厚、孔、圆角、公差。下篇讲图纸上容易被当成小事的那几笔：
+        螺纹、沉孔、棱边、毛刺。它们看着不起眼，但小数字就是在这里变成真金白银。
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/knowledge/dfm-guide/" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          读上篇 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1 螺纹 -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">1. 螺纹 ——“M6 深 15”不算一份规格</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">内螺纹只有牙型完整的那一段才吃得上力。孔的底部，丝锥导入时切出来的是锥形过渡，齿形不完整。所以“深 15”可能意味着钻了 15 毫米，但真正能咬合的螺纹只有 11 到 12 毫米。对一件会震动的零件来说，差的就是这一截——接头是保持紧固，还是被拉脱。</p>
+
+      <figure class="dfm-fig">
+        <svg viewBox="0 0 680 300" role="img" aria-label="盲孔攻丝的剖面：完整螺纹、丝锥导入段与底隙">
+          <title>盲孔里螺纹到底在哪一段</title>
+          <rect x="80" y="60" width="540" height="110" rx="4" fill="#E8E6DE" stroke="#B4B2A9" stroke-width="0.5"/>
+          <rect x="80" y="100" width="340" height="30" fill="#FFFFFF" stroke="#888780" stroke-width="0.5"/>
+          <rect x="80" y="100" width="220" height="30" fill="#9FE1CB"/>
+          <polygon points="300,100 300,130 360,115" fill="#FAC775"/>
+          <rect x="360" y="100" width="60" height="30" fill="#F1EFE8"/>
+          <line x1="120" y1="100" x2="120" y2="130" stroke="#0F6E56" stroke-width="0.5"/>
+          <line x1="160" y1="100" x2="160" y2="130" stroke="#0F6E56" stroke-width="0.5"/>
+          <line x1="200" y1="100" x2="200" y2="130" stroke="#0F6E56" stroke-width="0.5"/>
+          <line x1="240" y1="100" x2="240" y2="130" stroke="#0F6E56" stroke-width="0.5"/>
+          <line x1="280" y1="100" x2="280" y2="130" stroke="#0F6E56" stroke-width="0.5"/>
+          <text x="360" y="50" fill="#5F5E5A" style="font-family:var(--font-sans);font-size:12px" text-anchor="middle">零件剖面，孔从左侧钻入</text>
+          <rect x="60" y="190" width="14" height="14" rx="3" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/>
+          <text x="84" y="197" fill="#2C2C2A" style="font-family:var(--font-sans);font-size:13px" dominant-baseline="central">完整螺纹——这一段才是螺栓真正咬得到的</text>
+          <rect x="60" y="220" width="14" height="14" rx="3" fill="#FAC775" stroke="#BA7517" stroke-width="0.5"/>
+          <text x="84" y="227" fill="#2C2C2A" style="font-family:var(--font-sans);font-size:13px" dominant-baseline="central">导入段——丝锥进刀时切出的锥形过渡</text>
+          <rect x="60" y="250" width="14" height="14" rx="3" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+          <text x="84" y="257" fill="#2C2C2A" style="font-family:var(--font-sans);font-size:13px" dominant-baseline="central">底隙——留给切屑和丝锥尖端的空间</text>
+        </svg>
+        <figcaption>盲孔攻丝是三段，只有第一段受力。图纸上写“M6 深 15”，等于把怎么分这件事留给了车间。</figcaption>
+      </figure>
+
+      <table class="dfm-table">
+        <thead><tr><th>图纸上这样写</th><th>车间会这样做</th><th>螺栓得到什么</th></tr></thead>
+        <tbody>
+          <tr><td>M6 深 15</td><td>钻 15，攻到 15</td><td>约 11–12 毫米有效螺纹，其余是锥口</td></tr>
+          <tr><td>M6，有效螺纹不少于 12</td><td>钻得更深，攻到留出 12 满牙</td><td>正好是接头需要的那一段</td></tr>
+          <tr><td>M6 通孔</td><td>钻通、攻通</td><td>根本不存在深度问题</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2" style="color: var(--text-body);">顺带一提，公制粗牙螺纹的底孔直径接近“公称直径减螺距”。基本尺寸与螺距系列见 GB/T 196-2025（现行版，它代替了 GB/T 196-2003），公差见 GB/T 197-2018。</p>
+      <table class="dfm-table">
+        <thead><tr><th>公制粗牙</th><th>螺距</th><th>底孔约</th></tr></thead>
+        <tbody>
+          <tr><td>M3</td><td>0.5</td><td>2.5 mm</td></tr>
+          <tr><td>M4</td><td>0.7</td><td>3.3 mm</td></tr>
+          <tr><td>M5</td><td>0.8</td><td>4.2 mm</td></tr>
+          <tr><td>M6</td><td>1.0</td><td>5.0 mm</td></tr>
+          <tr><td>M8</td><td>1.25</td><td>6.8 mm</td></tr>
+          <tr><td>M10</td><td>1.5</td><td>8.5 mm</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">容易踩的坑：</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>细牙的底孔更大、牙更浅——除非确实需要微调或薄壁，否则别用 M8×1。</li>
+        <li>盲孔要攻到底，得用底锥丝锥，那是第二道工序，不是“再钻深一点”。</li>
+        <li>攻完丝再阳极氧化，膜层会长在螺纹牙侧上，把中径推走。这一条要写在图纸上——M4、M5 的 6H 很快就出公差。</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>DFM 提示：</strong>把“有效螺纹不少于 12”写出来，别只写一个深度数字。能用通孔的地方就用通孔，这个问题直接消失。</div>
+    </div>
+  </section>
+
+  <!-- 2 沉孔 -->
+  <section style="background-color: var(--card-white); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">2. 沉孔 —— 深度上的 ±0.05，多半你不需要</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">沉孔存在的意义，是让螺钉头不高出表面。真正要紧的就两件事：头别凸出来，头底下留的材料够。这两件事都不需要一个很紧的深度公差——但图纸上偏偏总写着它。</p>
+      <table class="dfm-table">
+        <thead><tr><th>你写什么</th><th>车间要做什么</th><th>结果</th></tr></thead>
+        <tbody>
+          <tr><td>深度 ±0.05</td><td>每一件都得停下、测量、调整</td><td>给一个本不需要精度的特征，加上了检测成本</td></tr>
+          <tr><td>深度最小 6.0，最大 6.5</td><td>一刀过，抽检</td><td>头照样不露，而且中途不用停</td></tr>
+          <tr><td>只写最小 6.0</td><td>一刀过，不测</td><td>最便宜，通常也是对的</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2" style="color: var(--text-body);">沉孔尺寸本来就和螺钉头对应成表，不用自己发明。沉头螺钉用沉孔见 GB/T 152.2-2014，六角头螺栓和六角螺母用沉孔见 GB/T 152.4。</p>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">容易踩的坑：</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>沉孔开在曲面、铸造面或锻造面上，得先锪平——多一把刀，多一道工序。</li>
+        <li>从毛坯面量沉孔深度，量出来的数字没有意义。要从已加工面量。</li>
+        <li>小直径的沉孔一旦做深，刀具细长必然让刀。深度控制在直径的两倍以内。</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>DFM 提示：</strong>图纸上写“±”，车间就必须测；写“最小”，就不必。沉孔深度这件事上，“最小”几乎总是更诚实的那个写法。</div>
+    </div>
+  </section>
+
+  <!-- 3 棱边 -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">3. 棱边 —— 图纸上最贵的两个字是“锐边”</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">几乎没有图纸会说棱边怎么处理。可在车间里，每一条棱边最后都会被处理掉：刀口一样的边会割伤打包的人，在使用中还是个应力集中点。但图纸不写，这件事就只能靠手工——而手工恰恰是批量再大也降不下来的那部分成本。</p>
+      <table class="dfm-table">
+        <thead><tr><th>图纸上这样写</th><th>棱边怎么处理</th><th>成本怎么走</th></tr></thead>
+        <tbody>
+          <tr><td>什么都没写</td><td>锉刀或刮刀，一件一件来</td><td>每件固定开销，批量再大也降不下来</td></tr>
+          <tr><td>“锐边倒钝 0.3 以内”</td><td>倒角刀，写进程序里</td><td>单件几乎不增加成本</td></tr>
+          <tr><td>把倒角或圆角标出尺寸</td><td>同一把刀，本来就在刀路里</td><td>几乎不增加，而且可检验</td></tr>
+          <tr><td>密封或基准要求锐边</td><td>手工处理，再检验</td><td>四种里最贵</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">容易踩的坑：</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>曲面或自由曲面上的棱边，倒角刀跟不住——手工又回来了。</li>
+        <li>大零件上做 0.1 毫米的倒角，比 0.3 毫米难保证得多。如果只是为了好看，0.3 就够了。</li>
+        <li>在螺纹口上倒钝，可能伤到第一圈牙。要在攻丝<b>之前</b>倒孔口，不是之后。</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>DFM 提示：</strong>加一句“锐边倒钝 0.3 以内”，就把一道手工活变成了刀路。这是你能往图纸上加的、最便宜的一句话。</div>
+    </div>
+  </section>
+
+  <!-- 4 毛刺 -->
+  <section style="background-color: var(--card-white); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">4. 毛刺 —— 它长在两个孔交叉的地方</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">钻头进出表面时一定会翻边。在外表面上你看得见，有人会顺手去掉。真正贵的那种，是钻头从侧面破进另一个孔的时候：毛刺留在零件内部，锉刀伸不进去。这不是小题大做——载流类零件的国标里专门写了不许有飞边毛刺，正是因为装配里掉出来的一根毛刺，就是一个等着发生的故障。</p>
+      <table class="dfm-table">
+        <thead><tr><th>情形</th><th>毛刺落在哪</th><th>去掉它要付出什么</th></tr></thead>
+        <tbody>
+          <tr><td>钻头从外侧平面钻出</td><td>伸手可及的表面</td><td>手工或刀路去毛刺，便宜</td></tr>
+          <tr><td>钻头破进一个交叉孔</td><td>交叉孔内部</td><td>只有交叉孔足够大、工具进得去才行；否则返修或改设计</td></tr>
+          <tr><td>钻头从曲面或斜面钻出</td><td>曲面上一圈撕裂的边</td><td>减小出刀角度，或者垫一块平的小平面让它破出</td></tr>
+          <tr><td>侧向铣进去的槽</td><td>整条槽边</td><td>刀路够得着全长，就用刀去</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">容易踩的坑：</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>两个孔在靠近壁面的地方交叉，毛刺就落在一个只有窄口的腔里。把大孔定为交叉的那一个，工具才进得去。</li>
+        <li>盲孔底部的毛刺，谁也够不着。真正在意的地方，就改成通孔。</li>
+        <li>去毛刺既是工序、又要重新装夹。这份成本要提前算进图纸，而不是在报价单上第一次看到它。</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>DFM 提示：</strong>每当一个孔破进别的特征，先问一句：工具在物理上进得去吗？进不去，答案就在设计里，不在车间里。</div>
+    </div>
+  </section>
+
+  <!-- 5 清单 -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">5. 发图之前，先过这五条</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">上篇给了五条几何规则，这里是配套的清单——每条都小，每条在纸上改都几乎不要钱。</p>
+      <ol class="space-y-3 max-w-3xl" style="color: var(--text-body);">
+        <li><b>螺纹。</b>标注写的是需要多少<b>完整</b>螺纹，还是只写了一个深度？有没有哪几个能改成通孔？</li>
+        <li><b>沉孔。</b>深度公差真的需要吗，还是“最小”就够？有没有沉孔开在毛坯面或曲面上？</li>
+        <li><b>棱边。</b>图纸上有没有一句话说棱边怎么处理？没有的话，这道活现在正靠手工在做。</li>
+        <li><b>毛刺。</b>有没有孔破进另一个孔、或者从曲面穿出？出来的毛刺，工具有办法够到吗？</li>
+        <li><b>表面处理。</b>机加之后还要阳极、电镀或喷漆吗？要的话，车间得在攻丝和卡公差<b>之前</b>就知道。</li>
+      </ol>
+      <p class="mt-6 max-w-3xl" style="color: var(--text-body);">这五条，没有一条会改变零件的功能，但每一条都改变它的价格。DFM 评审的全部意义就在这里：让图纸决定价钱，而不是让车间去猜图纸想说什么。</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">需要一次免费的 DFM 评审？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        把图纸发过来。几何形状和小特征我们一起过一遍，回给你一份报价，以及我们会改动的地方——
+        常规询价 2 小时内响应。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote/" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/knowledge/dfm-guide/" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          读上篇 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

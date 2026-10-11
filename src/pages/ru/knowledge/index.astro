@@ -7,6 +7,7 @@ const breadcrumbs = [
 
 const sections = [
   { title: 'Руководство по DFM', desc: 'Принципы проектирования для производства (DFM) и типичные ошибки при ЧПУ обработке', href: '/ru/knowledge/dfm-guide/' },
+  { title: 'Руководство по DFM (Часть 2)', desc: 'Резьба, цековки, кромки и заусенцы — мелкие элементы, из которых складывается цена детали', href: '/ru/knowledge/dfm-guide-part-2/' },
   { title: 'Принципы проектирования', desc: 'Лучшие практики: толщина стенок, внутренние радиусы, отверстия, резьба и др.', href: '/ru/knowledge/design-guidelines/' },
   { title: 'Справочник материалов', desc: 'Сравнение и рекомендации по выбору металлов и конструкционных пластиков', href: '/ru/knowledge/material-handbook/' },
   { title: 'Допуски обработки', desc: 'Стандарты допусков ISO 2768, возможности GD&T и рекомендации по допускам', href: '/ru/knowledge/tolerance/' },
@@ -43,6 +44,9 @@ const sections = [
           <a href={s.href} class="p-6 border hover:shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-[#8B0000]/30 group block" style="background-color: var(--card-white); border-color: var(--border-color);">
             <div class="mb-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:bg-[#E8E8E4]" style="color: var(--brand-red);">
               {s.title === 'Руководство по DFM' && (
+                <svg class="transition-transform duration-300 hover:scale-110" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              )}
+              {s.title === 'Руководство по DFM (Часть 2)' && (
                 <svg class="transition-transform duration-300 hover:scale-110" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
               )}
               {s.title === 'Принципы проектирования' && (

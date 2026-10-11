@@ -88,6 +88,7 @@ const CRUMB: Record<string, Record<Lang, string>> = {
   '/knowledge/case-studies': { en: 'Case Studies', zh: '案例研究', ru: 'Примеры проектов' },
   '/knowledge/material-handbook': { en: 'Material Handbook', zh: '材料手册', ru: 'Справочник материалов' },
   '/knowledge/dfm-guide': { en: 'DFM Design Guide', zh: 'DFM 设计指南', ru: 'Руководство по DFM' },
+  '/knowledge/dfm-guide-part-2': { en: 'DFM Cost-Saving Guide (Part 2)', zh: 'DFM 省钱设计要点（下篇）', ru: 'Руководство по DFM (Часть 2)' },
   '/knowledge/dfm-guides': { en: 'DFM Design Guides', zh: 'DFM 设计指南', ru: 'Руководство по DFM' },
   '/knowledge/choose-cnc-supplier': { en: 'How to Choose a Supplier', zh: '如何选供应商', ru: 'Как выбрать поставщика' },
   // 以下为未进导航的独立落地页
