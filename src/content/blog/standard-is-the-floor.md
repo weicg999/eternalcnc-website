@@ -71,7 +71,7 @@ More telling: in that rig, 160 N was already enough to get maximum braking effec
 
 NHTSA in the US ran a different measurement in 2010: 64 participants split into an 18–25 group and a 65-plus group, asked to push the pedal three times as hard as they could. The Mercedes R350 group peaked around 1766 N; the Volvo S80 group around 2117 N.
 
-So **an ordinary person pushing past 1600 N in a specific situation is documented, not a hypothetical.** The design margin on a safety part has to include "the one full-bodied stomp from a panicked human being."
+So **an ordinary person pushing well past the regulatory threshold in a specific situation is documented, not a hypothetical.** The design margin on a safety part has to include "the one full-bodied stomp from a panicked human being."
 
 ## 3. Our standards system left a gap right there
 
