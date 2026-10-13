@@ -19,7 +19,7 @@ readingTime: 11 分钟
 <svg viewBox="0 0 680 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="标准只划了及格线：合规线以下不允许，及格线到实际余量之间没有任何人替你守" style="width:100%;height:auto;display:block;border:1px solid #E5E7EB;border-radius:10px;background:#FFFFFF;">
 <text x="340" y="28" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="14" font-weight="700" style="fill:#111827;">标准只划了一条线</text>
 <line x1="60" y1="150" x2="620" y2="150" stroke="#8B0000" stroke-width="2" stroke-dasharray="7 5"/>
-<text x="60" y="140" text-anchor="start" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" font-weight="700" style="fill:#8B0000;">标准线 · 强制门槛</text>
+<text x="60" y="147" text-anchor="start" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" font-weight="700" style="fill:#8B0000;">标准线 · 强制门槛</text>
 <rect x="60" y="162" width="560" height="56" rx="9" style="fill:#FAFAFA;stroke:#D9D9D9;"/>
 <text x="340" y="186" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="13" style="fill:#6B7280;">线下 · 不合规</text>
 <text x="340" y="205" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11" style="fill:#9CA3AF;">不许出厂</text>
@@ -29,6 +29,7 @@ readingTime: 11 分钟
 <rect x="60" y="238" width="560" height="56" rx="9" style="fill:#FFFFFF;stroke:#D9D9D9;" stroke-dasharray="5 4"/>
 <text x="340" y="262" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="13" style="fill:#6B7280;">线上再往上 · 冗余</text>
 <text x="340" y="281" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11" style="fill:#9CA3AF;">没有任何标准要求 · 全靠自己定</text>
+</svg>
 <figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">图 1 · 合格证管的是线，不负责线之上那段</figcaption>
 </figure>
 
@@ -55,8 +56,8 @@ readingTime: 11 分钟
 <rect x="460" y="62" width="90" height="138" rx="4" style="fill:#8B0000;"/>
 <text x="505" y="78" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" font-weight="700" style="fill:#FFFFFF;">1793 N</text>
 <text x="505" y="218" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11" style="fill:#6B7280;">实测最高</text>
-<figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">图 2 · 沃尔沃 1998 年驾驶员研究数据，紧急场景可达受控场景的 2.8 倍</figcaption>
 </svg>
+<figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">图 2 · 沃尔沃 1998 年驾驶员研究数据，紧急场景可达受控场景的 2.8 倍</figcaption>
 </figure>
 
 ## 二、真实的人，到底能踩出多大的力

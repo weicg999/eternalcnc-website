@@ -20,7 +20,7 @@ readingTime: "11 мин чтения"
 <svg viewBox="0 0 680 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Стандарт проводит одну линию: ниже нельзя, выше — никто не обязан держать запас за вас" style="width:100%;height:auto;display:block;border:1px solid #E5E7EB;border-radius:10px;background:#FFFFFF;">
 <text x="340" y="28" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" font-weight="700" style="fill:#111827;">Стандарт проводит одну линию</text>
 <line x1="60" y1="150" x2="620" y2="150" stroke="#8B0000" stroke-width="2" stroke-dasharray="7 5"/>
-<text x="60" y="140" text-anchor="start" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" font-weight="700" style="fill:#8B0000;">Линия нормы</text>
+<text x="60" y="147" text-anchor="start" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" font-weight="700" style="fill:#8B0000;">Линия нормы</text>
 <rect x="60" y="162" width="560" height="56" rx="9" style="fill:#FAFAFA;stroke:#D9D9D9;"/>
 <text x="340" y="186" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" style="fill:#6B7280;">Ниже линии</text>
 <text x="340" y="205" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11" style="fill:#9CA3AF;">Отгружать нельзя</text>
@@ -30,8 +30,8 @@ readingTime: "11 мин чтения"
 <rect x="60" y="238" width="560" height="56" rx="9" style="fill:#FFFFFF;stroke:#D9D9D9;" stroke-dasharray="5 4"/>
 <text x="340" y="262" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" style="fill:#6B7280;">Выше этого — запас</text>
 <text x="340" y="281" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11" style="fill:#9CA3AF;">Никто не требует. Вы решаете</text>
-<figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">Рис. 1 &middot; Сертификат закрывает линию, а не то, что выше неё</figcaption>
 </svg>
+<figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">Рис. 1 &middot; Сертификат закрывает линию, а не то, что выше неё</figcaption>
 </figure>
 
 ## 1. Сначала разделим два числа
@@ -57,8 +57,8 @@ readingTime: "11 мин чтения"
 <rect x="460" y="62" width="90" height="138" rx="4" style="fill:#8B0000;"/>
 <text x="505" y="78" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" font-weight="700" style="fill:#FFFFFF;">1793 Н</text>
 <text x="505" y="218" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11" style="fill:#6B7280;">Максимум</text>
-<figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">Рис. 2 &middot; Исследование Volvo 1998 года — в экстренном режиме усилие в 2,8 раза выше</figcaption>
 </svg>
+<figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">Рис. 2 &middot; Исследование Volvo 1998 года — в экстренном режиме усилие в 2,8 раза выше</figcaption>
 </figure>
 
 ## 2. Сколько на самом деле давит живой человек

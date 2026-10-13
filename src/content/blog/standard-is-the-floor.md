@@ -20,7 +20,7 @@ That question doesn't belong to the auto industry alone. It hangs over every sho
 <svg viewBox="0 0 680 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The standard draws one line: below it you may not ship, above it nobody is required to hold any margin for you" style="width:100%;height:auto;display:block;border:1px solid #E5E7EB;border-radius:10px;background:#FFFFFF;">
 <text x="340" y="28" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="14" font-weight="700" style="fill:#111827;">The standard draws one line</text>
 <line x1="60" y1="150" x2="620" y2="150" stroke="#8B0000" stroke-width="2" stroke-dasharray="7 5"/>
-<text x="60" y="140" text-anchor="start" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" font-weight="700" style="fill:#8B0000;">Compliance line</text>
+<text x="60" y="147" text-anchor="start" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" font-weight="700" style="fill:#8B0000;">Compliance line</text>
 <rect x="60" y="162" width="560" height="56" rx="9" style="fill:#FAFAFA;stroke:#D9D9D9;"/>
 <text x="340" y="186" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" style="fill:#6B7280;">Below the line</text>
 <text x="340" y="205" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11" style="fill:#9CA3AF;">You do not ship</text>
@@ -30,8 +30,8 @@ That question doesn't belong to the auto industry alone. It hangs over every sho
 <rect x="60" y="238" width="560" height="56" rx="9" style="fill:#FFFFFF;stroke:#D9D9D9;" stroke-dasharray="5 4"/>
 <text x="340" y="262" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" style="fill:#6B7280;">Above that: margin</text>
 <text x="340" y="281" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11" style="fill:#9CA3AF;">Nobody requires it. You decide it</text>
-<figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">Figure 1 &middot; The certificate covers the line, not the space above it</figcaption>
 </svg>
+<figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">Figure 1 &middot; The certificate covers the line, not the space above it</figcaption>
 </figure>
 
 ## 1. Separate the two numbers first
@@ -57,8 +57,8 @@ Treating 500 N as a promise that a pedal won't snap is a category error. 500 N i
 <rect x="460" y="62" width="90" height="138" rx="4" style="fill:#8B0000;"/>
 <text x="505" y="78" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" font-weight="700" style="fill:#FFFFFF;">1793 N</text>
 <text x="505" y="218" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11" style="fill:#6B7280;">Peak recorded</text>
-<figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">Figure 2 &middot; Volvo 1998 driver study &mdash; emergency effort reached 2.8&times; the controlled figure</figcaption>
 </svg>
+<figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">Figure 2 &middot; Volvo 1998 driver study &mdash; emergency effort reached 2.8&times; the controlled figure</figcaption>
 </figure>
 
 ## 2. How hard a real person actually pushes
