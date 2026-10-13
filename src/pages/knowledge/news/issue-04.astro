@@ -1,0 +1,211 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Knowledge Base', href: '/knowledge/' },
+  { label: 'Industry News' },
+];
+
+const issue = {
+  label: 'Issue',
+  number: '04',
+  date: '12 October 2026',
+  blurb: 'Five things the shop floor noticed — and what they mean for the parts you send us.',
+};
+
+const kpis = [
+  { metric: '80%', label: 'Peak per-workstation productivity gain from Hikvision\'s AI production-line SOP inspection, running at 600+ workstations across three of its own plants', source: 'Shanghai Securities News / Hikvision, Oct 12 2026' },
+  { metric: '¥499 / screw', label: 'Mass-production price of a C3-class planetary roller screw from Shuanglin (global leader Rollvis quotes around ¥2,000)', source: 'Shuanglin pricing disclosure / broker research compilation, 2026' },
+  { metric: '77.9%', label: 'China\'s share of global humanoid robot shipments in H1 2026 (more than 19,000 units)', source: 'IDC, via Economic Information Daily, Oct 12 2026' },
+];
+
+const stories = [
+  {
+    tag: 'AI / Manufacturing',
+    date: '2026-10-12',
+    title: 'CIIF opens: embodied AI moves from "can walk and jump" to "can actually work"',
+    summary: 'The 26th China International Industry Fair opened on October 12 at the National Exhibition and Convention Center in Shanghai for a five-day run: 310,000 m² of floor space, more than 3,000 exhibitors, an expected 250,000-plus trade visitors, under the theme "Intelligent Economy, Boundless Manufacturing." Of the ten specialized halls, the robotics hall alone takes 56,000 m² with 350-plus domestic and overseas firms, while the CNC machine tool and metalworking hall spans 80,000 m² and is explicitly aimed at three things — high-end whole-machine breakthroughs, core chokepoints, and, note this one, intelligent machine tools. The new humanoid and embodied-intelligence zone carries the official framing that embodied AI is moving out of the demo stage ("can walk and jump") and into real production-line work ("can actually work"). In the same building, Shanghai Electric\'s Shanghai Turbine Plant is showing China\'s first flexible smart blade production line, and the new-generation smart manufacturing hall gathers nearly 200 exhibitors with 20 product and technology launches. At the opening session, Chinese Academy of Sciences academician E Weinan speaks on how AI moves into industrial R&D and production.',
+    what_it_means: 'If you run a machine shop, skip the dancing robots and watch three things at CIIF: (1) what "intelligent machine tools" actually means in hardware; (2) who is selling AI inspection as an off-the-shelf item; (3) how far flexible lines — many variants, small batches — have displaced hard lines. The first two change your equipment and inspection budget. The third changes the shape of your business: a flexible line exists precisely so you do not have to amortize cost across one high-volume part, which is the small-batch prototyping logic. For anyone sending us parts: if your project still assumes "one part, hundreds of thousands of units," re-run the numbers — once changeover cost drops, small batch often wins.',
+    source: 'CIIF official show information (ciif-sh.com.cn / sh-ciif-expo.org.cn / shanghai-ciif.com.cn), 2026; Jintai Information, "Intelligent Economy, Boundless Manufacturing — CIIF opens in Shanghai on the 12th," Oct 8 2026.',
+  },
+  {
+    tag: 'AI / Inspection',
+    date: '2026-10-12',
+    title: 'AI inspection moves from sampling to 100%: a 1-micron eye is rewriting what "consistency" means',
+    summary: 'At CIIF on October 12, Hikvision released more than 100 scene-digitization products for quality inspection, equipment monitoring and production operations. Three sets of numbers are worth writing down in a machine shop. First, production-line SOP inspection: a new workpiece or a new scene needs only 1 to 8 images to register a working model — deployment in minutes. It already runs at more than 600 core workstations across Hikvision\'s own Chongqing, Tonglu and Wuhan plants, with a peak per-workstation productivity gain of 80%, and has entered the Li Auto supply chain — at Yanfeng Seating (Changzhou) the seat C-clip miss rate fell to as low as 0.01%, and at powertrain supplier United Automotive Electronic Systems it covers 100% of key operations. Second, a semiconductor-packaging 3D AXI tool with detail resolution under 1 micron and geometric magnification up to 2,500×, able to catch defects about one hundredth the width of a human hair. Third, ultrasonic non-destructive testing: on new-energy-vehicle parts, defect recognition accuracy of at least 99.5% with a miss rate no higher than 0.5%. Dahua Technology showed its own AI-SOP line, analyzing operator actions and process sequencing in real time to flag skipped steps, missed operations and wrong tooling. By the time of the launch, Hikvision\'s machine-vision products had shipped more than 10 million units cumulatively.',
+    what_it_means: 'This is the story that matters most this issue, because it overturns the usual assumption. People treat AI inspection as a downstream concern. It is actually pressure traveling upstream. The logic is blunt: 100% AI inspection turns "a bad part escapes" from a probability into a certainty. Under manual sampling, you look at one piece in ten and defects can slip through. Under micron-level full inspection, anything out of tolerance gets caught and traced back to a batch number. What your customer installs is not "inspection capability" — it is a hard requirement on your process consistency. For anyone sending us parts: if your part will run through an AI full-inspection line, writing "key dimensions to class XX" on the drawing is no longer enough; state the allowed dimensional spread within a single batch. For a shop like ours doing small-batch prototyping, this is an opening rather than a threat: full inspection cannot rescue a part that is designed right but drifts in machining, and proving the process window on a small batch is exactly how you avoid a whole production lot being scrapped later.',
+    source: 'Shanghai Securities News / China Securities Network, "Hikvision releases AI model products at CIIF 2026," Oct 12 2026; China.com, "Dahua Technology at CIIF 2026: AI-driven industrial digitalization," Oct 12 2026.',
+  },
+  {
+    tag: 'Robotics / Screws',
+    date: '2026-10-12',
+    title: 'Planetary roller screws: the real bottleneck is the nut\'s internal thread, and domestic pricing has already hit ¥499',
+    summary: 'Great Wall Securities published an industry report on October 12, "Screws: the Muscles of Robots," that names the actual chokepoint. Humanoid robots generally demand screw accuracy of C3 to C5. China still trails overseas leaders on mass-production yield at C0–C2 ultra-high precision, on the metallurgical stability of the steel, and on accumulated process databases. Most domestic makers can produce a sample; the main test is batch-to-batch consistency at volume. The report points the hardest barrier at one specific operation: the core technical difficulty of a planetary roller screw is machining the nut\'s internal thread — the nut wall is thin and easily damaged, and it demands extremely high accuracy and consistency. On structure, THK, NSK and Bosch Rexroth hold the C3-and-above market, while Beite Technology, Hengli Hydraulics, Zhejiang Rongtai and Zhenyu Technology are entering through in-house capacity, acquisitions and overseas plants. On price, three reference points: Shuanglin disclosed a mass-production price of ¥499 per screw at C3 accuracy in January 2026; HOJAMA lists roughly ¥907 per screw for an ordinary linear screw at million-unit volume; global leader Rollvis sits around ¥2,000. On usage, a general-purpose humanoid carries 10–20 ball screws and 10–16 planetary roller screws. Huajing Intelligence estimates the global humanoid screw market at ¥26.79 billion by 2030.',
+    what_it_means: 'In shop-floor language: the screw shaft is finish-turning plus grinding of bearing steel, gated by cumulative lead error; the nut is a thin-walled internal thread at a high length-to-diameter ratio, gated by chatter, distortion, and tooth-form consistency from batch to batch. Of the two, the nut is the part a machine shop can bite into first — it is not grinding-exclusive work, so turning plus finishing can produce a sample, and the workholding plan for a thin-walled internal thread (clamping force, support, stress-relief sequence) is what decides success. That is exactly what small-batch prototyping should nail down first. When the price falls from ¥2,000 to ¥499, it means domestic makers are already fighting for volume — and the next sentence after volume is "who can deliver consistently." Getting your batch consistency in place is worth more than a cheaper quote.',
+    source: 'Great Wall Securities, "Screws: the Muscles of Robots" (analysts Deng Yuliang / Zhang Lei / Sun Peide), Oct 12 2026; Zhongtai Securities, "Auto industry deep-dive: Tesla leads dexterous-hand upgrades"; Shuanglin pricing disclosure (Jan 2026), HOJAMA catalogue, Rollvis quotation, via broker research compilation; Huajing Intelligence humanoid screw market estimate.',
+  },
+  {
+    tag: 'Compute / Liquid cooling',
+    date: '2026-10-12',
+    title: 'Liquid-cooling standard starts its countdown: GB/T 48023-2026 takes effect 1 February 2027',
+    summary: 'The "ruler" for liquid cooling that we described in Issue 02 now has a date. The National Standards full-text public system (openstd.samr.gov.cn) lists GB/T 48023-2026, Technical specifications for cold plate liquid cooling systems of data centers: published 30 July 2026, effective 1 February 2027, status "pending implementation," issued by the State Administration for Market Regulation and the Standardization Administration of China. It is China\'s first national standard for data-center liquid cooling and the first to specify systematically the technical requirements and test methods for cold-plate systems and their key components, covering design, manufacturing, deployment and operation. One clause lands directly on machining: quick-connect plugs and sockets of the same specification from different manufacturers should be interchangeable — precisely to fix non-uniform interfaces and long delivery cycles. On the market side, CCID Consulting\'s 2025–2026 China liquid-cooling data center report puts cold-plate systems at 93.5% of the 2025 market, still the mainstream route for the next three to five years, with immersion accelerating in ultra-high-density cabinets above 200 kW. Drafting participants include Sugon Digital, Sichuan Huakun Zhenyu and Jiangxi Yizhou Data.',
+    what_it_means: 'The word "interchangeable" is the only thing in this story that turns into a drawing change. It means a quick connector of a given specification must eventually fit another maker\'s counterpart — which, translated to machined parts, upgrades interface dimensions and seal-face size and position from "works in our own assembly" to "works in someone else\'s." For anyone sending us parts: if your liquid-cooling parts (UQD connector bodies, manifolds, cold-plate lids) are headed into the post-2027 supply chain, do one thing now — re-check seal-face dimensions, roughness and position tolerances against an interchangeability standard rather than against "this batch fits." About 16 months remain before it takes effect: enough to prove out a process window, and enough to expose drawings that will not pass.',
+    source: 'National Standards full-text public system, GB/T 48023-2026 (openstd.samr.gov.cn); Economic Daily, "The computing boom heats up the liquid-cooling track," Sep 21 2026, citing CCID Consulting\'s 2025–2026 China liquid-cooling data center market report; participant-company announcements from Shangrao Economic Development Zone and Chengdu Hi-Tech Zone, Sep 2026.',
+  },
+  {
+    tag: 'Robotics / Volume',
+    date: '2026-10-12',
+    title: 'Humanoids shipped 19,000 units in H1: the real wall is not assembly, it is batch consistency',
+    summary: 'IDC data shows global humanoid robot shipments of nearly 25,000 units in H1 2026, up 432.1% year on year, with China shipping more than 19,000 units — about 77.9% of the world total. Frost & Sullivan\'s Global Humanoid Robot Market Report, released September 29, gives a second reading: 36,000 units and $540 million in revenue in H1, already above all of 2025, with the top five by revenue being UBTECH, AgiBot, Unitree, Galbot and Leju Robotics. On capacity, UBTECH\'s ten-thousand-unit industrial humanoid superfactory in Liuzhou, Guangxi began production on September 12, designed for one robot off the line every 10 minutes and annual capacity above ten thousand units; Tesla says Optimus Gen-3 entered production in Q2 2026. The industry\'s own assessment is sober — Economic Information Daily quotes a practitioner: "Building a single prototype is easy; achieving batch consistency across ten thousand units is hard."',
+    what_it_means: 'That phrase — batch consistency — is exactly where a machine shop sits in this chain. Robot structural parts (joint housings, flanges, link arms) and transmission parts (screws, reducer components) compete on "can we make it" at the sample stage and on "is unit 10,000 the same as unit 1" at the ten-thousand-unit stage. On the floor that comes down to three things: consistent incoming material (same heat number, same condition), consistent workholding (same fixture, same clamping force), and consistent measurement (same datum, same gauge, same temperature). For anyone sending us parts: if your robot part is heading toward ten-thousand-unit volumes, the priority now is not squeezing the price — it is keeping the data from the first 50 pieces: dimensional distribution, surface condition, clamping distortion. That data decides whether a production lot gets scrapped, and it is exactly what we want to pin down with you during small-batch prototyping.',
+    source: 'Economic Information Daily, "Mass production accelerates: humanoid robots face a commercialization test," Oct 12 2026, citing IDC and the Frost & Sullivan report of Sep 29; UBTECH Liuzhou plant production announcement, Sep 12 2026.',
+  },
+];
+
+const faqs = [
+  { q: 'How often is this page updated?', a: 'Weekly. We do not run a news ticker — we run a reading list, and we only include items that change what a buyer of CNC parts should do this quarter.' },
+  { q: 'Where do the numbers come from?', a: 'Primary sources only: national statistics agencies, customs authorities, industry associations, standards bodies, company filings, and named press. We do not republish analyst notes as facts.' },
+  { q: 'Why a shop-floor view and not a market report?', a: 'Because a market report tells you where the wind is blowing. A shop view tells you whether the work has actually landed. Every story here has a "what it means" line — that is the part we are responsible for.' },
+];
+
+const related = [
+  { label: 'Robot joints and flange parts', href: '/knowledge/tech-blog/robot-joint-and-flange-parts/' },
+  { label: 'Robot parts on five-axis, one setup', href: '/knowledge/tech-blog/robotics-5-axis-one-setup/' },
+  { label: 'Machining and surface finishing', href: '/knowledge/tech-blog/machining-and-surface-finishing/' },
+  { label: 'Lead time and price', href: '/knowledge/tech-blog/lead-time-and-price/' },
+];
+---
+
+<PageLayout
+  title="CNC Precision Machining Shop-Floor News · Issue 04 | Eternal CNC"
+  description="October 2026: AI inspection goes to 100%, roller-screw nuts are the bottleneck, and the liquid-cooling standard gets a date — what it means for your parts."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Industry news — {issue.label} {issue.number}</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        In this issue: what the shop floor noticed
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        {issue.blurb} From the Eternal CNC Strategic Advisory Group. Issued {issue.date}.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/knowledge/tech-blog/" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Read the Tech Blog →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPI strip -->
+  <section style="background-color: var(--page-bg); padding: 48px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-6" style="color: var(--brand-red);">Three numbers worth noting this issue</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        {kpis.map((k) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <p class="text-3xl md:text-4xl font-bold mb-2" style="color: var(--brand-dark);">{k.metric}</p>
+            <p class="text-sm mb-3" style="color: var(--text-body);">{k.label}</p>
+            <p class="text-xs" style="color: var(--text-muted);">Source: {k.source}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Stories -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Five stories</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">What happened, and what we think it means</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        News first, then the line that matters: what changes for a buyer sending parts to a CNC shop.
+      </p>
+      <div class="space-y-6">
+        {stories.map((s) => (
+          <article class="p-8 border rounded-2xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+              <span class="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded" style="background-color: var(--page-bg); color: var(--brand-dark);">{s.tag}</span>
+              <span class="text-xs" style="color: var(--text-muted);">{s.date}</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-4 leading-snug" style="color: var(--brand-dark);">{s.title}</h3>
+            <p class="text-base leading-relaxed mb-4" style="color: var(--text-body);">{s.summary}</p>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">What it means for your parts</p>
+              <p class="text-sm leading-relaxed" style="color: var(--text-body);">{s.what_it_means}</p>
+            </div>
+            <p class="text-xs mt-4" style="color: var(--text-muted);">Source: {s.source}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Standards / FAQs -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">How we write this page</p>
+      <h2 class="text-3xl font-bold mb-12" style="color: var(--brand-dark);">Three questions we get</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        {faqs.map((f) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-3" style="color: var(--brand-dark);">{f.q}</h3>
+            <p class="text-sm leading-relaxed" style="color: var(--text-body);">{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Related + subscribe -->
+  <section style="background-color: var(--card-white); padding: 64px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Keep reading</p>
+          <h2 class="text-2xl font-bold mb-6" style="color: var(--brand-dark);">Related on the blog</h2>
+          <ul class="space-y-3">
+            {related.map((r) => (
+              <li>
+                <a href={r.href} class="text-sm font-medium hover:underline" style="color: var(--brand-red);">{r.label} →</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="p-8 border rounded-2xl" style="background-color: var(--page-bg); border-color: var(--border-color);">
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Next issue</p>
+          <h3 class="text-xl font-bold mb-3" style="color: var(--brand-dark);">19 October 2026</h3>
+          <p class="text-sm leading-relaxed mb-5" style="color: var(--text-body);">
+Storylines we are following: whether the industrial large models shown at CIIF reach the shop floor or stay on the booth wall; what the machine-tool association's running data says about the rest of the year; and whether AI full-inspection lines push tolerances tighter on the drawings we receive.
+          </p>
+          <a href="/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+            Send us your next drawing
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Have a part in mind?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Send the STEP and the PDF. We will quote within 2 hours on a working day, and we will tell you whether your tolerances are what they should be.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote/" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/knowledge/tech-blog/" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Browse the Tech Blog →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

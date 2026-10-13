@@ -8,12 +8,20 @@ const breadcrumbs = [
 
 const archive = [
   {
+    number: '04',
+    date: '12 October 2026',
+    title: 'What the shop floor noticed — October 2026',
+    blurb: 'CIIF opens with embodied AI moving onto the line, AI inspection goes to 100%, the roller-screw nut becomes the real bottleneck, and the liquid-cooling standard gets a date.',
+    href: '/knowledge/news/issue-04/',
+    latest: true,
+  },
+  {
     number: '03',
     date: '29 September 2026',
     title: 'What the shop floor noticed — late September',
     blurb: 'Planetary roller screws enter mass production, liquid-cooling orders booked into 2027, cutting-tool exports up 23% while machines lag, and reducers reach ten-thousand-unit monthly delivery.',
     href: '/knowledge/news/issue-03/',
-    latest: true,
+    latest: false,
   },
   {
     number: '02',
@@ -33,7 +41,7 @@ const archive = [
   },
 ];
 
-const nextIssue = '2 October 2026';
+const nextIssue = '19 October 2026';
 ---
 
 <PageLayout
@@ -92,7 +100,7 @@ const nextIssue = '2 October 2026';
         <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Next issue</p>
         <h3 class="text-xl font-bold mb-3" style="color: var(--brand-dark);">{nextIssue}</h3>
         <p class="text-sm leading-relaxed mb-5" style="color: var(--text-body);">
-Storylines we are following: who delivers small-batch screw samples first as the ramp accelerates; whether customer drawings are ready for the liquid-cooling standard taking effect in February 2027; and whether cutting-tool exports can hold +23% when the full-year machine-tool report lands.
+Storylines we are following: whether the industrial large models shown at CIIF reach the shop floor or stay on the booth wall; what the machine-tool association's running data says about the rest of the year; and whether AI full-inspection lines push tolerances tighter on the drawings we receive.
         </p>
         <a href="/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
           Send us your next drawing
