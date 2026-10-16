@@ -1,0 +1,211 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '知识库', href: '/zh/knowledge/' },
+  { label: '行业新闻' },
+];
+
+const issue = {
+  label: '第',
+  number: '05',
+  date: '2026 年 10 月 19 日',
+  blurb: '这一期，厂里看到的五件事——以及它们对你送来的零件意味着什么。',
+};
+
+const kpis = [
+  { metric: '110 万件', label: '长盈精密 2026 年 1–8 月交付的人形机器人精密零组件数量（公司自述口径）', source: '长盈精密深交所互动易答复，2026-10-08' },
+  { metric: '3.7%', label: '2026 年上半年中国机床工具行业总体平均利润率，同期营业收入 5309 亿元、同比 +7.6%', source: '中国机床工具工业协会数据，经《经济日报》，2026-10-15' },
+  { metric: '12 分钟', label: '卡奥斯青岛胶州工厂上线工业智能体集群后的换产时间，此前最快 40 分钟', source: '人民网山东频道 / 大众日报，2026-10-12' },
+];
+
+const stories = [
+  {
+    tag: '机器人/供应链',
+    date: '2026-10-08',
+    title: '机器人零件正从「骨骼」走向「肌腱」：一家供应商前 8 个月交付超 110 万件',
+    summary: '长盈精密 10 月 8 日在深交所互动平台答复投资者：公司已与国内外多家人形机器人头部品牌建立紧密合作，2026 年 1–8 月交付超过 110 万件人形机器人精密零组件，三、四季度订单相比上半年增速更快，正根据客户需求积极扩产。值得注意的不是件数，而是产品结构的变化——公司称其产品已覆盖灵巧手传动件、旋转执行器核心传动件、丝杠核心传动件、躯干大尺寸传动件、骨骼结构件等核心高精度部件，具备从核心零件到整机组装的能力；参股公司国森科专注谐波减速器与精密传动类产品。作为背景，公司 2026 年上半年营业收入 107.29 亿元、同比 +24.18%，其中「具身智能与新兴科技硬件」业务营业收入 2.43 亿元、同比 +537.64%。',
+    what_it_means: '结构件是「外形活」，传动件是「精度活」——这是两种完全不同的报价逻辑。骨骼结构件看外形尺寸和装配孔位，传动件看的是形位公差、表面粗糙度、热处理一致性和批次稳定性。一旦丝杠、灵巧手传动件这类件上量，客户问的就不再是「你能不能做」，而是「你切 1000 件里有几件跑偏」。送件之前先把公差带、基准和热处理要求问清楚，比先报价再改图便宜得多。',
+    source: '长盈精密 2026-10-08 深交所互动易答复；中国证券报·中证网、每日经济新闻，2026-10-08。',
+  },
+  {
+    tag: 'AI/车间',
+    date: '2026-10-12',
+    title: '智能体集群进了车间：换产时间从 40 分钟压到 12 分钟',
+    summary: '人民网山东频道 10 月 12 日报道（原载《大众日报》同日头版）青岛胶州的卡奥斯创智物联互联工厂：天智工业大模型当「大脑」，几十个智能体当「手脚」，CEO、厂长、能源站长三个数字人当「指挥官」，组成一支「智能兵团」。效果可以用秒表和报表量出来——换产时中枢智能体实时监测产线状态，同时调度仓储、物流、工艺智能体协同作业：换产时间从最快的 40 分钟（自动化改造后 20 分钟）压到 12 分钟，单条产线日产能提升 5%；波峰焊工序由智能体全域采集焊接实时数据、毫秒级自动微调炉温，落地后焊接缺陷率下降 40%、生产能耗降低 15%；设备维修环节把老师傅的排障经验沉淀进知识库，维修时间从 2 小时压到半小时以内。底座是 4700 多个工业机理模型与 200 多个专家算法，工业互联网平台把 ERP、MES、WMS 等十几个系统的数据拉通；每一步判断查了什么数据、调用了什么模型、依据什么排除，都可回看、可追溯。',
+    what_it_means: '换产从 40 分钟压到 12 分钟，等于把「小批量」最贵的那部分隐性成本削掉了三分之二。过去客户为了摊薄换产损失，会把好几种件攒成大单一起下；现在他们更可能把订单拆小、下得更频。对打样厂来说，机会是订单变多、单笔变小；压力是「接得住碎单」——报价速度、首件确认速度、排产灵活度，会比单价更早被拿来比较。',
+    source: '人民网山东频道《「智能兵团」撑起一座工厂》，2026-10-12（原载《大众日报》2026-10-12 第 01 版，记者王瑛琪）；大众新闻，2026-10-12。',
+  },
+  {
+    tag: '算力/液冷',
+    date: '2026-10-09',
+    title: '液冷从「接单」走到「交付」：一家公司的第三季度利润翻倍',
+    summary: '鸿富瀚（301086.SZ）10 月 9 日披露 2026 年前三季度业绩预告：归母净利润 1.70 亿至 2.00 亿元、同比 +108.19% 至 +144.93%；扣非净利润 1.66 亿至 1.98 亿元、同比 +108.20% 至 +147.71%。公告把利润来源写得很直接：「重点布局的液冷板整柜模组业务完成量产交付，液冷板模组产能逐步释放，成为本期利润增长的核心增量」；另一部分是消费电子精密功能组件、自动化设备等传统存量业务稳步扩大。同一个话题在 10 月还有另一个切面：2026 年 OCP 全球峰会 10 月 12 日至 15 日在美国举行，鸿富瀚携已实现量产交付的冷板式液冷模组方案参会，围绕 OCP 开放机架规范分享液冷结构设计、热管理控制与量产工艺。',
+    what_it_means: '冷板式液冷模组里最「机加工」的那一段——冷板本体、机箱、支架、管路接头——主体是铝合金，批量中等、精度中高，且普遍要求阳极氧化或导电处理。这类件的特点是「图纸不复杂，但密封面和一致性要求严」。现在模组端已经在量产交付，说明这条链的采购窗口已经打开；卡的会是交付节拍和批次一致性，不是你能不能做出样品。',
+    source: '鸿富瀚（301086.SZ）2026 年前三季度业绩预告，2026-10-09（央广网、中国证券报·中证网同日报道）；上海证券报·中国证券网，2026-10-15（OCP 全球峰会参展）。',
+  },
+  {
+    tag: '机床业',
+    date: '2026-10-15',
+    title: '1.6 万亿体量，3.7% 利润率：工业母机的钱赚在哪儿、卡在哪儿',
+    summary: '据《经济日报》10 月 15 日报道（2026 工业母机产业链高质量发展大会）：工业和信息化部装备工业一司介绍，2025 年我国工业母机产业营业收入突破 1.6 万亿元、连续 10 多年居全球第一，已形成从减材、等材、增材到主机、功能部件、数控系统、基础零部件、工业软件的完整体系。但盈利端仍然薄：中国机床工具工业协会数据显示，2026 年上半年机床工具行业营业收入 5309 亿元、同比 +7.6%，行业总体平均利润率仅 3.7%，低于机械工业 4.5% 的平均水平。进出口结构更能说明问题——2025 年工业母机进口总额中 70.6% 来自德国、日本和瑞士，进口均价 68.5 万元/台，而出口均价测算值仅为进口均价的十分之一。技术端也有真进展：精雕科技与北京北一机床联合研制出首台搭载精雕 JD60 数控系统的国产高精度龙门机床，具备在机检测与自适应加工能力；秦川机床在精密齿轮加工、复杂零件复合加工、超精密丝杠磨削等关键领域实现突破，其磨齿机的加工范围覆盖从 5 毫米的人形机器人减速器齿轮到 4.2 米的风电重载齿轮。',
+    what_it_means: '「进口均价是出口均价的 10 倍」，翻译过来就是：高端五轴加工的成本，短期内不会因为「国产替代」而降下来。对做精件、难件的客户来说，指望机床折旧下降传导到加工费上，还要等几年。眼下真正能省钱的不是单价，而是「一次做对」——把 DFM 提前到画图阶段、把关键公差和基准一次说清，少报废一件就多省一件的钱。',
+    source: '《经济日报》《工业母机产业链协同共进》，2026-10-15；中工网 2026-10-15；陕西省人民政府门户网站 / 西部网，2026-10-15（秦创原工业母机产业创新聚集区调研）。',
+  },
+  {
+    tag: '机器人/商业化',
+    date: '2026-10-09',
+    title: '从「卖机器人」到「卖上岗方案」：一份 2030 年 1 万台的目标',
+    summary: '据优必选科技官微消息，10 月 9 日优必选与厦门建发股份在厦门签署战略合作协议：双方将共建合资公司，作为「优生态科技中心福建总部」的运营主体，集成运维保障、人才实训、场景应用研发、设备共享租售、赛事运营等能力，打造一站式产业服务平台；并计划到 2030 年共同完成不低于 1 万台优必选人形机器人的销售目标，场景落在供应链运营与房地产开发领域，覆盖物流仓储、安防巡检、城市公共空间服务等。卖法也变了——不再是「一家一家敲客户的门」，而是把法人主体、融资租赁、运维保障、人才实训打包成「机器人上岗之后的一整套方案」，正面回答客户最关心的「谁来用、怎么用、用坏了怎么办」。作为参照，优必选 2026 年上半年全尺寸具身智能人形机器人销量 921 台、对应收入 5.9 亿元，按此测算单台均价约 64 万元。',
+    what_it_means: '卖方敢把目标从百台级写到万台级，说明他们认为瓶颈已经从「造得出来」变成「用得住、修得起」。对零件供应商来说，这个跨度一旦落到采购上，问法会变：不是问你能不能做，而是问月产能多少、良率多少、每批能不能配上材质与热处理的可追溯记录。小批量打样厂真正的机会窗口在「定型之前」——样件阶段客户还愿意为速度和灵活性付钱，定型之后比的就是一致性和成本。',
+    source: '优必选科技官微（经新京报贝壳财经、财经网报道，2026-10-11）；优必选 2026 年中期业绩公告。',
+  },
+];
+
+const faqs = [
+  { q: '多久更新一次？', a: '每周一次。不做新闻刷屏——只放那些会改变你本季度该往哪投零件的条目。' },
+  { q: '数据从哪来？', a: '只用一手来源：国家统计局、海关总署、行业协会、标准发布机构、企业公告、有署名的报道。不把券商观点当事实搬。' },
+  { q: '为什么写「厂里看到的事」，不是市场报告？', a: '因为市场报告告诉你风往哪边吹，厂里视角告诉你活到底有没有真的落地。每条新闻我们都附一句「对零件意味着什么」——这一句是我们负责的。' },
+];
+
+const related = [
+  { label: '机器人关节与法兰件', href: '/zh/knowledge/tech-blog/robot-joint-and-flange-parts/' },
+  { label: '机器人零件的五轴一次装夹', href: '/zh/knowledge/tech-blog/robotics-5-axis-one-setup/' },
+  { label: '液冷、算力与机器人', href: '/zh/knowledge/tech-blog/liquid-cooling-compute-and-robots/' },
+  { label: '交期为什么值钱', href: '/zh/knowledge/tech-blog/lead-time-and-price/' },
+];
+---
+
+<PageLayout
+  title="CNC 精密零件加工厂的行业观察 · 第 05 期 | Eternal CNC"
+  description="2026 年 10 月下旬：AI 进车间把换产压到 12 分钟、机器人零件从结构件转向传动件、液冷开始量产交付、机床业利润率仅 3.7%。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">行业新闻 — {issue.label} {issue.number} 期</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        这一期，厂里看到的几件事
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        {issue.blurb} 鑫永恒战略顾问组 执笔，{issue.date} 发布。
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/knowledge/tech-blog/" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          去技术博客 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPI strip -->
+  <section style="background-color: var(--page-bg); padding: 48px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-6" style="color: var(--brand-red);">这一期值得记的三个数</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        {kpis.map((k) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <p class="text-3xl md:text-4xl font-bold mb-2" style="color: var(--brand-dark);">{k.metric}</p>
+            <p class="text-sm mb-3" style="color: var(--text-body);">{k.label}</p>
+            <p class="text-xs" style="color: var(--text-muted);">来源：{k.source}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Stories -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">五件事</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">发生了什么，我们觉得它意味着什么</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        先讲新闻，再讲那一句要紧的——它对送件给机加厂的客户意味着什么。
+      </p>
+      <div class="space-y-6">
+        {stories.map((s) => (
+          <article class="p-8 border rounded-2xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+              <span class="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded" style="background-color: var(--page-bg); color: var(--brand-dark);">{s.tag}</span>
+              <span class="text-xs" style="color: var(--text-muted);">{s.date}</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-4 leading-snug" style="color: var(--brand-dark);">{s.title}</h3>
+            <p class="text-base leading-relaxed mb-4" style="color: var(--text-body);">{s.summary}</p>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">对零件意味着什么</p>
+              <p class="text-sm leading-relaxed" style="color: var(--text-body);">{s.what_it_means}</p>
+            </div>
+            <p class="text-xs mt-4" style="color: var(--text-muted);">来源：{s.source}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Standards / FAQs -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">我们怎么写</p>
+      <h2 class="text-3xl font-bold mb-12" style="color: var(--brand-dark);">常被问到的三件事</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        {faqs.map((f) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-3" style="color: var(--brand-dark);">{f.q}</h3>
+            <p class="text-sm leading-relaxed" style="color: var(--text-body);">{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Related + subscribe -->
+  <section style="background-color: var(--card-white); padding: 64px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">顺手读读</p>
+          <h2 class="text-2xl font-bold mb-6" style="color: var(--brand-dark);">博客上相关的几篇</h2>
+          <ul class="space-y-3">
+            {related.map((r) => (
+              <li>
+                <a href={r.href} class="text-sm font-medium hover:underline" style="color: var(--brand-red);">{r.label} →</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="p-8 border rounded-2xl" style="background-color: var(--page-bg); border-color: var(--border-color);">
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">下一期</p>
+          <h3 class="text-xl font-bold mb-3" style="color: var(--brand-dark);">2026 年 10 月 26 日</h3>
+          <p class="text-sm leading-relaxed mb-5" style="color: var(--text-body);">
+正在跟进的线索：国家统计局即将公布的 9 月工业机器人与数控机床产量；优必选在福建的合资公司会不会变成真实采购订单；以及液冷供应链上其余环节，跟不跟得上已经在量产交付的模组厂。
+          </p>
+          <a href="/zh/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+            把你的下个零件发过来
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">手上有个零件？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        STEP 和 PDF 发过来，工作日 2 小时内报价；公差合不合理，我们也直说。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote/" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/knowledge/tech-blog/" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          浏览技术博客 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

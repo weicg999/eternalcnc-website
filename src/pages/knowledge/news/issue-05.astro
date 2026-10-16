@@ -1,0 +1,211 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Knowledge Base', href: '/knowledge/' },
+  { label: 'Industry News' },
+];
+
+const issue = {
+  label: 'Issue',
+  number: '05',
+  date: '19 October 2026',
+  blurb: 'Five things the shop floor noticed — and what they mean for the parts you send us.',
+};
+
+const kpis = [
+  { metric: '1.1 million', label: 'Humanoid-robot precision components delivered by Changying Precision in January–August 2026, by the company\'s own account', source: 'Changying Precision investor-relations reply, Shenzhen Stock Exchange, Oct 8 2026' },
+  { metric: '3.7%', label: 'Overall average profit margin of China\'s machine-tool industry in H1 2026, on revenue of RMB 530.9 billion (+7.6% year on year)', source: 'CMTBA data, via Economic Daily, Oct 15 2026' },
+  { metric: '12 min', label: 'Changeover time at COSMOPlat\'s Jiaozhou factory once an industrial-agent cluster went live (down from a best-ever 40 minutes)', source: 'People\'s Daily Online (Shandong) / Dazhong Daily, Oct 12 2026' },
+];
+
+const stories = [
+  {
+    tag: 'Robotics / Supply chain',
+    date: '2026-10-08',
+    title: 'Robot parts are moving from skeleton to tendon: one supplier shipped 1.1 million pieces in eight months',
+    summary: 'On 8 October, Changying Precision told investors on the Shenzhen Stock Exchange interactive platform that it works closely with several leading humanoid-robot brands at home and abroad, that it delivered more than 1.1 million humanoid-robot precision components in January–August 2026, that Q3 and Q4 orders are growing faster than in H1, and that it is expanding capacity accordingly. The number is not the interesting part — the product mix is. The company says its range now covers dexterous-hand transmission parts, rotary-actuator core transmission parts, screw core transmission parts, large torso transmission parts and skeleton structural parts, and that it can go from core components all the way to final assembly; its associate Guosenke focuses on harmonic reducers and precision transmission products. For context, H1 2026 revenue was RMB 10.729 billion, up 24.18% year on year, of which the embodied-intelligence and emerging-tech-hardware segment brought in RMB 243 million, up 537.64%.',
+    what_it_means: 'Structural parts are shape work; transmission parts are precision work — two completely different quoting logics. A skeleton bracket is judged on outline dimensions and hole positions; a transmission part is judged on geometric tolerance, surface finish, heat-treatment consistency and batch stability. Once screws and dexterous-hand transmission parts go to volume, the buyer stops asking whether you can make it and starts asking how many of your last 1,000 pieces drifted. Sort out the tolerance band, the datum scheme and the heat-treatment callouts before you quote, not after.',
+    source: 'Changying Precision investor-relations reply on the Shenzhen Stock Exchange platform, Oct 8 2026; China Securities Journal (cs.com.cn) and National Business Daily, Oct 8 2026.',
+  },
+  {
+    tag: 'AI / Shop floor',
+    date: '2026-10-12',
+    title: 'An agent cluster walks onto the shop floor: changeover drops from 40 minutes to 12',
+    summary: 'On 12 October, People\'s Daily Online (Shandong), reprinting the front page of Dazhong Daily, reported on COSMOPlat\'s Jiaozhou interconnect factory in Qingdao: the Tianzhi industrial large model acts as the brain, several dozen agents as the hands and feet, and three digital humans as commanders — a smart legion. The results are measurable with a stopwatch and a report. When a changeover is due, the central agent watches line status and dispatches the warehouse, logistics and process agents together, cutting changeover from a best-ever 40 minutes (20 after automation) to 12 minutes and lifting daily output per line by 5%. At the wave-soldering station, an agent collects real-time welding data and adjusts the furnace profile by the millisecond, after which the defect rate fell 40% and production energy use fell 15%. In maintenance, veterans\' troubleshooting experience was written into a knowledge base, cutting repair time from two hours to under half an hour. The base layer holds more than 4,700 industrial mechanism models and 200-plus expert algorithms, and a platform ties together data from a dozen-plus systems — ERP, MES, WMS and others. Every decision records which data it read and which model it called, and all of it is traceable.',
+    what_it_means: 'Cutting changeover from 40 minutes to 12 removes two-thirds of the hidden cost that makes small batches expensive. Buyers used to bundle several part numbers into one large order to spread that cost; now they are more likely to split orders and place them more often. For a prototype shop that is more orders, each smaller — and the pressure moves to whether you can absorb fragmented orders, because quoting speed, first-article turnaround and scheduling flexibility get compared before unit price does.',
+    source: 'People\'s Daily Online (Shandong), "A smart legion holds up a factory", Oct 12 2026 (originally in Dazhong Daily, Oct 12 2026, page 1, by Wang Yingqi); Dazhong News, Oct 12 2026.',
+  },
+  {
+    tag: 'Compute / Liquid cooling',
+    date: '2026-10-09',
+    title: 'Liquid cooling moves from order book to delivery: one supplier\'s Q3 profit doubled',
+    summary: 'On 9 October, Hongfuhan (301086.SZ) issued its Q1–Q3 2026 earnings pre-announcement: net profit attributable to shareholders of RMB 170–200 million, up 108.19%–144.93% year on year, and non-recurring-adjusted net profit of RMB 166–198 million, up 108.20%–147.71%. The filing names the driver plainly: "our priority liquid-cooling cold-plate whole-rack module business completed mass-production delivery, cold-plate module capacity is being released progressively, and this is the core increment in this period\'s profit growth," with the rest coming from steady expansion in consumer-electronics precision functional components and automation equipment. There is a second angle the same month: the 2026 OCP Global Summit ran 12–15 October in the United States, where Hongfuhan showed cold-plate liquid-cooling modules already in mass-production delivery, presenting its work on liquid-cooling structural design, thermal control and volume manufacturing against the OCP open-rack specification.',
+    what_it_means: 'The most machined stretch of a cold-plate module — the cold plate itself, the chassis, brackets and fittings — is mostly aluminum, mid-volume, mid-to-high precision, and generally needs anodizing or a conductive finish. This class of part is not complicated on paper, but sealing surfaces and consistency are unforgiving. With the module end already shipping in volume, the sourcing window on this chain is open; what gates you is delivery cadence and batch consistency, not whether you can make a sample.',
+    source: 'Hongfuhan (301086.SZ) Q1–Q3 2026 earnings pre-announcement, Oct 9 2026 (reported by CNR and China Securities Journal the same day); Shanghai Securities News / cnstock.com, Oct 15 2026 (OCP Global Summit).',
+  },
+  {
+    tag: 'Machine tools',
+    date: '2026-10-15',
+    title: 'A RMB 1.6 trillion industry earning 3.7%: where machine-tool money is made and where it is stuck',
+    summary: 'Economic Daily reported on 15 October from the 2026 Industrial Machine Tool Chain High-Quality Development Conference: the Ministry of Industry and Information Technology said China\'s machine-tool industry passed RMB 1.6 trillion in revenue in 2025, has ranked first globally for more than a decade, and now spans subtractive, forming and additive processes plus complete machines, functional units, CNC systems, basic components and industrial software. Profitability remains thin. CMTBA data puts H1 2026 machine-tool industry revenue at RMB 530.9 billion, up 7.6% year on year, with an overall average profit margin of just 3.7%, below the 4.5% average across machinery. Trade structure says even more: in 2025, 70.6% of China\'s machine-tool import value came from Germany, Japan and Switzerland, at an average import price of RMB 685,000 per unit, while estimated export prices run about one tenth of that. Technology is advancing too — Jingdiao Technology and Beijing No.1 Machine Tool Plant jointly built the first domestic high-precision gantry machine carrying Jingdiao\'s JD60 CNC system, with on-machine inspection and adaptive machining, and Qinchuan Machine Tool reports breakthroughs in precision gear machining, complex-part multi-process machining and ultra-precision screw grinding, with gear grinders covering work from 5 mm humanoid-robot reducer gears up to 4.2 m wind-power gears.',
+    what_it_means: 'Import prices are ten times export prices, which translates into one thing: high-end five-axis machining will not get cheaper any time soon just because of import substitution. If you buy precision parts, expecting machine depreciation to flow through into lower machining prices is a multi-year wait. What actually saves money today is getting it right the first time — bring DFM into the drawing stage and settle critical tolerances and datums up front, because every scrapped part is money you keep.',
+    source: 'Economic Daily, "The industrial machine-tool chain advances together", Oct 15 2026; workercn.cn and the Shaanxi Provincial People\'s Government portal, Oct 15 2026.',
+  },
+  {
+    tag: 'Robotics / Commercialisation',
+    date: '2026-10-09',
+    title: 'From selling robots to selling deployment: a 10,000-unit target for 2030',
+    summary: 'According to UBTECH Robotics\' official WeChat account, on 9 October UBTECH and Xiamen C&D Inc. signed a strategic cooperation agreement in Xiamen. The two will form a joint venture to run the UBTECH Eco-Tech Centre Fujian Headquarters, bundling maintenance support, operator training, scenario R&D, shared equipment leasing and robotics competitions into a one-stop industry service platform, and plan to complete sales of no fewer than 10,000 UBTECH humanoid robots by 2030, starting in supply-chain operations and real estate development — logistics and warehousing, security patrols and urban public-space services. The notable shift is the selling model: instead of knocking on one customer door at a time, the offer packages a legal entity, leasing, maintenance and training into everything that happens after the robot is hired, answering the buyer\'s real questions about who operates it, how, and what happens if it breaks. For reference, UBTECH\'s H1 2026 full-size embodied-intelligence humanoid robot sales were 921 units for RMB 590 million, implying an average price of roughly RMB 640,000.',
+    what_it_means: 'A seller willing to write a hundred-unit business into a ten-thousand-unit target believes the bottleneck has moved from can we build it to can it be used and maintained. For component suppliers, once that jump reaches purchasing, the questions change: not whether you can make the part, but what your monthly capacity is, what your yield is, and whether every batch ships with traceable material and heat-treatment records. The real window for a prototype shop opens before the design freezes — at the sample stage buyers still pay for speed and flexibility, and after it freezes they pay for consistency and cost.',
+    source: 'UBTECH Robotics official WeChat account, reported by Beijing News / Shell Finance and Caijing.com.cn, Oct 11 2026; UBTECH Robotics 2026 interim results announcement.',
+  },
+];
+
+const faqs = [
+  { q: 'How often is this page updated?', a: 'Weekly. We do not run a news ticker — we run a reading list, and we only include items that change what a buyer of CNC parts should do this quarter.' },
+  { q: 'Where do the numbers come from?', a: 'Primary sources only: national statistics agencies, customs authorities, industry associations, standards bodies, company filings, and named press. We do not republish analyst notes as facts.' },
+  { q: 'Why a shop-floor view and not a market report?', a: 'Because a market report tells you where the wind is blowing. A shop view tells you whether the work has actually landed. Every story here has a "what it means" line — that is the part we are responsible for.' },
+];
+
+const related = [
+  { label: 'Robot joints and flange parts', href: '/knowledge/tech-blog/robot-joint-and-flange-parts/' },
+  { label: 'Robot parts on five-axis, one setup', href: '/knowledge/tech-blog/robotics-5-axis-one-setup/' },
+  { label: 'Liquid cooling, compute and robots', href: '/knowledge/tech-blog/liquid-cooling-compute-and-robots/' },
+  { label: 'Lead time and price', href: '/knowledge/tech-blog/lead-time-and-price/' },
+];
+---
+
+<PageLayout
+  title="CNC Precision Machining Shop-Floor News · Issue 05 | Eternal CNC"
+  description="Late October 2026: AI cuts changeover to 12 minutes, robot parts move from skeleton to tendon, liquid cooling ships, and machine tools earn 3.7%."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Industry news — {issue.label} {issue.number}</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        In this issue: what the shop floor noticed
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        {issue.blurb} From the Eternal CNC Strategic Advisory Group. Issued {issue.date}.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/knowledge/tech-blog/" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Read the Tech Blog →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPI strip -->
+  <section style="background-color: var(--page-bg); padding: 48px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-6" style="color: var(--brand-red);">Three numbers worth noting this issue</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        {kpis.map((k) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <p class="text-3xl md:text-4xl font-bold mb-2" style="color: var(--brand-dark);">{k.metric}</p>
+            <p class="text-sm mb-3" style="color: var(--text-body);">{k.label}</p>
+            <p class="text-xs" style="color: var(--text-muted);">Source: {k.source}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Stories -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Five stories</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">What happened, and what we think it means</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        News first, then the line that matters: what changes for a buyer sending parts to a CNC shop.
+      </p>
+      <div class="space-y-6">
+        {stories.map((s) => (
+          <article class="p-8 border rounded-2xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+              <span class="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded" style="background-color: var(--page-bg); color: var(--brand-dark);">{s.tag}</span>
+              <span class="text-xs" style="color: var(--text-muted);">{s.date}</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-4 leading-snug" style="color: var(--brand-dark);">{s.title}</h3>
+            <p class="text-base leading-relaxed mb-4" style="color: var(--text-body);">{s.summary}</p>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">What it means for your parts</p>
+              <p class="text-sm leading-relaxed" style="color: var(--text-body);">{s.what_it_means}</p>
+            </div>
+            <p class="text-xs mt-4" style="color: var(--text-muted);">Source: {s.source}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Standards / FAQs -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">How we write this page</p>
+      <h2 class="text-3xl font-bold mb-12" style="color: var(--brand-dark);">Three questions we get</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        {faqs.map((f) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-3" style="color: var(--brand-dark);">{f.q}</h3>
+            <p class="text-sm leading-relaxed" style="color: var(--text-body);">{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Related + subscribe -->
+  <section style="background-color: var(--card-white); padding: 64px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Keep reading</p>
+          <h2 class="text-2xl font-bold mb-6" style="color: var(--brand-dark);">Related on the blog</h2>
+          <ul class="space-y-3">
+            {related.map((r) => (
+              <li>
+                <a href={r.href} class="text-sm font-medium hover:underline" style="color: var(--brand-red);">{r.label} →</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="p-8 border rounded-2xl" style="background-color: var(--page-bg); border-color: var(--border-color);">
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Next issue</p>
+          <h3 class="text-xl font-bold mb-3" style="color: var(--brand-dark);">26 October 2026</h3>
+          <p class="text-sm leading-relaxed mb-5" style="color: var(--text-body);">
+Storylines we are following: September industrial-robot and machine-tool output from the National Bureau of Statistics; whether UBTECH's joint venture in Fujian turns into real purchase orders; and whether the rest of the liquid-cooling supply chain can keep pace with the module makers now shipping in volume.
+          </p>
+          <a href="/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+            Send us your next drawing
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Have a part in mind?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Send the STEP and the PDF. We will quote within 2 hours on a working day, and we will tell you whether your tolerances are what they should be.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote/" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/knowledge/tech-blog/" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Browse the Tech Blog →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

@@ -8,12 +8,20 @@ const breadcrumbs = [
 
 const archive = [
   {
+    number: '05',
+    date: '2026 年 10 月 19 日',
+    title: '这一期，厂里看到的——十月下旬',
+    blurb: 'AI 智能体进车间把换产压到 12 分钟、机器人零件从结构件转向传动件、液冷从接单走到交付、1.6 万亿元的机床业利润率只有 3.7%。',
+    href: '/zh/knowledge/news/issue-05/',
+    latest: true,
+  },
+  {
     number: '04',
     date: '2026 年 10 月 12 日',
     title: '这一期，厂里看到的——十月上旬',
     blurb: '工博会开幕、AI 质检走向全检、丝杠卡在螺母内螺纹、液冷国标定档 2027 年 2 月、人形机器人半年出货 1.9 万台。',
     href: '/zh/knowledge/news/issue-04/',
-    latest: true,
+    latest: false,
   },
   {
     number: '03',
@@ -41,7 +49,7 @@ const archive = [
   },
 ];
 
-const nextIssue = '2026 年 10 月 19 日';
+const nextIssue = '2026 年 10 月 26 日';
 ---
 
 <PageLayout
@@ -100,7 +108,7 @@ const nextIssue = '2026 年 10 月 19 日';
         <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">下一期</p>
         <h3 class="text-xl font-bold mb-3" style="color: var(--brand-dark);">{nextIssue}</h3>
         <p class="text-sm leading-relaxed mb-5" style="color: var(--text-body);">
-正在跟进的线索：工博会上亮相的工业大模型，是真进车间还是只挂在展板上；机床工具协会的运行数据，下半年还能不能延续；AI 全检线铺开之后，我们收到的图纸会不会被要求更紧的公差。
+正在跟进的线索：国家统计局即将公布的 9 月工业机器人与数控机床产量；优必选在福建的合资公司会不会变成真实采购订单；以及液冷供应链上其余环节，跟不跟得上已经在量产交付的模组厂。
         </p>
         <a href="/zh/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
           把你的下个零件发过来
