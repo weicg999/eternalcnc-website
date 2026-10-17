@@ -11,7 +11,7 @@ const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'TechArticle',
   headline: 'DFM Cost-Saving Guide for CNC Machining (Part 2)',
-  description: 'Thread depth, counterbore tolerances, edge breaks and burrs — the small features that decide whether a part is cheap to machine.',
+  description: 'Thread depth, counterbore tolerances, edge breaks and burrs — plus the four assumptions a drawing never states: quantity, fixturing, inspection level and material condition.',
   author: { '@type': 'Organization', name: 'Eternal CNC Precision Machining' },
   publisher: {
     '@type': 'Organization',
@@ -24,8 +24,8 @@ const articleSchema = {
 ---
 
 <PageLayout
-  title="DFM Cost-Saving Guide (Part 2) | Threads, Counterbores, Edges | Eternal CNC"
-  description="Threads, counterbores, chamfers and burrs — the small features that quietly decide whether a part is cheap to machine. Part 2 of our DFM guide."
+  title="DFM Cost-Saving Guide (Part 2) | Small Features & Quote Assumptions | Eternal CNC"
+  description="Threads, counterbores, edges, burrs — and the four assumptions a drawing never states: quantity, fixturing, inspection level and material condition. Part 2 of our DFM guide."
   breadcrumbs={breadcrumbs}
   schema={articleSchema}
 >
@@ -50,9 +50,10 @@ const articleSchema = {
       </h1>
       <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
         <a href="/knowledge/dfm-guide/" style="color: var(--brand-red); text-decoration: underline;">Part 1</a>
-        covered the shape of the part — walls, holes, corners, tolerances. Part 2 covers the small
-        features a drawing tends to treat as an afterthought: threads, counterbores, edge breaks
-        and burrs. They look minor. They are where small numbers turn into real money.
+        covered the shape of the part — walls, holes, corners, tolerances. Part 2 covers what a drawing
+        tends to treat as an afterthought: threads, counterbores, edge breaks, burrs — and then the four
+        things a drawing never states at all, which decide why two shops quote the same file at prices
+        that look unrelated: quantity, fixturing, inspection level and material condition.
       </p>
       <div class="flex flex-wrap gap-4 mt-8">
         <a href="/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
@@ -197,19 +198,127 @@ const articleSchema = {
     </div>
   </section>
 
-  <!-- 5 Checklist -->
+  <!-- 5 Quantity -->
   <section style="background-color: var(--page-bg); padding: 72px 0;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">5. Five things to check before you send the drawing</h2>
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">5. Quantity — somebody has to pay for the setup</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">Everything up to here described the part. From here on it is about the paperwork around the part — and this is where two shops quote the same file at prices that do not look like they belong to the same job.</p>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">A quote is always <em>per this batch</em>. Setup — programming, fixturing, first-article, dialling in — does not shrink when the batch shrinks. It has to be paid by whoever is in the batch. Ten pieces carry the whole setup; five hundred pieces share it. That is not a discount policy. It is arithmetic.</p>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">Which means ten pieces and five hundred pieces are not the same part made the same way. At ten we run slow, measure more, use general-purpose workholding. At five hundred we build a fixture, run at cycle, and sample. Both are honest. They are simply two different trades that happen to share a drawing.</p>
+      <table class="dfm-table">
+        <thead><tr><th>What the enquiry says</th><th>What we quote</th><th>What you get later</th></tr></thead>
+        <tbody>
+          <tr><td>"10 pieces"</td><td>prototype process, all setup absorbed by those 10</td><td>a high unit price, and a large drop when volume arrives</td></tr>
+          <tr><td>"10 pieces, roughly N per year after that"</td><td>two prices — prototype and volume — plus the conditions behind the volume price</td><td>the volume price is real from the start instead of renegotiated later</td></tr>
+          <tr><td>"500 pieces, one-off"</td><td>production process, fixture included</td><td>the lowest unit price — but the fixture is wasted if the design changes</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">Traps:</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>Partial delivery is not partial order. "Ship 100 now, 400 later" is still a 500-piece order — we buy material and plan for 500, and you get the volume price. Say it up front and it is simply true; say it after the invoice and it is a dispute.</li>
+        <li>A number that is too small can only be quoted small. Inflating the quantity to push the price down does not work either — it comes back at delivery, as a delay or a surcharge.</li>
+        <li>Annual usage matters more than batch size. Batch size decides the cycle time; annual usage decides whether a fixture is worth building at all.</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>DFM tip:</strong> one line — "prototype, then roughly N per year" — gets you two prices in a single reply, and removes the awkward conversation three months later.</div>
+    </div>
+  </section>
+
+  <!-- 6 Fixturing -->
+  <section style="background-color: var(--card-white); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">6. Fixturing — the cost that never appears on a quote</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">No quote line says "fixture". The cost is folded into labour hours, which is why two quotes for the same part can differ by a number that appears to come from nowhere.</p>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">The choice of workholding is usually decided by two things you know and we can only guess: how complex the part is, and whether it will be revised. Both belong in the enquiry.</p>
+      <table class="dfm-table">
+        <thead><tr><th>Workholding</th><th>Good for</th><th>Bad for</th></tr></thead>
+        <tbody>
+          <tr><td>General-purpose vice / soft jaws</td><td>block stock, one-offs, prototypes</td><td>thin walls, irregular shapes, five-sided work</td></tr>
+          <tr><td>Bored soft jaws (turning)</td><td>second op on an already-machined diameter</td><td>thin rings and parts that crush easily</td></tr>
+          <tr><td>Dedicated fixture</td><td>complex shape, stable quantity, design that will not change</td><td>parts that get revised — the fixture is then scrap</td></tr>
+          <tr><td>Vacuum or magnetic table</td><td>thin plate, large flat area</td><td>small parts, or parts with through-holes that leak the vacuum away</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">Traps:</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>On a thin-wall part, the first operation is not cutting — it is holding the part without deforming it. That decision sets every dimension that follows.</li>
+        <li>The trigger for a dedicated fixture is not quantity alone. It is annual usage × shape complexity ÷ how often the design changes. Quantity alone gives the wrong answer on both ends.</li>
+        <li>A part that needs more than three setups is usually telling you something about the design, not about the fixture.</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>DFM tip:</strong> tell us whether the design is frozen. On a part that will be revised twice a year, a dedicated fixture is the most expensive way to save money.</div>
+    </div>
+  </section>
+
+  <!-- 7 Inspection and material -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">7. Inspection level and material condition — two lines that move the price</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">A drawing states tolerances. It almost never states how they will be verified. That gap is worth money, and it is one of the few places where the buyer can lower the price without changing a single dimension.</p>
+      <table class="dfm-table">
+        <thead><tr><th>What you ask for</th><th>What we do</th><th>When it is the right answer</th></tr></thead>
+        <tbody>
+          <tr><td>"It has to fit"</td><td>functional dimensions held, in-process sampling, certificate of conformance with the shipment</td><td>structural parts, cosmetic parts, non-mating faces</td></tr>
+          <tr><td>Critical dimensions controlled</td><td>first article + last article + 100% on the critical dimensions</td><td>anything with a fit or an assembly relationship</td></tr>
+          <tr><td>Full dimensional report</td><td>every feature measured, report issued</td><td>first-article approval, or preventing an incoming-inspection argument</td></tr>
+          <tr><td>100% CMM with raw data</td><td>every piece measured, data file supplied</td><td>medical, aerospace, safety-critical parts</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-4 max-w-3xl" style="color: var(--text-body);">The trap here runs the other way from the rest of this guide. "Provide an inspection report" sounds careful and gets you a full dimensional report at a full report's price. "Only dimensions A, B and C need a report" is cheaper, and it is also the clearer instruction.</p>
+      <p class="mt-4 mb-2" style="color: var(--text-body);">Material condition works the same way. The same grade can be supplied as generic stock or as certified, heat-traceable bar — the part behaves identically on the machine, but the documentation burden does not.</p>
+      <table class="dfm-table">
+        <thead><tr><th>Material condition</th><th>What it means</th><th>When you need it</th></tr></thead>
+        <tbody>
+          <tr><td>Generic stock, grade guaranteed</td><td>the alloy is what the drawing says</td><td>general structural work</td></tr>
+          <tr><td>With mill certificate (3.1)</td><td>a document travels with the material</td><td>export shipments, customers who audit traceability</td></tr>
+          <tr><td>Heat-number traceable, certified bar</td><td>the exact heat is known and recorded</td><td>medical, aerospace, pressure equipment, safety parts</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">Traps:</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>"Good material" is not a specification. Write the grade, the temper and the documentation requirement — 6061-T6 and 6061-T651 machine very differently, and the certificate you get depends on which one you named.</li>
+        <li>A material certificate is a document that ships with the goods. If it is not on the purchase order, it is not on the pallet.</li>
+        <li>Asking for 100% CMM on a part with two functional dimensions is paying for certainty you will never look at.</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>DFM tip:</strong> name the dimensions that need a report, and write grade + temper + certificate. Two sentences, and the quote has nowhere left to be ambiguous.</div>
+    </div>
+  </section>
+
+  <!-- 8 When the drawing says nothing -->
+  <section style="background-color: var(--card-white); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">8. When the drawing says nothing, we have to guess</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">This is the quiet version of every point above. Missing information does not disappear — it becomes an assumption, the assumption becomes a price, and the price becomes an argument at delivery. These seven are the ones we meet most often.</p>
+      <table class="dfm-table">
+        <thead><tr><th>#</th><th>Usually missing from the drawing</th><th>So we assume</th><th>And the bill arrives as</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>finishing happens after machining</td><td>quote as machined</td><td>threads and tolerances eaten by coating; rework</td></tr>
+          <tr><td>2</td><td>which general tolerance standard applies</td><td>our in-house default</td><td>your inspection standard and ours disagree</td></tr>
+          <tr><td>3</td><td>stock form — bar, plate, forging, casting</td><td>whichever wastes least material</td><td>material utilisation lands in the price</td></tr>
+          <tr><td>4</td><td>which dimensions are actually critical</td><td>treat them all as critical</td><td>you pay inspection on dimensions nobody checks</td></tr>
+          <tr><td>5</td><td>what the part assembles into</td><td>guarantee the part on its own</td><td>it does not fit</td></tr>
+          <tr><td>6</td><td>quantity, and what comes after it</td><td>quote this batch only</td><td>the volume price never materialises</td></tr>
+          <tr><td>7</td><td>delivery date and acceptance method</td><td>our standard lead time</td><td>a lead-time argument in week three</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-6 max-w-3xl" style="color: var(--text-body);">None of these is a trick. They are all things a designer knows and simply did not expect to have to write down. The cheapest DFM review is the one where you go through this list before sending the file.</p>
+    </div>
+  </section>
+
+  <!-- 9 Checklist -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">9. Eight things to check before you send the drawing</h2>
       <p class="max-w-3xl mb-4" style="color: var(--text-body);">Part 1 gave five geometric rules. This is the companion list — all small, all cheap to fix on paper.</p>
       <ol class="space-y-3 max-w-3xl" style="color: var(--text-body);">
         <li><strong>Threads.</strong> Does the callout say how much <em>full</em> thread is needed, or only a depth? Could any of them be through-holes?</li>
         <li><strong>Counterbores.</strong> Is the depth tolerance actually needed, or would a minimum do? Is any counterbore sitting on a rough or curved face?</li>
         <li><strong>Edges.</strong> Is there one line telling the shop how to treat edges? If not, the work is being done by hand.</li>
         <li><strong>Burrs.</strong> Does any hole break into another hole, or exit a curve? Can a tool reach the result?</li>
-        <li><strong>Coating.</strong> Does anything get anodized, plated or painted after machining? If so, the shop needs to know before it cuts threads or holds a tolerance.</li>
+        <li><strong>Quantity and annual usage.</strong> Does the enquiry say what this part is — a prototype, or the first batch of something bigger? A single number can only be quoted as a single number.</li>
+        <li><strong>Setup count.</strong> How many faces have to be machined, and is it obvious which ones must stay in the same setup? If it is not obvious, we will assume.</li>
+        <li><strong>Inspection.</strong> Which dimensions actually need a report? "Provide a report" and "A, B and C need a report" are two different prices.</li>
+        <li><strong>Material and finishing.</strong> Grade, temper, certificate required — and does anything get anodized, plated or painted after machining? The shop needs to know before it cuts threads or holds a tolerance.</li>
       </ol>
-      <p class="mt-6 max-w-3xl" style="color: var(--text-body);">None of these five changes what the part does. All of them change what it costs. That is the whole point of a DFM review: the drawing should decide the price, not the shop's guess about what the drawing meant.</p>
+      <p class="mt-6 max-w-3xl" style="color: var(--text-body);">None of these changes what the part does. All of them change what it costs. That is the whole point of a DFM review: the drawing should decide the price, not the shop's guess about what the drawing meant.</p>
     </div>
   </section>
 

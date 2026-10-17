@@ -11,7 +11,7 @@ const articleSchema = {
   '@context': 'https://schema.org',
   '@type': 'TechArticle',
   headline: 'CNC DFM 省钱设计要点（下篇）',
-  description: '螺纹深度、沉孔公差、棱边处理和毛刺——决定零件好不好做的，常常不是大形状，而是图纸角落里那几笔。',
+  description: '螺纹深度、沉孔公差、棱边处理和毛刺——以及图纸上根本没写的四件事：数量、夹具、检测等级、材料状态。',
   author: { '@type': 'Organization', name: 'Eternal CNC Precision Machining' },
   publisher: {
     '@type': 'Organization',
@@ -24,8 +24,8 @@ const articleSchema = {
 ---
 
 <PageLayout
-  title="DFM 省钱设计要点（下篇） | 螺纹·沉孔·棱边 | 鑫永恒"
-  description="螺纹深度、沉孔公差、棱边、毛刺——决定零件好不好做的常常不是大形状，而是图纸角落里那几笔。DFM 省钱设计要点下篇。"
+  title="DFM 省钱设计要点（下篇） | 小特征与报价假设 | 鑫永恒"
+  description="螺纹、沉孔、棱边、毛刺——以及图纸上根本没写的四件事：数量、夹具、检测等级、材料状态。DFM 省钱设计要点下篇。"
   breadcrumbs={breadcrumbs}
   schema={articleSchema}
 >
@@ -50,8 +50,9 @@ const articleSchema = {
       </h1>
       <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
         <a href="/zh/knowledge/dfm-guide/" style="color: var(--brand-red); text-decoration: underline;">上篇</a>
-        讲的是零件本身的形状——壁厚、孔、圆角、公差。下篇讲图纸上容易被当成小事的那几笔：
-        螺纹、沉孔、棱边、毛刺。它们看着不起眼，但小数字就是在这里变成真金白银。
+        讲的是零件本身的形状——壁厚、孔、圆角、公差。下篇先讲图纸上容易被当成小事的那几笔：
+        螺纹、沉孔、棱边、毛刺；再讲图纸上<b>根本没写</b>的四件事——数量、夹具、检测等级、材料状态。
+        同一张图两家厂报出看着不相干的价格，答案多半在这四件里。
       </p>
       <div class="flex flex-wrap gap-4 mt-8">
         <a href="/zh/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
@@ -196,19 +197,127 @@ const articleSchema = {
     </div>
   </section>
 
-  <!-- 5 清单 -->
+  <!-- 5 数量 -->
   <section style="background-color: var(--page-bg); padding: 72px 0;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">5. 发图之前，先过这五条</h2>
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">5. 数量 —— 首件和调试，总得有人付</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">到上一节为止，讲的都是零件本身。从这里开始，讲零件周边那份纸——也正是两家厂对同一张图报出"看着不像同一单生意"的价格的地方。</p>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">报价永远是"按这一批"算的。首件、编程、装夹、找正、试切——这些开销不会因为批量小就跟着变小，它必须由这一批的人付。10 件就把整套开销全扛在自己身上，500 件就摊薄。这不是折扣政策，这是算术。</p>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">所以 10 件和 500 件，不是同一个零件用同一种做法，而是两门不同的手艺共用了一张图。10 件我们走慢、测得多、用通用夹具；500 件我们做专用夹具、按节拍走、抽检。两种都是实在做法，只是两种。</p>
+      <table class="dfm-table">
+        <thead><tr><th>询价单上这样写</th><th>我们这样报</th><th>你后来会得到</th></tr></thead>
+        <tbody>
+          <tr><td>「10 件」</td><td>打样工艺，整套开销由这 10 件承担</td><td>单价偏高；量上来之后落差很大</td></tr>
+          <tr><td>「10 件，之后年用量约 N 件」</td><td>给两个价——打样价、量产价，附量产价的前提</td><td>量产价一开始就是真的，而不是以后再谈</td></tr>
+          <tr><td>「500 件，一次性」</td><td>量产工艺，含夹具</td><td>单价最低——但设计一改，夹具就白做</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">容易踩的坑：</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>分批交货不等于分批下单。「先交 100，剩下 400 后面要」，这仍然是一张 500 件的单：我们按 500 备料、按 500 排产，你拿的是量单价。事先说清，它就是事实；事后才提，它就是争议。</li>
+        <li>数量报小了，就只能按小的报。反过来把数量往大报去压价也没用——它会在交付时以别的方式回来：延期，或者加价。</li>
+        <li>年用量比单批数量更要紧。批量决定节拍，年用量决定这副夹具到底值不值得做。</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>DFM 提示：</strong>加一句「打样，之后年用量约 N 件」，一次回复就能拿到两个价，也省掉三个月后那场不好谈的谈话。</div>
+    </div>
+  </section>
+
+  <!-- 6 夹具 -->
+  <section style="background-color: var(--card-white); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">6. 夹具 —— 报价单上永远不会出现的那笔钱</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">没有哪张报价单会写「夹具」两个字。这笔钱被折进了工时里，所以你看到的那个数字，来历说不清。同一张图两家报出的差价，常常就藏在这里。</p>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">装夹方式选哪一种，通常由两件你知道、我们只能猜的事决定：这个零件形状有多复杂，以及它会不会改版。这两件都该写进询价单。</p>
+      <table class="dfm-table">
+        <thead><tr><th>装夹方式</th><th>适合</th><th>不适合</th></tr></thead>
+        <tbody>
+          <tr><td>通用虎钳 / 软爪</td><td>方块料、单件、打样</td><td>薄壁、异形、需要五面加工</td></tr>
+          <tr><td>镗软爪（车削）</td><td>已加工外圆上的二次装夹</td><td>薄壁环、一夹就变形的件</td></tr>
+          <tr><td>专用夹具</td><td>形状复杂、数量稳定、设计不改</td><td>会改版的件——夹具随之报废</td></tr>
+          <tr><td>真空台 / 磁力台</td><td>薄板、大面积平面</td><td>小件，或带通孔会漏真空的件</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">容易踩的坑：</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>薄壁件的第一道工序不是切削，是「怎么夹住它而不让它变形」。这一条定死了后面所有的尺寸。</li>
+        <li>要不要做专用夹具，判据不只是数量，而是「年用量 × 形状复杂度 ÷ 改版频率」。只看数量，两头都会判断错。</li>
+        <li>一件零件如果装夹超过三次，通常说明问题在设计，不在夹具。</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>DFM 提示：</strong>告诉我们这个件会不会改版。一年改两次的件，做专用夹具是最贵的一种省钱方式。</div>
+    </div>
+  </section>
+
+  <!-- 7 检测与材料 -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">7. 检测等级与材料状态 —— 两句话，直接把价格推走</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">图纸上写公差，但几乎从不写「怎么验」。这个空缺是值钱的——而且它是买家少数几个不用改一个尺寸、就能把价格降下来的地方。</p>
+      <table class="dfm-table">
+        <thead><tr><th>你要的</th><th>我们做什么</th><th>什么时候这是对的答案</th></tr></thead>
+        <tbody>
+          <tr><td>「能装就行」</td><td>保证功能尺寸，过程抽检，随货附合格证</td><td>结构件、外观件、非配合面</td></tr>
+          <tr><td>关键尺寸受控</td><td>首件 + 末件 + 关键尺寸 100% 检验</td><td>有配合关系、有装配关系</td></tr>
+          <tr><td>全尺寸报告</td><td>全特征测量并出报告</td><td>首件承认，或预防来料检验时的争议</td></tr>
+          <tr><td>100% 三坐标 + 原始数据</td><td>逐件测量，提供数据文件</td><td>医疗、航空、安全件</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-4 max-w-3xl" style="color: var(--text-body);">这一条的坑跟前面几节方向相反：你不是少写了，而是写得太笼统。「提供检测报告」听着谨慎，你会拿到一份全尺寸报告，以及全尺寸报告的价格。「仅 A、B、C 三个尺寸需要报告」更便宜，而且指令更清楚。</p>
+      <p class="mt-4 mb-2" style="color: var(--text-body);">材料状态是同一个道理。同一牌号，可以是通用现货，也可以是带第三方证明、炉号可追溯的棒料。零件在机床上的表现完全一样，但背后的文件负担不一样。</p>
+      <table class="dfm-table">
+        <thead><tr><th>材料状态</th><th>意味着什么</th><th>什么时候需要</th></tr></thead>
+        <tbody>
+          <tr><td>通用现货，牌号保证</td><td>合金成分如图纸所写</td><td>一般结构件</td></tr>
+          <tr><td>附材质证明（3.1）</td><td>有一份文件随货同行</td><td>出口件、客户要审可追溯性</td></tr>
+          <tr><td>炉号可追溯 + 有证棒料</td><td>确切炉次可查、可记录</td><td>医疗、航空、压力容器、安全件</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 mb-2 font-semibold" style="color: var(--brand-dark);">容易踩的坑：</p>
+      <ul class="space-y-2" style="color: var(--text-body);">
+        <li>「材质要好」不是规格。要写牌号、状态和文件要求——6061-T6 和 6061-T651 的加工变形完全不同，你写哪一个，决定你拿到哪一份证明。</li>
+        <li>材质证明是随货的文件。采购单上没写，托盘里就不会有。</li>
+        <li>一个只有两个功能尺寸的零件，要求 100% 三坐标，是为一份你永远不会去看的确定性付钱。</li>
+      </ul>
+      <div class="dfm-box mt-5"><strong>DFM 提示：</strong>点明哪几个尺寸要报告，写清牌号 + 状态 + 证明要求。两句话下来，报价单就没有歧义的余地了。</div>
+    </div>
+  </section>
+
+  <!-- 8 图纸不写 -->
+  <section style="background-color: var(--card-white); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">8. 图纸上没写，我们就只能猜</h2>
+      <p class="max-w-3xl mb-4" style="color: var(--text-body);">这是前面每一节安静的那个版本。缺的信息不会消失：它变成假设，假设变成价格，价格变成交付时的争议。下面七条是我们遇到最多的。</p>
+      <table class="dfm-table">
+        <thead><tr><th>#</th><th>图纸上常缺的</th><th>我们只能假设</th><th>账单以什么形式到来</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>机加之后还要做表面处理</td><td>按未处理报价</td><td>螺纹和公差被膜层吃掉，返工</td></tr>
+          <tr><td>2</td><td>适用哪一个未注公差标准</td><td>按厂内默认执行</td><td>你的验收标准和我们的对不上</td></tr>
+          <tr><td>3</td><td>毛坯形式——棒料、板料、锻件还是铸件</td><td>按最省料的方式</td><td>材料利用率差异跑进价格</td></tr>
+          <tr><td>4</td><td>哪几个尺寸才是关键尺寸</td><td>全部按关键尺寸处理</td><td>你为没人看的尺寸付了检测费</td></tr>
+          <tr><td>5</td><td>这个零件装进什么里面</td><td>只保证单件合格</td><td>装不上</td></tr>
+          <tr><td>6</td><td>数量，以及之后还有多少</td><td>只按这一批报</td><td>量产价一直没出现</td></tr>
+          <tr><td>7</td><td>交付节点与验收方式</td><td>按常规交期</td><td>第三周开始扯交期</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-6 max-w-3xl" style="color: var(--text-body);">这七条都不是套路。它们全是设计师本来就知道、只是没料到还需要写下来的事。最便宜的一次 DFM 评审，就是发文件之前先把这张表过一遍。</p>
+    </div>
+  </section>
+
+  <!-- 9 清单 -->
+  <section style="background-color: var(--page-bg); padding: 72px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold mb-3" style="color: var(--brand-dark);">9. 发图之前，先过这八条</h2>
       <p class="max-w-3xl mb-4" style="color: var(--text-body);">上篇给了五条几何规则，这里是配套的清单——每条都小，每条在纸上改都几乎不要钱。</p>
       <ol class="space-y-3 max-w-3xl" style="color: var(--text-body);">
         <li><b>螺纹。</b>标注写的是需要多少<b>完整</b>螺纹，还是只写了一个深度？有没有哪几个能改成通孔？</li>
-        <li><b>沉孔。</b>深度公差真的需要吗，还是“最小”就够？有没有沉孔开在毛坯面或曲面上？</li>
+        <li><b>沉孔。</b>深度公差真的需要吗，还是「最小」就够？有没有沉孔开在毛坯面或曲面上？</li>
         <li><b>棱边。</b>图纸上有没有一句话说棱边怎么处理？没有的话，这道活现在正靠手工在做。</li>
         <li><b>毛刺。</b>有没有孔破进另一个孔、或者从曲面穿出？出来的毛刺，工具有办法够到吗？</li>
-        <li><b>表面处理。</b>机加之后还要阳极、电镀或喷漆吗？要的话，车间得在攻丝和卡公差<b>之前</b>就知道。</li>
+        <li><b>数量与年用量。</b>询价单上说了这个件是什么性质吗——打样，还是更大批次的第一批？一个数字，只能按一个数字来报。</li>
+        <li><b>装夹次数。</b>要加工几个面，哪几个面必须同一次装夹完成，写清楚了吗？不写清楚，我们就只能假设。</li>
+        <li><b>检测。</b>到底哪几个尺寸需要报告？「提供检测报告」和「A、B、C 三个尺寸需要报告」，是两个价。</li>
+        <li><b>材料与表面处理。</b>牌号、状态、要不要证明——以及机加之后还有没有阳极、电镀或喷漆？要的话，车间得在攻丝和卡公差<b>之前</b>就知道。</li>
       </ol>
-      <p class="mt-6 max-w-3xl" style="color: var(--text-body);">这五条，没有一条会改变零件的功能，但每一条都改变它的价格。DFM 评审的全部意义就在这里：让图纸决定价钱，而不是让车间去猜图纸想说什么。</p>
+      <p class="mt-6 max-w-3xl" style="color: var(--text-body);">这八条，没有一条会改变零件的功能，但每一条都改变它的价格。DFM 评审的全部意义就在这里：让图纸决定价钱，而不是让车间去猜图纸想说什么。</p>
     </div>
   </section>
 
