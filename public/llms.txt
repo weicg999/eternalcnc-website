@@ -25,6 +25,12 @@ Slogan: "Precision CNC Machining for Global Engineers".
 - Website: https://eternalcnc.com
 - Slogan: Precision CNC Machining for Global Engineers
 
+## Social profiles
+
+- X (Twitter): https://x.com/XinYonghengcnc
+- Instagram: https://www.instagram.com/XYH6061
+- YouTube: https://www.youtube.com/@eternalcnc
+
 ## Capabilities
 
 - 5-axis simultaneous milling
