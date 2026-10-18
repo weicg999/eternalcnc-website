@@ -1,6 +1,13 @@
 // /api/quote — 接收报价表单 + 图纸，存 R2，发邮件通知销售
 // 前端已在 QuoteForm.astro 中 POST multipart/form-data 到此接口
 export async function onRequestPost({ request, env }) {
+  // 入口先验 Content-Type：扫描器/脚本常对 API 发非 multipart 的垃圾请求，
+  // 若直接 request.formData() 会 throw，被下方 catch 统一按 500 返回，
+  // 抬高 Cloudflare 的 5xx 错误率。非 multipart 一律 400，不当服务器错误。
+  const contentType = (request.headers.get('content-type') || '').toLowerCase();
+  if (!contentType.includes('multipart/form-data')) {
+    return Response.json({ ok: false, error: 'Expected multipart/form-data' }, { status: 400 });
+  }
   try {
     const formData = await request.formData();
 
