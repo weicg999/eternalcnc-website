@@ -16,19 +16,19 @@ readingTime: 11 分钟
 这个问题不只是汽车行业的。它悬在每一个做安全相关零件的厂子头上，包括我们这种做精密结构件的。所以这篇文章，我从一个加工厂的角度，把这件事拆开讲一次。
 
 <figure style="margin:1.8em 0;">
-<svg viewBox="0 0 520 388" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="标准只划了及格线：合规线以下不允许，及格线到实际余量之间没有任何人替你守" style="width:100%;max-width:520px;height:auto;display:block;margin:0 auto;border:1px solid #E5E7EB;border-radius:10px;background:#FFFFFF;">
-<text x="260" y="38" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="21" font-weight="700" style="fill:#111827;">标准只划了一条线</text>
-<rect x="24" y="64" width="472" height="92" rx="11" style="fill:#FDF6F6;stroke:#8B0000;"/>
-<text x="260" y="100" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="18" font-weight="700" style="fill:#8B0000;">线上 · 达标</text>
-<text x="260" y="130" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="17" style="fill:#6B7280;">合格证有了 · 事还没完</text>
-<line x1="24" y1="194" x2="496" y2="194" stroke="#8B0000" stroke-width="2.5" stroke-dasharray="8 6"/>
-<text x="24" y="180" text-anchor="start" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="17" font-weight="700" style="fill:#8B0000;">标准线 · 强制门槛</text>
-<rect x="24" y="204" width="472" height="76" rx="11" style="fill:#FAFAFA;stroke:#D9D9D9;"/>
-<text x="260" y="236" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="18" style="fill:#6B7280;">线下 · 不合规</text>
-<text x="260" y="264" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="17" style="fill:#9CA3AF;">不许出厂</text>
-<rect x="24" y="294" width="472" height="76" rx="11" style="fill:#FFFFFF;stroke:#D9D9D9;" stroke-dasharray="6 5"/>
-<text x="260" y="326" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="18" style="fill:#6B7280;">线上再往上 · 冗余</text>
-<text x="260" y="354" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="17" style="fill:#9CA3AF;">没有任何标准要求 · 全靠自己定</text>
+<svg viewBox="0 0 680 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="标准只划了及格线：合规线以下不允许，及格线到实际余量之间没有任何人替你守" style="width:100%;height:auto;display:block;border:1px solid #E5E7EB;border-radius:10px;background:#FFFFFF;">
+<text x="340" y="28" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="14" font-weight="700" style="fill:#111827;">标准只划了一条线</text>
+<line x1="60" y1="150" x2="620" y2="150" stroke="#8B0000" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="60" y="147" text-anchor="start" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" font-weight="700" style="fill:#8B0000;">标准线 · 强制门槛</text>
+<rect x="60" y="162" width="560" height="56" rx="9" style="fill:#FAFAFA;stroke:#D9D9D9;"/>
+<text x="340" y="186" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="13" style="fill:#6B7280;">线下 · 不合规</text>
+<text x="340" y="205" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11" style="fill:#9CA3AF;">不许出厂</text>
+<rect x="60" y="60" width="560" height="72" rx="9" style="fill:#FDF6F6;stroke:#8B0000;"/>
+<text x="340" y="88" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="13" font-weight="700" style="fill:#8B0000;">线上 · 达标</text>
+<text x="340" y="110" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11" style="fill:#6B7280;">合格证有了 · 事还没完</text>
+<rect x="60" y="238" width="560" height="56" rx="9" style="fill:#FFFFFF;stroke:#D9D9D9;" stroke-dasharray="5 4"/>
+<text x="340" y="262" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="13" style="fill:#6B7280;">线上再往上 · 冗余</text>
+<text x="340" y="281" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11" style="fill:#9CA3AF;">没有任何标准要求 · 全靠自己定</text>
 </svg>
 <figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">图 1 · 合格证管的是线，不负责线之上那段</figcaption>
 </figure>
@@ -44,18 +44,18 @@ readingTime: 11 分钟
 把 500 N 当成踏板不会断的保证，是彻底搞错了对象。500 N 是「正常操作要多大劲」，不是「这个零件能扛多大劲」。标准里根本没有后者这个数。
 
 <figure style="margin:1.8em 0;">
-<svg viewBox="0 0 520 292" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="人力实测值：受控驾驶平均 281 牛，模拟紧急制动升至 796 牛，最高读到 1793 牛，都远高于标准的 500 牛" style="width:100%;max-width:520px;height:auto;display:block;margin:0 auto;border:1px solid #E5E7EB;border-radius:10px;background:#FFFFFF;">
-<text x="260" y="38" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="21" font-weight="700" style="fill:#111827;">人一慌，脚下是另一个数量级</text>
-<line x1="24" y1="240" x2="496" y2="240" stroke="#D9D9D9" stroke-width="1.5"/>
-<rect x="24" y="200" width="128" height="40" rx="5" style="fill:#E5E7EB;"/>
-<text x="88" y="226" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="18" style="fill:#374151;">281 N</text>
-<text x="88" y="268" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="17" style="fill:#6B7280;">受控驾驶</text>
-<rect x="196" y="144" width="128" height="96" rx="5" style="fill:#D9D9D9;"/>
-<text x="260" y="174" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="18" style="fill:#374151;">796 N</text>
-<text x="260" y="268" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="17" style="fill:#6B7280;">模拟紧急</text>
-<rect x="368" y="72" width="128" height="168" rx="5" style="fill:#8B0000;"/>
-<text x="432" y="102" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="18" font-weight="700" style="fill:#FFFFFF;">1793 N</text>
-<text x="432" y="268" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="17" style="fill:#6B7280;">实测最高</text>
+<svg viewBox="0 0 680 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="人力实测值：受控驾驶平均 281 牛，模拟紧急制动升至 796 牛，最高读到 1793 牛，都远高于标准的 500 牛" style="width:100%;height:auto;display:block;border:1px solid #E5E7EB;border-radius:10px;background:#FFFFFF;">
+<text x="340" y="30" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="14" font-weight="700" style="fill:#111827;">人一慌，脚下是另一个数量级</text>
+<line x1="120" y1="200" x2="620" y2="200" stroke="#D9D9D9" stroke-width="1"/>
+<rect x="140" y="176" width="90" height="24" rx="4" style="fill:#E5E7EB;"/>
+<text x="185" y="192" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" style="fill:#374151;">281 N</text>
+<text x="185" y="218" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11" style="fill:#6B7280;">受控驾驶</text>
+<rect x="300" y="124" width="90" height="76" rx="4" style="fill:#D9D9D9;"/>
+<text x="345" y="140" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" style="fill:#374151;">796 N</text>
+<text x="345" y="218" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11" style="fill:#6B7280;">模拟紧急</text>
+<rect x="460" y="62" width="90" height="138" rx="4" style="fill:#8B0000;"/>
+<text x="505" y="78" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="12" font-weight="700" style="fill:#FFFFFF;">1793 N</text>
+<text x="505" y="218" text-anchor="middle" font-family="system-ui, 'Microsoft YaHei', sans-serif" font-size="11" style="fill:#6B7280;">实测最高</text>
 </svg>
 <figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">图 2 · 沃尔沃 1998 年驾驶员研究数据，紧急场景可达受控场景的 2.8 倍</figcaption>
 </figure>

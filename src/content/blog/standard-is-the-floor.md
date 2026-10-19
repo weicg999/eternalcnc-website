@@ -17,19 +17,19 @@ What it was, and who was right, I'm not going to get into here. Not because I ha
 That question doesn't belong to the auto industry alone. It hangs over every shop that makes a safety-relevant part, including the ones like ours that cut precision structural components. So let me take it apart from a machine shop's point of view.
 
 <figure style="margin:1.8em 0;">
-<svg viewBox="0 0 520 388" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The standard draws one line: below it you may not ship, above it nobody is required to hold any margin for you" style="width:100%;max-width:520px;height:auto;display:block;margin:0 auto;border:1px solid #E5E7EB;border-radius:10px;background:#FFFFFF;">
-<text x="260" y="38" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="21" font-weight="700" style="fill:#111827;">The standard draws one line</text>
-<rect x="24" y="64" width="472" height="92" rx="11" style="fill:#FDF6F6;stroke:#8B0000;"/>
-<text x="260" y="100" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="18" font-weight="700" style="fill:#8B0000;">Above the line</text>
-<text x="260" y="130" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="17" style="fill:#6B7280;">You have a certificate. That is all</text>
-<line x1="24" y1="194" x2="496" y2="194" stroke="#8B0000" stroke-width="2.5" stroke-dasharray="8 6"/>
-<text x="24" y="180" text-anchor="start" font-family="system-ui, 'Segoe UI', sans-serif" font-size="17" font-weight="700" style="fill:#8B0000;">Compliance line</text>
-<rect x="24" y="204" width="472" height="76" rx="11" style="fill:#FAFAFA;stroke:#D9D9D9;"/>
-<text x="260" y="236" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="18" style="fill:#6B7280;">Below the line</text>
-<text x="260" y="264" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="17" style="fill:#9CA3AF;">You do not ship</text>
-<rect x="24" y="294" width="472" height="76" rx="11" style="fill:#FFFFFF;stroke:#D9D9D9;" stroke-dasharray="6 5"/>
-<text x="260" y="326" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="18" style="fill:#6B7280;">Above that: margin</text>
-<text x="260" y="354" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="17" style="fill:#9CA3AF;">Nobody requires it. You decide it</text>
+<svg viewBox="0 0 680 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The standard draws one line: below it you may not ship, above it nobody is required to hold any margin for you" style="width:100%;height:auto;display:block;border:1px solid #E5E7EB;border-radius:10px;background:#FFFFFF;">
+<text x="340" y="28" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="14" font-weight="700" style="fill:#111827;">The standard draws one line</text>
+<line x1="60" y1="150" x2="620" y2="150" stroke="#8B0000" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="60" y="147" text-anchor="start" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" font-weight="700" style="fill:#8B0000;">Compliance line</text>
+<rect x="60" y="162" width="560" height="56" rx="9" style="fill:#FAFAFA;stroke:#D9D9D9;"/>
+<text x="340" y="186" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" style="fill:#6B7280;">Below the line</text>
+<text x="340" y="205" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11" style="fill:#9CA3AF;">You do not ship</text>
+<rect x="60" y="60" width="560" height="72" rx="9" style="fill:#FDF6F6;stroke:#8B0000;"/>
+<text x="340" y="88" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" font-weight="700" style="fill:#8B0000;">Above the line</text>
+<text x="340" y="110" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11" style="fill:#6B7280;">You have a certificate. That is all</text>
+<rect x="60" y="238" width="560" height="56" rx="9" style="fill:#FFFFFF;stroke:#D9D9D9;" stroke-dasharray="5 4"/>
+<text x="340" y="262" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" style="fill:#6B7280;">Above that: margin</text>
+<text x="340" y="281" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11" style="fill:#9CA3AF;">Nobody requires it. You decide it</text>
 </svg>
 <figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">Figure 1 &middot; The certificate covers the line, not the space above it</figcaption>
 </figure>
@@ -45,18 +45,18 @@ The other is "how hard before it breaks." That is a structural strength question
 Treating 500 N as a promise that a pedal won't snap is a category error. 500 N is "how much force normal operation takes," not "how much this part can survive." The standard doesn't contain the second number at all.
 
 <figure style="margin:1.8em 0;">
-<svg viewBox="0 0 520 292" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Measured pedal forces: 281 N in controlled driving, 796 N in simulated emergency braking, up to 1793 N at the highest reading, all far above the 500 N standard" style="width:100%;max-width:520px;height:auto;display:block;margin:0 auto;border:1px solid #E5E7EB;border-radius:10px;background:#FFFFFF;">
-<text x="260" y="38" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="21" font-weight="700" style="fill:#111827;">A startled driver is another scale</text>
-<line x1="24" y1="240" x2="496" y2="240" stroke="#D9D9D9" stroke-width="1.5"/>
-<rect x="24" y="200" width="128" height="40" rx="5" style="fill:#E5E7EB;"/>
-<text x="88" y="226" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="18" style="fill:#374151;">281 N</text>
-<text x="88" y="268" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="17" style="fill:#6B7280;">Controlled</text>
-<rect x="196" y="144" width="128" height="96" rx="5" style="fill:#D9D9D9;"/>
-<text x="260" y="174" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="18" style="fill:#374151;">796 N</text>
-<text x="260" y="268" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="17" style="fill:#6B7280;">Emergency sim</text>
-<rect x="368" y="72" width="128" height="168" rx="5" style="fill:#8B0000;"/>
-<text x="432" y="102" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="18" font-weight="700" style="fill:#FFFFFF;">1793 N</text>
-<text x="432" y="268" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="17" style="fill:#6B7280;">Peak recorded</text>
+<svg viewBox="0 0 680 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Measured pedal forces: 281 N in controlled driving, 796 N in simulated emergency braking, up to 1793 N at the highest reading, all far above the 500 N standard" style="width:100%;height:auto;display:block;border:1px solid #E5E7EB;border-radius:10px;background:#FFFFFF;">
+<text x="340" y="30" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="14" font-weight="700" style="fill:#111827;">A startled driver is another scale</text>
+<line x1="120" y1="200" x2="620" y2="200" stroke="#D9D9D9" stroke-width="1"/>
+<rect x="140" y="176" width="90" height="24" rx="4" style="fill:#E5E7EB;"/>
+<text x="185" y="192" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" style="fill:#374151;">281 N</text>
+<text x="185" y="218" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11" style="fill:#6B7280;">Controlled</text>
+<rect x="300" y="124" width="90" height="76" rx="4" style="fill:#D9D9D9;"/>
+<text x="345" y="140" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" style="fill:#374151;">796 N</text>
+<text x="345" y="218" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11" style="fill:#6B7280;">Emergency sim</text>
+<rect x="460" y="62" width="90" height="138" rx="4" style="fill:#8B0000;"/>
+<text x="505" y="78" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" font-weight="700" style="fill:#FFFFFF;">1793 N</text>
+<text x="505" y="218" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11" style="fill:#6B7280;">Peak recorded</text>
 </svg>
 <figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">Figure 2 &middot; Volvo 1998 driver study &mdash; emergency effort reached 2.8&times; the controlled figure</figcaption>
 </figure>
