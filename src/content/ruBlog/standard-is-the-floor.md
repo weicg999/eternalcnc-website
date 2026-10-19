@@ -17,19 +17,19 @@ readingTime: "11 мин чтения"
 Этот вопрос не принадлежит одной автомобильной отрасли. Он висит над каждым цехом, который делает детали, влияющие на безопасность, — включая такие, как наш, где фрезеруют и точат прецизионные корпусные детали. Поэтому разберу его с точки зрения механического цеха.
 
 <figure style="margin:1.8em 0;">
-<svg viewBox="0 0 680 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Стандарт проводит одну линию: ниже нельзя, выше — никто не обязан держать запас за вас" style="width:100%;height:auto;display:block;border:1px solid #E5E7EB;border-radius:10px;background:#FFFFFF;">
-<text x="340" y="28" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" font-weight="700" style="fill:#111827;">Стандарт проводит одну линию</text>
-<line x1="60" y1="150" x2="620" y2="150" stroke="#8B0000" stroke-width="2" stroke-dasharray="7 5"/>
-<text x="60" y="147" text-anchor="start" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" font-weight="700" style="fill:#8B0000;">Линия нормы</text>
-<rect x="60" y="162" width="560" height="56" rx="9" style="fill:#FAFAFA;stroke:#D9D9D9;"/>
-<text x="340" y="186" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" style="fill:#6B7280;">Ниже линии</text>
-<text x="340" y="205" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11" style="fill:#9CA3AF;">Отгружать нельзя</text>
-<rect x="60" y="60" width="560" height="72" rx="9" style="fill:#FDF6F6;stroke:#8B0000;"/>
-<text x="340" y="88" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" font-weight="700" style="fill:#8B0000;">Выше линии</text>
-<text x="340" y="110" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11" style="fill:#6B7280;">Сертификат есть. И только</text>
-<rect x="60" y="238" width="560" height="56" rx="9" style="fill:#FFFFFF;stroke:#D9D9D9;" stroke-dasharray="5 4"/>
-<text x="340" y="262" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" style="fill:#6B7280;">Выше этого — запас</text>
-<text x="340" y="281" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11" style="fill:#9CA3AF;">Никто не требует. Вы решаете</text>
+<svg viewBox="0 0 520 388" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Стандарт проводит одну линию: ниже нельзя, выше — никто не обязан держать запас за вас" style="width:100%;max-width:520px;height:auto;display:block;margin:0 auto;border:1px solid #E5E7EB;border-radius:10px;background:#FFFFFF;">
+<text x="260" y="38" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="21" font-weight="700" style="fill:#111827;">Стандарт проводит одну линию</text>
+<rect x="24" y="64" width="472" height="92" rx="11" style="fill:#FDF6F6;stroke:#8B0000;"/>
+<text x="260" y="100" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="18" font-weight="700" style="fill:#8B0000;">Выше линии</text>
+<text x="260" y="130" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="17" style="fill:#6B7280;">Сертификат есть. И только</text>
+<line x1="24" y1="194" x2="496" y2="194" stroke="#8B0000" stroke-width="2.5" stroke-dasharray="8 6"/>
+<text x="24" y="180" text-anchor="start" font-family="system-ui, 'Segoe UI', sans-serif" font-size="17" font-weight="700" style="fill:#8B0000;">Линия нормы</text>
+<rect x="24" y="204" width="472" height="76" rx="11" style="fill:#FAFAFA;stroke:#D9D9D9;"/>
+<text x="260" y="236" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="18" style="fill:#6B7280;">Ниже линии</text>
+<text x="260" y="264" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="17" style="fill:#9CA3AF;">Отгружать нельзя</text>
+<rect x="24" y="294" width="472" height="76" rx="11" style="fill:#FFFFFF;stroke:#D9D9D9;" stroke-dasharray="6 5"/>
+<text x="260" y="326" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="18" style="fill:#6B7280;">Выше этого — запас</text>
+<text x="260" y="354" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="17" style="fill:#9CA3AF;">Никто не требует. Вы решаете</text>
 </svg>
 <figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">Рис. 1 &middot; Сертификат закрывает линию, а не то, что выше неё</figcaption>
 </figure>
@@ -45,18 +45,18 @@ readingTime: "11 мин чтения"
 Принимать 500 Н за гарантию, что педаль не сломается, — это подмена предмета. 500 Н — это «сколько усилия требует нормальная работа», а не «сколько переживёт эта деталь». Второго числа в стандарте просто нет.
 
 <figure style="margin:1.8em 0;">
-<svg viewBox="0 0 680 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Измеренные усилия: 281 Н при контролируемом торможении, 796 Н при имитации экстренного, до 1793 Н в максимуме — всё выше нормы 500 Н" style="width:100%;height:auto;display:block;border:1px solid #E5E7EB;border-radius:10px;background:#FFFFFF;">
-<text x="340" y="30" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="13" font-weight="700" style="fill:#111827;">Испуганный водитель — другой порядок</text>
-<line x1="120" y1="200" x2="620" y2="200" stroke="#D9D9D9" stroke-width="1"/>
-<rect x="140" y="176" width="90" height="24" rx="4" style="fill:#E5E7EB;"/>
-<text x="185" y="192" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" style="fill:#374151;">281 Н</text>
-<text x="185" y="218" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11" style="fill:#6B7280;">Контроль</text>
-<rect x="300" y="124" width="90" height="76" rx="4" style="fill:#D9D9D9;"/>
-<text x="345" y="140" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" style="fill:#374151;">796 Н</text>
-<text x="345" y="218" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11" style="fill:#6B7280;">Имитация</text>
-<rect x="460" y="62" width="90" height="138" rx="4" style="fill:#8B0000;"/>
-<text x="505" y="78" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="12" font-weight="700" style="fill:#FFFFFF;">1793 Н</text>
-<text x="505" y="218" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="11" style="fill:#6B7280;">Максимум</text>
+<svg viewBox="0 0 520 292" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Измеренные усилия: 281 Н при контролируемом торможении, 796 Н при имитации экстренного, до 1793 Н в максимуме — всё выше нормы 500 Н" style="width:100%;max-width:520px;height:auto;display:block;margin:0 auto;border:1px solid #E5E7EB;border-radius:10px;background:#FFFFFF;">
+<text x="260" y="38" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="20" font-weight="700" style="fill:#111827;">Испуганный водитель — другой порядок</text>
+<line x1="24" y1="240" x2="496" y2="240" stroke="#D9D9D9" stroke-width="1.5"/>
+<rect x="24" y="200" width="128" height="40" rx="5" style="fill:#E5E7EB;"/>
+<text x="88" y="226" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="18" style="fill:#374151;">281 Н</text>
+<text x="88" y="268" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="17" style="fill:#6B7280;">Контроль</text>
+<rect x="196" y="144" width="128" height="96" rx="5" style="fill:#D9D9D9;"/>
+<text x="260" y="174" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="18" style="fill:#374151;">796 Н</text>
+<text x="260" y="268" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="17" style="fill:#6B7280;">Имитация</text>
+<rect x="368" y="72" width="128" height="168" rx="5" style="fill:#8B0000;"/>
+<text x="432" y="102" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="18" font-weight="700" style="fill:#FFFFFF;">1793 Н</text>
+<text x="432" y="268" text-anchor="middle" font-family="system-ui, 'Segoe UI', sans-serif" font-size="17" style="fill:#6B7280;">Максимум</text>
 </svg>
 <figcaption style="margin-top:.6em;font-size:.85rem;color:#6B7280;text-align:center;">Рис. 2 &middot; Исследование Volvo 1998 года — в экстренном режиме усилие в 2,8 раза выше</figcaption>
 </figure>
