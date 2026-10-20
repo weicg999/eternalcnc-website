@@ -1,6 +1,6 @@
 ---
 title: "Sixty Different Parts, Ten Days — Are We Ready?"
-description: "A robotics company audited our shop today and asked for 60 different parts in 10 days. That filter removes shops that never took a hard job, not old machines."
+description: "A robotics company confirmed we could do 60 different parts in 10 days, then came to audit us. It filters out shops that never took a hard job, not old machines."
 category: "Industry Insights"
 pubDate: 2026-10-20
 tags: ["high-mix low-volume", "rapid prototyping", "non-standard parts", "supplier audit", "long-termism", "robot parts", "process capability"]
@@ -10,17 +10,21 @@ readingTime: "8 min read"
 
 ## 1. Someone came to audit the shop today
 
-This afternoon a robotics company came to audit us. From walking onto the floor to sitting down at the table, they were here most of the day.
+This afternoon a robotics company came to audit us. They were here for about two hours.
 
 What they build is not easy. Among the robot programs we have seen over the years, theirs sits in the hardest bracket — not "can it be made," but "can it be made and then come out identical every time."
 
-The audit itself was nothing unusual: look at the machines, look at the floor, watch how we do a first article, ask questions. The part with real information in it came after the business was done.
+One thing is worth saying up front: **they did not come here to open the negotiation.** Before the visit, they had already confirmed whether we could do the work. Only once the answer was yes did they arrange to come and look.
 
-Late in the conversation, they told us plainly: their parts list is very fragmented, and everything is needed very fast.
+So these two hours were not about discovering anything. They were about verification. Look at the machines, look at the floor, watch how we do a first article, ask questions — four moves aimed at one thing: **is what you said at the quotation stage actually true.**
+
+Later in the conversation, they told us plainly: **this order is not an exception.** Their parts list is always highly fragmented, and everything is always needed very fast.
 
 ## 2. "Many part numbers, needed fast" translates into one filter
 
-That sounds ordinary. Put into shop language, it reads roughly like this: **60 different parts, samples in 10 days.**
+What sat on the table at the quotation stage looked like this: **60 different parts, samples in 10 days.**
+
+What we only learned today is that this is simply their normal — not a one-off.
 
 Most shops in our line hear that number and do two things. First they calculate a price. Then they decline.
 
@@ -50,7 +54,7 @@ Specific enough that it stops being an adjective and becomes "how far this thin 
 
 None of that can be bought or crammed. It only comes from actually running the job, getting it wrong, fixing it, running it again.
 
-So when we were asked today whether we could do sixty parts in ten days, what let us keep talking was not nerve.
+So when that RFQ first landed on the table and asked whether we could do sixty parts in ten days, what let us keep talking was not nerve.
 
 It was this: **we have a fair idea of which of those sixty will hurt, and why.**
 
@@ -69,6 +73,8 @@ In this trade the dangerous answer is not "no." It is "sure, we can do all of it
 A supplier who agrees to everything tends to quote the lowest price and the shortest lead time, because he never worked out where the difficulty sits. When the goods come out wrong, the loss is not on him. It is on your line.
 
 [Why Quotes for the Same Part Differ](/knowledge/tech-blog/quote-difference-quality-cost/) covered one end of that: the invisible inspection cost that ends up transferred to the customer. This is the other end — **whether the sentence was said clearly before the order was taken.**
+
+So these two hours were less an audit than an **account reconciliation** — taking what was said at the quotation stage and checking it, line by line, on the floor. Being willing to be checked is what makes it count.
 
 ## 6. Working with capable people is luck; doing it for years is selection
 
@@ -108,7 +114,7 @@ For a few years I used to wonder, now and then, what a small shop like ours was 
 
 Today I stopped wondering.
 
-A team that builds some of the hardest robots in this country sat in our meeting room and asked whether we could do sixty different parts in ten days.
+A team that builds some of the hardest robots in this country asked one question first — sixty different parts, ten days, can you do it — and only after hearing the answer did they decide to come and see for themselves.
 
 A sentence came up in my head at that moment. Not aimed at the customer — aimed at ourselves:
 
