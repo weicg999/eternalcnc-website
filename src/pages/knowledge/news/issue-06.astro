@@ -1,0 +1,211 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Knowledge Base', href: '/knowledge/' },
+  { label: 'Industry News' },
+];
+
+const issue = {
+  label: 'Issue',
+  number: '06',
+  date: '26 October 2026',
+  blurb: 'Five things the shop floor noticed — and what they mean for the parts you send us.',
+};
+
+const kpis = [
+  { metric: 'About 100 units', label: 'China produced more than 40,000 humanoid robots in the first half of 2026 across more than 400 whole-machine models — roughly 100 units per model. The division is ours, not the ministry\'s. We think it says more about the actual shape of demand than the headline 100,000-unit forecast does.', source: 'Wei Wei, director-general of the Science and Technology Department, Ministry of Industry and Information Technology (MIIT), at the State Council Information Office press conference, 19 October 2026 ("more than 400 models, output above 40,000 units, full-year output expected to exceed 100,000"); the division is this publication\'s own calculation from those two figures.' },
+  { metric: 'RMB 49 million', label: 'Cumulative liquid-cooling orders booked by Jinzhou Pipe as of 10 October 2026. The same business unit has taken an order for 170 sets of CDU piping from one customer — end user described as a major Chinese internet company — due for delivery before the end of October.', source: 'Jinzhou Pipe (002443.SZ), record of investor relations activity, 21 October 2026.' },
+  { metric: '95%', label: 'Accuracy the AI agent from Black Lake Technologies reports in the step from a customer drawing to a routing sheet — reading dimensions and tolerances, splitting operations, choosing the process route. That step used to take an experienced engineer two to three hours; it now takes minutes.', source: 'Economic Information Daily, 22 October 2026, "From the factory floor to the startup community: AI brings industrial vitality" (reporters Sang Tong, Wang Moling, Qi Xinyuan); the accuracy figure is the company\'s own.' },
+];
+
+const stories = [
+  {
+    tag: 'Macro / Output',
+    date: '2026-10-19',
+    title: 'In September the two curves turned opposite ways: robots slowed, machine tools sped up',
+    summary: 'The National Bureau of Statistics reported on 19 October that September output of industrial robots reached 96,752 units, up 18.9% year on year, while the January–September total was 794,781 units, up 29.1%. The monthly rate now sits below the cumulative rate, by 10.2 percentage points. In the same table, metal-cutting machine tools came in at 80,000 units in September, up 12.5%, against 670,000 units for January–September, up 10.1% — the monthly rate running above the cumulative one, by 2.4 points. A third series points the other way: service-robot output was 1,658,178 units in September, down 17.8%, while the nine-month total is still up 7.9%, so the monthly figure has crossed into negative territory.',
+    what_it_means: 'Put those two together and there is only one reading — money is moving from building robots to building the machines that build robots. Whole-machine output growth is easing while cutting-machine output accelerates, which means downstream buyers are buying capacity, not finished units. For anyone sending us parts, that means more competing capacity and softer quotes over the next six to twelve months. What a prototype shop has to defend is not price but the work others decline: thin walls, five-axis in one setup, titanium and 17-4PH, rush jobs. The service-robot number is a separate warning: consumer products follow promotions and seasons, so their orders are elastic; industrial and structural parts follow customer project milestones, so their orders are rigid. If your schedule rides a consumer cadence, allow longer for material.',
+    source: 'National Bureau of Statistics, "Industrial value added above designated size grew 5.5% in September 2026" and annexed tables, 19 October 2026.',
+  },
+  {
+    tag: 'Robotics / Order shape',
+    date: '2026-10-19',
+    title: '400 models, 40,000 units, 100,000 for the year: the humanoid order book is about a hundred units per model',
+    summary: 'At the State Council Information Office briefing on 19 October, MIIT\'s Wei Wei gave three figures: in the first half of 2026 Chinese manufacturers brought out more than 400 whole-machine humanoid models and produced more than 40,000 units, with full-year output expected to exceed 100,000; related products have been validated and deployed in more than 300 priority scenarios including warehousing, food service and retail, and home services. The ministry also said it will publish a 2026 edition of the national standard-system guide for the humanoid robot industry. Separately, the State Administration for Market Regulation approved the first six national standards for humanoid robots, covering body composition, system architecture and environmental perception, effective 1 April 2027.',
+    what_it_means: 'Divide 40,000 units by 400 models and you get 100 units per model. Spread 100,000 across 400-plus models and each is still only two or three hundred. That is the actual order shape of this industry right now: many variants, very small batches — the shape of a prototype shop, not of a mass-production contractor. Three hundred scenarios means the same robot gets its structural parts, interfaces and housings redesigned for each customer, and every redesign is another prototype round. So the humanoid work available today is mostly dozens of pieces at a time, three times a month; price it per unit and you lose money, price it by the number of changeovers and you have a business. Once the standards take effect in April 2027, customers will start asking for inspection data to a common yardstick — set your first-article report and batch-record templates now, not then.',
+    source: 'State Council Information Office press conference (MIIT Science and Technology Department director-general Wei Wei), 19 October 2026, transcript on miit.gov.cn; China Securities Journal / cs.com.cn, 20 October 2026 (six national standards and effective date).',
+  },
+  {
+    tag: 'AI / Shop floor',
+    date: '2026-10-22',
+    title: 'An AI reads a drawing and issues a routing sheet in minutes, at 95% accuracy: the quoting bar has been redrawn',
+    summary: 'Economic Information Daily reported on 22 October that Shanghai-based Black Lake Technologies has wired AI agents into a factory\'s orders, drawings, equipment and floor. Handed a custom drawing, an experienced engineer used to spend two to three hours reading dimensions and tolerances, splitting operations and choosing a route; the agent now reads the drawing, combines it with the plant\'s processes and machine capability, and produces the routing in minutes. Co-founder Li Xiang says accuracy at that step is already above 95%. The same capability, the company says, has cut new-product launch cycles from three months to three weeks and minimum order quantities from 10,000 pieces to 100. The report\'s other example: a fastener plant making 7 specifications and more than 600 variants put digital work orders in place and grew revenue 10% in a year.',
+    what_it_means: 'This lands directly on the quoting step. Buyers used to compare suppliers on who could return a price within two hours; software that turns a drawing into a routing in minutes turns two-hour quoting from an advantage into a ticket to the game. The difference moves one step downstream: once quoting is fast, can you absorb a 100-piece order, and can you deliver first article, batch consistency and inspection data on those 100 pieces. For a small-batch shop this is good news — what software flattens is response speed; what it cannot flatten is fixturing, toolpath and thin-wall deflection. One caveat worth stating plainly: an AI routing gives you operations and time estimates; it does not know the actual stiffness of your machine, the stock allowance on this heat, or whether your workholding will push a thin wall off tolerance. So write the critical tolerances, datums and material condition on the drawing — that helps more than chasing the quote one more time.',
+    source: 'Economic Information Daily, 22 October 2026 (reporters Sang Tong, Wang Moling, Qi Xinyuan); efficiency and accuracy figures are the company\'s own.',
+  },
+  {
+    tag: 'Liquid cooling / Qualification gate',
+    date: '2026-10-21',
+    title: 'Liquid cooling is hot, but one listed supplier has booked RMB 49 million — and the gate is small-batch capability',
+    summary: 'Jinzhou Pipe (002443.SZ) disclosed its investor-relations record on 21 October: the liquid-cooling division has taken an order for 170 sets of CDU piping from one customer, end user described as a major internet company, for delivery before the end of October 2026; cumulative liquid-cooling orders as of 10 October came to about RMB 49 million. The business runs mainly as ODM/OEM, selling to liquid-cooling component and module makers and to system integrators; the first phase of its Dongguan Huaxing line is in volume supply and ramping. The company\'s description of how volume actually arrives is worth quoting as-is: leading customers finish their trial-and-error runs first, then release volume once a supplier\'s small-batch production capability index reaches 80% or 85%.',
+    what_it_means: 'RMB 49 million says more about where this industry stands than any forecast of a hundred-billion-yuan market — it is still moving from samples and validation into volume, and the volume has not arrived. And that line about releasing volume once small-batch capability hits 80% or 85% could have been written for us: the customer does not first ask how much capacity you have, it asks whether you can hold yield, consistency and delivery rhythm at the small-batch stage. Cold plates, manifolds and quick disconnects are not hard because the geometry is hard; they are hard on flatness, on sealing-face roughness in the channels, on cleanliness before brazing, and on batch-to-batch consistency — and those are exactly the parameters to fix during prototyping. So the most valuable thing you deliver on a liquid-cooling part is not the part; it is the record of what this batch\'s parameters were and how the next batch reproduces them.',
+    source: 'Jinzhou Pipe (002443.SZ), record of investor relations activity announcement, 21 October 2026 (reported by Guandian and Sina Finance).',
+  },
+  {
+    tag: 'Machine tools / Capacity',
+    date: '2026-10-19',
+    title: 'Machine-tool revenue up 30.4% with lines essentially full: the backlog is pushing out, so buying a machine means waiting longer',
+    summary: 'Neway CNC (688697.SH) filed its Q3 2026 report on the evening of 19 October: revenue of RMB 2.699 billion for the first nine months, up 30.40%, net profit attributable to shareholders of RMB 276 million, up 33.65%; third-quarter revenue alone was RMB 1.032 billion, up 30.35%, with net profit of RMB 95.91 million, up 25.78%. The company attributes revenue growth to order intake. At an investor briefing on 31 August it said its order book was ample and utilisation high, with all machine categories essentially at full capacity except the phase-four boring-and-milling line. Industry context: CMTBA data for January–August shows industry revenue of RMB 720.9 billion, up 7.5%, with the metal-cutting sub-sector up 18.6% and metal-forming down 4.2%, and new orders for metalworking machine tools up 15.7% with backlog up 19.3%.',
+    what_it_means: 'A fully loaded machine-tool industry is one signal with two faces. For a customer thinking about building its own line: backlog is still growing faster than new orders (+19.3% against +15.7%), which means schedules are being pushed out — order a machining centre today and you wait longer than a year ago; after delivery come acceptance, commissioning and ramp, so a new part takes a quarter, not a month, to go from "make it ourselves" to stable output. For a small-batch shop: more work usually gets outsourced in this window, because customers cannot wait for equipment. Which is why we would rather say it up front — if your project needs samples within three months and small volume within six, buying a machine is too slow, outsource first; if volume has been steady at a few thousand a month for a year, buy the machine, and we will hand over the process parameters and fixturing plan so you can pick it up. That is not pushing business away; it is being clear about when outsourcing is the right answer.',
+    source: 'Neway CNC, 2026 third-quarter report, 19 October 2026 (reported by Securities Daily and Hithink RoyalFlush); China Machine Tool & Tool Builders\' Association, "Economic operation brief for the machine-tool industry, January–August 2026", 10 October 2026.',
+  },
+];
+
+const faqs = [
+  { q: 'How often is this page updated?', a: 'Weekly. We do not run a news ticker — we run a reading list, and we only include items that change what a buyer of CNC parts should do this quarter.' },
+  { q: 'Where do the numbers come from?', a: 'Primary sources only: national statistics agencies, customs authorities, industry associations, standards bodies, company filings, and named press. We do not republish analyst notes as facts.' },
+  { q: 'Why a shop-floor view and not a market report?', a: 'Because a market report tells you where the wind is blowing. A shop view tells you whether the work has actually landed. Every story here has a "what it means" line — that is the part we are responsible for.' },
+];
+
+const related = [
+  { label: 'From drawing to cost', href: '/knowledge/tech-blog/from-drawing-to-cost/' },
+  { label: 'Sixty different parts, ten days', href: '/knowledge/tech-blog/sixty-skus-ten-days/' },
+  { label: 'Liquid cooling, compute and robots', href: '/knowledge/tech-blog/liquid-cooling-compute-and-robots/' },
+  { label: 'Which CNC machine your part needs', href: '/knowledge/tech-blog/which-cnc-machine-for-your-part/' },
+];
+---
+
+<PageLayout
+  title="CNC Precision Machining Shop-Floor News · Issue 06 | Eternal CNC"
+  description="Late October 2026: humanoid robots average about 100 units per model, AI quoting drops to minutes, a liquid-cooling supplier has booked RMB 49 million, and machine tools run full."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Industry news — {issue.label} {issue.number}</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        In this issue: what the shop floor noticed
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        {issue.blurb} From the Eternal CNC Strategic Advisory Group. Issued {issue.date}.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/knowledge/tech-blog/" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Read the Tech Blog →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPI strip -->
+  <section style="background-color: var(--page-bg); padding: 48px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-6" style="color: var(--brand-red);">Three numbers worth noting this issue</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        {kpis.map((k) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <p class="text-3xl md:text-4xl font-bold mb-2" style="color: var(--brand-dark);">{k.metric}</p>
+            <p class="text-sm mb-3" style="color: var(--text-body);">{k.label}</p>
+            <p class="text-xs" style="color: var(--text-muted);">Source: {k.source}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Stories -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Five stories</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">What happened, and what we think it means</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        News first, then the line that matters: what changes for a buyer sending parts to a CNC shop.
+      </p>
+      <div class="space-y-6">
+        {stories.map((s) => (
+          <article class="p-8 border rounded-2xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+              <span class="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded" style="background-color: var(--page-bg); color: var(--brand-dark);">{s.tag}</span>
+              <span class="text-xs" style="color: var(--text-muted);">{s.date}</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-4 leading-snug" style="color: var(--brand-dark);">{s.title}</h3>
+            <p class="text-base leading-relaxed mb-4" style="color: var(--text-body);">{s.summary}</p>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">What it means for your parts</p>
+              <p class="text-sm leading-relaxed" style="color: var(--text-body);">{s.what_it_means}</p>
+            </div>
+            <p class="text-xs mt-4" style="color: var(--text-muted);">Source: {s.source}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Standards / FAQs -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">How we write this page</p>
+      <h2 class="text-3xl font-bold mb-12" style="color: var(--brand-dark);">Three questions we get</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        {faqs.map((f) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-3" style="color: var(--brand-dark);">{f.q}</h3>
+            <p class="text-sm leading-relaxed" style="color: var(--text-body);">{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Related + subscribe -->
+  <section style="background-color: var(--card-white); padding: 64px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Keep reading</p>
+          <h2 class="text-2xl font-bold mb-6" style="color: var(--brand-dark);">Related on the blog</h2>
+          <ul class="space-y-3">
+            {related.map((r) => (
+              <li>
+                <a href={r.href} class="text-sm font-medium hover:underline" style="color: var(--brand-red);">{r.label} →</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="p-8 border rounded-2xl" style="background-color: var(--page-bg); border-color: var(--border-color);">
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Next issue</p>
+          <h3 class="text-xl font-bold mb-3" style="color: var(--brand-dark);">2 November 2026</h3>
+          <p class="text-sm leading-relaxed mb-5" style="color: var(--text-body);">
+Storylines we are following: October PMI and the first reads on fourth-quarter orders; whether the six new humanoid standards change what buyers put on drawings; and how fast AI quoting tools spread from early adopters into ordinary shops.
+          </p>
+          <a href="/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+            Send us your next drawing
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Have a part in mind?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Send the STEP and the PDF. We will quote within 2 hours on a working day, and we will tell you whether your tolerances are what they should be.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote/" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/knowledge/tech-blog/" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Browse the Tech Blog →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

@@ -1,0 +1,211 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '知识库', href: '/zh/knowledge/' },
+  { label: '行业新闻' },
+];
+
+const issue = {
+  label: '第',
+  number: '06',
+  date: '2026 年 10 月 26 日',
+  blurb: '这一期，厂里看到的五件事——以及它们对你送来的零件意味着什么。',
+};
+
+const kpis = [
+  { metric: '约 100 台', label: '上半年全国人形机器人产量 4 万台，摊到 400 款整机产品上，平均每款约 100 台。这个数字不是官方给的，是拿官方两个数字除出来的——我们认为它比「10 万台」更能说明这个行业的订单到底长什么形状。', source: '工业和信息化部科技司司长魏巍，国务院新闻办公室新闻发布会，2026-10-19（「整机产品突破 400 款、产量超 4 万台、预计全年突破 10 万台」）；除式由本刊据上述两个数字测算。' },
+  { metric: '4900 万元', label: '金洲管道截至 2026 年 10 月 10 日液冷业务累计承接订单金额。同期该业务已接到某客户 170 套 CDU 管路订单，终端客户为某互联网大厂，预计 10 月底前交付。', source: '金洲管道（002443.SZ）投资者关系活动记录表，2026-10-21。' },
+  { metric: '95%', label: '黑湖科技 AI 智能体在「读客户图纸→拆工序→选工艺路线」这一环节的准确率（公司口径）。此前这道工序靠老师傅做，通常两三个小时；现在压到分钟级。', source: '《经济参考报》，2026-10-22，「从工厂车间到创业社区 AI 激活产业新活力」。' },
+];
+
+const stories = [
+  {
+    tag: '宏观/产量',
+    date: '2026-10-19',
+    title: '9 月的两条曲线朝相反方向拐：机器人减速，机床加速',
+    summary: '国家统计局 10 月 19 日发布数据：9 月工业机器人产量 96,752 套、同比 +18.9%；1–9 月累计 794,781 套、同比 +29.1%。当月增速落到累计增速之下，差 10.2 个百分点。同一张表里，金属切削机床 9 月产量 8 万台、同比 +12.5%；1–9 月累计 67 万台、同比 +10.1%——当月反而跑在累计之上，差 2.4 个百分点。第三组数字是另一个方向的：服务机器人 9 月 1,658,178 套、同比 −17.8%，而 1–9 月累计仍 +7.9%，当月由正转负。',
+    what_it_means: '这两组数放在一起只有一种读法——钱正在从「造机器人」流向「造机器人的机器」。整机产量增速回落、切削机床提速，说明下游在买设备、建产能，而不是在买整机。对送件给我们的客户，这意味着未来 6 到 12 个月同行的产能会变多、报价会往下走；打样厂要守的不是价格，是别人不敢接的那部分：薄壁、五轴一次装夹、钛和 17-4PH、急件。服务机器人当月转负还提醒一件事——消费级产品跟着促销和季节走，订单是弹性的；工业件和结构件跟着客户的项目节点走，订单是刚性的。你的项目排期如果踩在消费品的节奏上，备料时间要留得更长。',
+    source: '国家统计局《2026 年 9 月份规模以上工业增加值增长 5.5%》及附表，2026-10-19。',
+  },
+  {
+    tag: '机器人/订单形状',
+    date: '2026-10-19',
+    title: '400 款整机、4 万台产量、全年 10 万台：人形机器人的订单其实是「每款一百台」',
+    summary: '10 月 19 日国新办发布会上，工信部科技司司长魏巍给出三个数字：今年上半年我国人形机器人整机产品突破 400 款、产量超 4 万台，预计全年突破 10 万台；相关产品已在仓储物流、餐饮零售、家庭服务等 300 多个重点场景验证部署。同一场合提到，下一步将发布《国家人形机器人产业标准体系建设指南（2026 版）》。同期，市场监管总局批准发布首批 6 项人形机器人领域国家标准，覆盖本体构成、系统架构、环境感知等关键指标，将于 2027 年 4 月 1 日起实施。',
+    what_it_means: '把 4 万台除以 400 款，平均每款 100 台；全年 10 万台摊到 400 多款上，单款也就是两三百台。这就是人形机器人当下真实的订单形状：多品种、极小批量——正好是小批量打样厂的形状，不是大批量代工厂的形状。三百多个场景意味着同一款机器人在不同客户手里要改结构件、改接口、改外壳，改一次就是一轮打样。所以现在能接到的人形机器人订单，多半是「每次几十件、一个月来三回」；按单件成本报价会亏，必须按换型次数算。国标 2027 年 4 月落地之后，测试评价有了统一尺度，客户会开始要求按标准交检验数据——现在就把首件报告和批次记录的模板定下来，比那时候再补要便宜得多。',
+    source: '国务院新闻办公室新闻发布会（工业和信息化部科技司司长魏巍），2026-10-19，miit.gov.cn 发布实录；中国证券报·中证网，2026-10-20（6 项国标及实施日期）。',
+  },
+  {
+    tag: 'AI/车间',
+    date: '2026-10-22',
+    title: 'AI 读一张图纸拆单只要几分钟、准确率 95%：报价这道门槛被重新划线了',
+    summary: '《经济参考报》10 月 22 日报道，上海黑湖科技把 AI 智能体接进工厂的订单、图纸、设备和现场：拿到一张客户定制图纸，过去要老师傅先读懂尺寸和公差、凭经验拆工序、选工艺路线，通常两三个小时；现在由智能体读图，结合工厂工艺与设备能力生成拆单结果，压到分钟级。公司联合创始人李想称，拆单环节准确率已达 95% 以上。同一套能力把新品上市周期从 3 个月缩到 3 周，最小起订量从 10000 件降到 100 件。报道里另一个例子是：一家做 7 个规格、600 多种型号的紧固件厂，上线数字化小工单一年后营业额增长 10%。',
+    what_it_means: '这条直接打在 CNC 报价这一步上。过去客户比较供应商，比的是「谁两小时能回价」；现在软件把读图拆单压到分钟级，两小时回价从优势变成入场券。真正的差异往后挪了一格：报价快之后，你能不能接住 100 件的单，能不能在 100 件里把首件、批次一致性和检验数据给全。对做小批量的厂，这是好事——被软件抹平的是「响应速度」，抹不平的是夹具、刀路和薄壁变形。但有一条要提前说清：AI 拆单给的是工序和工时估算，它不知道你这台机床的实际刚性、不知道这批料的余量、也不知道装夹会不会让薄壁让刀。所以送件的时候把关键公差、基准和材料状态写清楚，比多催一次报价有用。',
+    source: '《经济参考报》，2026-10-22（记者桑彤、王默玲、戚新源），「从工厂车间到创业社区 AI 激活产业新活力」；效率与准确率数据为公司口径。',
+  },
+  {
+    tag: '液冷/验证门槛',
+    date: '2026-10-21',
+    title: '液冷很热，但一家上市公司的累计订单只有 4900 万元——门槛卡在「小批量能力」上',
+    summary: '金洲管道（002443.SZ）10 月 21 日披露投资者关系活动记录表：液冷板块 CDU 管路业务已承接某客户 170 套订单，终端客户为某互联网大厂，预计 2026 年 10 月底前交付；截至 10 月 10 日，公司液冷业务累计承接订单约 4900 万元。公司液冷业务以 ODM/OEM 代工为主，直接客户是液冷零部件与模组厂商、系统集成商；东莞骅兴一期产线已实现批量供货，正处产能爬坡。公司对导入节奏的说法值得原样记下来：头部客户先完成试错再下放，当供应商的「小批量生产能力指标」达到 80% 或 85% 时，才会规模化导入。',
+    what_it_means: '4900 万元这个数字，比任何「液冷千亿市场」的预测都更能说明现在的位置——行业还在从打样、验证往批量走，真正的量还没到。而那句「小批量生产能力达到 80% 或 85% 才规模化导入」，几乎是替我们写的：客户不是先看你有多大产能，是先看你在小批量阶段能不能把合格率、一致性和交付节奏做稳。冷板、Manifold、快接头这三类件，难点都不在「能不能铣出来」，在平面度、流道密封面粗糙度、钎焊前的清洁度和批次一致性——这几项恰好是打样阶段就该定死的参数。所以现在接液冷件，最值钱的交付物不是零件，是那份「这批的参数是多少、下一批怎么复现」的记录。',
+    source: '金洲管道（002443.SZ）投资者关系活动记录表公告，2026-10-21（经观点网、新浪财经报道）。',
+  },
+  {
+    tag: '机床业/产能',
+    date: '2026-10-19',
+    title: '机床厂九个月营收 +30.4%、产线基本满产：订单在往后压，买设备要等更久',
+    summary: '纽威数控（688697.SH）10 月 19 日晚披露 2026 年三季报：前三季度营业收入 26.99 亿元、同比 +30.40%，归母净利润 2.76 亿元、同比 +33.65%；第三季度单季营业收入 10.32 亿元、同比 +30.35%，归母净利润 9591.08 万元、同比 +25.78%。公司称收入增长主要系订单承接增长。今年 8 月 31 日投资者调研中公司表示，在手订单充足、产能利用率处于较高水平，除四期镗铣床暂未满产外，其余各类机床基本满产。行业背景是：中国机床工具工业协会 1–8 月数据显示全行业营业收入 7209 亿元、同比 +7.5%，其中金属切削机床分行业 +18.6%、金属成形机床分行业 −4.2%，金属加工机床新增订单 +15.7%、在手订单 +19.3%。',
+    what_it_means: '机床厂满产，对加工厂和它的客户是同一个信号的两面。对想自建产线的客户：在手订单增速（+19.3%）仍快于新增订单（+15.7%），排产在往后压——现在下单买加工中心，等的时间比一年前长；到货之后还有验收、调试、爬坡，一个新品种从决定自干到稳定出货，是按季度算的。对小批量打样厂：这段时间外发的订单通常会更多，因为客户等不起设备。所以话该说在前面——如果你的项目三个月内要出样、半年内要小批，买设备来不及，先外发；反过来，如果量已经稳在每月几千件、连着做一年，那该买设备，我们也乐意把工艺参数和夹具方案交给你，让你自己接得上。这不是把生意往外推，是把「什么时候该外发」这件事讲清楚。',
+    source: '纽威数控《2026 年第三季度报告》，2026-10-19（经《证券日报》、同花顺财经报道）；中国机床工具工业协会《2026 年 1–8 月机床工具行业经济运行简讯》，2026-10-10。',
+  },
+];
+
+const faqs = [
+  { q: '多久更新一次？', a: '每周一次。不做新闻刷屏——只放那些会改变你本季度该往哪投零件的条目。' },
+  { q: '数据从哪来？', a: '只用一手来源：国家统计局、海关总署、行业协会、标准发布机构、企业公告、有署名的报道。不把券商观点当事实搬。' },
+  { q: '为什么写「厂里看到的事」，不是市场报告？', a: '因为市场报告告诉你风往哪边吹，厂里视角告诉你活到底有没有真的落地。每条新闻我们都附一句「对零件意味着什么」——这一句是我们负责的。' },
+];
+
+const related = [
+  { label: '从图纸到报价：一个 CNC 零件到底是怎么造出来的', href: '/zh/knowledge/tech-blog/from-drawing-to-cost/' },
+  { label: '60 款散件，10 天交样——我们准备好了吗？', href: '/zh/knowledge/tech-blog/sixty-skus-ten-days/' },
+  { label: '液冷、算力与机器人', href: '/zh/knowledge/tech-blog/liquid-cooling-compute-and-robots/' },
+  { label: '什么零件该上什么机床', href: '/zh/knowledge/tech-blog/which-cnc-machine-for-your-part/' },
+];
+---
+
+<PageLayout
+  title="CNC 精密零件加工厂的行业观察 · 第 06 期 | Eternal CNC"
+  description="2026 年 10 月末：人形机器人每款平均约 100 台、AI 读图拆单压到分钟级、液冷累计订单仅 4900 万元、机床厂基本满产。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">行业新闻 — {issue.label} {issue.number} 期</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        这一期，厂里看到的几件事
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        {issue.blurb} 鑫永恒战略顾问组 执笔，{issue.date} 发布。
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/knowledge/tech-blog/" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          去技术博客 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPI strip -->
+  <section style="background-color: var(--page-bg); padding: 48px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-6" style="color: var(--brand-red);">这一期值得记的三个数</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        {kpis.map((k) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <p class="text-3xl md:text-4xl font-bold mb-2" style="color: var(--brand-dark);">{k.metric}</p>
+            <p class="text-sm mb-3" style="color: var(--text-body);">{k.label}</p>
+            <p class="text-xs" style="color: var(--text-muted);">来源：{k.source}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Stories -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">五件事</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">发生了什么，我们觉得它意味着什么</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        先讲新闻，再讲那一句要紧的——它对送件给机加厂的客户意味着什么。
+      </p>
+      <div class="space-y-6">
+        {stories.map((s) => (
+          <article class="p-8 border rounded-2xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+              <span class="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded" style="background-color: var(--page-bg); color: var(--brand-dark);">{s.tag}</span>
+              <span class="text-xs" style="color: var(--text-muted);">{s.date}</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-4 leading-snug" style="color: var(--brand-dark);">{s.title}</h3>
+            <p class="text-base leading-relaxed mb-4" style="color: var(--text-body);">{s.summary}</p>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">对零件意味着什么</p>
+              <p class="text-sm leading-relaxed" style="color: var(--text-body);">{s.what_it_means}</p>
+            </div>
+            <p class="text-xs mt-4" style="color: var(--text-muted);">来源：{s.source}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Standards / FAQs -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">我们怎么写</p>
+      <h2 class="text-3xl font-bold mb-12" style="color: var(--brand-dark);">常被问到的三件事</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        {faqs.map((f) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-3" style="color: var(--brand-dark);">{f.q}</h3>
+            <p class="text-sm leading-relaxed" style="color: var(--text-body);">{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Related + subscribe -->
+  <section style="background-color: var(--card-white); padding: 64px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">顺手读读</p>
+          <h2 class="text-2xl font-bold mb-6" style="color: var(--brand-dark);">博客上相关的几篇</h2>
+          <ul class="space-y-3">
+            {related.map((r) => (
+              <li>
+                <a href={r.href} class="text-sm font-medium hover:underline" style="color: var(--brand-red);">{r.label} →</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="p-8 border rounded-2xl" style="background-color: var(--page-bg); border-color: var(--border-color);">
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">下一期</p>
+          <h3 class="text-xl font-bold mb-3" style="color: var(--brand-dark);">2026 年 11 月 2 日</h3>
+          <p class="text-sm leading-relaxed mb-5" style="color: var(--text-body);">
+我们在跟的线索：10 月 PMI 与四季度订单的第一批读数；六项人形机器人国标会不会改变客户写在图纸上的要求；以及 AI 报价工具从早期用户扩散到普通工厂的速度。
+          </p>
+          <a href="/zh/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+            把你的下个零件发过来
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">手上有个零件？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        STEP 和 PDF 发过来，工作日 2 小时内报价；公差合不合理，我们也直说。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote/" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/knowledge/tech-blog/" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          浏览技术博客 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>
