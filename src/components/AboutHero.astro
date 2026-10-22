@@ -35,6 +35,8 @@ interface Props {
   subtitle?: string;
   /** 右侧视频路径（循环静音自动播放，跟首页 Hero 同款） */
   heroVideoSrc?: string;
+  /** 视频封面图（首帧渲染前占位，避免黑屏拖累 LCP；不给则回退浏览器默认首帧） */
+  heroVideoPoster?: string;
   /** 视频无障碍标签 */
   heroVideoAlt?: string;
   /** 三列关键数据（跟 TrustBar 同款样式） */
@@ -57,7 +59,8 @@ const {
   label = '关于我们',
   titleHtml = '我们是你的工程伙伴，<br/>而不只是加工厂。',
   subtitle = '23 年制造行业深耕 · 15 年 CNC 精密加工 · 图纸评估 → 工艺规划 → 打样验证 → 量产交付，自有工厂加工，工程师全程跟进。',
-  heroVideoSrc = '/videos/eternal-cnc-5axis-machining-in-action-01.mp4/',
+  heroVideoSrc = '/videos/eternal-cnc-5axis-machining-in-action-01.mp4',
+  heroVideoPoster,
   heroVideoAlt = '五轴 CNC 实景加工产品演示',
   stats = [
     { num: '23', unit: '年', label: '制造行业经验' },
@@ -108,6 +111,7 @@ const {
       <div class="order-1 lg:order-2 relative aspect-[4/3] lg:aspect-auto lg:self-stretch lg:min-h-[480px] rounded-industrial overflow-hidden" style="background-color: #000;">
         <video
           src={heroVideoSrc}
+          poster={heroVideoPoster}
           autoplay
           muted
           loop
