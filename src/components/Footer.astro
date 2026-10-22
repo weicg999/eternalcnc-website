@@ -210,7 +210,7 @@ const L = (slug: string) => {
           &copy; {currentYear} {lang === 'ru' ? 'Eternal CNC' : lang === 'zh' ? '鑫永恒（深圳）精密实业有限公司' : 'Eternal CNC'}. {lang === 'ru' ? 'Все права защищены.' : lang === 'zh' ? '版权所有.' : 'All rights reserved.'}
         </p>
       </div>
-      <div class="flex items-center gap-4">
+      <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
         <a href={L('/confidentiality/')} class="text-xs text-gray-400 inline-block transition-all duration-300 hover:text-[#8B0000] hover:translate-x-0.5">
           {t('Confidentiality Policy', '保密政策', 'Политика конфиденциальности')}
         </a>
@@ -219,6 +219,14 @@ const L = (slug: string) => {
         </a>
         <a href="#" onclick="if(window.openCookieSettings)window.openCookieSettings();return false;" class="text-xs text-gray-400 inline-block transition-all duration-300 hover:text-[#8B0000] hover:translate-x-0.5">
           {t('Cookie Settings', 'Cookie 设置', 'Настройки Cookie')}
+        </a>
+        <!-- Google 首选来源（Preferred Sources）— deeplink 实现，零 JS。
+             官方 JS 徽章需加载 news.google.com/swg/js/v1/publisher.js（第三方请求 + 固定徽章样式），
+             与本页克制的排版不一致；deeplink 与官方按钮落到同一个偏好设置页，效果等价。
+             生效前提：Search Console 必须已开启「生成式 AI 搜索功能」（未开启则按钮无意义）。
+             文档：developers.google.com/search/docs/appearance/preferred-sources -->
+        <a href="https://www.google.com/preferences/source?q=https://eternalcnc.com" target="_blank" rel="noopener noreferrer" class="text-xs text-gray-400 inline-block transition-all duration-300 hover:text-[#8B0000] hover:translate-x-0.5">
+          {t('Preferred Source on Google', '在 Google 设为首选来源', 'В избранные источники Google')}
         </a>
       </div>
     </div>
