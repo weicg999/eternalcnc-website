@@ -1,8 +1,16 @@
-# ⚠️ Cloudflare Pages 的 _headers 按「请求路径」匹配，不是文件路径：
-#    旧写法 /*.html 只在请求 /xxx.html 时命中，而站内全是目录式 URL（/about/），
-#    所以 HTML 一直走 Pages 默认的 max-age=0 → cf-cache-status: DYNAMIC。
-# ⚠️ 多条规则同时匹配时是「全部继承 + 同名头逗号拼接」，不是覆盖。
-#    所以下面每条都要先 "! Cache-Control" 移除兜底值，再设自己的。
+# ⚠️ 本文件按「请求路径」匹配，不是文件路径 —— 目录式 URL（/about/）不命中 /*.html。
+# ⚠️ 多条规则同时命中时是「全部继承 + 同名头逗号拼接」，不是覆盖。
+#    要在某个分支改成自己的值，必须先用 "! Cache-Control" 把前面的值摘掉。
+#
+# ★ 为什么不在这里给 HTML 设 Cache-Control（2026-10-22 定论，别再改回去）
+#   Cloudflare 官方《Default cache behavior》原文：
+#     "Cloudflare only caches based on file extension and not by MIME type.
+#      The Cloudflare CDN does not cache HTML or JSON by default."
+#   ⇒ 无论 Cache-Control 写什么，HTML 都拿不到 cf-cache-status: HIT（实测恒为 DYNAMIC）。
+#   要让 HTML 进边缘缓存，只能在控制台建 Cache Rule（Cache Everything），不是改这个文件。
+#   而本站响应速度已足够（GSC 抓取统计「平均响应时间 72ms」），做那件事收益≈0，
+#   还要承担「部署后最长 5 分钟仍看到旧版」的风险 ⇒ 决定不做。
+#   给 HTML 写 s-maxage=300 只会让第三方共享代理缓存 HTML 5 分钟，是纯风险无收益，故不写。
 /*
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
@@ -11,7 +19,6 @@
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   Cross-Origin-Opener-Policy: same-origin
   Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://www.googletagmanager.com https://lf-cdn.coze.cn; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://api.coze.cn https://static.cloudflareinsights.com https://www.google-analytics.com https://lf-cdn.coze.cn; frame-src 'self' https://lf-cdn.coze.cn; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
-  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=60
 
 /_astro/*
   ! Cache-Control
