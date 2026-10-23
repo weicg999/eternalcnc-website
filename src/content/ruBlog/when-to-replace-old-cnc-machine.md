@@ -14,11 +14,6 @@ readingTime: "8 мин"
 
 Старые станки уехали. Новые ещё не пришли.
 
-<figure style="margin:1.8em 0;">
-  <img src="/images/company/cnc-company-old-machine-loaded-truck-06.webp" alt="Два старых обрабатывающих центра погружены на грузовик и покидают цех" width="1100" height="825" loading="lazy" style="width:100%;height:auto;border-radius:12px;display:block;" />
-  <figcaption style="font-size:0.85rem;color:var(--text-muted);margin-top:0.6em;text-align:center;">Их последнее фото в этом цехе: подкладки, стяжки, ожидание отправки.</figcaption>
-</figure>
-
 Новый станок должен был прийти сегодня. Он не пришёл.
 
 Поставщик говорит, что загружены и производство, и логистика. Я верю — не из доверия, а потому что цифры это подтверждают.

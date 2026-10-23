@@ -14,11 +14,6 @@ The floor space is already cleared.
 
 The old machines are gone. The new ones are not here yet.
 
-<figure style="margin:1.8em 0;">
-  <img src="/images/company/cnc-company-old-machine-loaded-truck-06.webp" alt="Two old machining centers loaded onto a truck, leaving the workshop" width="1100" height="825" loading="lazy" style="width:100%;height:auto;border-radius:12px;display:block;" />
-  <figcaption style="font-size:0.85rem;color:var(--text-muted);margin-top:0.6em;text-align:center;">Their last photo at this shop: blocked up, strapped down, waiting to be driven away.</figcaption>
-</figure>
-
 The new machine was due today. It did not arrive.
 
 The supplier says scheduling and logistics are both congested. I believe them — not out of trust, but because the numbers say so.

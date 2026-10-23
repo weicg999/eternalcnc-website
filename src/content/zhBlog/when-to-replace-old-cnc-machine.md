@@ -14,11 +14,6 @@ readingTime: "8 分钟"
 
 旧的已经走了，新的还没来。
 
-<figure style="margin:1.8em 0;">
-  <img src="/images/company/cnc-company-old-machine-loaded-truck-06.webp" alt="两台旧加工中心装上卡车，准备运离车间" width="1100" height="825" loading="lazy" style="width:100%;height:auto;border-radius:12px;display:block;" />
-  <figcaption style="font-size:0.85rem;color:var(--text-muted);margin-top:0.6em;text-align:center;">它们在这家厂的最后一张照片：垫上木托，绑带勒紧，等着被拉走。</figcaption>
-</figure>
-
 按约定，新机今天到。今天没到。
 
 对方给的说法是排产和物流都在挤。这个说法我信——不是我信他，是数字摆在那儿。
