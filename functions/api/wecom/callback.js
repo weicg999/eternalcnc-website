@@ -27,7 +27,7 @@
  */
 
 const COZE_API_ENDPOINT = 'https://api.coze.cn/open_api/v2/chat';
-const COZE_BOT_ID_DEFAULT = '7677859860893040694';
+const COZE_BOT_ID_DEFAULT = '7679396158112317440';
 const COZE_TIMEOUT_MS = 25000;
 
 const WECOM_API = 'https://qyapi.weixin.qq.com/cgi-bin';

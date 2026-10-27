@@ -31,16 +31,25 @@ const MAX_RETRY_COUNT = 1; // 质量校验失败最多重试1次（原 2）
 // 延迟预算：Coze 单次响应基线就有 14-19s，20s 是体验红线。
 // 重试前先算账——已经耗掉的时间 + 一次完整调用（按 12s 估）若超过 TOTAL_BUDGET_MS，
 // 就不再重试，直接接受当前结果。宁可放过一次质检，也不要让访客等 30 秒。
-const COZE_TIMEOUT_MS = 20000;   // 单次调用硬超时，防上游挂死
-const TOTAL_BUDGET_MS = 20000;   // 端到端总耗时预算
-const RETRY_RESERVE_MS = 12000;  // 判定"还够不够再跑一次"的预留
+const COZE_TIMEOUT_MS = 26000;   // 单次调用硬超时，防上游挂死
+const TOTAL_BUDGET_MS = 26000;   // 端到端总耗时预算
+const RETRY_RESERVE_MS = 8000;  // 判定"还够不够再跑一次"的预留
 const LANG_RETRY_ENABLED = false; // 语言类失败是否重试
 
-const COZE_PAT = 'pat_rqNvQTy7enkEsB5jFOi8VGYnY4xVe5QT8HbhDDWg1RuUqkEHa7y1egk012SZWfox';
-const COZE_BOT_ID = '7677859860893040694';
+// COZE_PAT 已移除：密钥只能来自 Cloudflare 环境变量 env.COZE_PAT，绝不硬编码。
+const COZE_BOT_ID = '7679396158112317440';
 
 // KV 中存储客户档案的 key 前缀
 const KV_KEY_PREFIX = 'customer:';
+
+// ===== 高意向未留资访客告警（2026-10-16）=====
+// 背景：客户档案此前"只写 KV、无任何出口推送"，高意向但没点「转人工」的访客静默流失。
+// 触发：会话轮次 ≥ LEAD_ALERT_MIN_TURNS，且档案出现高价值信号，但始终未留下任何联系方式。
+// 去重：档案内 lead_alerted 标记（同一访客只推一次）+ 每日总量上限，防止刷屏企业微信群。
+const LEAD_ALERT_MIN_TURNS = 3;
+const LEAD_ALERT_DAILY_CAP = 20;
+const LEAD_ALERT_DAILY_KEY = 'leadalert:';
+const LEAD_ALERT_INTERNAL_KEYS = ['msg_count', 'lead_alerted'];
 // 记忆 TTL（秒）：90 天无互动自动过期
 const KV_TTL_SECONDS = 90 * 24 * 60 * 60;
 
@@ -790,6 +799,93 @@ async function saveCustomerProfile(kv, userId, profile) {
 }
 
 /**
+ * 高意向访客（未留联系方式）告警推送企业微信群机器人。
+ * 与 chat-lead.js 的 notifyWecom 共用同一 webhook（env.FEEDBACK_WEBHOOK_URL），
+ * 消息风格保持一致，便于在同一群里分流查看。
+ */
+async function notifyLeadAlert(webhook, profile, userId) {
+  const parts = (profile.parts_interested || []).join(', ');
+  const concerns = (profile.concerns || []).join(', ');
+  const lines = [
+    '🔔 **高意向访客 · 未留联系方式**',
+    '> 时间：' + new Date().toISOString(),
+    '> 语言：' + (profile.language || '-') + '｜会话轮次：' + (profile.msg_count || '-'),
+  ];
+  if (profile.company) lines.push('\n**公司**：' + profile.company);
+  if (profile.industry) lines.push('**行业**：' + profile.industry);
+  if (parts) lines.push('**关注零件**：' + parts);
+  if (profile.quote_status) lines.push('**报价进度**：' + profile.quote_status);
+  if (concerns) lines.push('**关注点**：' + concerns);
+  if (profile.has_sent_drawing) lines.push('**已发图纸**：是');
+  if (profile.last_message) lines.push('\n**最后一句话**：\n' + profile.last_message);
+  if (profile.notes) lines.push('**备注**：' + profile.notes);
+  lines.push('\n访客 ID：' + userId);
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 2500);
+  try {
+    const resp = await fetch(webhook, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ msgtype: 'markdown', markdown: { content: lines.join('\n') } }),
+      signal: controller.signal,
+    });
+    if (!resp.ok) console.warn('lead-alert wecom notify failed:', resp.status);
+  } catch (e) {
+    console.warn('lead-alert wecom notify error:', e.message);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/**
+ * 判定「高意向但没留联系方式」并推送一次。
+ * 任何异常都自吞，绝不影响访客回复；同一访客只推一次（profile.lead_alerted 落档）。
+ */
+async function maybeAlertLead(kv, userId, profile, webhookUrl) {
+  try {
+    if (!kv || !profile) return;
+    if (profile.lead_alerted) return;
+    if (profile.contact_email) return;
+    const turns = profile.msg_count || 0;
+    if (turns < LEAD_ALERT_MIN_TURNS) return;
+
+    const signals = [];
+    if (profile.company) signals.push('公司');
+    if (profile.industry) signals.push('行业');
+    if (profile.parts_interested && profile.parts_interested.length) signals.push('零件');
+    if (profile.quote_status) signals.push('报价');
+    if (profile.concerns && profile.concerns.length) signals.push('关注点');
+    if (profile.has_sent_drawing) signals.push('图纸');
+    if (profile.notes && profile.notes.indexOf('个人邮箱') !== -1) signals.push('仅个人邮箱');
+    if (!signals.length) return;
+
+    const today = new Date().toISOString().slice(0, 10);
+    const capKey = LEAD_ALERT_DAILY_KEY + today;
+    let used = 0;
+    try { used = parseInt(await kv.get(capKey), 10) || 0; } catch (e) { used = 0; }
+    if (used >= LEAD_ALERT_DAILY_CAP) {
+      console.log('[lead-alert] daily cap reached, skipped user=' + userId);
+      return;
+    }
+
+    profile.lead_alerted = true;
+    try { await kv.put(capKey, String(used + 1), { expirationTtl: 48 * 60 * 60 }); } catch (e) { /* 计数失败不阻断 */ }
+
+    if (webhookUrl) {
+      await notifyLeadAlert(webhookUrl, profile, userId);
+      console.log('[lead-alert] pushed user=' + userId + ' turns=' + turns + ' signals=' + signals.join('/'));
+    } else {
+      console.log('[lead-alert] FEEDBACK_WEBHOOK_URL 未配置，仅记录不推送 user=' + userId + ' signals=' + signals.join('/'));
+    }
+
+    await saveCustomerProfile(kv, userId, profile);
+  } catch (e) {
+    console.warn('maybeAlertLead failed:', e.message);
+  }
+}
+
+/**
  * 创建空的客户档案
  */
 function createEmptyProfile(userId) {
@@ -807,6 +903,8 @@ function createEmptyProfile(userId) {
     language: 'en',
     contact_email: '',
     notes: '',
+    msg_count: 0,
+    lead_alerted: false,
   };
 }
 
@@ -941,7 +1039,10 @@ function shouldExtractInfo(userMessage, botReply, profile) {
  */
 function buildExtractionPrompt(userMessage, botReply, profile, lang) {
   const isZh = (lang === 'zh' || lang === 'yue' || (typeof lang === 'string' && lang.indexOf('zh') === 0));
-  const currentProfileJson = JSON.stringify(profile, null, 2);
+  // 内部字段（轮次计数 / 告警标记）不进提取提示词，避免被 LLM 改写或回显
+  const profileForPrompt = { ...profile };
+  for (const k of LEAD_ALERT_INTERNAL_KEYS) delete profileForPrompt[k];
+  const currentProfileJson = JSON.stringify(profileForPrompt, null, 2);
 
   if (isZh) {
     return `【信息提取任务】
@@ -1047,7 +1148,7 @@ function parseExtractionResult(rawText, currentProfile) {
  * 异步触发信息提取并更新档案
  * 不阻塞主回复流程，后台执行
  */
-function asyncExtractAndSave(kv, userId, userMessage, botReply, profile, lang, pat, botId) {
+function asyncExtractAndSave(kv, userId, userMessage, botReply, profile, lang, pat, botId, webhookUrl) {
   // 用 setTimeout 模拟异步执行（不阻塞响应）
   // 注意：Cloudflare Workers 中用 ctx.waitUntil 更可靠，
   // 这里先实现 Promise 形式，在主函数中通过 waitUntil 调度
@@ -1088,6 +1189,9 @@ function asyncExtractAndSave(kv, userId, userMessage, botReply, profile, lang, p
       if (!content) return;
 
       const updatedProfile = parseExtractionResult(content, profile);
+      // 内部字段以本地状态为准，防止被提取结果覆盖（lead_alerted 被回显成 false 会导致重复告警）
+      updatedProfile.msg_count = profile.msg_count || 0;
+      if (profile.lead_alerted) updatedProfile.lead_alerted = true;
 
       // 更新时间戳和最后消息摘要
       const now = new Date().toISOString().split('T')[0];
@@ -1103,6 +1207,7 @@ function asyncExtractAndSave(kv, userId, userMessage, botReply, profile, lang, p
 
       await saveCustomerProfile(kv, userId, updatedProfile);
       console.log('Customer profile updated for:', userId);
+      await maybeAlertLead(kv, userId, updatedProfile, webhookUrl);
     } catch (e) {
       console.warn('Async extraction failed:', e.message);
     }
@@ -1152,6 +1257,17 @@ async function callCoze({ message, userId, conversationId, pat, botId, customVar
   }
 
   const data = await response.json();
+
+  // Coze 的业务错误是 HTTP 200 + code≠0（4100 令牌失效 / 4015 未发布到 API 渠道 /
+  // 702242002 上游异常 …）。旧实现只判 response.ok，把这类错误当成"正常但内容为空"，
+  // 一路空到前端 —— 坏了不吭声。这里必须显式抛出，让上层返回 502。
+  if (data && typeof data.code === 'number' && data.code !== 0) {
+    const err = new Error(`Coze business error ${data.code}: ${data.msg || ''}`);
+    err.cozeCode = data.code;
+    err.cozeMsg = data.msg || '';
+    throw err;
+  }
+
   let content = '';
   let newConversationId = conversationId;
 
@@ -1198,9 +1314,9 @@ const FAQ_INTENTS = [
   {
     id: 'tolerance',
     re: /公差|精度|误差|誤差|tolerance|precision|accuracy|±\s*0\.00/i,
-    zh: '我们的精密加工公差可达 ±0.005mm（关键特征、恒温车间），角度公差 ±0.01°，表面粗糙度最高 Ra 0.4。具体以零件特征与材料为准——把图纸发来，工程师会给出每个特征的可达精度。',
-    yue: '我哋嘅精密加工公差可達 ±0.005mm（關鍵特徵、恒溫車間），角度公差 ±0.01°，表面粗糙度最高 Ra 0.4。具體以零件特徵同材料為準——將圖紙發嚟，工程師會逐個特徵話你知可達精度。',
-    en: 'Tolerance: down to ±0.005mm on critical features (temperature-controlled shop), angular ±0.01°, surface finish down to Ra 0.4. Exact capability depends on the feature and material — send your drawing and our engineers will confirm feature by feature.',
+    zh: '我们的精密加工公差可达 ±0.005mm（关键特征，5 轴联动 + 精密磨削），角度公差 ±0.01°，表面粗糙度最高 Ra 0.4。具体以零件特征与材料为准——把图纸发来，工程师会给出每个特征的可达精度。',
+    yue: '我哋嘅精密加工公差可達 ±0.005mm（關鍵特徵，5 軸聯動 + 精密磨削），角度公差 ±0.01°，表面粗糙度最高 Ra 0.4。具體以零件特徵同材料為準——將圖紙發嚟，工程師會逐個特徵話你知可達精度。',
+    en: 'Tolerance: down to ±0.005mm on critical features (5-axis machining + precision grinding), angular ±0.01°, surface finish down to Ra 0.4. Exact capability depends on the feature and material — send your drawing and our engineers will confirm feature by feature.',
   },
   {
     id: 'fiveaxis',
@@ -1371,7 +1487,7 @@ export async function onRequestPost(context) {
     return jsonResponse(429, { code: 429, msg: 'Rate limit exceeded' }, origin);
   }
 
-  const pat = env.COZE_PAT || COZE_PAT;
+  const pat = env.COZE_PAT;
   const botId = env.COZE_BOT_ID || COZE_BOT_ID;
   if (!pat || !botId) {
     return jsonResponse(500, { code: 500, msg: 'Server configuration error' }, origin);
@@ -1427,6 +1543,8 @@ export async function onRequestPost(context) {
     if (profilePromise) {
       customerProfile = await profilePromise;
     }
+    // 会话轮次计数：用于"高意向未留资"告警的参与度判断
+    customerProfile.msg_count = (customerProfile.msg_count || 0) + 1;
 
     // 构建客户背景上下文（自然融入式）
     const profileContext = buildCustomerProfileContext(customerProfile, userLang);
@@ -1476,7 +1594,8 @@ export async function onRequestPost(context) {
         if (!customerProfile.first_contact) customerProfile.first_contact = now;
         customerProfile.language = userLang;
         if (message) customerProfile.last_message = message.slice(0, 100);
-        const touchPromise = saveCustomerProfile(kv, userId, customerProfile);
+        const touchPromise = saveCustomerProfile(kv, userId, customerProfile)
+          .then(() => maybeAlertLead(kv, userId, customerProfile, env.FEEDBACK_WEBHOOK_URL || ''));
         if (context.waitUntil) context.waitUntil(touchPromise);
       } catch (e) {
         console.warn('FAQ profile touch failed:', e.message);
@@ -1524,8 +1643,18 @@ export async function onRequestPost(context) {
           timeoutMs: callTimeout,
         });
       } catch (err) {
+        // 上游业务错误（非超时）：给一次重试机会，多为一过性抖动。
+        // 超时不重试 —— 单次就 26s，再跑一轮必然超出 Worker 时长上限。
+        if (retryCount === 0 && err.cozeCode && err.name !== 'AbortError') {
+          retryCount++;
+          lastFailureReason = 'upstream_' + err.cozeCode;
+          currentConvId = undefined;
+          console.warn('Coze business error, retrying once:', err.cozeCode, err.cozeMsg);
+          continue;
+        }
         if (retryCount === 0) throw err; // 首轮失败：按原逻辑交给外层错误处理
-        // 重试失败（多为超时）：沿用首轮结果，不再纠缠
+        // 重试失败：首轮有结果就沿用；首轮也没有，就没有可给访客的东西了，交给外层报错
+        if (!result) throw err;
         console.warn('Retry call failed, keeping first result:', err.message);
         break;
       }
@@ -1584,6 +1713,12 @@ export async function onRequestPost(context) {
       currentConvId = undefined; // 重试用新会话，避免历史干扰
     }
 
+    // 兜底：重试耗尽仍没有任何正文时，绝不能给访客一个空气泡。
+    // 抛错交给外层 catch → 返回 502 → 前端显示"服务暂时不可用"。
+    if (!result || !result.content || !result.content.trim()) {
+      throw new Error('Empty reply after retries: ' + (lastFailureReason || 'no_content'));
+    }
+
     const outputStream = createSseStream(result.content, result.conversationId);
 
     // ===== 异步：信息提取 & 档案更新 =====
@@ -1593,7 +1728,8 @@ export async function onRequestPost(context) {
       if (needExtract) {
         console.log('Triggering profile extraction for:', userId);
         const extractionPromise = asyncExtractAndSave(
-          kv, userId, message, result.content, customerProfile, userLang, pat, botId
+          kv, userId, message, result.content, customerProfile, userLang, pat, botId,
+          env.FEEDBACK_WEBHOOK_URL || ''
         );
         // Cloudflare Pages Functions 支持 context.waitUntil
         if (context.waitUntil) {
@@ -1610,7 +1746,8 @@ export async function onRequestPost(context) {
         // 最后消息摘要
         if (message) customerProfile.last_message = message.slice(0, 100);
 
-        const touchPromise = saveCustomerProfile(kv, userId, customerProfile);
+        const touchPromise = saveCustomerProfile(kv, userId, customerProfile)
+          .then(() => maybeAlertLead(kv, userId, customerProfile, env.FEEDBACK_WEBHOOK_URL || ''));
         if (context.waitUntil) {
           context.waitUntil(touchPromise);
         }

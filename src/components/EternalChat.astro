@@ -1696,7 +1696,7 @@
       if (typingEl.parentNode) {
         typingEl.remove();
       }
-      const errorMsg = zh ? '抱歉，服务暂时不可用，请稍后再试。' : 'Sorry, service is temporarily unavailable. Please try again later.';
+      const errorMsg = isChineseLang() ? '抱歉，服务暂时不可用，请稍后再试。' : 'Sorry, service is temporarily unavailable. Please try again later.';
       const { msgDiv: errMsgEl } = createMessageEl('bot', errorMsg);
       messagesEl.appendChild(errMsgEl);
       messages.push({ role: 'bot', content: errorMsg, _err: true });
@@ -1716,6 +1716,15 @@
         saveMessages(messages);
         // 流式结束 → 给这条 bot 回复挂 👍👎
         attachFeedbackRow(currentBotMsgEl, messages.length - 1);
+      } else if (currentBotBubbleEl) {
+        // 上游返回 200 但正文为空（历史故障：Coze 报错被后端吞成空流）。
+        // 绝不能在界面上留一个空气泡 —— 访客会以为"发了没反应"，比报错更糟。
+        const emptyMsg = isChineseLang()
+          ? '抱歉，这条我没能给出回复。请稍后再试一次，或把问题发到 David@eternalcnc.com，工程师会直接跟进。'
+          : 'Sorry, I could not generate a reply for that. Please try again shortly, or email David@eternalcnc.com and our engineers will follow up directly.';
+        currentBotBubbleEl.textContent = emptyMsg;
+        messages.push({ role: 'bot', content: emptyMsg, _err: true });
+        saveMessages(messages);
       }
       isStreaming = false;
       sendBtn.disabled = false;
