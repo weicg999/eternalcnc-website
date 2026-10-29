@@ -159,10 +159,10 @@ Run this checklist before sending the drawing; quote and lead time will both be 
 
 ## Where we stand on this
 
-We have machined precision structural parts for twenty-three years, with real 5-axis capability among our thirty CNC machines. We can take both tracks of medical parts, but with different playbooks:
+We have machined precision structural parts for twenty-three years, with real 5-axis capability among our thirty CNC machines. For medical parts, our position is clear:
 
 - **Surgical instruments (17-4PH/630, 420/440C, 303, etc.)**: low-volume rapid prototyping is our strength, with a quote inside two hours; for precipitation-hardening materials like 17-4PH we follow the rule above — finish in the soft state, age last.
-- **Load-bearing implants**: we handle the precision machining of load-bearing attachments and non-core structural parts within our capability; for core implants we recommend co-development with a partner holding ISO 13485 certification — we bring machining and traceability, and do not take on the regulatory responsibility of the implant itself.
+- **Statement (important)**: **Eternal CNC does not manufacture medical implants.** The content above about load-bearing implants is purely technical education to help you understand the boundary between materials, process, and inspection. We do not produce, manufacture, or offer any implant-grade medical device manufacturing service. Implant fabrication must be performed by a qualified party holding ISO 13485 certification — please do not request quotes or place orders for implants with us.
 
 If your medical part is stuck on material selection, aging sequence, surface-treatment datum, or cleanliness, send the drawing and requirements together and we will run a DFM review first — we ask the right questions before the quote.
 

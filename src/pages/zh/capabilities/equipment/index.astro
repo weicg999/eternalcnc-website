@@ -268,16 +268,12 @@ const itemListSchema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
   name: '鑫永恒CNC设备清单',
-  description: '鑫永恒精密 CNC 设备矩阵完整清单——五轴加工中心、立式加工中心、钻攻中心和模具雕铣机全覆盖，铭牌实拍参数可查。',
+  description: '鑫永恒精密 CNC 设备矩阵——30 台设备分布于两个厂区，五轴加工中心、立式加工中心、钻攻中心和模具雕铣机全覆盖，铭牌实拍参数可查。',
   itemListElement: equipment.map((eq, index) => ({
     '@type': 'ListItem',
     position: index + 1,
     item: {
-      '@type': 'Product',
       name: `${eq.brand} ${eq.model} ${eq.type}`,
-      category: eq.type,
-      brand: { '@type': 'Brand', name: eq.brand },
-      model: eq.model,
       additionalProperty: eq.specs.map(s => ({
         '@type': 'PropertyValue',
         name: s.label,
@@ -330,9 +326,9 @@ const itemListSchema = {
   <section style="background-color: var(--page-bg); padding: 80px 0;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">设备一览</p>
-      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">完整设备清单</h2>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">主力机型清单</h2>
       <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
-        以下是工厂内全部 CNC 设备——配有真实设备照片、铭牌核实型号及完整技术参数。
+        我司拥有 30 台 CNC 设备，分布于两个厂区。以下为 16 台主力机型——配有实拍照片、铭牌核实型号及完整技术参数，其余常规机型可应询提供清单。
       </p>
 
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

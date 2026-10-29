@@ -1,27 +1,31 @@
 /**
- * Cloudflare Pages Function - 智能客服 API 网关（第五层优化：客户跟进记忆 + KV 持久化）
+ * Cloudflare Pages Function - 智能客服 API 网关（方案 B：Workers AI 模型兜底 + 博客知识库）
  *
  * 功能：
- * - 接收前端聊天请求，转发给扣子 Open API
+ * - 接收前端聊天请求，本地 FAQ 秒答拦截（高频问题不进模型）
+ * - 未命中走 Workers AI（env.AI.run，免密钥，CF 网络内调用）+ 博客知识库检索兜底
  * - 支持流式响应（SSE），逐字返回给前端
  * - 频率限制（同一 IP 每分钟 30 条）
  * - 域名白名单校验
- * - 会话隔离（基于 conversation_id）
+ * - 多轮对话（前端上报 history，最多带最近 6 条）
  * - 访客信息预收集：语言/来源/当前页面/页面分类
- * - 首条消息附带上下文，让 Bot 知道用户在浏览什么
  * - 回复质量校验：禁词检测 + 语言一致性 + 核心事实反向校验 + 自动重试
  * - 客户跟进记忆：Cloudflare KV 存储客户档案，跨会话记住业务信息
  *
- * 环境变量：
- * - COZE_PAT: 扣子 Personal Access Token
- * - COZE_BOT_ID: 扣子 Bot ID
+ * 环境变量（Cloudflare Dashboard 配置）：
+ * - AI_MODEL: 可选，覆盖默认模型（默认 @cf/meta/llama-3.1-8b-instruct）
  *
- * KV 绑定（Cloudflare Pages 中绑定）：
- * - CUSTOMER_MEMORY: KV Namespace，存储客户档案
+ * 绑定（Cloudflare Pages 中绑定）：
+ * - AI: Workers AI 绑定（必需，否则返回 500）
+ * - CUSTOMER_MEMORY: KV Namespace，存储客户档案（可选，没绑定时降级为无记忆）
  *
  * 部署到 Cloudflare Pages Functions: /functions/api/chat.js
  * 访问路径: POST /api/chat
  */
+
+// 本地模块（方案 B：Workers AI 模型兜底 + 博客知识库检索）
+import { buildSystemPrompt } from './system-prompt';
+import { retrieveKnowledge } from './blog-knowledge';
 
 // ========== 配置 ==========
 const COZE_API_ENDPOINT = 'https://api.coze.cn/open_api/v2/chat';
@@ -38,6 +42,17 @@ const LANG_RETRY_ENABLED = false; // 语言类失败是否重试
 
 // COZE_PAT 已移除：密钥只能来自 Cloudflare 环境变量 env.COZE_PAT，绝不硬编码。
 const COZE_BOT_ID = '7679396158112317440';
+
+// ===== 方案 B：Workers AI 配置（扣子已停用，以下 COZE_* 常量仅作历史参考）=====
+// 模型可在 Cloudflare Dashboard 环境变量 AI_MODEL 覆盖。
+// 默认 glm-5.3-flash（智谱 GLM）：中英双语母语级、flash 快、非推理模型适合客服。
+// 备选：@cf/meta/llama-3.1-8b-instruct-fp8（英文强但中文弱）、
+//       @cf/deepseek-ai/deepseek-r1-distill-qwen-32b（推理强但慢、会输出思考过程）。
+// 注意：原 @cf/meta/llama-3.1-8b-instruct 已于 2026-05-30 弃用，勿再用。
+const AI_MODEL_DEFAULT = '@cf/qwen/qwen3-30b-a3b-fp8';
+const AI_MAX_TOKENS = 900;
+const AI_TEMPERATURE = 0.6;
+const AI_TIMEOUT_MS = 25000; // Workers AI 单次调用软超时（不可真正 abort，仅提前报错降级）
 
 // KV 中存储客户档案的 key 前缀
 const KV_KEY_PREFIX = 'customer:';
@@ -1148,42 +1163,26 @@ function parseExtractionResult(rawText, currentProfile) {
  * 异步触发信息提取并更新档案
  * 不阻塞主回复流程，后台执行
  */
-function asyncExtractAndSave(kv, userId, userMessage, botReply, profile, lang, pat, botId, webhookUrl) {
+function asyncExtractAndSave(kv, userId, userMessage, botReply, profile, lang, ai, model, webhookUrl) {
   // 用 setTimeout 模拟异步执行（不阻塞响应）
   // 注意：Cloudflare Workers 中用 ctx.waitUntil 更可靠，
   // 这里先实现 Promise 形式，在主函数中通过 waitUntil 调度
   return (async () => {
     try {
       const extractionPrompt = buildExtractionPrompt(userMessage, botReply, profile, lang);
-      const extractionUserId = `extractor_${userId}`;
 
-      const response = await fetch(COZE_API_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${pat}`,
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-          bot_id: botId,
-          user: extractionUserId,
-          query: extractionPrompt,
-          stream: false,
-        }),
+      const response = await ai.run(model, {
+        messages: [{ role: 'user', content: extractionPrompt }],
+        stream: false,
+        max_tokens: AI_MAX_TOKENS,
+        temperature: 0.2, // 信息提取要稳定，低温度减少发散
       });
 
-      if (!response.ok) {
-        console.warn('Extraction API error:', response.status);
-        return;
-      }
-
-      const data = await response.json();
       let content = '';
-      if (data.messages) {
-        const answerMsg = data.messages.find(m => m.type === 'answer' && m.content_type === 'text');
-        if (answerMsg) content = answerMsg.content;
-      } else if (data.data && data.data.content) {
-        content = data.data.content;
+      if (response && typeof response === 'object' && typeof response.response === 'string') {
+        content = response.response;
+      } else if (typeof response === 'string') {
+        content = response;
       }
 
       if (!content) return;
@@ -1214,74 +1213,217 @@ function asyncExtractAndSave(kv, userId, userMessage, botReply, profile, lang, p
   })();
 }
 
-// ========== Coze API 调用 ==========
+// ========== Workers AI 模型调用（方案 B）==========
 
-async function callCoze({ message, userId, conversationId, pat, botId, customVariables, timeoutMs }) {
-  const requestBody = {
-    bot_id: botId,
-    user: userId,
-    query: message,
+async function callWorkersAI({ message, userId, conversationId, ai, model, systemPrompt, history, timeoutMs }) {
+  // Workers AI 无状态，多轮上下文靠前端把历史塞进 messages。
+  // 最多带最近 6 条历史，防止上下文膨胀（更早历史由前端截断）。
+  const messages = [{ role: 'system', content: systemPrompt }];
+  if (Array.isArray(history)) {
+    for (const h of history.slice(-6)) {
+      if (h && (h.role === 'user' || h.role === 'assistant') && typeof h.content === 'string' && h.content.trim()) {
+        messages.push({ role: h.role, content: h.content });
+      }
+    }
+  }
+  messages.push({ role: 'user', content: message });
+
+  const run = ai.run(model, {
+    messages,
     stream: false,
-    conversation_id: conversationId,
-  };
-  if (customVariables && Object.keys(customVariables).length > 0) {
-    requestBody.custom_variables = customVariables;
-  }
+    max_tokens: AI_MAX_TOKENS,
+    temperature: AI_TEMPERATURE,
+  });
 
-  // 上游无超时保护时，慢响应会把 Worker 一直挂住，访客侧表现为长时间空白等待。
-  // 重试调用会传入更短的 timeoutMs，由重试预算统一控制总耗时。
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs || COZE_TIMEOUT_MS);
+  // env.AI.run 不接受外部 AbortSignal；用 Promise.race 做软超时，
+  // 底层调用无法真正取消，但能在超时后提前返回错误，避免 Worker 一直被挂住。
+  const timer = new Promise((_, reject) => {
+    setTimeout(() => reject(Object.assign(new Error('Workers AI timeout'), { name: 'AbortError' })), timeoutMs || AI_TIMEOUT_MS);
+  });
 
-  let response;
-  try {
-    response = await fetch(COZE_API_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${pat}`,
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify(requestBody),
-      signal: controller.signal,
-    });
-  } catch (err) {
-    clearTimeout(timer);
-    throw err;
-  }
-  clearTimeout(timer);
-
-  if (!response.ok) {
-    const errorText = await response.text().catch(() => '');
-    throw new Error(`Coze API error (${response.status}): ${errorText}`);
-  }
-
-  const data = await response.json();
-
-  // Coze 的业务错误是 HTTP 200 + code≠0（4100 令牌失效 / 4015 未发布到 API 渠道 /
-  // 702242002 上游异常 …）。旧实现只判 response.ok，把这类错误当成"正常但内容为空"，
-  // 一路空到前端 —— 坏了不吭声。这里必须显式抛出，让上层返回 502。
-  if (data && typeof data.code === 'number' && data.code !== 0) {
-    const err = new Error(`Coze business error ${data.code}: ${data.msg || ''}`);
-    err.cozeCode = data.code;
-    err.cozeMsg = data.msg || '';
-    throw err;
-  }
+  const response = await Promise.race([run, timer]);
 
   let content = '';
-  let newConversationId = conversationId;
-
-  if (data.messages) {
-    const answerMsg = data.messages.find(m => m.type === 'answer' && m.content_type === 'text');
-    if (answerMsg) content = answerMsg.content;
-    if (data.conversation_id) newConversationId = data.conversation_id;
-  } else if (data.data) {
-    if (data.data.content) content = data.data.content;
-    if (data.data.conversation_id) newConversationId = data.data.conversation_id;
+  if (response && typeof response === 'object' && typeof response.response === 'string') {
+    content = response.response;
+  } else if (typeof response === 'string') {
+    content = response;
   }
 
-  return { content, conversationId: newConversationId };
+  if (!content || !content.trim()) {
+    throw new Error('Workers AI returned empty content');
+  }
+
+  // conversationId：Workers AI 无服务端会话，仅回传原值供前端/日志标识，不承担记忆职责
+  return { content, conversationId: conversationId || userId };
 }
+
+// ============================================================
+// 视觉识别层（2026-10-28 重写）
+// 背景：原实现用 Moondream，其 image 字段 schema 与运行时校验不一致，一直调不通，
+//      截图/图纸上传后只能回"已收到、请发原图"。
+// 现改为「按优先级回落的多个视觉模型」+「先判类型再决定话术」：
+//   1) qwen2.5-vl-7b  —— messages + image_url 多模态格式（官方支持写法）
+//   2) llama-3.2-11b-vision —— 同格式
+//   3) llava-1.5-7b   —— 入参形态不同（image:number[] + prompt）
+// 数据出网：图片仅在本次请求内经 Cloudflare Workers AI 推理，同一 Cloudflare 账号内闭环，
+//   不写 KV、不落盘、不转第三方。图片只在这一次请求里用。
+// 设计原则：任何一环失败都不阻断主对话——识别不到就让模型按"已收图 + 引导发原图"回。
+// ============================================================
+// 2026-10-28 实测校准（真机跑完全部候选，结果写进注释，别再靠猜）：
+//   @cf/meta/llama-4-scout-17b-16e-instruct  ✅ 4.2s 成功，读图最准（图纸尺寸/材料全对）
+//   @cf/mistralai/mistral-small-3.1-24b      ✅ 2.8s 成功
+//   @cf/meta/llama-3.2-11b-vision-instruct   ✗ 需先接受 Meta 许可（5016 agree）
+//   @cf/llava-hf/llava-1.5-7b-hf             ⚠ 可用但 20s 超时，太慢，不放进主链路
+//   @cf/qwen/qwen2.5-vl-7b-instruct          ✗ 本账号不存在（5007）
+const VISION_TRIES = [
+  { model: '@cf/meta/llama-4-scout-17b-16e-instruct', kind: 'chat' },
+  { model: '@cf/mistralai/mistral-small-3.1-24b-instruct', kind: 'chat' },
+];
+const VISION_TIMEOUT_MS = 12000;
+
+const LANG_NAMES_VISION = {
+  zh: 'Chinese', yue: 'Chinese', ja: 'Japanese', ko: 'Korean', ru: 'Russian',
+  es: 'Spanish', de: 'German', fr: 'French', ar: 'Arabic', en: 'English',
+};
+
+function buildVisionPrompt(userLang) {
+  const langName = LANG_NAMES_VISION[userLang] || LANG_NAMES[userLang] || 'English';
+  return [
+    'You are the assistant of a precision CNC machining factory.',
+    'Look at the image and reply in EXACTLY this format, no extra text:',
+    'TYPE: <drawing | part_photo | chat_screenshot | document | other>',
+    'TEXT: <verbatim transcription, or NONE>',
+    'SUMMARY: <2-4 sentences>',
+    '',
+    'TYPE rules:',
+    '- drawing = engineering / technical drawing or blueprint (dimension lines, tolerance callouts, title block, section views, scale).',
+    '- part_photo = photo or render of a machined part / workpiece.',
+    '- chat_screenshot = screenshot of a chat / messaging conversation.',
+    '- document = spec sheet, purchase order, table, email or text document.',
+    '',
+    'TEXT rules:',
+    '- If the image contains readable text, copy the most important lines VERBATIM (max 8 lines), especially emails, phone numbers, part numbers, material grades, quantities and prices.',
+    '- Never translate or paraphrase the transcribed text. If there is no readable text, write NONE.',
+    '',
+    'SUMMARY rules:',
+    '- drawing: material, overall size, holes / threads, key dimensions and tolerance callouts you can actually read. NEVER guess numbers.',
+    '- part_photo: material if identifiable, shape / features, machining operations needed, surface finish.',
+    '- chat_screenshot / document: what the text says and any question or requirement it raises.',
+    '- Write SUMMARY in ' + langName + ' (the customer language).',
+    '- Do not add anything that is not visible in the image. If something is unclear, say it is not clearly readable instead of guessing.',
+  ].join('\n');
+}
+
+function dataUriToBytes(dataUri) {
+  const comma = dataUri.indexOf(',');
+  const b64 = comma >= 0 ? dataUri.slice(comma + 1) : dataUri;
+  const bin = atob(b64);
+  const out = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+
+function parseVisionOutput(txt) {
+  let kind = '';
+  const tm = txt.match(/TYPE\s*[:：]\s*([a-zA-Z_]+)/);
+  if (tm) kind = tm[1].toLowerCase();
+  if (['drawing', 'part_photo', 'chat_screenshot', 'document', 'other'].indexOf(kind) < 0) kind = '';
+  // 逐字转录（图中文字原文）：让主模型能引用原话，而不是二道转述
+  let verbatim = '';
+  const vm = txt.match(/TEXT\s*[:：]\s*([\s\S]*?)(?=\n\s*SUMMARY\s*[:：]|$)/i);
+  if (vm) {
+    verbatim = vm[1].trim();
+    if (/^none\.?$/i.test(verbatim)) verbatim = '';
+  }
+  const sm = txt.match(/SUMMARY\s*[:：]\s*([\s\S]+)/i);
+  let summary = sm ? sm[1].trim() : txt.trim();
+  // 模型没按格式输出时，用图纸特征词兜底判定（宁可当图纸走人工，也不要瞎报尺寸）
+  if (!kind) {
+    kind = /(title block|section view|tolerance|datum|dimension|blueprint|图纸|标题栏|公差|剖视|比例\s*1\s*:|scale\s*1\s*:)/i.test(txt)
+      ? 'drawing' : 'other';
+  }
+  return { kind, summary: summary.slice(0, 1200), verbatim: verbatim.slice(0, 800) };
+}
+
+async function analyzeImage(ai, dataUri, forceAll, userLang) {
+  const attempts = [];
+  let best = null;
+  const prompt = buildVisionPrompt(userLang);
+  for (let i = 0; i < VISION_TRIES.length; i++) {
+    const cand = VISION_TRIES[i];
+    const t0 = Date.now();
+    try {
+      const input = cand.kind === 'llava'
+        ? {
+            image: Array.from(dataUriToBytes(dataUri)),
+            prompt: prompt,
+            max_tokens: 600,
+            temperature: 0.2,
+          }
+        : {
+            messages: [{
+              role: 'user',
+              content: [
+                { type: 'image_url', image_url: { url: dataUri } },
+                { type: 'text', text: prompt },
+              ],
+            }],
+            max_tokens: 600,
+            temperature: 0.2,
+          };
+      // Workers AI 不接受外部 AbortSignal，用 Promise.race 做软超时，避免图片请求拖死整条链路
+      const timer = new Promise(function (_, reject) {
+        setTimeout(function () {
+          reject(Object.assign(new Error('vision timeout'), { name: 'AbortError' }));
+        }, VISION_TIMEOUT_MS);
+      });
+      const res = await Promise.race([ai.run(cand.model, input), timer]);
+      let txt = '';
+      if (res && typeof res === 'object') txt = res.response || res.description || res.result || '';
+      if (Array.isArray(txt)) txt = txt.join(' ');
+      txt = String(txt || '').trim();
+      if (!txt) throw new Error('empty vision output');
+      const ms = Date.now() - t0;
+      console.log('Vision ok via ' + cand.model + ' in ' + ms + 'ms (' + txt.length + ' chars)');
+      attempts.push({ model: cand.model, ms: ms, ok: true, chars: txt.length });
+      if (!best) {
+        const parsed = parseVisionOutput(txt);
+        parsed.attempts = attempts;
+        best = parsed;
+        // 非诊断模式：第一个成功就返回，不浪费配额和延迟
+        if (!forceAll) return best;
+      }
+    } catch (e) {
+      const ms = Date.now() - t0;
+      attempts.push({ model: cand.model, ms: ms, err: (e && e.message) || 'unknown' });
+      console.warn('Vision failed [' + cand.model + '] after ' + ms + 'ms: ' + (e && e.message));
+    }
+  }
+  if (best) { best.attempts = attempts; return best; }
+  return { kind: '', summary: '', verbatim: '', attempts: attempts };
+}
+
+// 图纸受理话术：不交给模型自由发挥，固定口径 + 把视觉摘要作为"初步识别"附上。
+// 原因：给模型下"必须提邮箱/必须说人工复核"这类硬指令，它经常只回一句零件描述就收尾，
+// 而图纸询盘是最需要转化的一步——这封信宁可写得死一点，也不能漏掉"发原图给工程师"。
+function buildDrawingReply(userLang, summary, verbatim) {
+  const isZh = userLang === 'zh' || userLang === 'yue';
+  const blocks = [];
+  if (isZh) {
+    blocks.push('图纸已收到，这一单按"人工复核"处理——已转给我们的工程师。');
+    if (summary) blocks.push('机器人先帮您过了一遍，初步识别到：' + summary);
+    if (verbatim) blocks.push('图中读到的文字：' + verbatim);
+    blocks.push('需要说明：照片或截图上的尺寸、公差不能直接作为加工依据（可能看不清、也可能被压缩失真）。请把 STEP / PDF / DXF 原图发到 ' + FAQ_EMAIL + '，或走官网询价表单上传；工程师通常 2 个工作小时内回复可行性、工艺建议与正式报价。');
+  } else {
+    blocks.push('Drawing received — I have routed it to our engineers for manual review.');
+    if (summary) blocks.push('A first automated read found: ' + summary);
+    if (verbatim) blocks.push('Text read from the image: ' + verbatim);
+    blocks.push('One caveat: dimensions and tolerances on a photo or screenshot cannot be used as a machining basis — they may be unreadable or distorted by compression. Please send the original STEP / PDF / DXF to ' + FAQ_EMAIL + ' (or upload via the RFQ form); engineers usually reply within 2 business hours with feasibility, process advice and a formal quote.');
+  }
+  return blocks.join('\n\n');
+}
+
 
 // ============================================================
 // FAQ 秒答拦截层（2026-09-04）
@@ -1448,13 +1590,22 @@ function matchFaq(message, userLang, visitorLangRaw) {
   return null;
 }
 
-function createSseStream(fullContent, conversationId) {
+function createSseStream(fullContent, conversationId, meta) {
   const encoder = new TextEncoder();
   let index = 0;
   const chunkSize = 3;
 
   const stream = new ReadableStream({
     start(controller) {
+      // 图片类型先告诉前端（drawing 要走"转人工"提示），再推正文
+      if (meta && meta.vision) {
+        const frame = { event: 'vision', kind: meta.vision };
+        if (meta.debug) frame.debug = meta.debug;
+        controller.enqueue(encoder.encode(`data: ${JSON.stringify(frame)}\n\n`));
+      } else if (meta && meta.debug) {
+        // 视觉全失败时也回一帧，便于诊断（仅 debug 请求）
+        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ event: 'vision', kind: '', debug: meta.debug })}\n\n`));
+      }
       controller.enqueue(encoder.encode(`data: ${JSON.stringify({ event: 'conversation', conversation_id: conversationId })}\n\n`));
 
       const interval = setInterval(() => {
@@ -1487,10 +1638,11 @@ export async function onRequestPost(context) {
     return jsonResponse(429, { code: 429, msg: 'Rate limit exceeded' }, origin);
   }
 
-  const pat = env.COZE_PAT;
-  const botId = env.COZE_BOT_ID || COZE_BOT_ID;
-  if (!pat || !botId) {
-    return jsonResponse(500, { code: 500, msg: 'Server configuration error' }, origin);
+  // 方案 B：Workers AI 绑定（免密钥，CF 网络内调用）。模型可被环境变量覆盖。
+  const ai = env.AI;
+  const model = env.AI_MODEL || AI_MODEL_DEFAULT;
+  if (!ai) {
+    return jsonResponse(500, { code: 500, msg: 'Server configuration error: AI binding missing' }, origin);
   }
 
   // KV binding（可能为 undefined，没绑定时降级为无记忆）
@@ -1509,6 +1661,9 @@ export async function onRequestPost(context) {
     conversation_id: conversationId,
     visitor_info: visitorInfo,
     is_first_message: isFirstMessage,
+    history: history,
+    image: imageData,
+    debug: debugMode,
   } = body;
 
   if (!message || typeof message !== 'string') {
@@ -1529,7 +1684,6 @@ export async function onRequestPost(context) {
   }
 
   let finalMessage = message;
-  let customVariables = null;
   // 语言基准：优先取浏览器语言（前端 EternalChat.astro 已传标准语言码
   // ja / hi / yue / zh-CN / en …），取不到再退回"用户消息语言"。
   // 原实现只认消息语言，导致客户用英文提问时，日语/印地语场景的英文回复被判"一致"放行。
@@ -1559,12 +1713,6 @@ export async function onRequestPost(context) {
       } else if (contextPrefix) {
         finalMessage = contextPrefix + message;
       }
-      customVariables = {
-        visitor_language: visitorInfo.language || '',
-        visitor_page: visitorInfo.current_page || '',
-        visitor_page_category: visitorInfo.page_category || visitorInfo.page_category_en || '',
-        visitor_referrer: visitorInfo.referrer || '',
-      };
     } else {
       // 非首条消息：原先只带客户档案，完全没有语言提示，bot 会在多轮对话中切回英文。
       // 这里补一条轻量语言指令（首条消息已由 buildContextPrefix 下发，不重复）。
@@ -1575,14 +1723,74 @@ export async function onRequestPost(context) {
     console.warn('Profile context build failed:', e.message);
   }
 
+  // ===== 看图：访客上传图片 → 视觉模型识别 → 按类型决定话术 =====
+  // 工程图纸 → 走"人审"口径（列可见要点 + 明确说明照片读尺不可靠 + 引导发原图，工程师复核）；
+  // 其余图片（聊天截图/文件/实物照片）→ 直接依据图中信息回答客户的提问。
+  let visionKind = '';
+  let visionSummary = '';
+  let visionText = '';
+  let visionAttempts = null;
+  if (imageData && typeof imageData === 'string') {
+    const vision = await analyzeImage(ai, imageData, !!debugMode, userLang);
+    visionKind = vision.kind;
+    visionSummary = vision.summary;
+    visionText = vision.verbatim || '';
+    visionAttempts = vision.attempts || null;
+    const textBlock = visionText ? ('\nVisible text in the image (verbatim, quote it when relevant):\n' + visionText + '\n') : '';
+    if (visionSummary) {
+      if (visionKind === 'drawing') {
+        finalMessage = '[The user uploaded what looks like an ENGINEERING DRAWING. Vision reading: ' + visionSummary + ']' + textBlock + '\n'
+          + 'Instruction (highest priority): treat this as a drawing enquiry that needs a human engineer.\n'
+          + '1) Confirm the drawing was received.\n'
+          + '2) Mention only the features actually present in the reading above (material, size, holes, threads, tolerances, surface finish). NEVER invent or guess dimensions or numbers.\n'
+          + '3) Say plainly that a photo or screenshot of a drawing cannot be read reliably for dimensions and tolerances, so an engineer will review it manually.\n'
+          + '4) Ask them to send the original STEP / PDF / DXF (or the RFQ form) to ' + FAQ_EMAIL + ' for a formal quote, typically within 2 business hours.\n'
+          + '5) Reply in the customer language, under 120 words, plain text with no markdown symbols.\n\n'
+          + finalMessage;
+      } else {
+        finalMessage = '[The user uploaded an image. Vision reading: ' + visionSummary + ']' + textBlock + '\n'
+          + 'Instruction: answer the customer directly using the image content above.\n'
+          + '- If it contains text (chat screenshot, document, spec sheet), quote the relevant original wording and respond to the question or requirement it raises.\n'
+          + '- If it shows a part, say what you can see and what matters for machining and quoting.\n'
+          + '- Never claim you cannot see images. Never invent details that are not in the reading.\n'
+          + '- Reply in the customer language, plain text, no markdown symbols.\n\n'
+          + finalMessage;
+      }
+    } else {
+      finalMessage = '[The user uploaded an image but automated image analysis returned nothing. Do NOT say you cannot see or process images. Thank the user, note that our engineers will review the image, and ask them to also send the original drawing (STEP/PDF/DXF) or the full text to ' + FAQ_EMAIL + ' for a precise answer.]\n\n' + finalMessage;
+    }
+  }
+
+  // ===== 工程图纸：直接出"已转人工"话术，不交给模型自由发挥 =====
+  // 图纸询盘是转化最关键的一步：必须固定出现"人工复核 + 发原图 + 邮箱 + 时效"。
+  // 交给 LLM 复述时它常只回一句尺寸描述就结束，漏掉引导（实测）。
+  if (imageData && visionKind === 'drawing') {
+    const drawingReply = buildDrawingReply(userLang, visionSummary, visionText);
+    const drawMeta = { vision: 'drawing', debug: debugMode ? visionAttempts : null };
+    console.log('Drawing enquiry → human review, summary len', (visionSummary || '').length);
+    return new Response(createSseStream(drawingReply, conversationId || ('draw_' + userId), drawMeta), {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/event-stream; charset=utf-8',
+        'Cache-Control': 'no-cache, no-transform',
+        'Connection': 'keep-alive',
+        'X-Accel-Buffering': 'no',
+        ...corsHeaders(origin),
+      },
+    });
+  }
+
   // ===== FAQ 秒答拦截层 =====
   // 高频问题（询价/公差/MOQ/五轴/CMM/ISO…）命中即流式直答，不进 LLM。
   // 0.5s 内响应（对比 LLM 路径 8-15s），且预写口径 100% 准确。
   // NDA 签署请求先手拦截：必须放在 matchFaq **之前** —— matchFaq 只对 zh/en 生效
   // （内部直接 return null），印尼语/西语等语种的"签 NDA"请求会原样漏给 LLM，
   // R17 的违规回复就是这样产生的。语言无关层先接住，命中即正确口径秒答，不进 LLM。
-  const faqHit = matchNdaRequest(message, visitorLangRaw, userLang)
-    || matchFaq(message, userLang, visitorLangRaw);
+  // ===== 图片请求跳过 FAQ 秒答 =====
+  // 带图时必须让模型读图后回答；若文字命中 FAQ 就直接秒答，等于把图丢了。
+  const faqHit = imageData
+    ? null
+    : (matchNdaRequest(message, visitorLangRaw, userLang) || matchFaq(message, userLang, visitorLangRaw));
   if (faqHit) {
     console.log('FAQ fast answer [' + faqHit.id + ']:', message.slice(0, 60));
 
@@ -1614,6 +1822,32 @@ export async function onRequestPost(context) {
     });
   }
 
+  // ===== 成长系统：记录 FAQ 未命中的问题（供后续补 FAQ / 知识库）=====
+  // 未命中 FAQ 的问题按天聚合到 KV（qa-gap:YYYY-MM-DD），去重，最多 300 条/天。
+  // 用途：定期分析高频缺口 → 补进 FAQ 秒答层或博客知识库 → 客服"越用越准"。
+  if (kv) {
+    const gapKey = 'qa-gap:' + new Date().toISOString().split('T')[0];
+    const gapMsg = message.slice(0, 300);
+    const gapPromise = (async () => {
+      try {
+        let list = await kv.get(gapKey, 'json');
+        if (!Array.isArray(list)) list = [];
+        if (list.length < 300 && !list.includes(gapMsg)) {
+          list.push(gapMsg);
+          await kv.put(gapKey, JSON.stringify(list), { expirationTtl: 90 * 24 * 60 * 60 });
+        }
+      } catch (e) {
+        console.warn('qa-gap log failed:', e.message);
+      }
+    })();
+    if (context.waitUntil) context.waitUntil(gapPromise);
+  }
+
+  // ===== 方案 B：构建系统提示词 + 博客知识库检索（只算一次）=====
+  // 知识库检索用原始 message（不含 profile/context 前缀，避免污染检索词）。
+  const knowledge = retrieveKnowledge(message, userLang, 3);
+  const systemPrompt = buildSystemPrompt({ lang: userLang, knowledge });
+
   try {
     let result = null;
     let currentMessage = finalMessage;
@@ -1625,35 +1859,29 @@ export async function onRequestPost(context) {
 
     while (retryCount <= MAX_RETRY_COUNT) {
       // 重试调用单独限时：只给"剩余预算"，超时就放弃重试、沿用首轮结果，
-      // 避免首轮 15s + 重试 15s = 30s 的串行叠加。
+      // 避免串行叠加突破 Worker 时长上限。
       const elapsed = Date.now() - chatStart;
       const callTimeout = retryCount === 0
-        ? COZE_TIMEOUT_MS
+        ? AI_TIMEOUT_MS
         : Math.max(6000, TOTAL_BUDGET_MS - elapsed - 1000);
 
       let attempt;
       try {
-        attempt = await callCoze({
+        attempt = await callWorkersAI({
           message: currentMessage,
           userId,
           conversationId: currentConvId,
-          pat,
-          botId,
-          customVariables: retryCount > 0 ? null : customVariables,
+          ai,
+          model,
+          systemPrompt,
+          history,
           timeoutMs: callTimeout,
         });
       } catch (err) {
-        // 上游业务错误（非超时）：给一次重试机会，多为一过性抖动。
-        // 超时不重试 —— 单次就 26s，再跑一轮必然超出 Worker 时长上限。
-        if (retryCount === 0 && err.cozeCode && err.name !== 'AbortError') {
-          retryCount++;
-          lastFailureReason = 'upstream_' + err.cozeCode;
-          currentConvId = undefined;
-          console.warn('Coze business error, retrying once:', err.cozeCode, err.cozeMsg);
-          continue;
-        }
-        if (retryCount === 0) throw err; // 首轮失败：按原逻辑交给外层错误处理
-        // 重试失败：首轮有结果就沿用；首轮也没有，就没有可给访客的东西了，交给外层报错
+        // Workers AI 失败（超时/空内容/绑定缺失）不重试：超时再跑必然突破 Worker 时长上限，
+        // 绑定或模型错误重试也无效，首轮失败直接交给外层报 502。
+        if (retryCount === 0) throw err;
+        // 质量校验后的重试若失败：首轮有结果就沿用；首轮也没有，交给外层报错
         if (!result) throw err;
         console.warn('Retry call failed, keeping first result:', err.message);
         break;
@@ -1719,7 +1947,10 @@ export async function onRequestPost(context) {
       throw new Error('Empty reply after retries: ' + (lastFailureReason || 'no_content'));
     }
 
-    const outputStream = createSseStream(result.content, result.conversationId);
+    const visionMeta = imageData
+      ? { vision: visionKind, debug: debugMode ? visionAttempts : null }
+      : null;
+    const outputStream = createSseStream(result.content, result.conversationId, visionMeta);
 
     // ===== 异步：信息提取 & 档案更新 =====
     // 使用 waitUntil 确保即使响应已发送，Worker 也会等待这个 Promise 完成
@@ -1728,7 +1959,7 @@ export async function onRequestPost(context) {
       if (needExtract) {
         console.log('Triggering profile extraction for:', userId);
         const extractionPromise = asyncExtractAndSave(
-          kv, userId, message, result.content, customerProfile, userLang, pat, botId,
+          kv, userId, message, result.content, customerProfile, userLang, ai, model,
           env.FEEDBACK_WEBHOOK_URL || ''
         );
         // Cloudflare Pages Functions 支持 context.waitUntil

@@ -53,16 +53,12 @@ const texts = {
     material_cat_plastic: 'Plastic',
     material_cat_others: 'Other',
     qty_label: 'Quantity',
-    qty_1_10: '1 – 10 pieces',
-    qty_11_50: '11 – 50 pieces',
-    qty_51_200: '51 – 200 pieces',
-    qty_201_500: '201 – 500 pieces',
-    qty_501_1000: '501 – 1,000 pieces',
-    qty_1000_5000: '1,000 – 5,000 pieces',
-    qty_5000_plus: '5,000+ pieces',
+    qty_ph: 'e.g. 200',
+    qty_hint: 'Enter the actual number of parts you need',
     qty_ongoing: 'Ongoing production',
     tolerance_label: 'Tolerance (optional)',
     tolerance_ph: 'e.g. ±0.01 mm',
+    tolerance_per_drawing: 'As per drawing',
     // --- Step 3 ---
     title3: 'Your Contact Information',
     subtitle3: 'So we can send you the quote',
@@ -134,16 +130,12 @@ const texts = {
     material_cat_plastic: '塑料',
     material_cat_others: '其他',
     qty_label: '数量',
-    qty_1_10: '1 – 10 件',
-    qty_11_50: '11 – 50 件',
-    qty_51_200: '51 – 200 件',
-    qty_201_500: '201 – 500 件',
-    qty_501_1000: '501 – 1,000 件',
-    qty_1000_5000: '1,000 – 5,000 件',
-    qty_5000_plus: '5,000 件以上',
+    qty_ph: '如：200',
+    qty_hint: '请填写实际所需件数',
     qty_ongoing: '持续生产',
     tolerance_label: '公差（选填）',
     tolerance_ph: '如：±0.01 mm',
+    tolerance_per_drawing: '按图纸标注',
     // --- Step 3 ---
     title3: '您的联系方式',
     subtitle3: '我们将把报价发送给您',
@@ -213,16 +205,12 @@ const texts = {
     material_cat_plastic: 'Пластик',
     material_cat_others: 'Другое',
     qty_label: 'Количество',
-    qty_1_10: '1 – 10 шт',
-    qty_11_50: '11 – 50 шт',
-    qty_51_200: '51 – 200 шт',
-    qty_201_500: '201 – 500 шт',
-    qty_501_1000: '501 – 1 000 шт',
-    qty_1000_5000: '1 000 – 5 000 шт',
-    qty_5000_plus: '5 000+ шт',
+    qty_ph: 'напр. 200',
+    qty_hint: 'Укажите фактическое количество деталей',
     qty_ongoing: 'Серийное производство',
     tolerance_label: 'Допуск (необязательно)',
     tolerance_ph: 'напр. ±0,01 мм',
+    tolerance_per_drawing: 'По чертежу',
     title3: 'Ваши контактные данные',
     subtitle3: 'Чтобы мы могли выслать расчёт',
     contact_name: 'Имя',
@@ -340,36 +328,28 @@ const isRu = lang === 'ru';
       </div>
 
       <p class="text-sm font-medium text-brand-text mb-2">{texts[lang].qty_label}</p>
-      <div class="grid sm:grid-cols-2 gap-3 mb-6">
-        <label class="quantity-card flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-text transition-colors bg-white">
-          <input type="radio" name="quantity" value="1-10" class="mr-3" /> <span class="font-medium text-sm">{texts[lang].qty_1_10}</span>
-        </label>
-        <label class="quantity-card flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-text transition-colors bg-white">
-          <input type="radio" name="quantity" value="11-50" class="mr-3" /> <span class="font-medium text-sm">{texts[lang].qty_11_50}</span>
-        </label>
-        <label class="quantity-card flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-text transition-colors bg-white">
-          <input type="radio" name="quantity" value="51-200" class="mr-3" /> <span class="font-medium text-sm">{texts[lang].qty_51_200}</span>
-        </label>
-        <label class="quantity-card flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-text transition-colors bg-white">
-          <input type="radio" name="quantity" value="201-500" class="mr-3" /> <span class="font-medium text-sm">{texts[lang].qty_201_500}</span>
-        </label>
-        <label class="quantity-card flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-text transition-colors bg-white">
-          <input type="radio" name="quantity" value="501-1000" class="mr-3" /> <span class="font-medium text-sm">{texts[lang].qty_501_1000}</span>
-        </label>
-        <label class="quantity-card flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-text transition-colors bg-white">
-          <input type="radio" name="quantity" value="1000-5000" class="mr-3" /> <span class="font-medium text-sm">{texts[lang].qty_1000_5000}</span>
-        </label>
-        <label class="quantity-card flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-text transition-colors bg-white">
-          <input type="radio" name="quantity" value="5000+" class="mr-3" /> <span class="font-medium text-sm">{texts[lang].qty_5000_plus}</span>
-        </label>
-        <label class="quantity-card flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-brand-text transition-colors bg-white">
-          <input type="radio" name="quantity" value="ongoing" class="mr-3" /> <span class="font-medium text-sm">{texts[lang].qty_ongoing}</span>
-        </label>
+      <div class="mb-6">
+        <input type="number" id="qf-quantity" name="quantity" min="1" step="1" inputmode="numeric"
+          placeholder={texts[lang].qty_ph}
+          class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none transition bg-white disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed" />
+        <p class="text-xs text-brand-silver mt-1">{texts[lang].qty_hint}</p>
+        <div class="mt-2" id="qf-quantity-chips">
+          <label class="material-chip" id="qf-qty-ongoing-chip">
+            <input type="checkbox" id="qf-quantity-ongoing" class="hidden" />
+            <span>{texts[lang].qty_ongoing}</span>
+          </label>
+        </div>
       </div>
 
       <label for="qf-tolerance" class="block text-sm font-medium text-brand-text mb-1">{texts[lang].tolerance_label}</label>
       <input type="text" id="qf-tolerance" name="tolerance" placeholder={texts[lang].tolerance_ph}
-        class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none transition bg-white" />
+        class="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#8B0000] focus:border-transparent outline-none transition bg-white disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed" />
+      <div class="mt-2" id="qf-tolerance-chips">
+        <label class="material-chip" id="qf-tol-drawing-chip">
+          <input type="checkbox" id="qf-tolerance-per-drawing" class="hidden" />
+          <span>{texts[lang].tolerance_per_drawing}</span>
+        </label>
+      </div>
     </div>
 
     <!-- Step 3: Contact Info -->
@@ -514,7 +494,7 @@ const isRu = lang === 'ru';
     border-color: #6B0000 !important;
     box-shadow: 0 4px 12px rgba(139, 0, 0, 0.4) !important;
   }
-  #material-chips .material-chip {
+  .material-chip {
     display: inline-flex;
     align-items: center;
     padding: 0.5rem 0.9rem;
@@ -529,22 +509,12 @@ const isRu = lang === 'ru';
     user-select: none;
     line-height: 1.2;
   }
-  #material-chips .material-chip:hover { border-color: #1A1A1A; }
-  #material-chips .material-chip.active {
+  .material-chip:hover { border-color: #1A1A1A; }
+  .material-chip.active {
     border-color: #8B0000;
     background-color: #8B0000;
     color: #fff;
     box-shadow: 0 2px 8px rgba(139, 0, 0, 0.25);
-  }
-  .quantity-card { transition: all 0.18s ease; }
-  .quantity-card:has(input:checked) {
-    background-color: #8B0000;
-    border-color: #8B0000;
-    color: #fff;
-    box-shadow: 0 2px 8px rgba(139, 0, 0, 0.25);
-  }
-  .quantity-card:has(input:checked) input[type="radio"] {
-    accent-color: #fff;
   }
 </style>
 <script>
@@ -618,6 +588,36 @@ const isRu = lang === 'ru';
     materialChips.forEach(function(c) { c.querySelector('input').addEventListener('change', syncMaterial); });
     syncMaterial();
 
+    // Tolerance chip：「按图纸标注」勾选后，公差输入框置灰禁用
+    const tolInput = document.getElementById('qf-tolerance');
+    const tolChip = document.getElementById('qf-tol-drawing-chip');
+    const tolPerDrawingInput = document.getElementById('qf-tolerance-per-drawing');
+    function syncTolerance() {
+      const on = !!(tolPerDrawingInput && tolPerDrawingInput.checked);
+      if (tolChip) tolChip.classList.toggle('active', on);
+      if (tolInput) {
+        tolInput.disabled = on;
+        if (on) tolInput.value = '';
+      }
+    }
+    if (tolPerDrawingInput) tolPerDrawingInput.addEventListener('change', syncTolerance);
+    syncTolerance();
+
+    // Quantity chip：「持续生产」勾选后，数量输入框置灰禁用
+    const qtyInput = document.getElementById('qf-quantity');
+    const qtyOngoingChip = document.getElementById('qf-qty-ongoing-chip');
+    const qtyOngoingInput = document.getElementById('qf-quantity-ongoing');
+    function syncQuantity() {
+      const on = !!(qtyOngoingInput && qtyOngoingInput.checked);
+      if (qtyOngoingChip) qtyOngoingChip.classList.toggle('active', on);
+      if (qtyInput) {
+        qtyInput.disabled = on;
+        if (on) qtyInput.value = '';
+      }
+    }
+    if (qtyOngoingInput) qtyOngoingInput.addEventListener('change', syncQuantity);
+    syncQuantity();
+
     // File upload handling
     const dropZone = document.getElementById('drop-zone');
     const fileInput = document.getElementById('file-input');
@@ -680,8 +680,10 @@ const isRu = lang === 'ru';
         fd.append('partName', (data.get('partName') || '').toString().trim());
         fd.append('material', (data.get('material') || '').toString().trim());
         fd.append('material_detail', (data.get('material_detail') || '').toString().trim());
-        fd.append('quantity', (data.get('quantity') || '').toString().trim());
-        fd.append('tolerance', (data.get('tolerance') || '').toString().trim());
+        const qtyOngoing = !!(document.getElementById('qf-quantity-ongoing') && document.getElementById('qf-quantity-ongoing').checked);
+        fd.append('quantity', qtyOngoing ? 'ongoing' : (data.get('quantity') || '').toString().trim());
+        const tolPer = !!(document.getElementById('qf-tolerance-per-drawing') && document.getElementById('qf-tolerance-per-drawing').checked);
+        fd.append('tolerance', tolPer ? 'per-drawing' : (data.get('tolerance') || '').toString().trim());
         fd.append('notes', (data.get('notes') || '').toString().trim());
         uploadedFiles.forEach(f => fd.append('drawings', f, f.name));
 
@@ -693,8 +695,8 @@ const isRu = lang === 'ru';
           const phone = (data.get('phone') || '').toString().trim();
           const mat = (data.get('material') || '').toString().trim();
           const matDetail = (data.get('material_detail') || '').toString().trim();
-          const qty = (data.get('quantity') || '').toString().trim();
-          const tol = (data.get('tolerance') || '').toString().trim();
+          const qty = qtyOngoing ? T('持续生产', 'Ongoing production', 'Серийное производство') : (data.get('quantity') || '').toString().trim();
+          const tol = tolPer ? T('按图纸标注', 'As per drawing', 'По чертежу') : (data.get('tolerance') || '').toString().trim();
           const notes = (data.get('notes') || '').toString().trim();
           const part = (data.get('partName') || '').toString().trim();
 

@@ -23,7 +23,7 @@ if ($LASTEXITCODE -ne 0 -or $whoami -notmatch "email") {
     npx wrangler login
 }
 
-$projectName = "eternalcnc"
+$projectName = "eternalcnc-website"
 $branch = "main"
 
 Write-Host "==> Deploying dist/ to Cloudflare Pages project '$projectName' (branch: $branch)..." -ForegroundColor Cyan

@@ -1,0 +1,1133 @@
+---
+// FaqChat - 静态 FAQ 客服组件（方案 A：零后端 / 零出网 / 零维护）
+// 本地关键词匹配，命中返回预设答案，未命中引导联系工程师。
+// 与 EternalChat.astro（依赖 /api/chat 扣子转发）互斥使用，本组件不发起任何网络请求。
+import { faqItems, COMPANY } from '../data/faq';
+const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathname.startsWith('/ru') ? 'ru' : 'en');
+---
+
+<div id="faq-chat-widget" class="fixed bottom-6 right-6 z-50">
+  <!-- 悬浮按钮 -->
+  <button
+    id="faq-chat-toggle"
+    type="button"
+    class="w-14 h-14 text-white flex items-center justify-center transition-all duration-300 hover:scale-105"
+    style="background-color: var(--brand-red, #8B0000); border-radius: 50%; box-shadow: 0 4px 20px rgba(139,0,0,.3); position: relative;"
+    aria-label="Open chat"
+  >
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+    </svg>
+  </button>
+
+  <!-- 聊天面板 -->
+  <div
+    id="faq-chat-panel"
+    class="bg-white overflow-hidden flex flex-col"
+    style="width: 400px; height: 560px; max-height: calc(100vh - 120px); display: none; position: fixed; bottom: 88px; right: 24px; z-index: 100; border-radius: 16px; box-shadow: 0 8px 40px rgba(0,0,0,.14); flex-direction: column;"
+  >
+    <!-- 头部（清爽白底 + 女头像 + 海外横版 LOGO 居中） -->
+    <div class="flex items-center justify-between gap-3 flex-shrink-0" style="position:relative; background:#fff; border-bottom:1px solid #f0f0f0; border-radius:16px 16px 0 0; padding:12px 16px; min-height:64px;">
+      <div class="flex items-center flex-shrink-0">
+        <div class="w-10 h-10 rounded-full flex-shrink-0 overflow-hidden" style="background:#f2f2f2;">
+          <img src="/images/avatar.png" alt="Eternal CNC" style="width:100%;height:100%;object-fit:cover;" />
+        </div>
+      </div>
+      <!-- 品牌块：绝对居中，左右按钮宽度变化不会把它挤偏 -->
+      <div id="faq-chat-brand" style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); max-width:calc(100% - 150px); text-align:center;">
+        <img src="/images/logo-full.svg" alt="Eternal CNC" style="height:26px; width:auto; display:block; margin:0 auto;" />
+        <p class="text-xs flex items-center gap-1.5 mt-0.5" style="color:#999; justify-content:center; white-space:nowrap; overflow:hidden;">
+          <span class="w-2 h-2 rounded-full" style="background:#4ade80; flex-shrink:0;"></span>
+          <span id="faq-chat-status" style="overflow:hidden; text-overflow:ellipsis;">Online</span>
+        </p>
+      </div>
+      <div class="flex items-center gap-2 flex-shrink-0">
+        <div id="faq-chat-lang-wrap" style="position: relative;">
+          <button id="faq-chat-lang" type="button" class="text-xs font-semibold px-2 py-1 rounded flex items-center gap-1" style="color:#555; border:1px solid #ddd; background:#fff;" aria-label="Switch language">EN</button>
+          <div id="faq-chat-lang-menu" style="display:none; position:absolute; top:calc(100% + 6px); right:0; min-width:150px; background:#fff; border-radius:10px; box-shadow:0 8px 30px rgba(0,0,0,.18); overflow:hidden; z-index:200;"></div>
+        </div>
+        <button id="faq-chat-close" type="button" class="w-8 h-8 flex items-center justify-center rounded-full" style="color:#999;" aria-label="Close">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 消息区 -->
+    <div id="faq-chat-messages" class="flex-1 overflow-y-auto px-4 py-4" style="background-color: var(--brand-bgAlt, #F4F3EE);"></div>
+
+    <!-- 快捷问题 chips -->
+    <div id="faq-chat-chips" class="px-3 pb-2 flex-shrink-0" style="display:none;"></div>
+
+    <!-- 输入区 -->
+    <div class="p-3 flex-shrink-0" style="border-top: 1px solid #eee; background:#fff; border-radius: 0 0 16px 16px;">
+      <!-- 图片预览（选中待发送的图片） -->
+      <div id="faq-chat-img-preview" class="flex items-center gap-2 pb-2" style="display:none;"></div>
+      <!-- 语音/错误提示条：独立成行、可换行，不再挤进窄输入框的 placeholder -->
+      <div id="faq-chat-hint" role="status" aria-live="polite">
+        <span id="faq-chat-hint-text" class="fhint-text"></span>
+        <button id="faq-chat-hint-close" class="fhint-close" type="button" aria-label="Close">&times;</button>
+      </div>
+      <div class="flex items-center gap-1.5 px-3 py-2 border rounded-full" style="background:#f7f7f7; border-color:#eee;">
+        <button id="faq-chat-image" type="button" class="w-8 h-8 flex items-center justify-center rounded-full flex-shrink-0" style="color:#666;" aria-label="Attach image" title="Attach image">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.6-4.6a2 2 0 012.8 0L16 16m-2-2l1.6-1.6a2 2 0 012.8 0L20 14m-6-8h.01M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        </button>
+        <button id="faq-chat-mic" type="button" class="w-8 h-8 flex items-center justify-center rounded-full flex-shrink-0" style="color:#666;" aria-label="Voice input" title="Voice input">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-14 0M12 18v3m-3 0h6m-3-3a5 5 0 005-5V7a5 5 0 00-10 0v6a5 5 0 005 5z"/></svg>
+        </button>
+        <input id="faq-chat-input" type="text" autocomplete="off" class="flex-1 text-sm" style="background:transparent; outline:none; border:none; min-width:0;" />
+        <button id="faq-chat-send" type="button" class="w-8 h-8 text-white flex items-center justify-center rounded-full flex-shrink-0" style="background-color: var(--brand-red,#8B0000);" aria-label="Send">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+        </button>
+      </div>
+      <input id="faq-chat-file" type="file" accept="image/*" style="display:none;" />
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  #faq-chat-widget .fmsg { display: flex; align-items: flex-start; margin-bottom: 12px; word-break: break-word; }
+  #faq-chat-widget .fmsg.user { justify-content: flex-end; }
+  #faq-chat-widget .fmsg.bot { justify-content: flex-start; }
+  /* 微信式圆形小头像 */
+  #faq-chat-widget .favatar {
+    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; overflow: hidden;
+  }
+  #faq-chat-widget .fmsg.bot .favatar { margin-right: 8px; order: 0; }
+  #faq-chat-widget .fmsg.user .favatar { margin-left: 8px; order: 2; }
+  #faq-chat-widget .fbubble {
+    max-width: 72%; padding: 8px 13px; font-size: 13.5px; line-height: 1.6; order: 1;
+    border-radius: 12px; white-space: pre-wrap; box-shadow: 0 1px 2px rgba(0,0,0,.05);
+  }
+  #faq-chat-widget .fmsg.user .fbubble { background: var(--brand-red,#8B0000); color: #fff; border-bottom-right-radius: 4px; }
+  #faq-chat-widget .fmsg.bot .fbubble { background: #fff; color: #1a1a1a; border-bottom-left-radius: 4px; border: 1px solid #eee; }
+  #faq-chat-widget .fmsg.bot .fbubble a { color: var(--brand-red,#8B0000); text-decoration: underline; }
+  /* 富文本：模型返回的 Markdown 渲染后的样式 */
+  #faq-chat-widget .fbubble strong, #faq-chat-widget .fcard strong { font-weight: 600; }
+  #faq-chat-widget .fbubble code {
+    background: #f1f1f1; color: #8B0000; padding: 1px 5px; border-radius: 4px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px;
+  }
+  #faq-chat-widget .fmsg.user .fbubble code { background: rgba(255,255,255,.22); color: #fff; }
+  #faq-chat-widget .fbubble a { word-break: break-all; }
+  /* 头部按钮 hover（浅色背景） */
+  #faq-chat-widget #faq-chat-lang { transition: background .15s ease; }
+  #faq-chat-widget #faq-chat-lang:hover { background: #f2f2f2; }
+  #faq-chat-widget #faq-chat-close { transition: background .15s ease; }
+  #faq-chat-widget #faq-chat-close:hover { background: #f2f2f2; }
+  #faq-chat-widget .fchip {
+    display: inline-block; padding: 6px 13px; margin: 0 6px 6px 0; font-size: 12px;
+    background: #fff; color: #4a4a4a; border: 1px solid #ddd; border-radius: 999px;
+    cursor: pointer; transition: all .15s ease; white-space: nowrap;
+  }
+  #faq-chat-widget .fchip:hover { background: var(--brand-red,#8B0000); color: #fff; border-color: var(--brand-red,#8B0000); }
+  #faq-chat-widget .fcard {
+    background: #fff; border: 1px solid #eee; border-left: 3px solid var(--brand-red,#8B0000);
+    border-radius: 10px; padding: 10px 12px; font-size: 13px; line-height: 1.7;
+    order: 1; max-width: 72%;
+  }
+  #faq-chat-widget .flang {
+    display: block; width: 100%; text-align: left; padding: 9px 14px; font-size: 13px;
+    color: #333; background: #fff; border: none; cursor: pointer; transition: background .12s ease;
+  }
+  #faq-chat-widget .flang:hover { background: #f4f3ee; }
+  #faq-chat-widget .flang.active { color: var(--brand-red,#8B0000); font-weight: 600; background: #faf7f7; }
+  #faq-chat-widget .flang-divider { height: 1px; background: #eee; margin: 4px 0; }
+  /* 朗读按钮（语音播报） */
+  #faq-chat-widget .fspeak {
+    align-self: flex-end; margin-left: 4px; color: #999; cursor: pointer;
+    background: transparent; border: none; padding: 3px; flex-shrink: 0;
+    width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    transition: all .15s ease;
+  }
+  #faq-chat-widget .fspeak:hover { color: var(--brand-red,#8B0000); background: #f2f2f2; }
+  /* 输入区图片/麦克风按钮 */
+  #faq-chat-widget #faq-chat-image, #faq-chat-widget #faq-chat-mic { transition: color .15s ease, background .15s ease; }
+  #faq-chat-widget #faq-chat-image:hover, #faq-chat-widget #faq-chat-mic:hover { color: var(--brand-red,#8B0000); background: #eee; }
+  #faq-chat-widget #faq-chat-mic.listening { color: var(--brand-red,#8B0000); background: #fdeaea; animation: faq-pulse 1.2s infinite; }
+  @keyframes faq-pulse { 0%,100% { opacity: 1; } 50% { opacity: .45; } }
+  /* 语音/错误提示条：整行显示，自动换行，避免长文案被输入框截断 */
+  #faq-chat-widget #faq-chat-hint {
+    display: none; align-items: flex-start; gap: 6px;
+    margin-bottom: 8px; padding: 8px 10px;
+    border-radius: 10px; border: 1px solid transparent;
+    font-size: 12px; line-height: 1.55;
+  }
+  #faq-chat-widget #faq-chat-hint.show { display: flex; }
+  #faq-chat-widget #faq-chat-hint .fhint-text { flex: 1; min-width: 0; word-break: break-word; }
+  #faq-chat-widget #faq-chat-hint .fhint-close {
+    flex-shrink: 0; width: 16px; height: 16px; padding: 0; border: none;
+    background: transparent; color: inherit; opacity: .55; cursor: pointer;
+    font-size: 15px; line-height: 1; display: flex; align-items: center; justify-content: center;
+  }
+  #faq-chat-widget #faq-chat-hint .fhint-close:hover { opacity: 1; }
+  #faq-chat-widget #faq-chat-hint.hint-error { background: #fdeaea; border-color: #f2c4c4; color: #9b1c1c; }
+  #faq-chat-widget #faq-chat-hint.hint-warn  { background: #fff8e6; border-color: #f0dfae; color: #8a6100; }
+  #faq-chat-widget #faq-chat-hint.hint-info  { background: #eef4ff; border-color: #cddffb; color: #1e429f; }
+  /* 图片缩略图（预览 + 消息内） */
+  #faq-chat-widget .fimg-thumb { position: relative; width: 56px; height: 56px; border-radius: 8px; overflow: hidden; border: 1px solid #eee; flex-shrink: 0; }
+  #faq-chat-widget .fimg-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  #faq-chat-widget .fimg-remove { position: absolute; top: 2px; right: 2px; width: 16px; height: 16px; border-radius: 50%; background: rgba(0,0,0,.6); color: #fff; font-size: 10px; line-height: 1; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; }
+  #faq-chat-widget .fimg-msg { max-width: 60%; border-radius: 10px; overflow: hidden; border: 1px solid #eee; }
+  #faq-chat-widget .fimg-msg img { display: block; max-width: 100%; height: auto; }
+  #faq-chat-messages::-webkit-scrollbar { width: 4px; }
+  #faq-chat-messages::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
+  @media (max-width: 640px) {
+    #faq-chat-widget { bottom: 0; right: 0; left: 0; width: 100%; pointer-events: none; }
+    #faq-chat-widget #faq-chat-toggle, #faq-chat-widget #faq-chat-panel { pointer-events: auto; }
+    #faq-chat-widget #faq-chat-toggle { position: fixed; bottom: 16px; right: 16px; }
+    #faq-chat-widget #faq-chat-panel {
+      position: fixed !important; bottom: 0 !important; right: 0 !important; left: 0 !important;
+      width: 100% !important; height: 82vh !important; max-height: 82vh !important;
+      border-radius: 16px 16px 0 0 !important;
+    }
+  }
+</style>
+
+<script define:vars={{ faqItems, COMPANY, pageLang }}>
+(function () {
+  'use strict';
+  const widget = document.getElementById('faq-chat-widget');
+  const toggle = document.getElementById('faq-chat-toggle');
+  const panel = document.getElementById('faq-chat-panel');
+  const messagesEl = document.getElementById('faq-chat-messages');
+  const chipsEl = document.getElementById('faq-chat-chips');
+  const inputEl = document.getElementById('faq-chat-input');
+  const sendBtn = document.getElementById('faq-chat-send');
+  const closeBtn = document.getElementById('faq-chat-close');
+  const langBtn = document.getElementById('faq-chat-lang');
+  const statusEl = document.getElementById('faq-chat-status');
+  const imageBtn = document.getElementById('faq-chat-image');
+  const micBtn = document.getElementById('faq-chat-mic');
+  const fileInput = document.getElementById('faq-chat-file');
+  const imgPreview = document.getElementById('faq-chat-img-preview');
+  if (!widget || !panel) return;
+
+  // 语言：初始取页面语言（zh/ru/en 三语站）
+  let lang = (pageLang === 'zh' || pageLang === 'ru') ? pageLang : 'en';
+  // 手动选择的语言（空 = 自动检测客户消息语言）。选中后 UI 文案 + 客服回答都强制跟随。
+  let forcedLang = '';
+  let greeted = false;
+
+  // 方案 B：多轮对话状态。Workers AI 无服务端会话，历史由前端维护并随请求上报。
+  let history = [];
+  // 对话消息持久化：存 localStorage，刷新/切换语言都不丢（"客服有记忆"）
+  let messages = [];
+  function saveMessages() {
+    try { localStorage.setItem('eternal_chat_messages', JSON.stringify(messages)); } catch (e) {}
+  }
+  function loadMessages() {
+    try {
+      const raw = localStorage.getItem('eternal_chat_messages');
+      messages = raw ? (JSON.parse(raw) || []) : [];
+    } catch (e) { messages = []; }
+  }
+  let busy = false;
+  let userId = '';
+  let convId = '';
+  try {
+    userId = localStorage.getItem('eternal_chat_user_id') || '';
+    if (!userId) {
+      userId = 'u_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+      localStorage.setItem('eternal_chat_user_id', userId);
+    }
+    convId = localStorage.getItem('eternal_chat_conversation_id') || '';
+  } catch (e) {}
+
+  const T = {
+    en: {
+      title: 'Eternal CNC',
+      status: 'Online · typically replies in 2 hours',
+      placeholder: 'Type your question…',
+      welcome: 'Hello! I\u2019m the Eternal CNC assistant. I can answer questions about our services, materials, tolerances, lead time and quoting. What can I help you with?',
+      chips: ['Get a quote', 'What materials?', 'What tolerances?', 'Lead time?'],
+      noMatch: 'I could not find a ready answer for that. Please email our engineers at ' + COMPANY.email + ' — we typically reply within 2 business hours.',
+      noMatchTitle: 'Talk to an engineer',
+    },
+    zh: {
+      title: '鑫永恒 CNC',
+      status: '在线 · 通常 2 小时内回复',
+      placeholder: '请输入您的问题…',
+      welcome: '您好！我是鑫永恒 CNC 助手，可以解答关于加工服务、材料、公差、交期和报价的问题。请问有什么可以帮您？',
+      chips: ['获取报价', '能加工哪些材料', '公差精度', '交期多久'],
+      noMatch: '这个问题我暂时没有现成答案，请直接邮件联系工程师 ' + COMPANY.email + '，工作日通常 2 小时内回复。',
+      noMatchTitle: '联系工程师',
+    },
+    ja: {
+      title: 'Eternal CNC',
+      status: 'オンライン · 通常2時間以内に返信',
+      placeholder: 'ご質問を入力してください…',
+      welcome: 'こんにちは！Eternal CNCのアシスタントです。加工サービス、材料、公差、納期、見積もりについてご案内します。何かお手伝いできることはありますか？',
+      chips: ['見積もりを依頼', '対応材料は？', '公差精度は？', '納期は？'],
+      noMatch: 'こちらの質問には即答できる回答がありません。エンジニア ' + COMPANY.email + ' までメールでお問い合わせください。平日は通常2時間以内に返信します。',
+      noMatchTitle: 'エンジニアに相談',
+    },
+    ko: {
+      title: 'Eternal CNC',
+      status: '온라인 · 보통 2시간 내 답변',
+      placeholder: '질문을 입력하세요…',
+      welcome: '안녕하세요! Eternal CNC 어시스턴트입니다. 가공 서비스, 재료, 공차, 납기, 견적에 대해 안내해 드립니다. 무엇을 도와드릴까요?',
+      chips: ['견적 요청', '가공 재료는?', '공차 정밀도?', '납기는?'],
+      noMatch: '이 질문에 대한 답변을 바로 찾지 못했습니다. 엔지니어 ' + COMPANY.email + ' 로 이메일 주시면 보통 2시간 내에 답변드립니다.',
+      noMatchTitle: '엔지니어에게 문의',
+    },
+    ru: {
+      title: 'Eternal CNC',
+      status: 'Онлайн · обычно отвечаем в течение 2 часов',
+      placeholder: 'Введите ваш вопрос…',
+      welcome: 'Здравствуйте! Я ассистент Eternal CNC. Помогу с вопросами об услугах, материалах, допусках, сроках и расчёте стоимости. Чем могу помочь?',
+      chips: ['Запросить расчёт', 'Какие материалы?', 'Допуски?', 'Сроки?'],
+      noMatch: 'Готового ответа не нашёл. Напишите нашим инженерам: ' + COMPANY.email + ' — обычно отвечаем в течение 2 рабочих часов.',
+      noMatchTitle: 'Связаться с инженером',
+    },
+    es: {
+      title: 'Eternal CNC',
+      status: 'En línea · solemos responder en 2 horas',
+      placeholder: 'Escriba su pregunta…',
+      welcome: '¡Hola! Soy el asistente de Eternal CNC. Puedo responder preguntas sobre nuestros servicios, materiales, tolerancias, plazos y presupuestos. ¿En qué puedo ayudarle?',
+      chips: ['Solicitar presupuesto', '¿Qué materiales?', '¿Tolerancias?', '¿Plazos?'],
+      noMatch: 'No tengo una respuesta inmediata. Escriba a nuestros ingenieros: ' + COMPANY.email + ' — solemos responder en 2 horas laborables.',
+      noMatchTitle: 'Hablar con un ingeniero',
+    },
+    de: {
+      title: 'Eternal CNC',
+      status: 'Online · antworten meist innerhalb von 2 Stunden',
+      placeholder: 'Geben Sie Ihre Frage ein…',
+      welcome: 'Hallo! Ich bin der Assistent von Eternal CNC. Ich beantworte Fragen zu unseren Leistungen, Materialien, Toleranzen, Lieferzeiten und Angeboten. Wie kann ich helfen?',
+      chips: ['Angebot anfordern', 'Materialien?', 'Toleranzen?', 'Lieferzeit?'],
+      noMatch: 'Dazu habe ich keine fertige Antwort. Schreiben Sie unseren Ingenieuren: ' + COMPANY.email + ' — Antwort meist innerhalb von 2 Stunden.',
+      noMatchTitle: 'Ingenieur kontaktieren',
+    },
+    fr: {
+      title: 'Eternal CNC',
+      status: 'En ligne · réponse généralement sous 2 heures',
+      placeholder: 'Saisissez votre question…',
+      welcome: 'Bonjour ! Je suis l\u2019assistant d\u2019Eternal CNC. Je réponds à vos questions sur nos services, matériaux, tolérances, délais et devis. Comment puis-je vous aider ?',
+      chips: ['Demander un devis', 'Quels matériaux ?', 'Tolérances ?', 'Délais ?'],
+      noMatch: 'Je n\u2019ai pas de réponse toute prête. Écrivez à nos ingénieurs : ' + COMPANY.email + ' — réponse généralement sous 2 heures ouvrées.',
+      noMatchTitle: 'Contacter un ingénieur',
+    },
+    ar: {
+      title: 'Eternal CNC',
+      status: 'متصل · نرد عادة خلال ساعتين',
+      placeholder: 'اكتب سؤالك…',
+      welcome: 'مرحباً! أنا مساعد Eternal CNC. يمكنني الإجابة عن أسئلتك حول خدماتنا وموادنا وتفاوتاتنا ومدد التسليم وعروض الأسعار. كيف يمكنني مساعدتك؟',
+      chips: ['طلب عرض سعر', 'ما المواد؟', 'التفاوتات؟', 'مدة التسليم؟'],
+      noMatch: 'لم أجد إجابة جاهزة لذلك. يرجى مراسلة مهندسينا: ' + COMPANY.email + ' — نرد عادة خلال ساعتي عمل.',
+      noMatchTitle: 'التحدث مع مهندس',
+    },
+  };
+
+  function t(key) { return T[lang][key]; }
+
+  // 语音提示文案：zh / en 手写；其余语种暂回落英文（待母语校对后再补，避免机翻生硬）
+  const HINTS = {
+    zh: {
+      denied: '麦克风被浏览器拦住了。点地址栏左侧的图标（锁形 / ⓘ / 调节）→ 权限 → 麦克风 → 允许，再点一次麦克风。若还不行：手机「设置 → 应用 → Chrome → 权限 → 麦克风」打开；也可以直接用下面的输入框打字提问。',
+      unavailable: '无法访问麦克风：可能被其他程序占用，或浏览器未授权使用。检查后重试。',
+      noSpeech: '没有检测到语音。请靠近麦克风，说完一句再停。',
+      noSound: '没有录到声音，请再试一次。',
+      recognizing: '正在识别语音，请稍候…',
+      noContent: '识别完成但没拿到文字，请再说一次，或直接打字。',
+      failed: '语音识别服务暂时不可用，请改用文字输入。',
+      recording: '正在录音，说完后再点一次麦克风结束。',
+      unsupported: '当前浏览器不支持录音，请改用文字输入。',
+      imgNotImage: '只能发送图片文件（JPG/PNG/WebP）。',
+      imgTooLarge: '图片超过 5MB，请压缩后再发。',
+      imgPasted: '图片已加入待发送，可以再补一句说明后点发送。',
+      imgReading: '正在读取图片内容…',
+      imgDrawing: '已收到图纸。为避免读漏尺寸，请把 STEP/PDF/DXF 原图发到 ' + COMPANY.email + '，工程师复核后出正式报价；照片上的尺寸标注可能有误读。',
+    },
+    en: {
+      denied: 'Microphone is blocked. Tap the icon at the left of the address bar (lock / i / tune) - Permissions - Microphone - Allow, then tap the mic again. If that does not work, allow Microphone for Chrome in phone Settings - Apps - Chrome - Permissions. You can also just type your question below.',
+      unavailable: 'Cannot access the microphone: it may be in use by another app, or blocked by the browser. Please check and retry.',
+      noSpeech: 'No speech detected. Please move closer to the microphone and try again.',
+      noSound: 'No audio was recorded. Please try again.',
+      recognizing: 'Transcribing, please wait…',
+      noContent: 'Transcription returned no text. Please try again or type your question.',
+      failed: 'Speech recognition is temporarily unavailable. Please type your question instead.',
+      recording: 'Recording… tap the mic again when you have finished speaking.',
+      unsupported: 'Recording is not supported in this browser. Please type your question.',
+      imgNotImage: 'Please choose an image file (JPG / PNG / WebP).',
+      imgTooLarge: 'Image is over 5 MB. Please compress it and try again.',
+      imgPasted: 'Image added. You can add a note, then tap send.',
+      imgReading: 'Reading the image…',
+      imgDrawing: 'Drawing received. To avoid misreading dimensions, please email the original STEP/PDF/DXF to ' + COMPANY.email + ' and our engineers will review it for a formal quote. Dimensions read from a photo can be inaccurate.',
+    },
+  };
+  function ht(key) {
+    const pack = HINTS[lang] || HINTS.en;
+    return pack[key] || HINTS.en[key];
+  }
+
+  // 提示条：整行展示，长文案自动换行（替代原来塞进输入框 placeholder 的做法）
+  const hintEl = document.getElementById('faq-chat-hint');
+  const hintTextEl = document.getElementById('faq-chat-hint-text');
+  const hintCloseEl = document.getElementById('faq-chat-hint-close');
+  let hintTimer = null;
+  function hideHint() {
+    if (hintTimer) { clearTimeout(hintTimer); hintTimer = null; }
+    if (hintEl) hintEl.classList.remove('show');
+  }
+  function showHint(text, type, autoHideMs) {
+    if (!hintEl || !hintTextEl || !text) return;
+    hintTextEl.textContent = text;
+    hintEl.className = 'show hint-' + (type || 'info');
+    if (hintTimer) { clearTimeout(hintTimer); hintTimer = null; }
+    if (autoHideMs) hintTimer = setTimeout(hideHint, autoHideMs);
+  }
+  if (hintCloseEl) hintCloseEl.addEventListener('click', hideHint);
+
+  // 语言选项：菜单里显示本地名；按钮上显示短标签
+  const LANG_LABELS = [
+    { code: '', label: 'Auto · 自动检测' },
+    { code: 'zh', label: '中文' },
+    { code: 'en', label: 'English' },
+    { code: 'ja', label: '日本語' },
+    { code: 'ko', label: '한국어' },
+    { code: 'ru', label: 'Русский' },
+    { code: 'es', label: 'Español' },
+    { code: 'de', label: 'Deutsch' },
+    { code: 'fr', label: 'Français' },
+    { code: 'ar', label: 'العربية' },
+  ];
+  const LANG_SHORT = { zh: '中', en: 'EN', ja: '日', ko: '한', ru: 'РУ', es: 'ES', de: 'DE', fr: 'FR', ar: 'ع' };
+  const langMenu = document.getElementById('faq-chat-lang-menu');
+
+  function applyLang() {
+    statusEl.textContent = t('status');
+    inputEl.placeholder = t('placeholder');
+    langBtn.innerHTML = (LANG_SHORT[lang] || 'EN') + ' <span style="font-size:9px;opacity:.85;">▾</span>';
+  }
+
+  function renderLangMenu() {
+    if (!langMenu) return;
+    langMenu.innerHTML = '';
+    LANG_LABELS.forEach(function (item, idx) {
+      if (idx === 1) {
+        const d = document.createElement('div');
+        d.className = 'flang-divider';
+        langMenu.appendChild(d);
+      }
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'flang';
+      b.textContent = item.label;
+      if (item.code === forcedLang || (item.code === '' && !forcedLang)) b.classList.add('active');
+      b.addEventListener('click', function () {
+        setLang(item.code);
+        langMenu.style.display = 'none';
+      });
+      langMenu.appendChild(b);
+    });
+  }
+
+  function setLang(code) {
+    if (code === '') {
+      // 自动检测：回到页面语言，回答语言跟随客户消息
+      forcedLang = '';
+      lang = (pageLang === 'zh' || pageLang === 'ru') ? pageLang : 'en';
+    } else {
+      forcedLang = code;
+      lang = code;
+    }
+    applyLang();
+    // 切换语言保留聊天记录（不清空消息区），只更新界面文案和快捷问题语言
+    if (!greeted) {
+      greet();
+    } else {
+      const wasChatting = history.length > 0;
+      renderChips();
+      if (wasChatting) chipsEl.style.display = 'none';
+    }
+    renderLangMenu();
+  }
+
+  // 微信式头像：客服=真人照片（左），访客=灰色人形剪影（右）
+  function makeAvatar(role) {
+    const a = document.createElement('div');
+    a.className = 'favatar';
+    if (role === 'bot') {
+      const img = document.createElement('img');
+      img.src = '/images/avatar.png';
+      img.alt = 'Eternal CNC';
+      img.loading = 'eager';
+      img.decoding = 'async';
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+      a.appendChild(img);
+    } else {
+      a.style.cssText = 'background:#c8c9cc;display:flex;align-items:center;justify-content:center;';
+      a.innerHTML = '<svg viewBox="0 0 24 24" style="width:60%;height:60%;" fill="#fff"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>';
+    }
+    return a;
+  }
+
+  // 语音播报（Web Speech API TTS，纯本地，不出网）
+  function speak(text) {
+    try {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = LANG_BCP47[lang] || 'en';
+      window.speechSynthesis.speak(u);
+    } catch (e) {}
+  }
+
+  // ===== 富文本渲染：模型会返回 Markdown（**粗体** 等），原来用 textContent 直接显示，
+  // 结果页面上满屏星号。这里做"先转义、再白名单替换"的安全内联渲染：
+  // 顺序上先 escapeHtml，替换进去的标签全部由本函数生成，模型无法注入任意 HTML。
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  // 朗读用纯文本：去掉标记符号，避免 TTS 念出"星号星号"
+  function plainText(s) {
+    return String(s || '')
+      .replace(/`([^`]*)`/g, '$1')
+      .replace(/\*\*|__/g, '')
+      .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+      .replace(/^#{1,6}\s+/gm, '')
+      .replace(/\*/g, '');
+  }
+  function renderRich(el, raw) {
+    if (!el) return;
+    let s = escapeHtml(raw || '');
+    // 行内代码
+    s = s.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+    // 粗体 **x** / __x__
+    s = s.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>');
+    s = s.replace(/__([^_\n]+)__/g, '<strong>$1</strong>');
+    // 标题行 → 粗体行（### 标题这种）
+    s = s.replace(/^#{1,6}\s+(.+)$/gm, '<strong>$1</strong>');
+    // 列表符 - / * / + → 圆点
+    s = s.replace(/^\s*[-*+]\s+/gm, '• ');
+    // 残留的孤立星号（模型爱用 * 或 *** 做强调）直接清掉，不再让星号出现在页面上
+    s = s.replace(/\*+/g, '');
+    // 链接 [文字](https://...)，只放行 http(s)
+    s = s.replace(/\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+    el.innerHTML = s;
+  }
+
+  function pushMsg(role, content, rtl) {
+    const row = document.createElement('div');
+    row.className = 'fmsg ' + role;
+    const b = document.createElement('div');
+    b.className = 'fbubble';
+    renderRich(b, content);
+    if (rtl) { b.setAttribute('dir', 'rtl'); b.style.textAlign = 'right'; }
+    row.appendChild(makeAvatar(role));
+    row.appendChild(b);
+    if (role === 'bot' && 'speechSynthesis' in window) {
+      const spk = document.createElement('button');
+      spk.type = 'button';
+      spk.className = 'fspeak';
+      spk.setAttribute('aria-label', 'Read aloud');
+      spk.innerHTML = '<svg viewBox="0 0 24 24" style="width:14px;height:14px;" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5L6 9H2v6h4l5 4V5zm4.5 4.5a4 4 0 010 5.7M15.5 7.5a7 7 0 010 9"/></svg>';
+      spk.addEventListener('click', function (e) { e.stopPropagation(); speak(plainText(content)); });
+      row.appendChild(spk);
+    }
+    messagesEl.appendChild(row);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function pushCard(title, body) {
+    const row = document.createElement('div');
+    row.className = 'fmsg bot';
+    const card = document.createElement('div');
+    card.className = 'fcard';
+    if (title) {
+      const h = document.createElement('div');
+      h.style.cssText = 'font-weight:600;margin-bottom:4px;';
+      h.textContent = title;
+      card.appendChild(h);
+    }
+    const p = document.createElement('div');
+    renderRich(p, body);
+    card.appendChild(p);
+    row.appendChild(makeAvatar('bot'));
+    row.appendChild(card);
+    messagesEl.appendChild(row);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  // 访客上传的图片消息（气泡内显示缩略图）
+  function pushImageMsg(dataUrl) {
+    const row = document.createElement('div');
+    row.className = 'fmsg user';
+    const wrap = document.createElement('div');
+    wrap.className = 'fimg-msg';
+    const img = document.createElement('img');
+    img.src = dataUrl;
+    img.alt = 'uploaded image';
+    wrap.appendChild(img);
+    row.appendChild(makeAvatar('user'));
+    row.appendChild(wrap);
+    messagesEl.appendChild(row);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function renderChips() {
+    const chips = t('chips');
+    if (!chips || !chips.length) return;
+    chipsEl.innerHTML = '';
+    chips.forEach(function (q) {
+      const c = document.createElement('button');
+      c.type = 'button';
+      c.className = 'fchip';
+      c.textContent = q;
+      c.addEventListener('click', function () { inputEl.value = q; send(); });
+      chipsEl.appendChild(c);
+    });
+    chipsEl.style.display = 'block';
+  }
+
+  function normalize(s) {
+    return (s || '').toLowerCase().replace(/[^a-z0-9\u4e00-\u9fa5]/g, ' ');
+  }
+
+  function match(text) {
+    const raw = (text || '').toLowerCase();
+    const t = normalize(text);
+    let best = null, bestScore = 0;
+    for (let i = 0; i < faqItems.length; i++) {
+      const it = faqItems[i];
+      let score = 0;
+      // 跨语言去重：同一关键词字符串（如 lc/nda/t/t）只计一次分，避免短词跨语言重复累加导致误判
+      const seen = new Set();
+      const add = function (arr, hay) {
+        if (!arr) return;
+        for (let j = 0; j < arr.length; j++) {
+          const k = arr[j].toLowerCase();
+          if (seen.has(k)) continue;
+          if (hay.indexOf(k) !== -1) { seen.add(k); score += k.length; }
+        }
+      };
+      add(it.kw, t);
+      add(it.kwZh, raw);
+      add(it.kwJa, raw);
+      add(it.kwRu, raw);
+      add(it.kwKo, raw);
+      add(it.kwEs, raw);
+      add(it.kwDe, raw);
+      add(it.kwAr, raw);
+      add(it.kwFr, raw);
+      if (score > bestScore) { bestScore = score; best = it; }
+    }
+    return bestScore > 0 ? best : null;
+  }
+
+  // 检测用户消息语言：客户用什么语言问，就用什么语言答（不跟随页面语言）。
+  // 本地 FAQ 有 zh/en/ja/ru/ko/es/de/fr/ar 九版答案；其余语种命中 FAQ 走模型翻译，模型路径把多语种码传给后端。
+  function detectUserLang(text) {
+    const t = text || '';
+    // 日语优先：含假名即判 ja（日语常混用汉字，若先判汉字会把"材料を加工"误判成中文）
+    if (/[\u3040-\u309f\u30a0-\u30ff]/.test(t)) return 'ja';
+    if (/[\u4e00-\u9fff\u3400-\u4dbf]/.test(t)) return 'zh';
+    if (/[\uac00-\ud7af\u1100-\u11ff\u3130-\u318f]/.test(t)) return 'ko';
+    if (/[\u0900-\u097f]/.test(t)) return 'hi';
+    if (/[\u0e00-\u0e7f]/.test(t)) return 'th';
+    if (/[\u0600-\u06ff\u0750-\u077f]/.test(t)) return 'ar';
+    if (/[\u0590-\u05ff]/.test(t)) return 'he';
+    if (/[\u0370-\u03ff]/.test(t)) return 'el';
+    if (/[\u0400-\u04ff]/.test(t)) return 'ru';
+    // 拉丁语系无法靠 Unicode 文段区分（西/德/法都归 en），用重音/变音字符启发式区分：
+    if (/[äöüß]/.test(t)) return 'de';            // 德语变音
+    if (/[èêàçùûîôëïœ]/.test(t)) return 'fr';      // 法语独有重音/ç/œ（西语没有这些）
+    if (/[ñ¿¡]/.test(t)) return 'es';              // 西语独有（ñ/倒问号/倒感叹号）
+    // 法语特有词兜底（无重音或漏写重音的拉丁输入也能识别，英文不用这些词）
+    if (/(usinage|fraisage|tournage|devis|paiement|combien|échantillon|echantillon|délai|delai|expédition|expedition|fournissez|proposez|souhaitez)/.test(t)) return 'fr';
+    // 德语名词首字母大写是无变音德语句子的强信号（英语/西语名词不大写，且这些是德语工程/商务特有词）
+    if (/(Materialien|Angebot|Lieferzeit|Zahlung|Toleranz|Toleranzen|Zeichnung|Zeichnungen|Bestellung|Versand|Dienstleistung|Akkreditiv|Genauigkeit|Ebenheit|Werkstoff|Konstruktion|Fertigung|Prototyp|Kleinserie|Liefertermin)/.test(t)) return 'de';
+    return 'en';
+  }
+  const LANG_BCP47 = { zh: 'zh-CN', ja: 'ja', ko: 'ko', hi: 'hi', th: 'th', ar: 'ar', he: 'he', el: 'el', ru: 'ru', es: 'es', de: 'de', fr: 'fr', en: 'en' };
+  // 有本地 FAQ 答案的语言：语种码 -> faq 字段名（命中且该语言有答案即本地秒答，其余走模型翻译）
+  const LOCAL_LANGS = { zh: 'zh', en: 'en', ja: 'ja', ru: 'ru', ko: 'ko', es: 'es', de: 'de', fr: 'fr', ar: 'ar' };
+
+  function pushBotPlaceholder() {
+    const row = document.createElement('div');
+    row.className = 'fmsg bot';
+    const b = document.createElement('div');
+    b.className = 'fbubble';
+    b.textContent = '…';
+    row.appendChild(makeAvatar('bot'));
+    row.appendChild(b);
+    messagesEl.appendChild(row);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return b;
+  }
+
+  // 方案 B：本地 FAQ 未命中 → 调 /api/chat（后端再 FAQ 拦截 → Workers AI 模型兜底）
+  async function askModel(text, imageData) {
+    if (busy) return;
+    busy = true;
+    const bubble = pushBotPlaceholder();
+    let sawVision = false;
+    try {
+      const body = {
+        message: text,
+        user_id: userId,
+        conversation_id: convId,
+        visitor_info: { language: LANG_BCP47[forcedLang || detectUserLang(text)] || 'en' },
+        history: history.slice(-8),
+      };
+      if (imageData) body.image = imageData;
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+      let full = '';
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+        for (const line of lines) {
+          const t = line.trim();
+          if (!t.startsWith('data:')) continue;
+          const payload = t.slice(5).trim();
+          if (payload === '[DONE]') continue;
+          let obj;
+          try { obj = JSON.parse(payload); } catch (e) { continue; }
+          // 后端先告知图片类型：图纸 → 显示"转人工"提示；其他 → 清掉"正在读图"
+          if (obj.event === 'vision' && obj.kind) {
+            sawVision = true;
+            if (obj.kind === 'drawing') showHint(ht('imgDrawing'), 'info', 0);
+            else hideHint();
+            continue;
+          }
+          if (obj.event === 'conversation' && obj.conversation_id) {
+            convId = obj.conversation_id;
+            try { localStorage.setItem('eternal_chat_conversation_id', convId); } catch (e) {}
+          }
+          if (obj.event === 'message' && obj.message && obj.message.content) {
+            full += obj.message.content;
+            renderRich(bubble, full);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+          }
+        }
+      }
+      if (!full || !full.trim()) throw new Error('empty reply');
+      messages.push({ role: 'assistant', content: full });
+      saveMessages();
+      history.push({ role: 'user', content: text });
+      history.push({ role: 'assistant', content: full });
+    } catch (e) {
+      // 模型失败 → 降级为邮箱兜底（保留方案 A 的可达性，绝不空泡）
+      if (bubble.parentElement) bubble.parentElement.remove();
+      pushCard(t('noMatchTitle'), t('noMatch'));
+    } finally {
+      // 没收到 vision 帧就别让"正在读图"一直挂着
+      if (imageData && !sawVision) hideHint();
+      busy = false;
+    }
+  }
+
+  function send() {
+    const text = (inputEl.value || '').trim();
+    const hasImg = !!pendingImage;
+    if ((!text && !hasImg) || busy) return;
+    inputEl.value = '';
+    // 访客图片：先渲染，再清空待发状态
+    const imgData = pendingImage;
+    if (hasImg) {
+      pushImageMsg(imgData);
+      pendingImage = '';
+      renderImgPreview();
+    }
+    if (text) {
+      pushMsg('user', text);
+      messages.push({ role: 'user', content: text });
+    }
+    saveMessages();
+    // 有图片 → 走视觉模型看图；无图片 → 本地 FAQ 优先
+    if (hasImg) {
+      showHint(ht('imgReading'), 'info', 0);
+      askModel(text || '(image)', imgData);
+    } else {
+      const hit = match(text);
+      const ul = forcedLang || detectUserLang(text);
+      // 有本地答案的语言：命中且该语言有答案 → 本地秒答；其余语种命中 FAQ 也走模型翻译
+      const faqLang = LOCAL_LANGS[ul];
+      const hasLocal = hit && faqLang && hit[faqLang];
+      if (hasLocal) {
+        const answer = hit[faqLang].a;
+        pushMsg('bot', answer, ul === 'ar');
+        messages.push({ role: 'assistant', content: answer });
+        saveMessages();
+        history.push({ role: 'user', content: text });
+        history.push({ role: 'assistant', content: answer });
+      } else {
+        askModel(text);
+      }
+    }
+    chipsEl.style.display = 'none';
+  }
+
+  function greet() {
+    if (greeted) return;
+    greeted = true;
+    pushMsg('bot', t('welcome'), lang === 'ar');
+    renderChips();
+  }
+
+  function open() {
+    panel.style.display = 'flex';
+    if (!greeted) {
+      loadMessages();
+      if (messages.length > 0) {
+        // 恢复历史对话（客服有记忆，刷新/重开不丢）
+        greeted = true;
+        messages.forEach(function (m) { pushMsg(m.role, m.content); });
+        history = messages.slice(-8);
+      } else {
+        greet();
+      }
+    }
+    setTimeout(function () { try { inputEl.focus(); } catch (e) {} }, 80);
+  }
+  function close() { panel.style.display = 'none'; }
+
+  toggle.addEventListener('click', function () {
+    if (panel.style.display === 'flex') close(); else open();
+  });
+  closeBtn.addEventListener('click', close);
+  sendBtn.addEventListener('click', send);
+  inputEl.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); send(); }
+  });
+  langBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    if (!langMenu) return;
+    renderLangMenu();
+    const isHidden = langMenu.style.display === 'none';
+    langMenu.style.display = isHidden ? 'block' : 'none';
+  });
+  // 点击菜单外关闭
+  document.addEventListener('click', function (e) {
+    if (langMenu && !langMenu.contains(e.target) && e.target !== langBtn && !langBtn.contains(e.target)) {
+      langMenu.style.display = 'none';
+    }
+  });
+
+  // 语音输入：优先浏览器原生识别（海外走 Google 免费），失败自动降级到云端录音识别（国内）
+  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let recognition = null;
+  let recListening = false;   // 原生识别进行中
+  let recFallback = false;    // 是否处于降级录音模式
+  let mediaRecorder = null;
+  let audioChunks = [];
+  let audioStream = null;
+
+  function setMicActive(on) {
+    recListening = on;
+    if (micBtn) micBtn.classList.toggle('listening', on);
+  }
+
+  // 把录音 blob 转成 16kHz/16bit/单声道 PCM，上传 /api/speech 识别
+  function resampleTo16kMono(audioBuffer) {
+    const srcRate = audioBuffer.sampleRate;
+    const targetRate = 16000;
+    const channels = Math.max(1, audioBuffer.numberOfChannels);
+    const srcLen = audioBuffer.length;
+    const dstLen = Math.max(1, Math.round(srcLen * targetRate / srcRate));
+    const result = new Int16Array(dstLen);
+    const ratio = srcRate / targetRate;
+    for (let i = 0; i < dstLen; i++) {
+      const srcIdx = i * ratio;
+      const idx0 = Math.floor(srcIdx);
+      const idx1 = Math.min(idx0 + 1, srcLen - 1);
+      const frac = srcIdx - idx0;
+      let sample = 0;
+      for (let c = 0; c < channels; c++) {
+        const data = audioBuffer.getChannelData(c);
+        sample += data[idx0] + (data[idx1] - data[idx0]) * frac;
+      }
+      sample /= channels;
+      sample = Math.max(-1, Math.min(1, sample));
+      result[i] = sample < 0 ? sample * 0x8000 : sample * 0x7FFF;
+    }
+    return result;
+  }
+
+  function int16ToBase64(i16) {
+    const bytes = new Uint8Array(i16.buffer);
+    let bin = '';
+    const CHUNK = 8192;
+    for (let i = 0; i < bytes.length; i += CHUNK) {
+      bin += String.fromCharCode.apply(null, bytes.subarray(i, Math.min(i + CHUNK, bytes.length)));
+    }
+    return btoa(bin);
+  }
+
+  async function transcribeBlob(blob) {
+    const arrayBuf = await blob.arrayBuffer();
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) throw new Error('浏览器不支持音频解码');
+    const audioCtx = new AudioCtx();
+    let b64;
+    try {
+      const audioBuffer = await audioCtx.decodeAudioData(arrayBuf);
+      b64 = int16ToBase64(resampleTo16kMono(audioBuffer));
+    } finally {
+      audioCtx.close();
+    }
+    const resp = await fetch('/api/speech', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pcm: b64, lang: lang || 'zh' }),
+    });
+    const data = await resp.json();
+    if (!data || !data.ok) throw new Error((data && data.error) || '识别服务不可用');
+    return (data.text || '').trim();
+  }
+
+  function handleRecordingStop() {
+    setMicActive(false);
+    recFallback = false;
+    if (audioStream) { audioStream.getTracks().forEach(function (t) { t.stop(); }); audioStream = null; }
+    const chunks = audioChunks;
+    audioChunks = [];
+    const rec = mediaRecorder;
+    mediaRecorder = null;
+    if (!chunks.length) { showHint(ht('noSound'), 'warn', 6000); return; }
+    const blob = new Blob(chunks, { type: (rec && rec.mimeType) || 'audio/webm' });
+    showHint(ht('recognizing'), 'info', 0);
+    transcribeBlob(blob).then(function (text) {
+      if (text) { hideHint(); inputEl.value = text; inputEl.focus(); }
+      else { showHint(ht('noContent'), 'warn', 8000); }
+    }).catch(function (err) {
+      showHint(ht('failed'), 'error', 12000);
+      // 具体错误只留控制台，界面给可读结论
+      if (window.console && err) console.warn('[faq-chat] speech failed:', err);
+    });
+  }
+
+  function startFallbackRecording() {
+    if (!window.MediaRecorder || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      showHint(ht('unsupported'), 'error', 12000);
+      return;
+    }
+    hideHint();
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
+      audioStream = stream;
+      const opts = {};
+      if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) opts.mimeType = 'audio/webm;codecs=opus';
+      else if (MediaRecorder.isTypeSupported('audio/mp4')) opts.mimeType = 'audio/mp4';
+      mediaRecorder = new MediaRecorder(stream, opts);
+      audioChunks = [];
+      mediaRecorder.ondataavailable = function (e) { if (e.data && e.data.size > 0) audioChunks.push(e.data); };
+      mediaRecorder.onstop = handleRecordingStop;
+      mediaRecorder.start();
+      recFallback = true;
+      setMicActive(true);
+      showHint(ht('recording'), 'info', 0);
+    }).catch(function (err) {
+      showHint((err && err.name === 'NotAllowedError') ? ht('denied') : ht('unavailable'), 'error', 15000);
+    });
+  }
+
+  function micClickHandler() {
+    if (recFallback) {
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') { try { mediaRecorder.stop(); } catch (e) {} }
+      return;
+    }
+    if (recognition && recListening) {
+      recognition.stop();
+    } else if (recognition) {
+      try {
+        recognition.lang = LANG_BCP47[lang] || 'en';
+        hideHint();
+        recognition.start();
+        setMicActive(true);
+      } catch (err) {
+        // 重复 start() 会抛 InvalidStateError，忽略即可
+      }
+    } else {
+      startFallbackRecording();
+    }
+  }
+
+  if (SpeechRec && micBtn) {
+    recognition = new SpeechRec();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.onresult = function (e) {
+      try {
+        const text = e.results[0][0].transcript;
+        if (text) { hideHint(); inputEl.value = text.trim(); inputEl.focus(); }
+      } catch (err) {}
+    };
+    recognition.onend = function () { if (!recFallback) setMicActive(false); };
+    recognition.onerror = function (e) {
+      setMicActive(false);
+      const err = e && e.error;
+      if (err === 'network') {
+        // 国内网络连不上 Google → 自动降级到云端录音识别
+        startFallbackRecording();
+      } else if (err === 'not-allowed' || err === 'service-not-allowed') {
+        // 这两种错误在安卓 Chrome（尤其无 Google 服务的国内机型）里常见成因是
+        // 「Google 语音识别服务不可用」，并不代表用户拒绝了麦克风。
+        // 所以先降级到云端录音识别（腾讯云）；若真是权限被拒，
+        // getUserMedia 会立刻抛 NotAllowedError，再由那边给出权限指引。
+        startFallbackRecording();
+      } else if (err === 'audio-capture') {
+        showHint(ht('unavailable'), 'error', 15000);
+      } else if (err === 'no-speech') {
+        showHint(ht('noSpeech'), 'warn', 6000);
+      } else if (err === 'aborted') {
+        // 用户主动停止，不打扰
+      } else if (err) {
+        showHint(ht('failed'), 'error', 12000);
+        if (window.console) console.warn('[faq-chat] speech error:', err);
+      }
+    };
+    micBtn.addEventListener('click', micClickHandler);
+  } else if (micBtn) {
+    // 浏览器不支持原生语音识别 → 直接用云端录音识别
+    micBtn.addEventListener('click', micClickHandler);
+  }
+
+  // 图片上传（看图功能）：选中/粘贴后读 base64 预览，发送时随消息一起上传
+  let pendingImage = '';
+  // 上传前压缩：手机拍的照片动辄 2-4MB，直传会让视觉模型推理超时（实测 470KB 已需 9s）。
+  // 统一缩到最长边 1600px、JPEG 0.9；小图（≤400KB 且不超尺寸）保持原样，避免二次损失。
+  function compressImage(file) {
+    return new Promise(function (resolve) {
+      const fallback = function () {
+        const r = new FileReader();
+        r.onload = function () { resolve(r.result); };
+        r.onerror = function () { resolve(''); };
+        r.readAsDataURL(file);
+      };
+      try {
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = function () {
+          try {
+            const w = img.naturalWidth || img.width;
+            const h = img.naturalHeight || img.height;
+            const maxEdge = 1600;
+            const scale = Math.min(1, maxEdge / Math.max(w, h));
+            if (scale >= 1 && file.size <= 400 * 1024) {
+              URL.revokeObjectURL(url);
+              fallback();
+              return;
+            }
+            const cw = Math.max(1, Math.round(w * scale));
+            const ch = Math.max(1, Math.round(h * scale));
+            const canvas = document.createElement('canvas');
+            canvas.width = cw;
+            canvas.height = ch;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) { URL.revokeObjectURL(url); fallback(); return; }
+            // JPEG 无透明通道，先铺白底，避免 PNG 透明区变黑
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, cw, ch);
+            ctx.drawImage(img, 0, 0, cw, ch);
+            URL.revokeObjectURL(url);
+            resolve(canvas.toDataURL('image/jpeg', 0.9));
+          } catch (e) {
+            try { URL.revokeObjectURL(url); } catch (e2) {}
+            fallback();
+          }
+        };
+        img.onerror = function () {
+          try { URL.revokeObjectURL(url); } catch (e) {}
+          fallback();
+        };
+        img.src = url;
+      } catch (e) {
+        fallback();
+      }
+    });
+  }
+  function acceptImageFile(f) {
+    if (!f) return;
+    if (!/^image\//.test(f.type || '')) { showHint(ht('imgNotImage'), 'warn', 6000); return; }
+    if (f.size > 5 * 1024 * 1024) { showHint(ht('imgTooLarge'), 'warn', 8000); return; }
+    compressImage(f).then(function (dataUrl) {
+      if (!dataUrl) { showHint(ht('imgNotImage'), 'warn', 6000); return; }
+      pendingImage = dataUrl;
+      renderImgPreview();
+      showHint(ht('imgPasted'), 'info', 5000);
+    });
+  }
+  // 直接粘贴图片：Ctrl/Cmd+V、手机长按输入框选「粘贴」。只截图片，文字粘贴照常进输入框。
+  function pickImageFromClipboard(e) {
+    const cd = e && e.clipboardData;
+    if (!cd) return false;
+    const items = cd.items || [];
+    for (let i = 0; i < items.length; i++) {
+      const it = items[i];
+      if (it && it.kind === 'file' && /^image\//.test(it.type || '')) {
+        const f = it.getAsFile();
+        if (f) { e.preventDefault(); acceptImageFile(f); return true; }
+      }
+    }
+    const files = cd.files || [];
+    for (let j = 0; j < files.length; j++) {
+      const f = files[j];
+      if (f && /^image\//.test(f.type || '')) { e.preventDefault(); acceptImageFile(f); return true; }
+    }
+    return false;
+  }
+  document.addEventListener('paste', function (e) {
+    if (!panel || panel.style.display === 'none') return;
+    pickImageFromClipboard(e);
+  });
+  // 拖拽图片到聊天窗口也接受（桌面端顺手）
+  if (panel) {
+    panel.addEventListener('dragover', function (e) { e.preventDefault(); });
+    panel.addEventListener('drop', function (e) {
+      const dt = e.dataTransfer;
+      if (!dt) return;
+      const files = dt.files || [];
+      for (let i = 0; i < files.length; i++) {
+        if (/^image\//.test(files[i].type || '')) {
+          e.preventDefault();
+          acceptImageFile(files[i]);
+          return;
+        }
+      }
+    });
+  }
+  if (imageBtn && fileInput && imgPreview) {
+    imageBtn.addEventListener('click', function () { fileInput.click(); });
+    fileInput.addEventListener('change', function () {
+      const f = fileInput.files && fileInput.files[0];
+      if (!f) return;
+      acceptImageFile(f);
+      fileInput.value = '';
+    });
+  }
+  function renderImgPreview() {
+    if (!imgPreview) return;
+    imgPreview.innerHTML = '';
+    if (!pendingImage) { imgPreview.style.display = 'none'; return; }
+    const wrap = document.createElement('div');
+    wrap.className = 'fimg-thumb';
+    const img = document.createElement('img');
+    img.src = pendingImage;
+    img.alt = 'preview';
+    wrap.appendChild(img);
+    const rm = document.createElement('button');
+    rm.type = 'button';
+    rm.className = 'fimg-remove';
+    rm.textContent = '×';
+    rm.setAttribute('aria-label', 'Remove image');
+    rm.addEventListener('click', function () { pendingImage = ''; renderImgPreview(); });
+    wrap.appendChild(rm);
+    imgPreview.appendChild(wrap);
+    imgPreview.style.display = 'flex';
+  }
+
+  applyLang();
+})();
+</script>

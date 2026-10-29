@@ -1,0 +1,100 @@
+---
+// 行业页深挖组件：典型零件公差表 + 代表性订单 + 行业质检要点 + FAQ（含 FAQPage 结构化数据）
+// 内容来自 src/data/industryDeepDive.ts（基于站内已发布规格，铁律校验）
+import { industryDeepDive } from '../data/industryDeepDive';
+
+interface Props { industry: keyof typeof industryDeepDive | string; lang: 'en' | 'zh' }
+const { industry, lang } = Astro.props;
+
+const entry = (industryDeepDive as Record<string, { en: unknown; zh: unknown }>)[industry as string];
+if (!entry) throw new Error(`IndustryDeepDive: unknown industry '${industry}'`);
+const d = entry[lang] as {
+  eyebrow: string; heading: string; quickAnswer: string;
+  partsHeading: string; parts: { part: string; material: string; tolerance: string; note: string }[];
+  exampleHeading: string; exampleTitle: string; exampleIntro: string; exampleSpecs: string[];
+  qaHeading: string; qaItems: { label: string; desc: string }[];
+  faqHeading: string; faq: { q: string; a: string }[];
+};
+
+const faqSchema = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: d.faq.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+});
+---
+
+<section style="background-color: var(--page-bg); padding: 80px 0;">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">{d.eyebrow}</p>
+    <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">{d.heading}</h2>
+
+    <div class="p-6 mb-10 border-l-4 rounded-r-lg max-w-4xl" style="background-color: var(--card-white); border-color: var(--brand-red);">
+      <p class="text-base leading-relaxed" style="color: var(--text-body);">{d.quickAnswer}</p>
+    </div>
+
+    <h3 class="text-xl font-bold mb-4" style="color: var(--brand-dark);">{d.partsHeading}</h3>
+    <div class="overflow-x-auto mb-12">
+      <table class="w-full text-sm border" style="border-color: var(--border-color); background-color: var(--card-white);">
+        <thead>
+          <tr style="color: var(--text-muted); border-bottom: 1px solid var(--border-color);">
+            <th class="text-left px-4 py-3 font-semibold">{lang === 'zh' ? '零件' : 'Part'}</th>
+            <th class="text-left px-4 py-3 font-semibold">{lang === 'zh' ? '常用材料' : 'Material'}</th>
+            <th class="text-left px-4 py-3 font-semibold">{lang === 'zh' ? '典型公差' : 'Typical tolerance'}</th>
+            <th class="text-left px-4 py-3 font-semibold">{lang === 'zh' ? '备注' : 'Note'}</th>
+          </tr>
+        </thead>
+        <tbody style="color: var(--text-body);">
+          {d.parts.map((p) => (
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td class="px-4 py-3 font-medium" style="color: var(--brand-dark);">{p.part}</td>
+              <td class="px-4 py-3">{p.material}</td>
+              <td class="px-4 py-3 whitespace-nowrap">{p.tolerance}</td>
+              <td class="px-4 py-3" style="color: var(--text-muted);">{p.note}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6 mb-12">
+      <div class="p-8 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+        <h3 class="text-lg font-bold mb-2" style="color: var(--brand-dark);">{d.exampleHeading}</h3>
+        <p class="text-base font-semibold mb-1" style="color: var(--brand-dark);">{d.exampleTitle}</p>
+        <p class="text-sm mb-4" style="color: var(--text-muted);">{d.exampleIntro}</p>
+        <ul class="space-y-2" style="color: var(--text-body);">
+          {d.exampleSpecs.map((s) => (
+            <li class="text-sm flex items-start"><span class="mr-2" style="color: var(--brand-red);">—</span>{s}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-xl font-bold mb-4" style="color: var(--brand-dark);">{d.qaHeading}</h3>
+        <div class="space-y-4">
+          {d.qaItems.map((q) => (
+            <div class="p-5 border rounded-lg" style="background-color: var(--card-white); border-color: var(--border-color);">
+              <p class="font-semibold mb-1 text-sm" style="color: var(--brand-dark);">{q.label}</p>
+              <p class="text-sm" style="color: var(--text-body);">{q.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <h3 class="text-xl font-bold mb-4" style="color: var(--brand-dark);">{d.faqHeading}</h3>
+    <div class="space-y-3 max-w-4xl">
+      {d.faq.map((f) => (
+        <details class="p-5 border rounded-lg" style="background-color: var(--card-white); border-color: var(--border-color);">
+          <summary class="font-semibold cursor-pointer text-sm" style="color: var(--brand-dark);">{f.q}</summary>
+          <p class="mt-3 text-sm leading-relaxed" style="color: var(--text-body);">{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script is:inline type="application/ld+json" set:html={faqSchema} />

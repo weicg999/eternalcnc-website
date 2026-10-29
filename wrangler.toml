@@ -1,0 +1,18 @@
+# EternalCNC 官网（Cloudflare Pages）配置
+# 方案 B：Workers AI 模型兜底 + 博客知识库
+# 说明：
+#   - [ai] 绑定 Workers AI（代码里 env.AI.run 用），免密钥
+#   - [[kv_namespaces]] 保留现有 CUSTOMER_MEMORY（客户记忆），勿删
+#   - secret 环境变量（RESEND_API_KEY / COZE_PAT 等）由 wrangler pages secret 单独管理，本文件不涉及
+name = "eternalcnc-website"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-08-25"
+
+# Workers AI 绑定（变量名必须是 AI，区分大小写）
+[ai]
+binding = "AI"
+
+# 客户记忆 KV（现有绑定，保留）
+[[kv_namespaces]]
+binding = "CUSTOMER_MEMORY"
+id = "0aed8603769a4f4aa26b734f7dfe0b21"

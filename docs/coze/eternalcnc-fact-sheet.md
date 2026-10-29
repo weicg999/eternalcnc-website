@@ -66,7 +66,7 @@
 
 | 项目 | 能力 |
 |------|------|
-| 铣削 CNC Milling | ±0.005mm（关键特征，5轴+恒温环境） |
+| 铣削 CNC Milling | ±0.005mm（关键特征，5轴联动 + 精密磨削） |
 | 车削 CNC Turning | ±0.01mm |
 | 角度 Angular | ±0.01° |
 | 表面粗糙度 Ra | 常规机加工 Ra 1.6–3.2；精细 Ra 0.8–1.6；精密 Ra 0.4–0.8；镜面 Ra 0.1–0.4（研磨） |
@@ -74,7 +74,7 @@
 | GD&T | ASME Y14.5 / ISO GPS；位置度 ⌀0.02mm |
 
 **English:**
-- Milling: ±0.005mm on critical features (5-axis + temperature-controlled).
+- Milling: ±0.005mm on critical features (5-axis machining + precision grinding).
 - Turning: ±0.01mm. Angular: ±0.01°. Surface roughness down to Ra 0.4 (mirror Ra 0.1–0.4 via grinding).
 - Linear tolerance per ISO 2768-f; GD&T per ASME Y14.5 / ISO GPS.
 

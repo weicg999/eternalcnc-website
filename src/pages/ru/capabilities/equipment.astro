@@ -285,11 +285,7 @@ const itemListSchema = {
     '@type': 'ListItem',
     position: index + 1,
     item: {
-      '@type': 'Product',
       name: `${eq.brandEn} ${eq.model} ${eq.type}`,
-      category: eq.type,
-      brand: { '@type': 'Brand', name: eq.brandEn },
-      model: eq.model,
       additionalProperty: eq.specs.map(s => ({
         '@type': 'PropertyValue',
         name: s.label,
@@ -342,9 +338,9 @@ const itemListSchema = {
   <section style="background-color: var(--page-bg); padding: 80px 0;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Наш парк</p>
-      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Полный перечень станков</h2>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Основные модели станков</h2>
       <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
-        Ниже перечислен каждый ЧПУ-станок нашего предприятия — с реальными фотографиями, проверенными по табличкам моделями и полными техническими характеристиками.
+        Наш парк насчитывает 30 станков ЧПУ на двух производственных площадках. Ниже — 16 основных моделей с реальными фотографиями, проверенными по табличкам моделями и полными техническими характеристиками. Остальные стандартные станки — по запросу.
       </p>
 
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -280,16 +280,12 @@ const itemListSchema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
   name: 'Eternal CNC Equipment List',
-  description: 'Full CNC equipment matrix at Eternal CNC precision machining facility — 5-axis, VMC, drill-tap, and mold engraving — all nameplate verified.',
+  description: 'CNC equipment matrix at Eternal CNC precision machining facility — 30 machines across two workshops, covering 5-axis, VMC, drill-tap, and mold engraving — all nameplate verified.',
   itemListElement: equipment.map((eq, index) => ({
     '@type': 'ListItem',
     position: index + 1,
     item: {
-      '@type': 'Product',
       name: `${eq.brandEn} ${eq.model} ${eq.type}`,
-      category: eq.type,
-      brand: { '@type': 'Brand', name: eq.brandEn },
-      model: eq.model,
       additionalProperty: eq.specs.map(s => ({
         '@type': 'PropertyValue',
         name: s.label,
@@ -342,9 +338,9 @@ const itemListSchema = {
   <section style="background-color: var(--page-bg); padding: 80px 0;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Our Fleet</p>
-      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Complete Machine List</h2>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">Flagship Machine List</h2>
       <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
-        Below is every CNC machine in our facility — with real photos, nameplate-verified model numbers, and full technical specifications.
+        Our fleet totals 30 CNC machines across two workshops. Below are the 16 flagship units — with real photos, nameplate-verified model numbers, and full technical specifications. Remaining standard machines are available on request.
       </p>
 
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

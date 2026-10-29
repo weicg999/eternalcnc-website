@@ -228,4 +228,6 @@ We have been making precision structural parts for twenty-three years, with thir
 
 Where we can help is concrete: sourcing to a named standard while retaining heat-number traceability, stable machining of 316L and titanium, deburring and passivation planning after machining, process control across cleaning and packing, and fast small-batch prototyping. If your medical part is stuck on material traceability, surface-treatment datums or cleanliness, send the drawing together with the requirements and we will start with a DFM review — the questions that need asking, we would rather ask before quoting.
 
+> **Statement**: This article is technical education about medical part machining. Eternal CNC handles precision machining of medical **structural and surgical-instrument parts**; **we do not manufacture medical implants.** Implant-grade device fabrication must be performed by a qualified party holding ISO 13485 certification — please do not request quotes or place orders for implants with us.
+
 [Free DFM review and quote](/contact/get-a-quote/)

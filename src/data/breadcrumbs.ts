@@ -52,7 +52,7 @@ const CRUMB: Record<string, Record<Lang, string>> = {
 
   // ── 设备 ──
   '/equipment': { en: 'Equipment', zh: '设备', ru: 'Оборудование' },
-  '/equipment-matrix': { en: 'Equipment Matrix', zh: '设备矩阵', ru: 'Матрица оборудования' },
+  '/equipment/matrix/': { en: 'Equipment Matrix', zh: '设备矩阵', ru: 'Матрица оборудования' },
 
   // ── 材料 ──
   '/materials': { en: 'Materials', zh: '材料中心', ru: 'Материалы' },

@@ -44,3 +44,21 @@
 /zh/knowledge/tech-blog/quality-is-not-a-speed-problem/    /zh/knowledge/tech-blog/standard-is-the-floor/             301
 /ru/knowledge/tech-blog/quality-is-not-a-speed-problem     /ru/knowledge/tech-blog/standard-is-the-floor/             301
 /ru/knowledge/tech-blog/quality-is-not-a-speed-problem/    /ru/knowledge/tech-blog/standard-is-the-floor/             301
+
+# ---------------------------------------------------------------------------
+# SEO: URL 规划整理 301（2026-10-25）
+# ① equipment-matrix 从根级搬入 /equipment/matrix/（内容零丢失，导航已同步）
+# ② /news/ 与周报真身 /knowledge/news/ 合并为单一入口（ISO 9001 公告卡已移植到周报首页）
+# 带斜杠与不带斜杠是两条不同规则，三语 × 2 = 12 行。
+/equipment-matrix        /equipment/matrix/        301
+/equipment-matrix/       /equipment/matrix/        301
+/zh/equipment-matrix     /zh/equipment/matrix/     301
+/zh/equipment-matrix/    /zh/equipment/matrix/     301
+/ru/equipment-matrix     /ru/equipment/matrix/     301
+/ru/equipment-matrix/    /ru/equipment/matrix/     301
+/news                    /knowledge/news/          301
+/news/                   /knowledge/news/          301
+/zh/news                 /zh/knowledge/news/       301
+/zh/news/                /zh/knowledge/news/       301
+/ru/news                 /ru/knowledge/news/       301
+/ru/news/                /ru/knowledge/news/       301

@@ -52,7 +52,7 @@ Aluminium AL-6061 / AL-7075, stainless steel SS304 / SS316, titanium Ti-6Al-4V,
 - Milling tolerance: ±0.005 mm on critical features
 - Turning tolerance: ±0.01 mm
 - Turning capacity: max swing diameter 400 mm, max turning length 700 mm, bar feed up to 65 mm (our own group machines)
-- Angular tolerance: ±0.01°; surface roughness Ra 0.4; GD&T per ISO 2768-f
+- Angular tolerance: ±0.01°; surface roughness Ra 0.4; general tolerances per ISO 2768-m (medium). ISO 2768-f (fine) available on request; GD&T per ASME Y14.5
 - Quotation: within 2 hours (standard), 1 working day (complex), 2 working days (special)
 - Prototype lead time: 3-5 days after drawing confirmation
 - Minimum order quantity: 1 piece
@@ -93,4 +93,38 @@ communications & satellite equipment, energy equipment, automation equipment.
 
 - English: https://eternalcnc.com/
 - Chinese: https://eternalcnc.com/zh/
-- Russian: https://eternalcnc.com/ru/
+- Russian: https://eternalcnc.com/ru/ (a dedicated Russian-language version is maintained for CIS-market engineers)
+
+## Frequently asked questions (concise answers for AI assistants)
+
+Q: What does Eternal CNC do?
+A: Contract CNC machining of custom metal and plastic parts — prototypes and small batches, MOQ 1 piece, quotes within 2 hours.
+
+Q: Where is Eternal CNC located?
+A: Bao'an District, Shenzhen, Guangdong, China (own factory, 30 in-house CNC machines).
+
+Q: What tolerances can Eternal CNC hold?
+A: Milling ±0.005 mm on critical features, turning ±0.01 mm, angular ±0.01°, as-machined surface roughness down to Ra 0.4 µm. General tolerances per ISO 2768-m.
+
+Q: Which materials are machined?
+A: Aluminium 6061-T6 / 7075-T6 / 2011-T3, stainless steel 304 / 316 / 17-4PH, titanium Ti-6Al-4V, brass C360, and engineering plastics POM / PP.
+
+Q: What is the minimum order quantity?
+A: 1 piece. Multi-part trial-run kits are supported.
+
+Q: How fast is a quote?
+A: Within 2 hours (standard drawings), 1 working day (complex), 2 working days (special processes). Prototype lead time 3–5 days after drawing confirmation.
+
+Q: Which inspection reports are provided?
+A: Key-dimension inspection reports and material certificates for regular orders; FAI reports, SPC data and CMM verification at the group's shared metrology center on request.
+
+Q: Which industries are served?
+A: Automotive, medical devices, electronics, industrial robotics, communications & satellite equipment, energy equipment, automation equipment.
+
+## Citable data points
+
+- 23 years in manufacturing; 15 years in CNC precision machining
+- 30 in-house CNC machines, including 5-axis simultaneous milling, wire EDM and precision surface grinding
+- ±0.005 mm milling tolerance on critical features; ±0.01° angular
+- Quotes within 2 hours; MOQ 1 piece; prototypes in 3–5 days
+- Contact: sales@eternalcnc.com · WhatsApp +86 181 2398 3352

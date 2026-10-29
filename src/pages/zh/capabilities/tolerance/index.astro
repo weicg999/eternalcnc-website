@@ -24,7 +24,7 @@ const capabilities = [
     // 精度口径与英文页 /capabilities/tolerance/ 对齐：铣削 ±0.005mm、车削 ±0.01mm。
     // 2026-10-04 删除「精细铣削 ±0.003mm」—— 英文页未宣称该能力，属超能力宣称（三语不一致）。
     items: ['标准铣削 ±0.01mm', '精密铣削 ±0.005mm'],
-    tolerance: 'ISO 2768-f / H',
+    tolerance: 'ISO 2768-m / H',
     materials: '三坐标测量（集团共享计量中心，按需）可全检或抽检',
   },
   {
@@ -33,7 +33,7 @@ const capabilities = [
     // 的 "Turning ±0.01mm" 对齐；删除原「精密车削 ±0.005mm」的超能力宣称。
     // 合并「标准/精密」两行为一条，避免统一后两行数字重复。
     items: ['车削公差 ±0.01mm', '同心度 ≤0.003mm'],
-    tolerance: 'ISO 2768-f',
+    tolerance: 'ISO 2768-m',
     materials: '圆度仪 + 粗糙度仪逐件检测',
   },
   {
