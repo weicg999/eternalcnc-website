@@ -5,6 +5,7 @@ pubDate: 2026-10-29
 category: "Industry Insights"
 tags: ["замена оборудования", "станок с ЧПУ", "наладка станка", "точность", "вертикальный обрабатывающий центр"]
 system: "general"
+cover: "/images/company/cnc-company-new-machine-arrival-cover-07.webp"
 author: "Eternal CNC Engineering Team"
 readingTime: "8 мин"
 ---

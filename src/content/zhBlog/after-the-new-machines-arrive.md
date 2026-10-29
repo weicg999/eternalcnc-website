@@ -5,6 +5,7 @@ pubDate: 2026-10-29
 category: "行业洞察"
 tags: ["设备更新", "旧机换新", "机床", "精度", "立式加工中心", "机加工"]
 system: "通用"
+cover: "/images/company/cnc-company-new-machine-arrival-cover-07.webp"
 author: "鑫永恒工程团队"
 readingTime: "7 分钟"
 ---

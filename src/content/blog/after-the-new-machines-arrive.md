@@ -5,6 +5,7 @@ pubDate: 2026-10-29
 category: "Industry Insights"
 tags: ["machine replacement", "CNC machine", "machine commissioning", "precision machining", "vertical machining center"]
 system: "general"
+cover: "/images/company/cnc-company-new-machine-arrival-cover-07.webp"
 author: "Eternal CNC Engineering Team"
 readingTime: "7 min read"
 ---
