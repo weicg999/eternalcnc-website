@@ -627,7 +627,15 @@ function validateReply(userMessage, replyContent, visitorLang) {
   const browserLang = normalizeLang(visitorLang);
   const expectedLang = browserLang || detectScript(userMessage);
   const replyLang = detectScript(replyContent);
-  if (replyLang !== expectedLang) {
+  // 只拦「能确定错位」的漂移。detectScript 只区分独有文字语种
+  // （ja/ko/hi/th/ar/he/el/ru/zh），其余拉丁语系（es/it/pt/sv/de/fr/nl/pl/tr/vi/id/ms/cs/ro…）
+  // 全归 'en'，无法进一步区分 —— 若把 en vs es 当 mismatch，所有拉丁语系用户都会误落兜底。
+  const SCRIPT_ONLY = ['ja', 'ko', 'hi', 'th', 'ar', 'he', 'el', 'ru', 'zh'];
+  const langMismatch =
+    (replyLang === 'zh' && expectedLang !== 'zh') ||                                            // 非中文用户收到汉字
+    (SCRIPT_ONLY.includes(replyLang) && replyLang !== expectedLang) ||                          // 回复用了非目标的独有文字
+    (SCRIPT_ONLY.includes(expectedLang) && expectedLang !== 'zh' && replyLang === 'en');        // 目标独有文字，回复却是拉丁字母
+  if (langMismatch) {
     return {
       valid: false,
       reason: `language_mismatch: expected=${expectedLang}(via ${browserLang ? 'browser' : 'message'}), reply=${replyLang}`,
