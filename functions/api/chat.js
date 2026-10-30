@@ -38,7 +38,7 @@ const MAX_RETRY_COUNT = 1; // 质量校验失败最多重试1次（原 2）
 const COZE_TIMEOUT_MS = 26000;   // 单次调用硬超时，防上游挂死
 const TOTAL_BUDGET_MS = 26000;   // 端到端总耗时预算
 const RETRY_RESERVE_MS = 8000;  // 判定"还够不够再跑一次"的预留
-const LANG_RETRY_ENABLED = false; // 语言类失败是否重试
+const LANG_RETRY_ENABLED = true; // 语言类失败是否重试（A/B 验证中：仅"本不该中文却回中文"重试1次）
 
 // COZE_PAT 已移除：密钥只能来自 Cloudflare 环境变量 env.COZE_PAT，绝不硬编码。
 const COZE_BOT_ID = '7679396158112317440';
@@ -2042,8 +2042,16 @@ export async function onRequestPost(context) {
       // 默认不再为语言问题重试，改由多语种兜底话术保证语种不失。
       const isLangFail = /^language_mismatch/.test(validation.reason);
       if (isLangFail) {
-        // 语言漂移不重试：重试通常仍生成错误语种（R12 印地语 / R20 希腊语 / 10-31 六语种回中文实测连跑均失败），
-        // 直接用该语种兜底话术替换，保证语种不失（修复前只 break 放行错误语种给客户）。
+        // 只有「本不该中文却回中文」这种确定漂移才值得重试一次（retryCount 已自增，==1 表示首次失败）：
+        // 重试用 buildRetryMessage 下发目标语种强指令，可能救回真实回答；否则只能落兜底、内容丢失。
+        // 其余独有文字错位 / 目标文字缺失（拉丁语系连跑仍错）直接落兜底，不浪费一次 LLM 调用。
+        const isZhDrift = /reply=zh\b/.test(validation.reason) && !/expected=zh/.test(validation.reason);
+        if (isZhDrift && LANG_RETRY_ENABLED && retryCount === 1) {
+          console.log('Language drift (Chinese) — retry once in target language:', validation.reason);
+          currentMessage = buildRetryMessage(message, validation.reason, userLang, retryCount, visitorLangRaw);
+          currentConvId = undefined; // 重试用新会话，避免历史干扰
+          continue;
+        }
         result.content = getFallbackReply(userLang, visitorLangRaw);
         console.warn('Language mismatch → fallback reply:', validation.reason);
         break;
