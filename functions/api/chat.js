@@ -159,16 +159,16 @@ const FACT_VIOLATIONS = [
   { pattern: /(\d{1,2})\s*(?:年|years?)(?:of|的)?\s*(?:经验|experience|in CNC|history)/i,
     test: (match) => {
       const num = parseInt(match[1]);
-      // 合法口径：17（团队 2009 创立）、22（2004 入行）、20+ 通用；其余拦
+      // 合法口径：15（团队 2011 创立）、23（2003 入行）、20+ 通用；其余拦
       return num < 12 || num > 23;
     },
     reason: 'wrong_years_experience'
   },
-  // 成立年份错误（两种正确口径：团队 2009 年创立、公司 2024 年 4 月注册）
+  // 成立年份错误（两种正确口径：团队 2011 年创立、公司 2024 年 4 月注册）
   { pattern: /(?:established|founded|set up|成立).*(20\d{2})/i,
     test: (match) => {
       const year = parseInt(match[1]);
-      return year !== 2009 && year !== 2024;
+      return year !== 2011 && year !== 2024;
     },
     reason: 'wrong_founding_year'
   },
@@ -698,9 +698,9 @@ function buildRetryMessage(originalMessage, failureReason, userLang, retryCount,
   }
   if (failureReason === 'wrong_years_experience') {
     if (userLang === 'zh') {
-      parts.push('【事实校验：创始人2004年左右入行（20+年行业经验）；团队2009年创立（当年挂靠师傅公司运作，现为自营工厂）；公司2024年4月正式注册。严禁说2003年、2011年、2008年等错误年份。】');
+      parts.push('【事实校验：创始人2003年入行（23年行业经验）；团队2011年创立（当年挂靠师傅公司运作，现为自营工厂）；公司2024年4月正式注册。严禁说2009年、2004年、2008年等错误年份。】');
     } else {
-      parts.push('【FACT CHECK: Our founder entered the trade around 2004 (20+ years in manufacturing). Our team was founded in 2009 (operating under a mentor\'s workshop at first, now independent). The company was officially incorporated in April 2024. NEVER say 2003, 2011, or other wrong years.】');
+      parts.push('【FACT CHECK: Our founder entered the trade in 2003 (23 years in manufacturing). Our team was founded in 2011 (operating under a mentor\'s workshop at first, now independent). The company was officially incorporated in April 2024. NEVER say 2009, 2004, or other wrong years.】');
     }
   }
   if (failureReason === 'wrong_standard_tolerance') {

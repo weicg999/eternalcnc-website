@@ -15,8 +15,8 @@
 | 公司性质 | 自营精密 CNC 加工厂，**不是贸易公司**（a dedicated precision CNC machining factory — not a trading company） |
 | 工厂地址 Address | **中国广东省深圳市宝安区松岗街道** / Songgang, Bao'an District, Shenzhen, Guangdong Province, China |
 | 邮箱 Email | sales@eternalcnc.com |
-| 成立时间 | 2009 年成立团队（当年挂靠师傅公司运作，现为自营工厂）；创始人 2004 年左右入行（手板/模型起家）；公司 2024 年 4 月注册 |
-| 经验 | 创始人 2004 年左右入行，20+ 年精密制造行业经验 |
+| 成立时间 | 2011 年成立团队（当年挂靠师傅公司运作，现为自营工厂）；创始人 2003 年入行（手板/模型起家）；公司 2024 年 4 月注册 |
+| 经验 | 创始人 2003 年入行，23 年精密制造行业经验 |
 | 团队 | 核心团队为 15+ 年经验的资深技师 |
 
 **English:**
@@ -25,7 +25,7 @@
 - We are a dedicated precision CNC machining factory, not a trading company.
 - Factory address: Songgang, Bao'an District, Shenzhen, Guangdong Province, China
 - Email: sales@eternalcnc.com
-- Established: company incorporated April 2024; founder entered the trade around 2004 (20+ years in manufacturing); team founded 2009 (initially operating under a mentor's workshop, now independent).
+- Established: company incorporated April 2024; founder entered the trade in 2003 (23 years in manufacturing); team founded 2011 (initially operating under a mentor's workshop, now independent).
 
 ---
 
