@@ -38,7 +38,7 @@ const MAX_RETRY_COUNT = 1; // 质量校验失败最多重试1次（原 2）
 const COZE_TIMEOUT_MS = 26000;   // 单次调用硬超时，防上游挂死
 const TOTAL_BUDGET_MS = 26000;   // 端到端总耗时预算
 const RETRY_RESERVE_MS = 8000;  // 判定"还够不够再跑一次"的预留
-const LANG_RETRY_ENABLED = true; // 语言类失败是否重试（A/B 验证中：仅"本不该中文却回中文"重试1次）
+const LANG_RETRY_ENABLED = true; // 语言类失败是否重试（10-31 A/B 验证通过：仅"本不该中文却回中文"重试1次，救回率~90%）
 
 // COZE_PAT 已移除：密钥只能来自 Cloudflare 环境变量 env.COZE_PAT，绝不硬编码。
 const COZE_BOT_ID = '7679396158112317440';
