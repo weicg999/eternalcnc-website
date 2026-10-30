@@ -831,58 +831,31 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
     if (micBtn) micBtn.classList.toggle('listening', on);
   }
 
-  // 把录音 blob 转成 16kHz/16bit/单声道 PCM，上传 /api/speech 识别
-  function resampleTo16kMono(audioBuffer) {
-    const srcRate = audioBuffer.sampleRate;
-    const targetRate = 16000;
-    const channels = Math.max(1, audioBuffer.numberOfChannels);
-    const srcLen = audioBuffer.length;
-    const dstLen = Math.max(1, Math.round(srcLen * targetRate / srcRate));
-    const result = new Int16Array(dstLen);
-    const ratio = srcRate / targetRate;
-    for (let i = 0; i < dstLen; i++) {
-      const srcIdx = i * ratio;
-      const idx0 = Math.floor(srcIdx);
-      const idx1 = Math.min(idx0 + 1, srcLen - 1);
-      const frac = srcIdx - idx0;
-      let sample = 0;
-      for (let c = 0; c < channels; c++) {
-        const data = audioBuffer.getChannelData(c);
-        sample += data[idx0] + (data[idx1] - data[idx0]) * frac;
-      }
-      sample /= channels;
-      sample = Math.max(-1, Math.min(1, sample));
-      result[i] = sample < 0 ? sample * 0x8000 : sample * 0x7FFF;
-    }
-    return result;
+  function blobToBase64(blob) {
+    return new Promise(function (resolve, reject) {
+      const r = new FileReader();
+      r.onload = function () { resolve(r.result); };
+      r.onerror = function () { reject(new Error('读取录音失败')); };
+      r.readAsDataURL(blob);
+    });
   }
 
-  function int16ToBase64(i16) {
-    const bytes = new Uint8Array(i16.buffer);
-    let bin = '';
-    const CHUNK = 8192;
-    for (let i = 0; i < bytes.length; i += CHUNK) {
-      bin += String.fromCharCode.apply(null, bytes.subarray(i, Math.min(i + CHUNK, bytes.length)));
-    }
-    return btoa(bin);
-  }
-
+  // 直接把录音 blob 原样上传，由腾讯云后端解码识别。
+  // 之前用 AudioContext.decodeAudioData 转 16k PCM，在手机（iOS/国产安卓内核）
+  // 对 webm/opus 解码大面积失败，导致手机端语音全挂。腾讯云 VoiceFormat 原生支持
+  // webm(ogg-opus)/mp4(m4a)/mp3 等，无需前端先解码。
   async function transcribeBlob(blob) {
-    const arrayBuf = await blob.arrayBuffer();
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if (!AudioCtx) throw new Error('浏览器不支持音频解码');
-    const audioCtx = new AudioCtx();
-    let b64;
-    try {
-      const audioBuffer = await audioCtx.decodeAudioData(arrayBuf);
-      b64 = int16ToBase64(resampleTo16kMono(audioBuffer));
-    } finally {
-      audioCtx.close();
-    }
+    const dataUrl = await blobToBase64(blob);
+    // dataUrl 形如 "data:audio/webm;codecs=opus;base64,XXXX"，拆出 mime 和纯 base64
+    const comma = dataUrl.indexOf(',');
+    const mimePart = dataUrl.slice(0, comma);
+    const mimeMatch = mimePart.match(/data:([^;]+)/);
+    const mime = (mimeMatch && mimeMatch[1]) || (blob.type || 'audio/webm');
+    const b64 = dataUrl.slice(comma + 1);
     const resp = await fetch('/api/speech', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ pcm: b64, lang: lang || 'zh' }),
+      body: JSON.stringify({ audio: b64, format: mime, lang: lang || 'zh' }),
     });
     const data = await resp.json();
     if (!data || !data.ok) throw new Error((data && data.error) || '识别服务不可用');
@@ -918,9 +891,12 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
     hideHint();
     navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
       audioStream = stream;
+      // 选一个腾讯云后端能识别的格式。优先 mp4(AAC)——iOS Safari 只支持这个；
+      // 安卓 Chrome/国产内核多支持 webm(opus)，两者后端都能解码。
       const opts = {};
-      if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) opts.mimeType = 'audio/webm;codecs=opus';
-      else if (MediaRecorder.isTypeSupported('audio/mp4')) opts.mimeType = 'audio/mp4';
+      if (MediaRecorder.isTypeSupported('audio/mp4')) opts.mimeType = 'audio/mp4';
+      else if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) opts.mimeType = 'audio/webm;codecs=opus';
+      else if (MediaRecorder.isTypeSupported('audio/webm')) opts.mimeType = 'audio/webm';
       mediaRecorder = new MediaRecorder(stream, opts);
       audioChunks = [];
       mediaRecorder.ondataavailable = function (e) { if (e.data && e.data.size > 0) audioChunks.push(e.data); };

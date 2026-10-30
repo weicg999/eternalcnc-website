@@ -145,16 +145,30 @@ function engineForLang(lang) {
   return LANG_ENGINE[lang] || '16k_zh-PY';
 }
 
-async function callTencentASR(secretId, secretKey, pcmB64, lang) {
-  const pcmBytes = base64ToBytes(pcmB64);
-  const dataLen = pcmBytes.length;
+// 腾讯云一句话识别 VoiceFormat 支持的格式（官方文档）：
+// wav、pcm、ogg-opus、speex、silk、mp3、m4a、aac、amr
+// 前端录音产物可能是 webm(opus) / mp4(aac) / ogg，映射到腾讯云可识别的 VoiceFormat。
+function mapVoiceFormat(mime) {
+  const m = (mime || '').toLowerCase();
+  if (m.includes('webm')) return 'ogg-opus';  // webm 里的音频即 opus，用 ogg-opus 让云端解码
+  if (m.includes('mp4') || m.includes('m4a') || m.includes('aac')) return 'm4a';
+  if (m.includes('ogg') || m.includes('opus')) return 'ogg-opus';
+  if (m.includes('mp3') || m.includes('mpeg')) return 'mp3';
+  if (m.includes('wav')) return 'wav';
+  if (m.includes('pcm')) return 'pcm';
+  return 'ogg-opus'; // 兜底
+}
+
+async function callTencentASR(secretId, secretKey, audioB64, lang, format) {
+  const audioBytes = base64ToBytes(audioB64);
+  const dataLen = audioBytes.length;
   if (dataLen === 0) throw new Error('empty audio');
 
   const payload = JSON.stringify({
     EngSerViceType: engineForLang(lang),
     SourceType: 1, // 1 = 本地音频数据
-    VoiceFormat: 'pcm',
-    Data: pcmB64,
+    VoiceFormat: mapVoiceFormat(format),
+    Data: audioB64,
     DataLen: dataLen,
   });
 
@@ -195,9 +209,11 @@ export async function onRequestPost(context) {
   }
 
   const pcm = typeof body.pcm === 'string' ? body.pcm : '';
+  const audio = typeof body.audio === 'string' ? body.audio : pcm; // 兼容旧字段名 pcm，优先用 audio
+  const format = typeof body.format === 'string' ? body.format : (typeof body.mime === 'string' ? body.mime : '');
   const lang = typeof body.lang === 'string' ? body.lang : 'zh';
 
-  if (!pcm) {
+  if (!audio) {
     return jsonResponse(400, { ok: false, error: 'no audio data' }, origin);
   }
 
@@ -208,7 +224,7 @@ export async function onRequestPost(context) {
   }
 
   try {
-    const text = await callTencentASR(secretId, secretKey, pcm, lang);
+    const text = await callTencentASR(secretId, secretKey, audio, lang, format);
     return jsonResponse(200, { ok: true, text }, origin);
   } catch (e) {
     return jsonResponse(502, { ok: false, error: e.message || 'ASR failed' }, origin);
