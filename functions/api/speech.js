@@ -125,11 +125,24 @@ async function tc3Sign(secretId, secretKey, payload, timestamp) {
   return `TC3-HMAC-SHA256 Credential=${secretId}/${credentialScope}, SignedHeaders=${signedHeaders}, Signature=${signature}`;
 }
 
-// 引擎类型映射：客服以中英为主，其他语种走中英混引擎兜底
+// 引擎类型映射：按站点客服支持的语言（9 语）精确对应腾讯云「一句话识别」引擎。
+// 取值依据腾讯云官方文档（SentenceRecognition 接口 EngSerViceType）：
+//   16k_zh / 16k_zh-PY / 16k_en / 16k_ja / 16k_ko / 16k_ru / 16k_es / 16k_de / 16k_fr / 16k_ar ...
+const LANG_ENGINE = {
+  zh: '16k_zh',        // 中文普通话
+  en: '16k_en',        // 英语
+  ja: '16k_ja',        // 日语
+  ko: '16k_ko',        // 韩语
+  ru: '16k_ru',        // 俄语（腾讯云官方支持，见文档非电话场景列表）
+  es: '16k_es',        // 西班牙语
+  de: '16k_de',        // 德语
+  fr: '16k_fr',        // 法语
+  ar: '16k_ar',        // 阿拉伯语
+};
+
 function engineForLang(lang) {
-  if (lang === 'zh') return '16k_zh';
-  if (lang === 'en') return '16k_en';
-  return '16k_zh-PY';
+  // 已知语种走精确引擎；未知语种走「中英粤」混引擎兜底（16k_zh-PY），保证不报 EngSerViceType 无效
+  return LANG_ENGINE[lang] || '16k_zh-PY';
 }
 
 async function callTencentASR(secretId, secretKey, pcmB64, lang) {

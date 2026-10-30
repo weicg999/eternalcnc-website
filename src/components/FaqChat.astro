@@ -824,6 +824,7 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
   let mediaRecorder = null;
   let audioChunks = [];
   let audioStream = null;
+  let recTimeout = null;      // 原生识别超时计时器：内核静默挂起（无结果无错误）时主动降级
 
   function setMicActive(on) {
     recListening = on;
@@ -933,6 +934,10 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
     });
   }
 
+  function clearRecTimeout() {
+    if (recTimeout) { clearTimeout(recTimeout); recTimeout = null; }
+  }
+
   function micClickHandler() {
     if (recFallback) {
       if (mediaRecorder && mediaRecorder.state !== 'inactive') { try { mediaRecorder.stop(); } catch (e) {} }
@@ -946,6 +951,17 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
         hideHint();
         recognition.start();
         setMicActive(true);
+        // 兜底：部分国产内核（夸克等）连不上 Google 语音服务时，
+        // 既不触发 onresult 也不触发 onerror，而是静默挂起。
+        // 6 秒内无结果则主动停止并降级到云端录音，避免「麦克风一直亮、永无输出」。
+        clearRecTimeout();
+        recTimeout = setTimeout(function () {
+          recTimeout = null;
+          if (recListening && !recFallback) {
+            try { recognition.stop(); } catch (e) {}
+            startFallbackRecording();
+          }
+        }, 6000);
       } catch (err) {
         // 重复 start() 会抛 InvalidStateError，忽略即可
       }
@@ -959,13 +975,18 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
     recognition.continuous = false;
     recognition.interimResults = false;
     recognition.onresult = function (e) {
+      clearRecTimeout();
       try {
         const text = e.results[0][0].transcript;
         if (text) { hideHint(); inputEl.value = text.trim(); inputEl.focus(); }
       } catch (err) {}
     };
-    recognition.onend = function () { if (!recFallback) setMicActive(false); };
+    recognition.onend = function () {
+      clearRecTimeout();
+      if (!recFallback) setMicActive(false);
+    };
     recognition.onerror = function (e) {
+      clearRecTimeout();
       setMicActive(false);
       const err = e && e.error;
       if (err === 'network') {
