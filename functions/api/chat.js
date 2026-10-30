@@ -159,16 +159,16 @@ const FACT_VIOLATIONS = [
   { pattern: /(\d{1,2})\s*(?:年|years?)(?:of|的)?\s*(?:经验|experience|in CNC|history)/i,
     test: (match) => {
       const num = parseInt(match[1]);
-      // 合法口径：15（团队 2011 成立）、23（2003 入行）、20+ 通用；其余拦
+      // 合法口径：17（团队 2009 创立）、22（2004 入行）、20+ 通用；其余拦
       return num < 12 || num > 23;
     },
     reason: 'wrong_years_experience'
   },
-  // 成立年份错误
+  // 成立年份错误（两种正确口径：团队 2009 年创立、公司 2024 年 4 月注册）
   { pattern: /(?:established|founded|set up|成立).*(20\d{2})/i,
     test: (match) => {
       const year = parseInt(match[1]);
-      return year !== 2011;
+      return year !== 2009 && year !== 2024;
     },
     reason: 'wrong_founding_year'
   },
@@ -690,9 +690,9 @@ function buildRetryMessage(originalMessage, failureReason, userLang, retryCount,
   }
   if (failureReason === 'wrong_years_experience') {
     if (userLang === 'zh') {
-      parts.push('【事实校验：团队2011年成立（起家于挂靠经营，现为自营工厂），2003年入行。严禁说8年、5年、20年、2009年等错误年限/年份。】');
+      parts.push('【事实校验：创始人2004年左右入行（20+年行业经验）；团队2009年创立（当年挂靠师傅公司运作，现为自营工厂）；公司2024年4月正式注册。严禁说2003年、2011年、2008年等错误年份。】');
     } else {
-      parts.push('【FACT CHECK: Our team was founded in 2011 (started as a contracted workshop, now independent), and we entered the trade in 2003. NEVER say 8, 5, 20 years, or 2009.】');
+      parts.push('【FACT CHECK: Our founder entered the trade around 2004 (20+ years in manufacturing). Our team was founded in 2009 (operating under a mentor\'s workshop at first, now independent). The company was officially incorporated in April 2024. NEVER say 2003, 2011, or other wrong years.】');
     }
   }
   if (failureReason === 'wrong_standard_tolerance') {
@@ -2033,7 +2033,14 @@ export async function onRequestPost(context) {
       // 实测连跑均为英文），而每次重试都是一次完整 LLM 调用、串行累加 10s 以上。
       // 默认不再为语言问题重试，改由多语种兜底话术保证语种不失。
       const isLangFail = /^language_mismatch/.test(validation.reason);
-      const maxRetry = isLangFail ? (LANG_RETRY_ENABLED ? 1 : 0) : MAX_RETRY_COUNT;
+      if (isLangFail) {
+        // 语言漂移不重试：重试通常仍生成错误语种（R12 印地语 / R20 希腊语 / 10-31 六语种回中文实测连跑均失败），
+        // 直接用该语种兜底话术替换，保证语种不失（修复前只 break 放行错误语种给客户）。
+        result.content = getFallbackReply(userLang, visitorLangRaw);
+        console.warn('Language mismatch → fallback reply:', validation.reason);
+        break;
+      }
+      const maxRetry = MAX_RETRY_COUNT;
       if (retryCount > maxRetry) {
         console.warn('Quality check failed after all retries:', validation.reason);
         break;

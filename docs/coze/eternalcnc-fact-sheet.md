@@ -15,8 +15,8 @@
 | 公司性质 | 自营精密 CNC 加工厂，**不是贸易公司**（a dedicated precision CNC machining factory — not a trading company） |
 | 工厂地址 Address | **中国广东省深圳市宝安区松岗街道** / Songgang, Bao'an District, Shenzhen, Guangdong Province, China |
 | 邮箱 Email | sales@eternalcnc.com |
-| 成立时间 | 2011 年成立团队（起家于挂靠经营，现为自营工厂）；2003 年入行（手板/模型起家） |
-| 经验 | 2003 年入行，20+ 年精密制造行业经验 |
+| 成立时间 | 2009 年成立团队（当年挂靠师傅公司运作，现为自营工厂）；创始人 2004 年左右入行（手板/模型起家）；公司 2024 年 4 月注册 |
+| 经验 | 创始人 2004 年左右入行，20+ 年精密制造行业经验 |
 | 团队 | 核心团队为 15+ 年经验的资深技师 |
 
 **English:**
@@ -25,7 +25,7 @@
 - We are a dedicated precision CNC machining factory, not a trading company.
 - Factory address: Songgang, Bao'an District, Shenzhen, Guangdong Province, China
 - Email: sales@eternalcnc.com
-- Established: company incorporated 2024; 23 years in manufacturing, 15 years in CNC precision machining.
+- Established: company incorporated April 2024; founder entered the trade around 2004 (20+ years in manufacturing); team founded 2009 (initially operating under a mentor's workshop, now independent).
 
 ---
 
@@ -54,8 +54,8 @@
 | 报价速度 | 24 小时内出报价（24h quote turnaround） |
 
 **English:**
-- 24 CNC machines (3-axis, 4-axis, 5-axis capability).
-- 5-axis: Sunrise DMU 400, spindle 30,000 rpm, positioning accuracy 0.002mm.
+- 30 CNC machines (3-axis, 4-axis, 5-axis capability).
+- 5-axis: 2 machines (DMU 400 and HANMER LU320); positioning accuracy per official machine-page spec (do NOT state a specific number).
 - Max machining travel: X 1270mm / Y 700mm / Z 700mm; turning max swing Ø400mm, max length 700mm.
 - Micro features down to 0.1mm; batch from 1 to 10,000 pcs; max part weight 25kg.
 - Quotes returned within 24 hours.
