@@ -159,8 +159,8 @@ const FACT_VIOLATIONS = [
   { pattern: /(\d{1,2})\s*(?:年|years?)(?:of|的)?\s*(?:经验|experience|in CNC|history)/i,
     test: (match) => {
       const num = parseInt(match[1]);
-      // 正确是15+年，12-18之间算合理
-      return num < 12 || num > 20;
+      // 合法口径：15（团队 2011 成立）、23（2003 入行）、20+ 通用；其余拦
+      return num < 12 || num > 23;
     },
     reason: 'wrong_years_experience'
   },
@@ -168,7 +168,7 @@ const FACT_VIOLATIONS = [
   { pattern: /(?:established|founded|set up|成立).*(20\d{2})/i,
     test: (match) => {
       const year = parseInt(match[1]);
-      return year !== 2009;
+      return year !== 2011;
     },
     reason: 'wrong_founding_year'
   },
@@ -690,9 +690,9 @@ function buildRetryMessage(originalMessage, failureReason, userLang, retryCount,
   }
   if (failureReason === 'wrong_years_experience') {
     if (userLang === 'zh') {
-      parts.push('【事实校验：公司2009年成立，15年+CNC经验。严禁说8年、5年、20年等错误年限。】');
+      parts.push('【事实校验：团队2011年成立（起家于挂靠经营，现为自营工厂），2003年入行。严禁说8年、5年、20年、2009年等错误年限/年份。】');
     } else {
-      parts.push('【FACT CHECK: Founded in 2009, 15+ years of CNC experience. NEVER say 8, 5, 20 years.】');
+      parts.push('【FACT CHECK: Our team was founded in 2011 (started as a contracted workshop, now independent), and we entered the trade in 2003. NEVER say 8, 5, 20 years, or 2009.】');
     }
   }
   if (failureReason === 'wrong_standard_tolerance') {

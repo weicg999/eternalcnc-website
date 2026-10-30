@@ -15,8 +15,8 @@
 | 公司性质 | 自营精密 CNC 加工厂，**不是贸易公司**（a dedicated precision CNC machining factory — not a trading company） |
 | 工厂地址 Address | **中国广东省深圳市宝安区松岗街道** / Songgang, Bao'an District, Shenzhen, Guangdong Province, China |
 | 邮箱 Email | sales@eternalcnc.com |
-| 成立时间 | 2024 年正式注册成立；2003 年入行（手板/模型起家）；2015 年独立开展 CNC 加工业务 |
-| 经验 | 23 年制造业 + 15 年 CNC 精密加工 |
+| 成立时间 | 2011 年成立团队（起家于挂靠经营，现为自营工厂）；2003 年入行（手板/模型起家） |
+| 经验 | 2003 年入行，20+ 年精密制造行业经验 |
 | 团队 | 核心团队为 15+ 年经验的资深技师 |
 
 **English:**
@@ -45,8 +45,8 @@
 
 | 项目 | 内容 |
 |------|------|
-| 设备总数 | 24 台 CNC 设备（3轴 / 4轴 / 5轴） |
-| 5轴设备 | Sunrise DMU 400（CNC-5AX1S）：HSK-E40 主轴 30,000rpm，定位精度 0.002mm，A ±120° / C 360° |
+| 设备总数 | 30 台 CNC 设备（3轴 / 4轴 / 5轴） |
+| 5轴设备 | DMU 400 与 HANMER LU320 两台；定位精度以官网 DMU 400 机型页公开参数为准 |
 | 立加设备 | 台群 T-V1270S（X1270×Y700×Z700mm）、台群 T-V856S（800×550×600mm）、巨冈 CT-80 等 |
 | 最大加工尺寸 | X 1270mm / Y 700mm / Z 700mm；车削最大回转直径 400mm、车削长度 700mm |
 | 微型件能力 | 最小特征 0.1mm，微孔 0.3mm，薄壁 0.5mm |
