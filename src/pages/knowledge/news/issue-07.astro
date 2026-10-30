@@ -1,0 +1,211 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Knowledge Base', href: '/knowledge/' },
+  { label: 'Industry News' },
+];
+
+const issue = {
+  label: 'Issue',
+  number: '07',
+  date: '30 October 2026',
+  blurb: 'Five things the shop floor noticed — and what they mean for the parts you send us.',
+};
+
+const kpis = [
+  { metric: '+1.9%', label: 'Year-on-year profit growth in the manufacture of general-purpose machinery for January–September 2026. Over the same period, computers, communications and other electronic equipment grew 103.8%, non-ferrous metal smelting and rolling 79.7%, and chemical raw materials 49.2%. Special-purpose machinery came in at minus 1.3%, electrical machinery and apparatus at minus 5.9%, and motor vehicles at minus 22.8%. Industry-wide, profits above designated size rose 15.5%.', source: 'National Bureau of Statistics, "Profits of industrial enterprises above designated size grew 15.5% in January–September 2026" and annexed tables, 27 October 2026, 09:30.' },
+  { metric: '1.64%', label: 'CCTV reported on 26 October, citing data from a research institution, that only 1.64% of that institution\'s surveyed customers had actually put robots into production deployment; the overwhelming majority remain at proof-of-concept. The report did not name the institution.', source: 'CCTV.com, "From dense deployment to global delivery: humanoid robots face their mass-production exam", 26 October 2026.' },
+  { metric: 'NT$87 million', label: 'Net profit attributable to shareholders reported by Bichuan (1569), a metal-stamping company in Taiwan, China, for September — against a loss of NT$46 million a year earlier. In the second quarter of this year the same company lost NT$135 million, or NT$0.94 per share. The turnaround came from liquid-cooling quick-disconnect orders placed with it.', source: 'Central News Agency, 29 October 2026, on Bichuan\'s self-reported September results.' },
+];
+
+const stories = [
+  {
+    tag: 'Macro / Profit divergence',
+    date: '2026-10-27',
+    title: 'Industrial profit is up 15.5% — but the customers who order your frames are up 1.9%',
+    summary: 'The National Bureau of Statistics reported on 27 October that profits at industrial enterprises above designated size reached RMB 6.0337 trillion for January–September, up 15.5% year on year, with September alone up 14.4%. The three broad sectors diverge sharply: mining up 38.2%, manufacturing up 17.0%, and electricity, heat, gas and water production and supply down 14.3%. Inside manufacturing the gap is wider still — computers, communications and other electronic equipment up 103.8%, non-ferrous metal smelting and rolling up 79.7%, chemical raw materials up 49.2%; against general-purpose machinery at just 1.9%, special-purpose machinery at minus 1.3%, electrical machinery at minus 5.9% and motor vehicles at minus 22.8%. A second set of figures matters more: at the end of September, accounts receivable stood at RMB 29.77 trillion, up 10.0%, and finished-goods inventories at RMB 7.37 trillion, up 11.6% — both running ahead of revenue growth of 6.6%.',
+    what_it_means: 'General-purpose machinery, special-purpose machinery, electrical machinery — those three are exactly the customers who send us frames, fixtures and automation modules. Their profit growth sits between plus 1.9% and minus 5.9%, which means beating down price is a survival move for them, not a negotiating posture; do not treat it as a mood that will pass. And receivables growing 3.4 points faster than revenue, with inventories up 11.6%, says cash comes back more slowly and more finished goods sit in the yard — both of which eventually land on payment terms. So this issue we will say the plain thing: settle the payment terms before you take the order, not after you have made the parts. Long-standing customers can be treated generously. New customers, and anyone visibly burning cash to expand, need a deposit percentage and staged milestones written into the contract. The other end of the table runs on a different clock: the electronics chain at plus 103.8% is not short of money, it is short of suppliers who can keep pace with its iterations. On that work you can trade something other than price — priority scheduling, an agreed inspection-data format, a first-article report with every shipment.',
+    source: 'National Bureau of Statistics, 27 October 2026; interpretation by Yu Weining, chief statistician of the bureau\'s industrial statistics department.',
+  },
+  {
+    tag: 'Robotics / Mass production',
+    date: '2026-10-26',
+    title: '1.64% — the humanoid bottleneck is not capacity, it is whether anyone is actually using them',
+    summary: 'CCTV reported on 26 October that a single humanoid robot comprises hundreds to thousands of parts, and that conventional assembly depends heavily on manual tuning — low efficiency, poor consistency, and hard to scale. The supply-chain lead at one whole-machine maker said potential orders arrived with the very first prototype, and that the pressure is entirely on delivery; the company ran the numbers on building its own line and concluded that the staffing and equipment outlay is not viable for a company that has only just started volume production, so it concentrates on what it does best. Another company, whose first plant already has capacity for 1,000 robots a year, put it more bluntly: it can handle whole-machine assembly, but for precision parts such as the dexterous hand its manufacturing experience is "not that strong" — in 2025 it toured the country looking for contract manufacturers. The report cites research-institution data showing only 1.64% of surveyed customers had actually reached production deployment, with most still at proof of concept (the institution is not named). Tan Weijia, secretary-general of the Shenzhen Robotics Association, argues that because humanoid hardware and software are tightly coupled and iterate continuously, production is destined to be a relatively flexible process. The same report notes that the Global Robot Development Sourcing and Selection Service Centre at the "Embodied Intelligence Harbour" in Bao\'an, Shenzhen, opened formally in 2026, letting companies source parts and match supply with demand in one place.',
+    what_it_means: 'This one is closest to home — the Embodied Intelligence Harbour in the report is in Bao\'an, and so is our shop. But the two lines worth taking seriously are these: whole-machine makers do not lack assembly capability, they lack manufacturing experience in precision parts like the dexterous hand; and the deployment rate is 1.64%. In shop-floor language: most robot parts reaching us right now are not production parts, they are revision N of a prototype — the drawing changes, the batch is a few dozen, and three rounds arrive in a month. Quoting those per piece loses money every time; quoting by number of revisions plus fixturing approach is the only basis that works. The other side is the shape of the opportunity: these makers are looking for contract manufacturers, and what they want is not the cheapest quote but someone who can absorb precision parts in small batches. So the thing to prepare is not capacity but three items — a workholding and inspection approach for hand and joint parts (micron-level, thin-walled, awkward geometry), a reusable small-batch process card, and an honest answer to "how many days for one revision?". Have those ready, and on the day 1.64% moves toward 10%, the work walks in by itself.',
+    source: 'CCTV.com, 26 October 2026.',
+  },
+  {
+    tag: 'AI / Shop floor (this issue\'s AI lead)',
+    date: '2026-10-25',
+    title: 'AI is already inside a third of China\'s large factories — next it will read your quotation',
+    summary: 'Economic Daily, in its 25 October column "New observations on Chinese manufacturing", published four figures: AI application penetration across priority scenarios in manufacturing above designated size has passed one third; across 20 priority industrial fields, more than 500 high-quality datasets have been built and more than 100 industrial AI agents deployed; digital transformation coverage among industrial enterprises above designated size has reached 92%, with 63% penetration of digitally enabled production equipment; and in the first three quarters, value added in digital product manufacturing contributed more than one third of the growth in industrial output above designated size. The article\'s central argument is that AI in manufacturing has moved from isolated demonstrations to scaled deployment with measurable returns — and that the precondition is connected equipment, digitised lines and collectable data. Without the 92% base, a one-third adoption rate could not have appeared this quickly.',
+    what_it_means: 'The 92% and 63% figures describe an interface on the customer side that is already wired up. What happens next is concrete: enquiries, drawing release, incoming inspection and supplier scoring are being taken over by systems and agents. The system does not care how politely your email is written; it reads fields — material grade, temper or supply condition (T6, solution plus ageing), critical tolerances, datums, surface finish, inspection method, batch identification, packaging. Reply with "machined to drawing, price attached" and a human understands it, but the system cannot parse it, so you drop into the backup pool. For a small shop, the cheapest move is therefore not buying software but turning the quotation into half a process card: fill those fields in structurally, and add one line — critical dimensions go to the group\'s shared metrology centre for CMM final inspection as required, with the report shipped alongside. It costs nothing, and it decides whether you are a collaborative supplier or a name on a call list. There is a further layer: the first 100-plus industrial agents to land are in equipment maintenance, scheduling and inspection, and all three need process data from suppliers. Being able to produce process records will sooner or later become a qualification to bid, not a bonus.',
+    source: 'Economic Daily, column "New observations on Chinese manufacturing", 25 October 2026.',
+  },
+  {
+    tag: 'Machine tools / Consumables',
+    date: '2026-10-29',
+    title: 'Toolmakers booked into December, PCB drilling machines into Q2 2027: what is tight this time is spindle hours',
+    summary: 'CCTV reported on 29 October that China\'s machine-tool industry booked revenue of RMB 530.9 billion in the first half of 2026, up 7.6%, with total profit of RMB 19.6 billion, up 110.8%. Within that, the cutting-tool sub-sector reached RMB 65.5 billion in revenue, up 26.4%, and RMB 8.8 billion in profit, up 127.9%. A carbide tool plant in Danyang, Jiangsu, produces 250,000 tools a month at close to 100% utilisation, with orders booked into December and sales more than tripling year on year. A machine-tool builder in Suzhou has six-axis PCB drilling machines booked into the second quarter of 2027, with output of its advanced series already more than double the whole of last year. A Changzhou company has delivered 300 twin-head horizontal machining centres this year for new-energy heavy-truck battery trays, machining with both spindles at once to double throughput. The report also describes a precision machine for AI servers fitted with the builder\'s own vision system, compensating hole position on every PCB and holding back-drill concentricity within 75 microns.',
+    what_it_means: 'Three signals, each doing different work. First, tool plants at full capacity and booked into December means spindle hours downstream are running hot — the same work is being chased by more capacity, and tolerance for price is narrowing, which makes quoting low the worst possible move right now. Second, longer lead times and rising prices for carbide tooling feed straight into our cost sheet; that cannot wait for the increase to be passed on, so tooling cost in a quotation should be refreshed quarterly, not annually. Third, PCB drilling machines booked into Q2 2027 says AI server board makers are expanding — and the beds, columns, tables and fixtures on those machines are castings or weldments plus precision machining, which is work we can take. The advice to customers is equally blunt: if your project sits on the AI hardware chain, do not compress the schedule to the limit. The equipment side is already booked into the middle of next year, and the parts that go with it will be squeezed alongside.',
+    source: 'CCTV.com / CCTV Finance, 29 October 2026; industry data from the China Machine Tool & Tool Builders\' Association, first-half 2026 statistics.',
+  },
+  {
+    tag: 'Liquid cooling / Capacity',
+    date: '2026-10-29',
+    title: 'A laptop hinge-stamping plant took on liquid-cooling quick disconnects and went from a NT$135 million quarterly loss to NT$87 million profit in a month',
+    summary: 'Central News Agency reported on 29 October that Bichuan (1569), a metal-stamping company in Taiwan, China, has entered Nvidia\'s Vera Rubin liquid-cooling component supply chain alongside thermal specialist Auras (3324). Bichuan reported September net profit attributable to shareholders of NT$87 million, against a NT$46 million loss a year earlier, or NT$0.60 per share — after losing NT$135 million, or NT$0.94 per share, in the second quarter. Auras announced early this year that it had put NT$254 million into Bichuan\'s private placement of 5,930 lots, lifting its total holding to 9,930 lots, or 6.88% of shares issued, and has moved part of its liquid-cooling quick-disconnect production to Bichuan to improve cost structure and control lead time and quality. Uanalyze reported on 28 October, citing industry data, that Bichuan\'s Thailand plant began making water-cooling parts this year and that September revenue jumped to NT$401 million, up 91.9% month on month and 39.1% year on year. In the same week, Johnson Controls said in its results briefing that its CDU pipeline exceeds USD 1 billion, that it will invest USD 900 million to expand CDU capacity worldwide, and that most of the planned capacity is already booked.',
+    what_it_means: 'This is not a story about liquid cooling being hot; it is a story about the barrier moving from technology to how well you can flex capacity. Bichuan\'s core business is the scissor hinge in laptop keyboards, where it holds more than 30% of the global market on the back of precision stamping and toolmaking — and that capability transferred to liquid-cooling manifolds and quick-disconnect housings in under a year. Its numbers flipped inside three months, which tells you that in this window customers are not buying your industry pedigree; they are buying existing precision-forming capability and whether you can swing a line over inside a quarter. For a cutting-based shop like ours that points two ways. First, the work really is increasing: tray manifolds, quick-disconnect housings, cold-plate channel structures — tight tolerances, medium batches, frequent changeovers, squarely inside the range of small-batch rapid prototyping. Second, do not overrate yourself: stamping plus tooling has a different cost structure from cutting, and what we can win is complex milled channels and awkward interfaces, not thin-walled stamped parts. That boundary belongs in the conversation before the quote, not in an explanation afterwards. Saying it plainly does not lose the order; failing to say it does.',
+    source: 'Central News Agency, 29 October 2026 (Bichuan\'s self-reported September results and Auras\' private-placement holding); Uanalyze, 28 October 2026 (Bichuan Thailand plant revenue).',
+  },
+];
+
+const faqs = [
+  { q: 'How often is this page updated?', a: 'Weekly. We do not run a news ticker — we run a reading list, and we only include items that change what a buyer of CNC parts should do this quarter.' },
+  { q: 'Where do the numbers come from?', a: 'Primary sources only: national statistics agencies, customs authorities, industry associations, standards bodies, company filings, and named press. We do not republish analyst notes as facts.' },
+  { q: 'Why a shop-floor view and not a market report?', a: 'Because a market report tells you where the wind is blowing. A shop view tells you whether the work has actually landed. Every story here has a "what it means" line — that is the part we are responsible for.' },
+];
+
+const related = [
+  { label: 'From 10 to 1,000: What Actually Changes When a Robot Part Goes to Production', href: '/knowledge/tech-blog/robot-parts-prototype-to-production/' },
+  { label: 'Cooling Is the Shared Lifeline of Compute and Robots', href: '/knowledge/tech-blog/liquid-cooling-compute-and-robots/' },
+  { label: 'Same Part, Same Drawing — So Why Can Two Quotes Differ So Much?', href: '/knowledge/tech-blog/quote-difference-quality-cost/' },
+  { label: 'Which CNC Machine Does Your Part Actually Need?', href: '/knowledge/tech-blog/which-cnc-machine-for-your-part/' },
+];
+---
+
+<PageLayout
+  title="CNC Precision Machining Shop-Floor News · Issue 07 | Eternal CNC"
+  description="Late October 2026: industrial profit up 15.5% while general machinery sits at 1.9%, only 1.64% of robots actually deployed, AI starting to read quotations, tooling booked into December, and a stamping plant turned around by liquid-cooling parts."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Industry news — {issue.label} {issue.number}</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        In this issue: what the shop floor noticed
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        {issue.blurb} From the Eternal CNC Strategic Advisory Group. Issued {issue.date}.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/knowledge/tech-blog/" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Read the Tech Blog →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPI strip -->
+  <section style="background-color: var(--page-bg); padding: 48px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-6" style="color: var(--brand-red);">Three numbers worth noting this issue</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        {kpis.map((k) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <p class="text-3xl md:text-4xl font-bold mb-2" style="color: var(--brand-dark);">{k.metric}</p>
+            <p class="text-sm mb-3" style="color: var(--text-body);">{k.label}</p>
+            <p class="text-xs" style="color: var(--text-muted);">Source: {k.source}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Stories -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Five stories</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">What happened, and what we think it means</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        News first, then the line that matters: what changes for a buyer sending parts to a CNC shop.
+      </p>
+      <div class="space-y-6">
+        {stories.map((s) => (
+          <article class="p-8 border rounded-2xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+              <span class="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded" style="background-color: var(--page-bg); color: var(--brand-dark);">{s.tag}</span>
+              <span class="text-xs" style="color: var(--text-muted);">{s.date}</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-4 leading-snug" style="color: var(--brand-dark);">{s.title}</h3>
+            <p class="text-base leading-relaxed mb-4" style="color: var(--text-body);">{s.summary}</p>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">What it means for your parts</p>
+              <p class="text-sm leading-relaxed" style="color: var(--text-body);">{s.what_it_means}</p>
+            </div>
+            <p class="text-xs mt-4" style="color: var(--text-muted);">Source: {s.source}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Standards / FAQs -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">How we write this page</p>
+      <h2 class="text-3xl font-bold mb-12" style="color: var(--brand-dark);">Three questions we get</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        {faqs.map((f) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-3" style="color: var(--brand-dark);">{f.q}</h3>
+            <p class="text-sm leading-relaxed" style="color: var(--text-body);">{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Related + subscribe -->
+  <section style="background-color: var(--card-white); padding: 64px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Keep reading</p>
+          <h2 class="text-2xl font-bold mb-6" style="color: var(--brand-dark);">Related on the blog</h2>
+          <ul class="space-y-3">
+            {related.map((r) => (
+              <li>
+                <a href={r.href} class="text-sm font-medium hover:underline" style="color: var(--brand-red);">{r.label} →</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="p-8 border rounded-2xl" style="background-color: var(--page-bg); border-color: var(--border-color);">
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Next issue</p>
+          <h3 class="text-xl font-bold mb-3" style="color: var(--brand-dark);">9 November 2026</h3>
+          <p class="text-sm leading-relaxed mb-5" style="color: var(--text-body);">
+Storylines we are following: October PMI and whether the profit gap between electronics and general machinery widens again; what buyers start adding to drawings ahead of the first humanoid standards taking effect in April 2027; and whether tooling lead times begin to show up in quoted prices.
+          </p>
+          <a href="/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+            Send us your next drawing
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Have a part in mind?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Send the STEP and the PDF. We will quote within 2 hours on a working day, and we will tell you whether your tolerances are what they should be.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote/" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/knowledge/tech-blog/" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Browse the Tech Blog →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>
