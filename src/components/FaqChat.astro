@@ -821,41 +821,47 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
   let recognition = null;
   let recListening = false;   // 原生识别进行中
   let recFallback = false;    // 是否处于降级录音模式
-  let mediaRecorder = null;
-  let audioChunks = [];
   let audioStream = null;
   let recTimeout = null;      // 原生识别超时计时器：内核静默挂起（无结果无错误）时主动降级
+  // PCM 采集方案（绕开 MediaRecorder 的 webm 容器问题）所需的状态
+  let pcmChunks = [];        // 采集到的 Float32 PCM 分片
+  let pcmCtx = null;         // AudioContext
+  let pcmProcessor = null;   // ScriptProcessorNode
+  let pcmSource = null;      // MediaStreamAudioSourceNode
 
   function setMicActive(on) {
     recListening = on;
     if (micBtn) micBtn.classList.toggle('listening', on);
   }
 
-  function blobToBase64(blob) {
-    return new Promise(function (resolve, reject) {
-      const r = new FileReader();
-      r.onload = function () { resolve(r.result); };
-      r.onerror = function () { reject(new Error('读取录音失败')); };
-      r.readAsDataURL(blob);
-    });
+  function int16ToBase64(i16) {
+    const bytes = new Uint8Array(i16.buffer);
+    let bin = '';
+    const CHUNK = 8192;
+    for (let i = 0; i < bytes.length; i += CHUNK) {
+      bin += String.fromCharCode.apply(null, bytes.subarray(i, Math.min(i + CHUNK, bytes.length)));
+    }
+    return btoa(bin);
   }
 
-  // 直接把录音 blob 原样上传，由腾讯云后端解码识别。
-  // 之前用 AudioContext.decodeAudioData 转 16k PCM，在手机（iOS/国产安卓内核）
-  // 对 webm/opus 解码大面积失败，导致手机端语音全挂。腾讯云 VoiceFormat 原生支持
-  // webm(ogg-opus)/mp4(m4a)/mp3 等，无需前端先解码。
-  async function transcribeBlob(blob) {
-    const dataUrl = await blobToBase64(blob);
-    // dataUrl 形如 "data:audio/webm;codecs=opus;base64,XXXX"，拆出 mime 和纯 base64
-    const comma = dataUrl.indexOf(',');
-    const mimePart = dataUrl.slice(0, comma);
-    const mimeMatch = mimePart.match(/data:([^;]+)/);
-    const mime = (mimeMatch && mimeMatch[1]) || (blob.type || 'audio/webm');
-    const b64 = dataUrl.slice(comma + 1);
+  // 把采集到的 Float32 PCM（16k 单声道）转 16bit 再 base64
+  function float32To16kBase64(floatArr) {
+    const i16 = new Int16Array(floatArr.length);
+    for (let i = 0; i < floatArr.length; i++) {
+      const s = Math.max(-1, Math.min(1, floatArr[i]));
+      i16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+    }
+    return int16ToBase64(i16);
+  }
+
+  // 上传 16k/16bit 单声道 PCM 到 /api/speech
+  async function transcribePcm(floatArr) {
+    if (!floatArr || floatArr.length === 0) return '';
+    const b64 = float32To16kBase64(floatArr);
     const resp = await fetch('/api/speech', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ audio: b64, format: mime, lang: lang || 'zh' }),
+      body: JSON.stringify({ audio: b64, format: 'pcm', lang: lang || 'zh' }),
     });
     const data = await resp.json();
     if (!data || !data.ok) throw new Error((data && data.error) || '识别服务不可用');
@@ -865,43 +871,63 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
   function handleRecordingStop() {
     setMicActive(false);
     recFallback = false;
+    // 停止 PCM 采集管线
+    if (pcmProcessor) { try { pcmProcessor.disconnect(); } catch (e) {} pcmProcessor.onaudioprocess = null; pcmProcessor = null; }
+    if (pcmSource) { try { pcmSource.disconnect(); } catch (e) {} pcmSource = null; }
     if (audioStream) { audioStream.getTracks().forEach(function (t) { t.stop(); }); audioStream = null; }
-    const chunks = audioChunks;
-    audioChunks = [];
-    const rec = mediaRecorder;
-    mediaRecorder = null;
-    if (!chunks.length) { showHint(ht('noSound'), 'warn', 6000); return; }
-    const blob = new Blob(chunks, { type: (rec && rec.mimeType) || 'audio/webm' });
+    if (pcmCtx) { try { pcmCtx.close(); } catch (e) {} pcmCtx = null; }
+
+    // 合并所有 PCM 分片
+    let total = 0;
+    for (let i = 0; i < pcmChunks.length; i++) total += pcmChunks[i].length;
+    const merged = new Float32Array(total);
+    let off = 0;
+    for (let i = 0; i < pcmChunks.length; i++) {
+      merged.set(pcmChunks[i], off);
+      off += pcmChunks[i].length;
+    }
+    pcmChunks = [];
+
+    if (total === 0) { showHint(ht('noSound'), 'warn', 6000); return; }
     showHint(ht('recognizing'), 'info', 0);
-    transcribeBlob(blob).then(function (text) {
+    transcribePcm(merged).then(function (text) {
       if (text) { hideHint(); inputEl.value = text; inputEl.focus(); }
       else { showHint(ht('noContent'), 'warn', 8000); }
     }).catch(function (err) {
       showHint(ht('failed'), 'error', 12000);
-      // 具体错误只留控制台，界面给可读结论
       if (window.console && err) console.warn('[faq-chat] speech failed:', err);
     });
   }
 
+  // 降级录音：用 AudioContext + ScriptProcessorNode 直接采集 16k PCM，
+  // 绕开 MediaRecorder（产出 webm 容器，腾讯云只认 ogg 不认 webm）和
+  // decodeAudioData（安卓内核解 webm 失败）这两个死结。
   function startFallbackRecording() {
-    if (!window.MediaRecorder || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       showHint(ht('unsupported'), 'error', 12000);
       return;
     }
+    const ACtx = window.AudioContext || window.webkitAudioContext;
+    if (!ACtx) { showHint(ht('unsupported'), 'error', 12000); return; }
     hideHint();
     navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
       audioStream = stream;
-      // 选一个腾讯云后端能识别的格式。优先 mp4(AAC)——iOS Safari 只支持这个；
-      // 安卓 Chrome/国产内核多支持 webm(opus)，两者后端都能解码。
-      const opts = {};
-      if (MediaRecorder.isTypeSupported('audio/mp4')) opts.mimeType = 'audio/mp4';
-      else if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) opts.mimeType = 'audio/webm;codecs=opus';
-      else if (MediaRecorder.isTypeSupported('audio/webm')) opts.mimeType = 'audio/webm';
-      mediaRecorder = new MediaRecorder(stream, opts);
-      audioChunks = [];
-      mediaRecorder.ondataavailable = function (e) { if (e.data && e.data.size > 0) audioChunks.push(e.data); };
-      mediaRecorder.onstop = handleRecordingStop;
-      mediaRecorder.start();
+      const ctx = new ACtx();
+      pcmCtx = ctx;
+      const src = ctx.createMediaStreamSource(stream);
+      pcmSource = src;
+      // ScriptProcessor 已废弃但兼容性最好（iOS/安卓全支持），缓冲区 4096
+      const processor = ctx.createScriptProcessor(4096, 1, 1);
+      pcmProcessor = processor;
+      pcmChunks = [];
+      processor.onaudioprocess = function (e) {
+        const input = e.inputBuffer.getChannelData(0);
+        // inputBuffer 采样率 = ctx.sampleRate（通常 44100/48000），需重采样到 16k
+        const chunk = resampleLinear(input, ctx.sampleRate, 16000);
+        if (chunk.length > 0) pcmChunks.push(chunk);
+      };
+      src.connect(processor);
+      processor.connect(ctx.destination);
       recFallback = true;
       setMicActive(true);
       showHint(ht('recording'), 'info', 0);
@@ -910,13 +936,30 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
     });
   }
 
+  // 线性重采样（Float32 单声道）：srcRate → dstRate
+  function resampleLinear(input, srcRate, dstRate) {
+    if (srcRate === dstRate) return new Float32Array(input);
+    const ratio = srcRate / dstRate;
+    const dstLen = Math.max(1, Math.round(input.length / ratio));
+    const out = new Float32Array(dstLen);
+    for (let i = 0; i < dstLen; i++) {
+      const srcIdx = i * ratio;
+      const idx0 = Math.floor(srcIdx);
+      const idx1 = Math.min(idx0 + 1, input.length - 1);
+      const frac = srcIdx - idx0;
+      out[i] = input[idx0] + (input[idx1] - input[idx0]) * frac;
+    }
+    return out;
+  }
+
   function clearRecTimeout() {
     if (recTimeout) { clearTimeout(recTimeout); recTimeout = null; }
   }
 
   function micClickHandler() {
     if (recFallback) {
-      if (mediaRecorder && mediaRecorder.state !== 'inactive') { try { mediaRecorder.stop(); } catch (e) {} }
+      // 降级录音中：再次点击 = 停止采集并识别
+      handleRecordingStop();
       return;
     }
     if (recognition && recListening) {
