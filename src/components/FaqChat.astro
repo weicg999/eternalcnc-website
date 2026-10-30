@@ -858,10 +858,15 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
   async function transcribePcm(floatArr) {
     if (!floatArr || floatArr.length === 0) return '';
     const b64 = float32To16kBase64(floatArr);
+    // 语音识别的语言不能绑「界面语言」——用户在英文界面也可能说中文。
+    // 用中英混引擎（16k_zh-PY）兜底，能同时识别中英文；仅当用户明确选了
+    // 某非中英语种（如 ja/ko/ru）时才用对应引擎。
+    let speechLang = 'zh-PY';
+    if (forcedLang && forcedLang !== 'zh' && forcedLang !== 'en') speechLang = forcedLang;
     const resp = await fetch('/api/speech', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ audio: b64, format: 'pcm', lang: lang || 'zh' }),
+      body: JSON.stringify({ audio: b64, format: 'pcm', lang: speechLang }),
     });
     const data = await resp.json();
     if (!data || !data.ok) throw new Error((data && data.error) || '识别服务不可用');

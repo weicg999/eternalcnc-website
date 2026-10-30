@@ -130,6 +130,7 @@ async function tc3Sign(secretId, secretKey, payload, timestamp) {
 //   16k_zh / 16k_zh-PY / 16k_en / 16k_ja / 16k_ko / 16k_ru / 16k_es / 16k_de / 16k_fr / 16k_ar ...
 const LANG_ENGINE = {
   zh: '16k_zh',        // 中文普通话
+  'zh-PY': '16k_zh-PY', // 中英粤混合（语音识别的默认兜底，界面语言≠说话语言）
   en: '16k_en',        // 英语
   ja: '16k_ja',        // 日语
   ko: '16k_ko',        // 韩语
