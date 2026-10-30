@@ -15,7 +15,12 @@
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  # microphone 必须是 (self)：语音客服走 navigator.mediaDevices.getUserMedia。
+  # 写成 microphone=() 等于「允许来源列表为空」，浏览器会直接拒绝所有 getUserMedia
+  # 请求并抛 NotAllowedError，用户在网站设置里点「允许」也无效。
+  # 2026-10-30 实测：语音一直报「麦克风被浏览器拦住了」的唯一根因即此行。
+  # camera 保持 () —— 图片上传走 <input type="file">，不需要摄像头。
+  Permissions-Policy: geolocation=(), microphone=(self), camera=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   Cross-Origin-Opener-Policy: same-origin
   Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://www.googletagmanager.com https://lf-cdn.coze.cn; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://api.coze.cn https://static.cloudflareinsights.com https://www.google-analytics.com https://lf-cdn.coze.cn; frame-src 'self' https://lf-cdn.coze.cn; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
