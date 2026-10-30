@@ -141,13 +141,19 @@ const FORBIDDEN_PATTERNS = [
 // 规则：{ pattern: 正则, test: 检测到就触发失败的内容 }
 const FACT_VIOLATIONS = [
   // 设备数量错误（不能说70台、50台、10台等离谱数字）
-  { pattern: /(\d{2,3})\s*(?:台|sets? of|machines?|equipments?|production|testing equipment)/i,
+  { pattern: /(\d{2,3})\s*(?:台|設備|设备)|(\d{2,3})(?:\s+\S+){0,6}?\s+(?:sets?\s+of|machines?|equipments?|CNC|máy|maschinen?|станок|машин|機械|기계|대|máquina|macchina|mesin|peralatan|production\s+equipment|testing\s+equipment)/i,
     test: (match) => {
       const num = parseInt(match[1]);
-      // 正确范围是30左右，20-40之间算合理，超出就触发
-      return num < 20 || num > 40;
+      // 真相是 30 台（官网统一口径，用户 2026-10-30 确认）；允许 25-35 的合理表述，原 20-40 会把 24 漏过去
+      // 双分支：CJK 无空格（"24台"）+ 拉丁多语种（"24 CNC machines" / "24 máy CNC"，窗口放宽到 6 词）
+      return num < 25 || num > 35;
     },
     reason: 'wrong_machine_count'
+  },
+  // 五轴定位精度过度宣称（R09 真违规：bot 曾声称 DMU 400 定位精度 0.002mm；官网 index 页也曾误写 0.002，已校正为 ±0.006）
+  { pattern: /(?:定位精度|positioning accuracy|positioning precision|точность позиционирования|độ chính xác định vị)[^。.!?\n]{0,40}(?:0[.,]00[0-4]|0[.,]0[0-4]\s?mm)/i,
+    test: () => true,
+    reason: 'five_axis_accuracy_overclaim'
   },
   // 公司年限错误（不能说8年、5年、20年等）
   { pattern: /(\d{1,2})\s*(?:年|years?)(?:of|的)?\s*(?:经验|experience|in CNC|history)/i,
@@ -535,6 +541,71 @@ function fixNdaOnlineSign(replyContent, visitorLangRaw, userLang) {
   return { text: rest ? correct + '\n' + rest : correct, fixed: true };
 }
 
+// ========== 设备台数本地硬改（2026-10-30） ==========
+// 背景：模型随机性会偶发把设备数说成 24（其训练记忆或旧口径），质检重试又偶尔漏网。
+// 故采用「本地改写」而非依赖重试——确定性把错误数字替换回 30 台，零延迟、不靠模型配合。
+// 真相 = 30 台（官网统一口径，用户 2026-10-30 确认）；25-35 视为合理放行，其余强制改回 30。
+// ========== 设备台数本地硬改（2026-10-30，针对模型随机性偶发偏 24 / 越语「máy CNC」等漏网） ==========
+// 确定性替换：凡出现「数字 + 设备/机床类名（跨语种）」且数字不在 25–35 区间，一律改写为 30 台。
+// 放行 25–35（含官方 30），不碰无关数字（如 24/7、±0.005mm、X1270mm、Ra 0.4）。
+// 教训：初版正则只认英文 machines / 中文台，漏掉越语「24 máy CNC」，线上实测仍报 24 → 已补全多语种关键词。
+const MACHINE_CJK_RE = /(\d{2,3})\s*(?:台|設備|设备)/;
+const MACHINE_LAT_RE = /(\d{2,3})(?:\s+\S+){0,6}?\s+(?:sets?\s+of|machines?|equipments?|CNC|máy|maschinen?|станок|машин|機械|기계|대|máquina|macchina|mesin|peralatan|production\s+equipment|testing\s+equipment)/i;
+function fixMachineCount(replyContent, userLang) {
+  const text = String(replyContent || '');
+  for (const re of [MACHINE_CJK_RE, MACHINE_LAT_RE]) {
+    const m = text.match(re);
+    if (!m) continue;
+    const num = parseInt(m[1], 10);
+    if (num >= 25 && num <= 35) return { text, fixed: false }; // 30 等合理值放行
+    // 仅替换命中的那处数字，保留单位与上下文（如 "24 CNC machines" → "30 CNC machines"、"24 máy CNC" → "30 máy CNC"）
+    const fixed = text.replace(re, (whole, numStr) => '30' + whole.slice(numStr.length));
+    return { text: fixed, fixed: true };
+  }
+  return { text, fixed: false };
+}
+
+// ========== 五轴定位精度过度宣称本地硬改（R09 真违规，2026-10-30） ==========
+// 模型曾声称 DMU 400 定位精度 0.002mm（照抄官网 index 页旧值，已校正为 ±0.006）。
+// 同款本地改写：命中即将含该 claims 的整句替换为正确口径，杜绝残留"官方技术数据"等误导表述。
+// ========== 五轴定位精度过度宣称本地硬改（R09 真违规，2026-10-30） ==========
+// 模型曾声称 DMU 400 定位精度 0.002mm（照抄官网 index 页旧值，已校正为 ±0.006）。
+// 关键教训：真实回复里「定位精度」关键词与「0.002mm」数字常相隔 >15 字符（如
+// "The positioning accuracy of our 5-axis machine (Sunrise DMU 400) is **0.002mm**"），
+// 原紧窗口正则漏抓 → 线上实测仍报 0.002。改为「整句级别」检测：同一句内同时含精度关键词
+// 与 0.002/0,002mm 即判定过度宣称，整句替换为正确口径（按该句自身语种），与关键词-数字距离解耦。
+const ACC_KW = /定位精度|positioning\s+accuracy|positioning\s+precision|точность\s+позиционирования|độ\s+chính\s+xác\s+định\s+vị|positioniergenauigkeit|positioneringsnauwkeurigheid|précision\s+de\s+positionnement|precisione\s+di\s+posizionamento/i;
+function detectSentenceLang(s) {
+  if (/[ươđăâêôáàéèóòúùíìý]/i.test(s)) return 'vi';
+  if (/[Ѐ-ӿ]/.test(s)) return 'ru';
+  if (/[一-鿿]/.test(s)) return 'zh';
+  return 'en';
+}
+const ACC_REPLACEMENT = {
+  zh: '五轴机床定位精度具体以官网 DMU 400 机型页公开参数为准（直线轴 ±0.006 mm），或发图纸由工程师评估',
+  en: 'The exact 5-axis positioning accuracy is detailed on our official DMU 400 machine page (linear axis ±0.006 mm), or our engineer will confirm against your drawing',
+  vi: 'Độ chính xác định vị 5 trục chính xác được ghi trên trang thông số máy DMU 400 chính thức của chúng tôi (trục thẳng ±0,006 mm), hoặc kỹ sư sẽ xác nhận dựa trên bản vẽ của bạn',
+  ru: 'Точная погрешность позиционирования 5-осевого станка указана на официальной странице модели DMU 400 (линейные оси ±0,006 мм), либо инженер подтвердит по вашему чертежу',
+};
+function fixFiveAxisAccuracy(replyContent, userLang) {
+  const text = String(replyContent || '');
+  const parts = text.split(/([。！？!?]|\n+|\.(?![0-9]))/g); // 句界：中英文句号/感叹/问号/换行；英文 "." 仅当非小数点时作句界，避免把 0.002mm 拆断
+  let changed = false;
+  let out = '';
+  for (let i = 0; i < parts.length; i += 2) {
+    let seg = parts[i] || '';
+    const delim = parts[i + 1] || '';
+    if (ACC_KW.test(seg) && /0[.,]002\s?mm/i.test(seg)) {
+      // 整句替换为正确口径，语种跟随该句自身（避免混入他语）；保留原句首空白，避免句号后丢空格
+      const leadWs = seg.slice(0, seg.length - seg.replace(/^\s+/, '').length);
+      seg = leadWs + (ACC_REPLACEMENT[detectSentenceLang(seg)] || ACC_REPLACEMENT.en);
+      changed = true;
+    }
+    out += seg + delim;
+  }
+  return changed ? { text: out, fixed: true } : { text, fixed: false };
+}
+
 function validateReply(userMessage, replyContent, visitorLang) {
   if (!replyContent || replyContent.trim().length < 2) {
     return { valid: false, reason: 'empty_reply' };
@@ -605,9 +676,16 @@ function buildRetryMessage(originalMessage, failureReason, userLang, retryCount,
   // 事实纠正（针对不同错误类型强化）
   if (failureReason === 'wrong_machine_count') {
     if (userLang === 'zh') {
-      parts.push('【事实校验：我们有30余台CNC设备。严禁说70台、50台、10台等任何错误数字。】');
+      parts.push('【事实校验：我们厂内自有 30 台 CNC 设备。严禁说 24 台、70 台、50 台、10 台等任何错误数字。】');
     } else {
-      parts.push('【FACT CHECK: We have over 30 CNC machines. NEVER say 70, 50, 10 or any wrong number.】');
+      parts.push('【FACT CHECK: We have exactly 30 CNC machines in-house. NEVER say 24, 70, 50, 10 or any wrong number.】');
+    }
+  }
+  if (failureReason === 'five_axis_accuracy_overclaim') {
+    if (userLang === 'zh') {
+      parts.push('【事实校验：五轴机床的「定位精度」具体数值严禁主动声称（如 0.002mm）。客户问五轴精度，只说「具体以官网 DMU 400 机型页公开参数为准，或发图纸由工程师评估」，绝不自己报数字。】');
+    } else {
+      parts.push('【FACT CHECK: NEVER state a specific 5-axis positioning-accuracy number (e.g. 0.002mm). If asked, say "the exact figure is on our official DMU 400 machine page, or our engineer confirms against your drawing" — do NOT invent a number.】');
     }
   }
   if (failureReason === 'wrong_years_experience') {
@@ -757,7 +835,8 @@ function buildContextPrefix(visitorInfo) {
     '- 资质：ISO 9001:2015 处于「贯标中/进度待确认」，任何语言下均禁用 "certified / 认证 / zertifiziert" 等已认证措辞；仅可称「按 ISO 9001 体系执行 / 推进中」。\n' +
     '- 检测能力与 CMM：厂内配置 2.5D 影像仪与精密量具；桥式三坐标(CMM)位于「集团共享计量中心」，按需送检（非厂内常驻设备）。客户问 CMM，直接肯定作答：「我们具备桥式三坐标(CMM)检测能力，由集团共享计量中心按需送检完成，可满足您的尺寸/形位公差检测需求；检测报告按订单约定出具」。不要因 CMM 不在厂内就推给工程师——这是既有能力，直接说即可；仅「厂内某台具体设备型号/校准证书/精度溯源数据」才转 sales@eternalcnc.com 转人工。\n' +
     '- 报告：检测报告按订单约定提供，不承诺每单默认出具完整 SPC 与 GD&T 报告。\n' +
-    '- 五轴：可提及具备五轴能力，但不得过度宣称自由曲面「超高精」等无依据表述。\n' +
+    '- 五轴：可提及具备五轴能力，但① 严禁主动声称五轴机床的「定位精度」具体数值（如 0.002mm / 0.003mm 等），客户问五轴精度时，只说「具体定位精度以官网 DMU 400 机型页公开参数为准，或发图纸由工程师评估」，绝不自己报具体数字；② 不得过度宣称自由曲面「超高精」等无依据表述。\n' +
+    '- 设备规模：厂内自有 30 台 CNC 设备（含五轴加工中心 DMU 400 与 HANMER LU320 共两台五轴）；严禁说 24 台 / 50 台 / 10 台等错误数字，五轴机型以这两台为准，不得编造其他五轴型号。\n' +
     '- 商务：无图纸/工艺信息不报具体单价；不泄露竞对报价与自身利润率；不提供免费设计；环保表述须真实可证，不夸大。\n' +
     '- 支付与合规：仅接受对公账户；不接受受制裁地区/实体业务；遇访客要求私人账户收款或其他合规红线，礼貌拒绝并引导转人工，不作承诺。' +
     '- 邮箱对接：仅接受对公企业邮箱（个人 Gmail/QQ/163/126/Outlook/Yahoo/Hotmail/Foxmail 等不算对公）。访客用个人邮箱索要报价/图纸/技术资料，礼貌说明「我们对公邮箱对接，请提供贵司企业邮箱」，并转 sales@eternalcnc.com 让销售跟；绝不承诺把报价/资料发到任何个人邮箱。' +
@@ -765,6 +844,14 @@ function buildContextPrefix(visitorInfo) {
     '- 法律与赔偿条款：赔偿责任 / indemnity / 质保范围属法务与合同范畴，机器人不得承诺出具书面赔偿条款、不得承诺具体回复时限(SLA)、不得自行判定「材料费是否包赔」。正确做法：说明「具体责任与赔偿以双方签订的合同/订单条款为准，我方法务/合同团队会据需求评估并跟进」，并转 sales@eternalcnc.com；可给通用原则性说明（如「通常我方责任以合同约定为限，来料加工场景下材料责任需在合同中明确」），但不下结论、不出条款文本。' +
     '- 设备安全与操作边界：EternalCNC 是精密加工厂（非机床厂），按客户图纸加工「零部件」。① 红线（必须说死）：绝不改造机床、绝不解除/打磨/移位限位开关等安全联锁——那会使设备精度认证失效并带来严重安全隐患，我们不做也不建议。② 工件略超机床行程（如 852 vs 850mm）属常见工艺问题，给「工艺硬方案」并量化风险让客户选：方案A(精度优先·二次装夹)先 G54 加工主体、再 G55 偏移坐标系加工超出段，接刀处可能有 ~0.01–0.015mm 台阶(公差允许即可行)；方案B(装夹优先·悬空支撑)让超出段悬空、定制千斤顶支承、60% 进给减振，避免二次装夹误差但节拍 +40%，问客户重精度还是重交期。③ 量化兜底：CMM 报告(由集团共享计量中心按需送检)会分段测量；若要求全长无缝且平坦度 ≤0.005mm，须坦诚「该尺寸机床物理上一次走刀无法保证」、可能拒单或换更大行程设备(我方最大行程可达 1270mm 级，同类问题同理)。全程给典型值+依据、标「典型/视工况」，不吹无依据精度。'
   );
+  // 英文版合规护栏（与中文护栏一一对应，约束英文回复——中文护栏对英文输出约束力弱）
+  if (userLang === 'en') {
+    parts.push(
+      '【COMPLIANCE GUARDRAIL - must obey】\n' +
+      '- 5-axis: you MAY mention 5-axis capability, but NEVER state a specific 5-axis "positioning accuracy" number (e.g. 0.002mm / 0.003mm). If asked about 5-axis accuracy, reply "the exact positioning accuracy is on our official DMU 400 machine page, or our engineer will confirm against your drawing" — do NOT invent a number.\n' +
+      '- Equipment scale: we have exactly 30 CNC machines in-house, including two 5-axis centers (SUNRISE DMU 400 and HANMER LU320). NEVER say 24 / 50 / 10 machines, and do NOT invent other 5-axis models.\n'
+    );
+  }
   parts.push('【上下文结束 - 用户真实消息如下】');
   return parts.join('\n') + '\n\n';
 }
@@ -1920,6 +2007,19 @@ export async function onRequestPost(context) {
       if (ndaFix.fixed) {
         console.log('NDA online-sign promise rewritten:', visitorLangRaw || userLang);
         result.content = ndaFix.text;
+      }
+
+      // 后置硬改：设备台数（模型随机性致偶尔偏 24，重试漏网）→ 确定性替换回 30 台，零延迟
+      const cntFix = fixMachineCount(result.content, userLang);
+      if (cntFix.fixed) {
+        console.log('Machine count corrected to 30:', userLang);
+        result.content = cntFix.text;
+      }
+      // 后置硬改：五轴定位精度过度宣称（R09 真违规）→ 整句替换为正确口径
+      const accFix = fixFiveAxisAccuracy(result.content, userLang);
+      if (accFix.fixed) {
+        console.log('Five-axis accuracy overclaim rewritten:', userLang);
+        result.content = accFix.text;
       }
 
       const validation = validateReply(message, result.content, userLang);
