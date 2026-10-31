@@ -140,3 +140,5 @@ It really is that plain.
 I do not control when the machine arrives. But I know that the moment it lands, gets leveled, runs its first article and passes inspection, we will have finally shaken the sand out.
 
 Then we keep walking.
+
+> The next chapter is here: **[After the New Machines Arrive: Replacing Old CNCs, Part Two](/knowledge/tech-blog/after-the-new-machines-arrive/)** — uncrating, leveling, first articles, and getting the operators up to speed.
