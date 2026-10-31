@@ -818,7 +818,12 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
 
   // 语音输入：优先浏览器原生识别（海外走 Google 免费），失败自动降级到云端录音识别（国内）
   const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-  let recognition = null;
+  // 手机端（触屏）直接禁用原生识别：webkitSpeechRecognition 依赖 Google 语音服务，
+  // 国内手机必连不上，只会白等 6 秒超时才降级，导致「听不全」「点第二下录不了」。
+  // 手机统一走 AudioContext 直采 PCM → 腾讯云，一步到位。
+  const isMobile = /Android|iPhone|iPad|iPod|Mobile|Windows Phone/i.test(navigator.userAgent) ||
+    (navigator.maxTouchPoints > 1 && /Macintosh/.test(navigator.userAgent));
+  let recognition = null;    // 手机端保持 null（禁用原生识别），桌面端下面才创建
   let recListening = false;   // 原生识别进行中
   let recFallback = false;    // 是否处于降级录音模式
   let audioStream = null;
@@ -926,7 +931,10 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
       pcmProcessor = processor;
       pcmChunks = [];
       processor.onaudioprocess = function (e) {
+        // 只取输入缓冲第 0 声道；输出静音，避免录音外放回声
         const input = e.inputBuffer.getChannelData(0);
+        const out = e.outputBuffer.getChannelData(0);
+        for (let i = 0; i < out.length; i++) out[i] = 0;
         // inputBuffer 采样率 = ctx.sampleRate（通常 44100/48000），需重采样到 16k
         const chunk = resampleLinear(input, ctx.sampleRate, 16000);
         if (chunk.length > 0) pcmChunks.push(chunk);
@@ -994,7 +1002,7 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
     }
   }
 
-  if (SpeechRec && micBtn) {
+  if (SpeechRec && !isMobile && micBtn) {
     recognition = new SpeechRec();
     recognition.continuous = false;
     recognition.interimResults = false;
