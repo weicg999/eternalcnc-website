@@ -25,6 +25,8 @@ readingTime: "7 分钟"
 
 今天早上，拆封，通电，调试。马不停蹄，因为要用。
 
+![车间里的佳富 T700 立式加工中心，系统面板已点亮，机身红色顶罩与灰色防护门](/images/company/cnc-company-jiafu-vmc-t700-workshop-07.webp)
+
 ---
 
 ## 二 · 为什么是佳富

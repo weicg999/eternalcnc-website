@@ -21,6 +21,8 @@ They came in still wrapped in stretch film, parked beside the building, the ligh
 
 This morning: unwrap, power on, level, run. No time to waste. We need them.
 
+![A JIAFU T700 vertical machining center on the shop floor, control screen lit, red top housing and grey guarding](/images/company/cnc-company-jiafu-vmc-t700-workshop-07.webp)
+
 ---
 
 ## 1. Why JIAFU

@@ -22,6 +22,8 @@ I wasn't there to sightsee. I was there for an answer to one question: we're sti
 
 The one that stopped me was a seven-axis machine.
 
+![A seven-axis deep-hole drilling machine at the Dongguan machine tool show, with its angled spindle head and large control panel](/images/company/cnc-company-seven-axis-machine-show-08.webp)
+
 The placard read: **Precision seven-axis, dual-screw dual-drive angular deep-hole drilling.**
 
 Next to it, advantages and disadvantages — not the sales-brochure version that only lists the good stuff, but laid out side by side, honestly:
