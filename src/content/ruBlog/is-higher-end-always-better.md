@@ -5,6 +5,7 @@ pubDate: 2026-10-31
 category: "Industry Insights"
 tags: ["пятиосевая обработка", "обработка 3+2", "выставка станков", "станок с ЧПУ", "себестоимость детали"]
 system: "general"
+cover: "/images/company/cnc-company-seven-axis-machine-cover-08.webp"
 author: "Eternal CNC Engineering Team"
 readingTime: "7 мин"
 ---

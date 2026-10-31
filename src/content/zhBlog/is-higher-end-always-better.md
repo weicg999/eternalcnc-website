@@ -5,6 +5,7 @@ pubDate: 2026-10-31
 category: "行业洞察"
 tags: ["五轴加工", "3+2加工", "机床展", "CNC机床", "加工成本"]
 system: "通用"
+cover: "/images/company/cnc-company-seven-axis-machine-cover-08.webp"
 author: "鑫永恒工程团队"
 readingTime: "7 分钟"
 ---
@@ -21,7 +22,7 @@ readingTime: "7 分钟"
 
 展馆里最扎眼的是一台七轴机床。
 
-牌子上写着：**精准七轴，双螺杆双驱动角度深孔钻。**
+牌子上写着：**精準七轴，双螺杆双驱动角度深孔钻。**
 
 旁边列着优点和缺点——不是宣传册上那种只挑好话说的，是老老实实并排列出来的：
 

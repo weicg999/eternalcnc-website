@@ -5,6 +5,7 @@ pubDate: 2026-10-31
 category: "Industry Insights"
 tags: ["five-axis machining", "3+2 machining", "machine tool show", "CNC machine", "cost per part"]
 system: "general"
+cover: "/images/company/cnc-company-seven-axis-machine-cover-08.webp"
 author: "Eternal CNC Engineering Team"
 readingTime: "7 min read"
 ---
