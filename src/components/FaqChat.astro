@@ -46,6 +46,9 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
           <button id="faq-chat-lang" type="button" class="text-xs font-semibold px-2 py-1 rounded flex items-center gap-1" style="color:#555; border:1px solid #ddd; background:#fff;" aria-label="Switch language">EN</button>
           <div id="faq-chat-lang-menu" style="display:none; position:absolute; top:calc(100% + 6px); right:0; min-width:150px; background:#fff; border-radius:10px; box-shadow:0 8px 30px rgba(0,0,0,.18); overflow:hidden; z-index:200;"></div>
         </div>
+        <button id="faq-chat-fullscreen" type="button" class="w-8 h-8 flex items-center justify-center rounded-full flex-shrink-0" style="color:#999;" aria-label="Fullscreen" title="Fullscreen">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+        </button>
         <button id="faq-chat-close" type="button" class="w-8 h-8 flex items-center justify-center rounded-full" style="color:#999;" aria-label="Close">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
@@ -114,6 +117,16 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
   #faq-chat-widget #faq-chat-lang:hover { background: #f2f2f2; }
   #faq-chat-widget #faq-chat-close { transition: background .15s ease; }
   #faq-chat-widget #faq-chat-close:hover { background: #f2f2f2; }
+  #faq-chat-widget #faq-chat-fullscreen { transition: background .15s ease; }
+  #faq-chat-widget #faq-chat-fullscreen:hover { background: #f2f2f2; }
+  /* 全屏客服页：面板铺满视口（类 app 沉浸体验），点还原恢复浮窗 */
+  #faq-chat-widget #faq-chat-panel.fullscreen {
+    position: fixed !important; inset: 0 !important;
+    width: 100vw !important; height: 100vh !important;
+    max-height: 100vh !important;
+    bottom: 0 !important; right: 0 !important; left: 0 !important;
+    border-radius: 0 !important;
+  }
   #faq-chat-widget .fchip {
     display: inline-block; padding: 6px 13px; margin: 0 6px 6px 0; font-size: 12px;
     background: #fff; color: #4a4a4a; border: 1px solid #ddd; border-radius: 999px;
@@ -180,6 +193,8 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
       width: 100% !important; height: 82vh !important; max-height: 82vh !important;
       border-radius: 16px 16px 0 0 !important;
     }
+    /* 移动端已有 82vh 全屏式面板，隐藏全屏切换按钮 */
+    #faq-chat-widget #faq-chat-fullscreen { display: none; }
   }
 </style>
 
@@ -194,6 +209,7 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
   const inputEl = document.getElementById('faq-chat-input');
   const sendBtn = document.getElementById('faq-chat-send');
   const closeBtn = document.getElementById('faq-chat-close');
+  const fullscreenBtn = document.getElementById('faq-chat-fullscreen');
   const langBtn = document.getElementById('faq-chat-lang');
   const statusEl = document.getElementById('faq-chat-status');
   const imageBtn = document.getElementById('faq-chat-image');
@@ -794,10 +810,25 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
   }
   function close() { panel.style.display = 'none'; }
 
+  // 全屏客服页切换（类 app 沉浸体验）：铺满视口 ↔ 恢复浮窗
+  let isFullscreen = false;
+  const ICON_FULLSCREEN = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>';
+  const ICON_EXIT_FULLSCREEN = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 3v3a2 2 0 01-2 2H3m18 0h-3a2 2 0 01-2-2V3m0 18v-3a2 2 0 012-2h3M3 16h3a2 2 0 012 2v3"/></svg>';
+  function toggleFullscreen() {
+    isFullscreen = !isFullscreen;
+    if (isFullscreen) panel.classList.add('fullscreen'); else panel.classList.remove('fullscreen');
+    if (fullscreenBtn) {
+      fullscreenBtn.innerHTML = isFullscreen ? ICON_EXIT_FULLSCREEN : ICON_FULLSCREEN;
+      fullscreenBtn.setAttribute('aria-label', isFullscreen ? 'Exit fullscreen' : 'Fullscreen');
+      fullscreenBtn.setAttribute('title', isFullscreen ? 'Exit fullscreen' : 'Fullscreen');
+    }
+  }
+
   toggle.addEventListener('click', function () {
     if (panel.style.display === 'flex') close(); else open();
   });
   closeBtn.addEventListener('click', close);
+  if (fullscreenBtn) fullscreenBtn.addEventListener('click', toggleFullscreen);
   sendBtn.addEventListener('click', send);
   inputEl.addEventListener('keydown', function (e) {
     if (e.key === 'Enter') { e.preventDefault(); send(); }
@@ -823,6 +854,8 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
   // 手机统一走 AudioContext 直采 PCM → 腾讯云，一步到位。
   const isMobile = /Android|iPhone|iPad|iPod|Mobile|Windows Phone/i.test(navigator.userAgent) ||
     (navigator.maxTouchPoints > 1 && /Macintosh/.test(navigator.userAgent));
+  // 手机端砍掉语音输入：PCM 录音在 iOS/国产浏览器兼容性坑多，只保留桌面端原生识别 + 全端语音播报
+  if (isMobile && micBtn) micBtn.style.display = 'none';
   let recognition = null;    // 手机端保持 null（禁用原生识别），桌面端下面才创建
   let recListening = false;   // 原生识别进行中
   let recFallback = false;    // 是否处于降级录音模式
@@ -970,6 +1003,7 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
   }
 
   function micClickHandler() {
+    if (isMobile) return;   // 手机端语音输入已移除，防意外触发
     if (recFallback) {
       // 降级录音中：再次点击 = 停止采集并识别
       handleRecordingStop();
