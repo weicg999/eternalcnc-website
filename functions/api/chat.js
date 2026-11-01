@@ -518,6 +518,42 @@ function matchNdaRequest(message, visitorLangRaw, userLang) {
   return null;
 }
 
+// ========== 语言确认 / 纯寒暄短路层（2026-11-01） ==========
+// 背景：访客问 "can you speak English"（纯语言确认），LLM 被「转化引导原则」带偏，
+// 输出一长段推销 + 编造需求（aerospace titanium / Model X / HRC 60+），还带空邮箱占位符 "email us at —"。
+// 根因两层：① chat.js 通用铁律把 "aerospace titanium / Model X" 当反例写进 prompt，qwen 照抄；
+//          ② 真实老访客的 KV 画像行业词经 buildCustomerProfileContext 注入后，被模型当"当前需求"复述。
+// 策略同 NDA 层1（先手）：这类一句话能答清的语言确认，本地直接回，不进 LLM、不注入画像，
+// 从根上杜绝"一句话问出长篇推销"。命中条件苛刻——仅当消息是「纯语言确认」（短、无业务词）才短路，
+// 避免误伤 "hello can you quote this" 这类寒暄+实质诉求的混合句。
+
+// 语言确认的"目标语言" → 话术。访客问的是"你会说 X 吗"，就回 X 语，最贴合预期、不会语言漂移。
+const LANG_CHECK_REPLY = {
+  en: 'Yes, I can speak English. Please describe your parts (material, tolerance, quantity) or send drawings — we\'ll reply within 2 hours.',
+  zh: '可以，我会中文。请直接说您的需求（材料、精度、数量）或发图纸，我们 2 小时内回复。',
+};
+// 语言确认句式（含目标语言捕获）。只覆盖高频的 en/zh，其余语种的确认仍走 LLM。
+const LANG_CHECK_PATTERNS = [
+  { re: /(?:can|could|do|would|will)\s+you\s+speak\s+english/i, target: 'en' },
+  { re: /(?:can|could|do)\s+you\s+speak\s+(?:chinese|mandarin)/i, target: 'zh' },
+  { re: /(?:能|可以|会|能不能)\s*(?:说|讲|用)\s*(?:中文|汉语|国语|普通话)/, target: 'zh' },
+  { re: /(?:会说|能说|可以说|讲)\s*(?:中文|汉语|国语|普通话)/, target: 'zh' },
+];
+// 业务词：消息里出现这些，说明不是纯语言确认，不短路（防误伤混合句）。
+const LANG_CHECK_BUSINESS_RE = /quote|price|pricing|cost|drawing|图纸|报价|价格|材料|material|part\b|零件|tolerance|公差|moq|数量|quantity|order|订单|delivery|交期|lead\s*time|cnc|machin|加工|surface|表面|five.?axis|五轴|titanium|aluminum|steel/i;
+
+function matchLanguageCheck(message) {
+  const raw = String(message || '').trim();
+  if (raw.length < 3 || raw.length > 80) return null; // 纯语言确认必然短
+  if (LANG_CHECK_BUSINESS_RE.test(raw)) return null;  // 含业务词 → 不是纯语言确认
+  for (const p of LANG_CHECK_PATTERNS) {
+    if (p.re.test(raw)) {
+      return { id: 'lang_check', answer: LANG_CHECK_REPLY[p.target] || LANG_CHECK_REPLY.en };
+    }
+  }
+  return null;
+}
+
 // 层2：bot 回复改写。删掉违规承诺句，把正确话术补在前面。
 // 逐句判定而非整段替换 —— 只删命中 NDA_ONLINE_SIGN_RE 的句子，保留回复中其余有效内容
 // （客户可能同时问了交期/材料，整段替换会把有用信息一起抹掉）。
@@ -604,6 +640,98 @@ function fixFiveAxisAccuracy(replyContent, userLang) {
     out += seg + delim;
   }
   return changed ? { text: out, fixed: true } : { text, fixed: false };
+}
+
+// ========== 编造需求本地硬改（2026-11-01） ==========
+// 背景：真实截图——访客问 "can you speak English"，bot 回 "For aerospace titanium parts,
+// high-hardness (HRC 60+) components, or Model X machining..."，把访客从未提过的行业/型号
+// 当成了访客需求。这是「护栏反例反噬」+「KV 画像旧词注入」两层叠加的后果。
+// 兜底策略（代码级硬保证，不靠模型自觉）：凡回复中出现「访客当前消息里没出现过的
+// 行业/型号/占位词」，判定为编造需求，整句删除；删完太空则整体降级为兜底话术。
+// 判据安全：只有当该词在访客 message 里完全没出现时才删，绝不会误删"访客主动问了"的正常回答。
+const INVENTED_NEEDS_TERMS = [
+  /\baerospace\b/i,
+  /\baviation\b/i,
+  /\bautomotive\b/i,
+  /\bsemiconductor\b/i,
+  /\bconsumer\s*electronics\b/i,
+  /\brobotics?\b/i,
+  /\bdrones?\b/i,
+  /\bmilitary\b|\bdefense\b/i,
+  /\bModel\s*[A-Z]\b/i,
+  /\bHRC\s*60\b/i,
+  /\bliquid\s*cooling\b/i,
+  /\bdata\s*center\b/i,
+];
+const INVENTED_SENTENCE_SPLIT_RE = /([。！？!?]|\n+|\.(?![0-9]))/g;
+
+function fixInventedNeeds(replyContent, userMessage, userLang, visitorLangRaw) {
+  const text = String(replyContent || '');
+  const msg = String(userMessage || '');
+  let hitAny = false;
+  for (const term of INVENTED_NEEDS_TERMS) {
+    if (term.test(text)) { hitAny = true; break; }
+  }
+  if (!hitAny) return { text, fixed: false };
+
+  const parts = text.split(INVENTED_SENTENCE_SPLIT_RE);
+  let out = '';
+  let dropped = false;
+  for (let i = 0; i < parts.length; i += 2) {
+    const seg = parts[i] || '';
+    const delim = parts[i + 1] || '';
+    let drop = false;
+    for (const term of INVENTED_NEEDS_TERMS) {
+      if (term.test(seg) && !term.test(msg)) { drop = true; break; } // 回复有该词、访客没提 → 删句
+    }
+    if (drop) dropped = true;
+    else out += seg + delim;
+  }
+  if (!dropped) return { text, fixed: false };
+
+  const cleaned = out.replace(/\n{3,}/g, '\n\n').trim();
+  if (cleaned.length < 40) {
+    // 删空 → 整体降级兜底，保住语种
+    return { text: getFallbackReply(userLang, visitorLangRaw), fixed: true };
+  }
+  return { text: cleaned, fixed: true };
+}
+
+// ========== 空邮箱占位符修复（2026-11-01） ==========
+// 背景：同一截图里 bot 输出 "email us at — we aim to respond within 2 hours"，破折号处是空地址，
+// 访客拿不到邮箱。根因：LLM 路径下模型想附邮箱促单，却没引用 system prompt 里真实地址，
+// 自己写了个占位符。检测"指向性空邮箱占位符"（email us at — / email us here / 发到 — 等）：
+//   问价/发图场景 → 补上真实 sales@eternalcnc.com；否则 → 整句删（非问价本就不该附邮箱）。
+// ⚠️ 刻意用「指向性 + 空地址」精确形态，不碰 "share your corporate email"（fallback 索要邮箱的
+// 正常话术，无 us/at/to + 空地址结构），避免误删 fallback 里"留邮箱"的转化引导。
+const EMPTY_EMAIL_DEST_RE = /\b(e-?mail|mail)\b\s*(?:us|me|our\s+team|the\s+team)?\s*(?:at|to)?\s*(?:[—–‐-]|here|below|以下|如下)(?![a-z0-9@])/i;
+const EMPTY_EMAIL_CJK_RE = /(?:发到|发至|发送到|寄到|寄至|電郵至|邮件发到|邮箱[：:]?)\s*(?:[—–‐-]|以下|如下)/;
+
+function fixEmptyEmailPlaceholder(replyContent, userMessage) {
+  const text = String(replyContent || '');
+  if (!(EMPTY_EMAIL_DEST_RE.test(text) || EMPTY_EMAIL_CJK_RE.test(text))) return { text, fixed: false };
+  const parts = text.split(INVENTED_SENTENCE_SPLIT_RE);
+  let out = '';
+  let fixed = false;
+  const allowed = EMAIL_ALLOWED_INTENT_RE.test(String(userMessage || ''));
+  for (let i = 0; i < parts.length; i += 2) {
+    let seg = parts[i] || '';
+    const delim = parts[i + 1] || '';
+    if (EMPTY_EMAIL_DEST_RE.test(seg) || EMPTY_EMAIL_CJK_RE.test(seg)) {
+      if (allowed) {
+        // 问价/发图：把空占位补成真实地址
+        seg = seg.replace(EMPTY_EMAIL_DEST_RE, 'email us at sales@eternalcnc.com');
+        seg = seg.replace(EMPTY_EMAIL_CJK_RE, '发到 sales@eternalcnc.com');
+      } else {
+        seg = ''; // 非问价：删掉这句空邮箱提示
+      }
+      fixed = true;
+    }
+    out += seg + delim;
+  }
+  if (!fixed) return { text, fixed: false };
+  const cleaned = out.replace(/\n{3,}/g, '\n\n').trim();
+  return { text: cleaned, fixed: true };
 }
 
 function validateReply(userMessage, replyContent, visitorLang) {
@@ -1896,7 +2024,7 @@ export async function onRequestPost(context) {
   // 带图时必须让模型读图后回答；若文字命中 FAQ 就直接秒答，等于把图丢了。
   const faqHit = imageData
     ? null
-    : (matchNdaRequest(message, visitorLangRaw, userLang) || matchFaq(message, userLang, visitorLangRaw));
+    : (matchLanguageCheck(message) || matchNdaRequest(message, visitorLangRaw, userLang) || matchFaq(message, userLang, visitorLangRaw));
   if (faqHit) {
     console.log('FAQ fast answer [' + faqHit.id + ']:', message.slice(0, 60));
 
@@ -2028,6 +2156,18 @@ export async function onRequestPost(context) {
       if (accFix.fixed) {
         console.log('Five-axis accuracy overclaim rewritten:', userLang);
         result.content = accFix.text;
+      }
+      // 后置硬改：编造需求（回复里出现访客本轮未提过的行业/型号词）→ 删句或降级兜底
+      const invFix = fixInventedNeeds(result.content, message, userLang, visitorLangRaw);
+      if (invFix.fixed) {
+        console.log('Invented needs rewritten:', userLang);
+        result.content = invFix.text;
+      }
+      // 后置修复：空邮箱占位符（email us at — 等提到邮箱却无真实地址）→ 补地址或删句
+      const emailPhFix = fixEmptyEmailPlaceholder(result.content, message);
+      if (emailPhFix.fixed) {
+        console.log('Empty email placeholder fixed:', userLang);
+        result.content = emailPhFix.text;
       }
 
       const validation = validateReply(message, result.content, userLang);
