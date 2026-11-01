@@ -303,13 +303,36 @@ function detectLanguage(text) {
 // 直接把响应耗时翻倍；删除是纯本地操作，零延迟。
 const EMAIL_DETECT_RE = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
 // 按句删除：从句首（不含句末标点）一直删到句末标点，不会跨句误伤
+// 2026-11-02 补：多语种报价词会误判"问竞对价格/利润率"为我们的报价意图
+// （R13 土耳其实测：问 rakip fiyat listesi + kâr marjı，被判报价意图 → 邮箱违规露出）。
+// 命中排除词即视为"不是要我们报价"，优先于报价词。
+const EMAIL_INTENT_EXCLUDE_RE = new RegExp(
+  '(\\brakib|\\brakip\\b|competitor|\\bconcurrent|wettbewerber|\\bconcorrente|\\bconcurrente|konkuren|konkurrent|' +
+  'pesaing|đối\\s*thủ|คู่แข่ง|競合|경쟁|منافس|ανταγωνιστ|конкурент|प्रतिस्पर्धी|竞品|竞争对手|同行|' +
+  'k[âa]r\\s*marj|kar\\s*marj|margin|marge|margen|mar[żz]a|利润|毛利|winstmarge|marge\\s*brute)',
+  'i'
+);
+
+function isQuoteIntent(userMessage) {
+  const s = String(userMessage || '');
+  if (EMAIL_INTENT_EXCLUDE_RE.test(s)) return false; // 问竞对/利润率 → 不是要我们报价
+  return EMAIL_ALLOWED_INTENT_RE.test(s);
+}
+
 const EMAIL_SENTENCE_RE = /[^。！？!?\n]*[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}[^。！？!?\n]*[。！？!?]?/g;
 // 允许露邮箱的两种场景：客户问价 / 客户要发图纸。
 // ⚠️ 不能只匹配裸「图纸」二字：R19 实测客户问「我啲圖紙會唔會保密㗎」是问保密而非要发图，
 // 关键词里却有"圖紙"，旧规则会误判成发图意图、邮箱照露。故必须「动作词 + 图纸」才放行。
 const EMAIL_ALLOWED_INTENT_RE = new RegExp(
   '(报价|報價|价格|價錢|价钱|多少钱|多少錢|询价|詢價|費用|费用|\\bquote\\b|\\bquotation\\b|' +
-  '\\bpricing\\b|\\bprice\\b|\\bcost\\b|\\brfq\\b)' +
+  '\\bpricing\\b|\\bprice\\b|\\bcost\\b|\\brfq\\b|how\\s+much' +
+  // 2026-11-02 补：原规则只认英/中报价词，法语「devis」等 18 国问价意图全判成"非问价"
+  // → 邮箱被删、R04 实测连"2 heures"时效承诺一起被删。补多语种报价词，均为问价独有、
+  // 正常技术问答中不出现（反向断言见 _selftest_dangling_1102.mjs C 组）。
+  '|\\bdevis\\b|\\bprix\\b|\\bangebot\\b|\\bpreis\\b|\\bprecio\\b|\\bpresupuesto\\b|\\bcotizaci[oó]n\\b' +
+  '|\\bpreventivo\\b|\\bprezzo\\b|\\bor[cç]amento\\b|\\bpre[cç]o\\b|\\bofferte\\b|\\bprijs\\b|\\boferta\\b' +
+  '|\\bwycena\\b|\\bcena\\b|\\bfiyat\\b|\\bteklif\\b|\\bpris\\b|\\boffert\\b|\\bharga\\b|\\bpenawaran\\b' +
+  '|見積|견적|سعر|تسعير|τιμ[ήη]|προσφορ[άα]|цена|стоимость|ราคา|báo\\s*giá|कीमत|दाम)' +
   '|' +
   '((发|發|寄|传|傳|上传|上傳|提交|递交|遞交)[^。！？!?\\n]{0,8}(图|圖|檔|档|文件|图纸)|' +
   '(图|圖|檔|档|文件|图纸)[^。！？!?\\n]{0,8}(发|發|寄|传|傳|上传|上傳|提交)|' +
@@ -381,7 +404,7 @@ function stripEmailIfNotAllowed(userMessage, replyContent) {
     return { text: replyContent, stripped: false, tooShort: false };
   }
   // 客户确实在问价 / 要发图纸 —— 允许露出邮箱
-  if (EMAIL_ALLOWED_INTENT_RE.test(userMessage || '')) {
+  if (isQuoteIntent(userMessage)) {
     return { text: replyContent, stripped: false, tooShort: false };
   }
 
@@ -713,7 +736,7 @@ function fixEmptyEmailPlaceholder(replyContent, userMessage) {
   const parts = text.split(INVENTED_SENTENCE_SPLIT_RE);
   let out = '';
   let fixed = false;
-  const allowed = EMAIL_ALLOWED_INTENT_RE.test(String(userMessage || ''));
+  const allowed = isQuoteIntent(userMessage);
   for (let i = 0; i < parts.length; i += 2) {
     let seg = parts[i] || '';
     const delim = parts[i + 1] || '';
@@ -731,6 +754,63 @@ function fixEmptyEmailPlaceholder(replyContent, userMessage) {
   }
   if (!fixed) return { text, fixed: false };
   const cleaned = out.replace(/\n{3,}/g, '\n\n').trim();
+  return { text: cleaned, fixed: true };
+}
+
+// ========== 悬空邮箱残句清理（2026-11-02） ==========
+// 背景：邮箱护栏 masked 分支只抹掉地址本身、保留整句正文，于是访客会看到
+//   「...إلى ****」「...στο ,」「...à ,」这类"指向一个空目标"的残句。
+// 线上实测（11-02 复测 9 次出现 6 次）：R11 沙特「عبر البريد الإلكتروني .」、
+// R20 希腊「στο ,」、R04 法国「à ,」。fixEmptyEmailPlaceholder 只认英/中形态，
+// 20 国场景里阿拉伯语/希腊语/法语/西语全漏网。
+// 策略：分句级处理——命中「指向词(邮箱词或介词) + 紧跟标点」即视为残缺目标句：
+//   问价/发图场景 → 把真实地址补进残缺位（保留该句的时效承诺等有效信息）；
+//   其余场景 → 整分句删掉（收尾引导句删掉不影响主体回答）。
+// 用「分句」而非「整行」：阿拉伯语/希腊语用 ASCII 句点收句，整行删会连带删掉
+// 同行其它有效内容（R11 实测整行 344 字被删空后走 masked 分支，即本条要修的现象）。
+const DANGLING_DEST_RE = new RegExp(
+  '(' +
+  'البريد\\s+الإلكتروني|البريد|e-?mail|email|メール|이메일|courriel|correo|E-Mail|' +
+  'at|to|à|au|\\ba\\b|στο|στην|στον|إلى|الى|عبر|naar|aan|op|do|para|ao|per|zum|zur|auf|an|em|zu|bei|al|' +
+  'till|til|la|ke|qua|đến|tại|पर|на|в|к|по|до|へ|に|로|에|ที่|ไปที่|को|में' +
+  ')\\s*([,،、.。;；:！？!?])',
+  'gi'
+);
+
+function fixDanglingEmailFragment(replyContent, userMessage) {
+  const text = String(replyContent || '');
+  DANGLING_DEST_RE.lastIndex = 0;
+  if (!DANGLING_DEST_RE.test(text)) return { text, fixed: false };
+  const allowed = isQuoteIntent(userMessage);
+  const parts = text.split(INVENTED_SENTENCE_SPLIT_RE);
+  let out = '';
+  let fixed = false;
+  // 处理单位是「分句 + 分隔标点」：标点被 split 摘到奇数位，只测 seg 会漏掉
+  // 「البريد الإلكتروني .」这种"指向词在句尾、标点在分隔符里"的形态（自检第一版即踩）。
+  for (let i = 0; i < parts.length; i += 2) {
+    const seg = parts[i] || '';
+    const delim = parts[i + 1] || '';
+    const probe = seg + delim;
+    DANGLING_DEST_RE.lastIndex = 0;
+    if (!probe || !DANGLING_DEST_RE.test(probe)) {
+      out += probe;
+      continue;
+    }
+    fixed = true;
+    if (allowed) {
+      // 补真实地址：把「指向词 + 标点」重写为「指向词 + 地址 + 标点」
+      DANGLING_DEST_RE.lastIndex = 0;
+      out += probe.replace(DANGLING_DEST_RE, (m, p1, p2) => p1 + ' sales@eternalcnc.com' + p2);
+    } else if (probe.length > 200) {
+      // 超长分句（主体回答）不整句删，只摘掉残缺片段，避免答非所问
+      DANGLING_DEST_RE.lastIndex = 0;
+      out += probe.replace(DANGLING_DEST_RE, ' ').replace(/[ \t]{2,}/g, ' ');
+    }
+    // else: 非问价场景的引导句 → 整分句丢弃
+  }
+  if (!fixed) return { text, fixed: false };
+  const cleaned = out.replace(/[ \t]{2,}/g, ' ').replace(/\n{3,}/g, '\n\n').trim();
+  if (cleaned.length < 20) return { text, fixed: false }; // 掏空则放弃，交上层兜底
   return { text: cleaned, fixed: true };
 }
 
@@ -2168,6 +2248,13 @@ export async function onRequestPost(context) {
       if (emailPhFix.fixed) {
         console.log('Empty email placeholder fixed:', userLang);
         result.content = emailPhFix.text;
+      }
+      // 后置修复：悬空邮箱残句（"إلى ****" / "στο ," / "à ,"——地址被抹后只剩指向词）
+      // 覆盖 fixEmptyEmailPlaceholder 不认的 20 国语种形态（2026-11-02）
+      const danglingFix = fixDanglingEmailFragment(result.content, message);
+      if (danglingFix.fixed) {
+        console.log('Dangling email fragment fixed:', userLang);
+        result.content = danglingFix.text;
       }
 
       const validation = validateReply(message, result.content, userLang);
