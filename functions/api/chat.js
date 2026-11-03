@@ -1011,6 +1011,14 @@ function fixPaymentComplianceReply(userMessage, replyContent, userLang, visitorL
 const INTERNAL_NOTE_LEAK_RE = /[（(]\s*(?:注[：:]|注意[：:]|备注[：:]|备注[:：]|说明[：:]|根据规则|按规则|按照规则|内部规则|系统提示)[\s\S]{0,300}?[）)]/gi;
 // 兜底形态：括号内含内部词也算（模型换说法时的漏网形态）
 const INTERNAL_HINT_WORD_RE = /[（(][^（）()]{0,300}?(?:规则|铁律|系统提示|内部处理|内部规则|不得告知|不主动提供|\bprompt\b|system\s+message)[^（）()]{0,300}?[）)]/gi;
+// ⚠️ 英文/多语种内部指令泄漏（2026-11-04 补）：模型把 system prompt 的 guidelines/instructions
+// 当正文吐出。R16 瑞典复测实测：`(Answer adheres to guidelines: No speculation on C category facts;
+// directs to offi...)` —— 英文括注，中文正则拦不住，访客直接看到内部指令，比答错更伤信任。
+// 只命中括号内含元指令强信号词（guidelines / directive / system prompt / system message），
+// 不用 instruction(s)（易误删 "assembly instructions" 等正常语境），降低误删。
+const INTERNAL_NOTE_EN_RE = /[（(][^（）()\n]{0,500}?\b(?:guideline|guidelines|directive|directives|system\s+prompt|system\s+message)\b[^（）()\n]{0,500}?[）)]/gi;
+// 无括号尾随形态：`Answer adheres to guidelines: ...` / `This response follows the guidelines...` 直接接在结尾
+const INTERNAL_NOTE_TRAIL_RE = /\b(?:this\s+(?:answer|response)|the\s+(?:answer|response)|answer|response|reply)\s+(?:adheres|follows|complies|conforms|aligns)\s+(?:to|with)\s+(?:the\s+)?(?:guideline|guidelines|directive|directives|system\s+prompt|system\s+message)\b[\s\S]{0,400}$/i;
 
 function stripInternalNoteLeak(replyContent, userLang) {
   const text = String(replyContent || '');
@@ -1019,6 +1027,8 @@ function stripInternalNoteLeak(replyContent, userLang) {
   const cleaned = text
     .replace(INTERNAL_NOTE_LEAK_RE, '')
     .replace(INTERNAL_HINT_WORD_RE, '')
+    .replace(INTERNAL_NOTE_EN_RE, '')
+    .replace(INTERNAL_NOTE_TRAIL_RE, '')
     .replace(/[ \t]{2,}/g, ' ')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
