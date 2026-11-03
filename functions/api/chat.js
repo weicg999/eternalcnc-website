@@ -887,6 +887,35 @@ function resolvePayLineKey(visitorLangRaw, userLang) {
   return PAY_COMPLIANCE_LINE[userLang] ? userLang : null;
 }
 
+// ⚠️ 语种守卫（11-03 第一版踩坑）：绝不能给"主体不是目标语种"的回复补目标语种口径。
+// detectScript 按 SCRIPT_RANGES 顺序扫描、ru 排在 zh 之前 —— 中文正文 + 俄语补充会被判成
+// ru，validateReply 于是把中文正文放行给俄语访客（实测 3/3 中招，比修复前更糟）。
+// 主体语种不对时：强意图场景直接整段换成该语种合规口径（中文正文对俄语客户本就无用），
+// 其余交给 validateReply 判 language_mismatch → 重试 / 兜底。
+function looksLikeTargetScript(text, key) {
+  const cjk = (text.match(/[\u4E00-\u9FFF\u3400-\u4DBF]/g) || []).length;
+  const kana = (text.match(/[\u3040-\u30FF]/g) || []).length;
+  const hangul = (text.match(/[\uAC00-\uD7AF]/g) || []).length;
+  const cyr = (text.match(/[\u0400-\u04FF]/g) || []).length;
+  const arab = (text.match(/[\u0600-\u06FF]/g) || []).length;
+  const deva = (text.match(/[\u0900-\u097F]/g) || []).length;
+  const thai = (text.match(/[\u0E00-\u0E7F]/g) || []).length;
+  const heb = (text.match(/[\u0590-\u05FF]/g) || []).length;
+  const greek = (text.match(/[\u0370-\u03FF]/g) || []).length;
+  const total = text.replace(/\s/g, '').length || 1;
+  const cjkish = cjk + kana + hangul;
+  if (key === 'zh' || key === 'zh-tw' || key === 'yue') return (cjk + kana) >= 4 && (cjk + kana) / total > 0.3;
+  if (key === 'ja') return kana >= 2 && cjkish / total > 0.3;
+  if (key === 'ko') return hangul >= 4 && cjkish / total > 0.3;
+  if (key === 'ru' || key === 'uk') return cyr >= 4 && cyr / total > 0.3 && cjkish / total < 0.2;
+  if (key === 'ar') return arab >= 4 && arab / total > 0.3 && cjkish / total < 0.2;
+  if (key === 'hi') return deva >= 4 && deva / total > 0.3 && cjkish / total < 0.2;
+  if (key === 'th') return thai >= 4 && thai / total > 0.3 && cjkish / total < 0.2;
+  if (key === 'he') return heb >= 4 && heb / total > 0.3 && cjkish / total < 0.2;
+  if (key === 'el') return greek >= 4 && greek / total > 0.3 && cjkish / total < 0.2;
+  return cjkish / total < 0.15; // 拉丁语系
+}
+
 function fixPaymentComplianceReply(userMessage, replyContent, userLang, visitorLangRaw) {
   const text = String(replyContent || '');
   const msg = String(userMessage || '');
@@ -906,6 +935,12 @@ function fixPaymentComplianceReply(userMessage, replyContent, userLang, visitorL
   if (!line) return { text, fixed: false };
   // 幂等：已经补过就别重复追加
   if (text.includes(line.slice(0, 24))) return { text, fixed: false };
+
+  // 主体语种不对（典型：俄语用户收到中文正文）→ 强意图场景整段替换，别拼成双语混合体
+  if (!looksLikeTargetScript(text, key)) {
+    if (strongIntent) return { text: line, fixed: true, replaced: true };
+    return { text, fixed: false };
+  }
 
   return { text: text.trimEnd() + ' ' + line, fixed: true };
 }
