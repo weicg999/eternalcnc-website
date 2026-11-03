@@ -121,8 +121,9 @@ const FORBIDDEN_PATTERNS = [
   /铣削件.*车削件.*多种工艺/,
   /铣削.*车削.*磨削.*线切割.*多种组合/,
   // 敏感词铁律
-  /\bCMM\b/i,
-  /三坐标/,
+  // ⚠️ 2026-11-03：原裸 /\bCMM\b/ 与 /三坐标/ 已移除 —— 会把「我们没有 in-house CMM」
+  // 这类正确口径一并判违规，导致 R12 每次白烧一次重试（双倍耗时）。
+  // 改由 validateReply 里的 violatesCmmInHouse() 带否定/澄清识别判定，铁律仍在。
   /\bSPC\b/,
   /统计过程控制/,
   /precision aerospace/i,
@@ -814,9 +815,157 @@ function fixDanglingEmailFragment(replyContent, userMessage) {
   return { text: cleaned, fixed: true };
 }
 
+// ========== 支付合规口径补齐（2026-11-03） ==========
+// 背景：11-03 巡检 R08 俄语场景，4 次复测有 2 次只回一句 54-62 字符的搪塞
+//（"Вопросы по оплате и работе с Крымом требуют уточнения."）——既没说只收对公账户，
+// 也没说拒接制裁地区。风险点不在"说错"，而在"没拒绝"：客户会当成默认可以。
+// 策略同五轴精度/设备台数：不给模型第二次机会，代码级补一句本语种正确口径。
+// 只追加不替换：模型已经答对的部分保留，避免答非所问；语种无文案时不补（绝不硬塞英文，
+// 否则 validateReply 判 language_mismatch，整段掉兜底，比原来更糟）。
+// ⚠️ 意图词必须覆盖"各语种怎么问私人账户/制裁"，只写英文会整类漏检
+//（自检第一版就漏了越南语 thẻ cá nhân / bị trừng phạt → 该场景完全不补）
+const PAY_COMPLIANCE_INTENT_RE = new RegExp(
+  '(' +
+  '私人\\s*(账户|賬戶|卡|银行卡)|个人\\s*(账户|賬戶|银行卡|卡)|' +
+  'personal\\s+(bank\\s+)?(account|card)|private\\s+(bank\\s+)?(account|card)|' +
+  'личн\\w*\\s*(карт|сч[её]т)|на\\s+карту|' +
+  'thẻ\\s*cá\\s*nhân|tài\\s*khoản\\s*cá\\s*nhân|' +
+  'rekening\\s*pribadi|akaun\\s*peribadi|kişisel\\s*hesap|özel\\s*hesap|' +
+  'privérekening|konto\\s*prywatne|conto\\s*personale|cuenta\\s*personal|conta\\s*pessoal|compte\\s*personnel|persönliches\\s*konto|' +
+  '個人口座|個人銀行口座|개인\\s*계좌|' +
+  'Крым|crimea|' +
+  '受制裁|制裁|санкц|sanction|sancion|sanktion|sanctie|sankcj|yaptırım|sanksi|sekatan|trừng\\s*phạt|cấm\\s*vận|' +
+  'عقوبات|κυρώσεις|प्रतिबंध|제재|' +
+  '对公|對公|embargo' +
+  ')',
+  'i'
+);
+const PAY_GENERIC_RE = /(付款|支付|转账|轉賬|payment|оплат|paiement|pago|zahlung|thanh\s*toán|pembayaran|betalning)/i;
+// 已给出正确口径的判据：出现"对公账户/合规审查"这类表述即视为答到位
+const PAY_COMPLIANCE_SIGNAL_RE = /(对公|對公|公户|公戶|corporate\s+(bank\s+)?account|company\s+(bank\s+)?account|business\s+account|Firmenkonto|zakelijke\s+rekening|konto\s+firmowe|şirket\s+(banka\s+)?hesab|tài\s+khoản\s+công\s+ty|rekening\s+perusahaan|akaun\s+syarikat|företagets|firemní\s+účet|contul\s+bancar|حساب\s+بانکی|חשבון\s+הבנק|εταιρικ|कंपनी\s+के\s+बैंक|บัญชีธนาคารของบริษัท|корпоративн|расчётный\s+счёт|расчетный\s+счет|счёт\s+компании|счет\s+компании|合规|合規|compliance|комплаенс|conformité|cumplimiento|conformidade|conformità)/i;
+
+const PAY_COMPLIANCE_LINE = {
+  zh: '我们仅接受对公账户付款（银行转账 / T/T）。基于合规要求，不接受私人账户收款，也不与受制裁地区或受制裁实体交易；此类订单需转交合规同事审核。',
+  'zh-tw': '我們僅接受對公帳戶付款（銀行轉帳 / T/T）。基於合規要求，不接受私人帳戶收款，也不與受制裁地區或受制裁實體交易；此類訂單需轉交合規同事審核。',
+  yue: '我哋只接受對公賬戶付款（銀行轉賬 / T/T）。基於合規要求，唔接受私人賬戶收款，亦唔同受制裁地區或受制裁實體交易；呢類訂單要轉交合規同事審核。',
+  en: 'We only accept payment to our corporate bank account (bank transfer / T/T). For compliance reasons we cannot accept payments to personal accounts and do not trade with sanctioned regions or entities — such requests go through our compliance review.',
+  ja: 'お支払いは法人銀行口座へのお振込み（銀行送金／T/T）のみ承っております。コンプライアンス上の理由により、個人口座へのお支払いはお受けできず、制裁対象地域・団体とのお取引も行っておりません。該当するご依頼はコンプライアンス担当へ回付いたします。',
+  ko: '결제는 법인 계좌로의 송금(은행 이체 / T/T)만 가능합니다. 컴플라이언스상 개인 계좌로의 입금은 받을 수 없으며, 제재 지역·제재 대상 기관과의 거래도 하지 않습니다. 해당 요청은 컴플라이언스 담당자에게 전달됩니다.',
+  de: 'Wir akzeptieren Zahlungen ausschließlich auf unser Firmenkonto (Banküberweisung / T/T). Aus Compliance-Gründen können wir keine Zahlungen auf Privatkonten annehmen und handeln nicht mit sanktionierten Regionen oder Unternehmen — solche Anfragen gehen an unsere Compliance-Abteilung.',
+  fr: 'Nous n’acceptons les paiements que sur notre compte bancaire d’entreprise (virement / T/T). Pour des raisons de conformité, nous ne pouvons pas accepter de paiements sur des comptes personnels et ne traitons pas avec des régions ou entités sanctionnées — ces demandes sont transmises à notre service conformité.',
+  es: 'Solo aceptamos pagos en nuestra cuenta bancaria corporativa (transferencia / T/T). Por motivos de cumplimiento no podemos aceptar pagos en cuentas personales ni operar con regiones o entidades sancionadas: esas solicitudes pasan a nuestro equipo de cumplimiento.',
+  pt: 'Aceitamos pagamentos apenas na conta bancária da empresa (transferência / T/T). Por questões de compliance, não aceitamos pagamentos em contas pessoais nem negociamos com regiões ou entidades sancionadas — esses pedidos são encaminhados ao nosso departamento de compliance.',
+  it: 'Accettiamo pagamenti solo sul conto bancario aziendale (bonifico / T/T). Per motivi di compliance non possiamo accettare pagamenti su conti personali né trattare con regioni o entità sanzionate: tali richieste vengono inoltrate al nostro ufficio compliance.',
+  nl: 'Wij accepteren betalingen uitsluitend op onze zakelijke bankrekening (overschrijving / T/T). Om compliance-redenen kunnen wij geen betalingen op privérekeningen aannemen en doen wij geen zaken met gesanctioneerde regio’s of entiteiten — zulke verzoeken gaan naar onze compliance-afdeling.',
+  pl: 'Przyjmujemy płatności wyłącznie na firmowe konto bankowe (przelew / T/T). Ze względów compliance nie przyjmujemy płatności na konta prywatne i nie współpracujemy z regionami lub podmiotami objętymi sankcjami — takie zapytania trafiają do naszego działu compliance.',
+  tr: 'Ödemeleri yalnızca şirket banka hesabımıza (havale / T/T) kabul ediyoruz. Uyum (compliance) gereği kişisel hesaplara ödeme kabul edemiyoruz ve yaptırım uygulanan bölge veya kuruluşlarla çalışmıyoruz — bu tür talepler uyum ekibimize iletilir.',
+  vi: 'Chúng tôi chỉ nhận thanh toán vào tài khoản ngân hàng của công ty (chuyển khoản / T/T). Vì lý do tuân thủ, chúng tôi không nhận thanh toán vào tài khoản cá nhân và không giao dịch với khu vực hoặc tổ chức bị trừng phạt — các yêu cầu này sẽ được chuyển cho bộ phận tuân thủ.',
+  id: 'Kami hanya menerima pembayaran ke rekening bank perusahaan (transfer bank / T/T). Karena alasan kepatuhan, kami tidak menerima pembayaran ke rekening pribadi dan tidak bertransaksi dengan wilayah atau entitas yang dikenai sanksi — permintaan seperti ini diteruskan ke tim kepatuhan kami.',
+  ms: 'Kami hanya menerima pembayaran ke akaun bank syarikat (pindahan bank / T/T). Atas sebab pematuhan, kami tidak menerima pembayaran ke akaun peribadi dan tidak berurus niaga dengan wilayah atau entiti yang dikenakan sekatan — permintaan sebegini akan diserahkan kepada pasukan pematuhan kami.',
+  sv: 'Vi tar endast emot betalningar till företagets bankkonto (banköverföring / T/T). Av compliance-skäl kan vi inte ta emot betalningar till privata konton och handlar inte med sanktionerade regioner eller enheter — sådana förfrågningar skickas till vår compliance-avdelning.',
+  cs: 'Platby přijímáme pouze na firemní bankovní účet (bankovní převod / T/T). Z důvodů compliance nepřijímáme platby na soukromé účty a neobchodujeme se sankcionovanými regiony či subjekty — takové požadavky předáváme našemu compliance oddělení.',
+  ro: 'Acceptăm plăți doar în contul bancar al companiei (transfer bancar / T/T). Din motive de conformitate nu acceptăm plăți în conturi personale și nu colaborăm cu regiuni sau entități sancționate — astfel de solicitări sunt transmise echipei noastre de conformitate.',
+  uk: 'Оплата можлива лише на розрахунковий рахунок компанії (банківський переказ / T/T). З міркувань комплаєнсу ми не приймаємо платежі на особисті рахунки та не працюємо з підсанкційними регіонами чи організаціями — такі запити передаються нашому комплаєнс-фахівцю.',
+  fa: 'ما پرداخت را فقط به حساب بانکی شرکت (حواله بانکی / T/T) می‌پذیریم. به دلایل انطباق، پرداخت به حساب شخصی را نمی‌پذیریم و با مناطق یا نهادهای تحریم‌شده معامله نمی‌کنیم — این درخواست‌ها به تیم انطباق ما ارجاع می‌شود.',
+  ar: 'نقبل الدفع فقط في الحساب البنكي للشركة (تحويل بنكي / T/T). لأسباب الامتثال، لا نقبل الدفع في الحسابات الشخصية ولا نتعامل مع مناطق أو كيانات خاضعة للعقوبات — تُحال هذه الطلبات إلى فريق الامتثال لدينا.',
+  he: 'אנו מקבלים תשלומים רק לחשבון הבנק של החברה (העברה בנקאית / T/T). מטעמי ציות איננו מקבלים תשלומים לחשבונות אישיים ואיננו סוחרים עם אזורים או גופים תחת סנקציות — בקשות כאלה מועברות למחלקת הציות שלנו.',
+  el: 'Δεχόμαστε πληρωμές μόνο στον εταιρικό τραπεζικό λογαριασμό (τραπεζικό έμβασμα / T/T). Για λόγους συμμόρφωσης δεν δεχόμαστε πληρωμές σε προσωπικούς λογαριασμούς και δεν συνεργαζόμαστε με περιοχές ή φορείς υπό κυρώσεις — τέτοια αιτήματα προωθούνται στο τμήμα συμμόρφωσης.',
+  ru: 'Оплата возможна только на расчётный счёт компании (банковский перевод / T/T). По требованиям комплаенса мы не принимаем платежи на личные счёта и не работаем с санкционными регионами или организациями — такие запросы передаются нашему комплаенс-специалисту.',
+  hi: 'हम केवल कंपनी के बैंक खाते में भुगतान स्वीकार करते हैं (बैंक ट्रांसफर / T/T)। अनुपालन कारणों से हम व्यक्तिगत खातों में भुगतान नहीं लेते और प्रतिबंधित क्षेत्रों या संस्थाओं के साथ कारोबार नहीं करते — ऐसे अनुरोध हमारी अनुपालन टीम को भेजे जाते हैं।',
+  th: 'เรารับชำระเงินผ่านบัญชีธนาคารของบริษัทเท่านั้น (โอนผ่านธนาคาร / T/T) ด้วยเหตุผลด้านการปฏิบัติตามกฎระเบียบ เราไม่รับชำระเงินเข้าบัญชีส่วนบุคคล และไม่ทำธุรกรรมกับพื้นที่หรือองค์กรที่ถูกคว่ำบาตร — คำขอประเภทนี้จะถูกส่งต่อให้ทีมกำกับดูแลของเรา',
+};
+
+// 语种键解析：与 getFallbackReply 同序（粤语 > 精确 > 主码 > userLang），但**不回落 en**
+// —— 补错语种会触发 language_mismatch，整段掉兜底，比不补更差。
+function resolvePayLineKey(visitorLangRaw, userLang) {
+  const raw = String(visitorLangRaw || '').toLowerCase();
+  if (raw === 'yue' || raw === 'zh-hk' || raw === 'zh-mo') return PAY_COMPLIANCE_LINE.yue ? 'yue' : null;
+  if (raw === 'zh-tw') return PAY_COMPLIANCE_LINE['zh-tw'] ? 'zh-tw' : null;
+  if (PAY_COMPLIANCE_LINE[raw]) return raw;
+  const base = raw.split('-')[0];
+  if (PAY_COMPLIANCE_LINE[base]) return base;
+  return PAY_COMPLIANCE_LINE[userLang] ? userLang : null;
+}
+
+function fixPaymentComplianceReply(userMessage, replyContent, userLang, visitorLangRaw) {
+  const text = String(replyContent || '');
+  const msg = String(userMessage || '');
+  if (!text) return { text, fixed: false };
+
+  // 触发条件：明确命中合规红线（私人账户/制裁/克里米亚）→ 必查；
+  // 泛泛问付款但回复极短（<80 字符）→ 也查（那多半是搪塞）。
+  const strongIntent = PAY_COMPLIANCE_INTENT_RE.test(msg);
+  if (!strongIntent && !(PAY_GENERIC_RE.test(msg) && text.length < 80)) {
+    return { text, fixed: false };
+  }
+  // 已给正确口径且不是搪塞短句 → 不动
+  if (PAY_COMPLIANCE_SIGNAL_RE.test(text) && text.length >= 80) return { text, fixed: false };
+
+  const key = resolvePayLineKey(visitorLangRaw, userLang);
+  const line = key ? PAY_COMPLIANCE_LINE[key] : null;
+  if (!line) return { text, fixed: false };
+  // 幂等：已经补过就别重复追加
+  if (text.includes(line.slice(0, 24))) return { text, fixed: false };
+
+  return { text: text.trimEnd() + ' ' + line, fixed: true };
+}
+
+// ========== 内部注释泄漏清理（2026-11-03） ==========
+// 背景：11-03 复测 R08 俄语场景，回复正文里夹了一整段中文过程注释：
+//   「…Пожалуйста, отправьте свои требования на ****（注：根据规则，涉及付款方式及敏感地区业务
+//     需转人工处理，同时保持专业且不主动提供额外信息。）」
+// 模型把"该不该说"的自我检查当正文吐了出来，访客直接看到内部规则 —— 比答错更伤信任。
+// 只在目标语种非中文时清理：中文用户的回复本来就该是中文，中文括注不算泄漏。
+const INTERNAL_NOTE_LEAK_RE = /[（(]\s*(?:注[：:]|注意[：:]|备注[：:]|备注[:：]|说明[：:]|根据规则|按规则|按照规则|内部规则|系统提示)[\s\S]{0,300}?[）)]/gi;
+// 兜底形态：括号内含内部词也算（模型换说法时的漏网形态）
+const INTERNAL_HINT_WORD_RE = /[（(][^（）()]{0,300}?(?:规则|铁律|系统提示|内部处理|内部规则|不得告知|不主动提供|\bprompt\b|system\s+message)[^（）()]{0,300}?[）)]/gi;
+
+function stripInternalNoteLeak(replyContent, userLang) {
+  const text = String(replyContent || '');
+  if (!text) return { text, fixed: false };
+  if (userLang === 'zh' || userLang === 'zh-tw') return { text, fixed: false };
+  const cleaned = text
+    .replace(INTERNAL_NOTE_LEAK_RE, '')
+    .replace(INTERNAL_HINT_WORD_RE, '')
+    .replace(/[ \t]{2,}/g, ' ')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+  if (cleaned === text) return { text, fixed: false };
+  if (cleaned.length < 20) return { text, fixed: false }; // 掏空则放弃，交上层兜底
+  return { text: cleaned, fixed: true };
+}
+
+// ========== CMM in-house 铁律 · 否定识别（2026-11-03） ==========
+// 病根：FORBIDDEN_PATTERNS 里裸的 /\bCMM\b/ 会把**正确口径**也判违规 ——
+//   「我们没有 in-house CMM 实验室，CMM 由集团共享计量中心按需送检」含 CMM 即命中，
+//   validateReply 失败 → 重跑一次 LLM（MAX_RETRY_COUNT=1，正好双倍耗时）。
+// 实测 R12 印度：23.0s / 25.8s，内容全对，纯属白烧一次调用。
+// 改法：CMM 附近 60 字符内若出现否定词或归属澄清词 → 视为正确口径放行；
+//       只有"上下文没有任何否认/澄清"的 CMM 陈述才算 in-house 自称违规。
+const CMM_MENTION_RE = /\bCMM\b|三坐标|三坐標/gi;
+const CMM_DENY_CTX_RE = /(不|没|沒|無|无|非|未|否|集团|集團|共享|合作|外部|送检|送檢|委外|第三方|暂时|暫時|\bnot\b|\bno\b|\bnever\b|n't|\bkein|\bnicht\b|\bwithout\b|\bgroup\b|\bshared\b|\bpartner\b|\bexternal\b|outsourc|third[- ]party|नहीं|नही|ليس|\bلا\b|غير|לא|δεν|όχι|\bне\b|\bнет\b|без)/i;
+
+function violatesCmmInHouse(content) {
+  const text = String(content || '');
+  CMM_MENTION_RE.lastIndex = 0;
+  let m;
+  while ((m = CMM_MENTION_RE.exec(text))) {
+    const from = Math.max(0, m.index - 60);
+    const to = Math.min(text.length, m.index + m[0].length + 60);
+    if (!CMM_DENY_CTX_RE.test(text.slice(from, to))) return true;
+    if (m.index === CMM_MENTION_RE.lastIndex) CMM_MENTION_RE.lastIndex++;
+  }
+  return false;
+}
+
 function validateReply(userMessage, replyContent, visitorLang) {
   if (!replyContent || replyContent.trim().length < 2) {
     return { valid: false, reason: 'empty_reply' };
+  }
+
+  // 1b. CMM in-house 铁律（原裸禁词已移出 FORBIDDEN_PATTERNS，见 violatesCmmInHouse 注释）
+  if (violatesCmmInHouse(replyContent)) {
+    return { valid: false, reason: 'forbidden_pattern' };
   }
 
   // 1. 禁词检测
@@ -2255,6 +2404,19 @@ export async function onRequestPost(context) {
       if (danglingFix.fixed) {
         console.log('Dangling email fragment fixed:', userLang);
         result.content = danglingFix.text;
+      }
+      // 后置修复：内部注释泄漏（非中文回复里夹「（注：根据规则…）」）→ 删掉括注（2026-11-03）
+      const noteFix = stripInternalNoteLeak(result.content, userLang);
+      if (noteFix.fixed) {
+        console.log('Internal note leak stripped:', userLang);
+        result.content = noteFix.text;
+      }
+      // 后置补齐：支付合规口径缺口（短搪塞句）→ 追加本语种「仅对公账户 / 拒制裁地区 / 转合规审核」
+      // 放在最后一道：避免追加的正文被前面的"编造需求/邮箱"规则误删（2026-11-03）
+      const payFix = fixPaymentComplianceReply(message, result.content, userLang, visitorLangRaw);
+      if (payFix.fixed) {
+        console.log('Payment compliance line appended:', userLang);
+        result.content = payFix.text;
       }
 
       const validation = validateReply(message, result.content, userLang);
