@@ -856,9 +856,9 @@ const PAY_COMPLIANCE_INTENT_RE = new RegExp(
   '(' +
   '私人\\s*(账户|賬戶|卡|银行卡)|个人\\s*(账户|賬戶|银行卡|卡)|' +
   'personal\\s+(bank\\s+)?(account|card)|private\\s+(bank\\s+)?(account|card)|' +
-  'личн\\w*\\s*(карт|сч[её]т)|на\\s+карту|' +
-  'προσωπικ\\w*\\s*λογαριασμ|προσωπικ\\w*\\s*κ[αά]ρτ|' +
-  'soukrom\\w*\\s*účet|osobní\\s*účet|cont\\s*personal|' +
+  'личн[^\\s]*\\s*(карт|сч[её]т)|на\\s+карту|' +
+  'προσωπικ[^\\s]*\\s*λογαριασμ|προσωπικ[^\\s]*\\s*κ[αά]ρτ|ιδιωτικ[^\\s]*\\s*λογαριασμ|' +
+  'soukrom[^\\s]*\\s*účet|osobní\\s*účet|cont\\s*personal|особист[^\\s]*\\s*рахунок|' +
   'حساب\\s*شخصي|חשבון\\s*אישי|حساب\\s*شخصی|' +
   'व्यक्तिगत\\s*खाते|निजी\\s*खाते|บัญชีส่วนตัว|個人口座|개인\\s*계좌|' +
   'thẻ\\s*cá\\s*nhân|tài\\s*khoản\\s*cá\\s*nhân|' +
@@ -948,6 +948,23 @@ function looksLikeTargetScript(text, key) {
   return cjkish / total < 0.15; // 拉丁语系
 }
 
+// ⚠️ 违规肯定句式：明确说"可以用私人账户/可以做制裁地区业务"→ 必须整段替换，
+// 不能靠"追加正确口径"补救 —— 那样会变成"可以，但只能对公"的自相矛盾回复。
+// 实测 R20 希腊 #1：「Η πληρωμή με προσωπικό λογαριασμό είναι δυνατή, αλλά…」（私人账户付款是可行的）。
+// 只在本函数内用（已由支付/制裁意图限定场景），故"可以/能"这类泛词也不会误伤。
+// ⚠️ 必须**双向**匹配：希腊语句子是「προσωπικό λογαριασμό είναι δυνατή」（账户在前、肯定在后），
+// 只写"肯定词→账户词"单向会整类漏检 —— 与 09-18 NDA 护栏踩过的 SOV 语序坑同型。
+const PAY_AFFIRM_TERM = '(да|конечно|можно|возможно|δυνατ[ήη]|ναι|μπορεί|μπορείτε|yes|sure|possible|können|kann|peut|peuvent|puede|podemos|posso|possibile|bisa|dapat|boleh|có\\s*thể|так|ні|也可以|可以|能)';
+const PAY_ACCT_TERM = '(личн|προσωπικ|ιδιωτικ|private|personale|personal|privé|privat|prywatn|pessoal|pribadi|peribadi|cá\\s*nhân|私人|个人)';
+const PAY_AFFIRM_VIOLATION_RE = new RegExp(
+  '(?:' + PAY_AFFIRM_TERM + '[^.!?\\n]{0,40}' + PAY_ACCT_TERM +
+  '|' + PAY_ACCT_TERM + '[^.!?\\n]{0,40}' + PAY_AFFIRM_TERM + ')',
+  'i'
+);
+// 否定前置守卫：用于 "we cannot accept personal accounts" 这类正确拒绝，别误判成违规肯定。
+// 只看匹配起点前 15 字符，够覆盖常见否定词序（不是否定句法分析器，够用即可）。
+const PAY_AFFIRM_NEG_RE = /(不|没|沒|非|未|не|нет|nicht|kein|\bno\b|\bnot\b|n't|\bne\b|\bpas\b|δεν|μην|לא|لا|नहीं)/i;
+
 function fixPaymentComplianceReply(userMessage, replyContent, userLang, visitorLangRaw) {
   const text = String(replyContent || '');
   const msg = String(userMessage || '');
@@ -959,14 +976,22 @@ function fixPaymentComplianceReply(userMessage, replyContent, userLang, visitorL
   if (!strongIntent && !(PAY_GENERIC_RE.test(msg) && text.length < 80)) {
     return { text, fixed: false };
   }
-  // 已给正确口径且不是搪塞短句 → 不动
-  if (PAY_COMPLIANCE_SIGNAL_RE.test(text) && text.length >= 80) return { text, fixed: false };
 
   const key = resolvePayLineKey(visitorLangRaw, userLang);
   const line = key ? PAY_COMPLIANCE_LINE[key] : null;
   if (!line) return { text, fixed: false };
   // 幂等：已经补过就别重复追加
   if (text.includes(line.slice(0, 24))) return { text, fixed: false };
+
+  // 明确给了违规肯定（"可以私人账户"）→ 整段换成正确口径，追加只会自相矛盾
+  const affirm = text.match(PAY_AFFIRM_VIOLATION_RE);
+  if (affirm) {
+    const pre = text.slice(Math.max(0, (affirm.index || 0) - 15), affirm.index || 0);
+    if (!PAY_AFFIRM_NEG_RE.test(pre)) return { text: line, fixed: true, replaced: true };
+  }
+
+  // 已给正确口径且不是搪塞短句 → 不动
+  if (PAY_COMPLIANCE_SIGNAL_RE.test(text) && text.length >= 80) return { text, fixed: false };
 
   // 主体语种不对（典型：俄语用户收到中文正文）→ 强意图场景整段替换，别拼成双语混合体
   if (!looksLikeTargetScript(text, key)) {
