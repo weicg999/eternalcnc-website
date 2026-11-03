@@ -815,6 +815,34 @@ function fixDanglingEmailFragment(replyContent, userMessage) {
   return { text: cleaned, fixed: true };
 }
 
+// ========== 最终邮箱硬闸（2026-11-03） ==========
+// 实测 R11 沙特（阿语）约 1/8~2/11 漏网：回复里 sales@eternalcnc.com 完整露出，
+// 但 isQuoteIntent 对该消息确为 false —— 说明有路径绕过了 stripEmailIfNotAllowed，
+// 具体哪条未定位。与其继续猜，不如在返回前再上一道独立硬闸：
+//   非报价意图 + 文本仍含地址 → 只抹地址本身（不按句删，避免把正文掏空），
+//   再把「إلى 、」「to ,」这类残句交给 fixDanglingEmailFragment 收尾。
+function finalEmailGuard(userMessage, replyContent, userLang, visitorLangRaw) {
+  const text = String(replyContent || '');
+  if (!text || !EMAIL_DETECT_RE.test(text)) return { text, fixed: false };
+  if (isQuoteIntent(userMessage)) return { text, fixed: false };
+  let cleaned = text.replace(EMAIL_DETECT_RE, '').replace(/[ \t]{2,}/g, ' ').trim();
+  // 抹掉地址后常留「إلى ،」「to ,」这类空指向残片。不能复用 fixDanglingEmailFragment ——
+  // 它遇"掏空"会放弃并原样返回，地址没了残句却留着。这里直接摘掉片段。
+  DANGLING_DEST_RE.lastIndex = 0;
+  cleaned = cleaned
+    .replace(DANGLING_DEST_RE, ' ')
+    .replace(/[ \t]{2,}/g, ' ')
+    .replace(/\s+([،,.;:!?])/g, '$1')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+  if (cleaned.length < 20) {
+    // 整段只剩地址/残片 → 用本语种兜底，绝不把空气泡丢给访客
+    const fb = getFallbackReply(userLang, visitorLangRaw);
+    return EMAIL_DETECT_RE.test(fb) ? { text: '', fixed: true } : { text: fb, fixed: true };
+  }
+  return { text: cleaned, fixed: true };
+}
+
 // ========== 支付合规口径补齐（2026-11-03） ==========
 // 背景：11-03 巡检 R08 俄语场景，4 次复测有 2 次只回一句 54-62 字符的搪塞
 //（"Вопросы по оплате и работе с Крымом требуют уточнения."）——既没说只收对公账户，
@@ -829,6 +857,10 @@ const PAY_COMPLIANCE_INTENT_RE = new RegExp(
   '私人\\s*(账户|賬戶|卡|银行卡)|个人\\s*(账户|賬戶|银行卡|卡)|' +
   'personal\\s+(bank\\s+)?(account|card)|private\\s+(bank\\s+)?(account|card)|' +
   'личн\\w*\\s*(карт|сч[её]т)|на\\s+карту|' +
+  'προσωπικ\\w*\\s*λογαριασμ|προσωπικ\\w*\\s*κ[αά]ρτ|' +
+  'soukrom\\w*\\s*účet|osobní\\s*účet|cont\\s*personal|' +
+  'حساب\\s*شخصي|חשבון\\s*אישי|حساب\\s*شخصی|' +
+  'व्यक्तिगत\\s*खाते|निजी\\s*खाते|บัญชีส่วนตัว|個人口座|개인\\s*계좌|' +
   'thẻ\\s*cá\\s*nhân|tài\\s*khoản\\s*cá\\s*nhân|' +
   'rekening\\s*pribadi|akaun\\s*peribadi|kişisel\\s*hesap|özel\\s*hesap|' +
   'privérekening|konto\\s*prywatne|conto\\s*personale|cuenta\\s*personal|conta\\s*pessoal|compte\\s*personnel|persönliches\\s*konto|' +
@@ -2497,6 +2529,15 @@ export async function onRequestPost(context) {
 
       currentMessage = buildRetryMessage(message, validation.reason, userLang, retryCount, visitorLangRaw);
       currentConvId = undefined; // 重试用新会话，避免历史干扰
+    }
+
+    // 最终邮箱硬闸：不管前面哪条路径漏了，非报价意图的地址一律不留（2026-11-03）
+    if (result && result.content) {
+      const lastEmail = finalEmailGuard(message, result.content, userLang, visitorLangRaw);
+      if (lastEmail.fixed) {
+        console.log('Final email guard stripped address:', userLang);
+        result.content = lastEmail.text;
+      }
     }
 
     // 兜底：重试耗尽仍没有任何正文时，绝不能给访客一个空气泡。
