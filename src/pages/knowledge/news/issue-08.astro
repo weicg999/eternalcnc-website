@@ -1,0 +1,211 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Knowledge Base', href: '/knowledge/' },
+  { label: 'Industry News' },
+];
+
+const issue = {
+  label: 'Issue',
+  number: '08',
+  date: '6 November 2026',
+  blurb: 'Five things the shop floor noticed — and what they mean for the parts you send us.',
+};
+
+const kpis = [
+  { metric: '49.3%', label: 'China\'s manufacturing purchasing managers\' index for October. Down 0.8 percentage points from 50.1% in September, back below the 50-point line that separates expansion from contraction. The production sub-index came in at 49.8 (−1.9), new orders at 49.4 (−1.1), and new export orders at 48.7. The split underneath matters more than the headline: high-tech manufacturing stood at 51.3 and equipment manufacturing at 50.6, against consumer goods at 48.8 and energy-intensive industries at 47.3. By size, large enterprises came in at 50.2, medium at 48.4 and small at 47.5.', source: 'National Bureau of Statistics, "China Purchasing Managers\' Index for October 2026", 31 October 2026.' },
+  { metric: '100 units a day, 10,000 a month', label: 'The current daily output of humanoid robots at Lens Technology\'s Kunshan assembly base, and the monthly capacity the company plans to reserve for its customer\'s Q series and T series from next month. The base began fit-out in late August 2026 and produced its first unit in late September. One caveat: 10,000 a month is a capacity figure — it is not the same as orders of that size, and not the same as shipments.', source: 'Lens Technology, "Record of investor relations activity", disclosed 1 November 2026 (site visit on 30 October 2026).' },
+  { metric: '10 million units', label: 'The planned annual output of microchannel cold plates once a RMB 1.1 billion liquid-cooling project in Zhangjiagang, Jiangsu reaches full capacity, with annual revenue of RMB 900 million. A companion project signed the same day plans 1,500 sets of load-bank equipment and 2,000 coolant distribution units (CDUs) a year (RMB 800 million). These are at-full-capacity figures, not orders.', source: 'Zhangjiagang Municipal People\'s Government, "RMB 1.1 billion intelligent liquid-cooling project settles in our city", 31 October 2026.' },
+];
+
+const stories = [
+  {
+    tag: 'Macro',
+    date: '2026-10-31',
+    title: 'Manufacturing PMI fell back to 49.3 in October — but equipment at 50.6 and high-tech at 51.3 have now held above the line for 27 straight months',
+    summary: 'The National Bureau of Statistics reported on 31 October that the manufacturing PMI came in at 49.3% for October, down 0.8 percentage points from 50.1% in September and back below the 50-point mark. The production sub-index fell to 49.8 (−1.9), new orders to 49.4 (−1.1) and new export orders to 48.7 — supply and demand softened together. Huo Lihui, chief statistician at the bureau\'s service industry survey centre, attributed the retreat to some demand being pulled forward ahead of the National Day holiday, compounded by a complex and volatile international environment. The structure is more informative than the total: high-tech manufacturing at 51.3 and equipment manufacturing at 50.6, with production sub-indexes in both sectors above 50 for 27 consecutive months and new orders in equipment manufacturing back above 51. Consumer goods sat at 48.8 and energy-intensive industries at 47.3. By enterprise size: large 50.2, medium 48.4, small 47.5. On prices, the purchasing price index for major raw materials was 56.8 (−4.0) and the factory-gate price index 51.7 (−2.3) — both down, both still in expansion.',
+    what_it_means: 'A PMI is a national average; what your shop feels this month is decided by who your customers are. Those serving automotive and consumer goods are contracting; those serving electronics and equipment are still expanding. The place to act is two lines on the quotation. Raw material purchasing sits at 56.8, factory-gate prices at 51.7 — the gap between them is absorbed by the machining step, by us. So the validity period on a small-batch quote should come down from a month to two weeks, with a material-escalation clause written into the contract. A three-month fixed price means carrying a round of material volatility on the customer\'s behalf. At the other end, small enterprises at 47.5 have been below the line for months, which means a good number of your competitors are out hunting for orders — this is when price comparison gets most brutal, and when it is easiest to take a price you should have refused.',
+    source: 'National Bureau of Statistics, "China Purchasing Managers\' Index for October 2026" and Huo Lihui\'s accompanying interpretation, 31 October 2026.',
+  },
+  {
+    tag: 'Machine tools / AI (this issue\'s AI lead)',
+    date: '2026-11-02',
+    title: 'Wenling took the ball screw out of a high-end machine tool: an AI direct-drive model, 30% to 60% above the national standard on overall performance',
+    summary: 'The Paper\'s "Wenling rising, part one" reports that the Zhejiang Provincial High-Grade CNC Machine Tool Technology Innovation Centre — jointly built by the Wenling municipal government and Zhejiang University, opened in July 2023 — has released an AI-enabled, fully in-house direct-drive series of high-end machine tools. Direct-drive motors replace the conventional servo motor plus ball screw combination, lifting overall machine performance 30% to 60% above the national standard. A five-axis machining project led by the centre\'s director, Fu Jianzhong, previously won a first prize in the Zhejiang provincial science and technology progress awards, and its results have gone into batch supply for NIO, Li Auto and Geely. Fu\'s assessment: fusing artificial intelligence with the CNC system is the breakthrough direction, and "after a few years of effort we have a real chance of catching up with the international advanced level". The same wording appears in the Ministry of Industry and Information Technology\'s account of its AI-plus-manufacturing campaign: China Industrial News on 2 November writes that "the self-developed AI direct-drive CNC machine tool has achieved a breakthrough, with overall machine performance 30% to 60% above the national standard", alongside the figure of more than 13,000 advanced-level and 500-plus excellence-level smart factories built to date.',
+    what_it_means: 'For customers who supply machine-tool builders, this is a change in the mix of orders, not a slow disappearance of them. Direct drive removes an entire chain of transmission parts from high-end models — ball screws, couplings, bearing housings. What replaces them is a different family: stator mounting seats, rotor flanges, encoder mounting faces, magnet bonding surfaces. Dimensional and geometric tolerances on those get pushed to the micron level, most of them are precision-milled aluminium or cast iron, and they only hold reliably when done in a single five-axis setup. The same machine tool therefore uses fewer parts, each of them harder. If you have machine-tool customers, the question to ask them this year is not "how are your orders" but "who is making the stator seats and encoder housings for your direct-drive models" — rather than waiting for the ball-screw orders to thin out one by one and then looking for a reason.',
+    source: 'The Paper, "Wenling rising, part one: how a town built on traditional clusters rebuilt its manufacturing system", October 2026; China Industrial News, "Industrial profit above designated size up 15.5%, high-quality industrial development takes root", 2 November 2026.',
+  },
+  {
+    tag: 'Robotics',
+    date: '2026-11-01',
+    title: 'Lens Technology\'s Kunshan base is at 100 humanoid robots a day and will reserve 10,000-a-month capacity for two customer series — while joint modules have to go from a thousand cycles to ten thousand',
+    summary: 'A record of investor relations activity disclosed by Lens Technology (300433.SZ) on the evening of 1 November shows that more than ten institutions visited the Qiyuan robot assembly plant in its Kunshan park on 30 October. The record states that the Kunshan base began fit-out in late August 2026, produced its first unit in late September, and has now reached a scale of 100 units a day; with self-developed semi-automated and fully automated equipment arriving, capacity will rise further next month, giving the customer\'s Q series and T series more than 10,000 units a month each. The line runs on MES, with full traceability and real-time monitoring of process parameters. One technical line in the same record is worth more attention than the capacity numbers: joint modules in the industry typically run to a service life measured in the low thousands of cycles, and the company says it is using its precision-manufacturing strength to push that toward an industrial-grade ten thousand. The other side comes from the third-quarter report filed on 25 October: revenue of RMB 47.902 billion for the first nine months, down 10.74%; net profit attributable to shareholders of RMB 1.420 billion, down 50.06%; net profit after non-recurring items of RMB 998 million, down 63.07%. A foreign-exchange loss of RMB 654 million was a major drag, and inventories rose 35.02% from the start of the year. The company has not separately disclosed revenue or gross margin for its robotics business.',
+    what_it_means: 'Two things are happening at once; do not look only at the first. The first is that the shape of the enquiry has changed. A whole-machine maker scheduling against 10,000 units a month sends part suppliers enquiries in tens of thousands, single specification, repeatable. In that shape a prototyping shop can only take the front end — first articles, small-batch validation, fixtures and tooling — and must hand volume to a scale line. That is not bad news, provided you do not bid a volume price with a prototype cost base. The second is the real barrier. Going from a thousand cycles to ten thousand is a tenfold jump that does not come from assembly skill; it comes from batch-to-batch material consistency, heat-treatment curves, and repeatability of surface finish and geometric tolerance on mating faces. None of that shows up at the prototype stage — it only surfaces after a few thousand cycles. So on this kind of work, the quote has to carry an allowance for rework during the ramp, and cost must not be calculated off first-article yield. Agree the acceptance criteria for life testing and the batch sampling method in the contract; that is far cheaper than arguing about responsibility afterwards.',
+    source: 'Lens Technology, "Record of investor relations activity", disclosed 1 November 2026; "2026 Third Quarterly Report", disclosed 25 October 2026.',
+  },
+  {
+    tag: 'Liquid cooling',
+    date: '2026-10-31',
+    title: 'A RMB 1.1 billion liquid-cooling project lands in Zhangjiagang: 10 million microchannel cold plates a year, 2,000 CDUs',
+    summary: 'The Zhangjiagang municipal government announced on 31 October that a RMB 1.1 billion AI computing liquid-cooling plate and equipment manufacturing base has signed for the Metallurgical Park in Jinfeng township. Yuanjie Smart Manufacturing\'s microchannel cold-plate project is planned at 10 million units a year once fully ramped, with annual revenue of RMB 900 million; the liquid-cooling equipment and systems integration project signed the same day is planned at 1,500 sets of load-bank equipment and 2,000 coolant distribution units a year, with annual revenue of RMB 800 million. The signatory, Zhejiang Yuanjie Smart Manufacturing, was founded in 2023 and previously made precision metal components for laptops and tablets — Samsung, Huawei, Lenovo, Asus and Huaqin among its customers — plus CCS acquisition systems for storage and power batteries. The official framing of the project is to link local metal materials at short distance and close the loop from special metal materials through precision machining to liquid-cooling module assemblies and computing-equipment integration, filling a gap in local AI cooling components. Zhangjiagang currently has 146 AI companies, three computing centres and close to 15,000 P of computing capacity.',
+    what_it_means: 'The buying logic in this category is shifting gear — from "find someone who can do microchannel" to "find someone who can do ten million of them reliably". Ten million is a full-capacity figure, not an order book, but it marks the scale threshold: there will be no small-batch, high-margin position left in this category. What a prototyping shop should go after is not those ten million units but the work around them that nobody wants — quick-disconnect housings, brackets, the awkward structural parts of load-bank test rigs, line fixtures and tooling, and the "make 50 first so we can validate" batch that precedes volume. One more thing worth saying plainly: the upstream of a cold plate is precision metal machining, and the companies crossing into it are exactly our kind of peer — laptop structural-parts plants. Their capability overlaps heavily with ours, which means price competition on cold-plate parts will get harsher than it is now. Do not bid a volume price with a prototyping shop\'s cost base; that is fighting someone else\'s strength with your own weakness.',
+    source: 'Zhangjiagang Municipal People\'s Government, "RMB 1.1 billion intelligent liquid-cooling project settles in our city", 31 October 2026; Suzhou News (Suzhou Daily correspondent in Zhangjiagang), 1 November 2026.',
+  },
+  {
+    tag: 'Robotics / Line automation',
+    date: '2026-10-31',
+    title: 'Schaeffler\'s Taicang "robots building robots" plant opens: five humanoids on the assembly line, joint modules go into volume production',
+    summary: 'CNR reported on 31 October that Schaeffler\'s embodied-intelligence robot digital factory in Taicang, Jiangsu, opened officially on 20 October. Covering about 7,500 square metres, it combines an intelligent assembly line, a scenario training and data-collection centre, a digital twin platform and a computing centre, laid out so that high-frequency training happens on the second floor and validation on the real line on the first. It produces joint-module components, actuators included, for next-generation humanoid robots. On the core assembly line, five Luoshi Zhuxing H wheeled humanoid robots work together on tote handling, part sorting and picking, press-fitting and screw assembly, functional testing, marking and packing. The Zhuxing H has 23 degrees of freedom, seven-degree-of-freedom humanoid arms with crossed-axis wrists and an omnidirectional chassis reaching 1.5 m/s; its model outputs continuous action sequences directly from on-site vision and its own state, rather than relying on fixed trajectories taught point by point, which is what lets it handle small-batch, high-mix material identification and picking. Luoshi says it has delivered more than 10,000 sets of orders in embodied intelligence and works with over 80 industry partners. Schaeffler and Luoshi signed a strategic cooperation agreement in April this year covering joint R&D and deployment of core components including humanoid joint modules.',
+    what_it_means: 'An automated assembly line demands a different order of incoming quality from a manual one, and that is the single line worth remembering from this issue. A person can compensate by feel: if a hole is off by a few hundredths, the fitter finds the alignment while turning the screw, and stops the press if it does not feel right. A robot presses at the force and displacement it was told to, absorbs nothing, and turns the deviation into a cocked fit, a cracked part or a rattle after assembly. The same part can therefore pass on a manual line and be rejected as a whole batch on a robot line. When you ship to customers like this, the drawing tolerance is only the floor; what actually needs discussing is process capability and batch-to-batch consistency. Build the cost of first-article full-dimensional inspection plus in-process sampling into the quote, rather than discovering it at a production return. In process terms it comes down to three places: fillets and burrs on press-fit mating faces, position tolerance on pin holes, and how much a thin-walled part deflects under clamping force. Those are the first things a robotic line bites on — and the first things that get papered over by "we\'ll touch it up by hand" at the prototype stage.',
+    source: 'CNR, "Robots building robots: Luoshi humanoids take up posts at Schaeffler\'s embodied-intelligence digital factory", 31 October 2026; PR Newswire, "Multinationals in China monthly", October 2026 (Schaeffler Taicang plant opened 20 October).',
+  },
+];
+
+const faqs = [
+  { q: 'How often is this page updated?', a: 'Weekly. We do not run a news ticker — we run a reading list, and we only include items that change what a buyer of CNC parts should do this quarter.' },
+  { q: 'Where do the numbers come from?', a: 'Primary sources only: national statistics agencies, customs authorities, industry associations, standards bodies, company filings, and named press. We do not republish analyst notes as facts.' },
+  { q: 'Why a shop-floor view and not a market report?', a: 'Because a market report tells you where the wind is blowing. A shop view tells you whether the work has actually landed. Every story here has a "what it means" line — that is the part we are responsible for.' },
+];
+
+const related = [
+  { label: 'From 10 to 1,000: What Actually Changes When a Robot Part Goes to Production', href: '/knowledge/tech-blog/robot-parts-prototype-to-production/' },
+  { label: 'Cooling Is the Shared Lifeline of Compute and Robots', href: '/knowledge/tech-blog/liquid-cooling-compute-and-robots/' },
+  { label: 'Same Part, Same Drawing — So Why Can Two Quotes Differ So Much?', href: '/knowledge/tech-blog/quote-difference-quality-cost/' },
+  { label: 'Why Your Parts Won\'t Assemble: Fits, Stack-Up and Datum Transfer', href: '/knowledge/tech-blog/why-parts-wont-assemble/' },
+];
+---
+
+<PageLayout
+  title="CNC Precision Machining Shop-Floor News · Issue 08 | Eternal CNC"
+  description="Early November 2026: manufacturing PMI back to 49.3 while equipment and high-tech hold above 50, an AI direct-drive machine tool 30-60% above the national standard, 100 humanoids a day at Lens Kunshan, 10 million cold plates a year planned in Zhangjiagang, and five humanoids on the assembly line at Schaeffler Taicang."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Industry news — {issue.label} {issue.number}</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        In this issue: what the shop floor noticed
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        {issue.blurb} From the Eternal CNC Strategic Advisory Group. Issued {issue.date}.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/knowledge/tech-blog/" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Read the Tech Blog →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPI strip -->
+  <section style="background-color: var(--page-bg); padding: 48px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-6" style="color: var(--brand-red);">Three numbers worth noting this issue</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        {kpis.map((k) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <p class="text-3xl md:text-4xl font-bold mb-2" style="color: var(--brand-dark);">{k.metric}</p>
+            <p class="text-sm mb-3" style="color: var(--text-body);">{k.label}</p>
+            <p class="text-xs" style="color: var(--text-muted);">Source: {k.source}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Stories -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Five stories</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">What happened, and what we think it means</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        News first, then the line that matters: what changes for a buyer sending parts to a CNC shop.
+      </p>
+      <div class="space-y-6">
+        {stories.map((s) => (
+          <article class="p-8 border rounded-2xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+              <span class="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded" style="background-color: var(--page-bg); color: var(--brand-dark);">{s.tag}</span>
+              <span class="text-xs" style="color: var(--text-muted);">{s.date}</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-4 leading-snug" style="color: var(--brand-dark);">{s.title}</h3>
+            <p class="text-base leading-relaxed mb-4" style="color: var(--text-body);">{s.summary}</p>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">What it means for your parts</p>
+              <p class="text-sm leading-relaxed" style="color: var(--text-body);">{s.what_it_means}</p>
+            </div>
+            <p class="text-xs mt-4" style="color: var(--text-muted);">Source: {s.source}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Standards / FAQs -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">How we write this page</p>
+      <h2 class="text-3xl font-bold mb-12" style="color: var(--brand-dark);">Three questions we get</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        {faqs.map((f) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-3" style="color: var(--brand-dark);">{f.q}</h3>
+            <p class="text-sm leading-relaxed" style="color: var(--text-body);">{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Related + subscribe -->
+  <section style="background-color: var(--card-white); padding: 64px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Keep reading</p>
+          <h2 class="text-2xl font-bold mb-6" style="color: var(--brand-dark);">Related on the blog</h2>
+          <ul class="space-y-3">
+            {related.map((r) => (
+              <li>
+                <a href={r.href} class="text-sm font-medium hover:underline" style="color: var(--brand-red);">{r.label} →</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="p-8 border rounded-2xl" style="background-color: var(--page-bg); border-color: var(--border-color);">
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Next issue</p>
+          <h3 class="text-xl font-bold mb-3" style="color: var(--brand-dark);">13 November 2026</h3>
+          <p class="text-sm leading-relaxed mb-5" style="color: var(--text-body);">
+Storylines we are following: November industrial-robot and machine-tool output from the National Bureau of Statistics; whether the October PMI drop shows up in December order books or stays a one-month dip; and whether humanoid joint-module makers start asking part suppliers for life-test data rather than only a dimensional report.
+          </p>
+          <a href="/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+            Send us your next drawing
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Have a part in mind?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Send the STEP and the PDF. We will quote within 2 hours on a working day, and we will tell you whether your tolerances are what they should be.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote/" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/knowledge/tech-blog/" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Browse the Tech Blog →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>

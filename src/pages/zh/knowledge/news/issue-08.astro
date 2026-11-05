@@ -1,0 +1,211 @@
+---
+import PageLayout from '../../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: '知识库', href: '/zh/knowledge/' },
+  { label: '行业新闻' },
+];
+
+const issue = {
+  label: '第',
+  number: '08',
+  date: '2026 年 11 月 6 日',
+  blurb: '这一期，厂里看到的五件事——以及它们对你送来的零件意味着什么。',
+};
+
+const kpis = [
+  { metric: '49.3%', label: '10 月中国制造业采购经理指数。比 9 月的 50.1% 回落 0.8 个百分点，重回收缩区间。同期生产指数 49.8%（−1.9）、新订单指数 49.4%（−1.1）、新出口订单 48.7%。结构上分化明显：高技术制造业 51.3%、装备制造业 50.6%，消费品制造业 48.8%、高耗能行业 47.3%。按规模分，大型企业 50.2%、中型 48.4%、小型 47.5%。', source: '国家统计局，《2026 年 10 月中国采购经理指数运行情况》，2026 年 10 月 31 日。' },
+  { metric: '日产 100 台 · 月产 10000 台', label: '蓝思科技昆山机器人组装基地当前的人形机器人日产能，以及下月计划为客户 Q 系列、T 系列分别提供的月产能保障。该基地 2026 年 8 月下旬入驻筹备，9 月下旬首台产品下线。需注意：月产万台是产能口径，不等于已取得同等规模订单，也不等于实际出货。', source: '蓝思科技《投资者关系活动记录表》，2026 年 11 月 1 日披露（10 月 30 日机构调研）。' },
+  { metric: '1000 万套', label: '江苏张家港一个总投资 11 亿元的 AI 算力液冷板项目，达产后规划年产微通道液冷板的数量（年营收 9 亿元）。同批签约的液冷设备项目达产后年产假负载设备 1500 台套、冷量分配单元（CDU）2000 台套（年营收 8 亿元）。达产口径，非订单。', source: '张家港市人民政府，《总投资 11 亿元 智能液冷产业项目落户我市》，2026 年 10 月 31 日。' },
+];
+
+const stories = [
+  {
+    tag: '宏观',
+    date: '2026-10-31',
+    title: '10 月制造业 PMI 掉回 49.3，但装备制造 50.6、高技术 51.3 已连续 27 个月站在线上',
+    summary: '国家统计局 10 月 31 日发布：10 月制造业采购经理指数 49.3%，比 9 月的 50.1% 回落 0.8 个百分点，重回收缩区间。生产指数 49.8%（−1.9）、新订单指数 49.4%（−1.1）、新出口订单 48.7%，供需两端同步走弱。统计局服务业调查中心首席统计师霍丽慧给出的解释是：部分需求在「十一」前提前释放，叠加国际环境复杂多变。结构分化比总量更值得看——高技术制造业 PMI 51.3%、装备制造业 50.6%，两大行业生产指数已连续 27 个月运行在 50% 以上，装备制造业新订单指数回升到 51% 以上；而消费品制造业 48.8%、高耗能行业 47.3%。按规模分：大型企业 50.2%，中型 48.4%，小型 47.5%。价格端，主要原材料购进价格指数 56.8%（−4.0）、出厂价格指数 51.7%（−2.3），双双回落但仍在扩张区间。',
+    what_it_means: 'PMI 是全国平均数，你车间这个月的体感由客户结构决定——接汽车、消费品单的在缩，接电子、装备单的还在扩。真正该动手的是报价单上的两栏：原材料购进价格 56.8，出厂价格 51.7，中间差出的那几个百分点，是加工环节自己吞下去的。所以小批量件的报价有效期该从「一个月」缩到「两周」，材料浮动条款写进合同；三个月的固定价，等于替客户扛一轮材料波动。另一头，小型企业 47.5% 已经连续在荣枯线下，意味着同行里有相当一批在抢单——这个时点比价最凶，也最容易接到不该接的价。',
+    source: '国家统计局，《2026 年 10 月中国采购经理指数运行情况》及《霍丽慧解读 2026 年 10 月中国采购经理指数》，2026 年 10 月 31 日。',
+  },
+  {
+    tag: '机床业 / AI（本期 AI 主线）',
+    date: '2026-11-02',
+    title: '温岭把滚珠丝杠从高端机床上拆了：AI 全直驱机型，整机综合性能比国标高 30% 至 60%',
+    summary: '澎湃新闻《温岭向上①》报道，浙江省高档数控机床技术创新中心（温岭市政府与浙江大学共建，2023 年 7 月揭牌）发布「AI 赋能全栈自研直驱系列高端工业母机」，用直驱电机替代传统「伺服电机 + 滚珠丝杠」组合，整机综合性能较国家标准提升 30% 至 60%。中心主任傅建中牵头的五轴加工项目此前获浙江省科学技术进步奖一等奖，成果已批量配套蔚来、理想、吉利等新能源车企。傅建中的判断是：把人工智能和数控系统融合作为突破方向，「经过几年努力，我们有希望赶上国际先进水平」。同一表述也出现在工信部「人工智能+制造」专项行动的进展口径里——中国工业报 11 月 2 日的稿件写「自研 AI 全直驱数控机床实现突破，整机综合性能比国家标准提升 30% 至 60%」，并同时给出「累计建成 1.3 万余家先进级、500 余家卓越级智能工厂」。',
+    what_it_means: '这条对做机床配件的客户是「订单结构换血」，不是「订单慢慢消失」。直驱把丝杠、联轴器、轴承座这一整串传动件从高端机型上拿掉了——但拿掉之后要补的是另一类件：定子安装座、转子法兰、编码器安装面、磁钢贴装基面，这些的形位公差和表面质量被推到微米级，而且多为铝合金或铸铁的精密铣削件，五轴一次装夹才做得稳。也就是说，同样一台机床，用的零件数量在减少，单件精度要求在上升。手上有机床厂客户的话，这两年该主动去问的是「你们直驱机型的定子座、编码器座谁在做」，而不是等丝杠件订单一张张变少再回头找原因。',
+    source: '澎湃新闻《温岭向上①丨靠传统集群起家的温岭，如何重装制造系统？》，2026 年 10 月；中国工业报《规上工业企业利润增 15.5% 工业高质量发展根深叶茂》，2026 年 11 月 2 日。',
+  },
+  {
+    tag: '机器人',
+    date: '2026-11-01',
+    title: '蓝思昆山日产百台人形机器人，下月给两款机型各备月产万台产能；关节模组寿命要从千次推到万次',
+    summary: '蓝思科技（300433.SZ）11 月 1 日晚披露的投资者关系活动记录表显示，10 月 30 日十余家机构到访昆山园区启元机器人本体组装工厂。记录表写明：昆山基地 2026 年 8 月下旬入驻筹备，9 月下旬实现首台产品下线，目前已达到日产百台规模；随着自研半自动化与全自动化装备陆续到位，下月产能将进一步提升，为客户 Q 系列及 T 系列产品分别提供月产 1 万台以上的产能保障。产线导入 MES，全流程质量追溯与工艺参数实时监控。同期披露的一条技术口径更值得记：行业关节模组运转寿命普遍在千次量级，公司正发挥精密制造优势推动其向工业级万次标准跃升。另一面来自 10 月 25 日披露的三季报：前三季度营收 479.02 亿元、同比 −10.74%，归母净利润 14.20 亿元、−50.06%，扣非净利润 9.98 亿元、−63.07%；汇兑损失 6.54 亿元是重要拖累，存货较上年末增长 35.02%。公司尚未单独披露机器人业务的收入与毛利率。',
+    what_it_means: '两件事同时发生，别只看第一件。第一件是询价单的形状变了——整机厂按「月产万台」排产能，它发给零件厂的询价就是万台级、单规格、可复购；小批量打样厂在这个形状里只能做前段：首件、小批验证、治具与工装，量产必须让给规模化产线。这不是坏消息，前提是你别拿打样的报价去竞标量产的价。第二件才是真门槛：「千次到万次」翻十倍，靠的不是装配手艺，是材料批次稳定、热处理曲线、配合面的粗糙度与形位公差一致性——这些东西在打样阶段根本暴露不出来，要跑到几千次循环才见分晓。所以接这类单，报价里必须留出量产爬坡返工的钱，别按首件良率算成本；合同里把寿命验证的判据和批次抽样方式先谈定，比事后争谁的责任便宜得多。',
+    source: '蓝思科技《投资者关系活动记录表》，2026 年 11 月 1 日披露；《2026 年第三季度报告》，2026 年 10 月 25 日披露。',
+  },
+  {
+    tag: '液冷',
+    date: '2026-10-31',
+    title: '11 亿元液冷项目落在张家港：微通道冷板规划年产 1000 万套，CDU 2000 台套',
+    summary: '张家港市人民政府 10 月 31 日发布：总投资 11 亿元的 AI 算力液冷板及液冷设备智造基地项目签约落地冶金园（锦丰镇）。其中元界智造的微通道液冷板项目达产后年产 1000 万套、年营收 9 亿元；同步签约的液冷设备及系统集成项目达产后年产假负载设备 1500 台套、冷量分配单元（CDU）2000 台套、年营收 8 亿元。签约方浙江元界智造 2023 年成立，原主业是笔记本及平板电脑金属精密组件（客户含三星、华为、联想、华硕、华勤）与储能及动力电池 CCS 采集系统。官方表述的项目逻辑是：就近联动本地金属材料资源，打通「特种金属材料—精密机加工—液冷散热核心部件模组—算力装备集成」的产业链闭环，补齐当地 AI 算力散热零部件短板。张家港现有 AI 企业 146 家、算力中心 3 个、算力规模近 1.5 万 P。',
+    what_it_means: '冷板这个品类的采购逻辑正在换挡——从「找一家能做微通道的」，变成「找一家能稳定做一千万套的」。1000 万套是达产口径不是订单，但它标出了规模门槛：这个品类往后不会再有「小批量高毛利」的位置。小批量厂该抢的不是这 1000 万套，是它周边没人愿意做的那些活——快接头座、支架、测试假负载的异形结构件、产线工装夹具，以及它正式量产前那批「先做 50 件验证」的单。还有一句得说实话：冷板的上游就是金属精密加工，跨界进来的正是笔电结构件厂这类同行，能力和我们高度重叠，这意味着冷板件本身的报价竞争会比现在更狠。别拿打样的本事去竞标量产的价，那是拿自己的短板打别人的长板。',
+    source: '张家港市人民政府，《总投资 11 亿元 智能液冷产业项目落户我市》，2026 年 10 月 31 日；苏州新闻网（苏报驻张家港记者），2026 年 11 月 1 日。',
+  },
+  {
+    tag: '机器人 / 产线自动化',
+    date: '2026-10-31',
+    title: '舍弗勒太仓「机器人造机器人」工厂启用：5 台人形机器人上装配线，关节模组正式量产',
+    summary: '央广网 10 月 31 日报道，舍弗勒具身智能机器人数智工厂在江苏太仓正式启用（10 月 20 日），总面积约 7500 平方米，集智能装配产线、场景化训练及数据采集中心、数字孪生平台与算力中心于一体，采用「二楼高频训练、一楼真实产线验证」的布局，为下一代人形机器人生产包括执行器在内的关节模组零部件。核心装配线上，5 台珞石逐星 H 系列轮式人形机器人协同承担料箱搬运、零件分拣拾取、压装与螺丝装配、功能检测、打标及包装。逐星 H 整机 23 个自由度，双臂为七自由度仿人构型、配十字交叉轴手腕，全向移动底盘最高 1.5 m/s；其模型从现场视觉与本体状态直接输出连续动作序列，而非依赖人工逐点编写固定轨迹，因而能承接小批量、多品种的物料识别与抓取。珞石方面称，在具身智能领域累计交付订单已超 10000 套，与 80 余家产业伙伴合作。舍弗勒与珞石今年 4 月签署战略合作协议，方向是人形机器人关节模组等核心零部件的技术研发与场景落地。',
+    what_it_means: '自动化装配线对来料的要求，和人工线不是一个量级，这是本期最该记住的一句。人手装配能做「手感补偿」——孔位偏了几丝，师傅拧螺丝时会自己找正，压装时感觉不对会停手；换成机器人，它只按设定的力和位移压下去，偏差不会被吸收，会变成压歪、压裂、装配后异响。所以同一个零件，人工线能收、机器人线可能整批退。给这类客户送件，图纸公差只是底线，真正要谈的是过程能力指数和批次一致性；报价时把「首件全尺寸 + 过程抽检」的成本算进去，别等量产退货再算。落到工艺上是三处：压装配合面的圆角与毛刺、销孔的位置度、薄壁件在夹紧力下的变形量——这三样是机器人装配线上最先咬人的地方，也是打样阶段最容易被「手工修一下」掩盖过去的地方。',
+    source: '央广网，《机器人造机器人！珞石人形机器人上岗舍弗勒具身智能数智工厂》，2026 年 10 月 31 日；美通社《跨国企业在中国月报》，2026 年 10 月（舍弗勒太仓工厂 10 月 20 日启用）。',
+  },
+];
+
+const faqs = [
+  { q: '这个栏目多久更新一次？', a: '每周。我们不追新闻流，只做阅读清单，而且只收会改变采购方这个季度该怎么做的那几条。' },
+  { q: '这些数字从哪来？', a: '只引一手：国家统计机构、海关、行业协会、标准机构、公司公告，以及有署名的报道。券商观点不作为事实转述。' },
+  { q: '为什么是车间视角，不是市场报告？', a: '市场报告告诉你风往哪吹，车间视角告诉你活到底有没有落地。每条都有一个「对零件意味着什么」，那部分是我们负责的。' },
+];
+
+const related = [
+  { label: '从 10 件到 1000 件：机器人零件上量产，真正变的是什么', href: '/zh/knowledge/tech-blog/robot-parts-prototype-to-production/' },
+  { label: '降温，是算力和机器人共同的命门：为什么液冷从可选项变成必答题', href: '/zh/knowledge/tech-blog/liquid-cooling-compute-and-robots/' },
+  { label: '同一款零件，报价为什么能差出一截', href: '/zh/knowledge/tech-blog/quote-difference-quality-cost/' },
+  { label: '为什么你的件装不上：配合、累积与基准传递', href: '/zh/knowledge/tech-blog/why-parts-wont-assemble/' },
+];
+---
+
+<PageLayout
+  title="CNC 精密零件加工厂的行业观察 · 第 08 期 | Eternal CNC"
+  description="2026 年 11 月初：制造业 PMI 回落至 49.3 而装备与高技术仍在线上、AI 全直驱机床整机性能超国标 30%—60%、蓝思昆山日产百台人形机器人、张家港千万套级冷板项目、舍弗勒装配线上岗五台人形机器人。"
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">行业新闻 — {issue.label} {issue.number} 期</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        这一期，厂里看到的几件事
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        {issue.blurb} 鑫永恒战略顾问组 执笔，{issue.date} 发布。
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/zh/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          获取报价
+        </a>
+        <a href="/zh/knowledge/tech-blog/" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          去技术博客 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPI strip -->
+  <section style="background-color: var(--page-bg); padding: 48px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-6" style="color: var(--brand-red);">这一期值得记的三个数</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        {kpis.map((k) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <p class="text-3xl md:text-4xl font-bold mb-2" style="color: var(--brand-dark);">{k.metric}</p>
+            <p class="text-sm mb-3" style="color: var(--text-body);">{k.label}</p>
+            <p class="text-xs" style="color: var(--text-muted);">来源：{k.source}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Stories -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">五件事</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">发生了什么，我们觉得它意味着什么</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        先讲新闻，再讲那一句要紧的——它对送件给机加厂的客户意味着什么。
+      </p>
+      <div class="space-y-6">
+        {stories.map((s) => (
+          <article class="p-8 border rounded-2xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+              <span class="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded" style="background-color: var(--page-bg); color: var(--brand-dark);">{s.tag}</span>
+              <span class="text-xs" style="color: var(--text-muted);">{s.date}</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-4 leading-snug" style="color: var(--brand-dark);">{s.title}</h3>
+            <p class="text-base leading-relaxed mb-4" style="color: var(--text-body);">{s.summary}</p>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">对零件意味着什么</p>
+              <p class="text-sm leading-relaxed" style="color: var(--text-body);">{s.what_it_means}</p>
+            </div>
+            <p class="text-xs mt-4" style="color: var(--text-muted);">来源：{s.source}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Standards / FAQs -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">我们怎么写</p>
+      <h2 class="text-3xl font-bold mb-12" style="color: var(--brand-dark);">常被问到的三件事</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        {faqs.map((f) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-3" style="color: var(--brand-dark);">{f.q}</h3>
+            <p class="text-sm leading-relaxed" style="color: var(--text-body);">{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Related + subscribe -->
+  <section style="background-color: var(--card-white); padding: 64px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">顺手读读</p>
+          <h2 class="text-2xl font-bold mb-6" style="color: var(--brand-dark);">博客上相关的几篇</h2>
+          <ul class="space-y-3">
+            {related.map((r) => (
+              <li>
+                <a href={r.href} class="text-sm font-medium hover:underline" style="color: var(--brand-red);">{r.label} →</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="p-8 border rounded-2xl" style="background-color: var(--page-bg); border-color: var(--border-color);">
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">下一期</p>
+          <h3 class="text-xl font-bold mb-3" style="color: var(--brand-dark);">2026 年 11 月 13 日</h3>
+          <p class="text-sm leading-relaxed mb-5" style="color: var(--text-body);">
+正在跟进的线索：国家统计局 11 月的工业机器人与数控机床产量；10 月 PMI 的回落会不会落进 12 月的订单簿，还是只是一个月的波动；以及人形机器人关节模组厂会不会开始向零件供应商要寿命试验数据，而不只是一份尺寸报告。
+          </p>
+          <a href="/zh/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+            把你的下个零件发过来
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">手上有个零件？</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        STEP 和 PDF 发过来，工作日 2 小时内报价；公差合不合理，我们也直说。
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/zh/contact/get-a-quote/" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          免费获取报价
+        </a>
+        <a href="/zh/knowledge/tech-blog/" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          浏览技术博客 →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>
