@@ -1,8 +1,11 @@
 # EternalCNC 官网（Cloudflare Pages）配置
 # 方案 B：Workers AI 模型兜底 + 博客知识库
 # 说明：
-#   - [ai] 绑定 Workers AI（代码里 env.AI.run 用），免密钥
-#   - [[kv_namespaces]] 保留现有 CUSTOMER_MEMORY（客户记忆），勿删
+#   - [ai] 绑定 Workers AI（代码里 env.AI.run 用），免密钥，变量名必须是 AI（区分大小写）。
+#     ⚠️ 本项目根目录有 wrangler.toml，Cloudflare 会把 Bindings 管理权交给本文件，
+#        Dashboard 的 Bindings > Add 按钮会置灰不可点 —— 绑定只能在这里声明。
+#        不要删 [ai]：删了部署后 env.AI 变 undefined，/api/chat 全线 500（2026-11-06 事故）。
+#   - [[kv_namespaces]] 保留 CUSTOMER_MEMORY（客户记忆），勿删
 #   - secret 环境变量（RESEND_API_KEY / COZE_PAT 等）由 wrangler pages secret 单独管理，本文件不涉及
 name = "eternalcnc-website"
 pages_build_output_dir = "dist"
