@@ -1,0 +1,211 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+
+const breadcrumbs = [
+  { label: 'Knowledge Base', href: '/knowledge/' },
+  { label: 'Industry News' },
+];
+
+const issue = {
+  label: 'Issue',
+  number: '09',
+  date: '13 November 2026',
+  blurb: 'Five things the shop floor noticed — and what they mean for the parts you send us.',
+};
+
+const kpis = [
+  { metric: '7.9%', label: 'Year-on-year rise in China\'s purchaser prices for industrial products in October 2026. Producer prices for the same month rose 5.7% year on year (the gain widened 0.7 percentage points from September), with a 1.1% month-on-month rise in purchaser prices. Averaged over January to October, producer prices are up 2.7% and purchaser prices up 4.0% — what comes in costs more than what goes out, and the gap is absorbed in the machining step.', source: 'National Bureau of Statistics of China, "Industrial producer prices for October 2026: up 5.7% year on year, up 0.7% month on month," 9 November 2026.' },
+  { metric: '16.81 trillion yuan', label: 'China\'s exports of mechanical and electrical products in the first ten months of 2026, up 25.2% year on year and equal to 64.7% of all exports in the period, 3.9 percentage points more than a year earlier. Total goods exports came to 25.99 trillion yuan, up 17.6%. Mechanical and electrical exports have already passed the full-year 2025 figure.', source: 'General Administration of Customs of China, release of 10 November 2026; China Chamber of Commerce for Import and Export of Machinery and Electronic Products, same-period statistics.' },
+  { metric: '15,000 hours', label: 'The rated service life Beijing has set as a research target for high-precision reducers. The same document sets whole-machine figures: mean time between failures above 2,000 hours, annual failure rate below 10% for core moving parts and end effectors, and a design life above five years. These are planning targets, not binding standards, but it is the first time reliability has been written down as a number anyone can be measured against.', source: 'Beijing Municipal Bureau of Economy and Information Technology, "Action plan for high-quality development of the embodied intelligence and robotics industry (2026–2028)," 11 November 2026.' },
+];
+
+const stories = [
+  {
+    tag: 'Macro / Prices',
+    date: '2026-11-09',
+    title: 'Producer prices rose 5.7% in October. The metal parts you sell rose 1.7%.',
+    summary: 'China\'s National Bureau of Statistics released October producer prices on 9 November: output prices up 5.7% year on year, a gain 0.7 percentage points wider than September, and up 0.7% month on month; purchaser prices up 7.9% year on year and 1.1% month on month. The internal split is far more telling than the headline. Capital goods rose 7.4%, but inside that mining jumped 27.9% and raw materials 11.6% while processing rose only 3.5%. On the buying side, fuel and power rose 18.6%, chemical raw materials 16.8%, and non-ferrous metals and wire 16.7%. On the selling side, non-ferrous metal smelting and rolling rose 18.6%, yet fabricated metal products managed 1.7%, general-purpose machinery actually fell 0.3%, and motor vehicles fell 1.8%. October CPI came in at 0.7% year on year, flat month on month. January-to-October averages: output prices 2.7%, purchaser prices 4.0%.',
+    what_it_means: 'This is the number set to watch this week. The non-ferrous material you buy is 16.7% more expensive than a year ago; the fabricated metal part you sell is 1.7% more expensive. Nobody makes up the roughly 15-point gap in between. On a quotation that comes down to three things: price material at the day\'s published rate, shorten quote validity from a month to two weeks, and put either an index clause or a firm lock on anything running past three months. Read the other direction and general-purpose machinery at minus 0.3% and vehicles at minus 1.8% mean your OEM customers are cutting their own prices too — they are not squeezing you out of spite, they cannot recover it anywhere else either. Taking a long fixed-price order right now means absorbing the swing for both ends of the chain.',
+    source: 'National Bureau of Statistics of China, October 2026 industrial producer price release and main data table, 9 November 2026.',
+  },
+  {
+    tag: 'Macro / Exports',
+    date: '2026-11-10',
+    title: 'Mechanical and electrical exports hit 16.81 trillion yuan in ten months — but industrial robots grew 17.8%, while integrated circuits grew 101.9%',
+    summary: 'Customs data released on 10 November: goods trade totalled 44.81 trillion yuan in the first ten months, up 20% year on year, with exports of 25.99 trillion yuan up 17.6% and imports of 18.82 trillion yuan up 23.6%. October alone came to 4.87 trillion yuan, up 31.2%, split into exports of 2.79 trillion yuan up 28.7% and imports of 2.08 trillion yuan up 34.7%. Mechanical and electrical exports reached 16.81 trillion yuan over ten months, up 25.2% and worth 64.7% of all exports, 3.9 percentage points more than a year earlier. The category spread is enormous: integrated circuits plus 101.9%, memory components plus 132.5%, 3D printers plus 104.8%, digital cameras plus 41.4% — and industrial robots plus 17.8%. The "new three" exports rose 46.5% and wind turbine generating sets and parts 19.7%. The China Chamber of Commerce for Import and Export of Machinery and Electronic Products puts October mechanical and electrical exports at 279.98 billion US dollars, up 46.2%, with general-purpose machinery up 34.6%, auto parts up 32.1% and complete vehicles up 37.7%. Processing trade rose 28.4% and bonded logistics 44.1%.',
+    what_it_means: 'The export growth is in electricity, not in machines. Both categories get called robot-related, yet the robot body itself grew 17.8% while the chips and memory that feed computing grew more than double — what is actually scaling this year is the sheet-metal and machined structure around servers, optical modules and power supplies, not the shell of a humanoid. If your RFQ inbox has both kinds, you will have noticed their surface and tolerance requirements sit a tier apart: server parts are mostly aluminium, large, multi-face, drilled and tapped in several planes, and need conductive anodising or nickel plating; robot parts are mostly small stainless and titanium pieces needing thin walls and fit surfaces. Same machines, same people — but do not quote them off one coefficient. Splitting the labour estimate by category beats a blanket discount every time.',
+    source: 'General Administration of Customs of China, "Foreign trade up 20% in the first ten months, strong growth momentum maintained," 10 November 2026; China Chamber of Commerce for Import and Export of Machinery and Electronic Products, industry statistics, 11 November 2026.',
+  },
+  {
+    tag: 'Robotics / Market access',
+    date: '2026-11-11',
+    title: 'Beijing wrote 2,000 hours between failures and a 15,000-hour reducer life into policy — and asked for samples in one to two days',
+    summary: 'On 11 November the Beijing Municipal Bureau of Economy and Information Technology issued its action plan for the embodied intelligence and robotics industry through 2028. The targets: at least five internationally first-tier and ten domestically leading humanoid OEMs by 2028; the Beijing-Tianjin-Hebei region accounting for 25% of national whole-machine capacity and more than 60% local content on key components; 200,000 units a year of assembly capacity in Beijing. For the first time reliability appears as auditable numbers: rated payload at least 40% of the machine\'s own weight, mean time between failures above 2,000 hours, annual failure rate below 10% for core moving parts and end effectors, design life above five years, four hours of continuous battery operation. On components it names 60 Nm/kg motors, high-precision reducers rated for at least 15,000 hours, and high-degree-of-freedom dexterous hands under 10,000 yuan each. One supporting measure points straight at machining: at least ten shared processing platforms across the region, covering structural part machining, surface treatment and heat treatment, SMT and cable harnesses, set up so that a sample after an engineering change can be delivered in one to two days.',
+    what_it_means: 'Fifteen thousand hours at 24/7 works out to about 625 days — roughly twenty months without stopping. You cannot demonstrate that in a prototype run. Three samples surviving a week is a different claim from surviving fifteen thousand hours, and what sits between them is melt-lot consistency in the material, the heat-treat curve, and batch-to-batch stability of geometric tolerance. So what actually changes is the question your customer asks: not "can you hold this dimension" but "what is your Cpk, who did the heat treatment, can you give me the lot number". The second item matters more. "Samples in one to two days" is now written into a government document, which moves the industry\'s prototyping benchmark forward a notch, and our current three to five days will be measured against it. That is not a question of discounting. It is a question of whether you are allowed to bid.',
+    source: 'Beijing Municipal Bureau of Economy and Information Technology, Action Plan for High-Quality Development of the Embodied Intelligence and Robotics Industry (2026–2028), 11 November 2026; China Youth Daily client, same-day report.',
+  },
+  {
+    tag: 'Machine tools / AI (this issue\'s AI lead)',
+    date: '2026-11-11',
+    title: 'The machine tool has started changing its own parameters: the HNC-10 controller runs a large language model on board, already validated on more than 100 machines',
+    summary: 'Shanghai Securities News reported on 11 November that Wuhan Huazhong Numerical Control\'s in-house HNC-10 intelligent CNC system uses a "one intelligent base, two digital threads, three intelligent application subsystems" architecture, with AI compute built in and large language models such as DeepSeek deployed on the machine, giving the tool autonomous perception, learning, decision-making and execution. According to the company\'s September investor activity record, the system has been validated on more than 100 machines and was named a 2026 typical case of an innovative machine tool product by the Ministry of Industry and Information Technology. The financials point the same way: Huazhong CNC\'s third quarter revenue was 445 million yuan, up 34.92%, with net profit attributable to shareholders of 53.90 million yuan, up 145.54%; the CNC systems and machine tools segment brought in 829 million yuan over nine months, up 45.34%. The other end is order mix. Chuangshi Industrial\'s nine-month revenue was 5.447 billion yuan, up 42.38%, net profit 576 million yuan, up 65.60%, and new orders 7.821 billion yuan, up 77.22% — of which AI hardware, meaning liquid cooling and optical modules, accounted for 1.997 billion yuan or 25.54%, the single largest source. New energy contributed 1.111 billion yuan and embodied robotics 467 million yuan. Zhejiang Headman Machine Tool posted nine-month revenue of 846 million yuan, up 39.14%, with net profit up 126.68%, which the company attributes to import substitution and robot component machining demand arriving together.',
+    what_it_means: 'Both ends of the machine tool industry are being rewritten by AI at once. At one end, the control: the machine no longer just runs the program you wrote, it adjusts feed and speed while cutting. At the other, the order book: the people buying machine tools put a quarter of their new orders into liquid cooling and optical modules. For anyone sending parts out, the first end brings a new demand — who made this part, and on what parameters, will start being asked. The old advantage of a small job shop was a good hand on the machine. From here that advantage has to be writable: a parameter library, tool-life records, process data on critical dimensions. A first-article report with a spindle-load curve attached may be worth more in a price comparison than another three points off. The thing to build first is not a fifth five-axis machine. It is that record.',
+    source: 'Shanghai Securities News, "AI plus emerging demand: the machine tool industry gets two opportunities at once," 11 November 2026 (reporter Ding Peng); figures relayed from the Q3 reports of Huazhong CNC, Chuangshi Industrial and Zhejiang Headman, and from Huazhong CNC\'s September investor activity record.',
+  },
+  {
+    tag: 'Liquid cooling',
+    date: '2026-11-09',
+    title: 'Gree won a 300 million yuan temperature-control tender, but that order is air cooling; liquid cooling volume is still in co-development',
+    summary: 'Securities Daily reported on 9 November that Gree Electric announced on 7 November a win in the China Mobile and China Tower temperature-control equipment tender, worth more than 300 million yuan. The products are fluorine-pump computer-room air conditioners, chilled-water in-row units, hybrid air conditioners and base-station units — air cooling, not liquid. In the same article, Midea\'s 2026 interim report is cited for a liquid cooling line-up covering cooling sources, coolant distribution units, liquid-cooled terminals and digital operations, with a liquid cooling manufacturing base started in Shunde, Foshan in the first half of the year at more than 1 billion yuan of investment, due to start production in 2027. Luo Bin, director of Midea\'s building technology R&D centre, told the paper that the full-stack liquid cooling matrix has "entered co-development projects with major domestic and international players across the board, while product launch and large-scale shipment may take until next year or the year after."',
+    what_it_means: 'Put the two together and the money in liquid cooling currently sits in two different places. The 300 million yuan order is computer-room and base-station air conditioning, not liquid. Liquid cooling itself is still in co-development plus small-batch delivery, with the volume window waiting on those 2027 lines. For a machine shop the practical reading is this: the liquid cooling parts you can win today are prototypes and small-batch structural pieces — enclosures, brackets, interface plates, test dummy loads, line fixtures. High-volume cold plates and sheet-metal parts are the appliance makers\' and notebook-chassis makers\' fight now; a stamping line running at a million pieces does not care what your setup time is, and we cannot beat that cost structure. So the job in this stretch is not to chase a volume price. It is to turn prototyping and small batches into a record you can reuse: follow every engineering change through to the end, learn their tolerance habits and material preferences. When those lines start in 2027, the one who gets the call is the one who has already been through three revisions with them.',
+    source: 'Securities Daily, "Appliance makers expand into data centre temperature control, accelerating liquid cooling products and capacity," 9 November 2026.',
+  },
+];
+
+const faqs = [
+  { q: 'How often is this page updated?', a: 'Weekly. We do not run a news ticker — we run a reading list, and we only include items that change what a buyer of CNC parts should do this quarter.' },
+  { q: 'Where do the numbers come from?', a: 'Primary sources only: national statistics agencies, customs authorities, industry associations, standards bodies, company filings, and named press. We do not republish analyst notes as facts.' },
+  { q: 'Why a shop-floor view and not a market report?', a: 'Because a market report tells you where the wind is blowing. A shop view tells you whether the work has actually landed. Every story here has a "what it means" line — that is the part we are responsible for.' },
+];
+
+const related = [
+  { label: 'Sixty Different Parts, Ten Days — Are We Ready?', href: '/knowledge/tech-blog/sixty-skus-ten-days/' },
+  { label: 'The Question on the RFQ Has Changed: Dexterous Hands Are Moving from "Send Me One" to "Quote Per Part"', href: '/knowledge/tech-blog/dexterous-hand-rfq-signal/' },
+  { label: 'Why Lead Times Slip', href: '/knowledge/tech-blog/why-lead-times-slip/' },
+  { label: 'Tighter Isn\'t Better: Which Dimensions Are Worth Paying For', href: '/knowledge/tech-blog/which-dimensions-deserve-tight-tolerance/' },
+];
+---
+
+<PageLayout
+  title="CNC Precision Machining Shop-Floor News · Issue 09 | Eternal CNC"
+  description="Mid-November 2026: producer prices up 5.7% while fabricated metal products manage 1.7%, mechanical and electrical exports at 16.81 trillion yuan with industrial robots growing only 17.8%, Beijing writing a 2,000-hour MTBF and one-to-two-day samples into policy, the HNC-10 controller running a language model on board, and Gree's 300 million yuan temperature-control tender that is entirely air cooling."
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Industry news — {issue.label} {issue.number}</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-5" style="color: var(--brand-dark);">
+        In this issue: what the shop floor noticed
+      </h1>
+      <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
+        {issue.blurb} From the Eternal CNC Strategic Advisory Group. Issued {issue.date}.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <a href="/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/knowledge/tech-blog/" class="inline-block px-6 py-3 text-sm font-medium border border-[#8B0000] text-[#8B0000] rounded-md transition-all duration-300 hover:bg-[#8B0000] hover:text-white hover:shadow-md hover:-translate-y-0.5">
+          Read the Tech Blog →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPI strip -->
+  <section style="background-color: var(--page-bg); padding: 48px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-6" style="color: var(--brand-red);">Three numbers worth noting this issue</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        {kpis.map((k) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <p class="text-3xl md:text-4xl font-bold mb-2" style="color: var(--brand-dark);">{k.metric}</p>
+            <p class="text-sm mb-3" style="color: var(--text-body);">{k.label}</p>
+            <p class="text-xs" style="color: var(--text-muted);">Source: {k.source}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Stories -->
+  <section style="background-color: var(--card-white); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">Five stories</p>
+      <h2 class="text-3xl font-bold mb-4" style="color: var(--brand-dark);">What happened, and what we think it means</h2>
+      <p class="mb-12 max-w-2xl" style="color: var(--text-muted);">
+        News first, then the line that matters: what changes for a buyer sending parts to a CNC shop.
+      </p>
+      <div class="space-y-6">
+        {stories.map((s) => (
+          <article class="p-8 border rounded-2xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <div class="flex flex-wrap items-center gap-3 mb-4">
+              <span class="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded" style="background-color: var(--page-bg); color: var(--brand-dark);">{s.tag}</span>
+              <span class="text-xs" style="color: var(--text-muted);">{s.date}</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-4 leading-snug" style="color: var(--brand-dark);">{s.title}</h3>
+            <p class="text-base leading-relaxed mb-4" style="color: var(--text-body);">{s.summary}</p>
+            <div class="pt-4 border-t" style="border-color: var(--border-color);">
+              <p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">What it means for your parts</p>
+              <p class="text-sm leading-relaxed" style="color: var(--text-body);">{s.what_it_means}</p>
+            </div>
+            <p class="text-xs mt-4" style="color: var(--text-muted);">Source: {s.source}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Standards / FAQs -->
+  <section style="background-color: var(--page-bg); padding: 80px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-wider mb-2" style="color: var(--brand-red);">How we write this page</p>
+      <h2 class="text-3xl font-bold mb-12" style="color: var(--brand-dark);">Three questions we get</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        {faqs.map((f) => (
+          <div class="p-6 border rounded-xl" style="background-color: var(--card-white); border-color: var(--border-color);">
+            <h3 class="font-semibold mb-3" style="color: var(--brand-dark);">{f.q}</h3>
+            <p class="text-sm leading-relaxed" style="color: var(--text-body);">{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Related + subscribe -->
+  <section style="background-color: var(--card-white); padding: 64px 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Keep reading</p>
+          <h2 class="text-2xl font-bold mb-6" style="color: var(--brand-dark);">Related on the blog</h2>
+          <ul class="space-y-3">
+            {related.map((r) => (
+              <li>
+                <a href={r.href} class="text-sm font-medium hover:underline" style="color: var(--brand-red);">{r.label} →</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="p-8 border rounded-2xl" style="background-color: var(--page-bg); border-color: var(--border-color);">
+          <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">Next issue</p>
+          <h3 class="text-xl font-bold mb-3" style="color: var(--brand-dark);">20 November 2026</h3>
+          <p class="text-sm leading-relaxed mb-5" style="color: var(--text-body);">
+Storylines we are following: November industrial-robot and machine-tool output from the National Bureau of Statistics; whether October's producer-price scissors carries into December quotations; whether buyers actually start holding prototyping lead times to the one-to-two-day benchmark Beijing has just written down; and whether prototype and small-batch structural work picks up ahead of those 2027 liquid-cooling lines.
+          </p>
+          <a href="/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+            Send us your next drawing
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background-color: var(--brand-dark); padding: 80px 0;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-5">Have a part in mind?</h2>
+      <p class="text-lg mb-8" style="color: rgba(255,255,255,0.7);">
+        Send the STEP and the PDF. We will quote within 2 hours on a working day, and we will tell you whether your tolerances are what they should be.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact/get-a-quote/" class="inline-block px-8 py-3.5 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
+          Request a Quote
+        </a>
+        <a href="/knowledge/tech-blog/" class="inline-block px-8 py-3.5 text-sm font-semibold border border-white/30 text-white rounded-md transition-all duration-300 hover:bg-white hover:text-[#8B0000] hover:shadow-md hover:-translate-y-0.5">
+          Browse the Tech Blog →
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>
