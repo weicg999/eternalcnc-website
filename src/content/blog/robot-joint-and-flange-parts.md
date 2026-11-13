@@ -18,7 +18,7 @@ This article is a tour of those parts, and more importantly, of the four require
 | Assembly | Typical machined parts | Features that drive the cost | Common materials |
 |---|---|---|---|
 | **Joint module** | Harmonic reducer planet carrier, bearing seat, output flange, cable routing ring | Bearing bore concentricity, thin walls, tight bolt circles | 7075-T6, 4140 steel, Ti-6Al-4V |
-| **Reducer** | RV reducer housing, cycloidal disc, input/output shafts, mounting plate | Gear seat true position, sealing face flatness | 20CrMnTi, 40Cr, 6061-T6 |
+| **Reducer** | RV reducer housing, cycloidal disc, input/output shafts, mounting plate | Gear seat true position, sealing face flatness | 8620, 5140, 6061-T6 |
 | **End effector** | Gripper base, suction cup manifold, tool changer adapter, finger mounts | Light weight, complex mounting pattern, no burrs | 6061-T6, POM, 303 stainless |
 | **Link / arm** | Structural link, forearm casting substitute, wrist body | Long thin geometry, weight reduction pockets, distortion control | 6061-T6, 7075-T6 |
 | **Sensor bracket** | Encoder mount, vision camera bracket, force sensor adapter | Positional accuracy relative to a datum, stiffness | 6061-T6, brass, engineering plastics |

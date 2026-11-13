@@ -27,12 +27,12 @@ Take a typical rotary joint module. Roughly, it stacks up like this:
 
 | Part | What it does | Typical material | The constraint that bites |
 | --- | --- | --- | --- |
-| Harmonic drive flexspline | Elastic deformation transmits motion | 20CrMnTi / 40Cr carburising steel | Fatigue life, tooth accuracy |
-| Circular spline | Fixed internal gear meshing with the flexspline | 40Cr / 42CrMo quenched and tempered | Tooth hardness, wear resistance |
-| Planetary roller screw (linear joints) | Rotation to linear thrust | GCr15 / 38CrMoAl nitriding steel | Axial stiffness, lead accuracy |
+| Harmonic drive flexspline | Elastic deformation transmits motion | 8620 / 5140 carburising steel | Fatigue life, tooth accuracy |
+| Circular spline | Fixed internal gear meshing with the flexspline | 5140 / 4140 quenched and tempered | Tooth hardness, wear resistance |
+| Planetary roller screw (linear joints) | Rotation to linear thrust | 52100 / Nitralloy 135M nitriding steel | Axial stiffness, lead accuracy |
 | Joint housing | Load path, heat path, datum | 7075-T6 / 6061-T6 aluminum | Wall thickness, concentricity |
 | Output flange | Connects the link, transmits torque | Aluminum / alloy steel | Face runout, bolt hole position |
-| Crossed roller bearing | Combined loading | GCr15 bearing steel | Clearance, raceway roughness |
+| Crossed roller bearing | Combined loading | 52100 bearing steel | Clearance, raceway roughness |
 | Encoder disc bracket | Holds the reading accuracy | Aluminum / PEEK | Dimensional thermal stability |
 
 **Look at that last row.** An unremarkable little bracket. If its coefficient of thermal expansion differs enough from the housing, a 30°C rise will make the reading drift — and a great many "joint control accuracy" problems turn out to be a bracket deforming, not an algorithm failing.
@@ -64,8 +64,8 @@ The one most often skipped, and the most lethal. Material datasheets describe th
 | 6061-T6 aluminum | 2.7 | 310 | 115 | 167 | Excellent | Low |
 | 7075-T6 aluminum | 2.7 | 570 | 211 | 130 | Good | Medium |
 | AZ31B magnesium | 1.8 | 250 | 139 | 96 | Good (fire precautions) | Medium-high |
-| TC4 titanium | 4.5 | 895 | 199 | **7** | Poor | High |
-| 42CrMo steel, Q&T | 7.85 | ~1000 | 127 | 44 | Fair | Low |
+| Ti-6Al-4V titanium | 4.5 | 895 | 199 | **7** | Poor | High |
+| 4140 steel, Q&T | 7.85 | ~1000 | 127 | 44 | Fair | Low |
 | PEEK | 1.3 | 100 | 77 | 0.25 | Good | Very high |
 
 > Typical values for common grades. Actual values vary with standard and heat treatment — go by the mill certificate for the specific lot you buy.
@@ -82,17 +82,17 @@ Real weight reduction comes from structural design: topology optimization, thin 
 
 **1. Harmonic drive flexspline: it has to bend forever without cracking**
 
-The flexspline is elastically deforming every second it runs, and the failure mode is almost always a fatigue crack at the tooth root. Hence **carburising steel** — 20CrMnTi or 40Cr — case hardened to HRC 58–62 for wear, with a tough core to absorb the deformation.
+The flexspline is elastically deforming every second it runs, and the failure mode is almost always a fatigue crack at the tooth root. Hence **carburising steel** — 8620 or 5140 — case hardened to HRC 58–62 for wear, with a tough core to absorb the deformation.
 
 In the process chain, what actually decides service life is the **cryogenic treatment after carburising** (below −70°C). That's what converts retained austenite. Skip it and dimensions drift after assembly, and your accuracy is gone. Tooth form comes from wire EDM or profile grinding, and wall thickness typically has to hold to ±0.01 mm.
 
 **2. Circular spline: the hardness *difference* matters more than the hardness**
 
-40Cr or 42CrMo, quenched, tempered, then ground. The point isn't "harder is better" — it's that the circular spline and the flexspline need a sensible hardness difference, with the flexspline slightly softer. Get it backwards and the flexspline wears out early.
+5140 or 4140, quenched, tempered, then ground. The point isn't "harder is better" — it's that the circular spline and the flexspline need a sensible hardness difference, with the flexspline slightly softer. Get it backwards and the flexspline wears out early.
 
 **3. Planetary roller screw: stiffness and accuracy at the same time**
 
-Usually GCr15 or nitriding steel 38CrMoAl. A nitrided case is hard with very little distortion, which is exactly what long, slender, high-aspect-ratio parts need — those are the parts that suffer most in a quench. Lead accuracy after thread grinding sets the repeatability of the whole linear joint.
+Usually 52100 or nitriding steel Nitralloy 135M. A nitrided case is hard with very little distortion, which is exactly what long, slender, high-aspect-ratio parts need — those are the parts that suffer most in a quench. Lead accuracy after thread grinding sets the repeatability of the whole linear joint.
 
 **4. Joint housing: 7075-T6 is today's value balance point**
 
@@ -102,7 +102,7 @@ For surface treatment we recommend **hard anodizing**, with a film hardness abov
 
 7075 has two temperaments to work with. First, **weldability is poor** — don't design it as a welded assembly. Second, **stress corrosion sensitivity is higher than 6061**, so humid or salt-laden environments need a proper assessment.
 
-**5. Bearings and raceways: don't economise on GCr15**
+**5. Bearings and raceways: don't economise on 52100**
 
 Cleanliness and carbide uniformity in high-carbon chromium bearing steel directly set contact fatigue life. This material is a small share of total cost — and the money you save comes back as warranty claims.
 

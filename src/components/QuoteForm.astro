@@ -40,6 +40,8 @@ const texts = {
     material_chip_per_drawing: 'As per drawing (default)',
     material_chip_304: '304 SS',
     material_chip_316: '316 SS',
+    material_chip_303: '303 SS',
+    material_chip_17_4ph: '17-4 PH',
     material_chip_steel: 'Carbon Steel',
     material_chip_brass: 'Brass / Copper',
     material_chip_titanium: 'Titanium',
@@ -117,6 +119,8 @@ const texts = {
     material_chip_per_drawing: '按图纸标注（默认）',
     material_chip_304: '304 不锈钢',
     material_chip_316: '316 不锈钢',
+    material_chip_303: '303 不锈钢',
+    material_chip_17_4ph: '17-4 PH',
     material_chip_steel: '碳钢',
     material_chip_brass: '黄铜 / 紫铜',
     material_chip_titanium: '钛合金',
@@ -192,6 +196,8 @@ const texts = {
     material_chip_per_drawing: 'По чертежу (по умолчанию)',
     material_chip_304: '304 SS',
     material_chip_316: '316 SS',
+    material_chip_303: '303 SS',
+    material_chip_17_4ph: '17-4 PH',
     material_chip_steel: 'Углеродистая сталь',
     material_chip_brass: 'Латунь / Медь',
     material_chip_titanium: 'Титан',
@@ -293,26 +299,31 @@ const isRu = lang === 'ru';
           <div class="flex flex-wrap gap-2">
             <label class="material-chip"><input type="radio" name="material" value="304 SS" class="hidden" /><span>{texts[lang].material_chip_304}</span></label>
             <label class="material-chip"><input type="radio" name="material" value="316 SS" class="hidden" /><span>{texts[lang].material_chip_316}</span></label>
+            <label class="material-chip"><input type="radio" name="material" value="303 SS" class="hidden" /><span>{texts[lang].material_chip_303}</span></label>
+            <label class="material-chip"><input type="radio" name="material" value="17-4 PH" class="hidden" /><span>{texts[lang].material_chip_17_4ph}</span></label>
           </div>
 
           <span class="text-xs font-medium text-brand-silver text-right">{texts[lang].material_cat_steel}</span>
           <div class="flex flex-wrap gap-2">
-            <label class="material-chip"><input type="radio" name="material" value="Carbon Steel" class="hidden" /><span>{texts[lang].material_chip_steel}</span></label>
+            <label class="material-chip"><input type="radio" name="material" value="1018 Steel" class="hidden" /><span>1018 Steel</span></label>
+            <label class="material-chip"><input type="radio" name="material" value="4140 Steel" class="hidden" /><span>4140 Steel</span></label>
           </div>
 
           <span class="text-xs font-medium text-brand-silver text-right">{texts[lang].material_cat_copper}</span>
           <div class="flex flex-wrap gap-2">
-            <label class="material-chip"><input type="radio" name="material" value="Brass / Copper" class="hidden" /><span>{texts[lang].material_chip_brass}</span></label>
+            <label class="material-chip"><input type="radio" name="material" value="C360 Brass" class="hidden" /><span>C360 Brass</span></label>
+            <label class="material-chip"><input type="radio" name="material" value="C110 Copper" class="hidden" /><span>C110 Copper</span></label>
           </div>
 
           <span class="text-xs font-medium text-brand-silver text-right">{texts[lang].material_cat_titanium}</span>
           <div class="flex flex-wrap gap-2">
-            <label class="material-chip"><input type="radio" name="material" value="Titanium" class="hidden" /><span>{texts[lang].material_chip_titanium}</span></label>
+            <label class="material-chip"><input type="radio" name="material" value="Ti-6Al-4V" class="hidden" /><span>Ti-6Al-4V (Grade 5)</span></label>
           </div>
 
           <span class="text-xs font-medium text-brand-silver text-right">{texts[lang].material_cat_plastic}</span>
           <div class="flex flex-wrap gap-2">
-            <label class="material-chip"><input type="radio" name="material" value="Engineering Plastic" class="hidden" /><span>{texts[lang].material_chip_plastic}</span></label>
+            <label class="material-chip"><input type="radio" name="material" value="Delrin (Acetal)" class="hidden" /><span>Delrin (Acetal)</span></label>
+            <label class="material-chip"><input type="radio" name="material" value="PEEK" class="hidden" /><span>PEEK</span></label>
           </div>
 
           <span class="text-xs font-medium text-brand-silver text-right">{texts[lang].material_cat_others}</span>

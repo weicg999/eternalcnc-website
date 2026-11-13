@@ -2040,11 +2040,19 @@ const FAQ_INTENTS = [
     en: 'Yes. In-house we run a 2.5D vision measuring machine and precision gauges for routine dimensional checks; bridge-type CMM is provided on demand through our group shared metrology center, covering dimensional and GD&T requirements. Inspection reports (incl. SPC / GD&T) are provided as agreed per order.',
   },
   {
+    id: 'surface',
+    // 表面处理 —— 后端原本无此条（缺口），补：种类 + 检验口径 + 不承诺仪器型号
+    re: /表面处理|表面處理|阳极氧化|陽極氧化|电镀|電鍍|镀镍|鍍鎳|镀锌|鍍鋅|钝化|鈍化|喷砂|噴砂|发黑|發黑|粉末喷涂|粉末噴塗|氧化处理|氧化處理|膜厚|盐雾|鹽霧|anodiz|plating|passivation|bead blast|powder coat|black oxide|surface finish/i,
+    zh: '表面处理可按您的图纸要求安排：阳极氧化（Type II / 硬质 Type III）、电镀镍/铬、镀锌、发黑、钝化、喷砂、抛光（含镜面）、粉末喷涂。氧化与电镀由长期配套供应商完成，外观与膜厚按图纸或约定标准验收；具体检验方法与仪器（不同工艺、不同验收标准不一样）由工程师确认后写入订单条款。表面处理会在机加工后叠加约 1–5 天交期。',
+    yue: '表面處理可以按你圖紙要求安排：陽極氧化（Type II / 硬質 Type III）、電鍍鎳/鉻、鍍鋅、發黑、鈍化、噴砂、拋光（含鏡面）、粉末噴塗。氧化同電鍍由長期配套供應商做，外觀同膜厚按圖紙或者約定標準驗收；具體檢驗方法同儀器（唔同工藝、唔同驗收標準都唔同）要工程師確認之後寫入訂單條款。表面處理會喺機加工之後疊加約 1–5 日交期。',
+    en: 'Surface finishing follows your drawing: anodizing (Type II / hard Type III), nickel or chrome plating, zinc plating, black oxide, passivation, bead blasting, polishing (incl. mirror), powder coating. Anodizing and plating are carried out by long-term qualified suppliers; appearance and coating thickness are accepted against the drawing or agreed standard. The exact inspection method and instruments (they differ by process and acceptance standard) are confirmed by our engineers and written into the order terms. Surface treatment adds roughly 1–5 days to lead time.',
+  },
+  {
     id: 'iso',
-    re: /ISO\s*9001|质量体系|質量體系|认证|認證|certified|certification/i,
-    zh: '我们按 ISO 9001 质量管理体系贯标运行（认证进度以正式公示为准）。全流程按体系文件执行：来料检验、过程管控、出货检验；材质证明（EN 10204 3.1）与检测报告可按订单约定提供。',
-    yue: '我哋按 ISO 9001 質量管理體系貫標運行（認證進度以正式公示為準）。全流程按體系文件執行：來料檢驗、過程管控、出貨檢驗；材質證明（EN 10204 3.1）同檢測報告可以按訂單約定提供。',
-    en: 'We operate under an ISO 9001 quality management system (certification in progress; formal status per official publication). The full process follows QMS procedures: incoming inspection, in-process control, outgoing inspection. Material certs (EN 10204 3.1) and inspection reports available per order agreement.',
+    re: /ISO\s*9001|质量体系|質量體系|质检|質檢|品质|品質|质量管控|品質管控|认证|認證|certified|certification/i,
+    zh: '我们按 ISO 9001 质量管理体系贯标运行（尚未取得认证证书，进度以正式公示为准）。全流程按体系文件执行：来料检验、过程管控、出货检验。厂内配 2.5D 影像测量仪与精密量具做常规尺寸检测；桥式三坐标（CMM）由家族关联检测中心按需送检，非本公司标配设备。材质证明（EN 10204 3.1）与检测报告可按订单约定提供。',
+    yue: '我哋按 ISO 9001 質量管理體系貫標運行（未取得認證證書，進度以正式公示為準）。全流程按體系文件執行：來料檢驗、過程管控、出貨檢驗。廠內配 2.5D 影像測量儀同精密量具做常規尺寸檢測；橋式三坐標（CMM）由家族關聯檢測中心按需送檢，唔係本公司標配設備。材質證明（EN 10204 3.1）同檢測報告可以按訂單約定提供。',
+    en: 'We operate under an ISO 9001 quality management system (certification not yet issued; formal status per official publication). The full process follows QMS procedures: incoming inspection, in-process control, outgoing inspection. In-house we run a 2.5D vision measuring machine and precision gauges for routine dimensional checks; bridge-type CMM is provided on request through an affiliated family-group inspection centre — it is not our in-house standard equipment. Material certs (EN 10204 3.1) and inspection reports available per order agreement.',
   },
   {
     id: 'leadtime',
@@ -2062,14 +2070,22 @@ const FAQ_INTENTS = [
   },
   {
     id: 'materials',
-    re: /材料|铝|鋁|不锈鋼|不鏽鋼|不锈|钛|鈦|铜|銅|材料表|material|aluminum|aluminium|titanium|stainless|steel|inconel|brass|copper|peek|delrin/i,
-    zh: '常规加工材料覆盖：铝合金（6061 / 7075）、不锈钢（303 / 304 / 316 / 17-4PH）、钛合金（Ti-6Al-4V）、铜、模具钢及工程塑料（PEEK / Delrin / PP 等）；难加工材料如 Inconel 718 / 625 也有成熟案例。您这批零件用什么材料？',
-    yue: '常規加工材料覆蓋：鋁合金（6061 / 7075）、不鏽鋼（303 / 304 / 316 / 17-4PH）、鈦合金（Ti-6Al-4V）、銅、模具鋼及工程塑膠（PEEK / Delrin / PP 等）；難加工材料如 Inconel 718 / 625 亦有成熟案例。你批零件用咩材料？',
-    en: 'Common materials we machine: aluminum (6061 / 7075), stainless steel (303 / 304 / 316 / 17-4PH), titanium (Ti-6Al-4V), copper, tool steel and engineering plastics (PEEK / Delrin / PP, etc.). Difficult alloys like Inconel 718 / 625 are also well established here. What material are your parts?',
+    re: /材料|铝|鋁|不锈鋼|不鏽鋼|不锈|钛|鈦|铜|銅|钢|鋼|碳钢|碳鋼|碳纤维|碳纖維|复材|複材|工程塑料|工程塑膠|钛合金|鈦合金|材料表|material|aluminum|aluminium|titanium|stainless|steel|inconel|brass|copper|peek|delrin|carbon.?fib|cfrp|engineering plastic/i,
+    zh: '常规加工材料覆盖：铝合金（6061 / 7075）、不锈钢（303 / 304 / 316 / 17-4PH）、碳钢与合金钢、钛合金（Ti-6Al-4V）、铜、模具钢及工程塑料（PEEK / Delrin / PP 等）；难加工材料如 Inconel 718 / 625 也有成熟案例。碳纤维等复合材料需工程师单独评估（受结构与后续处理条件限制），不确定的建议直接发图纸确认。您这批零件用什么材料？',
+    yue: '常規加工材料覆蓋：鋁合金（6061 / 7075）、不鏽鋼（303 / 304 / 316 / 17-4PH）、碳鋼同合金鋼、鈦合金（Ti-6Al-4V）、銅、模具鋼及工程塑膠（PEEK / Delrin / PP 等）；難加工材料如 Inconel 718 / 625 亦有成熟案例。碳纖維等複合材料要工程師單獨評估（受結構同後處理條件限制），唔確定嘅建議直接發圖紙確認。你批零件用咩材料？',
+    en: 'Common materials we machine: aluminum (6061 / 7075), stainless steel (303 / 304 / 316 / 17-4PH), carbon and alloy steel, titanium (Ti-6Al-4V), copper, tool steel and engineering plastics (PEEK / Delrin / PP, etc.). Difficult alloys like Inconel 718 / 625 are also well established here. Carbon-fibre and other composites need individual engineering review (limited by part structure and post-processing), so send the drawing if unsure. What material are your parts?',
+  },
+  {
+    id: 'capability',
+    // 泛问"能不能做/能加工吗" —— 不指定材料时的第一道门（最高频真实中文问法）
+    re: /能加工|可加工|可以做|可以做吗|能做|能做吗|能接|接单|接這種|接这种|做零件|做一些零件|加工零件|做得出来|做得出來|可以定做|定制加工|能不能做|可以做么|可以做麼|do you (provide|offer|make|do)|can you (machine|make|produce|manufacture)|are you able to (machine|make)|do you machine/i,
+    zh: '可以做的。我们专注非标定制：单件打样、小批量到量产都接，没有硬性起订量。铝合金、不锈钢、碳钢、钛合金、工程塑料等常做；碳纤维等复材需工程师评估。把图纸（STEP / DXF / PDF 均可）发到 ' + FAQ_EMAIL + '，常规 2 小时内给您可行性判断和报价。',
+    yue: '做得嘅。我哋專注非標訂製：單件打樣、小批量到量產都接，冇硬性起訂量。鋁合金、不鏽鋼、碳鋼、鈦合金、工程塑膠等常做；碳纖維等複材要工程師評估。將圖紙（STEP / DXF / PDF 都得）發去 ' + FAQ_EMAIL + '，常規 2 小時內畀你可行性判斷同報價。',
+    en: 'Yes, we can. We focus on non-standard custom machining — single-piece prototypes, small batches and volume production, with no hard minimum order. Aluminum, stainless steel, carbon steel, titanium and engineering plastics are routine; composites such as carbon fibre need engineering review. Send your drawing (STEP / DXF / PDF) to ' + FAQ_EMAIL + ' and we will confirm feasibility and price, usually within 2 hours.',
   },
   {
     id: 'payment',
-    re: /付款|支付|转账|轉賬|对公|對公|私人账户|私人賬戶|payment|bank transfer|\bT\/T\b|paypal/i,
+    re: /付款|支付|转账|轉賬|收款|收钱|收錢|打款|汇款|匯款|结款|結款|怎么收|怎麼收|对公|對公|私人账户|私人賬戶|payment|bank transfer|\bT\/T\b|paypal|how (do|can) i pay|how to pay|\bpay you\b|\bpay\b/i,
     zh: '我们仅接受对公账户付款（银行转账 / T/T 等）。基于合规要求，不接受私人账户收款，也不与受制裁地区交易。具体付款条款会在报价单中注明。',
     yue: '我哋只接受對公賬戶付款（銀行轉賬 / T/T 等）。基於合規要求，唔接受私人賬戶收款，亦唔同受制裁地區交易。具體付款條款會喺報價單註明。',
     en: 'We only accept corporate bank transfers (T/T etc.). For compliance reasons we cannot accept payments to personal accounts, and we do not trade with sanctioned regions. Payment terms are specified on the quotation.',
@@ -2096,6 +2112,14 @@ const FAQ_INTENTS = [
     en: "We don't run a blanket discount policy — quotes are costed on actual material, process and precision requirements. For first orders or volume production, our engineers will suggest optimizations (process alternatives, material selection) to get the most out of your budget.",
   },
   {
+    id: 'contact',
+    // 地址 / 联系方式 —— 唯一答案，禁止绕弯、禁止出现其它城市
+    re: /地址|地址在|在哪|位置|工厂在哪|工廠喺邊|公司在哪|你们公司|你們公司|联系方式|聯繫方式|怎么联系|怎麼聯繫|联系电话|電話|邮箱|郵箱|东莞|東莞|苏州|蘇州|广州|廣州|address|where are you|your location|located|contact|phone|e-mail|email us/,
+    zh: '我们在中国广东省深圳市宝安区松岗街道（工厂所在地）。邮箱 ' + FAQ_EMAIL + '，电话 +86 181 2398 3352，官网 eternalcnc.com。工作日通常 2 小时内回复。',
+    yue: '我哋喺中國廣東省深圳市寶安區松崗街道（工廠所在地）。郵箱 ' + FAQ_EMAIL + '，電話 +86 181 2398 3352，官網 eternalcnc.com。工作日通常 2 小時內回覆。',
+    en: 'We are located in Songgang Street, Bao\'an District, Shenzhen, Guangdong Province, China (our factory). Email: ' + FAQ_EMAIL + ' · Phone: +86 181 2398 3352 · Website: eternalcnc.com. We usually reply within 2 hours on working days.',
+  },
+  {
     // 语言元问题兜底（2026-09-05）：用户实测 bot 自称"仅支持中英德日"——错误声明来自
     // Coze 线上旧 prompt（本地新版已明令禁止该行为，待发布）。网站侧 FAQ 秒答正确口径。
     id: 'cantonese',
@@ -2117,7 +2141,8 @@ const FAQ_INTENTS = [
 
 /**
  * FAQ 秒答匹配。命中返回 { id, answer }，否则返回 null。
- * 规则：消息 ≥5 字符（中文信息密度高，7 字符短问句如"打样交期多久？"是常态）、
+ * 规则：消息 ≥4 字符（中文信息密度高，4 字短问句如"怎么收款/你们在哪/报价多少"是常态，
+ *       实测 4 字门槛对"你好朋友/谢谢你了/我想问下"等寒暄均不误命中）、
  *       ≤200 字符；仅 zh / en（yue 归 zh，按浏览器语言给粤语版）；其他语种放行 LLM。
  * 简繁归一：粤语/繁体用户打"報價/圖紙/檢測"等繁体，先归一为简体再匹配正则。
  */
@@ -2131,7 +2156,7 @@ const FAQ_T2S = {
 
 function matchFaq(message, userLang, visitorLangRaw) {
   const raw = String(message || '').trim();
-  if (raw.length < 5 || raw.length > 200) return null;
+  if (raw.length < 4 || raw.length > 200) return null;
   if (userLang !== 'zh' && userLang !== 'en') return null;
   const msg = userLang === 'zh' ? raw.replace(/[報價錢圖發傳檢測驗誤認證質體訂樣機洩轉賬對運費遞優還軸鈦鋁鋼銅鏽膠]/g, (c) => FAQ_T2S[c] || c) : raw;
   const rawLang = String(visitorLangRaw || '').toLowerCase();

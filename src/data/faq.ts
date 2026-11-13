@@ -57,8 +57,8 @@ export const COMPANY = {
 export const faqItems: FaqItem[] = [
   {
     id: 'services',
-    kw: ['service', 'services', 'capabilit', 'milling', 'turning', 'grinding', 'edm', 'wire', '5 axis', '5-axis', 'cnc', 'what do you', 'offer'],
-    kwZh: ['服务', '加工', '工艺', '铣', '车', '磨', '线切割', '五轴', '能力', '做什么'],
+    kw: ['service', 'services', 'capabilit', 'milling', 'turning', 'grinding', 'edm', 'wire', '5 axis', '5-axis', 'cnc', 'what do you', 'offer', 'do you provide', 'do you machine', 'can you make'],
+    kwZh: ['服务', '加工', '工艺', '铣', '车', '磨', '线切割', '五轴', '能力', '做什么', '能加工', '可加工', '能做', '能做吗', '接单', '做零件'],
     kwJa: ['加工', 'サービス', 'フライス', '旋盤', '研削', '放電', '5軸', 'cnc', 'できますか'],
     kwRu: ['услуг', 'обработк', 'фрезер', 'токарн', 'шлифов', 'электроэрози', '5-ос', 'cnc', 'предоставляете', 'чпу'],
     kwKo: ['서비스', '가공', '밀링', '선반', '연삭', '와이어', '5축', 'cnc', '제공'],
@@ -67,46 +67,46 @@ export const faqItems: FaqItem[] = [
     kwAr: ['خدمات', 'تصنيع', 'تفريز', 'خراطة', 'طحن', 'تفريغ', '5 محاور', 'cnc', 'تقدمون'],
     en: {
       q: 'What CNC services do you provide?',
-      a: 'We provide full CNC precision machining:\n• CNC milling — 3/4/5-axis, up to 1200×600×500mm, ±0.01mm\n• CNC turning — up to Ø500mm\n• Precision grinding — flatness 0.005mm, Ra 0.2µm mirror finish\n• Wire EDM — ±0.005mm, up to 400mm cut height\nPlus free DFM analysis, surface treatment and full quality inspection.',
+      a: 'We provide full CNC precision machining:\n• CNC milling — 3/4/5-axis, up to 1200×600×500mm, ±0.01mm\n• CNC turning — up to Ø500mm\n• Precision grinding — flatness 0.005mm, Ra 0.2µm mirror finish\n• Wire EDM — ±0.005mm, up to 400mm cut height\nPlus free DFM analysis, surface treatment and full quality inspection. We focus on non-standard custom machining — from a single piece to volume production.',
     },
     zh: {
       q: '你们提供哪些 CNC 加工服务？',
-      a: '我们提供完整的 CNC 精密加工：\n• CNC 铣削 — 3/4/5 轴联动，最大 1200×600×500mm，精度 ±0.01mm\n• CNC 车削 — 最大直径 Ø500mm\n• 精密磨削 — 平面度 0.005mm，Ra 0.2µm 镜面\n• 线切割（Wire EDM）— 精度 ±0.005mm，最大切高 400mm\n另提供免费 DFM 分析、表面处理与全尺寸质量检测。',
+      a: '我们提供完整的 CNC 精密加工：\n• CNC 铣削 — 3/4/5 轴联动，最大 1200×600×500mm，精度 ±0.01mm\n• CNC 车削 — 最大直径 Ø500mm\n• 精密磨削 — 平面度 0.005mm，Ra 0.2µm 镜面\n• 线切割（Wire EDM）— 精度 ±0.005mm，最大切高 400mm\n另提供免费 DFM 分析、表面处理与全尺寸质量检测。我们专注非标定制，1 件起做，打样到量产都接。',
     },
     ja: {
       q: 'どのようなCNC加工サービスを提供していますか？',
-      a: 'フルラインのCNC精密加工を提供しています：\n• CNCフライス加工 — 3/4/5軸、最大1200×600×500mm、±0.01mm\n• CNC旋盤加工 — 最大Ø500mm\n• 精密研削 — 平面度0.005mm、Ra 0.2µm鏡面仕上げ\n• ワイヤ放電加工（ワイヤEDM）— ±0.005mm、最大切高400mm\nさらに無料のDFM解析、表面処理、全寸法品質検査もご提供します。',
+      a: 'フルラインのCNC精密加工を提供しています：\n• CNCフライス加工 — 3/4/5軸、最大1200×600×500mm、±0.01mm\n• CNC旋盤加工 — 最大Ø500mm\n• 精密研削 — 平面度0.005mm、Ra 0.2µm鏡面仕上げ\n• ワイヤ放電加工（ワイヤEDM）— ±0.005mm、最大切高400mm\nさらに無料のDFM解析、表面処理、全寸法品質検査もご提供します。非標準のカスタム加工を専門とし、1個から量産まで対応します。',
     },
     ru: {
       q: 'Какие услуги ЧПУ-обработки вы предоставляете?',
-      a: 'Мы предоставляем полный спектр прецизионной ЧПУ-обработки:\n• Фрезерная обработка — 3/4/5-осевая, до 1200×600×500 мм, ±0,01 мм\n• Токарная обработка — до Ø500 мм\n• Прецизионное шлифование — плоскостность 0,005 мм, зеркальная поверхность Ra 0,2 мкм\n• Проволочная электроэрозионная обработка (Wire EDM) — ±0,005 мм, высота реза до 400 мм\nТакже бесплатный DFM-анализ, обработка поверхности и полный контроль размеров.',
+      a: 'Мы предоставляем полный спектр прецизионной ЧПУ-обработки:\n• Фрезерная обработка — 3/4/5-осевая, до 1200×600×500 мм, ±0,01 мм\n• Токарная обработка — до Ø500 мм\n• Прецизионное шлифование — плоскостность 0,005 мм, зеркальная поверхность Ra 0,2 мкм\n• Проволочная электроэрозионная обработка (Wire EDM) — ±0,005 мм, высота реза до 400 мм\nТакже бесплатный DFM-анализ, обработка поверхности и полный контроль размеров. Мы специализируемся на нестандартной обработке по индивидуальным заказам — от одной детали до серии.',
     },
     ko: {
       q: '어떤 CNC 가공 서비스를 제공하나요?',
-      a: '완전한 CNC 정밀 가공을 제공합니다:\n• CNC 밀링 — 3/4/5축, 최대 1200×600×500mm, ±0.01mm\n• CNC 선반 — 최대 Ø500mm\n• 정밀 연삭 — 평탄도 0.005mm, Ra 0.2µm 경면\n• 와이어컷 방전가공(Wire EDM) — ±0.005mm, 최대 절단 높이 400mm\n또한 무료 DFM 분석, 표면 처리, 전체 치수 품질 검사를 제공합니다.',
+      a: '완전한 CNC 정밀 가공을 제공합니다:\n• CNC 밀링 — 3/4/5축, 최대 1200×600×500mm, ±0.01mm\n• CNC 선반 — 최대 Ø500mm\n• 정밀 연삭 — 평탄도 0.005mm, Ra 0.2µm 경면\n• 와이어컷 방전가공(Wire EDM) — ±0.005mm, 최대 절단 높이 400mm\n또한 무료 DFM 분석, 표면 처리, 전체 치수 품질 검사를 제공합니다. 비표준 맞춤 가공 전문으로, 1개부터 양산까지 대응합니다.',
     },
     es: {
       q: '¿Qué servicios de mecanizado CNC ofrecen?',
-      a: 'Ofrecemos mecanizado CNC de precisión completo:\n• Fresado CNC — 3/4/5 ejes, hasta 1200×600×500 mm, ±0,01 mm\n• Torneado CNC — hasta Ø500 mm\n• Rectificado de precisión — planitud 0,005 mm, acabado espejo Ra 0,2 µm\n• Electroerosión por hilo (Wire EDM) — ±0,005 mm, altura de corte hasta 400 mm\nAdemás, análisis DFM gratuito, tratamiento de superficies e inspección de calidad completa.',
+      a: 'Ofrecemos mecanizado CNC de precisión completo:\n• Fresado CNC — 3/4/5 ejes, hasta 1200×600×500 mm, ±0,01 mm\n• Torneado CNC — hasta Ø500 mm\n• Rectificado de precisión — planitud 0,005 mm, acabado espejo Ra 0,2 µm\n• Electroerosión por hilo (Wire EDM) — ±0,005 mm, altura de corte hasta 400 mm\nAdemás, análisis DFM gratuito, tratamiento de superficies e inspección de calidad completa. Nos especializamos en mecanizado personalizado no estándar: desde una pieza hasta producción en serie.',
     },
     de: {
       q: 'Welche CNC-Dienstleistungen bieten Sie an?',
-      a: 'Wir bieten vollständige CNC-Präzisionsbearbeitung:\n• CNC-Fräsen — 3/4/5-Achsen, bis 1200×600×500 mm, ±0,01 mm\n• CNC-Drehen — bis Ø500 mm\n• Präzisionsschleifen — Ebenheit 0,005 mm, Spiegeloberfläche Ra 0,2 µm\n• Drahterodieren (Wire EDM) — ±0,005 mm, Schnitthöhe bis 400 mm\nZusätzlich kostenlose DFM-Analyse, Oberflächenbehandlung und vollständige Qualitätsprüfung.',
+      a: 'Wir bieten vollständige CNC-Präzisionsbearbeitung:\n• CNC-Fräsen — 3/4/5-Achsen, bis 1200×600×500 mm, ±0,01 mm\n• CNC-Drehen — bis Ø500 mm\n• Präzisionsschleifen — Ebenheit 0,005 mm, Spiegeloberfläche Ra 0,2 µm\n• Drahterodieren (Wire EDM) — ±0,005 mm, Schnitthöhe bis 400 mm\nZusätzlich kostenlose DFM-Analyse, Oberflächenbehandlung und vollständige Qualitätsprüfung. Wir sind auf nicht standardisierte Auftragsfertigung spezialisiert — vom Einzelstück bis zur Serie.',
     },
     ar: {
       q: 'ما هي خدمات التصنيع باستخدام الحاسب الآلي (CNC) التي تقدمونها؟',
-      a: 'نقدم تصنيعاً دقيقاً كاملاً باستخدام الحاسب الآلي:\n• تفريز CNC — 3/4/5 محاور، حتى 1200×600×500 مم، ±0.01 مم\n• خراطة CNC — حتى Ø500 مم\n• طحن دقيق — استواء 0.005 مم، سطح مرآة Ra 0.2 ميكرومتر\n• التفريغ الكهربائي بالسلك (Wire EDM) — ±0.005 مم، ارتفاع قطع حتى 400 مم\nبالإضافة إلى تحليل DFM مجاني، ومعالجة الأسطح، وفحص الجودة الكامل.',
+      a: 'نقدم تصنيعاً دقيقاً كاملاً باستخدام الحاسب الآلي:\n• تفريز CNC — 3/4/5 محاور، حتى 1200×600×500 مم، ±0.01 مم\n• خراطة CNC — حتى Ø500 مم\n• طحن دقيق — استواء 0.005 مم، سطح مرآة Ra 0.2 ميكرومتر\n• التفريغ الكهربائي بالسلك (Wire EDM) — ±0.005 مم، ارتفاع قطع حتى 400 مم\nبالإضافة إلى تحليل DFM مجاني، ومعالجة الأسطح، وفحص الجودة الكامل. نتخصص في التصنيع المخصص غير القياسي — من قطعة واحدة إلى الإنتاج الكمي.',
     },
     kwFr: ['service', 'services', 'usinage', 'fraisage', 'tournage', 'rectification', 'edm', 'électroérosion', 'electroerosion', '5 axes', 'cnc'],
     fr: {
       q: 'Quels services d\u2019usinage CNC proposez-vous ?',
-      a: 'Nous proposons un usinage CNC de précision complet :\n• Fraisage CNC — 3/4/5 axes, jusqu\u2019à 1200×600×500 mm, ±0,01 mm\n• Tournage CNC — jusqu\u2019à Ø500 mm\n• Rectification de précision — planéité 0,005 mm, fini miroir Ra 0,2 µm\n• Électroérosion par fil (Wire EDM) — ±0,005 mm, hauteur de coupe jusqu\u2019à 400 mm\nPlus une analyse DFM gratuite, des traitements de surface et un contrôle qualité complet.',
+      a: 'Nous proposons un usinage CNC de précision complet :\n• Fraisage CNC — 3/4/5 axes, jusqu\u2019à 1200×600×500 mm, ±0,01 mm\n• Tournage CNC — jusqu\u2019à Ø500 mm\n• Rectification de précision — planéité 0,005 mm, fini miroir Ra 0,2 µm\n• Électroérosion par fil (Wire EDM) — ±0,005 mm, hauteur de coupe jusqu\u2019à 400 mm\nPlus une analyse DFM gratuite, des traitements de surface et un contrôle qualité complet. Nous sommes spécialisés dans l’usinage sur mesure non standard — de la pièce unique à la série.',
     },
   },
   {
     id: 'materials',
-    kw: ['material', 'aluminum', 'aluminium', 'stainless', 'steel', 'titanium', 'plastic', '6061', '7075', '316', 'peek', 'delrin', 'brass', 'what metal'],
-    kwZh: ['材料', '哪些材料', '什么材料', '铝', '不锈钢', '钛', '塑料', '铜', '6061', '7075', '316', 'peek', '材质'],
+    kw: ['material', 'aluminum', 'aluminium', 'stainless', 'steel', 'titanium', 'plastic', '6061', '7075', '316', 'peek', 'delrin', 'brass', 'what metal', 'carbon fiber', 'carbon fibre', 'cfrp', 'carbon steel', 'tool steel', 'engineering plastic'],
+    kwZh: ['材料', '哪些材料', '什么材料', '铝', '不锈钢', '钛', '塑料', '铜', '6061', '7075', '316', 'peek', '材质', '钢件', '碳钢', '碳纤维', '复材', '工程塑料', '钛合金', '钢'],
     kwJa: ['材料', '材質', 'アルミ', 'ステンレス', 'チタン', 'プラスチック', 'どのような材料', 'どんな材料'],
     kwRu: ['материал', 'алюмин', 'нержаве', 'титан', 'пластик', 'сталь', 'латун', 'медь', '6061', '7075', '316', 'peek', 'какие материалы', 'с какими материалами'],
     kwKo: ['재료', '소재', '알루미늄', '스테인리스', '티타늄', '플라스틱', '6061', '7075', '316', 'peek', '어떤 재료'],
@@ -115,40 +115,40 @@ export const faqItems: FaqItem[] = [
     kwAr: ['مواد', 'خامات', 'ألمنيوم', 'ستانلس', 'تيتانيوم', 'بلاستيك', 'نحاس', '6061', '7075', '316', 'peek', 'ما المواد'],
     en: {
       q: 'What materials do you work with?',
-      a: '30+ metals and engineering plastics:\n• Aluminum: 6061-T6, 7075-T6, 2024-T3, 5052-H32, MIC6\n• Stainless steel: 303, 304, 316L, 17-4 PH, 416\n• Carbon/alloy steel: 1018, 1045, 4140, 4340\n• Titanium: Grade 2, Grade 5 (Ti-6Al-4V)\n• Engineering plastics: POM (Delrin), PA6, PEEK, PTFE, UHMW-PE\n• Copper & brass: C360, C172 beryllium copper\nSpecial materials available on request.',
+      a: '30+ metals and engineering plastics:\n• Aluminum: 6061-T6, 7075-T6, 2024-T3, 5052-H32, MIC6\n• Stainless steel: 303, 304, 316L, 17-4 PH, 416\n• Carbon/alloy steel: 1018, 1045, 4140, 4340\n• Titanium: Grade 2, Grade 5 (Ti-6Al-4V)\n• Engineering plastics: POM (Delrin), PA6, PEEK, PTFE, UHMW-PE\n• Copper & brass: C360, C172 beryllium copper\nComposites such as carbon fibre need individual engineering review (limited by part structure and post-processing). Special materials available on request.',
     },
     zh: {
       q: '你们能加工哪些材料？',
-      a: '支持 30+ 种金属和工程塑料：\n• 铝合金：6061-T6、7075-T6、2024-T3、5052-H32、MIC6\n• 不锈钢：303、304、316L、17-4 PH、416\n• 碳钢/合金钢：1018、1045、4140、4340\n• 钛合金：Grade 2、Grade 5 (Ti-6Al-4V)\n• 工程塑料：POM（Delrin）、PA6、PEEK、PTFE、UHMW-PE\n• 铜及黄铜：C360 黄铜、C172 铍铜\n特殊材料可单独咨询。',
+      a: '支持 30+ 种金属和工程塑料：\n• 铝合金：6061-T6、7075-T6、2024-T3、5052-H32、MIC6\n• 不锈钢：303、304、316L、17-4 PH、416\n• 碳钢/合金钢：1018、1045、4140、4340\n• 钛合金：Grade 2、Grade 5 (Ti-6Al-4V)\n• 工程塑料：POM（Delrin）、PA6、PEEK、PTFE、UHMW-PE\n• 铜及黄铜：C360 黄铜、C172 铍铜\n碳纤维等复合材料需工程师单独评估（受结构与后续处理条件限制）。特殊材料可单独咨询。',
     },
     ja: {
       q: 'どのような材料を加工できますか？',
-      a: '30種類以上の金属・エンジニアリングプラスチックに対応：\n• アルミニウム：6061-T6、7075-T6、2024-T3、5052-H32、MIC6\n• ステンレス鋼：303、304、316L、17-4PH、416\n• 炭素鋼・合金鋼：1018、1045、4140、4340\n• チタン：Grade 2、Grade 5（Ti-6Al-4V）\n• エンジニアリングプラスチック：POM（デルリン）、PA6、PEEK、PTFE、UHMW-PE\n• 銅・黄銅：C360黄銅、C172ベリリウム銅\n特殊材料は個別にご相談ください。',
+      a: '30種類以上の金属・エンジニアリングプラスチックに対応：\n• アルミニウム：6061-T6、7075-T6、2024-T3、5052-H32、MIC6\n• ステンレス鋼：303、304、316L、17-4PH、416\n• 炭素鋼・合金鋼：1018、1045、4140、4340\n• チタン：Grade 2、Grade 5（Ti-6Al-4V）\n• エンジニアリングプラスチック：POM（デルリン）、PA6、PEEK、PTFE、UHMW-PE\n• 銅・黄銅：C360黄銅、C172ベリリウム銅\n炭素繊維などの複合材はエンジニアによる個別評価が必要です（部品構造・後処理条件による制約あり）。特殊材料は個別にご相談ください。',
     },
     ru: {
       q: 'С какими материалами вы работаете?',
-      a: 'Более 30 металлов и инженерных пластиков:\n• Алюминий: 6061-T6, 7075-T6, 2024-T3, 5052-H32, MIC6\n• Нержавеющая сталь: 303, 304, 316L, 17-4 PH, 416\n• Углеродистая/легированная сталь: 1018, 1045, 4140, 4340\n• Титан: Grade 2, Grade 5 (Ti-6Al-4V)\n• Инженерные пластики: POM (Delrin), PA6, PEEK, PTFE, UHMW-PE\n• Медь и латунь: C360, бериллиевая медь C172\nСпециальные материалы — по запросу.',
+      a: 'Более 30 металлов и инженерных пластиков:\n• Алюминий: 6061-T6, 7075-T6, 2024-T3, 5052-H32, MIC6\n• Нержавеющая сталь: 303, 304, 316L, 17-4 PH, 416\n• Углеродистая/легированная сталь: 1018, 1045, 4140, 4340\n• Титан: Grade 2, Grade 5 (Ti-6Al-4V)\n• Инженерные пластики: POM (Delrin), PA6, PEEK, PTFE, UHMW-PE\n• Медь и латунь: C360, бериллиевая медь C172\nКомпозиты (углеволокно и др.) требуют отдельной оценки инженером (ограничения по конструкции и последующей обработке). Специальные материалы — по запросу.',
     },
     ko: {
       q: '어떤 재료를 가공할 수 있나요?',
-      a: '30가지 이상의 금속 및 엔지니어링 플라스틱:\n• 알루미늄: 6061-T6, 7075-T6, 2024-T3, 5052-H32, MIC6\n• 스테인리스강: 303, 304, 316L, 17-4 PH, 416\n• 탄소강/합금강: 1018, 1045, 4140, 4340\n• 티타늄: Grade 2, Grade 5 (Ti-6Al-4V)\n• 엔지니어링 플라스틱: POM(Delrin), PA6, PEEK, PTFE, UHMW-PE\n• 구리 및 황동: C360 황동, C172 베릴륨동\n특수 재료는 별도 문의 바랍니다.',
+      a: '30가지 이상의 금속 및 엔지니어링 플라스틱:\n• 알루미늄: 6061-T6, 7075-T6, 2024-T3, 5052-H32, MIC6\n• 스테인리스강: 303, 304, 316L, 17-4 PH, 416\n• 탄소강/합금강: 1018, 1045, 4140, 4340\n• 티타늄: Grade 2, Grade 5 (Ti-6Al-4V)\n• 엔지니어링 플라스틱: POM(Delrin), PA6, PEEK, PTFE, UHMW-PE\n• 구리 및 황동: C360 황동, C172 베릴륨동\n탄소섬유 등 복합재는 엔지니어의 개별 평가가 필요합니다(부품 구조 및 후처리 조건에 따른 제약). 특수 재료는 별도 문의 바랍니다.',
     },
     es: {
       q: '¿Con qué materiales trabajan?',
-      a: 'Más de 30 metales y plásticos de ingeniería:\n• Aluminio: 6061-T6, 7075-T6, 2024-T3, 5052-H32, MIC6\n• Acero inoxidable: 303, 304, 316L, 17-4 PH, 416\n• Acero al carbono/aleado: 1018, 1045, 4140, 4340\n• Titanio: Grado 2, Grado 5 (Ti-6Al-4V)\n• Plásticos de ingeniería: POM (Delrin), PA6, PEEK, PTFE, UHMW-PE\n• Cobre y latón: C360, cobre-berilio C172\nMateriales especiales bajo pedido.',
+      a: 'Más de 30 metales y plásticos de ingeniería:\n• Aluminio: 6061-T6, 7075-T6, 2024-T3, 5052-H32, MIC6\n• Acero inoxidable: 303, 304, 316L, 17-4 PH, 416\n• Acero al carbono/aleado: 1018, 1045, 4140, 4340\n• Titanio: Grado 2, Grado 5 (Ti-6Al-4V)\n• Plásticos de ingeniería: POM (Delrin), PA6, PEEK, PTFE, UHMW-PE\n• Cobre y latón: C360, cobre-berilio C172\nLos materiales compuestos como la fibra de carbono requieren evaluación individual de ingeniería (limitada por la estructura y el posprocesado). Materiales especiales bajo pedido.',
     },
     de: {
       q: 'Mit welchen Materialien arbeiten Sie?',
-      a: 'Über 30 Metalle und technische Kunststoffe:\n• Aluminium: 6061-T6, 7075-T6, 2024-T3, 5052-H32, MIC6\n• Edelstahl: 303, 304, 316L, 17-4 PH, 416\n• Kohlenstoff-/Legierungsstahl: 1018, 1045, 4140, 4340\n• Titan: Grade 2, Grade 5 (Ti-6Al-4V)\n• Technische Kunststoffe: POM (Delrin), PA6, PEEK, PTFE, UHMW-PE\n• Kupfer und Messing: C360, Berylliumkupfer C172\nSonderwerkstoffe auf Anfrage.',
+      a: 'Über 30 Metalle und technische Kunststoffe:\n• Aluminium: 6061-T6, 7075-T6, 2024-T3, 5052-H32, MIC6\n• Edelstahl: 303, 304, 316L, 17-4 PH, 416\n• Kohlenstoff-/Legierungsstahl: 1018, 1045, 4140, 4340\n• Titan: Grade 2, Grade 5 (Ti-6Al-4V)\n• Technische Kunststoffe: POM (Delrin), PA6, PEEK, PTFE, UHMW-PE\n• Kupfer und Messing: C360, Berylliumkupfer C172\nVerbundwerkstoffe wie Kohlenstofffaser erfordern eine individuelle technische Prüfung (begrenzt durch Bauteilgeometrie und Nachbearbeitung). Sonderwerkstoffe auf Anfrage.',
     },
     ar: {
       q: 'ما هي المواد التي تعملون بها؟',
-      a: 'أكثر من 30 معدناً وبلاستيك هندسي:\n• الألمنيوم: 6061-T6، 7075-T6، 2024-T3، 5052-H32، MIC6\n• الفولاذ المقاوم للصدأ: 303، 304، 316L، 17-4 PH، 416\n• الفولاذ الكربوني/السبائكي: 1018، 1045، 4140، 4340\n• التيتانيوم: الدرجة 2، الدرجة 5 (Ti-6Al-4V)\n• البلاستيك الهندسي: POM (Delrin)، PA6، PEEK، PTFE، UHMW-PE\n• النحاس والأصفر: C360، نحاس البريليوم C172\nالمواد الخاصة متاحة عند الطلب.',
+      a: 'أكثر من 30 معدناً وبلاستيك هندسي:\n• الألمنيوم: 6061-T6، 7075-T6، 2024-T3، 5052-H32، MIC6\n• الفولاذ المقاوم للصدأ: 303، 304، 316L، 17-4 PH، 416\n• الفولاذ الكربوني/السبائكي: 1018، 1045، 4140، 4340\n• التيتانيوم: الدرجة 2، الدرجة 5 (Ti-6Al-4V)\n• البلاستيك الهندسي: POM (Delrin)، PA6، PEEK، PTFE، UHMW-PE\n• النحاس والأصفر: C360، نحاس البريليوم C172\nالمواد المركبة مثل ألياف الكربون تحتاج إلى تقييم هندسي فردي (محدود ببنية القطعة والمعالجة اللاحقة). المواد الخاصة متاحة عند الطلب.',
     },
     kwFr: ['matériau', 'materiau', 'matériaux', 'materiaux', 'aluminium', 'inox', 'acier', 'titane', 'plastique', 'laiton', 'cuivre', '6061', '7075', '316', 'peek', 'quels matériaux', 'quels materiaux', 'avec quels matériaux'],
     fr: {
       q: 'Avec quels matériaux travaillez-vous ?',
-      a: 'Plus de 30 métaux et plastiques techniques :\n• Aluminium : 6061-T6, 7075-T6, 2024-T3, 5052-H32, MIC6\n• Acier inoxydable : 303, 304, 316L, 17-4 PH, 416\n• Acier carbone / allié : 1018, 1045, 4140, 4340\n• Titane : Grade 2, Grade 5 (Ti-6Al-4V)\n• Plastiques techniques : POM (Delrin), PA6, PEEK, PTFE, UHMW-PE\n• Cuivre et laiton : C360, cuivre-béryllium C172\nMatériaux spéciaux sur demande.',
+      a: 'Plus de 30 métaux et plastiques techniques :\n• Aluminium : 6061-T6, 7075-T6, 2024-T3, 5052-H32, MIC6\n• Acier inoxydable : 303, 304, 316L, 17-4 PH, 416\n• Acier carbone / allié : 1018, 1045, 4140, 4340\n• Titane : Grade 2, Grade 5 (Ti-6Al-4V)\n• Plastiques techniques : POM (Delrin), PA6, PEEK, PTFE, UHMW-PE\n• Cuivre et laiton : C360, cuivre-béryllium C172\nLes matériaux composites tels que la fibre de carbone nécessitent une évaluation technique individuelle (limitée par la structure de la pièce et le post-traitement). Matériaux spéciaux sur demande.',
     },
   },
   {
@@ -490,7 +490,7 @@ export const faqItems: FaqItem[] = [
   {
     id: 'quality',
     kw: ['quality', 'inspection', 'cmm', 'report', 'fai', 'iso', 'certificate', 'material cert', 'rohs', 'reach', 'traceability', 'defect', 'problem'],
-    kwZh: ['质量', '检测', '三坐标', '报告', '检验', 'iso', '认证', '材质证明', 'rohs', '追溯', '有问题', '次品'],
+    kwZh: ['质量', '检测', '三坐标', '报告', '检验', 'iso', '认证', '材质证明', 'rohs', '追溯', '有问题', '次品', '质检', '品质', '质检体系', '质量体系'],
     kwJa: ['品質', '検査', '測定', '三次元', 'cmm', '報告', '証明', 'iso', '認証', 'トレーサビリティ'],
     kwRu: ['качеств', 'контрол', 'инспекц', 'кмм', 'cmm', 'отчёт', 'отчет', 'fai', 'iso', 'сертификат', 'rohs', 'reach', 'прослеживаемост', 'дефект'],
     kwKo: ['품질', '검사', '측정', '3차원', 'cmm', '보고서', 'iso', '인증', '재질증명', 'rohs', '추적', '불량'],
@@ -499,46 +499,46 @@ export const faqItems: FaqItem[] = [
     kwAr: ['جودة', 'فحص', 'قياس', 'cmm', 'تقرير', 'iso', 'شهادة', 'rohs', 'reach', 'تتبع', 'عيب'],
     en: {
       q: 'What is your quality control system?',
-      a: 'Full-process quality control:\n• First Article Inspection (FAI) on every batch\n• In-process sampling at multiple nodes\n• 100% final inspection of critical dimensions\n• Hexagon CMM (coordinate measuring machine) with full dimensional reports\n• Material certificates, RoHS/REACH compliance, full traceability\nISO 9001:2015 certification in progress. PPAP/FAI documents available on request.',
+      a: 'Full-process quality control:\n• First Article Inspection (FAI) on every batch\n• In-process sampling at multiple nodes\n• 100% final inspection of critical dimensions\n• In-house 2.5D vision measuring machine plus precision gauges for routine dimensions\n• Bridge-type CMM on request through an affiliated family-group inspection centre (not in-house standard equipment)\n• Material certificates, RoHS/REACH compliance, full traceability\nISO 9001:2015 certification in progress. PPAP/FAI documents available on request.',
     },
     zh: {
       q: '你们的质量控制体系是怎样的？',
-      a: '全过程品质管控：\n• 首件检验（FAI）：每批首件全尺寸检测\n• 过程检验：加工过程中多节点抽检\n• 终检：出厂前 100% 关键尺寸检验\n• 海克斯康三坐标（CMM），可出全尺寸检测报告\n• 材质证明、RoHS/REACH 合规、完整可追溯\nISO 9001:2015 认证办理中，可按需提供 PPAP/FAI 文件。',
+      a: '全过程品质管控：\n• 首件检验（FAI）：每批首件全尺寸检测\n• 过程检验：加工过程中多节点抽检\n• 终检：出厂前 100% 关键尺寸检验\n• 厂内 2.5D 影像测量仪 + 精密量具做常规尺寸检测\n• 桥式三坐标（CMM）按需由家族关联检测中心送检（非本公司标配设备）\n• 材质证明、RoHS/REACH 合规、完整可追溯\nISO 9001:2015 认证办理中，可按需提供 PPAP/FAI 文件。',
     },
     ja: {
       q: '品質管理体制はどのようになっていますか？',
-      a: '全工程の品質管理：\n• 初品検査（FAI）：各ロットの初品を全寸法検査\n• 工程内検査：加工中の複数ノードで抜き取り検査\n• 最終検査：出荷前に重要寸法を100%検査\n• ヘキサゴン三次元測定機（CMM）による全寸法レポート\n• 材料証明書、RoHS/REACH準拠、完全なトレーサビリティ\nISO 9001:2015認証は取得手続き中。PPAP/FAI書類はご要望に応じて提供可能です。',
+      a: '全工程の品質管理：\n• 初品検査（FAI）：各ロットの初品を全寸法検査\n• 工程内検査：加工中の複数ノードで抜き取り検査\n• 最終検査：出荷前に重要寸法を100%検査\n• 社内2.5D画像測定機＋精密測定具による日常寸法検査\n• 橋型三次元測定機（CMM）はグループ関連検査センターへ依頼測定（自社標準設備ではありません）\n• 材料証明書、RoHS/REACH準拠、完全なトレーサビリティ\nISO 9001:2015認証は取得手続き中。PPAP/FAI書類はご要望に応じて提供可能です。',
     },
     ru: {
       q: 'Как устроена ваша система контроля качества?',
-      a: 'Полный контроль качества на всех этапах:\n• Первичная проверка изделия (FAI) для каждой партии\n• Выборочный контроль на нескольких этапах процесса\n• 100% финальная проверка критических размеров\n• КИМ Hexagon с полными отчётами по размерам\n• Сертификаты на материалы, соответствие RoHS/REACH, полная прослеживаемость\nСертификация ISO 9001:2015 в процессе. Документы PPAP/FAI — по запросу.',
+      a: 'Полный контроль качества на всех этапах:\n• Первичная проверка изделия (FAI) для каждой партии\n• Выборочный контроль на нескольких этапах процесса\n• 100% финальная проверка критических размеров\n• Внутренний 2.5D-видеоизмеритель и прецизионные средства измерений для обычных размеров\n• Мостовой КИМ — по запросу через инспекционный центр семейной группы (не штатное оборудование завода)\n• Сертификаты на материалы, соответствие RoHS/REACH, полная прослеживаемость\nСертификация ISO 9001:2015 в процессе. Документы PPAP/FAI — по запросу.',
     },
     ko: {
       q: '품질 관리 시스템은 어떻게 되나요?',
-      a: '전 공정 품질 관리:\n• 초품 검사(FAI): 모든 배치 초품 전 치수 검사\n• 공정 중 검사: 가공 중 여러 단계에서 샘플링\n• 최종 검사: 출하 전 중요 치수 100% 검사\n• 헥사곤 3차원 측정기(CMM)로 전체 치수 보고서 제공\n• 재질 증명서, RoHS/REACH 준수, 완전한 이력 추적\nISO 9001:2015 인증 진행 중. PPAP/FAI 문서는 요청 시 제공.',
+      a: '전 공정 품질 관리:\n• 초품 검사(FAI): 모든 배치 초품 전 치수 검사\n• 공정 중 검사: 가공 중 여러 단계에서 샘플링\n• 최종 검사: 출하 전 중요 치수 100% 검사\n• 사내 2.5D 비전 측정기 + 정밀 측정구로 일반 치수 검사\n• 브리지형 CMM은 계열 검사센터에 의뢰 측정(자사 표준 장비 아님)\n• 재질 증명서, RoHS/REACH 준수, 완전한 이력 추적\nISO 9001:2015 인증 진행 중. PPAP/FAI 문서는 요청 시 제공.',
     },
     es: {
       q: '¿Cómo es su sistema de control de calidad?',
-      a: 'Control de calidad de proceso completo:\n• Inspección de primera pieza (FAI) en cada lote\n• Muestreo en proceso en múltiples puntos\n• Inspección final del 100% de dimensiones críticas\n• MMC Hexagon con informes dimensionales completos\n• Certificados de material, cumplimiento RoHS/REACH, trazabilidad completa\nCertificación ISO 9001:2015 en curso. Documentos PPAP/FAI bajo pedido.',
+      a: 'Control de calidad de proceso completo:\n• Inspección de primera pieza (FAI) en cada lote\n• Muestreo en proceso en múltiples puntos\n• Inspección final del 100% de dimensiones críticas\n• Máquina de medición por visión 2.5D en planta + calibres de precisión para dimensiones habituales\n• MMC de puente bajo pedido en un centro de inspección del grupo familiar (no es equipo estándar propio)\n• Certificados de material, cumplimiento RoHS/REACH, trazabilidad completa\nCertificación ISO 9001:2015 en curso. Documentos PPAP/FAI bajo pedido.',
     },
     de: {
       q: 'Wie ist Ihr Qualitätskontrollsystem aufgebaut?',
-      a: 'Qualitätskontrolle über den gesamten Prozess:\n• Erstmusterprüfung (FAI) für jede Charge\n• Zwischenprüfung an mehreren Stellen\n• 100% Endkontrolle kritischer Maße\n• Hexagon-KMG (Koordinatenmessgerät) mit vollständigen Messberichten\n• Materialzertifikate, RoHS/REACH-Konformität, vollständige Rückverfolgbarkeit\nISO 9001:2015-Zertifizierung in Arbeit. PPAP/FAI-Dokumente auf Anfrage.',
+      a: 'Qualitätskontrolle über den gesamten Prozess:\n• Erstmusterprüfung (FAI) für jede Charge\n• Zwischenprüfung an mehreren Stellen\n• 100% Endkontrolle kritischer Maße\n• Eigenes 2.5D-Bildmessgerät plus Präzisionslehren für Routinemaße\n• Brücken-KMG auf Anfrage über ein Prüfzentrum der Familiengruppe (kein Standardgerät im Haus)\n• Materialzertifikate, RoHS/REACH-Konformität, vollständige Rückverfolgbarkeit\nISO 9001:2015-Zertifizierung in Arbeit. PPAP/FAI-Dokumente auf Anfrage.',
     },
     ar: {
       q: 'كيف يعمل نظام مراقبة الجودة لديكم؟',
-      a: 'مراقبة جودة كاملة على جميع المراحل:\n• فحص القطعة الأولى (FAI) لكل دفعة\n• أخذ عينات أثناء العملية في عدة نقاط\n• فحص نهائي بنسبة 100% للأبعاد الحرجة\n• جهاز قياس إحداثيات Hexagon (CMM) بتقارير أبعاد كاملة\n• شهادات المواد، الامتثال لـ RoHS/REACH، تتبع كامل\nشهادة ISO 9001:2015 قيد الإصدار. مستندات PPAP/FAI متاحة عند الطلب.',
+      a: 'مراقبة جودة كاملة على جميع المراحل:\n• فحص القطعة الأولى (FAI) لكل دفعة\n• أخذ عينات أثناء العملية في عدة نقاط\n• فحص نهائي بنسبة 100% للأبعاد الحرجة\n• جهاز قياس بصري 2.5D داخلي مع أدوات قياس دقيقة للأبعاد العادية\n• جهاز CMM الجسري عند الطلب عبر مركز فحص تابع للمجموعة العائلية (ليس معداتنا القياسية)\n• شهادات المواد، الامتثال لـ RoHS/REACH، تتبع كامل\nشهادة ISO 9001:2015 قيد الإصدار. مستندات PPAP/FAI متاحة عند الطلب.',
     },
     kwFr: ['qualité', 'qualite', 'contrôle', 'controle', 'inspection', 'mesure', 'cmm', 'rapport', 'iso', 'certificat', 'rohs', 'reach', 'traçabilité', 'tracabilite', 'défaut', 'defaut', 'contrôle qualité'],
     fr: {
       q: 'Comment fonctionne votre système de contrôle qualité ?',
-      a: 'Contrôle qualité sur l\u2019ensemble du processus :\n• Contrôle de la première pièce (FAI) sur chaque lot\n• Échantillonnage en cours de production à plusieurs étapes\n• Inspection finale à 100 % des dimensions critiques\n• MMT Hexagon (machine à mesurer tridimensionnelle) avec rapports dimensionnels complets\n• Certificats matière, conformité RoHS/REACH, traçabilité complète\nCertification ISO 9001:2015 en cours. Documents PPAP/FAI sur demande.',
+      a: 'Contrôle qualité sur l\u2019ensemble du processus :\n• Contrôle de la première pièce (FAI) sur chaque lot\n• Échantillonnage en cours de production à plusieurs étapes\n• Inspection finale à 100 % des dimensions critiques\n• MMT 2.5D par vision en interne + instruments de précision pour les dimensions courantes\n• MMT à pont sur demande via un centre d\u2019inspection du groupe familial (pas un équipement standard interne)\n• Certificats matière, conformité RoHS/REACH, traçabilité complète\nCertification ISO 9001:2015 en cours. Documents PPAP/FAI sur demande.',
     },
   },
   {
     id: 'payment',
-    kw: ['payment', 'pay', 'tt', 'wire transfer', 'paypal', 'lc', 'letter of credit', 'terms', 'deposit', 'net 30', 'invoice'],
-    kwZh: ['付款', '支付', '电汇', 'paypal', '信用证', '定金', '账期', '怎么付'],
+    kw: ['payment', 'pay', 'tt', 'wire transfer', 'paypal', 'lc', 'letter of credit', 'terms', 'deposit', 'net 30', 'invoice', 'how to pay', 'how do i pay', 'pay you'],
+    kwZh: ['付款', '支付', '电汇', 'paypal', '信用证', '定金', '账期', '怎么付', '收款', '收钱', '打款', '汇款', '结款', '怎么收'],
     kwJa: ['支払い', '決済', '振込', 't/t', 'paypal', '信用状', '前金'],
     kwRu: ['оплат', 'платёж', 'платеж', 'т/т', 'tt', 'банковский перевод', 'paypal', 'аккредитив', 'lc', 'предоплат', 'условия'],
     kwKo: ['결제', '지불', '송금', 't/t', 'paypal', '신용장', '계약금', '조건'],
@@ -547,40 +547,40 @@ export const faqItems: FaqItem[] = [
     kwAr: ['دفع', 'سداد', 'تحويل', 't/t', 'paypal', 'اعتماد', 'lc', 'دفعة مقدمة', 'شروط'],
     en: {
       q: 'What payment methods do you accept?',
-      a: '• T/T (wire transfer)\n• PayPal\n• Letter of Credit (L/C) for large orders\nStandard terms: 50% deposit + 50% before shipment. Established customers can apply for Net-30.',
+      a: '• T/T (wire transfer)\n• PayPal\n• Letter of Credit (L/C) for large orders\nStandard terms: 50% deposit + 50% before shipment. Established customers can apply for Net-30. We only accept corporate account payments — no personal accounts.',
     },
     zh: {
       q: '支持哪些付款方式？',
-      a: '• 电汇（T/T）\n• PayPal\n• 信用证（L/C，适用于大额订单）\n标准付款条件：50% 定金 + 50% 发货前付清。合作稳定客户可申请 Net-30 月结。',
+      a: '• 电汇（T/T）\n• PayPal\n• 信用证（L/C，适用于大额订单）\n标准付款条件：50% 定金 + 50% 发货前付清。合作稳定客户可申请 Net-30 月结。仅接受对公账户付款，不接受私人账户收款。',
     },
     ja: {
       q: '支払い方法は何に対応していますか？',
-      a: '• T/T（銀行振込）\n• PayPal\n• 信用状（L/C、大口注文向け）\n標準条件：前金50% + 出荷前50%。継続取引のお客様はNet-30月次決済を申請可能です。',
+      a: '• T/T（銀行振込）\n• PayPal\n• 信用状（L/C、大口注文向け）\n標準条件：前金50% + 出荷前50%。継続取引のお客様はNet-30月次決済を申請可能です。法人口座へのお支払いのみ対応し、個人口座は受け付けません。',
     },
     ru: {
       q: 'Какие способы оплаты вы принимаете?',
-      a: '• T/T (банковский перевод)\n• PayPal\n• Аккредитив (L/C) для крупных заказов\nСтандартные условия: 50% предоплата + 50% перед отгрузкой. Постоянные клиенты могут оформить Net-30.',
+      a: '• T/T (банковский перевод)\n• PayPal\n• Аккредитив (L/C) для крупных заказов\nСтандартные условия: 50% предоплата + 50% перед отгрузкой. Постоянные клиенты могут оформить Net-30. Принимаем оплату только на корпоративный счёт, личные счета не принимаются.',
     },
     ko: {
       q: '어떤 결제 방식을 지원하나요?',
-      a: '• T/T(전신 송금)\n• PayPal\n• 신용장(L/C, 대량 주문용)\n표준 조건: 계약금 50% + 출하 전 50%. 거래 안정 고객은 Net-30 월결제 신청 가능.',
+      a: '• T/T(전신 송금)\n• PayPal\n• 신용장(L/C, 대량 주문용)\n표준 조건: 계약금 50% + 출하 전 50%. 거래 안정 고객은 Net-30 월결제 신청 가능. 법인 계좌 결제만 가능하며 개인 계좌는 받지 않습니다.',
     },
     es: {
       q: '¿Qué métodos de pago aceptan?',
-      a: '• T/T (transferencia bancaria)\n• PayPal\n• Carta de crédito (L/C) para pedidos grandes\nCondiciones estándar: 50% de depósito + 50% antes del envío. Clientes habituales pueden solicitar Net-30.',
+      a: '• T/T (transferencia bancaria)\n• PayPal\n• Carta de crédito (L/C) para pedidos grandes\nCondiciones estándar: 50% de depósito + 50% antes del envío. Clientes habituales pueden solicitar Net-30. Solo aceptamos pagos a cuenta corporativa, no a cuentas personales.',
     },
     de: {
       q: 'Welche Zahlungsmethoden akzeptieren Sie?',
-      a: '• T/T (Banküberweisung)\n• PayPal\n• Akkreditiv (L/C) für große Bestellungen\nStandardbedingungen: 50% Anzahlung + 50% vor Versand. Stammkunden können Net-30 beantragen.',
+      a: '• T/T (Banküberweisung)\n• PayPal\n• Akkreditiv (L/C) für große Bestellungen\nStandardbedingungen: 50% Anzahlung + 50% vor Versand. Stammkunden können Net-30 beantragen. Wir akzeptieren nur Zahlungen auf Firmenkonten, keine Privatkonten.',
     },
     ar: {
       q: 'ما هي طرق الدفع التي تقبلونها؟',
-      a: '• T/T (تحويل بنكي)\n• PayPal\n• الاعتماد المستندي (L/C) للطلبات الكبيرة\nالشروط القياسية: 50% دفعة مقدمة + 50% قبل الشحن. يمكن للعملاء الدائمين طلب Net-30.',
+      a: '• T/T (تحويل بنكي)\n• PayPal\n• الاعتماد المستندي (L/C) للطلبات الكبيرة\nالشروط القياسية: 50% دفعة مقدمة + 50% قبل الشحن. يمكن للعملاء الدائمين طلب Net-30. نقبل الدفع على الحساب الشرعي للشركة فقط، ولا نقبل الحسابات الشخصية.',
     },
     kwFr: ['paiement', 'payer', 'virement', 't/t', 'paypal', 'lettre de crédit', 'lettre de credit', 'lc', 'acompte', 'conditions', 'facture', 'règlement', 'reglement'],
     fr: {
       q: 'Quels modes de paiement acceptez-vous ?',
-      a: '• T/T (virement bancaire)\n• PayPal\n• Lettre de crédit (L/C) pour les grosses commandes\nConditions standard : 50 % d\u2019acompte + 50 % avant expédition. Les clients fidèles peuvent demander un Net-30.',
+      a: '• T/T (virement bancaire)\n• PayPal\n• Lettre de crédit (L/C) pour les grosses commandes\nConditions standard : 50 % d\u2019acompte + 50 % avant expédition. Les clients fidèles peuvent demander un Net-30. Nous n’acceptons que les paiements sur compte d’entreprise, pas les comptes personnels.',
     },
   },
   {
@@ -633,8 +633,8 @@ export const faqItems: FaqItem[] = [
   },
   {
     id: 'surface',
-    kw: ['surface', 'finish', 'anodize', 'anodizing', 'plating', 'nickel', 'zinc', 'polish', 'bead blast', 'passivation', 'powder coat', 'black oxide', 'coating'],
-    kwZh: ['表面处理', '阳极氧化', '电镀', '镀镍', '镀锌', '抛光', '喷砂', '钝化', '喷涂', '发黑', '氧化'],
+    kw: ['surface', 'finish', 'surface finishes', 'anodize', 'anodizing', 'plating', 'nickel', 'zinc', 'polish', 'bead blast', 'passivation', 'powder coat', 'black oxide', 'coating'],
+    kwZh: ['表面处理', '阳极氧化', '电镀', '镀镍', '镀锌', '抛光', '喷砂', '钝化', '喷涂', '发黑', '氧化', '膜厚', '盐雾', '怎么检验', '表面检验'],
     kwJa: ['表面処理', 'アルマイト', 'めっき', '研磨', 'ブラスト', '不動態化', '塗装', '鏡面'],
     kwRu: ['поверхност', 'покрыт', 'анодирован', 'никелирован', 'цинкован', 'полировк', 'пескостру', 'пассивац', 'порошков', 'оксидирован', 'отделк'],
     kwKo: ['표면처리', '표면', '처리', '아노다이징', '도금', '니켈', '아연', '연마', '샌딩', '부동태', '분체', '코팅', '산화'],
@@ -643,40 +643,40 @@ export const faqItems: FaqItem[] = [
     kwAr: ['سطح', 'تشطيب', 'أكسدة', 'طلاء', 'نيكل', 'زنك', 'تلميع', 'سفع', 'تخميل', 'مسحوق', 'تغطية'],
     en: {
       q: 'What surface finishes do you offer?',
-      a: '• Anodizing Type II / Type III (hard) — aluminum\n• Electroless nickel, chrome plating — steel/copper\n• Zinc plating, black oxide — carbon steel\n• Passivation — stainless steel\n• Bead blasting, polishing / mirror finish\n• Powder coating\nSurface treatment adds to lead time (roughly +1 to +5 days depending on process).',
+      a: '• Anodizing Type II / Type III (hard) — aluminum\n• Electroless nickel, chrome plating — steel/copper\n• Zinc plating, black oxide — carbon steel\n• Passivation — stainless steel\n• Bead blasting, polishing / mirror finish\n• Powder coating\nAnodizing and plating are carried out by long-term qualified suppliers; appearance and coating thickness are accepted against the drawing or agreed standard. The exact inspection method and instruments (they differ by process and standard) are confirmed by our engineers and written into the order terms. Surface treatment adds to lead time (roughly +1 to +5 days depending on process).',
     },
     zh: {
       q: '你们提供哪些表面处理？',
-      a: '• 阳极氧化 Type II / 硬质 Type III — 铝合金\n• 化学镀镍、电镀铬 — 钢、铜\n• 镀锌、发黑 — 碳钢\n• 钝化 — 不锈钢\n• 喷砂、抛光/镜面\n• 粉末喷涂\n表面处理在机加工后叠加，视工艺增加约 1–5 天交期。',
+      a: '• 阳极氧化 Type II / 硬质 Type III — 铝合金\n• 化学镀镍、电镀铬 — 钢、铜\n• 镀锌、发黑 — 碳钢\n• 钝化 — 不锈钢\n• 喷砂、抛光/镜面\n• 粉末喷涂\n阳极氧化与电镀由长期配套供应商完成，外观与膜厚按图纸或约定标准验收；具体检验方法与仪器（不同工艺、标准不同）由工程师确认后写入订单条款。表面处理在机加工后叠加，视工艺增加约 1–5 天交期。',
     },
     ja: {
       q: 'どのような表面処理を提供していますか？',
-      a: '• アルマイト処理 Type II / 硬質 Type III — アルミニウム\n• 無電解ニッケルめっき、クロムめっき — 鋼・銅\n• 亜鉛めっき、黒染め — 炭素鋼\n• 不動態化処理 — ステンレス鋼\n• ブラスト処理、研磨/鏡面仕上げ\n• 粉体塗装\n表面処理は機械加工後に追加され、工程により納期が約1～5日延びます。',
+      a: '• アルマイト処理 Type II / 硬質 Type III — アルミニウム\n• 無電解ニッケルめっき、クロムめっき — 鋼・銅\n• 亜鉛めっき、黒染め — 炭素鋼\n• 不動態化処理 — ステンレス鋼\n• ブラスト処理、研磨/鏡面仕上げ\n• 粉体塗装\nアルマイト・めっきは長期取引先の専門業者が処理し、外観と膜厚は図面または合意基準で検収します。具体的な検査方法・測定器（工程や基準により異なる）はエンジニアが確認のうえ注文条件に明記します。表面処理は機械加工後に追加され、工程により納期が約1～5日延びます。',
     },
     ru: {
       q: 'Какие виды обработки поверхности вы предлагаете?',
-      a: '• Анодирование Type II / твёрдое Type III — алюминий\n• Химическое никелирование, хромирование — сталь/медь\n• Цинкование, оксидирование — углеродистая сталь\n• Пассивация — нержавеющая сталь\n• Пескоструйная обработка, полировка/зеркальная отделка\n• Порошковая окраска\nОбработка поверхности добавляет время (примерно +1…+5 дней в зависимости от процесса).',
+      a: '• Анодирование Type II / твёрдое Type III — алюминий\n• Химическое никелирование, хромирование — сталь/медь\n• Цинкование, оксидирование — углеродистая сталь\n• Пассивация — нержавеющая сталь\n• Пескоструйная обработка, полировка/зеркальная отделка\n• Порошковая окраска\nАнодирование и гальваническое покрытие выполняют постоянные проверенные поставщики; внешний вид и толщина покрытия принимаются по чертежу или согласованному стандарту. Конкретный метод и приборы контроля (зависят от процесса и стандарта) подтверждает инженер и фиксирует в условиях заказа. Обработка поверхности добавляет время (примерно +1…+5 дней в зависимости от процесса).',
     },
     ko: {
       q: '어떤 표면 처리를 제공하나요?',
-      a: '• 아노다이징 Type II / 경질 Type III — 알루미늄\n• 무전해 니켈 도금, 크롬 도금 — 강, 구리\n• 아연 도금, 흑색 산화 — 탄소강\n• 부동태화 — 스테인리스강\n• 샌드 블라스팅, 연마/경면\n• 분체 도장\n표면 처리는 가공 후 추가되며 공정에 따라 납기가 약 1~5일 늘어납니다.',
+      a: '• 아노다이징 Type II / 경질 Type III — 알루미늄\n• 무전해 니켈 도금, 크롬 도금 — 강, 구리\n• 아연 도금, 흑색 산화 — 탄소강\n• 부동태화 — 스테인리스강\n• 샌드 블라스팅, 연마/경면\n• 분체 도장\n아노다이징과 도금은 장기 거래 협력업체가 처리하며, 외관과 피막 두께는 도면 또는 합의 기준으로 검수합니다. 구체적 검사 방법과 측정기(공정·기준에 따라 다름)는 엔지니어가 확인 후 주문 조건에 명시합니다. 표면 처리는 가공 후 추가되며 공정에 따라 납기가 약 1~5일 늘어납니다.',
     },
     es: {
       q: '¿Qué acabados superficiales ofrecen?',
-      a: '• Anodizado Tipo II / Tipo III (duro) — aluminio\n• Niquelado químico, cromado — acero/cobre\n• Cincado, oxidado negro — acero al carbono\n• Pasivación — acero inoxidable\n• Granallado, pulido/acabado espejo\n• Recubrimiento en polvo\nEl tratamiento superficial añade plazo (aproximadamente +1 a +5 días según el proceso).',
+      a: '• Anodizado Tipo II / Tipo III (duro) — aluminio\n• Niquelado químico, cromado — acero/cobre\n• Cincado, oxidado negro — acero al carbono\n• Pasivación — acero inoxidable\n• Granallado, pulido/acabado espejo\n• Recubrimiento en polvo\nEl anodizado y los recubrimientos electrolíticos los realizan proveedores homologados de larga relación; la apariencia y el espesor de capa se aceptan según plano o norma acordada. El método e instrumentos de inspección concretos (varían según proceso y norma) los confirma nuestro ingeniero y se recogen en las condiciones del pedido. El tratamiento superficial añade plazo (aproximadamente +1 a +5 días según el proceso).',
     },
     de: {
       q: 'Welche Oberflächenbehandlungen bieten Sie an?',
-      a: '• Eloxieren Typ II / Harteloxieren Typ III — Aluminium\n• Chemisch Nickel, Verchromen — Stahl/Kupfer\n• Verzinken, Brünieren — Kohlenstoffstahl\n• Passivieren — Edelstahl\n• Sandstrahlen, Polieren/Spiegelpolitur\n• Pulverbeschichtung\nOberflächenbehandlung verlängert die Lieferzeit (je nach Verfahren ca. +1 bis +5 Tage).',
+      a: '• Eloxieren Typ II / Harteloxieren Typ III — Aluminium\n• Chemisch Nickel, Verchromen — Stahl/Kupfer\n• Verzinken, Brünieren — Kohlenstoffstahl\n• Passivieren — Edelstahl\n• Sandstrahlen, Polieren/Spiegelpolitur\n• Pulverbeschichtung\nEloxieren und Galvanik erfolgen durch langjährige qualifizierte Lieferanten; Optik und Schichtdicke werden nach Zeichnung oder vereinbarter Norm abgenommen. Prüfverfahren und Messgeräte (je nach Prozess und Norm unterschiedlich) bestätigt unser Ingenieur und hält sie in den Auftragsbedingungen fest. Oberflächenbehandlung verlängert die Lieferzeit (je nach Verfahren ca. +1 bis +5 Tage).',
     },
     ar: {
       q: 'ما هي معالجات الأسطح التي تقدمونها؟',
-      a: '• الأنودة من النوع الثاني / الثالث (الصلب) — الألمنيوم\n• طلاء النيكل الكيميائي، طلاء الكروم — الفولاذ/النحاس\n• طلاء الزنك، الأكسدة السوداء — الفولاذ الكربوني\n• التخميل — الفولاذ المقاوم للصدأ\n• السفع الرملي، التلميع/التشطيب المرآوي\n• الطلاء بالمسحوق\nتضيف معالجة الأسطح إلى مدة التسليم (حوالي +1 إلى +5 أيام حسب العملية).',
+      a: '• الأنودة من النوع الثاني / الثالث (الصلب) — الألمنيوم\n• طلاء النيكل الكيميائي، طلاء الكروم — الفولاذ/النحاس\n• طلاء الزنك، الأكسدة السوداء — الفولاذ الكربوني\n• التخميل — الفولاذ المقاوم للصدأ\n• السفع الرملي، التلميع/التشطيب المرآوي\n• الطلاء بالمسحوق\nتُنفَّذ الأنودة والطلاء الكهربائي عبر موردين مؤهلين على المدى الطويل؛ ويُعتمد المظهر وسُمك الطلاء حسب الرسم أو المعيار المتفق عليه. أما طريقة الفحص والأجهزة المحددة (تختلف حسب العملية والمعيار) فيؤكدها مهندسنا وتُدرَج في شروط الطلب. تضيف معالجة الأسطح إلى مدة التسليم (حوالي +1 إلى +5 أيام حسب العملية).',
     },
     kwFr: ['surface', 'finition', 'anodisation', 'anodisé', 'anodise', 'placage', 'nickel', 'zinc', 'polissage', 'sablage', 'passivation', 'peinture', 'revêtement', 'revetement', 'oxydation', 'finition de surface'],
     fr: {
       q: 'Quelles finitions de surface proposez-vous ?',
-      a: '• Anodisation Type II / Type III (dure) — aluminium\n• Nickelage chimique, chromage — acier/cuivre\n• Zingage, oxydation noire — acier carbone\n• Passivation — acier inoxydable\n• Sablage, polissage/fini miroir\n• Peinture en poudre\nLe traitement de surface ajoute du délai (environ +1 à +5 jours selon le procédé).',
+      a: '• Anodisation Type II / Type III (dure) — aluminium\n• Nickelage chimique, chromage — acier/cuivre\n• Zingage, oxydation noire — acier carbone\n• Passivation — acier inoxydable\n• Sablage, polissage/fini miroir\n• Peinture en poudre\nL’anodisation et les dépôts électrolytiques sont réalisés par des fournisseurs qualifiés de longue date ; l’aspect et l’épaisseur de couche sont acceptés selon le plan ou la norme convenue. La méthode et les instruments de contrôle exacts (variables selon le procédé et la norme) sont confirmés par notre ingénieur et inscrits dans les conditions de commande. Le traitement de surface ajoute du délai (environ +1 à +5 jours selon le procédé).',
     },
   },
   {
