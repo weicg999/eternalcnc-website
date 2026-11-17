@@ -1,0 +1,179 @@
+---
+/**
+ * SEOHead 组件 - TDK + Schema.org 结构化数据 + Open Graph + hreflang 三语互链
+ *
+ * hreflang 采用 import.meta.glob 枚举 src/pages 下真实存在的路由，
+ * 不再依赖 fs.existsSync + import.meta.url（静态构建下该探测恒失效）。
+ * 命名不对称的双语页（知识页）用 LANG_MAP 显式映射。
+ *
+ * alternates：显式声明本站页面的三语对页（站内路径或绝对 URL，带不带尾斜杠都行）。
+ * 必须显式传的场景 —— 动态路由（如 /knowledge/tech-blog/[...slug]/）：
+ * 它的键在 import.meta.glob 枚举集合里是模板 '../pages/.../[...slug].astro'，
+ * 永远不等于某篇文章的具体路径，routes.has() 恒为 false，自动推断必然落空。
+ */
+interface Alternates {
+  en?: string;
+  zh?: string;
+  ru?: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalUrl?: string;
+  ogImage?: string;
+  schema?: object | object[];
+  noindex?: boolean;
+  keywords?: string;
+  alternates?: Alternates;
+}
+
+const {
+  title,
+  description,
+  canonicalUrl,
+  ogImage = '/images/og-default.webp',
+  schema,
+  noindex = false,
+  keywords,
+  alternates,
+} = Astro.props;
+
+const canonical = canonicalUrl || new URL(Astro.url.pathname, Astro.site).href;
+
+// 枚举所有真实存在的路由
+const allModules = import.meta.glob('../pages/**/*.astro', { eager: true });
+const routes = new Set<string>();
+for (const p of Object.keys(allModules)) {
+  let r = p.replace(/^\.\.\/pages\//, '').replace(/\.astro$/, '');
+  r = r.replace(/\/index$/, '');
+  if (r === 'index') r = '';
+  routes.add('/' + r);
+}
+
+// 命名不对称的双语页（仅 slug 不同的几对知识页）——其余中英文仅前缀不同，自动互换
+const LANG_MAP: Record<string, string> = {
+  '/zh/knowledge/dfm-guides': '/knowledge/dfm-guide',
+  '/zh/knowledge/machining-tolerances': '/knowledge/tolerance',
+  '/zh/knowledge/material-guide': '/knowledge/material-handbook',
+  '/zh/knowledge/quality-certification': '/knowledge/quality',
+  '/knowledge/dfm-guide': '/zh/knowledge/dfm-guides',
+  '/knowledge/tolerance': '/zh/knowledge/machining-tolerances',
+  '/knowledge/material-handbook': '/zh/knowledge/material-guide',
+  '/knowledge/quality': '/zh/knowledge/quality-certification',
+};
+
+// 归一化：去掉尾斜杠（根路径 '/' 除外），避免 /about/ 与 /about 匹配不上
+const norm = (p: string) => (p.length > 1 ? p.replace(/\/$/, '') : p);
+const pathname = Astro.url.pathname;
+const np = norm(pathname);
+const isZh = np.startsWith('/zh');
+const isRu = np.startsWith('/ru');
+const ogLocale = isRu ? 'ru_RU' : isZh ? 'zh_CN' : 'en_US';
+const ogSiteName = isRu ? 'Eternal CNC — Точная ЧПУ обработка' : isZh ? '永恒精密数控加工' : 'Eternal CNC Precision Machining';
+
+// 语言无关路径片段（rest）：去掉 /ru、/zh 前缀
+const rest = (() => {
+  if (isRu) return np.slice(3) || '/';
+  if (isZh) return np.slice(3) || '/';
+  return np;
+})();
+
+// 给某语言拼回带前缀的路径（en 无前缀）；ru 镜像 en slug，无需映射
+const withPrefix = (l: 'en' | 'zh' | 'ru', r: string) =>
+  l === 'en' ? (r === '/' ? '/' : r) : `/${l}${r === '/' ? '' : r}`;
+
+// 命名不对称的页（仅 en↔zh 的几对知识页）；ru 对称，无需修正。
+//
+// ⚠️ LANG_MAP 是「双向」表（en→zh 与 zh→en 成对），不能无差别套用：
+// 算英文版地址时，英文路径 '/knowledge/dfm-guide' 也在表里、会被映射回
+// '/zh/knowledge/dfm-guides'，于是 hreflang="en" 和 x-default 双双指向中文页。
+// 只有当「映射结果确实属于目标语言」时才采纳，否则保留原路径。
+//
+// 注：这 4 组知识页如今在 /zh/ 下都有「同名同内容」的对页（如
+// /zh/knowledge/dfm-guide/），而本表指向的是另一批无对应译文的旧落地页，
+// 故在「同语言才采纳」规则下本表已不再生效；保留是为将来真出现
+// 「slug 不对称」的成对页面时可直接填表。规则不变：映射必须同语言。
+const langOfPath = (p: string): 'en' | 'zh' | 'ru' =>
+  p === '/zh' || p.startsWith('/zh/') ? 'zh' : p === '/ru' || p.startsWith('/ru/') ? 'ru' : 'en';
+
+const counterFor = (l: 'en' | 'zh' | 'ru') => {
+  let p = withPrefix(l, rest);
+  const mapped = LANG_MAP[p];
+  if (mapped && langOfPath(mapped) === l) p = mapped;
+  return norm(p);
+};
+
+// hreflang 目标必须与 canonical 完全一致，即「带尾斜杠的规范地址」。
+// 注意：np/counterFor 结果是去尾斜杠的内部形式（用于匹配 routes 集合），
+// 不能直接拿去当 hreflang —— 无尾斜杠地址在 Cloudflare Pages 上会 308 跳转，
+// 搜索引擎视「hreflang 指向重定向」为无效标注，整个语言集群会被忽略。
+const toCanonical = (p: string) => (p === '/' || p.endsWith('/') ? p : p + '/');
+
+// 对页地址可能是站内路径也可能是绝对 URL，统一归到 Astro.site 下的规范地址
+const asUrl = (p: string) => {
+  const path = /^https?:\/\//i.test(p) ? new URL(p).pathname : p;
+  return new URL(toCanonical(norm(path)), Astro.site).href;
+};
+
+const hasExplicitAlt = !!alternates && (!!alternates.en || !!alternates.zh || !!alternates.ru);
+
+// 未显式传 alternates 时，退回「路由集合推断」：只认真实存在的对页，避免悬空标注
+const inferredUrl = (l: 'en' | 'zh' | 'ru') => {
+  const path = counterFor(l);
+  return routes.has(path) ? asUrl(path) : undefined;
+};
+
+const enUrl = hasExplicitAlt ? (alternates!.en ? asUrl(alternates!.en) : undefined) : inferredUrl('en');
+const zhUrl = hasExplicitAlt ? (alternates!.zh ? asUrl(alternates!.zh) : undefined) : inferredUrl('zh');
+const ruUrl = hasExplicitAlt ? (alternates!.ru ? asUrl(alternates!.ru) : undefined) : inferredUrl('ru');
+
+// 参与互链的语言数：至少 2 个（含本页自身）才发 hreflang，纯单语页不发
+const altCount = [enUrl, zhUrl, ruUrl].filter(Boolean).length;
+const emitHreflang = altCount >= 2;
+
+// x-default 优先英文版；英文版不存在时退到实际存在的语言，
+// 绝不可指向不存在的地址（悬空 x-default 同样会让 Google 忽略整组标注）
+const xDefault = enUrl || zhUrl || ruUrl;
+---
+
+<!-- SEO Meta Tags -->
+<title>{title}</title>
+<meta name="shenma-site-verification" content="956dc65a9f8ad6105efd72c452c0821f_1788755481" />
+<meta name="yandex-verification" content="25beec4d68e39549" />
+<meta name="naver-site-verification" content="51b42cbfe715ad5ba1a16545202c868d9bfb559a" />
+<meta name="description" content={description} />
+    {keywords && <meta name="keywords" content={keywords} />}
+    <link rel="canonical" href={canonical} />
+
+    <!-- hreflang: 仅当存在其他语言的真实对页时发出（避免悬空标注） -->
+    {emitHreflang && (
+      <>
+        {enUrl && <link rel="alternate" hreflang="en" href={enUrl} />}
+        {zhUrl && <link rel="alternate" hreflang="zh-CN" href={zhUrl} />}
+        {ruUrl && <link rel="alternate" hreflang="ru" href={ruUrl} />}
+        {xDefault && <link rel="alternate" hreflang="x-default" href={xDefault} />}
+      </>
+    )}
+
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={new URL(ogImage, Astro.site).href} />
+<meta property="og:site_name" content={ogSiteName} />
+<meta property="og:locale" content={ogLocale} />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={new URL(ogImage, Astro.site).href} />
+
+<!-- 结构化数据 Schema.org -->
+{schema && (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+)}

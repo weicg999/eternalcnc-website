@@ -135,14 +135,40 @@ const emitHreflang = altCount >= 2;
 // x-default 优先英文版；英文版不存在时退到实际存在的语言，
 // 绝不可指向不存在的地址（悬空 x-default 同样会让 Google 忽略整组标注）
 const xDefault = enUrl || zhUrl || ruUrl;
+
+// ========== 2026-11-17 全站 TDK 渲染层规范化（SEO 批量合规） ==========
+// 此前存在大量 title 超长（>60，最高132）与 description 超长（>160），逐页硬编码易漏且风险高。
+// 统一在此渲染层压缩，覆盖全站 365 页，可随时回退（备份见 _seo_optim_backup_20261117）。
+// 规则：title ≤ 60，description ≤ 160；description 过短（<50）需源文案补写，此处不处理。
+function seoTitle(raw: string): string {
+  let t = (raw || '').replace(/\s+/g, ' ').trim();
+  if (t.length <= 60) return t;
+  t = t.replace(/\s*\|\s*(?:Eternal\s?CNC|EternalCNC)\s*$/i, '').trim();
+  if (t.length <= 60) return t;
+  const segs = t.split('|').map((s) => s.trim()).filter(Boolean);
+  while (segs.length > 1 && segs.join(' | ').length > 60) segs.pop();
+  t = segs.join(' | ').trim();
+  if (t.length <= 60) return t;
+  const cut = t.slice(0, 57).replace(/\s+\S*$/, '').replace(/[|:,;.\-–—]?\s*$/, '');
+  t = cut.length <= 45 ? t.slice(0, 56).replace(/[|:,;.\-–—]?\s*$/, '') + '…' : cut + '…';
+  return t;
+}
+function seoDesc(raw: string): string {
+  let d = (raw || '').replace(/\s+/g, ' ').trim();
+  if (d.length <= 160) return d;
+  const cut = d.slice(0, 160).replace(/\s+\S*$/, '').replace(/[|:,;.\-–—]?\s*$/, '');
+  return cut + (cut.length < d.length ? '…' : '');
+}
+const seoTitleVal = seoTitle(title);
+const seoDescVal = seoDesc(description);
 ---
 
 <!-- SEO Meta Tags -->
-<title>{title}</title>
+<title>{seoTitleVal}</title>
 <meta name="shenma-site-verification" content="956dc65a9f8ad6105efd72c452c0821f_1788755481" />
 <meta name="yandex-verification" content="25beec4d68e39549" />
 <meta name="naver-site-verification" content="51b42cbfe715ad5ba1a16545202c868d9bfb559a" />
-<meta name="description" content={description} />
+<meta name="description" content={seoDescVal} />
     {keywords && <meta name="keywords" content={keywords} />}
     <link rel="canonical" href={canonical} />
 
@@ -160,8 +186,8 @@ const xDefault = enUrl || zhUrl || ruUrl;
 
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
-<meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
+<meta property="og:title" content={seoTitleVal} />
+<meta property="og:description" content={seoDescVal} />
 <meta property="og:url" content={canonical} />
 <meta property="og:image" content={new URL(ogImage, Astro.site).href} />
 <meta property="og:site_name" content={ogSiteName} />
