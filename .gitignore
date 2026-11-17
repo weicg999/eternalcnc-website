@@ -4,6 +4,8 @@ node_modules/
 # Build output
 dist/
 .astro/
+.wrangler/
+_worker.bundle
 
 # WorkBuddy 工具链本地数据
 .workbuddy/
