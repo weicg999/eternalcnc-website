@@ -8,12 +8,20 @@ const breadcrumbs = [
 
 const archive = [
   {
+    number: '10',
+    date: '2026 年 11 月 20 日',
+    title: '这一期，厂里看到的——十一月下旬',
+    blurb: '10 月机器人产量 +26.0% 落在累计 32.3% 之下而 3D 打印加速；凸轮日产能 2000 件却按月滚动下单；机床订单簿被冷板与关节壳体改写，而行业利润率只有 3.6%；同一天两场 AI 大会；顿汉布什单季数据中心确收≈上半年总额。',
+    href: '/zh/knowledge/news/issue-10/',
+    latest: true,
+  },
+  {
     number: '09',
     date: '2026 年 11 月 13 日',
     title: '这一期，厂里看到的——十一月中旬',
     blurb: '出厂价涨 5.7% 而金属制品只涨 1.7%、前 10 个月机电出口 16.81 万亿元而工业机器人仅增 17.8%、北京把 2000 小时无故障与 1—2 天出样写进政策、华中10型数控系统内置大模型、格力 3 亿元温控集采全是风冷。',
     href: '/zh/knowledge/news/issue-09/',
-    latest: true,
+    latest: false,
   },
   {
     number: '08',
@@ -81,7 +89,7 @@ const archive = [
   },
 ];
 
-const nextIssue = '2026 年 11 月 20 日';
+const nextIssue = '2026 年 11 月 27 日';
 ---
 
 <PageLayout
@@ -156,7 +164,7 @@ const nextIssue = '2026 年 11 月 20 日';
         <p class="text-sm font-semibold uppercase tracking-wider mb-3" style="color: var(--brand-red);">下一期</p>
         <h3 class="text-xl font-bold mb-3" style="color: var(--brand-dark);">{nextIssue}</h3>
         <p class="text-sm leading-relaxed mb-5" style="color: var(--text-body);">
-正在跟进的线索：国家统计局 11 月的工业机器人与数控机床产量；10 月 PMI 的回落会不会落进 12 月的订单簿，还是只是一个月的波动；以及人形机器人关节模组厂会不会开始向零件供应商要寿命试验数据，而不只是一份尺寸报告。
+正在跟进的线索：国家统计局 11 月的工业机器人与金属切削机床产量；传动件供应商在按月滚动的订单下，会不会真的在 12 月扩产能；液冷那批 2027 年产线投产之前，二次侧非标件的询价会不会先热起来；以及西门子 Eigen 这类工具在中小机加厂里到底有没有人真正用起来，还是停在做演示。
         </p>
         <a href="/zh/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-semibold bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
           把你的下个零件发过来
