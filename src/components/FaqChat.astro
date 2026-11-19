@@ -61,6 +61,16 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
     <!-- 快捷问题 chips -->
     <div id="faq-chat-chips" class="px-3 pb-2 flex-shrink-0" style="display:none;"></div>
 
+    <!-- 转人工条（方案二：AI 转人工 → 企微群人工回复 → 回流官网） -->
+    <div id="faq-chat-human-bar" style="display:flex; padding:0 16px 8px; flex-shrink:0;">
+      <button id="faq-chat-human-btn" type="button" class="text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 transition-all duration-150"
+        style="color:#fff; background:var(--brand-red,#8B0000); border:none; cursor:pointer;">
+        <svg viewBox="0 0 24 24" style="width:13px;height:13px;" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <span id="faq-chat-human-label">转人工</span>
+      </button>
+      <span id="faq-chat-human-status" class="text-xs" style="margin-left:8px; color:#4a4a4a; display:none;"></span>
+    </div>
+
     <!-- 输入区 -->
     <div class="p-3 flex-shrink-0" style="border-top: 1px solid #eee; background:#fff; border-radius: 0 0 16px 16px;">
       <!-- 图片预览（选中待发送的图片） -->
@@ -216,6 +226,10 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
   const micBtn = document.getElementById('faq-chat-mic');
   const fileInput = document.getElementById('faq-chat-file');
   const imgPreview = document.getElementById('faq-chat-img-preview');
+  const humanBar = document.getElementById('faq-chat-human-bar');
+  const humanBtn = document.getElementById('faq-chat-human-btn');
+  const humanLabel = document.getElementById('faq-chat-human-label');
+  const humanStatus = document.getElementById('faq-chat-human-status');
   if (!widget || !panel) return;
 
   // 语言：初始取页面语言（zh/ru/en 三语站）
@@ -223,6 +237,12 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
   // 手动选择的语言（空 = 自动检测客户消息语言）。选中后 UI 文案 + 客服回答都强制跟随。
   let forcedLang = '';
   let greeted = false;
+
+  // 方案二：转人工状态。客户点「转人工」→ 后端分配短码并推送企微群 → 前端轮询 GET 拉取工程师回复。
+  let humanMode = false;          // 是否已进入人工模式
+  let humanCode = '';             // 后端分配的短码（群内 #短码 回写）
+  let humanTransferring = false;  // 转人工请求进行中（防重复点击）
+  let humanPollTimer = null;      // 轮询定时器
 
   // 方案 B：多轮对话状态。Workers AI 无服务端会话，历史由前端维护并随请求上报。
   let history = [];
@@ -392,6 +412,132 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
     if (autoHideMs) hintTimer = setTimeout(hideHint, autoHideMs);
   }
   if (hintCloseEl) hintCloseEl.addEventListener('click', hideHint);
+
+  // 方案二：转人工文案（zh/en 手写，其余语种回退英文，与 HINTS 策略一致）
+  const HUMAN_TEXTS = {
+    zh: {
+      btn: '转人工',
+      connecting: '正在转接工程师，请稍候…',
+      connected: '已转人工，工程师将在此回复（短码 {code}）。您也可以继续发送消息。',
+      failed: '转人工暂时不可用，请稍后再试；也可直接邮件联系 ' + COMPANY.email + '。',
+      replyPrefix: '工程师回复',
+      pollFailed: '获取工程师回复失败，将自动重试。',
+    },
+    en: {
+      btn: 'Talk to a human',
+      connecting: 'Connecting you to an engineer…',
+      connected: 'You are now connected to an engineer (code {code}). Replies will appear here. Feel free to keep sending messages.',
+      failed: 'Human handoff is temporarily unavailable. Please retry later, or email ' + COMPANY.email + ' directly.',
+      replyPrefix: 'Engineer reply',
+      pollFailed: 'Failed to fetch engineer replies. Auto-retrying…',
+    },
+  };
+  function humanText(key) {
+    const pack = HUMAN_TEXTS[lang] || HUMAN_TEXTS.en;
+    let s = pack[key] !== undefined ? pack[key] : HUMAN_TEXTS.en[key];
+    if (s && humanCode) s = s.replace('{code}', humanCode);
+    return s || key;
+  }
+  function setHumanBtnLabel(text) {
+    if (humanLabel) humanLabel.textContent = text;
+  }
+  function setHumanStatus(text) {
+    if (humanStatus) {
+      humanStatus.textContent = text;
+      humanStatus.style.display = text ? 'inline' : 'none';
+    }
+  }
+  function refreshHumanBar() {
+    if (!humanBar) return;
+    if (humanMode && humanCode) {
+      // 已转人工：按钮变状态文字
+      if (humanBtn) humanBtn.style.display = 'none';
+      setHumanStatus(humanText('connected'));
+    } else if (humanTransferring) {
+      setHumanBtnLabel(humanText('connecting'));
+      if (humanBtn) { humanBtn.style.pointerEvents = 'none'; humanBtn.style.opacity = '.7'; }
+      setHumanStatus('');
+    } else {
+      if (humanBtn) { humanBtn.style.display = ''; humanBtn.style.pointerEvents = ''; humanBtn.style.opacity = ''; }
+      setHumanBtnLabel(humanText('btn'));
+      setHumanStatus('');
+    }
+  }
+
+  // 方案二：请求转人工 → 后端分配短码 + 推送企微群 → 定时轮询拉工程师回复
+  async function requestHumanTransfer() {
+    if (humanMode || humanTransferring) return;
+    humanTransferring = true;
+    refreshHumanBar();
+    try {
+      const lastMsg = (function () {
+        let last = '';
+        for (let i = messages.length - 1; i >= 0; i--) {
+          if (messages[i] && messages[i].role === 'user') { last = messages[i].content || ''; break; }
+        }
+        return last;
+      })();
+      const res = await fetch('/api/chat/human', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: userId,
+          message: String(lastMsg || '').slice(0, 300),
+          language: LANG_BCP47[forcedLang || detectUserLang(lastMsg)] || 'en',
+        }),
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      if (!data || !data.ok || !data.code) throw new Error('bad resp');
+      humanMode = true;
+      humanCode = data.code;
+      try { localStorage.setItem('eternal_chat_human', JSON.stringify({ code: data.code })); } catch (e) {}
+      refreshHumanBar();
+      pushMsg('bot', humanText('connected'), lang === 'ar');
+      startHumanPolling();
+    } catch (e) {
+      humanTransferring = false;
+      refreshHumanBar();
+      showHint(humanText('failed'), 'warn', 7000);
+    }
+  }
+
+  function stopHumanPolling() {
+    if (humanPollTimer) { clearInterval(humanPollTimer); humanPollTimer = null; }
+  }
+  function startHumanPolling() {
+    stopHumanPolling();
+    if (!humanMode) return;
+    humanPollTimer = setInterval(pollHumanReplies, 5000);
+  }
+  async function pollHumanReplies() {
+    if (!humanMode) { stopHumanPolling(); return; }
+    try {
+      const res = await fetch('/api/chat/human?user_id=' + encodeURIComponent(userId), {
+        headers: { Accept: 'application/json' },
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      if (!data || !data.active) {
+        // 会话已结束：停止轮询，但保留已展示的消息
+        stopHumanPolling();
+        return;
+      }
+      const replies = Array.isArray(data.replies) ? data.replies : [];
+      replies.forEach(function (r) {
+        const content = String((r && r.content) || '').trim();
+        if (!content) return;
+        const who = (r && r.staff) ? humanText('replyPrefix') + ' · ' + r.staff : humanText('replyPrefix');
+        pushMsg('bot', '[' + who + '] ' + content, lang === 'ar');
+        messages.push({ role: 'assistant', content: '[' + who + '] ' + content });
+      });
+      if (replies.length) saveMessages();
+    } catch (e) {
+      // 网络抖动静默重试（下个周期会再拉一次），无需打扰客户
+    }
+  }
+
+  if (humanBtn) humanBtn.addEventListener('click', requestHumanTransfer);
 
   // 语言选项：菜单里显示本地名；按钮上显示短标签
   const LANG_LABELS = [
@@ -766,6 +912,9 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
     if (hasImg) {
       showHint(ht('imgReading'), 'info', 0);
       askModel(text || '(image)', imgData);
+    } else if (humanMode) {
+      // 方案二：已转人工，消息不再走本地 FAQ/模型，直接交给后端推送给企微群工程师
+      askModel(text);
     } else {
       const hit = match(text);
       const ul = forcedLang || detectUserLang(text);
@@ -795,6 +944,16 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
 
   function open() {
     panel.style.display = 'flex';
+    // 方案二：恢复转人工状态（localStorage 记录了短码；刷新/重开后继续轮询工程师回复）
+    let savedHuman = null;
+    try { savedHuman = JSON.parse(localStorage.getItem('eternal_chat_human') || 'null'); } catch (e) { savedHuman = null; }
+    if (savedHuman && savedHuman.code) {
+      humanMode = true;
+      humanCode = savedHuman.code;
+      // 询问后端会话是否仍 active；active 则恢复轮询并展示状态
+      refreshHumanBar();
+      startHumanPolling();
+    }
     if (!greeted) {
       loadMessages();
       if (messages.length > 0) {

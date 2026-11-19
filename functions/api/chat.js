@@ -76,6 +76,13 @@ const ROTA_MEMBERS = [
   { code: 'D', name: '卢昌伶', mobile: '19127805703' },
 ];
 const ROTA_IDX_KEY = 'rota:idx';
+
+// ===== 官网转人工（2026-11-19 方案二：AI 转人工 → 企微群回复 → 回流官网）=====
+// 客户在官网请求转人工（/api/chat/human）后，本会话进入人工模式：
+// 客户后续消息不再走 AI/FAQ，而是推送到企微群（短码标识），等待市场部在群里
+// 用「#短码 内容」回复，wecom/callback.js 写入 human:<userId>.replies，
+// 官网前端轮询 /api/chat/human 拉取并展示。人工模式下仍推企微群通知。
+const KV_HUMAN_PREFIX = 'human:';
 // 记忆 TTL（秒）：90 天无互动自动过期
 const KV_TTL_SECONDS = 90 * 24 * 60 * 60;
 
@@ -1552,6 +1559,48 @@ async function maybeAlertLead(kv, userId, profile, webhookUrl, env) {
   }
 }
 
+// ===== 转人工辅助（2026-11-19 方案二）=====
+
+/** 读取人机会话（KV human:<userId>），不存在或非 active 返回 null */
+async function getHumanSession(kv, userId) {
+  if (!kv) return null;
+  try {
+    const raw = await kv.get(KV_HUMAN_PREFIX + userId);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+/** 人工模式下把客户消息推送企微群（短码标识；认领已在转人工通知确定，这里不重复 @ 避免误导） */
+async function notifyHumanCustomerMessage(webhook, session, userId, message) {
+  if (!webhook || !session) return;
+  const lines = [
+    '💬【国际官网】转人工客户消息',
+    '短码：' + session.code,
+    '时间：' + new Date().toISOString(),
+    '—— 客户消息 ——\n' + String(message || '').slice(0, 500),
+    '访客 ID：' + userId,
+    '回复格式：#短码 内容（群里直接回复即可回传官网）',
+  ];
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 2500);
+  try {
+    const payload = { msgtype: 'text', text: { content: lines.join('\n') } };
+    const resp = await fetch(webhook, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+    if (!resp.ok) console.warn('[human] customer msg push failed:', resp.status, await resp.text());
+  } catch (e) {
+    console.warn('[human] customer msg push error:', e.message);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 /**
  * 创建空的客户档案
  */
@@ -2376,6 +2425,35 @@ export async function onRequestPost(context) {
     }
     // 会话轮次计数：用于"高意向未留资"告警的参与度判断
     customerProfile.msg_count = (customerProfile.msg_count || 0) + 1;
+
+    // ===== 人工模式（转人工）优先拦截：客户消息不再走 AI/FAQ =====
+    // 客户在官网点「转人工」（/api/chat/human）后本会话进入人工模式。
+    // 后续每一条消息：推送到企微群（短码标识），提示客户等待工程师回复。
+    // 市场部在企微群「#短码 内容」回复 → wecom/callback.js 写入回复队列 → 官网轮询展示。
+    const humanSession = await getHumanSession(kv, userId);
+    if (humanSession && humanSession.active) {
+      console.log('[human] intercept user=' + userId + ' code=' + humanSession.code + ' msg=' + message.slice(0, 60));
+      const humanReply = '已转人工，工程师将在企微群回复（短码 ' + humanSession.code + '），请稍候。';
+      const humanReplyEn = 'You have been connected to our engineer. A specialist will reply here shortly (code ' + humanSession.code + '). Please wait.';
+      const humanReplyZh = '您已转接人工工程师，稍后将在此回复。请稍候。';
+      // 推送客户消息到企微群（异步，不阻塞响应）
+      if (context.waitUntil) {
+        context.waitUntil(notifyHumanCustomerMessage(env.FEEDBACK_WEBHOOK_URL || '', humanSession, userId, message).catch(() => {}));
+      } else {
+        notifyHumanCustomerMessage(env.FEEDBACK_WEBHOOK_URL || '', humanSession, userId, message).catch(() => {});
+      }
+      const replyText = userLang === 'zh' ? humanReplyZh : (userLang === 'en' ? humanReplyEn : humanReply);
+      return new Response(createSseStream(replyText, conversationId || ('human_' + userId), null), {
+        status: 200,
+        headers: {
+          'Content-Type': 'text/event-stream; charset=utf-8',
+          'Cache-Control': 'no-cache, no-transform',
+          'Connection': 'keep-alive',
+          'X-Accel-Buffering': 'no',
+          ...corsHeaders(origin),
+        },
+      });
+    }
 
     // 构建客户背景上下文（自然融入式）
     const profileContext = buildCustomerProfileContext(customerProfile, userLang);

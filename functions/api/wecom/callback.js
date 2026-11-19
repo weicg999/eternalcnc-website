@@ -36,6 +36,15 @@ const KV_TOKEN = 'wc:token';
 const KV_CONV = 'wc:conv:';
 const KV_MSG = 'wc:msg:';
 
+// ===== 官网转人工回写（2026-11-19 方案二）=====
+// 市场部在企微群用「#短码 内容」回复官网转人工客户：
+// 1) 解析短码 → KV human-code:<CODE> 反查 userId
+// 2) human:<userId> session.replies 追加回复
+// 3) 回执企微"已转达客户"
+// 该链路依赖官方自建应用回调密钥（WECOM_*），未配置时直接走原 Coze 逻辑。
+const KV_HUMAN_PREFIX = 'human:';
+const KV_HUMAN_CODE_PREFIX = 'human-code:';
+
 const CONV_TTL = 90 * 24 * 60 * 60;
 const DEDUPE_TTL = 600;
 const TEXT_MAX_BYTES = 1800; // 企微 text 消息上限 2048 字节，留余量
@@ -200,6 +209,73 @@ async function sendText(env, { toUser, chatId, content }, retried) {
     ? '（60020 = IP 不在可信列表；请到应用后台把「企业可信IP」清空，Cloudflare 出口 IP 不固定）'
     : '';
   throw new Error('message/send 失败 ' + data.errcode + ' ' + (data.errmsg || '') + hint);
+}
+
+// ========== 官网转人工回写（2026-11-19 方案二）==========
+
+/**
+ * 解析企微群回复「#短码 内容」并回写对应官网访客的人工回复队列。
+ * @returns {Promise<{handled: boolean, code?: string, feedback?: string}>}
+ *   handled=true 表示命中短码回复，已回写（不再走 Coze）。
+ */
+async function tryHandleHumanReply(env, fromUser, chatId, question) {
+  const m = String(question || '').match(/^#([A-Z0-9]{6})\s*[:：]?\s*([\s\S]+)$/);
+  if (!m) return { handled: false };
+  const code = m[1];
+  const content = (m[2] || '').trim();
+  if (!content) return { handled: false };
+
+  const kv = env.CUSTOMER_MEMORY || null;
+  let targetKey = null;
+  if (kv) {
+    try {
+      targetKey = await kv.get(KV_HUMAN_CODE_PREFIX + code);
+    } catch (e) { /* ignore */ }
+  }
+  if (!targetKey) {
+    console.warn('[wecom-human] code not found: ' + code);
+    try {
+      await sendText(env, {
+        toUser: fromUser,
+        chatId,
+        content: '未找到短码 ' + code + ' 对应的官网会话（可能已过期）。请核对群内消息里的短码。',
+      });
+    } catch (e2) { /* ignore */ }
+    return { handled: true, code, feedback: 'code_not_found' };
+  }
+
+  // 追加到 human:<userId>.replies
+  try {
+    const raw = await kv.get(KV_HUMAN_PREFIX + targetKey);
+    const session = raw ? JSON.parse(raw) : null;
+    if (session && session.active) {
+      if (!Array.isArray(session.replies)) session.replies = [];
+      session.replies.push({
+        at: Date.now(),
+        staff: fromUser,
+        content: content.slice(0, 2000),
+      });
+      // 保留最多 50 条，防止极端刷屏
+      if (session.replies.length > 50) session.replies = session.replies.slice(-50);
+      await kv.put(KV_HUMAN_PREFIX + targetKey, JSON.stringify(session), { expirationTtl: 90 * 24 * 60 * 60 });
+      console.log('[wecom-human] reply written code=' + code + ' target=' + targetKey + ' len=' + content.length);
+      await sendText(env, {
+        toUser: fromUser,
+        chatId,
+        content: '✅ 已回复官网客户（短码 ' + code + '）',
+      });
+    } else {
+      console.warn('[wecom-human] session not active: ' + code);
+      await sendText(env, {
+        toUser: fromUser,
+        chatId,
+        content: '短码 ' + code + ' 对应的官网会话已结束（访客可能已离开），回复未发送。',
+      });
+    }
+  } catch (e) {
+    console.warn('[wecom-human] write failed: ' + e.message);
+  }
+  return { handled: true, code, feedback: 'written' };
 }
 
 // ========== Coze 调用（与网站客服同一套接口）==========
@@ -402,6 +478,13 @@ export async function onRequestPost(context) {
 
   const question = (content || '').trim();
   if (!question) return ok();
+
+  // ★ 官网转人工回写：群内「#短码 内容」回复 → 回写官网人工回复队列（命中则不再走 Coze）
+  const humanReply = await tryHandleHumanReply(env, fromUser, chatId, question);
+  if (humanReply.handled) {
+    console.log('[wecom] human reply handled: ' + humanReply.code + ' (' + humanReply.feedback + ')');
+    return ok();
+  }
 
   // ★ 5 秒铁律：这里必须立即返回，重活扔后台
   const task = handleAsk(env, { fromUser, chatId, question });
