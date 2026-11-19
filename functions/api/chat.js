@@ -61,10 +61,21 @@ const KV_KEY_PREFIX = 'customer:';
 // 背景：客户档案此前"只写 KV、无任何出口推送"，高意向但没点「转人工」的访客静默流失。
 // 触发：会话轮次 ≥ LEAD_ALERT_MIN_TURNS，且档案出现高价值信号，但始终未留下任何联系方式。
 // 去重：档案内 lead_alerted 标记（同一访客只推一次）+ 每日总量上限，防止刷屏企业微信群。
-const LEAD_ALERT_MIN_TURNS = 3;
+const LEAD_ALERT_MIN_TURNS = 1;
 const LEAD_ALERT_DAILY_CAP = 20;
 const LEAD_ALERT_DAILY_KEY = 'leadalert:';
 const LEAD_ALERT_INTERNAL_KEYS = ['msg_count', 'lead_alerted'];
+
+// ===== 市场部询盘轮值（2026-11-19）=====
+// A=韦春光, B=罗婷, C=陈烈廷, D=卢昌伶；出单按顺序轮替 @。
+// mobile 填企业微信绑定手机号，用于群机器人 mentioned_mobile_list 精确 @；留空则仅文字标注。
+const ROTA_MEMBERS = [
+  { code: 'A', name: '韦春光', mobile: '15013586862' },
+  { code: 'B', name: '罗婷', mobile: '19330678584' },
+  { code: 'C', name: '陈烈廷', mobile: '18420040560' },
+  { code: 'D', name: '卢昌伶', mobile: '19127805703' },
+];
+const ROTA_IDX_KEY = 'rota:idx';
 // 记忆 TTL（秒）：90 天无互动自动过期
 const KV_TTL_SECONDS = 90 * 24 * 60 * 60;
 
@@ -1383,34 +1394,39 @@ async function saveCustomerProfile(kv, userId, profile) {
  * 与 chat-lead.js 的 notifyWecom 共用同一 webhook（env.FEEDBACK_WEBHOOK_URL），
  * 消息风格保持一致，便于在同一群里分流查看。
  */
-async function notifyLeadAlert(webhook, profile, userId) {
+async function notifyLeadAlert(webhook, profile, userId, assigned) {
   const parts = (profile.parts_interested || []).join(', ');
   const concerns = (profile.concerns || []).join(', ');
   const lines = [
-    '🔔 **高意向访客 · 未留联系方式**',
-    '> 时间：' + new Date().toISOString(),
-    '> 语言：' + (profile.language || '-') + '｜会话轮次：' + (profile.msg_count || '-'),
+    '🔔【国际官网】高意向访客 · 未留联系方式',
+    '时间：' + new Date().toISOString(),
+    '语言：' + (profile.language || '-') + '｜会话轮次：' + (profile.msg_count || '-'),
+    (assigned ? '本单认领：@' + assigned.name + '（轮值 ' + assigned.code + '）' : '本单认领：群内按轮值顺序接手'),
   ];
-  if (profile.company) lines.push('\n**公司**：' + profile.company);
-  if (profile.industry) lines.push('**行业**：' + profile.industry);
-  if (parts) lines.push('**关注零件**：' + parts);
-  if (profile.quote_status) lines.push('**报价进度**：' + profile.quote_status);
-  if (concerns) lines.push('**关注点**：' + concerns);
-  if (profile.has_sent_drawing) lines.push('**已发图纸**：是');
-  if (profile.last_message) lines.push('\n**最后一句话**：\n' + profile.last_message);
-  if (profile.notes) lines.push('**备注**：' + profile.notes);
-  lines.push('\n访客 ID：' + userId);
+  if (profile.company) lines.push('公司：' + profile.company);
+  if (profile.industry) lines.push('行业：' + profile.industry);
+  if (parts) lines.push('关注零件：' + parts);
+  if (profile.quote_status) lines.push('报价进度：' + profile.quote_status);
+  if (concerns) lines.push('关注点：' + concerns);
+  if (profile.has_sent_drawing) lines.push('已发图纸：是');
+  if (profile.last_message) lines.push('—— 最后一句话 ——\n' + profile.last_message);
+  if (profile.notes) lines.push('备注：' + profile.notes);
+  lines.push('访客 ID：' + userId);
+  lines.push('若 30 分钟内未响应，其余成员均可接手：' + ROTA_MEMBERS.map(function (m) { return m.name + '[' + m.code + ']'; }).join(' / ') + '（客户归先回复者，轮值顺序不变）');
 
+  const mentionedMobile = (assigned && assigned.mobile) ? [assigned.mobile] : [];
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 2500);
   try {
+    const payload = { msgtype: 'text', text: { content: lines.join('\n') } };
+    if (mentionedMobile.length) payload.text.mentioned_mobile_list = mentionedMobile;
     const resp = await fetch(webhook, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ msgtype: 'markdown', markdown: { content: lines.join('\n') } }),
+      body: JSON.stringify(payload),
       signal: controller.signal,
     });
-    if (!resp.ok) console.warn('lead-alert wecom notify failed:', resp.status);
+    if (!resp.ok) console.warn('lead-alert wecom notify failed:', resp.status, await resp.text());
   } catch (e) {
     console.warn('lead-alert wecom notify error:', e.message);
   } finally {
@@ -1419,10 +1435,63 @@ async function notifyLeadAlert(webhook, profile, userId) {
 }
 
 /**
+ * 高意向客户邮件告警（Resend）。作为企微 webhook 的补充/兜底通道：客户在官网
+ * 冒出高意向但未留联系方式时，实时发邮件到 NOTIFY_EMAIL，手机邮件 App 即可收到。
+ * 任何异常自吞，绝不影响访客回复。
+ */
+async function notifyLeadEmail(profile, userId, env, assigned) {
+  const parts = (profile.parts_interested || []).join(', ');
+  const concerns = (profile.concerns || []).join(', ');
+  const lines = [
+    '[High-intent lead] 【国际官网】高意向访客 · 未留联系方式',
+    '认领：' + (assigned ? assigned.name + ' （轮值 ' + assigned.code + '）' : '群内按轮值顺序接手'),
+    '时间：' + new Date().toISOString(),
+    '语言：' + (profile.language || '-') + ' | 会话轮次：' + (profile.msg_count || '-'),
+  ];
+  if (profile.company) lines.push('公司：' + profile.company);
+  if (profile.industry) lines.push('行业：' + profile.industry);
+  if (parts) lines.push('关注零件：' + parts);
+  if (profile.quote_status) lines.push('报价进度：' + profile.quote_status);
+  if (concerns) lines.push('关注点：' + concerns);
+  if (profile.has_sent_drawing) lines.push('已发图纸：是');
+  if (profile.last_message) lines.push('—— 最后一句话 ——\n' + profile.last_message);
+  if (profile.notes) lines.push('备注：' + profile.notes);
+  lines.push('访客 ID：' + userId);
+
+  const fromEmail = env.FROM_EMAIL || 'onboarding@resend.dev';
+  const toEmail = env.NOTIFY_EMAIL || 'sales@eternalcnc.com';
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 5000);
+  try {
+    if (!env.RESEND_API_KEY) {
+      console.log('[lead-alert] RESEND_API_KEY 未配置，邮件告警跳过');
+      return;
+    }
+    const resp = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + env.RESEND_API_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: fromEmail,
+        to: [toEmail],
+        subject: '[EternalCNC 国际官网] 官网高意向客户线索（自动告警）',
+        text: lines.join('\n'),
+      }),
+      signal: controller.signal,
+    });
+    if (!resp.ok) console.warn('lead-alert email notify failed:', resp.status, await resp.text());
+  } catch (e) {
+    console.warn('lead-alert email notify error:', e.message);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+
+/**
  * 判定「高意向但没留联系方式」并推送一次。
  * 任何异常都自吞，绝不影响访客回复；同一访客只推一次（profile.lead_alerted 落档）。
  */
-async function maybeAlertLead(kv, userId, profile, webhookUrl) {
+async function maybeAlertLead(kv, userId, profile, webhookUrl, env) {
   try {
     if (!kv || !profile) return;
     if (profile.lead_alerted) return;
@@ -1452,11 +1521,29 @@ async function maybeAlertLead(kv, userId, profile, webhookUrl) {
     profile.lead_alerted = true;
     try { await kv.put(capKey, String(used + 1), { expirationTtl: 48 * 60 * 60 }); } catch (e) { /* 计数失败不阻断 */ }
 
+    // 市场部询盘轮值：出单推进游标，按 A→B→C→D 轮替 @ 当班人
+    let assigned = null;
+    if (kv && ROTA_MEMBERS && ROTA_MEMBERS.length) {
+      try {
+        const rawIdx = await kv.get(ROTA_IDX_KEY);
+        let idx = parseInt(rawIdx, 10);
+        if (!Number.isFinite(idx) || idx < 0) idx = 0;
+        assigned = ROTA_MEMBERS[idx % ROTA_MEMBERS.length];
+        await kv.put(ROTA_IDX_KEY, String((idx + 1) % ROTA_MEMBERS.length));
+      } catch (e) {
+        console.warn('[lead-alert] rota pick failed, fallback to A:', e.message);
+        assigned = ROTA_MEMBERS[0];
+      }
+    }
+
     if (webhookUrl) {
-      await notifyLeadAlert(webhookUrl, profile, userId);
-      console.log('[lead-alert] pushed user=' + userId + ' turns=' + turns + ' signals=' + signals.join('/'));
+      await notifyLeadAlert(webhookUrl, profile, userId, assigned);
+      console.log('[lead-alert] wecom pushed user=' + userId + ' turns=' + turns + ' signals=' + signals.join('/') + ' duty=' + (assigned ? assigned.name : 'none'));
+    }
+    if (env) {
+      await notifyLeadEmail(profile, userId, env, assigned);
     } else {
-      console.log('[lead-alert] FEEDBACK_WEBHOOK_URL 未配置，仅记录不推送 user=' + userId + ' signals=' + signals.join('/'));
+      console.log('[lead-alert] 未配置通知渠道(webhook 与 env 均缺)，跳过推送 user=' + userId);
     }
 
     await saveCustomerProfile(kv, userId, profile);
@@ -1728,7 +1815,7 @@ function parseExtractionResult(rawText, currentProfile) {
  * 异步触发信息提取并更新档案
  * 不阻塞主回复流程，后台执行
  */
-function asyncExtractAndSave(kv, userId, userMessage, botReply, profile, lang, ai, model, webhookUrl) {
+function asyncExtractAndSave(kv, userId, userMessage, botReply, profile, lang, ai, model, webhookUrl, env) {
   // 用 setTimeout 模拟异步执行（不阻塞响应）
   // 注意：Cloudflare Workers 中用 ctx.waitUntil 更可靠，
   // 这里先实现 Promise 形式，在主函数中通过 waitUntil 调度
@@ -1771,7 +1858,7 @@ function asyncExtractAndSave(kv, userId, userMessage, botReply, profile, lang, a
 
       await saveCustomerProfile(kv, userId, updatedProfile);
       console.log('Customer profile updated for:', userId);
-      await maybeAlertLead(kv, userId, updatedProfile, webhookUrl);
+      await maybeAlertLead(kv, userId, updatedProfile, webhookUrl, env);
     } catch (e) {
       console.warn('Async extraction failed:', e.message);
     }
@@ -2393,7 +2480,7 @@ export async function onRequestPost(context) {
         customerProfile.language = userLang;
         if (message) customerProfile.last_message = message.slice(0, 100);
         const touchPromise = saveCustomerProfile(kv, userId, customerProfile)
-          .then(() => maybeAlertLead(kv, userId, customerProfile, env.FEEDBACK_WEBHOOK_URL || ''));
+          .then(() => maybeAlertLead(kv, userId, customerProfile, env.FEEDBACK_WEBHOOK_URL || '', env));
         if (context.waitUntil) context.waitUntil(touchPromise);
       } catch (e) {
         console.warn('FAQ profile touch failed:', e.message);
@@ -2619,7 +2706,7 @@ export async function onRequestPost(context) {
         console.log('Triggering profile extraction for:', userId);
         const extractionPromise = asyncExtractAndSave(
           kv, userId, message, result.content, customerProfile, userLang, ai, model,
-          env.FEEDBACK_WEBHOOK_URL || ''
+          env.FEEDBACK_WEBHOOK_URL || '', env
         );
         // Cloudflare Pages Functions 支持 context.waitUntil
         if (context.waitUntil) {
@@ -2637,7 +2724,7 @@ export async function onRequestPost(context) {
         if (message) customerProfile.last_message = message.slice(0, 100);
 
         const touchPromise = saveCustomerProfile(kv, userId, customerProfile)
-          .then(() => maybeAlertLead(kv, userId, customerProfile, env.FEEDBACK_WEBHOOK_URL || ''));
+          .then(() => maybeAlertLead(kv, userId, customerProfile, env.FEEDBACK_WEBHOOK_URL || '', env));
         if (context.waitUntil) {
           context.waitUntil(touchPromise);
         }
