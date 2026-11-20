@@ -1,3 +1,4 @@
+import { getKV } from '../../lib/store.js';
 /**
  * 企业微信自建应用 · 智能助手回调端点
  * 路由：/api/wecom/callback
@@ -145,7 +146,7 @@ function missingEnv(env) {
 
 /** 取 access_token，缓存在 KV，提前 5 分钟过期 */
 async function getAccessToken(env, forceRefresh) {
-  const kv = env.CUSTOMER_MEMORY || null;
+  const kv = getKV(env);
   if (kv && !forceRefresh) {
     try {
       const cached = await kv.get(KV_TOKEN);
@@ -198,7 +199,7 @@ async function sendText(env, { toUser, chatId, content }, retried) {
 
   // token 失效 → 强制刷新后重试一次
   if (!retried && (data.errcode === 42001 || data.errcode === 40014 || data.errcode === 41001)) {
-    const kv = env.CUSTOMER_MEMORY || null;
+    const kv = getKV(env);
     if (kv) {
       try { await kv.delete(KV_TOKEN); } catch (e) { /* ignore */ }
     }
@@ -225,7 +226,7 @@ async function tryHandleHumanReply(env, fromUser, chatId, question) {
   const content = (m[2] || '').trim();
   if (!content) return { handled: false };
 
-  const kv = env.CUSTOMER_MEMORY || null;
+  const kv = getKV(env);
   let targetKey = null;
   if (kv) {
     try {
@@ -274,6 +275,14 @@ async function tryHandleHumanReply(env, fromUser, chatId, question) {
     }
   } catch (e) {
     console.warn('[wecom-human] write failed: ' + e.message);
+    // 写回失败必须告知坐席，否则会误以为已送达客户
+    try {
+      await sendText(env, {
+        toUser: fromUser,
+        chatId,
+        content: '⚠️ 回复写入失败（存储异常），客户未收到。请稍后重发。短码 ' + code,
+      });
+    } catch (e2) { /* ignore */ }
   }
   return { handled: true, code, feedback: 'written' };
 }
@@ -331,7 +340,7 @@ async function handleAsk(env, { fromUser, chatId, question }) {
     }
     const botId = env.WECOM_COZE_BOT_ID || env.COZE_BOT_ID || COZE_BOT_ID_DEFAULT;
 
-    const kv = env.CUSTOMER_MEMORY || null;
+    const kv = getKV(env);
     const convKey = KV_CONV + (chatId || fromUser);
     let conversationId;
     if (kv) {
@@ -452,7 +461,7 @@ export async function onRequestPost(context) {
 
   // 去重：企微超时/抖动会重推同一条
   const dedupeKey = xmlTag(plainXml, 'MsgId') || ('evt_' + event + '_' + fromUser + '_' + createTime);
-  const kv = env.CUSTOMER_MEMORY || null;
+  const kv = getKV(env);
   if (kv) {
     const k = KV_MSG + dedupeKey;
     try {

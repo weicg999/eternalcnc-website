@@ -1,3 +1,4 @@
+import { getKV } from '../../lib/store.js';
 /**
  * 官网客服「转人工」端点（2026-11-19 方案二：官网 AI 转人工 → 企微群人工回复 → 回流官网）
  * 路由：/api/chat/human
@@ -117,12 +118,21 @@ async function getHumanSession(kv, userId) {
   }
 }
 
+/**
+ * 保存人机会话。
+ * 返回 true=写入成功，false=存储不可用。
+ * ⚠️ 2026-11-20 事故教训：这里原先 catch 后只 warn，KV 写入超限时接口仍返回
+ * active:true，前端第一次轮询拿到 active:false 就停止轮询，表现为客服窗口卡死。
+ * 现在必须把失败如实向上传递，由 onRequestPost 返回 500 让前端提示重试。
+ */
 async function saveHumanSession(kv, userId, session) {
-  if (!kv) return;
+  if (!kv) return false;
   try {
     await kv.put(KV_HUMAN_PREFIX + userId, JSON.stringify(session), { expirationTtl: KV_CODE_TTL });
+    return true;
   } catch (e) {
-    console.warn('[human] save session failed:', e.message);
+    console.error('[human] save session FAILED:', e && e.message ? e.message : e);
+    return false;
   }
 }
 
@@ -142,7 +152,7 @@ export async function onRequestPost(context) {
   const message = (body.message && typeof body.message === 'string') ? body.message.slice(0, 500) : '';
   const lang = (body.language && typeof body.language === 'string') ? body.language : '';
 
-  const kv = env.CUSTOMER_MEMORY || null;
+  const kv = getKV(env);
   const webhook = env.FEEDBACK_WEBHOOK_URL || '';
 
   // 已有会话则复用短码（幂等）
@@ -162,7 +172,11 @@ export async function onRequestPost(context) {
       } catch (e) { break; }
     }
     session = { code: code, active: true, created_at: Date.now(), replies: [] };
-    await saveHumanSession(kv, userId, session);
+    const saved = await saveHumanSession(kv, userId, session);
+    if (!saved) {
+      // 存储不可用时必须显式失败，否则前端会进入一个查不到会话的假人工态
+      return jsonResponse(500, { ok: false, code: 500, msg: 'session store unavailable' }, origin);
+    }
     if (kv) {
       try { await kv.put(KV_CODE_PREFIX + code, userId, { expirationTtl: KV_CODE_TTL }); } catch (e) { /* ignore */ }
     }
@@ -195,7 +209,7 @@ export async function onRequestPost(context) {
   await pushWecom(webhook, lines, assigned && assigned.mobile ? [assigned.mobile] : []);
   console.log('[human] transfer requested user=' + userId + ' code=' + session.code + ' duty=' + (assigned ? assigned.name : 'none'));
 
-  return jsonResponse(200, { ok: true, code: session.code, active: true }, origin);
+  return jsonResponse(200, { ok: true, code: session.code, active: true, v: 2, store: 'd1' }, origin);
 }
 
 export async function onRequestGet(context) {
@@ -209,16 +223,19 @@ export async function onRequestGet(context) {
   const userId = url.searchParams.get('user_id') || '';
   if (!userId) return jsonResponse(400, { code: 400, msg: 'Missing user_id' }, origin);
 
-  const kv = env.CUSTOMER_MEMORY || null;
+  const kv = getKV(env);
   const session = await getHumanSession(kv, userId);
   if (!session || !session.active) {
     return jsonResponse(200, { ok: true, active: false, replies: [] }, origin);
   }
 
   // 拉取未读人工回复并清空队列（前端渲染后下次拉取不再重复）
+  // ⚠️ 只有真有回复时才写回，避免每 2~5 秒轮询产生一次无意义写入
   const replies = Array.isArray(session.replies) ? session.replies : [];
-  session.replies = [];
-  await saveHumanSession(kv, userId, session);
+  if (replies.length > 0) {
+    session.replies = [];
+    await saveHumanSession(kv, userId, session);
+  }
 
   return jsonResponse(200, { ok: true, active: true, code: session.code, replies }, origin);
 }

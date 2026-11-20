@@ -1,3 +1,4 @@
+import { getKV } from '../lib/store.js';
 /**
  * Cloudflare Pages Function - 智能客服 API 网关（方案 B：Workers AI 模型兜底 + 博客知识库）
  *
@@ -2372,7 +2373,7 @@ export async function onRequestPost(context) {
   }
 
   // KV binding（可能为 undefined，没绑定时降级为无记忆）
-  const kv = env.CUSTOMER_MEMORY || null;
+  const kv = getKV(env);
 
   let body;
   try {

@@ -15,7 +15,15 @@ compatibility_date = "2026-08-25"
 [ai]
 binding = "AI"
 
-# 客户记忆 KV（现有绑定，保留）
+# 客户记忆 KV（旧绑定，仅保留兼容；2026-11-21 起主存储已迁至 D1）
+# KV 免费版每日写入上限 1000 次，曾导致人工会话写入静默失败，故改用 D1。
 [[kv_namespaces]]
 binding = "CUSTOMER_MEMORY"
 id = "0aed8603769a4f4aa26b734f7dfe0b21"
+
+# 主存储 D1（替代 KV）：免费版 10 万写/天、500 万读/天
+# 表 kv_store(k TEXT PK, v TEXT, exp INTEGER) 提供与 KV 等价的 get/put/delete 语义
+[[d1_databases]]
+binding = "DB"
+database_name = "eternalcnc-store"
+database_id = "d0a09a75-a783-4e55-9213-473282b76463"

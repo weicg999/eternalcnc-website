@@ -1,3 +1,4 @@
+import { getKV } from '../lib/store.js';
 /**
  * Cloudflare Pages Function - 客服线索 / 反馈收集端点（L3 客户反馈）
  *
@@ -162,7 +163,7 @@ export async function onRequestPost(context) {
 
   // ② 限流：按客户端 IP 计数，防灌水与企微刷屏
   const clientIp = getClientIp(request);
-  if (!(await checkRateLimit(env.CUSTOMER_MEMORY || null, clientIp))) {
+  if (!(await checkRateLimit(getKV(env), clientIp))) {
     return new Response(JSON.stringify({ ok: false, msg: 'Rate limit exceeded' }), {
       status: 429,
       headers: {
@@ -203,7 +204,7 @@ export async function onRequestPost(context) {
   };
 
   // 1) 写 KV（失败降级，不影响返回）
-  const kv = env.CUSTOMER_MEMORY || null;
+  const kv = getKV(env);
   const kvKey = KV_PREFIX + record.user_id + ':' + now;
   if (kv) {
     try {
