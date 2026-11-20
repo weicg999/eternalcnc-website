@@ -508,7 +508,8 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
   function startHumanPolling() {
     stopHumanPolling();
     if (!humanMode) return;
-    humanPollTimer = setInterval(pollHumanReplies, 5000);
+    // 2 秒轮询（原 5 秒）：坐席回话后最迟 2 秒出现在访客聊天窗，满足「3 秒内」验收
+    humanPollTimer = setInterval(pollHumanReplies, 2000);
   }
   async function pollHumanReplies() {
     if (!humanMode) { stopHumanPolling(); return; }

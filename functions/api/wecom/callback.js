@@ -44,6 +44,12 @@ const KV_MSG = 'wc:msg:';
 // 该链路依赖官方自建应用回调密钥（WECOM_*），未配置时直接走原 Coze 逻辑。
 const KV_HUMAN_PREFIX = 'human:';
 const KV_HUMAN_CODE_PREFIX = 'human-code:';
+// 活跃人工会话索引（2026-11-20 补）：坐席「私聊直接回复」时免短码反查用。
+// 结构：[{ userId, code, at }]，at 为最近一次访客/会话活动时间，取最近者回写。
+const KV_ACTIVE = 'human:active';
+const ACTIVE_MAX = 20;
+const ACTIVE_WINDOW_MS = 30 * 60 * 1000; // 30 分钟内活跃的会话才算「当前在等回复」
+const AI_PREFIX_RE = /^\/ai\s+/i; // 私聊里想直接问 AI 时加 /ai 前缀，避免被当成回复客户
 
 const CONV_TTL = 90 * 24 * 60 * 60;
 const DEDUPE_TTL = 600;
@@ -214,16 +220,53 @@ async function sendText(env, { toUser, chatId, content }, retried) {
 // ========== 官网转人工回写（2026-11-19 方案二）==========
 
 /**
- * 解析企微群回复「#短码 内容」并回写对应官网访客的人工回复队列。
+ * 反查「最近正在等回复」的官网人工会话（坐席私聊免短码用）。
+ * 只取 30 分钟内活跃的，避免坐席几天后随手回一句被错投给某个旧访客。
+ * @returns {Promise<{userId: string, code: string, at: number}|null>}
+ */
+async function resolveActiveSession(env) {
+  const kv = env.CUSTOMER_MEMORY || null;
+  if (!kv) return null;
+  try {
+    const raw = await kv.get(KV_ACTIVE);
+    const list = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(list) || !list.length) return null;
+    const now = Date.now();
+    const alive = list.filter((it) => it && it.code && it.userId && now - (it.at || 0) < ACTIVE_WINDOW_MS);
+    if (!alive.length) return null;
+    alive.sort((a, b) => (b.at || 0) - (a.at || 0));
+    return alive[0];
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
+ * 解析坐席回复并回写对应官网访客的人工回复队列。
+ * 两种入口：
+ *   1) 群/私聊「#短码 内容」→ 精确投递（原有）
+ *   2) 私聊「内容」（无短码）→ 反查最近活跃会话投递（2026-11-20 新增，坐席可直接回）
  * @returns {Promise<{handled: boolean, code?: string, feedback?: string}>}
- *   handled=true 表示命中短码回复，已回写（不再走 Coze）。
+ *   handled=true 表示命中人工回复，已回写（不再走 Coze）。
  */
 async function tryHandleHumanReply(env, fromUser, chatId, question) {
-  const m = String(question || '').match(/^#([A-Z0-9]{6})\s*[:：]?\s*([\s\S]+)$/);
-  if (!m) return { handled: false };
-  const code = m[1];
-  const content = (m[2] || '').trim();
-  if (!content) return { handled: false };
+  // 兼容三种输入：纯「#CODE 内容」、带冒号「#CODE：内容」、群里 @应用 后「@应用 #CODE 内容」
+  const m = String(question || '').trim().match(/^(?:@[^\s#@]+[ \t]*)?#([A-Z0-9]{6})\s*[:：]?\s*([\s\S]+)$/);
+  let code = '';
+  let content = '';
+  if (m) {
+    code = m[1];
+    content = (m[2] || '').trim();
+  } else if (!chatId) {
+    // 私聊免短码：坐席直接回内容，反查最近活跃的官网人工会话
+    const resolved = await resolveActiveSession(env);
+    if (resolved) {
+      code = resolved.code;
+      content = String(question || '').trim();
+      console.log('[wecom-human] private reply auto-route -> code=' + code + ' user=' + resolved.userId);
+    }
+  }
+  if (!code || !content) return { handled: false };
 
   const kv = env.CUSTOMER_MEMORY || null;
   let targetKey = null;
@@ -469,6 +512,24 @@ export async function onRequestPost(context) {
 
   if (!fromUser) return ok();
 
+  // 收到消息即留痕（排查用，保留 30 分钟）：确认企微推送是否真实到达服务器。
+  // ⚠️ KV 免费版每天只有 1000 次写入，这里必须节流：先读后写，60 秒内最多写一次。
+  if (kv) {
+    try {
+      const prevRaw = await kv.get('wc:lastin');
+      const prev = prevRaw ? JSON.parse(prevRaw) : null;
+      if (!prev || Date.now() - (prev.at || 0) > 60000) {
+        await kv.put('wc:lastin', JSON.stringify({
+          at: Date.now(),
+          from: fromUser,
+          chat: chatId || '',
+          type: msgType,
+          content: (content || '').slice(0, 300),
+        }), { expirationTtl: 1800 });
+      }
+    } catch (e) { /* ignore */ }
+  }
+
   // 非文本消息：给一次引导，避免"装死"
   if (msgType !== 'text') {
     const tip = '目前我只处理文字消息。图片/图纸请先用文字描述需求（材料、数量、公差），或发给销售同事。';
@@ -476,14 +537,20 @@ export async function onRequestPost(context) {
     return ok();
   }
 
-  const question = (content || '').trim();
+  let question = (content || '').trim();
   if (!question) return ok();
 
-  // ★ 官网转人工回写：群内「#短码 内容」回复 → 回写官网人工回复队列（命中则不再走 Coze）
-  const humanReply = await tryHandleHumanReply(env, fromUser, chatId, question);
-  if (humanReply.handled) {
-    console.log('[wecom] human reply handled: ' + humanReply.code + ' (' + humanReply.feedback + ')');
-    return ok();
+  // 私聊里想直接问 AI（而不是回复官网访客）：加 /ai 前缀，跳过人工回写
+  const askAiDirectly = AI_PREFIX_RE.test(question);
+  if (askAiDirectly) question = question.replace(AI_PREFIX_RE, '').trim();
+
+  // ★ 官网转人工回写：群内「#短码 内容」或坐席私聊直接回内容 → 回写官网人工回复队列（命中则不再走 Coze）
+  if (!askAiDirectly) {
+    const humanReply = await tryHandleHumanReply(env, fromUser, chatId, question);
+    if (humanReply.handled) {
+      console.log('[wecom] human reply handled: ' + humanReply.code + ' (' + humanReply.feedback + ')');
+      return ok();
+    }
   }
 
   // ★ 5 秒铁律：这里必须立即返回，重活扔后台
