@@ -21,9 +21,6 @@
 
 const KV_HUMAN_PREFIX = 'human:';
 const KV_CODE_PREFIX = 'human-code:';
-// 活跃人工会话索引（2026-11-20）：坐席私聊免短码回复时，按最近活跃时间反查访客
-const KV_ACTIVE = 'human:active';
-const ACTIVE_MAX = 20;
 const KV_CODE_TTL = 90 * 24 * 60 * 60; // 短码反查有效期 90 天
 const ROTA_IDX_KEY = 'rota:idx';
 
@@ -129,25 +126,6 @@ async function saveHumanSession(kv, userId, session) {
   }
 }
 
-/**
- * 把会话写入活跃索引（置顶 + 打时间戳）。
- * wecom/callback.js 收到坐席私聊消息时靠这份索引反查「最近在等回复的访客」。
- */
-async function touchActive(kv, userId, code) {
-  if (!kv) return;
-  try {
-    const raw = await kv.get(KV_ACTIVE);
-    let list = raw ? JSON.parse(raw) : [];
-    if (!Array.isArray(list)) list = [];
-    list = list.filter((it) => it && it.userId !== userId);
-    list.unshift({ userId: userId, code: code, at: Date.now() });
-    if (list.length > ACTIVE_MAX) list = list.slice(0, ACTIVE_MAX);
-    await kv.put(KV_ACTIVE, JSON.stringify(list), { expirationTtl: KV_CODE_TTL });
-  } catch (e) {
-    console.warn('[human] touch active failed:', e.message);
-  }
-}
-
 export async function onRequestPost(context) {
   const { request, env } = context;
   const origin = request.headers.get('origin') || '';
@@ -190,16 +168,12 @@ export async function onRequestPost(context) {
     }
   }
 
-  // 写入活跃索引：坐席在企微私聊直接回复时，靠它反查「最近在等回复的访客」
-  await touchActive(kv, userId, session.code);
-
   // 推送企微群：转人工通知 + 短码 + 访客背景（复用轮值 @）
   const assigned = await pickRota(kv);
   const lines = [
     '👨‍💻【国际官网】客户请求转人工',
     '时间：' + new Date().toISOString(),
-    '短码：' + session.code,
-    '回复方式：打开「智能助手」应用私聊，直接发内容即送达该访客（多会话并行时用「#短码 内容」指定）',
+    '短码：' + session.code + '（企微群回复格式：#短码 内容）',
     '本单认领：@' + assigned.name + '（轮值 ' + assigned.code + '）',
   ];
   if (lang) lines.push('语言：' + lang);

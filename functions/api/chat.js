@@ -83,9 +83,6 @@ const ROTA_IDX_KEY = 'rota:idx';
 // 用「#短码 内容」回复，wecom/callback.js 写入 human:<userId>.replies，
 // 官网前端轮询 /api/chat/human 拉取并展示。人工模式下仍推企微群通知。
 const KV_HUMAN_PREFIX = 'human:';
-// 活跃人工会话索引（2026-11-20）：坐席私聊免短码回复时，按最近活跃时间反查访客
-const KV_ACTIVE_KEY = 'human:active';
-const KV_ACTIVE_MAX = 20;
 // 记忆 TTL（秒）：90 天无互动自动过期
 const KV_TTL_SECONDS = 90 * 24 * 60 * 60;
 
@@ -1575,26 +1572,6 @@ async function getHumanSession(kv, userId) {
   }
 }
 
-/**
- * 刷新活跃索引（2026-11-20）：访客每说一句就置顶并打时间戳。
- * 坐席在企微私聊里不带短码直接回复时，wecom/callback.js 靠这份索引
- * 找到「最近在等回复」的访客，实现免短码回传。
- */
-async function touchHumanActive(kv, userId, code) {
-  if (!kv) return;
-  try {
-    const raw = await kv.get(KV_ACTIVE_KEY);
-    let list = raw ? JSON.parse(raw) : [];
-    if (!Array.isArray(list)) list = [];
-    list = list.filter((it) => it && it.userId !== userId);
-    list.unshift({ userId: userId, code: code, at: Date.now() });
-    if (list.length > KV_ACTIVE_MAX) list = list.slice(0, KV_ACTIVE_MAX);
-    await kv.put(KV_ACTIVE_KEY, JSON.stringify(list), { expirationTtl: KV_TTL_SECONDS });
-  } catch (e) {
-    console.warn('[human] touch active failed:', e.message);
-  }
-}
-
 /** 人工模式下把客户消息推送企微群（短码标识；认领已在转人工通知确定，这里不重复 @ 避免误导） */
 async function notifyHumanCustomerMessage(webhook, session, userId, message) {
   if (!webhook || !session) return;
@@ -1604,7 +1581,7 @@ async function notifyHumanCustomerMessage(webhook, session, userId, message) {
     '时间：' + new Date().toISOString(),
     '—— 客户消息 ——\n' + String(message || '').slice(0, 500),
     '访客 ID：' + userId,
-    '回复方式：打开「智能助手」应用私聊，直接发内容即送达该访客（多会话并行时用「#短码 内容」指定）',
+    '回复格式：#短码 内容（群里直接回复即可回传官网）',
   ];
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 2500);
@@ -2456,8 +2433,6 @@ export async function onRequestPost(context) {
     const humanSession = await getHumanSession(kv, userId);
     if (humanSession && humanSession.active) {
       console.log('[human] intercept user=' + userId + ' code=' + humanSession.code + ' msg=' + message.slice(0, 60));
-      // 访客刚说话 → 置顶活跃索引，坐席私聊回复会优先投给这位访客
-      await touchHumanActive(kv, userId, humanSession.code);
       const humanReply = '已转人工，工程师将在企微群回复（短码 ' + humanSession.code + '），请稍候。';
       const humanReplyEn = 'You have been connected to our engineer. A specialist will reply here shortly (code ' + humanSession.code + '). Please wait.';
       const humanReplyZh = '您已转接人工工程师，稍后将在此回复。请稍候。';
