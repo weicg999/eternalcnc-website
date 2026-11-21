@@ -243,6 +243,12 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
   let humanCode = '';             // 后端分配的短码（群内 #短码 回写）
   let humanTransferring = false;  // 转人工请求进行中（防重复点击）
   let humanPollTimer = null;      // 轮询定时器
+  let humanWaitTimer = null;      // 「人工繁忙请稍等」倒计时定时器（每秒刷状态栏）
+  let humanStartedAt = 0;         // 服务端会话创建时间（毫秒），刷新页面也不重置倒计时
+  let humanWaitLimit = 5 * 60 * 1000; // 无人应答上限，后端可覆盖
+  let humanWaitNotified = false;  // 5 分钟兜底提示只推一次
+  let humanHasReply = false;      // 本会话是否已收到过坐席回复（收到即停止倒计时）
+  let humanWaitRemain = null;     // 倒计时显示串，如 04:32（humanText 里替换 {time}）；须在 humanText 前声明
 
   // 方案 B：多轮对话状态。Workers AI 无服务端会话，历史由前端维护并随请求上报。
   let history = [];
@@ -424,6 +430,8 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
       pollFailed: '获取工程师回复失败，将自动重试。',
       endBtn: '结束人工',
       ended: '已为您结束人工服务，我继续为您解答。请问还有什么需要？',
+      waiting: '人工繁忙，请稍等 {time}（短码 {code}）',
+      timeout: '人工暂时繁忙，等待 5 分钟仍未有同事应答。请发邮件到 ' + COMPANY.email + '，我们会尽快回复您。',
     },
     en: {
       btn: 'Talk to a human',
@@ -434,12 +442,15 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
       pollFailed: 'Failed to fetch engineer replies. Auto-retrying…',
       endBtn: 'End human chat',
       ended: 'Human chat ended. I can help you from here — anything else?',
+      waiting: 'All agents are busy, please wait {time} (code {code})',
+      timeout: 'No colleague has responded within 5 minutes. Please email ' + COMPANY.email + ' and we will get back to you shortly.',
     },
   };
   function humanText(key) {
     const pack = HUMAN_TEXTS[lang] || HUMAN_TEXTS.en;
     let s = pack[key] !== undefined ? pack[key] : HUMAN_TEXTS.en[key];
     if (s && humanCode) s = s.replace('{code}', humanCode);
+    if (s && humanWaitRemain != null) s = s.replace('{time}', humanWaitRemain);
     return s || key;
   }
 
@@ -506,7 +517,8 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
       // 已转人工：按钮改成「结束人工」，让客户能主动退出（原来是直接隐藏，客户被困住）
       if (humanBtn) humanBtn.style.display = '';
       setHumanBtnLabel(humanText('endBtn'));
-      setHumanStatus(humanText('connected'));
+      // 等待中显示倒计时；员工已回复过则显示普通状态（由 humanHasReply 控制）
+      setHumanStatus(humanHasReply ? humanText('connected') : humanText('waiting'));
     } else if (humanTransferring) {
       setHumanBtnLabel(humanText('connecting'));
       if (humanBtn) { humanBtn.style.pointerEvents = 'none'; humanBtn.style.opacity = '.7'; }
@@ -545,10 +557,16 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
       if (!data || !data.ok || !data.code) throw new Error('bad resp');
       humanMode = true;
       humanCode = data.code;
-      try { localStorage.setItem('eternal_chat_human', JSON.stringify({ code: data.code })); } catch (e) {}
+      // 本地时钟为准（避免 CF 边缘与访客机器时钟偏差）
+      humanStartedAt = Date.now();
+      humanHasReply = false;
+      humanWaitNotified = false;
+      // 短码 + 创建时间一起存：刷新页面后倒计时用服务端时间续算
+      try { localStorage.setItem('eternal_chat_human', JSON.stringify({ code: data.code, started_at: humanStartedAt })); } catch (e) {}
       refreshHumanBar();
       pushMsg('bot', humanText('connected'), lang === 'ar');
       startHumanPolling();
+      startHumanWait();
     } catch (e) {
       humanTransferring = false;
       refreshHumanBar();
@@ -564,6 +582,42 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
     if (!humanMode) return;
     humanPollTimer = setInterval(pollHumanReplies, 5000);
   }
+
+  // 「人工繁忙，请稍等 MM:SS」倒计时：用本地时钟 + localStorage 记录的进入时间。
+  // ⚠️ 不用服务端 created_at：Cloudflare 边缘时钟与访客机器时钟有偏差（实测差 75 秒），
+  //    用服务端时间会算出「还剩 06:15」这种超过上限的荒谬值。本地时钟自洽即可。
+  // 员工回复一条就停（humanHasReply=true）；5 分钟无人应答则推邮件兜底并自动结束人工会话。
+  function stopHumanWait() {
+    if (humanWaitTimer) { clearInterval(humanWaitTimer); humanWaitTimer = null; }
+  }
+  function startHumanWait() {
+    stopHumanWait();
+    if (!humanMode || humanHasReply) return;
+    function tick() {
+      if (!humanMode || humanHasReply) { stopHumanWait(); return; }
+      const elapsed = humanStartedAt ? Math.max(0, Date.now() - humanStartedAt) : 0;
+      const remain = Math.min(humanWaitLimit, humanWaitLimit - elapsed); // clamp：绝不超过上限
+      if (remain <= 0) {
+        stopHumanWait();
+        // 只推一次兜底提示，然后自动结束人工会话，恢复 AI 问答
+        if (!humanWaitNotified) {
+          humanWaitNotified = true;
+          pushMsg('bot', humanText('timeout'));
+          messages.push({ role: 'assistant', content: humanText('timeout') });
+          saveMessages();
+        }
+        endHumanSession(true);
+        return;
+      }
+      const totalSec = Math.ceil(remain / 1000);
+      const mm = String(Math.floor(totalSec / 60)).padStart(2, '0');
+      const ss = String(totalSec % 60).padStart(2, '0');
+      humanWaitRemain = mm + ':' + ss;
+      refreshHumanBar();
+    }
+    tick();
+    humanWaitTimer = setInterval(tick, 1000);
+  }
   async function pollHumanReplies() {
     if (!humanMode) { stopHumanPolling(); return; }
     try {
@@ -577,6 +631,9 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
         stopHumanPolling();
         return;
       }
+      // 刷新恢复时若本地没记录开始时间，补一个（用本地时钟）
+      if (!humanStartedAt) humanStartedAt = Date.now();
+      if (data.wait_limit_ms) humanWaitLimit = Number(data.wait_limit_ms);
       const replies = Array.isArray(data.replies) ? data.replies : [];
       replies.forEach(function (r) {
         const content = String((r && r.content) || '').trim();
@@ -585,7 +642,16 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
         pushMsg('bot', '[' + who + '] ' + content, lang === 'ar');
         messages.push({ role: 'assistant', content: '[' + who + '] ' + content });
       });
-      if (replies.length) saveMessages();
+      if (replies.length) {
+        saveMessages();
+        // 收到坐席回复：倒计时结束，状态栏切回普通人工态
+        humanHasReply = true;
+        stopHumanWait();
+        humanWaitRemain = null;
+        refreshHumanBar();
+      } else if (!humanHasReply && !humanWaitTimer) {
+        startHumanWait();
+      }
     } catch (e) {
       // 网络抖动静默重试（下个周期会再拉一次），无需打扰客户
     }
@@ -598,7 +664,10 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
     humanMode = false;
     humanCode = '';
     humanTransferring = false;
+    humanHasReply = false;
+    humanWaitRemain = null;
     stopHumanPolling();
+    stopHumanWait();
     try { localStorage.removeItem('eternal_chat_human'); } catch (e) {}
     refreshHumanBar();
     if (!silent) {
@@ -1055,9 +1124,13 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
     if (savedHuman && savedHuman.code) {
       humanMode = true;
       humanCode = savedHuman.code;
+      humanStartedAt = savedHuman.started_at ? Number(savedHuman.started_at) : 0;
+      humanHasReply = false;
+      humanWaitNotified = false;
       // 询问后端会话是否仍 active；active 则恢复轮询并展示状态
       refreshHumanBar();
       startHumanPolling();
+      startHumanWait();
     }
     if (!greeted) {
       loadMessages();

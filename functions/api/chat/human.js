@@ -209,7 +209,10 @@ export async function onRequestPost(context) {
   await pushWecom(webhook, lines, assigned && assigned.mobile ? [assigned.mobile] : []);
   console.log('[human] transfer requested user=' + userId + ' code=' + session.code + ' duty=' + (assigned ? assigned.name : 'none'));
 
-  return jsonResponse(200, { ok: true, code: session.code, active: true, v: 2, store: 'd1' }, origin);
+  return jsonResponse(200, {
+    ok: true, code: session.code, active: true, v: 2, store: 'd1',
+    created_at: session.created_at || null,
+  }, origin);
 }
 
 export async function onRequestGet(context) {
@@ -237,7 +240,16 @@ export async function onRequestGet(context) {
     await saveHumanSession(kv, userId, session);
   }
 
-  return jsonResponse(200, { ok: true, active: true, code: session.code, replies }, origin);
+  // created_at 给前端算「人工繁忙，请稍等」倒计时用：
+  // 从服务端创建时间算，客户刷新页面/重开聊天窗也不会把 5 分钟重头计。
+  return jsonResponse(200, {
+    ok: true,
+    active: true,
+    code: session.code,
+    replies,
+    created_at: session.created_at || null,
+    wait_limit_ms: 5 * 60 * 1000, // 5 分钟无人应答 → 前端兜底提示发邮件并自动结束
+  }, origin);
 }
 
 /**
