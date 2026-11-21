@@ -422,6 +422,8 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
       failed: '转人工暂时不可用，请稍后再试；也可直接邮件联系 ' + COMPANY.email + '。',
       replyPrefix: '工程师回复',
       pollFailed: '获取工程师回复失败，将自动重试。',
+      endBtn: '结束人工',
+      ended: '已为您结束人工服务，我继续为您解答。请问还有什么需要？',
     },
     en: {
       btn: 'Talk to a human',
@@ -430,6 +432,8 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
       failed: 'Human handoff is temporarily unavailable. Please retry later, or email ' + COMPANY.email + ' directly.',
       replyPrefix: 'Engineer reply',
       pollFailed: 'Failed to fetch engineer replies. Auto-retrying…',
+      endBtn: 'End human chat',
+      ended: 'Human chat ended. I can help you from here — anything else?',
     },
   };
   function humanText(key) {
@@ -453,11 +457,34 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
     const pack = HUMAN_LINK_TEXTS[ul] || HUMAN_LINK_TEXTS.en;
     return pack;
   }
+  // 文本识别「退出人工」意图：必须在 isHumanHandoffRequest 之前判断，
+  // 否则「不需要人工服务了」里的「人工服务」会被转人工识别命中，越退越进去。
+  function isHumanExitRequest(text) {
+    const s = String(text || '').trim();
+    if (!s || !humanMode) return false;
+    // 同样用平铺关键词：去掉所有空白后逐词匹配，避开嵌套分组正则的编译坑
+    const flat = s.replace(/\s+/g, '');
+    const exitZh = ['不需要人工', '不用人工', '不要人工', '取消人工', '结束人工', '退出人工',
+      '停止人工', '关闭人工', '不需要了', '不用了', '不要了', '结束对话', '人工不用了',
+      '转回ai', '转回机器人', '转回智能', '转回自动'];
+    for (const w of exitZh) { if (flat.indexOf(w) !== -1) return true; }
+    // ⚠️ 2026-11-21 踩坑：复杂嵌套分组正则在 Astro define:vars 内联脚本里
+    // 被浏览器报 Unmatched ')' 并让整个客服脚本崩溃（面板打不开）。
+    // 改用最简的平铺关键词匹配，不用任何捕获分组，稳。
+    const low = s.toLowerCase();
+    const exitWords = ['cancel human', 'end human', 'stop human', 'exit human', 'quit human',
+      'no longer need', 'do not need', 'not needed anymore', 'never mind', 'that is all', 'that is all thanks'];
+    for (const w of exitWords) { if (low.indexOf(w) !== -1) return true; }
+    return false;
+  }
+
   // 文本识别「转人工」意图：只认明确的转人工/真人诉求，避免把「人工智能」「客服电话是多少」误判。
   // 命中后推微信客服链接，不进 FAQ / 模型，也不触发企微群按钮链路。
   function isHumanHandoffRequest(text) {
     const s = String(text || '').trim();
     if (!s) return false;
+    // 已在人工模式时，「人工」相关字样先交给退出识别处理，避免「不需要人工服务了」误判成转人工
+    if (humanMode && isHumanExitRequest(s)) return false;
     // 中文：转人工 / 人工客服 / 真人 / 找个人 等
     if (/(转\s*人工|转\s*真人|人工\s*客服|真\s*人\s*客服|找\s*人\s*工|要\s*人\s*工|接\s*人\s*工|人\s*工\s*服\s*务|找\s*个\s*真\s*人|找\s*个\s*人|转\s*人|人工处理|人工回复|联系人工|人工对接)/.test(s)) return true;
     // 英文：talk to a human / human agent / real person / speak to someone ...
@@ -476,8 +503,9 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
   function refreshHumanBar() {
     if (!humanBar) return;
     if (humanMode && humanCode) {
-      // 已转人工：按钮变状态文字
-      if (humanBtn) humanBtn.style.display = 'none';
+      // 已转人工：按钮改成「结束人工」，让客户能主动退出（原来是直接隐藏，客户被困住）
+      if (humanBtn) humanBtn.style.display = '';
+      setHumanBtnLabel(humanText('endBtn'));
       setHumanStatus(humanText('connected'));
     } else if (humanTransferring) {
       setHumanBtnLabel(humanText('connecting'));
@@ -563,7 +591,33 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
     }
   }
 
-  if (humanBtn) humanBtn.addEventListener('click', requestHumanTransfer);
+  // 结束人工会话：清前端状态 + 调后端 DELETE 关会话，客户不再被困在人工模式
+  async function endHumanSession(silent) {
+    if (!humanMode) return;
+    const uid = userId;
+    humanMode = false;
+    humanCode = '';
+    humanTransferring = false;
+    stopHumanPolling();
+    try { localStorage.removeItem('eternal_chat_human'); } catch (e) {}
+    refreshHumanBar();
+    if (!silent) {
+      pushMsg('bot', humanText('ended'));
+      messages.push({ role: 'assistant', content: humanText('ended') });
+      saveMessages();
+    }
+    // 后端会话也关掉，避免 chat.js 继续拦截客户消息
+    try {
+      await fetch('/api/chat/human?user_id=' + encodeURIComponent(uid), { method: 'DELETE', keepalive: true });
+    } catch (e) { /* 网络失败不影响前端已退出，会话有 TTL 兜底 */ }
+  }
+
+  if (humanBtn) {
+    humanBtn.addEventListener('click', function () {
+      if (humanMode) endHumanSession(false);
+      else requestHumanTransfer();
+    });
+  }
 
   // 语言选项：菜单里显示本地名；按钮上显示短标签
   const LANG_LABELS = [
@@ -921,6 +975,16 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
     const text = (inputEl.value || '').trim();
     const hasImg = !!pendingImage;
     if (!text && !hasImg) return;
+    // 退出人工：客户说「不用了 / 取消人工」→ 结束人工会话，恢复 AI 问答。
+    // 必须排在转人工识别之前：否则「不需要人工服务了」会被当成转人工。
+    if (!hasImg && isHumanExitRequest(text)) {
+      inputEl.value = '';
+      pushMsg('user', text);
+      messages.push({ role: 'user', content: text });
+      endHumanSession(false);
+      chipsEl.style.display = 'none';
+      return;
+    }
     // 转人工文本出口：客户说「转人工 / talk to a human」→ 推微信客服链接。
     // 放在 busy 判断之前：模型回答那 5~15 秒里客户喊转人工，也必须立刻给链接。
     // 独立出口，不改写「转人工按钮 → 企微群」链路，也不进 FAQ / 模型。

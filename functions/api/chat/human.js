@@ -240,6 +240,36 @@ export async function onRequestGet(context) {
   return jsonResponse(200, { ok: true, active: true, code: session.code, replies }, origin);
 }
 
+/**
+ * DELETE /api/chat/human?user_id=xxx —— 客户主动结束人工会话。
+ * 2026-11-21：原设计只能由坐席结束，客户说「不用了/取消人工」退不出来，
+ * 被 chat.js 拦截恒回「您已转接人工」，只能刷新页面（且 localStorage 会恢复人工态）。
+ */
+export async function onRequestDelete(context) {
+  const { request, env } = context;
+  const origin = request.headers.get('origin') || '';
+  if (origin && !isOriginAllowed(origin)) {
+    return jsonResponse(403, { code: 403, msg: 'Origin not allowed' }, origin);
+  }
+  const userId = new URL(request.url).searchParams.get('user_id') || '';
+  if (!userId) return jsonResponse(400, { code: 400, msg: 'Missing user_id' }, origin);
+
+  const kv = getKV(env);
+  const session = await getHumanSession(kv, userId);
+  if (session && session.active) {
+    session.active = false;
+    session.ended_at = Date.now();
+    session.ended_by = 'visitor';
+    await saveHumanSession(kv, userId, session);
+    // 短码反查键一并删除：坐席此后再用旧码回复会被明确拒绝，而非写进已结束会话
+    if (session.code && kv) {
+      try { await kv.delete(KV_CODE_PREFIX + session.code); } catch (e) { /* ignore */ }
+    }
+    console.log('[human] session ended by visitor user=' + userId + ' code=' + session.code);
+  }
+  return jsonResponse(200, { ok: true, active: false }, origin);
+}
+
 export async function onRequestOptions(context) {
   const { request } = context;
   const origin = request.headers.get('origin') || '';

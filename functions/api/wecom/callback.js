@@ -220,11 +220,30 @@ async function sendText(env, { toUser, chatId, content }, retried) {
  *   handled=true 表示命中短码回复，已回写（不再走 Coze）。
  */
 async function tryHandleHumanReply(env, fromUser, chatId, question) {
-  const m = String(question || '').match(/^#([A-Z0-9]{6})\s*[:：]?\s*([\s\S]+)$/);
+  // 2026-11-21 放宽匹配：坐席反馈短码在群里常被读成「7KRUC M」（中间带空格），
+  // 或漏写 # / 冒号。原正则 ^#([A-Z0-9]{6})\s*[:：]?\s*(.+)$ 一律不匹配 → 回复静默丢失。
+  // 现在允许：# 前后空白、# 与 6 位码之间空白、码中间任意空白、中英文冒号、无冒号。
+  // 保守起见仍要求显式 # 短码，不猜「最近活跃会话」，避免把群内闲聊误发给客户。
+  const raw = String(question || '').trim();
+  const m = raw.match(/^[＃#]\s*((?:[A-Z0-9]\s*){6})\s*[:：]?\s*([\s\S]+)$/i);
   if (!m) return { handled: false };
-  const code = m[1];
-  const content = (m[2] || '').trim();
-  if (!content) return { handled: false };
+  // 去掉短码里的所有空白，统一大写（如「7k ru c m」→「7KRUCM」）
+  const code = m[1].replace(/\s+/g, '').toUpperCase();
+  let content = (m[2] || '').trim();
+  if (!content || !/^[A-Z0-9]{6}$/.test(code)) return { handled: false };
+  // 反例：坐席多打一位（#7KRUCM1 您好）时，宽松正则会把「1」吞进正文。
+  // 短码后若紧跟字母/数字（非空白分隔），视为格式错误，不当成回复、也不走 Coze 误答。
+  const afterCode = raw.slice(raw.indexOf(m[1]) + m[1].length);
+  if (/^[A-Za-z0-9]/.test(afterCode)) {
+    try {
+      await sendText(env, {
+        toUser: fromUser,
+        chatId,
+        content: '短码格式有误（6 位后要多打了一个字符？）。正确格式：#短码 空格 内容',
+      });
+    } catch (e2) { /* ignore */ }
+    return { handled: true, code, feedback: 'bad_format' };
+  }
 
   const kv = getKV(env);
   let targetKey = null;
