@@ -438,6 +438,32 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
     if (s && humanCode) s = s.replace('{code}', humanCode);
     return s || key;
   }
+
+  // 转人工出口（微信客服）：客户在聊天框说「转人工」等字样时推一条可点的微信客服链接。
+  // 与上面的「转人工按钮 → 企微群短码轮询」是两条独立出口，互不改写。
+  const WECHAT_KF_LINK = 'https://work.weixin.qq.com/kfid/kfcf4f17a54876876c8';
+  const HUMAN_LINK_TEXTS = {
+    zh: '好的，我来帮您转人工。请点下面的链接，直接联系我们的微信客服，工程师会在企业微信里接手：\n\n[联系微信客服 →](' + WECHAT_KF_LINK + ')',
+    en: 'Sure — let me connect you to our team. Tap the link below to reach our WeChat customer service; an engineer will pick it up on WeCom:\n\n[Chat with us on WeChat →](' + WECHAT_KF_LINK + ')',
+  };
+  function humanLinkText(text) {
+    // 按客户提问语言选文案，不跟页面语言：客户在中文页用英文问「talk to a human」应回英文。
+    // detectUserLang 把非中英的拉丁语系归 en，非拉丁语种无本地文案 → 回退 en（与 HINTS 策略一致）。
+    const ul = detectUserLang(text);
+    const pack = HUMAN_LINK_TEXTS[ul] || HUMAN_LINK_TEXTS.en;
+    return pack;
+  }
+  // 文本识别「转人工」意图：只认明确的转人工/真人诉求，避免把「人工智能」「客服电话是多少」误判。
+  // 命中后推微信客服链接，不进 FAQ / 模型，也不触发企微群按钮链路。
+  function isHumanHandoffRequest(text) {
+    const s = String(text || '').trim();
+    if (!s) return false;
+    // 中文：转人工 / 人工客服 / 真人 / 找个人 等
+    if (/(转\s*人工|转\s*真人|人工\s*客服|真\s*人\s*客服|找\s*人\s*工|要\s*人\s*工|接\s*人\s*工|人\s*工\s*服\s*务|找\s*个\s*真\s*人|找\s*个\s*人|转\s*人|人工处理|人工回复|联系人工|人工对接)/.test(s)) return true;
+    // 英文：talk to a human / human agent / real person / speak to someone ...
+    if (/(talk\s+to\s+(a\s+)?(human|person|someone|agent|representative)|speak\s+(to|with)\s+(a\s+)?(human|person|someone|agent|representative)|human\s+agent|real\s+person|live\s+(agent|person|chat)|get\s+(a\s+)?human|need\s+(a\s+)?human|want\s+(a\s+)?human|let\s+me\s+talk\s+to\s+(a\s+)?person|customer\s+service\s+(agent|representative))/.test(s.toLowerCase())) return true;
+    return false;
+  }
   function setHumanBtnLabel(text) {
     if (humanLabel) humanLabel.textContent = text;
   }
@@ -894,7 +920,22 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
   function send() {
     const text = (inputEl.value || '').trim();
     const hasImg = !!pendingImage;
-    if ((!text && !hasImg) || busy) return;
+    if (!text && !hasImg) return;
+    // 转人工文本出口：客户说「转人工 / talk to a human」→ 推微信客服链接。
+    // 放在 busy 判断之前：模型回答那 5~15 秒里客户喊转人工，也必须立刻给链接。
+    // 独立出口，不改写「转人工按钮 → 企微群」链路，也不进 FAQ / 模型。
+    if (!hasImg && isHumanHandoffRequest(text)) {
+      inputEl.value = '';
+      pushMsg('user', text);
+      messages.push({ role: 'user', content: text });
+      const linkMsg = humanLinkText(text);
+      pushMsg('bot', linkMsg);
+      messages.push({ role: 'assistant', content: linkMsg });
+      saveMessages();
+      chipsEl.style.display = 'none';
+      return;
+    }
+    if (busy) return;
     inputEl.value = '';
     // 访客图片：先渲染，再清空待发状态
     const imgData = pendingImage;
