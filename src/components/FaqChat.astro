@@ -26,30 +26,33 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
     class="bg-white overflow-hidden flex flex-col"
     style="width: 400px; height: 560px; max-height: calc(100vh - 120px); display: none; position: fixed; bottom: 88px; right: 24px; z-index: 100; border-radius: 16px; box-shadow: 0 8px 40px rgba(0,0,0,.14); flex-direction: column;"
   >
-    <!-- 头部（清爽白底 + 女头像 + 海外横版 LOGO 居中） -->
-    <div class="flex items-center justify-between gap-3 flex-shrink-0" style="position:relative; background:#fff; border-bottom:1px solid #f0f0f0; border-radius:16px 16px 0 0; padding:12px 16px; min-height:64px;">
+    <!-- 头部（清爽白底 + 女头像 + 海外横版 LOGO 居中）
+         ★ 2026-11-21 布局修复：原品牌块用 position:absolute 绝对居中，
+         右侧语言按钮(EN/中/俄)、全屏、关闭三个按钮宽度会变，长状态文字被压在下面互相遮挡。
+         改成 flex 三栏：左头像固定 / 中间 flex:1 min-width:0 自适应 / 右按钮固定，互不重叠。 -->
+    <div class="flex items-center flex-shrink-0" style="background:#fff; border-bottom:1px solid #f0f0f0; border-radius:16px 16px 0 0; padding:10px 12px; min-height:72px; gap:8px;">
       <div class="flex items-center flex-shrink-0">
         <div class="w-10 h-10 rounded-full flex-shrink-0 overflow-hidden" style="background:#f2f2f2;">
           <img src="/images/avatar.png" alt="Eternal CNC" style="width:100%;height:100%;object-fit:cover;" />
         </div>
       </div>
-      <!-- 品牌块：绝对居中，左右按钮宽度变化不会把它挤偏 -->
-      <div id="faq-chat-brand" style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); max-width:calc(100% - 150px); text-align:center;">
-        <img src="/images/logo-full.svg" alt="Eternal CNC" style="height:26px; width:auto; display:block; margin:0 auto;" />
-        <p class="text-xs flex items-center gap-1.5 mt-0.5" style="color:#999; justify-content:center; white-space:nowrap; overflow:hidden;">
+      <!-- 品牌块：flex 中间栏，自动吃掉剩余宽度，状态文字过长时省略号截断 -->
+      <div id="faq-chat-brand" style="flex:1 1 0; min-width:0; text-align:center;">
+        <img src="/images/logo-full.svg" alt="Eternal CNC" style="height:24px; width:auto; max-width:100%; object-fit:contain; display:block; margin:0 auto;" />
+        <p class="text-xs flex items-center gap-1.5 mt-0.5" style="color:#999; justify-content:center; white-space:nowrap; overflow:hidden; margin-top:3px;">
           <span class="w-2 h-2 rounded-full" style="background:#4ade80; flex-shrink:0;"></span>
-          <span id="faq-chat-status" style="overflow:hidden; text-overflow:ellipsis;">Online</span>
+          <span id="faq-chat-status" style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Online</span>
         </p>
       </div>
-      <div class="flex items-center gap-2 flex-shrink-0">
-        <div id="faq-chat-lang-wrap" style="position: relative;">
-          <button id="faq-chat-lang" type="button" class="text-xs font-semibold px-2 py-1 rounded flex items-center gap-1" style="color:#555; border:1px solid #ddd; background:#fff;" aria-label="Switch language">EN</button>
+      <div class="flex items-center gap-1 flex-shrink-0">
+        <div id="faq-chat-lang-wrap" style="position: relative; flex:0 0 auto;">
+          <button id="faq-chat-lang" type="button" class="text-xs font-semibold px-2 py-1 rounded flex items-center gap-1 flex-shrink-0" style="color:#555; border:1px solid #ddd; background:#fff; white-space:nowrap;" aria-label="Switch language">EN</button>
           <div id="faq-chat-lang-menu" style="display:none; position:absolute; top:calc(100% + 6px); right:0; min-width:150px; background:#fff; border-radius:10px; box-shadow:0 8px 30px rgba(0,0,0,.18); overflow:hidden; z-index:200;"></div>
         </div>
-        <button id="faq-chat-fullscreen" type="button" class="w-8 h-8 flex items-center justify-center rounded-full flex-shrink-0" style="color:#999;" aria-label="Fullscreen" title="Fullscreen">
+        <button id="faq-chat-fullscreen" type="button" class="w-7 h-7 flex-shrink-0 items-center justify-center rounded-full" style="color:#999; flex:0 0 auto;" aria-label="Fullscreen" title="Fullscreen">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
         </button>
-        <button id="faq-chat-close" type="button" class="w-8 h-8 flex items-center justify-center rounded-full" style="color:#999;" aria-label="Close">
+        <button id="faq-chat-close" type="button" class="w-7 h-7 flex flex-shrink-0 items-center justify-center rounded-full" style="color:#999; flex:0 0 auto;" aria-label="Close">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
