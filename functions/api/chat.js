@@ -46,11 +46,17 @@ const COZE_BOT_ID = '7679396158112317440';
 
 // ===== 方案 B：Workers AI 配置（扣子已停用，以下 COZE_* 常量仅作历史参考）=====
 // 模型可在 Cloudflare Dashboard 环境变量 AI_MODEL 覆盖。
-// 默认 glm-5.3-flash（智谱 GLM）：中英双语母语级、flash 快、非推理模型适合客服。
-// 备选：@cf/meta/llama-3.1-8b-instruct-fp8（英文强但中文弱）、
-//       @cf/deepseek-ai/deepseek-r1-distill-qwen-32b（推理强但慢、会输出思考过程）。
-// 注意：原 @cf/meta/llama-3.1-8b-instruct 已于 2026-05-30 弃用，勿再用。
-const AI_MODEL_DEFAULT = '@cf/qwen/qwen3-30b-a3b-fp8';
+// 2026-11-21 主故障根因：@cf/qwen/qwen3-30b-a3b-fp8 已于 2026-11-20 被 Cloudflare 弃用
+// （直连 REST API 实测 410 "Model has been deprecated"），导致所有走 AI 的请求 502；
+// FAQ 秒答不调模型所以正常，掩盖了故障。
+// 换模实测（真实 3289 字符 system prompt，max_tokens=900）：
+//   glm-4.7-flash  >45s 超时（短 prompt 1.9s，长 prompt 严重劣化，不可用）
+//   qwen3.8-27b   19.4s 太慢
+//   mistral-small-3.1-24b  2.3s
+//   llama-4-scout-17b-16e-instruct  0.9s ← 最快，选为主模型
+//   granite-4.0-h-micro  1.5s（备选）
+// 排障铁律：模型是否可用/多快，必须用真实 system prompt 压测，短 prompt 成功不算数。
+const AI_MODEL_DEFAULT = '@cf/meta/llama-4-scout-17b-16e-instruct';
 const AI_MAX_TOKENS = 900;
 const AI_TEMPERATURE = 0.6;
 const AI_TIMEOUT_MS = 25000; // Workers AI 单次调用软超时（不可真正 abort，仅提前报错降级）
@@ -1234,7 +1240,7 @@ function buildLanguageDirective(visitorLangRaw, userLang) {
   return '';
 }
 
-function buildContextPrefix(visitorInfo) {
+function buildContextPrefix(visitorInfo, userLang) {
   if (!visitorInfo || typeof visitorInfo !== 'object') return '';
 
   const {
@@ -1880,13 +1886,7 @@ function asyncExtractAndSave(kv, userId, userMessage, botReply, profile, lang, a
         temperature: 0.2, // 信息提取要稳定，低温度减少发散
       });
 
-      let content = '';
-      if (response && typeof response === 'object' && typeof response.response === 'string') {
-        content = response.response;
-      } else if (typeof response === 'string') {
-        content = response;
-      }
-
+      const content = extractAiText(response);
       if (!content) return;
 
       const updatedProfile = parseExtractionResult(content, profile);
@@ -1917,6 +1917,23 @@ function asyncExtractAndSave(kv, userId, userMessage, botReply, profile, lang, a
 
 // ========== Workers AI 模型调用（方案 B）==========
 
+// 统一提取模型输出文本。
+// 2026-11-21 踩坑：旧模型返回 { response: "..." }，新模型（glm-4.7-flash / qwen3.8-27b 等）
+// 返回 OpenAI chat.completion 结构 { choices: [{ message: { content } }] }。
+// 只认旧格式会让换模型后的每次调用都报 "empty content" → 502，且表面看像上游故障。
+function extractAiText(response) {
+  if (typeof response === 'string') return response;
+  if (!response || typeof response !== 'object') return '';
+  if (typeof response.response === 'string') return response.response;
+  const choices = response.choices || (response.result && response.result.choices);
+  if (Array.isArray(choices) && choices.length) {
+    const msg = choices[0] && choices[0].message;
+    if (msg && typeof msg.content === 'string') return msg.content;
+  }
+  if (typeof response.result === 'string') return response.result;
+  return '';
+}
+
 async function callWorkersAI({ message, userId, conversationId, ai, model, systemPrompt, history, timeoutMs }) {
   // Workers AI 无状态，多轮上下文靠前端把历史塞进 messages。
   // 最多带最近 6 条历史，防止上下文膨胀（更早历史由前端截断）。
@@ -1945,13 +1962,7 @@ async function callWorkersAI({ message, userId, conversationId, ai, model, syste
 
   const response = await Promise.race([run, timer]);
 
-  let content = '';
-  if (response && typeof response === 'object' && typeof response.response === 'string') {
-    content = response.response;
-  } else if (typeof response === 'string') {
-    content = response;
-  }
-
+  const content = extractAiText(response);
   if (!content || !content.trim()) {
     throw new Error('Workers AI returned empty content');
   }
@@ -2460,7 +2471,7 @@ export async function onRequestPost(context) {
     const profileContext = buildCustomerProfileContext(customerProfile, userLang);
 
     if (isFirstMessage && visitorInfo) {
-      const contextPrefix = buildContextPrefix(visitorInfo);
+      const contextPrefix = buildContextPrefix(visitorInfo, userLang);
       // 组合：客户档案 + 访客浏览信息 + 用户消息
       if (profileContext && contextPrefix) {
         finalMessage = profileContext + contextPrefix + message;
