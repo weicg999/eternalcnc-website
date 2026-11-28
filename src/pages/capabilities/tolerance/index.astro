@@ -6,7 +6,7 @@ import { serviceSchema } from '../../../data/serviceSchema';
 // provider 用 @id 引用 BaseLayout 输出的 Organization，两者连成同一实体。
 const svc = serviceSchema({
   name: 'Precision Standards',
-  description: 'CNC machining precision: linear tolerance ±0.005mm, angular ±0.01°, surface roughness Ra 0.4, general tolerances per ISO 2768-m.',
+  description: 'CNC machining precision: linear tolerance ±0.01mm, angular ±0.01°, surface roughness Ra 0.4, general tolerances per ISO 2768-m.',
   serviceType: 'Precision CNC Machining',
   url: new URL('/capabilities/tolerance/', Astro.site).href,
   lang: 'en',
@@ -22,7 +22,7 @@ const capabilities = [
   {
     title: 'Linear Tolerance — ISO 2768-m',
     items: ['Dimensions 6–30mm: ±0.20mm', 'Dimensions 30–120mm: ±0.30mm', 'Dimensions 120–400mm: ±0.50mm', 'Dimensions 400–1000mm: ±0.80mm', 'Tighter ISO 2768-f (fine) available on request'],
-    tolerance: '±0.005mm (CNC milling)',
+    tolerance: '±0.01mm (CNC milling)',
     materials: 'All metals & engineering plastics',
   },
   {
@@ -49,13 +49,13 @@ const standards = [
   { label: "CMM verification (via our group's shared metrology center, on request)", desc: 'First-article and sampling inspections can be CMM-verified via our group\'s shared metrology center on request, per AQL 2.5 sampling standards.' },
   { label: 'Surface Measurement', desc: 'Roughness verified by profilometer. We can provide Ra readings for critical surfaces on request.' },
   { label: 'Dimensional Reports', desc: 'Dimensional inspection reports available on request — first-article (FAI) and key-characteristic reports, documented per your requirements.' },
-  { label: 'Tight Tolerance Capability', desc: 'With 5-axis simultaneous machining and precision grinding, we hold ±0.005mm on critical features.' },
+  { label: 'Tight Tolerance Capability', desc: 'With 5-axis simultaneous machining and precision grinding, we hold ±0.01mm on critical features.' },
 ];
 ---
 
 <PageLayout
-  title="Precision Standards – Milling ±0.005mm | Turning ±0.01mm | ISO 2768 | Eternal CNC"
-  description="CNC machining precision: linear tolerance ±0.005mm, angular ±0.01°, surface roughness Ra 0.4, general tolerances per ISO 2768-m."
+  title="Precision Standards – ±0.01mm Milling & Turning | Eternal CNC"
+  description="CNC machining precision: linear tolerance ±0.01mm, angular ±0.01°, surface roughness Ra 0.4, general tolerances per ISO 2768-m."
   schema={svc}
   breadcrumbs={breadcrumbs}
 >
@@ -67,7 +67,7 @@ const standards = [
         Precision Standards
       </h1>
       <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
-        Milling ±0.005mm · Turning ±0.01mm · CMM verification available via our group's shared metrology center on request.
+        Milling & Turning ±0.01mm · CMM verification available via our group's shared metrology center on request.
       </p>
       <div class="flex flex-wrap gap-4 mt-8">
         <a href="/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">

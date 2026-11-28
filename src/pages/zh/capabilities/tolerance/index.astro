@@ -6,7 +6,7 @@ import { serviceSchema } from '../../../../data/serviceSchema';
 // provider 用 @id 引用 BaseLayout 输出的 Organization，两者连成同一实体。
 const svc = serviceSchema({
   name: 'CNC 加工精度标准',
-  description: 'Eternal CNC 加工精度标准：铣削 ±0.005mm、车削 ±0.01mm，关键尺寸可送三坐标检测（集团共享计量中心，按需），符合 ISO 2768-m 标准。',
+  description: 'Eternal CNC 加工精度标准：铣削与车削均 ±0.01mm，关键尺寸可送三坐标检测（集团共享计量中心，按需），符合 ISO 2768-m 标准。',
   serviceType: '精密数控加工',
   url: new URL('/zh/capabilities/tolerance/', Astro.site).href,
   lang: 'zh',
@@ -21,9 +21,9 @@ const breadcrumbs = [
 const capabilities = [
   {
     title: '铣削精度',
-    // 精度口径与英文页 /capabilities/tolerance/ 对齐：铣削 ±0.005mm、车削 ±0.01mm。
+    // 精度口径：铣削与车削均为 ±0.01mm（2026-11-28 铣削由 ±0.005mm 统一上调为 ±0.01mm），与英文页 /capabilities/tolerance/ 对齐。
     // 2026-10-04 删除「精细铣削 ±0.003mm」—— 英文页未宣称该能力，属超能力宣称（三语不一致）。
-    items: ['标准铣削 ±0.01mm', '精密铣削 ±0.005mm'],
+    items: ['标准铣削 ±0.05mm', '精密铣削 ±0.01mm'],
     tolerance: 'ISO 2768-m / H',
     materials: '三坐标测量（集团共享计量中心，按需）可全检或抽检',
   },
@@ -59,8 +59,8 @@ const standards = [
 ---
 
 <PageLayout
-  title="CNC加工精度标准 | 铣削±0.005mm·车削±0.01mm | Eternal CNC"
-  description="Eternal CNC 加工精度标准：铣削 ±0.005mm、车削 ±0.01mm，关键尺寸可送三坐标检测（集团共享计量中心，按需），符合 ISO 2768-m 标准。"
+  title="CNC加工精度标准 | 铣削与车削均±0.01mm | Eternal CNC"
+  description="Eternal CNC 加工精度标准：铣削与车削均 ±0.01mm，关键尺寸可送三坐标检测（集团共享计量中心，按需），符合 ISO 2768-m 标准。"
   schema={svc}
   breadcrumbs={breadcrumbs}
 >
@@ -72,7 +72,7 @@ const standards = [
         精度标准
       </h1>
       <p class="text-lg max-w-3xl leading-relaxed" style="color: var(--text-body);">
-        铣削 ±0.005mm / 车削 ±0.01mm / 关键尺寸可送三坐标检测（集团共享计量中心，按需）
+        铣削与车削均 ±0.01mm / 关键尺寸可送三坐标检测（集团共享计量中心，按需）
       </p>
       <div class="flex flex-wrap gap-4 mt-8">
         <a href="/zh/contact/get-a-quote/" class="inline-block px-6 py-3 text-sm font-medium bg-[#8B0000] text-white rounded transition-all duration-300 hover:bg-[#6B0000] hover:shadow-lg hover:-translate-y-0.5">
