@@ -1588,7 +1588,7 @@ async function notifyHumanCustomerMessage(webhook, session, userId, message) {
     '时间：' + new Date().toISOString(),
     '—— 客户消息 ——\n' + String(message || '').slice(0, 500),
     '访客 ID：' + userId,
-    '回复格式：#短码 内容（群里直接回复即可回传官网）',
+    '回复：https://eternalcnc.com/agent 工作台（或企微应用会话「#' + session.code + ' 内容」）',
   ];
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 2500);
@@ -2445,9 +2445,18 @@ export async function onRequestPost(context) {
     const humanSession = await getHumanSession(kv, userId);
     if (humanSession && humanSession.active) {
       console.log('[human] intercept user=' + userId + ' code=' + humanSession.code + ' msg=' + message.slice(0, 60));
-      const humanReply = '已转人工，工程师将在企微群回复（短码 ' + humanSession.code + '），请稍候。';
-      const humanReplyEn = 'You have been connected to our engineer. A specialist will reply here shortly (code ' + humanSession.code + '). Please wait.';
-      const humanReplyZh = '您已转接人工工程师，稍后将在此回复。请稍候。';
+      // 记录客户消息到会话时间线，供客服工作台 /agent 展示完整对话（2026-11-27）
+      try {
+        if (!Array.isArray(humanSession.msgs)) humanSession.msgs = [];
+        humanSession.msgs.push({ at: Date.now(), role: 'customer', content: String(message || '').slice(0, 2000) });
+        if (humanSession.msgs.length > 200) humanSession.msgs = humanSession.msgs.slice(-200);
+        await kv.put(KV_HUMAN_PREFIX + userId, JSON.stringify(humanSession), { expirationTtl: 90 * 24 * 60 * 60 });
+      } catch (e) {
+        console.warn('[human] record customer msg failed:', e && e.message ? e.message : e);
+      }
+      const humanReply = '已转人工，客服会尽快在此回复，请稍候。';
+      const humanReplyEn = 'You are now connected to our team. A specialist will reply here shortly.';
+      const humanReplyZh = '您已转接人工客服，稍后将在此回复。请稍候。';
       // 推送客户消息到企微群（异步，不阻塞响应）
       if (context.waitUntil) {
         context.waitUntil(notifyHumanCustomerMessage(env.FEEDBACK_WEBHOOK_URL || '', humanSession, userId, message).catch(() => {}));

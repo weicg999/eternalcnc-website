@@ -15,6 +15,8 @@ const REDIRECT_STUBS = new Set([
   '/ru/contact', '/ru/contact/', '/ru/equipment', '/ru/equipment/', '/ru/rfq', '/ru/rfq/',
   // 工具页：名片二维码页对搜索零价值，不进 sitemap（页面本身保留，印刷名片还要用）
   '/qr', '/qr/', '/zh/qr', '/zh/qr/', '/ru/qr', '/ru/qr/',
+  // 客服工作台 /agent：内部接待台，不进 sitemap
+  '/agent', '/agent/',
 ]);
 
 // sitemap lastmod 取「仓库最后提交日期」而非「构建当天」。

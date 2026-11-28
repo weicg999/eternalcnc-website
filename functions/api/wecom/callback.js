@@ -90,7 +90,14 @@ async function verifySignature(token, timestamp, nonce, encrypt, expect) {
 
 /**
  * 解密回调报文。结构：[16 字节随机][4 字节网络序长度][明文][corpId]
- * WebCrypto 的 AES-CBC 会自动去掉 PKCS7 填充。
+ *
+ * ⚠️ 关键坑：企业微信的 PKCS7 填充块长是 32，而 WebCrypto 的 AES-CBC
+ * 强制按 16 校验填充。当填充字节值落在 17~32（约一半概率）时，
+ * WebCrypto 会误判为非法填充并抛错，表现为"时通时不通"。
+ *
+ * 绕法：在密文尾部追加一个修正块 C' = AES_enc([0x10 × 16] XOR C_n)，
+ * 使解密后最后一块恰好是合法 pad=16，WebCrypto 去掉这 16 字节后
+ * 得到「原始明文 + 企微 32 位填充」，我们再按 32 位手动去填充。
  */
 async function decryptMessage(encodingAesKey, encryptB64) {
   const keyBytes = b64ToBytes(encodingAesKey + '=');
@@ -98,21 +105,53 @@ async function decryptMessage(encodingAesKey, encryptB64) {
     throw new Error('EncodingAESKey 长度不对（应为 43 位，解出 32 字节）');
   }
   const iv = keyBytes.slice(0, 16);
-  const key = await crypto.subtle.importKey('raw', keyBytes, { name: 'AES-CBC' }, false, ['decrypt']);
+  const key = await crypto.subtle.importKey('raw', keyBytes, { name: 'AES-CBC' }, false, [
+    'decrypt',
+    'encrypt',
+  ]);
+  const cipherBytes = b64ToBytes(encryptB64);
+  if (!cipherBytes.length || cipherBytes.length % 16 !== 0) {
+    throw new Error('密文长度不是 16 的整数倍');
+  }
+
+  // 1) 构造修正块，让 WebCrypto 看到的尾部填充合法（pad=16）
+  const lastBlock = cipherBytes.slice(cipherBytes.length - 16);
+  const t = new Uint8Array(16);
+  for (let i = 0; i < 16; i++) t[i] = 0x10 ^ lastBlock[i];
+  const encOne = new Uint8Array(
+    await crypto.subtle.encrypt({ name: 'AES-CBC', iv: new Uint8Array(16) }, key, t)
+  );
+  const fixBlock = encOne.slice(0, 16);
+
+  const full = new Uint8Array(cipherBytes.length + 16);
+  full.set(cipherBytes, 0);
+  full.set(fixBlock, cipherBytes.length);
+
+  // 2) 解密：WebCrypto 会去掉那 16 字节修正填充
   let plain;
   try {
-    plain = new Uint8Array(
-      await crypto.subtle.decrypt({ name: 'AES-CBC', iv }, key, b64ToBytes(encryptB64))
-    );
+    plain = new Uint8Array(await crypto.subtle.decrypt({ name: 'AES-CBC', iv }, key, full));
   } catch (e) {
     throw new Error('AES 解密失败（Token/EncodingAESKey 不匹配？）');
   }
-  if (plain.length < 20) throw new Error('解密结果过短');
-  const view = new DataView(plain.buffer, plain.byteOffset, plain.byteLength);
+
+  // 3) 按企微的 blockSize=32 手动去填充
+  if (!plain.length) throw new Error('解密结果为空');
+  const pad = plain[plain.length - 1];
+  if (pad < 1 || pad > 32 || pad > plain.length) {
+    throw new Error('填充非法（pad=' + pad + '）');
+  }
+  for (let i = plain.length - pad; i < plain.length; i++) {
+    if (plain[i] !== pad) throw new Error('填充非法（字节不一致）');
+  }
+  const body = plain.slice(0, plain.length - pad);
+
+  if (body.length < 20) throw new Error('解密结果过短');
+  const view = new DataView(body.buffer, body.byteOffset, body.byteLength);
   const msgLen = view.getUint32(16, false);
-  if (20 + msgLen > plain.length) throw new Error('明文长度越界');
-  const msg = td.decode(plain.slice(20, 20 + msgLen));
-  const corpId = td.decode(plain.slice(20 + msgLen));
+  if (20 + msgLen > body.length) throw new Error('明文长度越界');
+  const msg = td.decode(body.slice(20, 20 + msgLen));
+  const corpId = td.decode(body.slice(20 + msgLen));
   return { msg, corpId };
 }
 
@@ -411,6 +450,36 @@ export async function onRequestGet(context) {
   const nonce = u.searchParams.get('nonce') || '';
   const echo = u.searchParams.get('echostr') || '';
 
+  // 诊断留痕：记录企微每一次 GET 验证请求（保存配置时触发），2 小时有效
+  {
+    const dkv = getKV(env);
+    if (dkv) {
+      const diag = {
+        at: Date.now(),
+        iso: new Date().toISOString(),
+        kind: 'GET',
+        hasEcho: !!echo,
+        hasSig: !!msgSig,
+        cfg: {
+          tokenLen: (env.WECOM_TOKEN || '').length,
+          aesLen: (env.WECOM_AES_KEY || '').length,
+          agentId: env.WECOM_AGENT_ID || '',
+          corpIdTail: (env.WECOM_CORP_ID || '').slice(-4),
+        },
+      };
+      if (echo) {
+        try {
+          diag.sigOk = await verifySignature(env.WECOM_TOKEN, timestamp, nonce, echo, msgSig);
+          if (diag.sigOk) {
+            try { await decryptMessage(env.WECOM_AES_KEY, echo); diag.decOk = true; }
+            catch (e) { diag.decOk = false; diag.decErr = String((e && e.message) || e); }
+          }
+        } catch (e) { diag.sigErr = String((e && e.message) || e); }
+      }
+      try { await dkv.put('wc:diag:get', JSON.stringify(diag), { expirationTtl: 7200 }); } catch (e) { /* ignore */ }
+    }
+  }
+
   if (!echo) {
     return new Response('wecom callback endpoint (expects GET verify or POST message)', { status: 200 });
   }
@@ -428,9 +497,38 @@ export async function onRequestGet(context) {
 
 /** 接收消息回调：验签 → 解密 → 去重 → 立刻 success → 后台处理 */
 export async function onRequestPost(context) {
+  // 诊断留痕：无论走哪条分支，finally 都写一条，用来判断"请求到底有没有到达"
+  const diag = { at: Date.now(), iso: new Date().toISOString(), kind: 'POST', stage: 'entered' };
+  try {
+    return await handlePost(context, diag);
+  } catch (e) {
+    diag.stage = 'uncaught_error';
+    diag.err = String((e && e.message) || e);
+    return ok();
+  } finally {
+    try {
+      const dkv = getKV(context.env);
+      if (dkv) await dkv.put('wc:diag:post', JSON.stringify(diag), { expirationTtl: 7200 });
+    } catch (e) { /* ignore */ }
+  }
+}
+
+async function handlePost(context, diag) {
   const { request, env } = context;
+  diag.url = request.url;
+  diag.ua = (request.headers.get('user-agent') || '').slice(0, 120);
+  diag.ip = request.headers.get('cf-connecting-ip') || '';
+  diag.cfg = {
+    tokenLen: (env.WECOM_TOKEN || '').length,
+    aesLen: (env.WECOM_AES_KEY || '').length,
+    agentId: env.WECOM_AGENT_ID || '',
+    corpIdTail: (env.WECOM_CORP_ID || '').slice(-4),
+    secretLen: (env.WECOM_SECRET || '').length,
+  };
   const miss = missingEnv(env);
   if (miss.length) {
+    diag.stage = 'missing_env';
+    diag.miss = miss.join(',');
     console.warn('[wecom] missing config: ' + miss.join(','));
     return ok();
   }
@@ -441,26 +539,43 @@ export async function onRequestPost(context) {
   const nonce = u.searchParams.get('nonce') || '';
 
   let rawBody = '';
-  try { rawBody = await request.text(); } catch (e) { return ok(); }
+  try { rawBody = await request.text(); } catch (e) { diag.stage = 'body_read_failed'; return ok(); }
+
+  diag.bodyLen = rawBody.length;
+  diag.bodyHead = rawBody.slice(0, 900);
+  diag.hasMsgSig = !!msgSig;
+  diag.stage = 'body_read';
 
   const encrypt = xmlTag(rawBody, 'Encrypt');
-  if (!encrypt) return ok();
+  if (!encrypt) { diag.stage = 'no_encrypt_tag'; return ok(); }
+  diag.encryptLen = encrypt.length;
+  diag.stage = 'has_encrypt';
 
   if (!(await verifySignature(env.WECOM_TOKEN, timestamp, nonce, encrypt, msgSig))) {
+    diag.stage = 'bad_signature';
+    diag.ts = timestamp;
+    diag.nonce = nonce;
     console.warn('[wecom] bad signature, rejected');
     return new Response('invalid signature', { status: 403 });
   }
+  diag.stage = 'signature_ok';
 
   let plainXml = '';
   try {
     const r = await decryptMessage(env.WECOM_AES_KEY, encrypt);
     plainXml = r.msg;
+    diag.stage = 'decrypted';
+    diag.plainHead = plainXml.slice(0, 900);
+    diag.gotCorpTail = (r.corpId || '').slice(-4);
     // corpId 不一致说明不是发给本企业的，直接丢弃
     if (env.WECOM_CORP_ID && r.corpId && r.corpId !== env.WECOM_CORP_ID) {
+      diag.stage = 'corp_mismatch';
       console.warn('[wecom] corpId mismatch: ' + r.corpId);
       return ok();
     }
   } catch (e) {
+    diag.stage = 'decrypt_failed';
+    diag.decErr = String((e && e.message) || e);
     console.warn('[wecom] decrypt failed: ' + e.message);
     return ok();
   }
@@ -474,6 +589,8 @@ export async function onRequestPost(context) {
 
   // 事件消息（进入应用、菜单点击等）暂不处理
   if (msgType === 'event') {
+    diag.stage = 'event';
+    diag.event = event;
     console.log('[wecom] event ignored: ' + event);
     return ok();
   }
@@ -486,6 +603,7 @@ export async function onRequestPost(context) {
     try {
       const seen = await kv.get(k);
       if (seen) {
+        diag.stage = 'dedupe_hit';
         console.log('[wecom] duplicate ignored: ' + dedupeKey);
         return ok();
       }
@@ -495,24 +613,36 @@ export async function onRequestPost(context) {
     }
   }
 
-  if (!fromUser) return ok();
+  if (!fromUser) { diag.stage = 'no_from_user'; return ok(); }
+
+  diag.from = fromUser;
+  diag.msgType = msgType;
+  diag.content = (content || '').slice(0, 300);
 
   // 非文本消息：给一次引导，避免"装死"
   if (msgType !== 'text') {
+    diag.stage = 'non_text';
     const tip = '目前我只处理文字消息。图片/图纸请先用文字描述需求（材料、数量、公差），或发给销售同事。';
     if (context.waitUntil) context.waitUntil(sendText(env, { toUser: fromUser, chatId, content: tip }).catch(() => {}));
     return ok();
   }
 
   const question = (content || '').trim();
-  if (!question) return ok();
+  if (!question) { diag.stage = 'empty_question'; return ok(); }
 
   // ★ 官网转人工回写：群内「#短码 内容」回复 → 回写官网人工回复队列（命中则不再走 Coze）
   const humanReply = await tryHandleHumanReply(env, fromUser, chatId, question);
   if (humanReply.handled) {
+    diag.stage = 'human_reply_ok';
+    diag.humanCode = humanReply.code;
+    diag.humanFeedback = humanReply.feedback;
     console.log('[wecom] human reply handled: ' + humanReply.code + ' (' + humanReply.feedback + ')');
     return ok();
   }
+
+  diag.stage = 'coze_ask';
+  diag.humanMiss = humanReply.feedback || '';
+  diag.humanCode = humanReply.code || '';
 
   // ★ 5 秒铁律：这里必须立即返回，重活扔后台
   const task = handleAsk(env, { fromUser, chatId, question });

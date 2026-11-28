@@ -26,3 +26,16 @@ namecards/
 namecard-*.html
 print-*.html
 tmp-*.webp
+
+# 工作台坐席口令等本地凭证，禁止入库
+.agent_accounts.txt
+
+# 本地一次性排查脚本
+_audit_*.py
+_gen_*.py
+_wire_*.py
+_probe.cjs
+_scan.cjs
+_diff_check.cjs
+_set_agent_secret.cjs
+_ls.txt

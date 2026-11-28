@@ -151,6 +151,10 @@ export async function onRequestPost(context) {
   }
   const message = (body.message && typeof body.message === 'string') ? body.message.slice(0, 500) : '';
   const lang = (body.language && typeof body.language === 'string') ? body.language : '';
+  // 转人工前的 AI 对话历史（前端 messages 数组，最多取最近 16 条）
+  // 2026-11-27：坐席在工作台看不到客户跟 AI 聊过什么，等于每次都要重新问一遍，
+  // 因此由前端把历史一并带上，落进 session.msgs，工作台时间线就能看到完整上下文。
+  const history = Array.isArray(body.history) ? body.history.slice(-16) : [];
 
   const kv = getKV(env);
   const webhook = env.FEEDBACK_WEBHOOK_URL || '';
@@ -171,7 +175,31 @@ export async function onRequestPost(context) {
         }
       } catch (e) { break; }
     }
-    session = { code: code, active: true, created_at: Date.now(), replies: [] };
+    session = { code: code, active: true, created_at: Date.now(), replies: [], msgs: [] };
+    // 1) 先把转人工前的 AI 对话铺进时间线（user=客户，assistant=AI 助手）
+    const base = Date.now() - (history.length + 1) * 1000;
+    history.forEach((h, i) => {
+      if (!h || typeof h.content !== 'string') return;
+      const c = h.content.slice(0, 2000);
+      if (!c) return;
+      const isUser = h.role === 'user';
+      session.msgs.push({
+        at: base + i * 1000,
+        role: isUser ? 'customer' : 'agent',
+        content: c,
+        via: isUser ? 'web' : 'ai',
+      });
+    });
+    // 2) 转人工时客户说的那句（通常已在 history 末尾，去重后再补）
+    if (message) {
+      const tail = session.msgs.length ? session.msgs[session.msgs.length - 1] : null;
+      const dup = tail && tail.role === 'customer' && tail.content.slice(0, 100) === String(message).slice(0, 100);
+      if (!dup) {
+        session.msgs.push({ at: Date.now(), role: 'customer', content: String(message).slice(0, 2000) });
+      }
+    }
+    // 3) 上限保护，避免会话值过大
+    if (session.msgs.length > 200) session.msgs = session.msgs.slice(-200);
     const saved = await saveHumanSession(kv, userId, session);
     if (!saved) {
       // 存储不可用时必须显式失败，否则前端会进入一个查不到会话的假人工态
@@ -187,7 +215,9 @@ export async function onRequestPost(context) {
   const lines = [
     '👨‍💻【国际官网】客户请求转人工',
     '时间：' + new Date().toISOString(),
-    '短码：' + session.code + '（企微群回复格式：#短码 内容）',
+    '短码：' + session.code,
+    '✅ 推荐处理：工作台直接回复 https://eternalcnc.com/agent',
+    '（备选：企微应用会话回复「#' + session.code + ' 内容」）',
     '本单认领：@' + assigned.name + '（轮值 ' + assigned.code + '）',
   ];
   if (lang) lines.push('语言：' + lang);

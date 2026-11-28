@@ -546,6 +546,19 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
         }
         return last;
       })();
+      // 把转人工前的对话历史一起带上：坐席在工作台能看到客户跟 AI 聊过什么，
+      // 不用再从头问一遍。（只传 role/content，最多 16 条，避免请求体过大）
+      const hist = (function () {
+        const out = [];
+        for (let i = 0; i < messages.length; i++) {
+          const m = messages[i];
+          if (!m || (m.role !== 'user' && m.role !== 'assistant')) continue;
+          const c = String(m.content || '').trim();
+          if (!c) continue;
+          out.push({ role: m.role, content: c.slice(0, 1000) });
+        }
+        return out.slice(-16);
+      })();
       const res = await fetch('/api/chat/human', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -553,6 +566,7 @@ const pageLang = Astro.url.pathname.startsWith('/zh') ? 'zh' : (Astro.url.pathna
           user_id: userId,
           message: String(lastMsg || '').slice(0, 300),
           language: LANG_BCP47[forcedLang || detectUserLang(lastMsg)] || 'en',
+          history: hist,
         }),
       });
       if (!res.ok) throw new Error('HTTP ' + res.status);

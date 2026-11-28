@@ -1,0 +1,645 @@
+---
+// 客服工作台（内部使用）：官网转人工客户的统一接待台
+// 不进 SEO：noindex + robots.txt 排除
+const SITE = 'Eternal CNC';
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+    <meta name="robots" content="noindex,nofollow,noarchive" />
+    <meta name="theme-color" content="#0f172a" />
+    <title>客服工作台 · {SITE}</title>
+    <style is:inline>
+      *{box-sizing:border-box;margin:0;padding:0}
+      :root{
+        --bg:#f5f6f8;--panel:#fff;--line:#e4e7ec;--ink:#101828;--muted:#667085;
+        --brand:#2563eb;--brand-soft:#eff6ff;--danger:#d92d20;--ok:#079455;--side:#0f172a;
+      }
+      html,body{height:100%}
+      body{
+        font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+        background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow:hidden;
+      }
+      button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+      input,textarea{font:inherit;outline:none}
+
+      /* ---------- 登录 ---------- */
+      .login-wrap{height:100%;display:flex;align-items:center;justify-content:center;padding:24px;
+        background:radial-gradient(1200px 600px at 50% -10%,#1e293b 0%,#0f172a 60%)}
+      .login-card{width:100%;max-width:360px;background:#fff;border-radius:16px;padding:32px 28px;
+        box-shadow:0 20px 60px rgba(2,6,23,.35);text-align:center}
+      .logo{width:52px;height:52px;border-radius:14px;margin:0 auto 16px;display:flex;align-items:center;
+        justify-content:center;font-weight:800;font-size:19px;color:#fff;letter-spacing:.5px;
+        background:linear-gradient(135deg,#2563eb,#1d4ed8)}
+      .login-card h1{font-size:19px;font-weight:700;letter-spacing:-.01em}
+      .login-card .sub{font-size:12.5px;color:var(--muted);margin-top:6px}
+      .login-card input{width:100%;margin-top:22px;padding:12px 14px;border:1px solid var(--line);
+        border-radius:10px;font-size:15px;background:#fcfcfd;transition:border-color .15s}
+      .login-card input:focus{border-color:var(--brand);background:#fff}
+      .login-card button{width:100%;margin-top:12px;padding:12px;border-radius:10px;background:var(--brand);
+        color:#fff;font-weight:600;font-size:15px;transition:opacity .15s}
+      .login-card button:disabled{opacity:.6;cursor:default}
+      .err{margin-top:12px;font-size:12.5px;color:var(--danger);min-height:16px}
+
+      /* ---------- 主界面 ---------- */
+      .app{height:100%;display:flex}
+      #sidebar{width:330px;flex:0 0 330px;background:var(--side);color:#e2e8f0;display:flex;flex-direction:column}
+      .side-head{padding:16px 16px 12px;display:flex;align-items:center;justify-content:space-between;
+        border-bottom:1px solid rgba(255,255,255,.08)}
+      .side-title{font-size:14.5px;font-weight:650;letter-spacing:.01em;display:flex;align-items:center;gap:8px}
+      .badge{background:var(--danger);color:#fff;font-size:11px;font-weight:700;padding:1px 6px;border-radius:9px;
+        line-height:16px;min-width:18px;text-align:center}
+      .ghost{font-size:12.5px;color:#94a3b8;padding:4px 8px;border-radius:7px;transition:all .15s}
+      .ghost:hover{background:rgba(255,255,255,.08);color:#fff}
+      .list{flex:1;overflow-y:auto;overscroll-behavior:contain}
+      .item{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.05);cursor:pointer;
+        transition:background .12s;position:relative}
+      .item:hover{background:rgba(255,255,255,.05)}
+      .item.on{background:rgba(37,99,235,.22)}
+      .item-top{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+      .item-name{font-size:13.5px;font-weight:600;color:#f1f5f9;flex:1;overflow:hidden;
+        text-overflow:ellipsis;white-space:nowrap}
+      .item-time{font-size:11px;color:#64748b;flex:0 0 auto}
+      .item-msg{font-size:12px;color:#94a3b8;line-height:1.5;overflow:hidden;text-overflow:ellipsis;
+        display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;word-break:break-word}
+      .item-tags{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+      .tag{font-size:10.5px;padding:1.5px 6px;border-radius:5px;background:rgba(255,255,255,.08);color:#cbd5e1}
+      .tag.wait{background:rgba(217,45,32,.18);color:#fca5a5}
+      .tag.done{background:rgba(255,255,255,.05);color:#64748b}
+      .tag.lang{background:rgba(37,99,235,.2);color:#93c5fd}
+      .dot{position:absolute;right:14px;bottom:14px;width:8px;height:8px;border-radius:50%;background:var(--danger)}
+      .list-empty{padding:40px 20px;text-align:center;color:#64748b;font-size:12.5px;line-height:1.7}
+      .me-name{font-size:11.5px;color:#94a3b8;margin-top:3px}
+      .side-tools{display:flex;gap:2px;align-items:center}
+      .ghost.on{background:rgba(37,99,235,.3);color:#dbeafe}
+
+      #main{flex:1;display:flex;flex-direction:column;min-width:0;background:var(--bg)}
+      .empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+        color:var(--muted);font-size:13.5px;gap:10px}
+      .empty svg{opacity:.35}
+
+      .chat{flex:1;display:flex;flex-direction:column;min-height:0}
+      .chat-head{padding:12px 18px;background:var(--panel);border-bottom:1px solid var(--line);
+        display:flex;align-items:center;gap:10px;flex:0 0 auto}
+      .back{display:none;font-size:22px;line-height:1;color:var(--brand);padding:0 6px 2px}
+      .chat-title{flex:1;min-width:0}
+      .chat-title strong{font-size:14.5px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+      .chat-title .meta{font-size:11.5px;color:var(--muted)}
+      .code{font-size:11.5px;font-family:ui-monospace,Menlo,Consolas,monospace;background:#f2f4f7;
+        color:#475467;padding:3px 8px;border-radius:6px;flex:0 0 auto}
+      .profile-bar{padding:9px 18px;background:#fbfcfd;border-bottom:1px solid var(--line);display:flex;
+        gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);flex:0 0 auto}
+      .profile-bar b{color:#344054;font-weight:600}
+      .profile-bar .k{color:#98a2b3}
+
+      .messages{flex:1;overflow-y:auto;padding:20px 18px 12px;display:flex;flex-direction:column;gap:12px;
+        overscroll-behavior:contain}
+      .row{display:flex}
+      .row.me{justify-content:flex-end}
+      .bubble{max-width:min(76%,620px);padding:9px 13px;border-radius:13px;font-size:13.5px;line-height:1.6;
+        word-break:break-word;white-space:pre-wrap;box-shadow:0 1px 2px rgba(16,24,40,.06)}
+      .row.them .bubble{background:#fff;border:1px solid var(--line);border-bottom-left-radius:5px}
+      .row.me .bubble{background:var(--brand);color:#fff;border-bottom-right-radius:5px}
+      .bubble .who{font-size:10.5px;opacity:.7;margin-bottom:3px;display:block}
+      /* AI 助手回复：虚线边框，和人工回复一眼区分 */
+      .row.them .bubble.ai{background:#f8fafc;border-style:dashed;border-color:#cbd5e1}
+      .stamp{font-size:10.5px;color:#98a2b3;margin-top:4px;text-align:right}
+      .row.them .stamp{text-align:left}
+      .msgs-empty{margin:auto;color:var(--muted);font-size:13px;text-align:center;line-height:1.8}
+
+      .composer{padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:var(--panel);
+        border-top:1px solid var(--line);display:flex;gap:9px;align-items:flex-end;flex:0 0 auto}
+      .composer textarea{flex:1;resize:none;max-height:130px;padding:10px 12px;border:1px solid var(--line);
+        border-radius:10px;font-size:13.5px;line-height:1.5;background:#fcfcfd;transition:border-color .15s}
+      .composer textarea:focus{border-color:var(--brand);background:#fff}
+      .composer button{padding:10px 18px;border-radius:10px;background:var(--brand);color:#fff;font-weight:600;
+        font-size:13.5px;flex:0 0 auto;transition:opacity .15s}
+      .composer button:disabled{opacity:.5;cursor:default}
+      .ended-note{padding:12px 14px;background:#fffbeb;border-top:1px solid #fde68a;color:#92400e;
+        font-size:12.5px;text-align:center;flex:0 0 auto}
+
+      @media(max-width:900px){
+        #sidebar{width:100%;flex:1 1 100%}
+        #main{display:none}
+        .app.detail #sidebar{display:none}
+        .app.detail #main{display:flex}
+        .back{display:block}
+        .bubble{max-width:84%}
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 登录 -->
+    <div id="loginView" class="login-wrap">
+      <form id="loginForm" class="login-card" autocomplete="off">
+        <div class="logo">EC</div>
+        <h1>客服工作台</h1>
+        <p class="sub">{SITE} · 国际官网在线接待</p>
+        <input id="passcode" type="password" placeholder="请输入访问口令" autocomplete="current-password" />
+        <button type="submit" id="loginBtn">进入工作台</button>
+        <p id="loginErr" class="err"></p>
+      </form>
+    </div>
+
+    <!-- 主界面 -->
+    <div id="appView" class="app" hidden>
+      <aside id="sidebar">
+        <header class="side-head">
+          <div>
+            <div class="side-title">客户会话 <span id="unreadBadge" class="badge" hidden>0</span></div>
+            <div id="meName" class="me-name"></div>
+          </div>
+          <div class="side-tools">
+            <button id="soundBtn" class="ghost" title="新消息提示音">🔔</button>
+            <button id="notifyBtn" class="ghost" title="桌面通知">📢</button>
+            <button id="logoutBtn" class="ghost">退出</button>
+          </div>
+        </header>
+        <div id="sessionList" class="list"></div>
+      </aside>
+
+      <main id="main">
+        <div id="emptyState" class="empty">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.1A8.4 8.4 0 0 1 12.5 3a8.4 8.4 0 0 1 8.5 8.5z" />
+          </svg>
+          <p>从左侧选择一个客户开始接待</p>
+        </div>
+
+        <div id="chatView" class="chat" hidden>
+          <header class="chat-head">
+            <button id="backBtn" class="back" aria-label="返回">‹</button>
+            <div class="chat-title">
+              <strong id="chatTitle">客户</strong>
+              <span id="chatMeta" class="meta"></span>
+            </div>
+            <span id="chatCode" class="code"></span>
+          </header>
+          <div id="profileBar" class="profile-bar"></div>
+          <div id="messages" class="messages"></div>
+          <form id="replyForm" class="composer">
+            <textarea id="replyText" rows="1" placeholder="输入回复，Enter 发送，Shift+Enter 换行"></textarea>
+            <button type="submit" id="sendBtn">发送</button>
+          </form>
+          <div id="endedNote" class="ended-note" hidden>该会话已结束，客户可能已离开。如需继续沟通请让客户重新发起。</div>
+        </div>
+      </main>
+    </div>
+
+    <script is:inline>
+      (function () {
+        var state = {
+          authed: false,
+          sessions: [],
+          currentUid: null,
+          current: null,
+          listTimer: null,
+          chatTimer: null,
+          sending: false,
+          lastMsgSig: '',
+        };
+
+        var $ = function (id) { return document.getElementById(id); };
+
+        function api(path, opts) {
+          return fetch(path, Object.assign({ credentials: 'same-origin' }, opts || {})).then(function (r) {
+            return r.json().catch(function () { return null; }).then(function (d) {
+              return { status: r.status, data: d };
+            });
+          });
+        }
+
+        function fmtTime(ts) {
+          if (!ts) return '';
+          var diff = Date.now() - ts;
+          if (diff < 0) return '刚刚';
+          if (diff < 60000) return '刚刚';
+          if (diff < 3600000) return Math.floor(diff / 60000) + ' 分钟前';
+          if (diff < 86400000) return Math.floor(diff / 3600000) + ' 小时前';
+          var d = new Date(ts);
+          var md = (d.getMonth() + 1) + '/' + d.getDate();
+          return md + ' ' + ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
+        }
+
+        function esc(s) {
+          return String(s == null ? '' : s)
+            .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
+        /* ---------------- 新消息提醒：声音 + 桌面通知 ---------------- */
+        // 声音用 WebAudio 现场合成，不依赖任何音频文件；浏览器要求先有用户手势才能播放，
+        // 所以任意点击/按键都会尝试解锁 AudioContext。
+        var actx = null;
+        var flashTimer = null;
+        var flashOn = false;
+
+        function unlockAudio() {
+          try {
+            var AC = window.AudioContext || window.webkitAudioContext;
+            if (!AC) return;
+            if (!actx) actx = new AC();
+            if (actx.state === 'suspended') actx.resume();
+          } catch (e) {}
+        }
+
+        function beep() {
+          if (!state.soundOn) return;
+          try {
+            unlockAudio();
+            if (!actx) return;
+            var t = actx.currentTime;
+            [660, 990].forEach(function (f, i) {
+              var o = actx.createOscillator();
+              var g = actx.createGain();
+              var t0 = t + i * 0.17;
+              o.type = 'sine';
+              o.frequency.setValueAtTime(f, t0);
+              g.gain.setValueAtTime(0.0001, t0);
+              g.gain.exponentialRampToValueAtTime(0.32, t0 + 0.02);
+              g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.15);
+              o.connect(g);
+              g.connect(actx.destination);
+              o.start(t0);
+              o.stop(t0 + 0.17);
+            });
+          } catch (e) {}
+        }
+
+        function flashTitle(text) {
+          if (flashTimer) return;
+          flashOn = false;
+          flashTimer = setInterval(function () {
+            flashOn = !flashOn;
+            document.title = flashOn ? '● ' + text : BASE_TITLE;
+          }, 1000);
+        }
+
+        function stopFlash() {
+          if (flashTimer) { clearInterval(flashTimer); flashTimer = null; }
+          document.title = BASE_TITLE;
+        }
+
+        function notifyIncoming(list) {
+          beep();
+          var body =
+            list.length === 1
+              ? (list[0].company || '访客') + '：' + String(list[0].last_customer_msg || '发来新消息').slice(0, 60)
+              : list.length + ' 个客户发来新消息';
+          if (document.hidden) {
+            flashTitle('新消息');
+            if (state.notifyOn && window.Notification && Notification.permission === 'granted') {
+              try {
+                var n = new Notification('客服工作台 · 新消息', { body: body, tag: 'agent-new' });
+                n.onclick = function () { try { window.focus(); } catch (e) {} n.close(); };
+              } catch (e) {}
+            }
+          } else {
+            document.title = '● 新消息 · ' + body.slice(0, 24);
+            setTimeout(function () {
+              if (!document.hidden && !flashTimer) document.title = BASE_TITLE;
+            }, 4000);
+          }
+        }
+
+        function refreshToggles() {
+          $('soundBtn').textContent = state.soundOn ? '🔔' : '🔕';
+          $('soundBtn').className = 'ghost' + (state.soundOn ? ' on' : '');
+          $('notifyBtn').textContent = state.notifyOn ? '📢' : '📴';
+          $('notifyBtn').className = 'ghost' + (state.notifyOn ? ' on' : '');
+        }
+
+        $('soundBtn').addEventListener('click', function () {
+          state.soundOn = !state.soundOn;
+          try { localStorage.setItem('agent_sound', state.soundOn ? '1' : '0'); } catch (e) {}
+          refreshToggles();
+          if (state.soundOn) beep();
+        });
+
+        $('notifyBtn').addEventListener('click', function () {
+          if (!('Notification' in window)) { alert('当前浏览器不支持桌面通知'); return; }
+          if (Notification.permission === 'granted') {
+            state.notifyOn = !state.notifyOn;
+            try { localStorage.setItem('agent_notify', state.notifyOn ? '1' : '0'); } catch (e) {}
+            refreshToggles();
+            return;
+          }
+          if (Notification.permission === 'denied') {
+            alert('通知权限已被拒绝。请点地址栏左侧的锁图标 → 通知 → 允许，然后刷新页面。');
+            return;
+          }
+          Notification.requestPermission().then(function (p) {
+            state.notifyOn = p === 'granted';
+            try { localStorage.setItem('agent_notify', state.notifyOn ? '1' : '0'); } catch (e) {}
+            refreshToggles();
+          });
+        });
+
+        document.addEventListener('visibilitychange', function () {
+          if (!document.hidden) stopFlash();
+        });
+        document.addEventListener('click', unlockAudio, true);
+        document.addEventListener('keydown', unlockAudio, true);
+        refreshToggles();
+
+        /* ---------------- 登录 ---------------- */
+        function showLogin(msg) {
+          $('appView').hidden = true;
+          $('loginView').style.display = 'flex';
+          if (msg) $('loginErr').textContent = msg;
+          setTimeout(function () { $('passcode').focus(); }, 60);
+        }
+
+        function showApp() {
+          $('loginView').style.display = 'none';
+          $('appView').hidden = false;
+          $('meName').textContent = state.me ? '当前坐席：' + state.me : '';
+          refreshList();
+          startListPolling();
+        }
+
+        $('loginForm').addEventListener('submit', function (e) {
+          e.preventDefault();
+          var code = $('passcode').value.trim();
+          if (!code) return;
+          $('loginBtn').disabled = true;
+          $('loginErr').textContent = '';
+          api('/api/agent/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ passcode: code }),
+          }).then(function (r) {
+            $('loginBtn').disabled = false;
+            if (r.status === 200 && r.data && r.data.ok) {
+              $('passcode').value = '';
+              state.authed = true;
+              state.me = r.data.name || '';
+              state.prevReady = false;
+              state.prevCustomerAt = {};
+              showApp();
+            } else {
+              $('loginErr').textContent = (r.data && r.data.msg) || '登录失败，请重试';
+            }
+          }).catch(function () {
+            $('loginBtn').disabled = false;
+            $('loginErr').textContent = '网络错误，请重试';
+          });
+        });
+
+        $('logoutBtn').addEventListener('click', function () {
+          api('/api/agent/login', { method: 'DELETE' }).then(function () {
+            state.authed = false;
+            stopPolling();
+            showLogin('');
+          });
+        });
+
+        /* ---------------- 会话列表 ---------------- */
+        function startListPolling() {
+          if (state.listTimer) clearInterval(state.listTimer);
+          state.listTimer = setInterval(refreshList, 3000);
+        }
+
+        function refreshList() {
+          if (!state.authed) return;
+          api('/api/agent/sessions').then(function (r) {
+            if (r.status === 401) { state.authed = false; stopPolling(); showLogin('登录已过期，请重新登录'); return; }
+            if (!r.data || !r.data.ok) return;
+            state.sessions = r.data.sessions || [];
+            // 新客户消息检测：只看客户消息时间（last_customer_at），自己刚发的回复不会触发提醒
+            var map = {};
+            var incoming = [];
+            var ready = state.prevReady;
+            state.sessions.forEach(function (s) {
+              if (!s.active) return;
+              var t = s.last_customer_at || 0;
+              map[s.uid] = t;
+              if (ready && t > (state.prevCustomerAt[s.uid] || 0)) incoming.push(s);
+            });
+            state.prevCustomerAt = map;
+            state.prevReady = true;
+            if (incoming.length) notifyIncoming(incoming);
+            renderList();
+            var ub = $('unreadBadge');
+            if (r.data.unread > 0) { ub.hidden = false; ub.textContent = String(r.data.unread); }
+            else { ub.hidden = true; }
+          }).catch(function () { /* 静默重试 */ });
+        }
+
+        function renderList() {
+          var box = $('sessionList');
+          if (!state.sessions.length) {
+            box.innerHTML = '<div class="list-empty">暂无客户会话<br/>客户在官网点「转人工」后会出现在这里</div>';
+            return;
+          }
+          var html = '';
+          state.sessions.forEach(function (s) {
+            var name = s.company || (s.uid.indexOf('user_') === 0 ? '访客 ' + s.uid.slice(5, 13) : '访客 ' + s.uid.slice(0, 10));
+            var tags = '';
+            if (!s.active) tags += '<span class="tag done">已结束</span>';
+            else if (s.unread) tags += '<span class="tag wait">待回复</span>';
+            if (s.language) tags += '<span class="tag lang">' + esc(String(s.language).toUpperCase()) + '</span>';
+            if (s.parts && s.parts.length) tags += '<span class="tag">' + esc(s.parts[0]) + '</span>';
+            html +=
+              '<div class="item' + (s.uid === state.currentUid ? ' on' : '') + '" data-uid="' + esc(s.uid) + '">' +
+                '<div class="item-top">' +
+                  '<span class="item-name">' + esc(name) + '</span>' +
+                  '<span class="item-time">' + esc(fmtTime(s.last_activity)) + '</span>' +
+                '</div>' +
+                '<div class="item-msg">' + esc(s.last_customer_msg || '（暂无消息内容）') + '</div>' +
+                (tags ? '<div class="item-tags">' + tags + '</div>' : '') +
+                (s.active && s.unread ? '<span class="dot"></span>' : '') +
+              '</div>';
+          });
+          box.innerHTML = html;
+          Array.prototype.forEach.call(box.querySelectorAll('.item'), function (el) {
+            el.addEventListener('click', function () { openSession(el.getAttribute('data-uid')); });
+          });
+        }
+
+        /* ---------------- 会话详情 ---------------- */
+        function openSession(uid) {
+          if (state.currentUid === uid) {
+            document.getElementById('appView').classList.add('detail');
+            return;
+          }
+          state.currentUid = uid;
+          state.current = null;
+          state.lastMsgSig = '';
+          document.getElementById('appView').classList.add('detail');
+          $('emptyState').hidden = true;
+          $('chatView').hidden = false;
+          $('messages').innerHTML = '<div class="msgs-empty">加载中…</div>';
+          renderList();
+          loadSession();
+          api('/api/agent/session?uid=' + encodeURIComponent(uid), { method: 'POST' }).catch(function () {});
+          if (state.chatTimer) clearInterval(state.chatTimer);
+          state.chatTimer = setInterval(loadSession, 3000);
+        }
+
+        function loadSession() {
+          var uid = state.currentUid;
+          if (!uid) return;
+          api('/api/agent/session?uid=' + encodeURIComponent(uid)).then(function (r) {
+            if (r.status === 401) { state.authed = false; stopPolling(); showLogin('登录已过期，请重新登录'); return; }
+            if (!r.data || !r.data.ok) {
+              if (r.status === 404) {
+                $('messages').innerHTML = '<div class="msgs-empty">该会话已不存在</div>';
+              }
+              return;
+            }
+            if (uid !== state.currentUid) return;
+            state.current = r.data;
+            renderSession();
+          }).catch(function () { /* 静默重试 */ });
+        }
+
+        function renderSession() {
+          var s = state.current;
+          if (!s) return;
+          var p = s.customer || {};
+          var name = p.company || ('访客 ' + s.uid.slice(0, 12));
+          $('chatTitle').textContent = name;
+          var metaBits = [];
+          if (p.industry) metaBits.push(p.industry);
+          if (p.quote_status) metaBits.push('报价：' + p.quote_status);
+          if (!s.active) metaBits.push('已结束');
+          else metaBits.push('进行中');
+          $('chatMeta').textContent = metaBits.join(' · ');
+          $('chatCode').textContent = s.code || '';
+
+          var pb = [];
+          if (p.company) pb.push('<span><span class="k">公司</span> <b>' + esc(p.company) + '</b></span>');
+          if (p.language) pb.push('<span><span class="k">语言</span> <b>' + esc(String(p.language).toUpperCase()) + '</b></span>');
+          if (p.parts && p.parts.length) pb.push('<span><span class="k">关注</span> <b>' + esc(p.parts.join('、')) + '</b></span>');
+          if (p.contact_email) pb.push('<span><span class="k">邮箱</span> <b>' + esc(p.contact_email) + '</b></span>');
+          pb.push('<span><span class="k">访客ID</span> <b>' + esc(s.uid) + '</b></span>');
+          $('profileBar').innerHTML = pb.join('');
+          $('profileBar').hidden = false;
+
+          var tl = s.timeline || [];
+          var sig = tl.length + '|' + (tl.length ? tl[tl.length - 1].at : 0);
+          if (sig === state.lastMsgSig) {
+            // 内容没变，不重绘，避免打断阅读
+          } else {
+            state.lastMsgSig = sig;
+            renderMessages(tl);
+          }
+
+          if (!s.active) {
+            $('endedNote').hidden = false;
+            $('replyForm').style.display = 'none';
+          } else {
+            $('endedNote').hidden = true;
+            $('replyForm').style.display = 'flex';
+          }
+        }
+
+        function renderMessages(tl) {
+          var box = $('messages');
+          if (!tl.length) {
+            box.innerHTML = '<div class="msgs-empty">暂无对话记录<br/>客户在官网发来的消息会显示在这里</div>';
+            return;
+          }
+          var atBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 80;
+          var html = '';
+          tl.forEach(function (m) {
+            var me = m.role === 'agent';
+            var isAi = me && m.via === 'ai';
+            var who = '';
+            if (me) {
+              if (isAi) who = 'AI 助手';
+              else if (m.via === 'wecom') who = (m.staff || '客服') + ' · 企微';
+              else who = m.staff || '客服';
+            }
+            html +=
+              '<div class="row ' + (me ? 'me' : 'them') + '">' +
+                '<div class="bubble' + (isAi ? ' ai' : '') + '">' +
+                  (who ? '<span class="who">' + esc(who) + '</span>' : '') +
+                  esc(m.content) +
+                  '<div class="stamp">' + esc(fmtTime(m.at)) + '</div>' +
+                '</div>' +
+              '</div>';
+          });
+          box.innerHTML = html;
+          if (atBottom) box.scrollTop = box.scrollHeight;
+        }
+
+        /* ---------------- 发送 ---------------- */
+        var ta = $('replyText');
+        ta.addEventListener('input', function () {
+          ta.style.height = 'auto';
+          ta.style.height = Math.min(ta.scrollHeight, 130) + 'px';
+        });
+        ta.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            $('replyForm').requestSubmit();
+          }
+        });
+
+        $('replyForm').addEventListener('submit', function (e) {
+          e.preventDefault();
+          if (state.sending) return;
+          var text = ta.value.trim();
+          var uid = state.currentUid;
+          if (!text || !uid) return;
+          state.sending = true;
+          $('sendBtn').disabled = true;
+          api('/api/agent/reply', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ uid: uid, text: text }),
+          }).then(function (r) {
+            state.sending = false;
+            $('sendBtn').disabled = false;
+            if (r.status === 200 && r.data && r.data.ok) {
+              ta.value = '';
+              ta.style.height = 'auto';
+              state.lastMsgSig = '';
+              loadSession();
+              refreshList();
+            } else {
+              alert((r.data && r.data.msg) || '发送失败，请重试');
+            }
+          }).catch(function () {
+            state.sending = false;
+            $('sendBtn').disabled = false;
+            alert('网络错误，请重试');
+          });
+        });
+
+        $('backBtn').addEventListener('click', function () {
+          document.getElementById('appView').classList.remove('detail');
+          state.currentUid = null;
+          state.current = null;
+          if (state.chatTimer) { clearInterval(state.chatTimer); state.chatTimer = null; }
+          $('chatView').hidden = true;
+          $('emptyState').hidden = false;
+          renderList();
+        });
+
+        function stopPolling() {
+          if (state.listTimer) { clearInterval(state.listTimer); state.listTimer = null; }
+          if (state.chatTimer) { clearInterval(state.chatTimer); state.chatTimer = null; }
+        }
+
+        /* ---------------- 启动 ---------------- */
+        api('/api/agent/login').then(function (r) {
+          if (r.data && r.data.authed) {
+            state.authed = true;
+            state.me = r.data.name || '';
+            showApp();
+          } else if (r.data && r.data.configured === false) {
+            showLogin('工作台尚未启用：请在 Cloudflare 配置 AGENT_PASSCODE');
+          } else {
+            showLogin('');
+          }
+        }).catch(function () { showLogin(''); });
+      })();
+    </script>
+  </body>
+</html>

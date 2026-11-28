@@ -141,7 +141,7 @@ Get those two in the right order and the rest goes much more smoothly.
 
 **Xinyongheng (Shenzhen) Precision Industrial Co., Ltd.** machines and prototypes precision parts for robot joints, covering everything from a single prototype to low-volume production runs.
 
-**Capability in brief:** 23 years in the manufacturing industry, 15 years in CNC precision machining, 30 CNC machines. Milling to **±0.005 mm**, turning to **±0.01 mm**. 5-axis machining centers, vertical machining centers up to 1,270 mm of travel, mill-turn and precision grinding. Aluminum, stainless steel, copper, titanium and engineering plastics. Mill-turn single-setup forming, thin-wall distortion control, precision grinding of carburising steels. EN 10204 3.1 material certificates available on request, with heat-number traceability end to end.
+**Capability in brief:** 23 years in the manufacturing industry, 15 years in CNC precision machining, 30 CNC machines. Milling **±0.005 mm**, turning **±0.01 mm**. 5-axis machining centers, vertical machining centers up to 1,270 mm of travel, mill-turn and precision grinding. Aluminum, stainless steel, copper, titanium and engineering plastics. Mill-turn single-setup forming, thin-wall distortion control, precision grinding of carburising steels. EN 10204 3.1 material certificates available on request, with heat-number traceability end to end.
 
 If you have a part that's giving you trouble, send it over. Our engineers run a DFM review first and **come back with a quote within 2 hours**. Prototypes in 3–7 days, production in 15–30 days, no minimum order quantity.
 
